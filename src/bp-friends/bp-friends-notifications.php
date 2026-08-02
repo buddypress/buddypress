@@ -97,10 +97,16 @@ function friends_format_notifications( $action, $item_id, $secondary_item_id, $t
 		$return = apply_filters( 'bp_friends_' . $amount . '_friendship_' . $action . '_notification', '<a href="' . esc_url( $link ) . '">' . esc_html( $text ) . '</a>', (int) $total_items, $item_id, $secondary_item_id );
 	} else {
 		/** This filter is documented in bp-friends/bp-friends-notifications.php */
-		$return = apply_filters( 'bp_friends_' . $amount . '_friendship_' . $action . '_notification', array(
-			'link' => $link,
-			'text' => $text
-		), (int) $total_items, $item_id, $secondary_item_id );
+		$return = apply_filters(
+			'bp_friends_' . $amount . '_friendship_' . $action . '_notification',
+			array(
+				'link' => $link,
+				'text' => $text,
+			),
+			(int) $total_items,
+			$item_id,
+			$secondary_item_id
+		);
 	}
 
 	/**
@@ -164,15 +170,17 @@ add_action( 'friends_screen_my_friends', 'bp_friends_mark_friendship_accepted_no
  * @param int $friend_user_id    The friendship request receiver user ID.
  */
 function bp_friends_friendship_requested_notification( $friendship_id, $initiator_user_id, $friend_user_id ) {
-	bp_notifications_add_notification( array(
-		'user_id'           => $friend_user_id,
-		'item_id'           => $initiator_user_id,
-		'secondary_item_id' => $friendship_id,
-		'component_name'    => buddypress()->friends->id,
-		'component_action'  => 'friendship_request',
-		'date_notified'     => bp_core_current_time(),
-		'is_new'            => 1,
-	) );
+	bp_notifications_add_notification(
+		array(
+			'user_id'           => $friend_user_id,
+			'item_id'           => $initiator_user_id,
+			'secondary_item_id' => $friendship_id,
+			'component_name'    => buddypress()->friends->id,
+			'component_action'  => 'friendship_request',
+			'date_notified'     => bp_core_current_time(),
+			'is_new'            => 1,
+		)
+	);
 }
 add_action( 'friends_friendship_requested', 'bp_friends_friendship_requested_notification', 10, 3 );
 
@@ -203,15 +211,17 @@ function bp_friends_add_friendship_accepted_notification( $friendship_id, $initi
 	bp_notifications_mark_notifications_by_item_id( $friend_user_id, $initiator_user_id, buddypress()->friends->id, 'friendship_request' );
 
 	// Add a friend accepted notice for the initiating user.
-	bp_notifications_add_notification(  array(
-		'user_id'           => $initiator_user_id,
-		'item_id'           => $friend_user_id,
-		'secondary_item_id' => $friendship_id,
-		'component_name'    => buddypress()->friends->id,
-		'component_action'  => 'friendship_accepted',
-		'date_notified'     => bp_core_current_time(),
-		'is_new'            => 1,
-	) );
+	bp_notifications_add_notification(
+		array(
+			'user_id'           => $initiator_user_id,
+			'item_id'           => $friend_user_id,
+			'secondary_item_id' => $friendship_id,
+			'component_name'    => buddypress()->friends->id,
+			'component_action'  => 'friendship_accepted',
+			'date_notified'     => bp_core_current_time(),
+			'is_new'            => 1,
+		)
+	);
 }
 add_action( 'friends_friendship_accepted', 'bp_friends_add_friendship_accepted_notification', 10, 3 );
 

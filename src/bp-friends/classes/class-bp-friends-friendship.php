@@ -588,7 +588,7 @@ class BP_Friends_Friendship {
 
 		$pag_sql = '';
 		if ( ! empty( $limit ) && ! empty( $page ) ) {
-			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
+			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit ), intval( $limit ) );
 		}
 
 		$friend_ids = self::get_friend_user_ids( $user_id );
@@ -735,13 +735,16 @@ class BP_Friends_Friendship {
 		$last_activities = BP_Core_User::get_last_activity( $user_ids );
 
 		// Sort and structure as expected in legacy function.
-		usort( $last_activities, function ( $a, $b ) {
+		usort(
+			$last_activities,
+			function ( $a, $b ) {
 			if ( $a['date_recorded'] === $b['date_recorded'] ) {
 				return 0;
 			}
 
 			return ( strtotime( $a['date_recorded'] ) < strtotime( $b['date_recorded'] ) ) ? 1 : -1;
-		} );
+			}
+		);
 
 		$retval = array();
 		foreach ( $last_activities as $last_activity ) {

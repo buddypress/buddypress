@@ -421,13 +421,15 @@ function friends_get_friendship_request_user_ids( $user_id ) {
  * @return array See {@link BP_Core_User::get_users()}.
  */
 function friends_get_recently_active( $user_id, $per_page = 0, $page = 0, $filter = '' ) {
-	$friends = bp_core_get_users( array(
-		'type'         => 'active',
-		'per_page'     => $per_page,
-		'page'         => $page,
-		'user_id'      => $user_id,
-		'search_terms' => $filter,
-	) );
+	$friends = bp_core_get_users(
+		array(
+			'type'         => 'active',
+			'per_page'     => $per_page,
+			'page'         => $page,
+			'user_id'      => $user_id,
+			'search_terms' => $filter,
+		)
+	);
 
 	/**
 	 * Filters a user's most recently active friends.
@@ -459,13 +461,15 @@ function friends_get_recently_active( $user_id, $per_page = 0, $page = 0, $filte
  * @return array See {@link BP_Core_User::get_users()}.
  */
 function friends_get_alphabetically( $user_id, $per_page = 0, $page = 0, $filter = '' ) {
-	$friends = bp_core_get_users( array(
-		'type'         => 'alphabetical',
-		'per_page'     => $per_page,
-		'page'         => $page,
-		'user_id'      => $user_id,
-		'search_terms' => $filter,
-	) );
+	$friends = bp_core_get_users(
+		array(
+			'type'         => 'alphabetical',
+			'per_page'     => $per_page,
+			'page'         => $page,
+			'user_id'      => $user_id,
+			'search_terms' => $filter,
+		)
+	);
 
 	/**
 	 * Filters a user's friends listed in alphabetical order.
@@ -497,13 +501,15 @@ function friends_get_alphabetically( $user_id, $per_page = 0, $page = 0, $filter
  * @return array See {@link BP_Core_User::get_users()}.
  */
 function friends_get_newest( $user_id, $per_page = 0, $page = 0, $filter = '' ) {
-	$friends = bp_core_get_users( array(
-		'type'         => 'newest',
-		'per_page'     => $per_page,
-		'page'         => $page,
-		'user_id'      => $user_id,
-		'search_terms' => $filter,
-	) );
+	$friends = bp_core_get_users(
+		array(
+			'type'         => 'newest',
+			'per_page'     => $per_page,
+			'page'         => $page,
+			'user_id'      => $user_id,
+			'search_terms' => $filter,
+		)
+	);
 
 	/**
 	 * Filters a user's friends listed from newest to oldest.
@@ -834,7 +840,12 @@ function bp_friends_prime_mentions_results() {
 	foreach ( $friends_query->results as $user ) {
 		$result        = new stdClass();
 		$result->ID    = $user->user_nicename;
-		$result->image = bp_core_fetch_avatar( array( 'html' => false, 'item_id' => $user->ID ) );
+		$result->image = bp_core_fetch_avatar(
+			array(
+				'html' => false,
+				'item_id' => $user->ID,
+			)
+		);
 
 		if ( ! empty( $user->display_name ) && ! bp_disable_profile_sync() ) {
 			$result->name = $user->display_name;
@@ -845,9 +856,13 @@ function bp_friends_prime_mentions_results() {
 		$results[] = $result;
 	}
 
-	wp_localize_script( 'bp-mentions', 'BP_Suggestions', array(
-		'friends' => $results,
-	) );
+	wp_localize_script(
+		'bp-mentions',
+		'BP_Suggestions',
+		array(
+			'friends' => $results,
+		)
+	);
 }
 add_action( 'bp_activity_mentions_prime_results', 'bp_friends_prime_mentions_results' );
 
@@ -953,11 +968,14 @@ function bp_friends_personal_data_exporter( $email_address, $page ) {
 		);
 	}
 
-	$friendships = BP_Friends_Friendship::get_friendships( $user->ID, array(
-		'is_confirmed' => true,
-		'page'         => $page,
-		'per_page'     => $number,
-	) );
+	$friendships = BP_Friends_Friendship::get_friendships(
+		$user->ID,
+		array(
+			'is_confirmed' => true,
+			'page'         => $page,
+			'per_page'     => $number,
+		)
+	);
 
 	foreach ( $friendships as $friendship ) {
 		if ( (int) $user->ID === (int) $friendship->initiator_user_id ) {
@@ -1022,12 +1040,15 @@ function bp_friends_pending_sent_requests_personal_data_exporter( $email_address
 		);
 	}
 
-	$friendships = BP_Friends_Friendship::get_friendships( $user->ID, array(
-		'is_confirmed'      => false,
-		'initiator_user_id' => $user->ID,
-		'page'              => $page,
-		'per_page'          => $number,
-	) );
+	$friendships = BP_Friends_Friendship::get_friendships(
+		$user->ID,
+		array(
+			'is_confirmed'      => false,
+			'initiator_user_id' => $user->ID,
+			'page'              => $page,
+			'per_page'          => $number,
+		)
+	);
 
 	foreach ( $friendships as $friendship ) {
 		$item_data = array(
@@ -1080,12 +1101,15 @@ function bp_friends_pending_received_requests_personal_data_exporter( $email_add
 		);
 	}
 
-	$friendships = BP_Friends_Friendship::get_friendships( $user->ID, array(
-		'is_confirmed'   => false,
-		'friend_user_id' => $user->ID,
-		'page'           => $page,
-		'per_page'       => $number,
-	) );
+	$friendships = BP_Friends_Friendship::get_friendships(
+		$user->ID,
+		array(
+			'is_confirmed'   => false,
+			'friend_user_id' => $user->ID,
+			'page'           => $page,
+			'per_page'       => $number,
+		)
+	);
 
 	foreach ( $friendships as $friendship ) {
 		$item_data = array(

@@ -263,11 +263,13 @@ function bp_friends_prefetch_activity_object_data( $activities ) {
 
 	if ( ! empty( $friend_ids ) ) {
 		// Fire a user query to prime user caches.
-		new BP_User_Query( array(
-			'user_ids'          => $friend_ids,
-			'populate_extras'   => false,
-			'update_meta_cache' => false,
-		) );
+		new BP_User_Query(
+			array(
+				'user_ids'          => $friend_ids,
+				'populate_extras'   => false,
+				'update_meta_cache' => false,
+			)
+		);
 	}
 
 	return $activities;
@@ -420,12 +422,14 @@ function bp_friends_friendship_accepted_activity( $friendship_id, $initiator_use
 	}
 
 	// Record in activity streams for the initiator.
-	friends_record_activity( array(
-		'user_id'           => $initiator_user_id,
-		'type'              => 'friendship_created',
-		'item_id'           => $friendship_id,
-		'secondary_item_id' => $friend_user_id,
-	) );
+	friends_record_activity(
+		array(
+			'user_id'           => $initiator_user_id,
+			'type'              => 'friendship_created',
+			'item_id'           => $friendship_id,
+			'secondary_item_id' => $friend_user_id,
+		)
+	);
 }
 add_action( 'friends_friendship_accepted', 'bp_friends_friendship_accepted_activity', 10, 3 );
 
