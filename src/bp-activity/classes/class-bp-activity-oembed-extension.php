@@ -168,7 +168,7 @@ class BP_Activity_oEmbed_Extension extends BP_Core_oEmbed_Extension {
 		$date        = date_i18n( get_option( 'date_format' ), strtotime( $activity->date_recorded ) );
 
 		// Make sure we can use some activity functions that depend on the loop.
-		$GLOBALS['activities_template']           = new stdClass;
+		$GLOBALS['activities_template']           = new stdClass();
 		$GLOBALS['activities_template']->activity = $activity;
 
 		// 'wp-embedded-content' CSS class is necessary due to how the embed JS works.
@@ -235,7 +235,7 @@ class BP_Activity_oEmbed_Extension extends BP_Core_oEmbed_Extension {
 			$result = str_replace( ' sandbox="allow-scripts"', " sandbox=\"{$sandbox}\"", $result );
 
 			// Also remove 'security' attribute; this is only used for IE < 10.
-			$result = str_replace( 'security="restricted"', "", $result );
+			$result = str_replace( 'security="restricted"', '', $result );
 		}
 
 		return $result;

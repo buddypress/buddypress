@@ -33,7 +33,7 @@
 	</ul>
 
 	<?php if ( bp_current_user_can( 'bp_moderate' ) ) : ?>
-		<p><label for="send-notice"><input type="checkbox" id="send-notice" name="send-notice" value="1" /> <?php esc_html_e( "This is a notice to all users.", 'buddypress' ); ?></label></p>
+		<p><label for="send-notice"><input type="checkbox" id="send-notice" name="send-notice" value="1" /> <?php esc_html_e( 'This is a notice to all users.', 'buddypress' ); ?></label></p>
 	<?php endif; ?>
 
 	<label for="subject"><?php esc_html_e( 'Subject', 'buddypress' ); ?></label>
@@ -54,7 +54,7 @@
 	do_action( 'bp_after_messages_compose_content' ); ?>
 
 	<div class="submit">
-		<input type="submit" value="<?php esc_attr_e( "Send Message", 'buddypress' ); ?>" name="send" id="send" />
+		<input type="submit" value="<?php esc_attr_e( 'Send Message', 'buddypress' ); ?>" name="send" id="send" />
 	</div>
 
 	<?php wp_nonce_field( 'messages_send_message' ); ?>

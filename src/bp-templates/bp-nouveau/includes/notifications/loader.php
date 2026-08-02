@@ -36,7 +36,7 @@ class BP_Nouveau_Notifications {
 	 * @since 3.0.0
 	 */
 	protected function setup_globals() {
-		$this->dir = dirname( __FILE__ );
+		$this->dir = __DIR__;
 	}
 
 	/**

@@ -3502,7 +3502,7 @@ function bp_get_nav_menu_items( $component = 'members' ) {
 		}
 
 		// Add this menu.
-		$menu         = new stdClass;
+		$menu         = new stdClass();
 		$menu->class  = array( 'menu-parent' );
 		$menu->css_id = $nav_menu->css_id;
 		$menu->link   = $link;
@@ -3513,7 +3513,7 @@ function bp_get_nav_menu_items( $component = 'members' ) {
 			$submenus = array();
 
 			foreach ( $nav_menu->children as $sub_menu ) {
-				$submenu         = new stdClass;
+				$submenu         = new stdClass();
 				$submenu->class  = array( 'menu-child' );
 				$submenu->css_id = $sub_menu->css_id;
 				$submenu->link   = $sub_menu->link;
@@ -3624,7 +3624,7 @@ function bp_nav_menu( $args = array() ) {
 
 	// Create custom walker if one wasn't set.
 	if ( empty( $args->walker ) ) {
-		$args->walker = new BP_Walker_Nav_Menu;
+		$args->walker = new BP_Walker_Nav_Menu();
 	}
 
 	// Sanitize values for class and ID.

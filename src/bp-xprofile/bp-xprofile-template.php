@@ -653,7 +653,7 @@ function bp_the_profile_field_edit_value() {
 
 		// Make sure field data object exists.
 		if ( ! isset( $field->data ) ) {
-			$field->data = new stdClass;
+			$field->data = new stdClass();
 		}
 
 		// Default to empty value.

@@ -1538,7 +1538,7 @@ function bp_legacy_theme_ajax_addremove_friend() {
 			$url = bp_loggedin_user_url( bp_members_get_path_chunks( array( bp_get_friends_slug(), 'add-friend', array( $friend_id ) ) ) );
 			echo '<a id="friend-' . esc_attr( $friend_id ) . '" class="friendship-button not_friends add" rel="add" href="' . esc_url( wp_nonce_url( $url, 'friends_add_friend' ) ) . '">' . esc_html__( 'Add Friend', 'buddypress' ) . '</a>';
 		} else {
-			esc_html_e("Friendship request could not be cancelled.", 'buddypress');
+			esc_html_e('Friendship request could not be cancelled.', 'buddypress');
 		}
 
 	// Request already pending.
@@ -1969,7 +1969,7 @@ function bp_legacy_theme_cover_image( $params = array() ) {
 	return '
 		/* Cover image */
 		#buddypress #header-cover-image {
-			height: ' . $params["height"] . 'px;
+			height: ' . $params['height'] . 'px;
 			' . $cover_image . '
 		}
 
@@ -2000,7 +2000,7 @@ function bp_legacy_theme_cover_image( $params = array() ) {
 		body.single-item.groups #buddypress div#item-header #item-header-cover-image #item-header-content,
 		body.single-item.groups #buddypress div#item-header #item-header-cover-image #item-actions {
 			clear: none;
-			margin-top: ' . $params["height"] . 'px;
+			margin-top: ' . $params['height'] . 'px;
 			margin-left: 0;
 			max-width: 50%;
 		}

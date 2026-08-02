@@ -4136,7 +4136,7 @@ function bp_activity_feed_item_title() {
 		}
 
 		if ( 'activity_update' === $activities_template->activity->type ) {
-			$title .= ': ' . wp_strip_all_tags( ent2ncr( trim( convert_chars( bp_create_excerpt( $activities_template->activity->content, 70, array( 'ending' => " [&#133;]" ) ) ) ) ) );
+			$title .= ': ' . wp_strip_all_tags( ent2ncr( trim( convert_chars( bp_create_excerpt( $activities_template->activity->content, 70, array( 'ending' => ' [&#133;]' ) ) ) ) ) );
 		}
 
 		/**

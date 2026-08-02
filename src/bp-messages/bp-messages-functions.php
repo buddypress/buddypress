@@ -83,7 +83,7 @@ function messages_new_message( $args = '' ) {
 	}
 
 	// Create a new message object.
-	$message            = new BP_Messages_Message;
+	$message            = new BP_Messages_Message();
 	$message->thread_id = $r['thread_id'];
 	$message->sender_id = $r['sender_id'];
 	$message->subject   = $r['subject'];
@@ -183,7 +183,7 @@ function messages_new_message( $args = '' ) {
 
 		// Format this to match existing recipients.
 		foreach ( (array) $recipient_ids as $i => $recipient_id ) {
-			$message->recipients[ $i ]          = new stdClass;
+			$message->recipients[ $i ]          = new stdClass();
 			$message->recipients[ $i ]->user_id = $recipient_id;
 		}
 	}
@@ -230,7 +230,7 @@ function messages_send_notice( $subject, $message ) {
 		return false;
 	}
 
-	$notice            = new BP_Messages_Notice;
+	$notice            = new BP_Messages_Notice();
 	$notice->subject   = $subject;
 	$notice->message   = $message;
 	$notice->date_sent = bp_core_current_time();

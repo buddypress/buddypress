@@ -539,7 +539,7 @@ function bp_activity_admin_load() {
 			$ss = ( $ss > 59 ) ? $ss - 60 : $ss;
 
 			// Reconstruct the date into a timestamp.
-			$gmt_date = sprintf( "%04d-%02d-%02d %02d:%02d:%02d", $aa, $mm, $jj, $hh, $mn, $ss );
+			$gmt_date = sprintf( '%04d-%02d-%02d %02d:%02d:%02d', $aa, $mm, $jj, $hh, $mn, $ss );
 
 			$activity->date_recorded = $gmt_date;
 		}
@@ -723,7 +723,7 @@ function bp_activity_admin_edit() {
 		$activity = $activity['activities'][0];
 
 		// Workaround to use WP's touch_time() without duplicating that function.
-		$GLOBALS['comment']               = new stdClass;
+		$GLOBALS['comment']               = new stdClass();
 		$GLOBALS['comment']->comment_date = $activity->date_recorded;
 	} else {
 		$activity = '';

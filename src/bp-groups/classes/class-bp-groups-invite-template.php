@@ -261,7 +261,7 @@ class BP_Groups_Invite_Template {
 		$this->in_the_loop = true;
 		$user_id           = $this->next_invite();
 
-		$this->invite       = new stdClass;
+		$this->invite       = new stdClass();
 		$this->invite->user = $this->invite_data[ $user_id ];
 
 		// This method previously populated the user object with

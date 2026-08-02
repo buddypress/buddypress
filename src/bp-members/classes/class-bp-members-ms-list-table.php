@@ -446,7 +446,7 @@ class BP_Members_MS_List_Table extends WP_MS_Users_List_Table {
 			$date = "Y/m/d \n g:i:s a";
 		}
 
-		echo nl2br( esc_html( mysql2date( $date, $signup_object->registered ) ) ) . "</td>";
+		echo nl2br( esc_html( mysql2date( $date, $signup_object->registered ) ) ) . '</td>';
 	}
 
 	/**

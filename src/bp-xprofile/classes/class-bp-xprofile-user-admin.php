@@ -35,7 +35,7 @@ class BP_XProfile_User_Admin {
 		$bp = buddypress();
 
 		if ( empty( $bp->profile->admin ) ) {
-			$bp->profile->admin = new self;
+			$bp->profile->admin = new self();
 		}
 
 		return $bp->profile->admin;

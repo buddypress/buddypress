@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 2.6.0
  */
 function bp_activity_setup_oembed() {
-	buddypress()->activity->oembed = new BP_Activity_oEmbed_Extension;
+	buddypress()->activity->oembed = new BP_Activity_oEmbed_Extension();
 }
 add_action( 'bp_loaded', 'bp_activity_setup_oembed' );
 

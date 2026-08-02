@@ -79,7 +79,7 @@ function bp_groups_register_widget_block_scripts( $scripts = array() ) {
 		'dependencies' => array(),
 		'version'      => ''
 	);
-	$asset_path = trailingslashit( dirname( __FILE__ ) ) . 'blocks/dynamic-widget/index.asset.php';
+	$asset_path = trailingslashit( __DIR__ ) . 'blocks/dynamic-widget/index.asset.php';
 
 	if ( file_exists( $asset_path ) ) {
 		$asset = require $asset_path;

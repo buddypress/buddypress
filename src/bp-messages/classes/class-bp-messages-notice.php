@@ -247,7 +247,7 @@ class BP_Messages_Notice {
 
 		$limit_sql = '';
 		if ( (int) $r['pag_num'] >= 0 ) {
-			$limit_sql = $wpdb->prepare( "LIMIT %d, %d", (int) ( ( $r['pag_page'] - 1 ) * $r['pag_num'] ), (int) $r['pag_num'] );
+			$limit_sql = $wpdb->prepare( 'LIMIT %d, %d', (int) ( ( $r['pag_page'] - 1 ) * $r['pag_num'] ), (int) $r['pag_num'] );
 		}
 
 		$bp = buddypress();

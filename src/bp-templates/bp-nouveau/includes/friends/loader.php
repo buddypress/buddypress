@@ -36,7 +36,7 @@ class BP_Nouveau_Friends {
 	 * @since 3.0.0
 	 */
 	protected function setup_globals() {
-		$this->dir = trailingslashit( dirname( __FILE__ ) );
+		$this->dir = trailingslashit( __DIR__ );
 	}
 
 	/**

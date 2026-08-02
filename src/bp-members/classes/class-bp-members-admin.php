@@ -307,7 +307,7 @@ class BP_Members_Admin {
 			add_action( 'show_user_profile', array( $this, 'profile_nav'       ), 99, 1 );
 
 			// Editing users of a specific site.
-			add_action( "admin_head-site-users.php", array( $this, 'profile_admin_head' ) );
+			add_action( 'admin_head-site-users.php', array( $this, 'profile_admin_head' ) );
 		}
 
 		// Add a row action to users listing.
@@ -439,7 +439,7 @@ class BP_Members_Admin {
 		$bp = buddypress();
 
 		if ( empty( $bp->members->admin ) ) {
-			$bp->members->admin = new self;
+			$bp->members->admin = new self();
 		}
 
 		return $bp->members->admin;
@@ -623,7 +623,7 @@ class BP_Members_Admin {
 
 		// Add the profile_admin_head method to proper admin_head actions.
 		add_action( "admin_head-{$this->user_page}", array( $this, 'profile_admin_head' ) );
-		add_action( "admin_head-profile.php", array( $this, 'profile_admin_head' ) );
+		add_action( 'admin_head-profile.php', array( $this, 'profile_admin_head' ) );
 	}
 
 	/**
@@ -1886,7 +1886,7 @@ class BP_Members_Admin {
 		}
 
 		if ( ! empty( $required ) ) {
-			require_once( ABSPATH . 'wp-admin/includes/class-wp-' . $required . '-list-table.php' );
+			require_once ABSPATH . 'wp-admin/includes/class-wp-' . $required . '-list-table.php';
 		}
 
 		return new $class();

@@ -198,9 +198,9 @@ function bp_xprofile_create_field_type( $type ) {
 	 * To handle (missing) field types, fallback to a placeholder field object if a type is unknown.
 	 */
 	if ( $class && class_exists( $class ) ) {
-		return new $class;
+		return new $class();
 	} else {
-		return new BP_XProfile_Field_Type_Placeholder;
+		return new BP_XProfile_Field_Type_Placeholder();
 	}
 }
 
@@ -266,7 +266,7 @@ function xprofile_insert_field( $args = '' ) {
 	if ( ! empty( $r['field_id'] ) ) {
 		$field = xprofile_get_field( $r['field_id'], null, false );
 	} else {
-		$field = new BP_XProfile_Field;
+		$field = new BP_XProfile_Field();
 	}
 
 	$field->group_id = $r['field_group_id'];

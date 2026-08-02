@@ -129,7 +129,7 @@ do_action( 'bp_before_member_messages_loop' ); ?>
 						<?php endif; ?>
 
 						<td class="thread-info">
-							<p><a href="<?php bp_message_thread_view_link( bp_get_message_thread_id(), bp_displayed_user_id() ); ?>" class="bp-tooltip" data-bp-tooltip="<?php esc_attr_e( "View Message", 'buddypress' ); ?>" aria-label="<?php esc_attr_e( "View Message", 'buddypress' ); ?>"><?php bp_message_thread_subject(); ?></a></p>
+							<p><a href="<?php bp_message_thread_view_link( bp_get_message_thread_id(), bp_displayed_user_id() ); ?>" class="bp-tooltip" data-bp-tooltip="<?php esc_attr_e( 'View Message', 'buddypress' ); ?>" aria-label="<?php esc_attr_e( 'View Message', 'buddypress' ); ?>"><?php bp_message_thread_subject(); ?></a></p>
 							<p class="thread-excerpt"><?php bp_message_thread_excerpt(); ?></p>
 						</td>
 

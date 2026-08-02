@@ -211,7 +211,7 @@ do_action( 'bp_before_group_manage_members_admin' ); ?>
 	</div>
 
 	<div class="bp-widget group-members-list">
-		<h3 class="section-header"><?php esc_html_e( "Members", 'buddypress' ); ?></h3>
+		<h3 class="section-header"><?php esc_html_e( 'Members', 'buddypress' ); ?></h3>
 
 		<?php if ( bp_group_has_members( array( 'per_page' => 15, 'exclude_banned' => 0 ) ) ) : ?>
 

@@ -355,7 +355,7 @@ class BP_XProfile_ProfileData {
 			// Rekey.
 			$queried_data = array();
 			foreach ( $uncached_data as $ud ) {
-				$d               = new stdClass;
+				$d               = new stdClass();
 				$d->id           = $ud->id;
 				$d->table_name   = $bp->profile->table_name_data;
 				$d->user_id      = $ud->user_id;
@@ -378,7 +378,7 @@ class BP_XProfile_ProfileData {
 				// If no value was found, cache an empty item
 				// to avoid future cache misses.
 				} else {
-					$d = new stdClass;
+					$d = new stdClass();
 
 					// Check if it's a WordPress field.
 					if ( isset( $field_type_objects[ $field_id ]->wp_user_key ) ) {
@@ -576,7 +576,7 @@ class BP_XProfile_ProfileData {
 				// No data found for the user, so we fake it to
 				// avoid cache misses and PHP notices.
 				} else {
-					$d          = new stdClass;
+					$d          = new stdClass();
 					$field_type = bp_xprofile_get_field_type( $field_id );
 
 					// Check WordPress if it's a WordPress field.
@@ -663,15 +663,15 @@ class BP_XProfile_ProfileData {
 		if ( is_array( $fields ) ) {
 			for ( $i = 0, $count = count( $fields ); $i < $count; ++$i ) {
 				if ( $i == 0 ) {
-					$field_sql .= $wpdb->prepare( "AND ( f.name = %s ", $fields[ $i ] );
+					$field_sql .= $wpdb->prepare( 'AND ( f.name = %s ', $fields[ $i ] );
 				} else {
-					$field_sql .= $wpdb->prepare( "OR f.name = %s ", $fields[ $i ] );
+					$field_sql .= $wpdb->prepare( 'OR f.name = %s ', $fields[ $i ] );
 				}
 			}
 
 			$field_sql .= ')';
 		} else {
-			$field_sql .= $wpdb->prepare( "AND f.name = %s", $fields );
+			$field_sql .= $wpdb->prepare( 'AND f.name = %s', $fields );
 		}
 
 		$sql    = $wpdb->prepare( "SELECT d.value, f.name FROM {$bp->profile->table_name_data} d, {$bp->profile->table_name_fields} f WHERE d.field_id = f.id AND d.user_id = %d AND f.parent_id = 0 $field_sql", $user_id );

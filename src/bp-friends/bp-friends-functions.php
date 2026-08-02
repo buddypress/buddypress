@@ -43,7 +43,7 @@ function friends_add_friend( $initiator_userid, $friend_userid, $force_accept = 
 	}
 
 	// Setup the friendship data.
-	$friendship                    = new BP_Friends_Friendship;
+	$friendship                    = new BP_Friends_Friendship();
 	$friendship->initiator_user_id = (int) $initiator_userid;
 	$friendship->friend_user_id    = (int) $friend_userid;
 	$friendship->is_confirmed      = 0;

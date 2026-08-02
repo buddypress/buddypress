@@ -344,7 +344,7 @@ class BP_Nouveau_Customizer_Group_Nav extends BP_Core_Nav {
 		// Now find nav items plugins are creating within their Group extensions!
 		foreach ( get_declared_classes() as $class ) {
 			if ( is_subclass_of( $class, 'BP_Group_Extension' ) ) {
-				$extension = new $class;
+				$extension = new $class();
 
 				if ( ! empty( $extension->params ) && ! array_diff_key( $required_params, $extension->params ) ) {
 					$nav_items[ $extension->params['slug'] ] = array(

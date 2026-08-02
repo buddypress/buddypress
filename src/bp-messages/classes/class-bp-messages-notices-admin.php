@@ -56,7 +56,7 @@ class BP_Messages_Notices_Admin {
 		$bp = buddypress();
 
 		if ( empty( $bp->messages->admin ) ) {
-			$bp->messages->admin = new self;
+			$bp->messages->admin = new self();
 		}
 
 		return $bp->messages->admin;

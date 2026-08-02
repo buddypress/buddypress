@@ -370,15 +370,15 @@ class BP_Notifications_Notification {
 
 		// If is_new.
 		if ( ! empty( $args['is_new'] ) && 'both' !== $args['is_new'] ) {
-			$where_conditions['is_new'] = "is_new = 1";
+			$where_conditions['is_new'] = 'is_new = 1';
 		} elseif ( isset( $args['is_new'] ) && ( 0 === $args['is_new'] || false === $args['is_new'] ) ) {
-			$where_conditions['is_new'] = "is_new = 0";
+			$where_conditions['is_new'] = 'is_new = 0';
 		}
 
 		// The search_terms.
 		if ( ! empty( $args['search_terms'] ) ) {
 			$search_terms_like                = '%' . bp_esc_like( $args['search_terms'] ) . '%';
-			$where_conditions['search_terms'] = $wpdb->prepare( "( component_name LIKE %s OR component_action LIKE %s )", $search_terms_like, $search_terms_like );
+			$where_conditions['search_terms'] = $wpdb->prepare( '( component_name LIKE %s OR component_action LIKE %s )', $search_terms_like, $search_terms_like );
 		}
 
 		// The date query.
@@ -483,7 +483,7 @@ class BP_Notifications_Notification {
 			$page     = absint( $args['page']     );
 			$per_page = absint( $args['per_page'] );
 			$offset   = $per_page * ( $page - 1 );
-			$retval   = $wpdb->prepare( "LIMIT %d, %d", $offset, $per_page );
+			$retval   = $wpdb->prepare( 'LIMIT %d, %d', $offset, $per_page );
 		}
 
 		return $retval;
@@ -691,7 +691,7 @@ class BP_Notifications_Notification {
 		$meta_query_sql = self::get_meta_query_sql( $r['meta_query'] );
 
 		// SELECT.
-		$select_sql = "SELECT n.*";
+		$select_sql = 'SELECT n.*';
 
 		// FROM.
 		$from_sql = "FROM {$bp->notifications->table_name} n ";
@@ -776,7 +776,7 @@ class BP_Notifications_Notification {
 		$meta_query_sql = self::get_meta_query_sql( $r['meta_query'] );
 
 		// SELECT.
-		$select_sql = "SELECT COUNT(*)";
+		$select_sql = 'SELECT COUNT(*)';
 
 		// FROM.
 		$from_sql = "FROM {$bp->notifications->table_name} n ";
@@ -1331,7 +1331,7 @@ class BP_Notifications_Notification {
 		$bp = buddypress();
 
 		// SELECT.
-		$select_sql = "SELECT id, user_id, item_id, secondary_item_id, component_name, component_action, date_notified, is_new, COUNT(id) as total_count ";
+		$select_sql = 'SELECT id, user_id, item_id, secondary_item_id, component_name, component_action, date_notified, is_new, COUNT(id) as total_count ';
 
 		// FROM.
 		$from_sql = "FROM {$bp->notifications->table_name} n ";
@@ -1344,10 +1344,10 @@ class BP_Notifications_Notification {
 		), $select_sql, $from_sql );
 
 		// GROUP
-		$group_sql = "GROUP BY user_id, component_name, component_action";
+		$group_sql = 'GROUP BY user_id, component_name, component_action';
 
 		// SORT
-		$order_sql = "ORDER BY date_notified desc";
+		$order_sql = 'ORDER BY date_notified desc';
 
 		// Concatenate query parts.
 		$sql = "{$select_sql} {$from_sql} {$where_sql} {$group_sql} {$order_sql}";

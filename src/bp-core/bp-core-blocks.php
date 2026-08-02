@@ -42,7 +42,7 @@ function bp_register_block_components() {
 		'dependencies' => array(),
 		'version'      => bp_get_version(),
 	);
-	$asset_file = trailingslashit( dirname( __FILE__ ) ) . 'blocks/block-components/index.asset.php';
+	$asset_file = trailingslashit( __DIR__ ) . 'blocks/block-components/index.asset.php';
 
 	if ( file_exists( $asset_file ) ) {
 		$asset = require $asset_file;
@@ -70,7 +70,7 @@ function bp_register_block_assets() {
 		'dependencies' => array(),
 		'version'      => bp_get_version(),
 	);
-	$asset_data_file = trailingslashit( dirname( __FILE__ ) ) . 'blocks/block-data/index.asset.php';
+	$asset_data_file = trailingslashit( __DIR__ ) . 'blocks/block-data/index.asset.php';
 
 	if ( file_exists( $asset_data_file ) ) {
 		$asset_data = require $asset_data_file;
@@ -86,7 +86,7 @@ function bp_register_block_assets() {
 		false
 	);
 
-	$asset_collection_file = trailingslashit( dirname( __FILE__ ) ) . 'blocks/block-collection/index.asset.php';
+	$asset_collection_file = trailingslashit( __DIR__ ) . 'blocks/block-collection/index.asset.php';
 
 	if ( file_exists( $asset_collection_file ) ) {
 		$asset_collection = require $asset_collection_file;

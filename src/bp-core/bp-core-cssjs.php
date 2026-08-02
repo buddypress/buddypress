@@ -48,7 +48,7 @@ function bp_core_register_common_scripts() {
 			'dependencies' => array(),
 			'version'      => ''
 		);
-		$asset_path = trailingslashit( dirname( __FILE__ ) ) . 'blocks/dynamic-widget-block/index.asset.php';
+		$asset_path = trailingslashit( __DIR__ ) . 'blocks/dynamic-widget-block/index.asset.php';
 
 		if ( file_exists( $asset_path ) ) {
 			$asset = require $asset_path;

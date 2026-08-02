@@ -634,7 +634,7 @@ function xprofile_admin_manage_field( $group_id, $field_id = null ) {
 			}
 
 			if ( ! $field->field_type_supports( 'required' ) ) {
-				$field->is_required = "0";
+				$field->is_required = '0';
 			}
 
 			if ( ! empty( $_POST['description'] ) ) {
@@ -1236,7 +1236,7 @@ function bp_xprofile_admin_form_field_types( $select_field_type ) {
 
 	// Sort each field type into its category.
 	foreach ( bp_xprofile_get_field_types() as $field_name => $field_class ) {
-		$field_type_obj = new $field_class;
+		$field_type_obj = new $field_class();
 		$the_category   = $field_type_obj->category;
 
 		// Fallback to a catch-all if category not set.

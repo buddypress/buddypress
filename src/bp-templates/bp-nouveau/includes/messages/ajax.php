@@ -397,7 +397,7 @@ function bp_nouveau_ajax_get_user_message_threads() {
 		remove_filter( 'bp_after_has_message_threads_parse_args', 'bp_messages_filter_starred_message_threads' );
 	}
 
-	$threads       = new stdClass;
+	$threads       = new stdClass();
 	$threads->meta = array(
 		'total_page' => ceil( (int) $messages_template->total_thread_count / (int) $messages_template->pag_num ),
 		'page'       => $messages_template->pag_page,
@@ -559,7 +559,7 @@ function bp_nouveau_ajax_get_thread_messages() {
 		wp_send_json_error( $response );
 	}
 
-	$thread         = new stdClass;
+	$thread         = new stdClass();
 	$thread->thread = array();
 
 	if ( empty( $_POST['js_thread'] ) ) {

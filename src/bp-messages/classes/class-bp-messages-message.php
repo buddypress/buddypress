@@ -142,8 +142,8 @@ class BP_Messages_Message {
 			$new_thread           = true;
 			$insert_message_query = $wpdb->prepare(
 				"INSERT INTO {$bp->messages->table_name_messages} "
-				. "( thread_id, sender_id, subject, message, date_sent ) "
-				. "VALUES ( " . "( SELECT IFNULL(MAX(m.thread_id), 0) FROM {$bp->messages->table_name_messages} m ) + 1, " . "%d, %s, %s, %s )",
+				. '( thread_id, sender_id, subject, message, date_sent ) '
+				. 'VALUES ( ' . "( SELECT IFNULL(MAX(m.thread_id), 0) FROM {$bp->messages->table_name_messages} m ) + 1, " . '%d, %s, %s, %s )',
 				$this->sender_id,
 				$this->subject,
 				$this->message,
@@ -152,8 +152,8 @@ class BP_Messages_Message {
 		} else { // Add a new message to an existing thread.
 			$insert_message_query = $wpdb->prepare(
 				"INSERT INTO {$bp->messages->table_name_messages} "
-				. "( thread_id, sender_id, subject, message, date_sent ) "
-				. "VALUES ( %d, %d, %s, %s, %s )",
+				. '( thread_id, sender_id, subject, message, date_sent ) '
+				. 'VALUES ( %d, %d, %s, %s, %s )',
 				$this->thread_id,
 				$this->sender_id,
 				$this->subject,

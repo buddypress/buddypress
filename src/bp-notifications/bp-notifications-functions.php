@@ -67,7 +67,7 @@ function bp_notifications_add_notification( $args = array() ) {
 	}
 
 	// Setup the new notification.
-	$notification                    = new BP_Notifications_Notification;
+	$notification                    = new BP_Notifications_Notification();
 	$notification->user_id           = $r['user_id'];
 	$notification->item_id           = $r['item_id'];
 	$notification->secondary_item_id = $r['secondary_item_id'];

@@ -143,7 +143,7 @@ function bp_blogs_record_existing_blogs( $args = array() ) {
 
 		// Omit root blog if large network.
 		if ( bp_is_large_install() ) {
-			$sql['omit_root_blog'] = $wpdb->prepare( "AND blog_id != %d", bp_get_root_blog_id() );
+			$sql['omit_root_blog'] = $wpdb->prepare( 'AND blog_id != %d', bp_get_root_blog_id() );
 		}
 
 		// Filter by selected blog IDs.
@@ -154,10 +154,10 @@ function bp_blogs_record_existing_blogs( $args = array() ) {
 
 		$sql['orderby'] = 'ORDER BY blog_id ASC';
 
-		$sql['limit'] = $wpdb->prepare( "LIMIT %d", $r['limit'] );
+		$sql['limit'] = $wpdb->prepare( 'LIMIT %d', $r['limit'] );
 
 		if ( ! empty( $r['offset'] ) ) {
-			$sql['offset'] = $wpdb->prepare( "OFFSET %d", $r['offset'] );
+			$sql['offset'] = $wpdb->prepare( 'OFFSET %d', $r['offset'] );
 		}
 
 		$blogs = $wpdb->get_results( implode( ' ', $sql ) );
@@ -217,7 +217,7 @@ function bp_blogs_record_existing_blogs( $args = array() ) {
 
 	// See if we need to do this again.
 	if ( is_multisite() && empty( $r['blog_ids'] ) ) {
-		$sql['offset'] = $wpdb->prepare( " OFFSET %d", $r['limit'] + $r['offset'] );
+		$sql['offset'] = $wpdb->prepare( ' OFFSET %d', $r['limit'] + $r['offset'] );
 
 		// Check if there are more blogs to record.
 		$blog_ids = $wpdb->get_results( implode( ' ', $sql ) );
@@ -386,7 +386,7 @@ function bp_blogs_record_blog( $blog_id, $user_id, $no_activity = false ) {
 		$thread_depth = 1;
 	}
 
-	$recorded_blog          = new BP_Blogs_Blog;
+	$recorded_blog          = new BP_Blogs_Blog();
 	$recorded_blog->user_id = $user_id;
 	$recorded_blog->blog_id = $blog_id;
 	$recorded_blog_id       = $recorded_blog->save();
@@ -1139,7 +1139,7 @@ function bp_blogs_remove_associated_blog_comments( $activity_ids = array(), $for
 	);
 
 	// Get comment.
-	$comment_query = new WP_Comment_Query;
+	$comment_query = new WP_Comment_Query();
 	$comments      = $comment_query->query( $query_args );
 
 	// Found the corresponding comments

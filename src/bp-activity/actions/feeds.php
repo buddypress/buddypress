@@ -182,7 +182,7 @@ function bp_activity_action_mentions_feed() {
 			'link'          => $link,
 
 			/* translators: %s: User Display Name */
-			'description'   => sprintf( __( "Activity feed mentioning %s.", 'buddypress' ), bp_get_displayed_user_fullname() ),
+			'description'   => sprintf( __( 'Activity feed mentioning %s.', 'buddypress' ), bp_get_displayed_user_fullname() ),
 			'activity_args' => array(
 				'search_terms' => '@' . bp_members_get_user_slug( bp_displayed_user_id() )
 			)

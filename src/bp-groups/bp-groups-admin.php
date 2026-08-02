@@ -761,7 +761,7 @@ function bp_groups_admin_edit() {
 
 		<?php if ( ! empty( $messages ) ) : ?>
 			<?php foreach ( $messages as $type => $messages_list ) : ?>
-				<div id="moderated" class="<?php echo esc_attr( $type ); ?> notice is-dismissible"><p><?php echo implode( "</p><p>", array_map( 'wp_kses_post', $messages_list ) ); ?></p></div>
+				<div id="moderated" class="<?php echo esc_attr( $type ); ?> notice is-dismissible"><p><?php echo implode( '</p><p>', array_map( 'wp_kses_post', $messages_list ) ); ?></p></div>
 			<?php endforeach; ?>
 		<?php endif; ?>
 

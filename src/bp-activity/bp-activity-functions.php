@@ -349,7 +349,7 @@ function bp_activity_set_action( $component_id, $type, $description, $format_cal
 
 	// Set activity action.
 	if ( ! isset( $bp->activity->actions ) || ! is_object( $bp->activity->actions ) ) {
-		$bp->activity->actions = new stdClass;
+		$bp->activity->actions = new stdClass();
 	}
 
 	// Verify callback.
@@ -358,7 +358,7 @@ function bp_activity_set_action( $component_id, $type, $description, $format_cal
 	}
 
 	if ( ! isset( $bp->activity->actions->{$component_id} ) || ! is_object( $bp->activity->actions->{$component_id} ) ) {
-		$bp->activity->actions->{$component_id} = new stdClass;
+		$bp->activity->actions->{$component_id} = new stdClass();
 	}
 
 	/**
@@ -389,7 +389,7 @@ function bp_activity_set_action( $component_id, $type, $description, $format_cal
 	$action_array = bp_sort_by_key( $action_array, 'position', 'num' );
 
 	// Restore keys.
-	$bp->activity->actions->{$component_id} = new stdClass;
+	$bp->activity->actions->{$component_id} = new stdClass();
 	foreach ( $action_array as $key_ordered ) {
 		$bp->activity->actions->{$component_id}->{$key_ordered['key']} = $key_ordered;
 	}
@@ -1480,7 +1480,7 @@ function bp_activity_spam_all_user_data( $user_id = 0 ) {
 	foreach ( (array) $activities['activities'] as $activity ) {
 
 		// Create an activity object.
-		$activity_obj = new BP_Activity_Activity;
+		$activity_obj = new BP_Activity_Activity();
 		foreach ( $activity as $k => $v ) {
 			$activity_obj->$k = $v;
 		}
@@ -1550,7 +1550,7 @@ function bp_activity_ham_all_user_data( $user_id = 0 ) {
 	foreach ( (array) $activities['activities'] as $activity ) {
 
 		// Create an activity object.
-		$activity_obj = new BP_Activity_Activity;
+		$activity_obj = new BP_Activity_Activity();
 		foreach ( $activity as $k => $v ) {
 			$activity_obj->$k = $v;
 		}
@@ -3497,7 +3497,7 @@ function bp_activity_create_summary( $content, $activity ) {
 	 * @param array  $activity  The data passed to bp_activity_add() or the values from an Activity obj.
 	 */
 	$extractor = apply_filters( 'bp_activity_create_summary_extractor_class', 'BP_Media_Extractor', $content, $activity );
-	$extractor = new $extractor;
+	$extractor = new $extractor();
 
 	/**
 	 * Filter the arguments passed to the media extractor when creating an Activity summary.

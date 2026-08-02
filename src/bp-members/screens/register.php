@@ -207,7 +207,7 @@ function bp_core_screen_signup() {
 						 * @param string $value     Error message wrapped in html.
 						 * @param string $fieldname The name of the signup field.
 						 */
-						apply_filters( 'bp_members_signup_error_message', "<div class=\"error\">" . $error_message . "</div>", $fieldname ),
+						apply_filters( 'bp_members_signup_error_message', '<div class="error">' . $error_message . '</div>', $fieldname ),
 						array(
 							'div' => array( 'class' => true ),
 						)

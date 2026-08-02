@@ -109,7 +109,7 @@ function bp_members_admin_bar_user_admin_menu() {
 			array(
 				'parent' => $bp->user_admin_menu_id,
 				'id'     => $bp->user_admin_menu_id . '-edit-profile',
-				'title'  => __( "Edit Profile", 'buddypress' ),
+				'title'  => __( 'Edit Profile', 'buddypress' ),
 				'href'   => bp_get_members_component_link( $bp->profile->id, 'edit' ),
 			)
 		);
@@ -120,7 +120,7 @@ function bp_members_admin_bar_user_admin_menu() {
 				array(
 					'parent' => $bp->user_admin_menu_id,
 					'id'     => $bp->user_admin_menu_id . '-change-avatar',
-					'title'  => __( "Edit Profile Photo", 'buddypress' ),
+					'title'  => __( 'Edit Profile Photo', 'buddypress' ),
 					'href'   => bp_get_members_component_link( $bp->profile->id, 'change-avatar' ),
 				)
 			);

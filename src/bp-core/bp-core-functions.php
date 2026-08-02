@@ -765,7 +765,7 @@ function bp_core_get_directory_pages() {
 	if ( false === $pages ) {
 
 		// Set pages as standard class.
-		$pages                 = new stdClass;
+		$pages                 = new stdClass();
 		$switched_to_root_blog = false;
 
 		// Make sure the current blog is set to the root blog.
@@ -789,7 +789,7 @@ function bp_core_get_directory_pages() {
 				foreach ( (array) $page_names as $page_name ) {
 					if ( $page_name->ID == $page_id ) {
 						if ( ! isset( $pages->{$component_id} ) || ! is_object( $pages->{$component_id} ) ) {
-							$pages->{$component_id} = new stdClass;
+							$pages->{$component_id} = new stdClass();
 						}
 
 						$pages->{$component_id}->name  = $page_name->post_name;
@@ -2028,7 +2028,7 @@ function bp_core_extract_media_from_content( $content = '', $type = 'all' ) {
 		return false;
 	}
 
-	$x     = new BP_Media_Extractor;
+	$x     = new BP_Media_Extractor();
 	$media = $x->extract( $content, $bitmask );
 
 	unset( $media['has'] );
@@ -2987,7 +2987,7 @@ function bp_nav_menu_get_loggedin_pages() {
 	}
 
 	if ( empty( $bp->wp_nav_menu_items ) ) {
-		buddypress()->wp_nav_menu_items = new stdClass;
+		buddypress()->wp_nav_menu_items = new stdClass();
 	}
 
 	$bp->wp_nav_menu_items->loggedin = $page_args;
@@ -3062,7 +3062,7 @@ function bp_nav_menu_get_loggedout_pages() {
 	}
 
 	if ( empty( $bp->wp_nav_menu_items ) ) {
-		$bp->wp_nav_menu_items = new stdClass;
+		$bp->wp_nav_menu_items = new stdClass();
 	}
 
 	$bp->wp_nav_menu_items->loggedout = $page_args;
@@ -4176,7 +4176,7 @@ function bp_email_get_schema() {
 			/* translators: do not remove {} brackets or translate its contents. */
 			'post_title'   => __( '[{{{site.name}}}] {{friend.name}} accepted your friendship request', 'buddypress' ),
 			/* translators: do not remove {} brackets or translate its contents. */
-			'post_content' => __( "<a href=\"{{{friendship.url}}}\">{{friend.name}}</a> accepted your friend request.", 'buddypress' ),
+			'post_content' => __( '<a href="{{{friendship.url}}}">{{friend.name}}</a> accepted your friend request.', 'buddypress' ),
 			/* translators: do not remove {} brackets or translate its contents. */
 			'post_excerpt' => __( "{{friend.name}} accepted your friend request.\n\nTo learn more about them, visit their profile: {{{friendship.url}}}", 'buddypress' ),
 		),
@@ -4200,7 +4200,7 @@ function bp_email_get_schema() {
 			/* translators: do not remove {} brackets or translate its contents. */
 			'post_title'   => __( '[{{{site.name}}}] You have been promoted in the group: "{{group.name}}"', 'buddypress' ),
 			/* translators: do not remove {} brackets or translate its contents. */
-			'post_content' => __( "You have been promoted to <b>{{promoted_to}}</b> in the group &quot;<a href=\"{{{group.url}}}\">{{group.name}}</a>&quot;.", 'buddypress' ),
+			'post_content' => __( 'You have been promoted to <b>{{promoted_to}}</b> in the group &quot;<a href="{{{group.url}}}">{{group.name}}</a>&quot;.', 'buddypress' ),
 			/* translators: do not remove {} brackets or translate its contents. */
 			'post_excerpt' => __( "You have been promoted to {{promoted_to}} in the group: \"{{group.name}}\".\n\nTo visit the group, go to: {{{group.url}}}", 'buddypress' ),
 		),
@@ -4232,7 +4232,7 @@ function bp_email_get_schema() {
 			/* translators: do not remove {} brackets or translate its contents. */
 			'post_title'   => __( '[{{{site.name}}}] Membership request for group "{{group.name}}" accepted', 'buddypress' ),
 			/* translators: do not remove {} brackets or translate its contents. */
-			'post_content' => __( "Your membership request for the group &quot;<a href=\"{{{group.url}}}\">{{group.name}}</a>&quot; has been accepted.", 'buddypress' ),
+			'post_content' => __( 'Your membership request for the group &quot;<a href="{{{group.url}}}">{{group.name}}</a>&quot; has been accepted.', 'buddypress' ),
 			/* translators: do not remove {} brackets or translate its contents. */
 			'post_excerpt' => __( "Your membership request for the group \"{{group.name}}\" has been accepted.\n\nTo view the group, visit: {{{group.url}}}", 'buddypress' ),
 		),
@@ -4240,7 +4240,7 @@ function bp_email_get_schema() {
 			/* translators: do not remove {} brackets or translate its contents. */
 			'post_title'   => __( '[{{{site.name}}}] Membership request for group "{{group.name}}" rejected', 'buddypress' ),
 			/* translators: do not remove {} brackets or translate its contents. */
-			'post_content' => __( "Your membership request for the group &quot;<a href=\"{{{group.url}}}\">{{group.name}}</a>&quot; has been rejected.", 'buddypress' ),
+			'post_content' => __( 'Your membership request for the group &quot;<a href="{{{group.url}}}">{{group.name}}</a>&quot; has been rejected.', 'buddypress' ),
 			/* translators: do not remove {} brackets or translate its contents. */
 			'post_excerpt' => __( "Your membership request for the group \"{{group.name}}\" has been rejected.\n\nTo request membership again, visit: {{{group.url}}}", 'buddypress' ),
 		),
@@ -4280,9 +4280,9 @@ function bp_email_get_schema() {
 			/* translators: do not remove {} brackets or translate its contents. */
 			'post_title'   => __( 'Your request to join {{site.name}} has been declined', 'buddypress' ),
 			/* translators: do not remove {} brackets or translate its contents. */
-			'post_content' => __( "Sorry, your request to join the site &quot;{{site.name}}&quot; has been declined.", 'buddypress' ),
+			'post_content' => __( 'Sorry, your request to join the site &quot;{{site.name}}&quot; has been declined.', 'buddypress' ),
 			/* translators: do not remove {} brackets or translate its contents. */
-			'post_excerpt' => __( "Sorry, your request to join the site \"{{site.name}}\" has been declined.", 'buddypress' ),
+			'post_excerpt' => __( 'Sorry, your request to join the site "{{site.name}}" has been declined.', 'buddypress' ),
 		),
 	) );
 }

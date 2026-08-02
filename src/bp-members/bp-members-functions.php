@@ -626,7 +626,7 @@ function bp_core_get_active_member_count() {
 		}
 
 		$exclude_users     = $wpdb->get_col( $sql );
-		$exclude_users_sql = ! empty( $exclude_users ) ? "AND user_id NOT IN (" . implode( ',', wp_parse_id_list( $exclude_users ) ) . ")" : '';
+		$exclude_users_sql = ! empty( $exclude_users ) ? 'AND user_id NOT IN (' . implode( ',', wp_parse_id_list( $exclude_users ) ) . ')' : '';
 		$count             = (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(user_id) FROM {$bp->members->table_name_last_activity} WHERE component = %s AND type = 'last_activity' {$exclude_users_sql}", $bp->members->id ) );
 
 		set_transient( 'bp_active_member_count', $count );
@@ -1260,14 +1260,14 @@ function bp_core_delete_account( $user_id = 0 ) {
 
 	// Specifically handle multi-site environment.
 	if ( is_multisite() ) {
-		require_once( ABSPATH . '/wp-admin/includes/ms.php'   );
-		require_once( ABSPATH . '/wp-admin/includes/user.php' );
+		require_once ABSPATH . '/wp-admin/includes/ms.php';
+		require_once ABSPATH . '/wp-admin/includes/user.php';
 
 		$retval = wpmu_delete_user( $user_id );
 
 	// Single site user deletion.
 	} else {
-		require_once( ABSPATH . '/wp-admin/includes/user.php' );
+		require_once ABSPATH . '/wp-admin/includes/user.php';
 		$retval = wp_delete_user( $user_id );
 	}
 

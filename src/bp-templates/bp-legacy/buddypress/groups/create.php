@@ -239,7 +239,7 @@ do_action( 'bp_before_create_group_page' ); ?>
 					</div><!-- .left-menu -->
 
 					<div class="main-column">
-						<p><?php esc_html_e( "Upload an image to use as a profile photo for this group. The image will be shown on the main group page, and in search results.", 'buddypress' ); ?></p>
+						<p><?php esc_html_e( 'Upload an image to use as a profile photo for this group. The image will be shown on the main group page, and in search results.', 'buddypress' ); ?></p>
 
 						<p>
 							<label for="file" class="bp-screen-reader-text">

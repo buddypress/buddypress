@@ -858,7 +858,7 @@ class BP_Groups_Group {
 		$paged_groups = array();
 		$i            = 0;
 		foreach ( $groups['groups'] as $group ) {
-			$paged_groups[ $i ]           = new stdClass;
+			$paged_groups[ $i ]           = new stdClass();
 			$paged_groups[ $i ]->group_id = $group->id;
 			$i++;
 		}
@@ -900,7 +900,7 @@ class BP_Groups_Group {
 		$paged_groups = array();
 		$i            = 0;
 		foreach ( $groups['groups'] as $group ) {
-			$paged_groups[ $i ]           = new stdClass;
+			$paged_groups[ $i ]           = new stdClass();
 			$paged_groups[ $i ]->group_id = $group->id;
 			$i++;
 		}
@@ -1157,7 +1157,7 @@ class BP_Groups_Group {
 		$bp = buddypress();
 
 		$sql = array(
-			'select'     => "SELECT DISTINCT g.id",
+			'select'     => 'SELECT DISTINCT g.id',
 			'from'       => "{$bp->groups->table_name} g",
 			'where'      => '',
 			'orderby'    => '',
@@ -1266,7 +1266,7 @@ class BP_Groups_Group {
 		}
 
 		if ( ! empty( $r['user_id'] ) ) {
-			$where_conditions['user'] = $wpdb->prepare( "m.user_id = %d AND m.is_confirmed = 1 AND m.is_banned = 0", $r['user_id'] );
+			$where_conditions['user'] = $wpdb->prepare( 'm.user_id = %d AND m.is_confirmed = 1 AND m.is_banned = 0', $r['user_id'] );
 		}
 
 		if ( ! empty( $r['include'] ) ) {
@@ -1361,13 +1361,13 @@ class BP_Groups_Group {
 
 		// Random order is a special case.
 		if ( 'rand()' === $orderby ) {
-			$sql['orderby'] = "ORDER BY rand()";
+			$sql['orderby'] = 'ORDER BY rand()';
 		} else {
 			$sql['orderby'] = "ORDER BY {$orderby} {$order}";
 		}
 
 		if ( ! empty( $r['per_page'] ) && ! empty( $r['page'] ) && $r['per_page'] != -1 ) {
-			$sql['pagination'] = $wpdb->prepare( "LIMIT %d, %d", intval( ( $r['page'] - 1 ) * $r['per_page']), intval( $r['per_page'] ) );
+			$sql['pagination'] = $wpdb->prepare( 'LIMIT %d, %d', intval( ( $r['page'] - 1 ) * $r['per_page']), intval( $r['per_page'] ) );
 		}
 
 		$where = '';

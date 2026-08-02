@@ -13,7 +13,7 @@
 
 <?php if ( 'upload-image' == bp_get_avatar_admin_step() ) : ?>
 
-	<p><?php esc_html_e("Upload an image to use as a profile photo for this group. The image will be shown on the main group page, and in search results.", 'buddypress' ); ?></p>
+	<p><?php esc_html_e('Upload an image to use as a profile photo for this group. The image will be shown on the main group page, and in search results.', 'buddypress' ); ?></p>
 
 	<p>
 		<label for="file" class="bp-screen-reader-text">

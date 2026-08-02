@@ -20,7 +20,7 @@ function bp_nouveau_customize_register( WP_Customize_Manager $wp_customize ) {
 		return;
 	}
 
-	require_once( trailingslashit( bp_nouveau()->includes_dir ) . 'customizer-controls.php' );
+	require_once trailingslashit( bp_nouveau()->includes_dir ) . 'customizer-controls.php';
 	$wp_customize->register_control_type( 'BP_Nouveau_Nav_Customize_Control' );
 	$bp_nouveau_options = bp_nouveau_get_appearance_settings();
 	$layout_widths      = bp_nouveau_get_theme_layout_widths();

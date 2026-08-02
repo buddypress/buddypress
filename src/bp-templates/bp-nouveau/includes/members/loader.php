@@ -36,7 +36,7 @@ class BP_Nouveau_Members {
 	 * @since 3.0.0
 	 */
 	protected function setup_globals() {
-		$this->dir                  = dirname( __FILE__ );
+		$this->dir                  = __DIR__;
 		$this->is_user_home_sidebar = false;
 	}
 
@@ -46,8 +46,8 @@ class BP_Nouveau_Members {
 	 * @since 3.0.0
 	 */
 	protected function includes() {
-		require( trailingslashit( $this->dir ) . 'functions.php' );
-		require( trailingslashit( $this->dir ) . 'template-tags.php' );
+		require trailingslashit( $this->dir ) . 'functions.php';
+		require trailingslashit( $this->dir ) . 'template-tags.php';
 	}
 
 	/**

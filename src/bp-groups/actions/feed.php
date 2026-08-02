@@ -38,7 +38,7 @@ function groups_action_group_feed() {
 		'link'          => bp_get_group_url( $group ),
 
 		/* translators: %s: Group Name. */
-		'description'   => sprintf( __( "Activity feed for the group, %s.", 'buddypress' ), bp_get_current_group_name() ),
+		'description'   => sprintf( __( 'Activity feed for the group, %s.', 'buddypress' ), bp_get_current_group_name() ),
 
 		'activity_args' => array(
 			'object'           => buddypress()->groups->id,
