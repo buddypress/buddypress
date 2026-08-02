@@ -1029,7 +1029,7 @@ add_filter( 'wp_unique_post_slug', 'bp_core_set_unique_directory_page_slug', 10,
  *
  * @since 12.0.0
  *
- * @param string   $component The component ID.
+ * @param string $component The component ID.
  * @return bool            True if a component's directory is set as the site's homepage.
  *                            False otherwise.
  */
@@ -1111,9 +1111,9 @@ function bp_core_get_component_search_query_arg( $component = null ) {
  *
  * @since 8.0.0
  *
- * @param array $args {
- *     Optional. An array of key => value arguments to match against the component objects.
- *     Default empty array.
+ * @param array  $args {
+ *      Optional. An array of key => value arguments to match against the component objects.
+ *      Default empty array.
  *
  *     @type string $name          Translatable name for the component.
  *     @type string $id            Unique ID for the component.
@@ -2057,7 +2057,6 @@ function bp_admin_url( $path = '', $scheme = 'admin' ) {
 	 * Return the correct admin URL based on BuddyPress and WordPress configuration.
 	 *
 	 * @since 1.5.0
-	 *
 	 *
 	 * @param string $path   Optional. The sub-path under /wp-admin to be
 	 *                       appended to the admin URL.
@@ -4632,8 +4631,8 @@ function bp_email_unsubscribe_handler() {
  * @since 2.7.0
  *
  * @param string $redirect_to The URL to which the unsubscribe query string is appended.
- * @param array $args {
- *    Used to build unsubscribe query string.
+ * @param array  $args {
+ *     Used to build unsubscribe query string.
  *
  *    @type string $notification_type Which notification type is being sent.
  *    @type string $user_id           The ID of the user to whom the notification is sent.

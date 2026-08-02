@@ -5,6 +5,7 @@
  * @since 3.0.0
  * @version 6.0.0
  */
+
 ?>
 
 	<?php bp_nouveau_before_groups_directory_content(); ?>

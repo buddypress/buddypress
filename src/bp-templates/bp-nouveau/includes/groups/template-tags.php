@@ -266,7 +266,6 @@ function bp_nouveau_group_creation_screen() {
  *
  * @since 3.0.0
  */
-
 function bp_nouveau_group_manage_screen() {
 	$action          = bp_action_variable( 0 );
 	$is_group_create = bp_is_group_create();
@@ -1365,7 +1364,7 @@ function bp_nouveau_groups_get_customizer_widgets_link() {
  *
  * @param object $group Optional. The group being referenced.
  *                      Defaults to the group currently being iterated on in the groups loop.
- * @param int $length   Optional. Length of returned string, including ellipsis. Default: 100.
+ * @param int    $length   Optional. Length of returned string, including ellipsis. Default: 100.
  */
 function bp_nouveau_group_description_excerpt( $group = null, $length = null ) {
 	$group = bp_get_group( $group );
@@ -1389,7 +1388,7 @@ function bp_nouveau_group_description_excerpt( $group = null, $length = null ) {
  *
  * @param object $group Optional. The group being referenced. Defaults to the group currently being
  *                      iterated on in the groups loop.
- * @param int $length   Optional. Length of returned string, including ellipsis. Default: 100.
+ * @param int    $length   Optional. Length of returned string, including ellipsis. Default: 100.
  *
  * @return string Excerpt.
  */

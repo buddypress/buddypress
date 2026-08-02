@@ -354,7 +354,7 @@ function bp_nouveau_push_sitewide_notices() {
  *
  * @since 3.0.0
  *
- * @param array $buttons The WP Editor buttons list.
+ * @param array                                              $buttons The WP Editor buttons list.
  * @param array          The filtered WP Editor buttons list.
  */
 function bp_nouveau_messages_mce_buttons( $buttons = array() ) {

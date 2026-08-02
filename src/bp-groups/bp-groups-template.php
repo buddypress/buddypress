@@ -285,7 +285,7 @@ function bp_group_type_list( $group_id = 0, $r = array() ) {
 	 *              plural & singular labels to use according to the Group's number of
 	 *              group types it is assigned to.
 	 *
-	 * @param int $group_id Group ID. Defaults to current group ID if on a group page.
+	 * @param int          $group_id Group ID. Defaults to current group ID if on a group page.
 	 * @param array|string $r {
 	 *     Array of parameters. All items are optional.
 	 *     @type string       $parent_element Element to wrap around the list. Defaults to 'p'.
@@ -926,9 +926,9 @@ function bp_group_status( $group = false ) {
  * @since 1.0.0
  * @since 10.0.0 Added the `$group` parameter.
  *
- * @param array|string $args {
- *      See {@link bp_get_group_avatar()} for description of arguments.
- * }
+ * @param array|string                     $args {
+ *                          See {@link bp_get_group_avatar()} for description of arguments.
+ *                     }
  * @param false|int|string|BP_Groups_Group $group (Optional) The Group ID, the Group Slug or the Group object.
  *                                                Default: false.
  */
@@ -1114,8 +1114,8 @@ function bp_group_avatar_url( $group = false, $type = 'full' ) {
 	 *
 	 * @param false|int|string|BP_Groups_Group $group (Optional) The Group ID, the Group Slug or the Group object.
 	 *                                                Default: false.
-	 * @param string                                  $type  Optional. The type of the avatar ('full' or 'thumb').
-	 *                                                Default 'full'.
+	 * @param string                           $type  Optional. The type of the avatar ('full' or 'thumb').
+	 *                                         Default 'full'.
 	 * @return string
 	 */
 	function bp_get_group_avatar_url( $group = false, $type = 'full' ) {
@@ -1195,8 +1195,8 @@ function bp_group_last_active( $group = false, $args = array() ) {
 	 *
 	 * @param false|int|string|BP_Groups_Group $group (Optional) The Group ID, the Group Slug or the Group object.
      *                                                Default: false.
-	 * @param array|string $args {
-	 *     Array of optional parameters.
+	 * @param array|string                     $args {
+	 *                         Array of optional parameters.
 	 *
 	 *     @type bool $relative Optional. If true, returns relative activity date. eg. active 5 months ago.
 	 *                          If false, returns active date value from database. Default: true.
@@ -5391,7 +5391,6 @@ function bp_groups_current_create_step() {
 	 *
 	 * @since 1.6.0
 	 *
-	 *
 	 * @return string $current_create_step
 	 */
 	function bp_get_groups_current_create_step() {
@@ -5669,7 +5668,6 @@ function bp_group_current_admin_tab() {
 	 * Returns the current group admin tab slug.
 	 *
 	 * @since 1.6.0
-	 *
 	 *
 	 * @return string $tab The current tab's slug.
 	 */
@@ -6634,7 +6632,7 @@ function bp_current_group_description() {
  *
  * @param string $action
  * @param string $query_args
- * @param bool $nonce
+ * @param bool   $nonce
  * @return string|null
  */
 function bp_groups_action_link( $action = '', $query_args = '', $nonce = false ) {
@@ -6647,7 +6645,7 @@ function bp_groups_action_link( $action = '', $query_args = '', $nonce = false )
 	 *
 	 * @param string $action
 	 * @param string $query_args
-	 * @param bool $nonce
+	 * @param bool   $nonce
 	 * @return string
 	 */
 	function bp_get_groups_action_link( $action = '', $query_args = '', $nonce = false ) {
@@ -6705,7 +6703,6 @@ function bp_groups_action_link( $action = '', $query_args = '', $nonce = false )
  * @since 2.0.0
  *
  * @param array|string $args before|after|user_id
- *
  */
 function bp_groups_profile_stats( $args = '' ) {
 	echo wp_kses(

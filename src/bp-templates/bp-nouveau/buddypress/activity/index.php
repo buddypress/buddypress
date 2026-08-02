@@ -5,6 +5,7 @@
  * @since 2.3.0
  * @version 6.0.0
  */
+
 ?>
 
 	<?php bp_nouveau_before_activity_directory_content(); ?>

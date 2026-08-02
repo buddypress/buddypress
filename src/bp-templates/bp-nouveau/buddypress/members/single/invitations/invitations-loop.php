@@ -5,6 +5,7 @@
  * @since 8.0.0
  * @version 8.0.0
  */
+
 ?>
 <form action="" method="post" id="invitations-bulk-management" class="standard-form">
 	<table class="invitations">

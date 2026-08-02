@@ -141,7 +141,7 @@ function bp_members_admin_format_xprofile_field_for_display( $value ) {
  *
  * @since 10.0.0
  *
- * @param array $signup_field_labels The Signup field labels.
+ * @param array       $signup_field_labels The Signup field labels.
  * @param object|null $signup_object The signup data object.
  */
 function bp_members_admin_preview_signup_profile_info( $signup_field_labels = array(), $signup_object = null ) {

@@ -5,6 +5,7 @@
  * @since 3.0.0
  * @version 3.2.0
  */
+
 ?>
 
 <h2 class="screen-heading change-avatar-screen"><?php esc_html_e( 'Change Profile Photo', 'buddypress' ); ?></h2>

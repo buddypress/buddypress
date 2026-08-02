@@ -17,7 +17,6 @@ defined( 'ABSPATH' ) || exit;
  * Register the activity actions for the Extended Profile component.
  *
  * @since 1.0.0
- *
  */
 function xprofile_register_activity_actions() {
 

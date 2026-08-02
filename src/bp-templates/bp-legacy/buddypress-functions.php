@@ -41,7 +41,6 @@ class BP_Legacy extends BP_Theme_Compat {
 	 * The main BuddyPress (Legacy) Loader.
 	 *
 	 * @since 1.7.0
-	 *
 	 */
 	public function __construct() {
 		parent::start();
@@ -68,7 +67,6 @@ class BP_Legacy extends BP_Theme_Compat {
 	 * Setup the theme hooks.
 	 *
 	 * @since 1.7.0
-	 *
 	 */
 	protected function setup_actions() {
 
@@ -210,7 +208,6 @@ class BP_Legacy extends BP_Theme_Compat {
 	 *
 	 * @since 1.7.0
 	 * @since 2.3.0 Support custom CSS file named after the current theme or parent theme.
-	 *
 	 */
 	public function enqueue_styles() {
 		$min = bp_core_get_minified_asset_suffix();
@@ -643,7 +640,6 @@ function bp_legacy_theme_group_create_button( $title ) {
  * the Groups directory navigation.
  *
  * @since 2.2.0
- *
  */
 function bp_legacy_theme_group_create_nav() {
 	bp_group_create_nav_item();
@@ -686,7 +682,6 @@ function bp_legacy_theme_blog_create_button( $title ) {
  * the Sites directory navigation.
  *
  * @since 2.2.0
- *
  */
 function bp_legacy_theme_blog_create_nav() {
 	bp_blog_create_nav_item();

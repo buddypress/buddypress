@@ -2,6 +2,7 @@
 /**
  * @version 3.0.0
  */
+
 ?>
 			<div class="wp-embed-footer">
 				<?php the_embed_site_title(); ?>

@@ -7,6 +7,7 @@
  * @since 10.0.0
  * @version 10.0.0
  */
+
 ?>
 <script id="tmpl-bp-avatar-recycle" type="text/html">
 	<div class="avatars-history">

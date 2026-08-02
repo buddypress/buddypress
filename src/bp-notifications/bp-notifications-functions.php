@@ -389,7 +389,7 @@ function bp_notifications_delete_notifications_by_item_id( $user_id, $item_id, $
  *
  * @since 10.0.0
  *
- * @param  int[]     $ids IDs of the associated notifications.
+ * @param  int[] $ids IDs of the associated notifications.
  * @return int|false      The number of rows updated. False on error.
  */
 function bp_notifications_delete_notifications_by_ids( $ids ) {
@@ -401,10 +401,10 @@ function bp_notifications_delete_notifications_by_ids( $ids ) {
  *
  * @since 10.0.0
  *
- * @param  int       $user_id          ID of the user whose notifications are being deleted.
- * @param  int[]     $item_ids         IDs of the associated items.
- * @param  string    $component_name   Name of the associated component.
- * @param  string    $component_action Name of the associated action.
+ * @param  int    $user_id          ID of the user whose notifications are being deleted.
+ * @param  int[]  $item_ids         IDs of the associated items.
+ * @param  string $component_name   Name of the associated component.
+ * @param  string $component_action Name of the associated action.
  * @return int|false                   The number of rows updated. False on error.
  */
 function bp_notifications_delete_notifications_by_item_ids( $user_id, $item_ids, $component_name, $component_action ) {

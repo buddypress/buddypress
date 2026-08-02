@@ -754,6 +754,7 @@ function bp_nouveau_member_description_edit_link() {
 
 	/**
 	 * Get the Edit profile link (temporary)
+	 *
 	 * @todo  replace with Ajax featur
 	 *
 	 * @since 3.0.0

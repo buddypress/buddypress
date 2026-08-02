@@ -1738,7 +1738,6 @@ class BP_Members_Admin {
 	 *
 	 * @since 2.1.0
 	 *
-	 *
 	 * @param string $profile_link Profile Link for admin bar.
 	 * @param string $url          Profile URL.
 	 * @param int    $user_id      User ID.
@@ -2847,7 +2846,7 @@ class BP_Members_Admin {
 	 *
 	 * @param string $retval
 	 * @param string $column_name
-	 * @param int $user_id
+	 * @param int    $user_id
 	 *
 	 * @return string Member type as a link to filter all users.
 	 */

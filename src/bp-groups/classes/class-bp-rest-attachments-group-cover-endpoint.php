@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BP REST: BP_REST_Attachments_Group_Cover_Endpoint class
  *

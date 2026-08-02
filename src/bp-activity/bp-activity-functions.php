@@ -781,8 +781,8 @@ function bp_activity_type_supports( $activity_type = '', $feature = '' ) {
  *
  * @since 2.5.0
  *
- * @param  string       $activity_type the activity type.
- * @param  string       $arg           the key of the tracking argument.
+ * @param  string $activity_type the activity type.
+ * @param  string $arg           the key of the tracking argument.
  * @return mixed        the value of the tracking arg, false if not found.
  */
 function bp_activity_post_type_get_tracking_arg( $activity_type, $arg = '' ) {
@@ -3157,7 +3157,6 @@ function bp_activity_delete_comment( $activity_id, $comment_id ) {
 	 *
 	 * @since 1.2.0
 	 *
-	 *
 	 * @param int $activity_id The ID of the "root" activity, ie the
 	 *                         comment's oldest ancestor.
 	 * @param int $comment_id  The ID of the comment to be deleted.
@@ -3990,7 +3989,6 @@ add_action( 'bp_activity_comment_posted', 'bp_activity_new_comment_notification_
  * @see BP_Embed
  * @see bp_embed_activity_cache()
  * @see bp_embed_activity_save_cache()
- *
  */
 function bp_activity_embed() {
 	add_filter( 'embed_post_id',         'bp_get_activity_id'                  );
@@ -4029,7 +4027,6 @@ function bp_activity_oembed_dataparse( $retval, $data ) {
  * @see BP_Embed
  * @see bp_embed_activity_cache()
  * @see bp_embed_activity_save_cache()
- *
  */
 function bp_activity_comment_embed() {
 	add_filter( 'embed_post_id',         'bp_get_activity_comment_id'          );

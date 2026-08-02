@@ -5,6 +5,7 @@
  * @since 3.0.0
  * @version 8.0.0
  */
+
 ?>
 
 <h2 class="bp-screen-title<?php echo ( ! bp_is_group_home() ) ? ' bp-screen-reader-text' : ''; ?>">

@@ -2,6 +2,7 @@
 /**
  * @version 3.0.0
  */
+
 ?>
 		<?php if ( bp_activity_embed_has_activity( bp_current_action() ) ) : ?>
 

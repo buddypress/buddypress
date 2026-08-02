@@ -252,7 +252,7 @@ class BP_Nouveau_Customizer_Group_Nav extends BP_Core_Nav {
 	 *
 	 * @param string $key The property.
 	 *
-	 * @param mixed $value The value of the property.
+	 * @param mixed  $value The value of the property.
 	 */
 	public function __set( $key, $value ) {
 		$this->{$key} = $value;

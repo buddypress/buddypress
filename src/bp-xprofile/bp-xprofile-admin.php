@@ -1057,10 +1057,10 @@ add_action( 'wp_ajax_xprofile_reorder_groups', 'xprofile_ajax_reorder_field_grou
  *
  * @global BP_XProfile_Field $field The Admin field.
  *
- * @param BP_XProfile_Field   $admin_field Admin field.
- * @param object $admin_group Admin group object.
- * @param string $class       Classes to append to output.
- * @param bool   $is_signup   Whether the admin field output is made inside the signup group.
+ * @param BP_XProfile_Field $admin_field Admin field.
+ * @param object            $admin_group Admin group object.
+ * @param string            $class       Classes to append to output.
+ * @param bool              $is_signup   Whether the admin field output is made inside the signup group.
  */
 function xprofile_admin_field( $admin_field, $admin_group, $class = '', $is_signup = false ) {
 	global $field;
@@ -1188,10 +1188,10 @@ function xprofile_admin_field( $admin_field, $admin_group, $class = '', $is_sign
  *
  * @since 8.0.0
  *
- * @param BP_XProfile_Field   $signup_field The field to use into the signup form.
- * @param object $field_group The real field group object.
- * @param string $class       Classes to append to output.
- * @param bool   $echo        Whether to return or display the HTML output.
+ * @param BP_XProfile_Field $signup_field The field to use into the signup form.
+ * @param object            $field_group The real field group object.
+ * @param string            $class       Classes to append to output.
+ * @param bool              $echo        Whether to return or display the HTML output.
  * @return string The HTML output.
  */
 function bp_xprofile_admin_get_signup_field( $signup_field, $field_group = null, $class = '', $echo = false ) {

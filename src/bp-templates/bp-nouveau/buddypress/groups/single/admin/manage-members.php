@@ -5,6 +5,7 @@
  * @since 3.0.0
  * @version 10.0.0
  */
+
 ?>
 
 <h2 class="bp-screen-title <?php if ( bp_is_group_create() ) { echo esc_attr( 'creation-step-name' ); } ?>">

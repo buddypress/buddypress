@@ -6,6 +6,7 @@
  * @subpackage bp-legacy
  * @version 8.0.0
  */
+
 ?>
 
 <?php if ( bp_has_members_invitations() ) : ?>

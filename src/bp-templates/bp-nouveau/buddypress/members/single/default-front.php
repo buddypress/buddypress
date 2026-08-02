@@ -5,6 +5,7 @@
  * @since 3.0.0
  * @version 3.1.0
  */
+
 ?>
 
 <div class="member-front-page">

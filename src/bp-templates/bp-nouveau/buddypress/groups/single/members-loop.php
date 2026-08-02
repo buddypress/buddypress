@@ -5,6 +5,7 @@
  * @since 3.0.0
  * @version 3.2.0
  */
+
 ?>
 
 <?php if ( bp_group_has_members( bp_ajax_querystring( 'group_members' ) ) ) : ?>

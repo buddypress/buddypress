@@ -5,6 +5,7 @@
  * @since 3.0.0
  * @version 12.0.0
  */
+
 ?>
 
 <h2 class="screen-heading group-invites-screen"><?php esc_html_e( 'Group Invites', 'buddypress' ); ?></h2>

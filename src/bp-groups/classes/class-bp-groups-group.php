@@ -756,7 +756,7 @@ class BP_Groups_Group {
 	 *
 	 * @since 2.9.0
 	 *
-	 * @param  string         $slug Slug to check.
+	 * @param  string $slug Slug to check.
 	 * @return int|null|false       Group ID if found; null if not; false if missing parameters.
 	 */
 	public static function get_id_by_previous_slug( $slug ) {

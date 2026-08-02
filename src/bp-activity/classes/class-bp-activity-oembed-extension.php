@@ -80,7 +80,7 @@ class BP_Activity_oEmbed_Extension extends BP_Core_oEmbed_Extension {
 	 *
 	 * @since 2.6.0
 	 *
-	 * @param  string   $url The URL to check.
+	 * @param  string $url The URL to check.
 	 * @return int|bool Activity ID on success; boolean false on failure.
 	 */
 	protected function validate_url_to_item_id( $url ) {

@@ -6,6 +6,7 @@
  * @subpackage bp-legacy
  * @version 11.0.0
  */
+
 ?>
 
 <div class="item-list-tabs no-ajax" id="subnav" aria-label="<?php esc_attr_e( 'Member secondary navigation', 'buddypress' ); ?>" role="navigation">

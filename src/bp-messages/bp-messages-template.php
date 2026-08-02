@@ -1486,7 +1486,6 @@ function bp_message_notice_dismiss_link() {
  * Output the messages component slug.
  *
  * @since 1.5.0
- *
  */
 function bp_messages_slug() {
 	echo esc_attr( bp_get_messages_slug() );
@@ -1581,7 +1580,6 @@ function bp_send_private_message_link() {
  * Explicitly named function to avoid confusion with public messages.
  *
  * @since 1.2.6
- *
  */
 function bp_send_private_message_button() {
 	// Escaping is done in `BP_Core_HTML_Element()`.

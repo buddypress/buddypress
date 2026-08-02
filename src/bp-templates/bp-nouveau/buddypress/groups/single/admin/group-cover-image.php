@@ -5,6 +5,7 @@
  * @since 3.0.0
  * @version 7.0.0
  */
+
 ?>
 
 <?php if ( bp_is_group_create() ) : ?>

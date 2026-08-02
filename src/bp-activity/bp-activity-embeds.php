@@ -169,7 +169,6 @@ function bp_activity_embed_excerpt( $content = '' ) {
  * @since 2.6.0
  *
  * @global BP_Activity_Template $activities_template The Activity template loop.
- *
  */
 function bp_activity_embed_media() {
 	// Bail if oEmbed request explicitly hides media.

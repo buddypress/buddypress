@@ -642,7 +642,7 @@ class BP_Signup {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param  int      $user_id ID of the user being checked.
+	 * @param  int $user_id ID of the user being checked.
 	 * @return int|bool          The status if found, otherwise false.
 	 */
 	public static function check_user_status( $user_id = 0 ) {

@@ -7,6 +7,7 @@
  * @since 10.0.0
  * @version 10.0.0
  */
+
 ?>
 <div class="bp-member-activity-preview">
 

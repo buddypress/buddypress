@@ -5,6 +5,7 @@
  * @since 3.0.0
  * @version 5.0.0
  */
+
 ?>
 
 <script type="text/html" id="tmpl-activity-before-post-form-inputs">

@@ -5,6 +5,7 @@
  * @since 5.0.0
  * @version 5.0.0
  */
+
 ?>
 
 <?php if ( bp_has_members( bp_ajax_querystring( 'friendship_requests' ) . '&include=' . bp_get_friendship_requests() ) ) : ?>

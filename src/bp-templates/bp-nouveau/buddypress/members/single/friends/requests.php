@@ -5,6 +5,7 @@
  * @since 3.0.0
  * @version 5.0.0
  */
+
 ?>
 
 <h2 class="screen-heading friendship-requests-screen"><?php esc_html_e( 'Friendship Requests', 'buddypress' ); ?></h2>

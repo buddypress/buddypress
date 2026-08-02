@@ -212,7 +212,7 @@ function bp_add_friend_button( $potential_friend_id = 0, $friend_status = false 
 	 *
 	 * @since 11.0.0
 	 *
-	 * @param int    $potential_friend_id The user ID of the potential friend.
+	 * @param int $potential_friend_id The user ID of the potential friend.
 	 * @return array The friend button arguments.
 	 */
 	function bp_get_add_friend_button_args( $potential_friend_id = 0 ) {

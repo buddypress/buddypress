@@ -5,6 +5,7 @@
  * @since 3.0.0
  * @version 3.1.0
  */
+
 ?>
 
 <div class="<?php bp_nouveau_search_container_class(); ?> bp-search" data-bp-search="<?php bp_nouveau_search_object_data_attr() ;?>">

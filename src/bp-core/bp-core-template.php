@@ -1460,7 +1460,6 @@ function bp_user_has_access() {
  * Output the search slug.
  *
  * @since 1.5.0
- *
  */
 function bp_search_slug() {
 	echo esc_attr( bp_get_search_slug() );

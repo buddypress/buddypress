@@ -5,6 +5,7 @@
  * @since 3.2.0
  * @version 3.2.0
  */
+
 ?>
 <form action="" method="get" id="user_messages_search_form" class="bp-messages-search-form" data-bp-search="messages">
 	<label for="user_messages_search" class="bp-screen-reader-text">

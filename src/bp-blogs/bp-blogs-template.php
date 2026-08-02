@@ -926,7 +926,6 @@ function bp_blog_latest_post_permalink() {
  * Output the content of the latest post on the current blog in the loop.
  *
  * @since 1.7.0
- *
  */
 function bp_blog_latest_post_content() {
 	echo wp_kses_post( bp_get_blog_latest_post_content() );

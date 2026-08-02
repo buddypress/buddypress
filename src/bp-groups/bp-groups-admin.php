@@ -1617,7 +1617,7 @@ add_filter( bp_get_group_type_tax_name() . '_check_existing_type', 'bp_groups_ty
  *
  * @since 7.0.0
  *
- * @param array  $messages The feedback messages.
+ * @param array $messages The feedback messages.
  * @return array           The feedback messages including the ones for the Group Types Admin actions.
  */
 function bp_groups_type_admin_updated_messages( $messages = array() ) {
