@@ -30,7 +30,7 @@ function bp_activity_mentions_script() {
 		if (
 			! $current_screen ||
 			( isset( $current_screen->is_block_editor ) && $current_screen->is_block_editor ) ||
-			! in_array( $current_screen->base, array( 'page', 'post' ) ) ||
+			! in_array( $current_screen->base, array( 'page', 'post' ), true ) ||
 			! post_type_supports( $current_screen->post_type, 'editor' ) ) {
 			return;
 		}

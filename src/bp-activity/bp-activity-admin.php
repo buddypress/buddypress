@@ -197,7 +197,7 @@ function bp_activity_admin_load() {
 	do_action( 'bp_activity_admin_load', $doaction );
 
 	// Edit screen.
-	if ( 'edit' == $doaction && ! empty( $_GET['aid'] ) ) {
+	if ( 'edit' === $doaction && ! empty( $_GET['aid'] ) ) {
 		// Columns screen option.
 		add_screen_option( 'layout_columns', array( 'default' => 2, 'max' => 2, ) );
 
@@ -306,7 +306,7 @@ function bp_activity_admin_load() {
 	do_action( 'bp_activity_admin_enqueue_scripts' );
 
 	// Handle spam/un-spam/delete of activities.
-	if ( ! empty( $doaction ) && ! in_array( $doaction, array( '-1', 'edit', 'save', 'delete', 'bulk_delete' ) ) ) {
+	if ( ! empty( $doaction ) && ! in_array( $doaction, array( '-1', 'edit', 'save', 'delete', 'bulk_delete' ), true ) ) {
 
 		// Build redirection URL.
 		$redirect_to = remove_query_arg( array( 'aid', 'deleted', 'error', 'spammed', 'unspammed', ), wp_get_referer() );
@@ -325,7 +325,7 @@ function bp_activity_admin_load() {
 		$activity_ids = apply_filters( 'bp_activity_admin_action_activity_ids', $activity_ids );
 
 		// Is this a bulk request?
-		if ( 'bulk_' == substr( $doaction, 0, 5 ) && ! empty( $_REQUEST['aid'] ) ) {
+		if ( 'bulk_' === substr( $doaction, 0, 5 ) && ! empty( $_REQUEST['aid'] ) ) {
 			// Check this is a valid form submission.
 			check_admin_referer( 'bulk-activities' );
 
@@ -458,7 +458,7 @@ function bp_activity_admin_load() {
 
 
 	// Save the edit.
-	} elseif ( $doaction && 'save' == $doaction ) {
+	} elseif ( $doaction && 'save' === $doaction ) {
 		// Build redirection URL.
 		$redirect_to = remove_query_arg( array( 'action', 'aid', 'deleted', 'error', 'spammed', 'unspammed', ), $_SERVER['REQUEST_URI'] );
 
@@ -484,8 +484,8 @@ function bp_activity_admin_load() {
 		// Activity spam status.
 		$prev_spam_status = $new_spam_status = false;
 		if ( ! empty( $_POST['activity_status'] ) ) {
-			$prev_spam_status = $activity->is_spam;
-			$new_spam_status  = ( 'spam' == $_POST['activity_status'] ) ? true : false;
+			$prev_spam_status = (bool) $activity->is_spam;
+			$new_spam_status  = ( 'spam' === $_POST['activity_status'] ) ? true : false;
 		}
 
 		// Activity action.
@@ -517,7 +517,7 @@ function bp_activity_admin_load() {
 			$actions = bp_activity_admin_get_activity_actions();
 
 			// Check that the new type is a registered activity type.
-			if ( in_array( $_POST['bp-activities-type'], $actions ) ) {
+			if ( in_array( $_POST['bp-activities-type'], $actions, true ) ) {
 				$activity->type = $_POST['bp-activities-type'];
 			}
 		}
@@ -545,7 +545,7 @@ function bp_activity_admin_load() {
 		}
 
 		// Has the spam status has changed?
-		if ( $new_spam_status != $prev_spam_status ) {
+		if ( $new_spam_status !== $prev_spam_status ) {
 			if ( $new_spam_status )
 				bp_activity_mark_as_spam( $activity );
 			else
@@ -610,7 +610,7 @@ function bp_activity_admin() {
 		bp_activity_admin_edit();
 
 	// Display the activty delete confirmation screen.
-	} elseif ( in_array( $doaction, array( 'bulk_delete', 'delete' ) ) && ! empty( $_GET['aid'] ) ) {
+	} elseif ( in_array( $doaction, array( 'bulk_delete', 'delete' ), true ) && ! empty( $_GET['aid'] ) ) {
 		bp_activity_admin_delete();
 
 	// Otherwise, display the Activity index screen.
@@ -757,7 +757,7 @@ function bp_activity_admin_edit() {
 			<form action="<?php echo esc_url( $form_url ); ?>" id="bp-activities-edit-form" method="post">
 				<div id="poststuff">
 
-					<div id="post-body" class="metabox-holder columns-<?php echo 1 == get_current_screen()->get_columns() ? '1' : '2'; ?>">
+					<div id="post-body" class="metabox-holder columns-<?php echo 1 === get_current_screen()->get_columns() ? '1' : '2'; ?>">
 						<div id="post-body-content">
 							<div id="postdiv">
 								<div id="bp_activity_action" class="activitybox">
@@ -1100,7 +1100,7 @@ function bp_activity_admin_index() {
 		}
 
 		if ( ! empty( $errors ) ) {
-			if ( 1 == count( $errors ) ) {
+			if ( 1 === count( $errors ) ) {
 				/* translators: %s: the ID of the activity which errored during an update */
 				$messages[] = sprintf( __( 'An error occurred when trying to update activity ID #%s.', 'buddypress' ), number_format_i18n( $errors[0] ) );
 

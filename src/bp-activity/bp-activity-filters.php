@@ -156,7 +156,7 @@ function bp_activity_get_moderated_activity_types() {
 function bp_activity_check_moderation_keys( $activity ) {
 
 	// Only check specific types of activity updates.
-	if ( ! in_array( $activity->type, bp_activity_get_moderated_activity_types() ) ) {
+	if ( ! in_array( $activity->type, bp_activity_get_moderated_activity_types(), true ) ) {
 		return;
 	}
 
@@ -181,7 +181,7 @@ function bp_activity_check_moderation_keys( $activity ) {
 function bp_activity_check_disallowed_keys( $activity ) {
 
 	// Only check specific types of activity updates.
-	if ( ! in_array( $activity->type, bp_activity_get_moderated_activity_types() ) ) {
+	if ( ! in_array( $activity->type, bp_activity_get_moderated_activity_types(), true ) ) {
 		return;
 	}
 
@@ -506,7 +506,7 @@ add_filter( 'bp_core_get_js_dependencies', 'bp_activity_get_js_dependencies', 10
 function bp_activity_newest_class( $classes = '' ) {
 	$bp = buddypress();
 
-	if ( ! empty( $bp->activity->last_recorded ) && $bp->activity->last_recorded == bp_get_activity_date_recorded() ) {
+	if ( ! empty( $bp->activity->last_recorded ) && $bp->activity->last_recorded === bp_get_activity_date_recorded() ) {
 		$classes .= ' new-update';
 	}
 

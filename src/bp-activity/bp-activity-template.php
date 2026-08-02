@@ -471,7 +471,7 @@ function bp_activity_pagination_count() {
 		$to_num    = bp_core_number_format( ( $start_num + ( $activities_template->pag_num - 1 ) > $activities_template->total_activity_count ) ? $activities_template->total_activity_count : $start_num + ( $activities_template->pag_num - 1 ) );
 		$total     = bp_core_number_format( $activities_template->total_activity_count );
 
-		if ( 1 == $activities_template->total_activity_count ) {
+		if ( 1 === $activities_template->total_activity_count ) {
 			$message = __( 'Viewing 1 item', 'buddypress' );
 		} else {
 			/* translators: 1: the from number item. 2: the to number item. 3: the total number of items. */
@@ -1021,14 +1021,14 @@ function bp_activity_avatar( $args = '' ) {
 
 			// Backpat.
 			if ( isset( $bp->avatar->full->height ) || isset( $bp->avatar->thumb->height ) ) {
-				$r['height'] = ( 'full' == $r['type'] ) ? $bp->avatar->full->height : $bp->avatar->thumb->height;
+				$r['height'] = ( 'full' === $r['type'] ) ? $bp->avatar->full->height : $bp->avatar->thumb->height;
 			} else {
 				$r['height'] = 20;
 			}
 
 			// Backpat.
 			if ( isset( $bp->avatar->full->width ) || isset( $bp->avatar->thumb->width ) ) {
-				$r['width'] = ( 'full' == $r['type'] ) ? $bp->avatar->full->width : $bp->avatar->thumb->width;
+				$r['width'] = ( 'full' === $r['type'] ) ? $bp->avatar->full->width : $bp->avatar->thumb->width;
 			} else {
 				$r['width'] = 20;
 			}
@@ -1062,7 +1062,7 @@ function bp_activity_avatar( $args = '' ) {
 		$item_id = apply_filters( 'bp_get_activity_avatar_item_id', $item_id );
 
 		// If this is a user object pass the users' email address for Gravatar so we don't have to prefetch it.
-		if ( 'user' == $object && empty( $r['user_id'] ) && empty( $r['email'] ) && isset( $current_activity_item->user_email ) ) {
+		if ( 'user' === $object && empty( $r['user_id'] ) && empty( $r['email'] ) && isset( $current_activity_item->user_email ) ) {
 			$r['email'] = $current_activity_item->user_email;
 		}
 
@@ -2016,7 +2016,7 @@ function bp_activity_is_favorite() {
 		 *
 		 * @param bool $value Whether or not the current activity item is in the current user's favorites.
 		 */
-		return (bool) apply_filters( 'bp_get_activity_is_favorite', in_array( $activities_template->activity->id, (array) $activities_template->my_favs ) );
+		return (bool) apply_filters( 'bp_get_activity_is_favorite', in_array( $activities_template->activity->id, (array) $activities_template->my_favs, true ) );
 	}
 
 /**
@@ -2988,7 +2988,7 @@ function bp_activity_css_class() {
 
 		$class = ' activity-item';
 
-		if ( in_array( $activities_template->activity->type, (array) $mini_activity_actions ) || empty( $activities_template->activity->content ) ) {
+		if ( in_array( $activities_template->activity->type, (array) $mini_activity_actions, true ) || empty( $activities_template->activity->content ) ) {
 			$class .= ' mini';
 		}
 
@@ -3917,8 +3917,8 @@ function bp_activity_types_list( $output = 'select', $args = '' ) {
 	foreach ( $activities as $type => $description ) {
 
 		// See if we need to preselect the current type.
-		$checked  = checked(  true, in_array( $type, (array) $args['selected'] ), false );
-		$selected = selected( true, in_array( $type, (array) $args['selected'] ), false );
+		$checked  = checked(  true, in_array( $type, (array) $args['selected'], true ), false );
+		$selected = selected( true, in_array( $type, (array) $args['selected'], true ), false );
 
 		// Switch output based on the element.
 		switch ( $output ) {
@@ -4303,7 +4303,7 @@ function bp_activity_show_filters( $context = '' ) {
 		$actions = bp_activity_get_actions_for_context( $context );
 		foreach ( $actions as $action ) {
 			// Friends activity collapses two filters into one.
-			if ( in_array( $action['key'], array( 'friendship_accepted', 'friendship_created' ) ) ) {
+			if ( in_array( $action['key'], array( 'friendship_accepted', 'friendship_created' ), true ) ) {
 				$action['key'] = 'friendship_accepted,friendship_created';
 			}
 

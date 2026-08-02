@@ -544,9 +544,9 @@ class BP_Activity_Activity {
 		}
 
 		// Spam.
-		if ( 'ham_only' == $r['spam'] ) {
+		if ( 'ham_only' === $r['spam'] ) {
 			$where_conditions['spam_sql'] = 'a.is_spam = 0';
-		} elseif ( 'spam_only' == $r['spam'] ) {
+		} elseif ( 'spam_only' === $r['spam'] ) {
 			$where_conditions['spam_sql'] = 'a.is_spam = 1';
 		}
 
@@ -1624,7 +1624,7 @@ class BP_Activity_Activity {
 
 		// Now fetch the activity comments and parse them into the correct position in the activities array.
 		foreach ( (array) $activities as $activity ) {
-			$top_level_parent_id                = 'activity_comment' == $activity->type ? $activity->item_id : 0;
+			$top_level_parent_id                = 'activity_comment' === $activity->type ? $activity->item_id : 0;
 			$activity_comments[ $activity->id ] = self::get_activity_comments( $activity->id, $activity->mptt_left, $activity->mptt_right, $spam, $top_level_parent_id );
 		}
 
@@ -1686,9 +1686,9 @@ class BP_Activity_Activity {
 			}
 
 			// Don't retrieve activity comments marked as spam.
-			if ( 'ham_only' == $spam ) {
+			if ( 'ham_only' === $spam ) {
 				$spam_sql = 'AND a.is_spam = 0';
-			} elseif ( 'spam_only' == $spam ) {
+			} elseif ( 'spam_only' === $spam ) {
 				$spam_sql = 'AND a.is_spam = 1';
 			} else {
 				$spam_sql = '';

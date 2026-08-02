@@ -315,7 +315,7 @@ class BP_Activity_Feed {
 			case 'mentions' :
 			case 'personal' :
 
-				if ( 'activity_comment' == bp_get_activity_action_name() ) :
+				if ( 'activity_comment' === bp_get_activity_action_name() ) :
 			?>
 				<strong><?php esc_html_e( 'In reply to', 'buddypress' ) ?></strong> -
 				<?php bp_activity_parent_content() ?>
@@ -386,8 +386,8 @@ class BP_Activity_Feed {
 
 		// Set 304 status if feed hasn't been updated since last fetch.
 		if ( ( $client_last_modified && $client_etag ) ?
-				( ( $client_modified_timestamp >= $modified_timestamp ) && ( $client_etag == $etag ) ) :
-				( ( $client_modified_timestamp >= $modified_timestamp ) || ( $client_etag == $etag ) ) ) {
+				( ( $client_modified_timestamp >= $modified_timestamp ) && ( $client_etag === $etag ) ) :
+				( ( $client_modified_timestamp >= $modified_timestamp ) || ( $client_etag === $etag ) ) ) {
 			$status = 304;
 		} else {
 			$status = false;
@@ -398,7 +398,7 @@ class BP_Activity_Feed {
 			status_header( $status );
 
 			// Cached response, so stop now!
-			if ( $status == 304 ) {
+			if ( $status === 304 ) {
 				exit();
 			}
 		}

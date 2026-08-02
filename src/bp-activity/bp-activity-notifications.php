@@ -89,7 +89,7 @@ function bp_activity_format_notifications( $action, $item_id, $secondary_item_id
 		break;
 	}
 
-	if ( 'string' == $format ) {
+	if ( 'string' === $format ) {
 
 		/**
 		 * Filters the activity notification for the string format.

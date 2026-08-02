@@ -573,7 +573,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 		foreach ( $actions as $action => $link ) {
 			++$i;
 
-			( $i == $action_count ) ? $sep = '' : $sep = ' | ';
+			( $i === $action_count ) ? $sep = '' : $sep = ' | ';
 
 			$out .= "<span class='$action'>$link$sep</span>";
 		}
@@ -687,7 +687,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 
 		// Rollover actions.
 		// Reply - JavaScript only; implemented by AJAX.
-		if ( 'spam' != $item_status ) {
+		if ( 'spam' !== $item_status ) {
 			if ( $this->can_comment( $item ) ) {
 				$actions['reply'] = sprintf( '<a href="#" class="reply hide-if-no-js">%s</a>', esc_html__( 'Reply', 'buddypress' ) );
 			} else {
@@ -699,7 +699,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 		}
 
 		// Spam/unspam.
-		if ( 'spam' == $item_status ) {
+		if ( 'spam' === $item_status ) {
 			$actions['unspam'] = sprintf( '<a href="%s">%s</a>', esc_url( $ham_url ), esc_html__( 'Not Spam', 'buddypress' ) );
 		} else {
 			$actions['spam'] = sprintf( '<a href="%s">%s</a>', esc_url( $spam_url ), esc_html__( 'Spam', 'buddypress' ) );
@@ -805,7 +805,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 		 * @param array $value Array of default activity types.
 		 * @param array $item  Current item being displayed.
 		 */
-		if ( empty( $item['item_id'] ) || ! in_array( $item['type'], apply_filters( 'bp_activity_admin_root_activity_types', array( 'activity_comment' ), $item ) ) ) {
+		if ( empty( $item['item_id'] ) || ! in_array( $item['type'], apply_filters( 'bp_activity_admin_root_activity_types', array( 'activity_comment' ), $item ), true ) ) {
 			// phpcs:ignore WordPress.Security.EscapeOutput
 			echo $activity_permalink;
 
