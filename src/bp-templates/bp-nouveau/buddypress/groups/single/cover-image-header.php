@@ -2,6 +2,8 @@
 /**
  * BuddyPress - Groups Cover Image Header.
  *
+ * @package BuddyPress
+ * @subpackage bp-nouveau
  * @since 3.0.0
  * @version 12.0.0
  */

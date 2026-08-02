@@ -7,6 +7,8 @@
  *
  * It's also used to create the common Backbone views.
  *
+ * @package BuddyPress
+ * @subpackage bp-attachments
  * @since 2.3.0
  * @version 3.1.0
  */

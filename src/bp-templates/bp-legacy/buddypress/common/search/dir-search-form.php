@@ -2,6 +2,8 @@
 /**
  * Output the search form markup.
  *
+ * @package BuddyPress
+ * @subpackage bp-legacy
  * @since 2.7.0
  * @version 3.0.0
  */

@@ -2,6 +2,8 @@
 /**
  * xProfile Template tags
  *
+ * @package BuddyPress
+ * @subpackage bp-nouveau
  * @since 3.0.0
  * @version 8.0.0
  */

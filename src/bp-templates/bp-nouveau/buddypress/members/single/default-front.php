@@ -2,6 +2,8 @@
 /**
  * BP Nouveau Default user's front template.
  *
+ * @package BuddyPress
+ * @subpackage bp-nouveau
  * @since 3.0.0
  * @version 3.1.0
  */

@@ -4,6 +4,8 @@
  *
  * This template is used to create the recycle Backbone views.
  *
+ * @package BuddyPress
+ * @subpackage bp-attachments
  * @since 10.0.0
  * @version 10.0.0
  */

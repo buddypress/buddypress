@@ -2,6 +2,8 @@
 /**
  * BuddyPress - Pending Membership Invitations
  *
+ * @package BuddyPress
+ * @subpackage bp-nouveau
  * @since 8.0.0
  * @version 14.0.0
  */

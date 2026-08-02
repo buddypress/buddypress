@@ -2,6 +2,8 @@
 /**
  * Members functions
  *
+ * @package BuddyPress
+ * @subpackage bp-nouveau
  * @since 3.0.0
  * @version 12.3.0
  */

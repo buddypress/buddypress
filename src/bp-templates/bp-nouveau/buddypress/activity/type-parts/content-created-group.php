@@ -4,6 +4,8 @@
  *
  * This template is only used to display the `created_group` activity type content.
  *
+ * @package BuddyPress
+ * @subpackage bp-nouveau
  * @since 10.0.0
  * @version 12.0.0
  */

@@ -2,6 +2,8 @@
 /**
  * BP Nouveau Group's manage members template.
  *
+ * @package BuddyPress
+ * @subpackage bp-nouveau
  * @since 3.0.0
  * @version 10.0.0
  */

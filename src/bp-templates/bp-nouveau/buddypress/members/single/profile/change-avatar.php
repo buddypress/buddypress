@@ -2,6 +2,8 @@
 /**
  * BuddyPress - Members Profile Change Avatar
  *
+ * @package BuddyPress
+ * @subpackage bp-nouveau
  * @since 3.0.0
  * @version 3.2.0
  */

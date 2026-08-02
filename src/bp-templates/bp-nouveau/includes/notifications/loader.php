@@ -2,6 +2,8 @@
 /**
  * BP Nouveau Notifications
  *
+ * @package BuddyPress
+ * @subpackage bp-nouveau
  * @since 3.0.0
  * @version 6.1.0
  */

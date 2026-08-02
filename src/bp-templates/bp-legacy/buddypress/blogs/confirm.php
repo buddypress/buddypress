@@ -2,6 +2,8 @@
 /**
  * BuddyPress - Blogs Confirm
  *
+ * @package BuddyPress
+ * @subpackage bp-legacy
  * @since 12.0.0
  * @version 12.0.0
  */

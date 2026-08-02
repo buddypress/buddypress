@@ -2,6 +2,8 @@
 /**
  * BuddyPress - Activity Loop
  *
+ * @package BuddyPress
+ * @subpackage bp-nouveau
  * @version 3.1.0
  */
 

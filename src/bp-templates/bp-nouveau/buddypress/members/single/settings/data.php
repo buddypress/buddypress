@@ -2,6 +2,8 @@
 /**
  * BuddyPress - Members Settings (Export Data)
  *
+ * @package BuddyPress
+ * @subpackage bp-nouveau
  * @since 3.1.0
  * @version 12.0.0
  */

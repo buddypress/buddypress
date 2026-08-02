@@ -2,6 +2,8 @@
 /**
  * BuddyPress Members Directory
  *
+ * @package BuddyPress
+ * @subpackage bp-nouveau
  * @since 3.0.0
  * @version 6.0.0
  */

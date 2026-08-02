@@ -2,6 +2,8 @@
 /**
  * BuddyPress - Members Friends Requests Loop
  *
+ * @package BuddyPress
+ * @subpackage bp-nouveau
  * @since 5.0.0
  * @version 5.0.0
  */

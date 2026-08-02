@@ -2,8 +2,9 @@
 /**
  * BP Nouveau Group's edit details template.
  *
+ * @package BuddyPress
+ * @subpackage bp-nouveau
  * @since 3.0.0
- * @version 3.1.0
  * @version 4.0.0 Removed 'Notify group members' checkbox in favor of hooked callback.
  */
 

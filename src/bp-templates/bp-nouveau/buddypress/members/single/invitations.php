@@ -2,6 +2,8 @@
 /**
  * BuddyPress - Membership invitations
  *
+ * @package BuddyPress
+ * @subpackage bp-nouveau
  * @since 8.0.0
  * @version 12.0.0
  */

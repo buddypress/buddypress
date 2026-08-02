@@ -4,6 +4,8 @@
  *
  * This template is only used to display the `friendship_created` activity type content.
  *
+ * @package BuddyPress
+ * @subpackage bp-legacy
  * @since 10.0.0
  * @version 10.0.0
  */
