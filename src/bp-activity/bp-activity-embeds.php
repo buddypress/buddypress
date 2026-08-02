@@ -257,7 +257,7 @@ function bp_activity_embed_media() {
 			// Add play icon for non-photos.
 			if ( 'photo' !== $oembed->type ) {
 				/**
-				 * ion-play icon from Ionicons.
+				 * Ionicons ion-play icon.
 				 *
 				 * @link    http://ionicons.com/
 				 * @license MIT

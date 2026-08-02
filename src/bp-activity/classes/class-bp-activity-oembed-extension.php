@@ -10,7 +10,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * oEmbed handler to respond and render single activity items.
+ * Handler for oEmbed responses and single activity item rendering.
  *
  * @since 2.6.0
  */

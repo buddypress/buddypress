@@ -1059,22 +1059,22 @@ function groups_get_user_groups( $user_id = 0, $pag_num = 0, $pag_page = 0 ) {
  *
  * @since 2.6.0
  *
- * @param int       $user_id ID of the user.
- * @param array     $args {
+ * @param int   $user_id ID of the user.
+ * @param array $args {
  *     Array of optional args.
- *     @param bool|null $is_confirmed Whether to return only confirmed memberships. Pass `null` to disable this
+ *     @type bool|null $is_confirmed Whether to return only confirmed memberships. Pass `null` to disable this
  *                                    filter. Default: true.
- *     @param bool|null $is_banned    Whether to return only banned memberships. Pass `null` to disable this filter.
+ *     @type bool|null $is_banned    Whether to return only banned memberships. Pass `null` to disable this filter.
  *                                    Default: false.
- *     @param bool|null $is_admin     Whether to return only admin memberships. Pass `null` to disable this filter.
+ *     @type bool|null $is_admin     Whether to return only admin memberships. Pass `null` to disable this filter.
  *                                    Default: false.
- *     @param bool|null $is_mod       Whether to return only mod memberships. Pass `null` to disable this filter.
+ *     @type bool|null $is_mod       Whether to return only mod memberships. Pass `null` to disable this filter.
  *                                    Default: false.
- *     @param bool|null $invite_sent  Whether to return only memberships with 'invite_sent'. Pass `null` to disable
+ *     @type bool|null $invite_sent  Whether to return only memberships with 'invite_sent'. Pass `null` to disable
  *                                    this filter. Default: false.
- *     @param string    $orderby      Field to order by. Accepts 'id' (membership ID), 'group_id', 'date_modified'.
+ *     @type string    $orderby      Field to order by. Accepts 'id' (membership ID), 'group_id', 'date_modified'.
  *                                    Default: 'group_id'.
- *     @param string    $order        Sort order. Accepts 'ASC' or 'DESC'. Default: 'ASC'.
+ *     @type string    $order        Sort order. Accepts 'ASC' or 'DESC'. Default: 'ASC'.
  * }.
  * @return array Array of matching group memberships, keyed by group ID.
  */

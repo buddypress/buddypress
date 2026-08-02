@@ -24,7 +24,7 @@ class BP_XProfile_Field_Type_Checkbox_Acceptance extends BP_XProfile_Field_Type 
 	 *
 	 * @since 8.0.0
 	 *
-	 * @return string The Checkbox Acceptance field's visibility setting.
+	 * @var string The Checkbox Acceptance field's visibility setting.
 	 */
 	public $visibility = 'adminsonly';
 

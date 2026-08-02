@@ -40,7 +40,7 @@ abstract class BP_XProfile_Field_Type_WordPress extends BP_XProfile_Field_Type {
 	 *
 	 * @since 8.0.0
 	 *
-	 * @return string The WordPress field's visibility setting.
+	 * @var string The WordPress field's visibility setting.
 	 */
 	public $visibility = 'public';
 

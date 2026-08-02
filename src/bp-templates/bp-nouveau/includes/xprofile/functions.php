@@ -1,6 +1,6 @@
 <?php
 /**
- * xProfile functions
+ * Functions for xProfile.
  *
  * @package BuddyPress
  * @subpackage bp-nouveau

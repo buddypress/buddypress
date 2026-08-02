@@ -647,9 +647,7 @@ function bp_nouveau_get_temporary_setting( $option = '', $retval = false ) {
  *
  * @since 3.0.0
  *
- * @param string                                                                  $option Leave empty to get all settings, specify a value for a specific one.
- * @param mixed          An array of settings, the value of the requested setting.
- *
+ * @param string $option Leave empty to get all settings, specify a value for a specific one.
  * @return array|false|mixed
  */
 function bp_nouveau_get_appearance_settings( $option = '' ) {

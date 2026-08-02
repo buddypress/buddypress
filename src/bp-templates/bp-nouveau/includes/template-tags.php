@@ -2125,8 +2125,6 @@ function bp_nouveau_filter_container_id() {
 	 * Get data filter container's ID attribute value.
 	 *
 	 * @since 3.0.0
-	 *
-	 * @param string
 	 */
 	function bp_nouveau_get_filter_container_id() {
 		$component = bp_nouveau_current_object();

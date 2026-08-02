@@ -113,8 +113,6 @@ function bp_nouveau_groups_disallow_all_members_invites( $default = false ) {
  * Activate the Groups invitations feature if any member can be invited.
  *
  * @since 10.0.0
- *
- * @param bool True if any member can be invited. False otherwise.
  */
 function bp_nouveau_is_groups_invitations_active() {
 	return ! bp_nouveau_groups_disallow_all_members_invites();

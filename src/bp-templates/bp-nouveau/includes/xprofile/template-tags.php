@@ -1,6 +1,6 @@
 <?php
 /**
- * xProfile Template tags
+ * Template tags for xProfile.
  *
  * @package BuddyPress
  * @subpackage bp-nouveau

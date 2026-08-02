@@ -704,7 +704,7 @@ function bp_activity_type_supports( $activity_type = '', $feature = '' ) {
 		/**
 		 * Does this activity type support comment tracking?
 		 *
-		 * eg. 'new_blog_post' and 'new_blog_comment' will both return true.
+		 * For example, 'new_blog_post' and 'new_blog_comment' will both return true.
 		 */
 		case 'post-type-comment-tracking' :
 			// Set the activity track global if not set yet.
@@ -720,7 +720,7 @@ function bp_activity_type_supports( $activity_type = '', $feature = '' ) {
 		/**
 		 * Is this a parent activity type that support post comments?
 		 *
-		 * eg. 'new_blog_post' will return true; 'new_blog_comment' will return false.
+		 * For example, 'new_blog_post' will return true; 'new_blog_comment' will return false.
 		 */
 		case 'post-type-comment-reply' :
 			// Set the activity track global if not set yet.
@@ -4005,7 +4005,6 @@ add_action( 'activity_loop_start', 'bp_activity_embed' );
  *
  * @param string $retval Current oEmbed result.
  * @param object $data   Full oEmbed response.
- * @param string $url    URL used for the oEmbed request.
  * @return string
  */
 function bp_activity_oembed_dataparse( $retval, $data ) {

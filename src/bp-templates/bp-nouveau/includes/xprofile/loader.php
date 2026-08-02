@@ -12,7 +12,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * xProfile Loader class
+ * Loader class for xProfile.
  *
  * @since 3.0.0
  */
