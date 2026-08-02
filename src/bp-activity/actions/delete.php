@@ -17,7 +17,7 @@
  */
 function bp_activity_action_delete_activity( $activity_id = 0 ) {
 	// Not viewing activity or action is not delete.
-	if ( !bp_is_activity_component() || !bp_is_current_action( 'delete' ) )
+	if ( ! bp_is_activity_component() || ! bp_is_current_action( 'delete' ) )
 		return false;
 
 	if ( empty( $activity_id ) && bp_action_variable( 0 ) )
@@ -64,7 +64,7 @@ function bp_activity_action_delete_activity( $activity_id = 0 ) {
 	do_action( 'bp_activity_action_delete_activity', $activity_id, $activity->user_id );
 
 	// Check for the redirect query arg, otherwise let WP handle things.
-	if ( !empty( $_GET['redirect_to'] ) )
+	if ( ! empty( $_GET['redirect_to'] ) )
 		bp_core_redirect( esc_url( $_GET['redirect_to'] ) );
 	else
 		bp_core_redirect( wp_get_referer() );

@@ -71,7 +71,7 @@ function bp_activity_admin_reply() {
 	check_ajax_referer( 'bp-activity-admin-reply', '_ajax_nonce-bp-activity-admin-reply' );
 
 	$parent_id = ! empty( $_REQUEST['parent_id'] ) ? (int) $_REQUEST['parent_id'] : 0;
-	$root_id   = ! empty( $_REQUEST['root_id'] )   ? (int) $_REQUEST['root_id']   : 0;
+	$root_id   = ! empty( $_REQUEST['root_id'] ) ? (int) $_REQUEST['root_id'] : 0;
 
 	// $parent_id is required.
 	if ( empty( $parent_id ) ) {
@@ -119,7 +119,7 @@ function bp_activity_admin_reply() {
 	$list_table->single_row( (array) $new_activity );
 
 	// Get table markup.
-	$response =  array(
+	$response = array(
 		'data'     => ob_get_contents(),
 		'id'       => $new_activity_id,
 		'position' => -1,
@@ -265,9 +265,9 @@ function bp_activity_admin_load() {
 
 		// Help panel - moderation text.
 		get_current_screen()->add_help_tab( array(
-			'id'		=> 'bp-activity-moderating',
-			'title'		=> __( 'Moderating Activity', 'buddypress' ),
-			'content'	=>
+			'id'        => 'bp-activity-moderating',
+			'title'     => __( 'Moderating Activity', 'buddypress' ),
+			'content'   =>
 				'<p>' . __( 'In the <strong>Activity</strong> column, above each activity it says &#8220;Submitted on,&#8221; followed by the date and time the activity item was generated on your site. Clicking on the date/time link will take you to that activity on your live site. Hovering over any activity gives you options to reply, edit, spam mark, or delete that activity.', 'buddypress' ) . '</p>' .
 				'<p>' . __( "In the <strong>In Response To</strong> column, if the activity was in reply to another activity, it shows that activity's author's picture and name, and a link to that activity on your live site. If there is a small bubble, the number in it shows how many other activities are related to this one; these are usually comments. Clicking the bubble will filter the activity screen to show only related activity items.", 'buddypress' ) . '</p>'
 		) );
@@ -333,11 +333,11 @@ function bp_activity_admin_load() {
 			$doaction = substr( $doaction, 5 );
 
 			// This is a request to delete single or multiple item.
-		} elseif ( 'do_delete'  === $doaction && ! empty( $_REQUEST['aid'] ) ) {
+		} elseif ( 'do_delete' === $doaction && ! empty( $_REQUEST['aid'] ) ) {
 			check_admin_referer( 'bp-activities-delete' );
 
 		// This is a request to spam, or un-spam, a single item.
-		} elseif ( !empty( $_REQUEST['aid'] ) ) {
+		} elseif ( ! empty( $_REQUEST['aid'] ) ) {
 
 			// Check this is a valid form submission.
 			check_admin_referer( 'spam-activity_' . $activity_ids[0] );
@@ -534,9 +534,9 @@ function bp_activity_admin_load() {
 			$mm = ( $mm <= 0 ) ? date( 'n' ) : $mm;
 			$jj = ( $jj > 31 ) ? 31 : $jj;
 			$jj = ( $jj <= 0 ) ? date( 'j' ) : $jj;
-			$hh = ( $hh > 23 ) ? $hh -24 : $hh;
-			$mn = ( $mn > 59 ) ? $mn -60 : $mn;
-			$ss = ( $ss > 59 ) ? $ss -60 : $ss;
+			$hh = ( $hh > 23 ) ? $hh - 24 : $hh;
+			$mn = ( $mn > 59 ) ? $mn - 60 : $mn;
+			$ss = ( $ss > 59 ) ? $ss - 60 : $ss;
 
 			// Reconstruct the date into a timestamp.
 			$gmt_date = sprintf( "%04d-%02d-%02d %02d:%02d:%02d", $aa, $mm, $jj, $hh, $mn, $ss );
@@ -665,7 +665,7 @@ function bp_activity_admin_delete() {
 			$actions = bp_activity_admin_get_activity_actions();
 
 			if ( isset( $actions[ $activity->type ] ) ) {
-				$activity_type =  $actions[ $activity->type ];
+				$activity_type = $actions[ $activity->type ];
 			} else {
 				/* translators: %s: the name of the activity type */
 				$activity_type = sprintf( __( 'Unregistered action - %s', 'buddypress' ), $activity->type );
@@ -1076,11 +1076,11 @@ function bp_activity_admin_index() {
 
 	// If the user has just made a change to an activity item, build status messages.
 	if ( ! empty( $_REQUEST['deleted'] ) || ! empty( $_REQUEST['spammed'] ) || ! empty( $_REQUEST['unspammed'] ) || ! empty( $_REQUEST['error'] ) || ! empty( $_REQUEST['updated'] ) ) {
-		$deleted   = ! empty( $_REQUEST['deleted']   ) ? (int) $_REQUEST['deleted']   : 0;
-		$errors    = ! empty( $_REQUEST['error']     ) ? $_REQUEST['error']           : '';
-		$spammed   = ! empty( $_REQUEST['spammed']   ) ? (int) $_REQUEST['spammed']   : 0;
+		$deleted   = ! empty( $_REQUEST['deleted']   ) ? (int) $_REQUEST['deleted'] : 0;
+		$errors    = ! empty( $_REQUEST['error']     ) ? $_REQUEST['error'] : '';
+		$spammed   = ! empty( $_REQUEST['spammed']   ) ? (int) $_REQUEST['spammed'] : 0;
 		$unspammed = ! empty( $_REQUEST['unspammed'] ) ? (int) $_REQUEST['unspammed'] : 0;
-		$updated   = ! empty( $_REQUEST['updated']   ) ? (int) $_REQUEST['updated']   : 0;
+		$updated   = ! empty( $_REQUEST['updated']   ) ? (int) $_REQUEST['updated'] : 0;
 
 		$errors = array_map( 'absint', explode( ',', $errors ) );
 
@@ -1148,7 +1148,7 @@ function bp_activity_admin_index() {
 
 	<div class="wrap">
 		<h1 class="wp-heading-inline">
-			<?php if ( !empty( $_REQUEST['aid'] ) ) : ?>
+			<?php if ( ! empty( $_REQUEST['aid'] ) ) : ?>
 				<?php
 				/* translators: %s: the activity ID */
 				printf( esc_html__( 'Activity related to ID #%s', 'buddypress' ), esc_html( number_format_i18n( (int) $_REQUEST['aid'] ) ) );
@@ -1157,7 +1157,7 @@ function bp_activity_admin_index() {
 				<?php echo esc_html_x( 'Activity', 'Admin SWA page', 'buddypress' ); ?>
 			<?php endif; ?>
 
-			<?php if ( !empty( $_REQUEST['s'] ) ) : ?>
+			<?php if ( ! empty( $_REQUEST['s'] ) ) : ?>
 				<span class="subtitle">
 					<?php
 					/* translators: %s: the activity search terms */
@@ -1170,7 +1170,7 @@ function bp_activity_admin_index() {
 		<hr class="wp-header-end">
 
 		<?php // If the user has just made a change to an activity item, display the status messages. ?>
-		<?php if ( !empty( $messages ) ) : ?>
+		<?php if ( ! empty( $messages ) ) : ?>
 			<div id="moderated" class="<?php echo ( ! empty( $_REQUEST['error'] ) ) ? 'error' : 'updated'; ?> notice is-dismissible"><p><?php echo implode( "<br/>\n", array_map( 'esc_html', $messages ) ); ?></p></div>
 		<?php endif; ?>
 

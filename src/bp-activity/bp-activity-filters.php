@@ -458,7 +458,7 @@ function bp_activity_truncate_entry( $text, $args = array() ) {
 	 * shortcodes, so we have strip them from the $text before the comparison.
 	 */
 	if ( strlen( $excerpt ) < strlen( strip_shortcodes( $text ) ) ) {
-		$id = !empty( $activities_template->activity->current_comment->id ) ? 'acomment-read-more-' . $activities_template->activity->current_comment->id : 'activity-read-more-' . bp_get_activity_id();
+		$id = ! empty( $activities_template->activity->current_comment->id ) ? 'acomment-read-more-' . $activities_template->activity->current_comment->id : 'activity-read-more-' . bp_get_activity_id();
 
 		$excerpt = sprintf( '%1$s<span class="activity-read-more" id="%2$s"><a href="%3$s" rel="nofollow">%4$s</a></span>', $excerpt, $id, bp_get_activity_thread_permalink(), $append_text );
 	}

@@ -564,7 +564,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 		$action_count = count( $actions );
 		$i            = 0;
 
-		if ( !$action_count ) {
+		if ( ! $action_count ) {
 			return '';
 		}
 

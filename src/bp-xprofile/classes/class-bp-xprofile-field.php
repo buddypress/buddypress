@@ -428,7 +428,7 @@ class BP_XProfile_Field {
 		$this->name         = apply_filters( 'xprofile_field_name_before_save', $this->name, $this->id );
 		$this->description  = apply_filters( 'xprofile_field_description_before_save', $this->description, $this->id );
 		$this->is_required  = apply_filters( 'xprofile_field_is_required_before_save', $this->is_required, $this->id );
-		$this->order_by	    = apply_filters( 'xprofile_field_order_by_before_save', $this->order_by, $this->id );
+		$this->order_by     = apply_filters( 'xprofile_field_order_by_before_save', $this->order_by, $this->id );
 		$this->field_order  = apply_filters( 'xprofile_field_field_order_before_save', $this->field_order, $this->id );
 		$this->option_order = apply_filters( 'xprofile_field_option_order_before_save', $this->option_order, $this->id );
 		$this->can_delete   = apply_filters( 'xprofile_field_can_delete_before_save', $this->can_delete, $this->id );
@@ -1272,7 +1272,7 @@ class BP_XProfile_Field {
 		// Add New.
 		if ( empty( $this->id ) ) {
 			$title  = __( 'Add New Field', 'buddypress' );
-			$button	= __( 'Save', 'buddypress' );
+			$button = __( 'Save', 'buddypress' );
 			$action = add_query_arg( array(
 				'page'     => 'bp-profile-setup',
 				'mode'     => 'add_field',
@@ -1294,7 +1294,7 @@ class BP_XProfile_Field {
 		// Edit.
 		} else {
 			$title  = __( 'Edit Field', 'buddypress' );
-			$button	= __( 'Update', 'buddypress' );
+			$button = __( 'Update', 'buddypress' );
 			$action = add_query_arg( array(
 				'page'     => 'bp-profile-setup',
 				'mode'     => 'edit_field',

@@ -359,7 +359,7 @@ function bp_nouveau_activity_entry_buttons( $args = array() ) {
 		 * no matter the previous activity had less.
 		 */
 		} else {
-			$buttons['activity_conversation'] =  array(
+			$buttons['activity_conversation'] = array(
 				'id'                => 'activity_conversation',
 				'position'          => 5,
 				'component'         => 'activity',
@@ -424,7 +424,7 @@ function bp_nouveau_activity_entry_buttons( $args = array() ) {
 				);
 			}
 
-			$buttons['activity_favorite'] =  array(
+			$buttons['activity_favorite'] = array(
 				'id'                => 'activity_favorite',
 				'position'          => 15,
 				'component'         => 'activity',

@@ -452,14 +452,14 @@ do_action( 'bp_before_create_group_page' ); ?>
 				<div class="submit" id="previous-next">
 
 					<?php /* Previous Button */ ?>
-					<?php if ( !bp_is_first_group_creation_step() ) : ?>
+					<?php if ( ! bp_is_first_group_creation_step() ) : ?>
 
 						<input type="button" value="<?php esc_attr_e( 'Back to Previous Step', 'buddypress' ); ?>" id="group-creation-previous" name="previous" onclick="location.href='<?php bp_group_creation_previous_link(); ?>'" />
 
 					<?php endif; ?>
 
 					<?php /* Next Button */ ?>
-					<?php if ( !bp_is_last_group_creation_step() && !bp_is_first_group_creation_step() ) : ?>
+					<?php if ( ! bp_is_last_group_creation_step() && ! bp_is_first_group_creation_step() ) : ?>
 
 						<input type="submit" value="<?php esc_attr_e( 'Next Step', 'buddypress' ); ?>" id="group-creation-next" name="save" />
 

@@ -172,7 +172,7 @@ class BP_Activity_Template {
 		$function_args = func_get_args();
 
 		// Backward compatibility with old method of passing arguments.
-		if ( !is_array( $args ) || count( $function_args ) > 1 ) {
+		if ( ! is_array( $args ) || count( $function_args ) > 1 ) {
 			_deprecated_argument( __METHOD__, '1.6', sprintf( esc_html__( 'Arguments passed to %1$s should be in an associative array. See the inline documentation at %2$s for more details.', 'buddypress' ), __METHOD__, __FILE__ ) );
 
 			$old_args_keys = array(
@@ -235,7 +235,7 @@ class BP_Activity_Template {
 		$this->my_favs = bp_get_user_meta( bp_loggedin_user_id(), 'bp_favorite_activities', true );
 
 		// Fetch specific activity items based on ID's.
-		if ( !empty( $include ) ) {
+		if ( ! empty( $include ) ) {
 			$this->activities = bp_activity_get_specific( array(
 				'activity_ids'      => explode( ',', $include ),
 				'max'               => $max,
@@ -307,11 +307,11 @@ class BP_Activity_Template {
 			$parent_ids[] = $activity->item_id;
 		}
 
-		if ( !empty( $parent_ids ) ) {
+		if ( ! empty( $parent_ids ) ) {
 			$activity_parents = bp_activity_get_specific( array( 'activity_ids' => $parent_ids ) );
 		}
 
-		if ( !empty( $activity_parents['activities'] ) ) {
+		if ( ! empty( $activity_parents['activities'] ) ) {
 			foreach ( $activity_parents['activities'] as $parent ) {
 				$this->activity_parents[ $parent->id ] = $parent;
 			}

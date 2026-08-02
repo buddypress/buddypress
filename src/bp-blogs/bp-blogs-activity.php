@@ -1082,7 +1082,7 @@ function bp_blogs_new_blog_comment_query_backpat( $args ) {
 		),
 		array(
 			'column'  => 'id',
-			'value'   =>  $activity_ids,
+			'value'   => $activity_ids,
 			'compare' => 'IN'
 		),
 	);

@@ -20,7 +20,7 @@
  */
 do_action( 'bp_before_profile_avatar_upload_content' ); ?>
 
-<?php if ( !(int)bp_get_option( 'bp-disable-avatar-uploads' ) ) : ?>
+<?php if ( ! (int)bp_get_option( 'bp-disable-avatar-uploads' ) ) : ?>
 
 	<p>
 		<?php

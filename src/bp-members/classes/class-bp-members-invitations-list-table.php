@@ -366,7 +366,7 @@ class BP_Members_Invitations_List_Table extends WP_Users_List_Table {
 			// Resend invitation email link.
 			$email_link = add_query_arg(
 				array(
-					'page'	    => 'bp-members-invitations',
+					'page'      => 'bp-members-invitations',
 					'invite_id' => $invite->id,
 					'action'    => 'resend',
 				),

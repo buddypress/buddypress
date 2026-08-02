@@ -304,7 +304,7 @@ function bp_members_membership_requests_filter_signup_row_actions( $actions, $si
 	// Rename the "email" resend option when membership requests are active.
 	$email_link = add_query_arg(
 		array(
-			'page'	    => 'bp-signups',
+			'page'      => 'bp-signups',
 			'signup_id' => $signup_object->id,
 			'action'    => 'resend',
 		),
@@ -319,7 +319,7 @@ function bp_members_membership_requests_filter_signup_row_actions( $actions, $si
 	if ( bp_is_active( 'xprofile' ) || bp_members_site_requests_enabled() ) {
 		$profile_link = add_query_arg(
 			array(
-				'page'	   => 'bp-signups#TB_inline',
+				'page'     => 'bp-signups#TB_inline',
 				'inlineId' => 'signup-info-modal-' . $signup_object->id,
 			),
 			bp_get_admin_url( 'users.php' )

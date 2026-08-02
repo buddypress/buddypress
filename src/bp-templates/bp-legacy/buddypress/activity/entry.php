@@ -77,7 +77,7 @@ do_action( 'bp_before_activity_entry' ); ?>
 
 				<?php if ( bp_activity_can_favorite() ) : ?>
 
-					<?php if ( !bp_get_activity_is_favorite() ) : ?>
+					<?php if ( ! bp_get_activity_is_favorite() ) : ?>
 
 						<a href="<?php bp_activity_favorite_link(); ?>" class="button fav bp-secondary-action"><?php esc_html_e( 'Favorite', 'buddypress' ); ?></a>
 

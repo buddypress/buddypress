@@ -273,7 +273,7 @@ class BP_Groups_Template {
 
 			$this->groups = $this->groups['groups'];
 
-			if ( !empty( $max ) ) {
+			if ( ! empty( $max ) ) {
 				if ( $max >= count( $this->groups ) ) {
 					$this->group_count = count( $this->groups );
 				} else {

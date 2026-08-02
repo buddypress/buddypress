@@ -316,12 +316,12 @@ class BP_Members_List_Table extends WP_Users_List_Table {
 	 * @param object|null $signup_object The signup data object.
 	 */
 	public function column_username( $signup_object = null ) {
-		$avatar	= get_avatar( $signup_object->user_email, 32 );
+		$avatar = get_avatar( $signup_object->user_email, 32 );
 
 		// Activation email link.
 		$email_link = add_query_arg(
 			array(
-				'page'	    => 'bp-signups',
+				'page'      => 'bp-signups',
 				'signup_id' => $signup_object->id,
 				'action'    => 'resend',
 			),

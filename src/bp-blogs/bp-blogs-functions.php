@@ -20,7 +20,7 @@ defined( 'ABSPATH' ) || exit;
 function bp_blogs_has_directory() {
 	$bp = buddypress();
 
-	return (bool) !empty( $bp->pages->blogs->id );
+	return (bool) ! empty( $bp->pages->blogs->id );
 }
 
 /**
@@ -276,7 +276,7 @@ function bp_blogs_is_blog_recordable( $blog_id, $user_id = 0 ) {
 	 */
 	$recordable_globally = apply_filters( 'bp_blogs_is_blog_recordable', true, $blog_id );
 
-	if ( !empty( $user_id ) ) {
+	if ( ! empty( $user_id ) ) {
 		/**
 		 * Filters whether or not a blog is globally activity stream recordable for user.
 		 *
@@ -291,7 +291,7 @@ function bp_blogs_is_blog_recordable( $blog_id, $user_id = 0 ) {
 		$recordable_for_user = $recordable_globally;
 	}
 
-	if ( !empty( $recordable_for_user ) ) {
+	if ( ! empty( $recordable_for_user ) ) {
 		return true;
 	}
 
@@ -322,7 +322,7 @@ function bp_blogs_is_blog_trackable( $blog_id, $user_id = 0 ) {
 	 */
 	$trackable_globally = apply_filters( 'bp_blogs_is_blog_trackable', bp_blogs_is_blog_recordable( $blog_id, $user_id ), $blog_id );
 
-	if ( !empty( $user_id ) ) {
+	if ( ! empty( $user_id ) ) {
 
 		/**
 		 * Filters whether or not a blog is globally trackable for user.
@@ -338,7 +338,7 @@ function bp_blogs_is_blog_trackable( $blog_id, $user_id = 0 ) {
 		$trackable_for_user = $trackable_globally;
 	}
 
-	if ( !empty( $trackable_for_user ) ) {
+	if ( ! empty( $trackable_for_user ) ) {
 		return $trackable_for_user;
 	}
 

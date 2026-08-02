@@ -36,7 +36,7 @@ function bp_get_options_nav( $parent_slug = '' ) {
 
 	// If we are looking at a member profile, then the we can use the current
 	// component as an index. Otherwise we need to use the component's root_slug.
-	$component_index = !empty( $bp->displayed_user ) ? bp_current_component() : bp_get_root_slug( bp_current_component() );
+	$component_index = ! empty( $bp->displayed_user ) ? bp_current_component() : bp_get_root_slug( bp_current_component() );
 	$selected_item   = bp_current_action();
 
 	// Default to the Members nav.
@@ -584,15 +584,15 @@ function bp_search_default_text( $component = '' ) {
 		$default_text = __( 'Search anything...', 'buddypress' );
 
 		// Most of the time, $component will be the actual component ID.
-		if ( !empty( $component ) ) {
-			if ( !empty( $bp->{$component}->search_string ) ) {
+		if ( ! empty( $component ) ) {
+			if ( ! empty( $bp->{$component}->search_string ) ) {
 				$default_text = $bp->{$component}->search_string;
 			} else {
 				// When the request comes through AJAX, we need to get the component
 				// name out of $bp->pages.
-				if ( !empty( $bp->pages->{$component}->slug ) ) {
+				if ( ! empty( $bp->pages->{$component}->slug ) ) {
 					$key = $bp->pages->{$component}->slug;
-					if ( !empty( $bp->{$key}->search_string ) ) {
+					if ( ! empty( $bp->{$key}->search_string ) ) {
 						$default_text = $bp->{$key}->search_string;
 					}
 				}
@@ -825,7 +825,7 @@ function bp_create_excerpt( $text, $length = 225, $options = array() ) {
 
 		foreach ( $tags as $tag ) {
 			// Process tags that need to be closed.
-			if ( !preg_match( '/img|br|input|hr|area|base|basefont|col|frame|isindex|link|meta|param/s', $tag[2] ) ) {
+			if ( ! preg_match( '/img|br|input|hr|area|base|basefont|col|frame|isindex|link|meta|param/s', $tag[2] ) ) {
 				if ( preg_match( '/<[\w]+[^>]*>/s', $tag[0] ) ) {
 					array_unshift( $openTags, $tag[2] );
 				} elseif ( preg_match('/<\/([\w]+)[^>]*>/s', $tag[0], $closeTag ) ) {
@@ -947,9 +947,9 @@ function bp_create_excerpt( $text, $length = 225, $options = array() ) {
 		if ( $r['html'] ) {
 			$bits = mb_substr( $truncate, $spacepos );
 			preg_match_all( '/<\/([a-z]+)>/', $bits, $droppedTags, PREG_SET_ORDER );
-			if ( !empty( $droppedTags ) ) {
+			if ( ! empty( $droppedTags ) ) {
 				foreach ( $droppedTags as $closingTag ) {
-					if ( !in_array( $closingTag[1], $openTags ) ) {
+					if ( ! in_array( $closingTag[1], $openTags ) ) {
 						array_unshift( $openTags, $closingTag[1] );
 					}
 				}
@@ -960,7 +960,7 @@ function bp_create_excerpt( $text, $length = 225, $options = array() ) {
 	}
 	$truncate .= $ending;
 
-	if ( !empty( $r['html'] ) ) {
+	if ( ! empty( $r['html'] ) ) {
 		foreach ( $openTags as $tag ) {
 			$truncate .= '</' . $tag . '>';
 		}
@@ -1168,7 +1168,7 @@ function bp_ajax_querystring( $object = false ) {
  */
 function bp_current_component() {
 	$bp                = buddypress();
-	$current_component = !empty( $bp->current_component )
+	$current_component = ! empty( $bp->current_component )
 		? $bp->current_component
 		: false;
 
@@ -1191,7 +1191,7 @@ function bp_current_component() {
  */
 function bp_current_action() {
 	$bp             = buddypress();
-	$current_action = !empty( $bp->current_action )
+	$current_action = ! empty( $bp->current_action )
 		? $bp->current_action
 		: '';
 
@@ -1214,7 +1214,7 @@ function bp_current_action() {
  */
 function bp_current_item() {
 	$bp           = buddypress();
-	$current_item = !empty( $bp->current_item )
+	$current_item = ! empty( $bp->current_item )
 		? $bp->current_item
 		: false;
 
@@ -1238,7 +1238,7 @@ function bp_current_item() {
  */
 function bp_action_variables() {
 	$bp               = buddypress();
-	$action_variables = !empty( $bp->action_variables )
+	$action_variables = ! empty( $bp->action_variables )
 		? $bp->action_variables
 		: false;
 
@@ -1492,7 +1492,7 @@ function bp_search_slug() {
  */
 function bp_displayed_user_id() {
 	$bp = buddypress();
-	$id = !empty( $bp->displayed_user->id )
+	$id = ! empty( $bp->displayed_user->id )
 		? $bp->displayed_user->id
 		: 0;
 
@@ -1515,7 +1515,7 @@ function bp_displayed_user_id() {
  */
 function bp_loggedin_user_id() {
 	$bp = buddypress();
-	$id = !empty( $bp->loggedin_user->id )
+	$id = ! empty( $bp->loggedin_user->id )
 		? $bp->loggedin_user->id
 		: 0;
 
@@ -1667,7 +1667,7 @@ function bp_is_action_variable( $action_variable = '', $position = false ) {
 		} else {
 			// If no $action_variable is provided, we are essentially checking to see
 			// whether the slot is empty.
-			$is_action_variable = !bp_action_variable( $position );
+			$is_action_variable = ! bp_action_variable( $position );
 		}
 	} else {
 		// When no $position is specified, check the entire array.
@@ -3642,7 +3642,7 @@ function bp_nav_menu( $args = array() ) {
 			$show_container = true;
 
 			$class     = $args->container_class ? ' class="' . esc_attr( $args->container_class ) . '"' : ' class="menu-bp-container"';
-			$id        = $args->container_id    ? ' id="' . esc_attr( $args->container_id ) . '"'       : '';
+			$id        = $args->container_id ? ' id="' . esc_attr( $args->container_id ) . '"' : '';
 			$nav_menu .= '<' . $args->container . $id . $class . '>';
 		}
 	}

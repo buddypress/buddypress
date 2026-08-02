@@ -10,7 +10,7 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-if ( !class_exists( 'BP_Members_Admin' ) ) :
+if ( ! class_exists( 'BP_Members_Admin' ) ) :
 
 /**
  * Load Members admin area.
@@ -1278,7 +1278,7 @@ class BP_Members_Admin {
 
 				<p><?php echo esc_html( $notice['message'] ); ?></p>
 
-				<?php if ( !empty( $wp_http_referer ) && ( 'updated' === $notice['class'] ) ) : ?>
+				<?php if ( ! empty( $wp_http_referer ) && ( 'updated' === $notice['class'] ) ) : ?>
 
 					<p><a href="<?php echo esc_url( $wp_http_referer ); ?>"><?php esc_html_e( '&larr; Back to Users', 'buddypress' ); ?></a></p>
 
@@ -1958,7 +1958,7 @@ class BP_Members_Admin {
 					'<li>' . esc_html__( '"Approve Request" or "Resend Approval" takes you to the confirmation screen before being able to send the activation link to the desired pending request. You can only send the activation email once per day.', 'buddypress' ) . '</li>';
 
 				if ( bp_is_active( 'xprofile' ) ) {
-					$signup_help_content .=	'<li>' . esc_html__( '"Profile Info" will display extended profile information for the request.', 'buddypress' ) . '</li>';
+					$signup_help_content .= '<li>' . esc_html__( '"Profile Info" will display extended profile information for the request.', 'buddypress' ) . '</li>';
 				}
 
 				$signup_help_content .= '<li>' . esc_html__( '"Delete" allows you to delete a pending account from your site. You will be asked to confirm this deletion.', 'buddypress' ) . '</li></ul>';

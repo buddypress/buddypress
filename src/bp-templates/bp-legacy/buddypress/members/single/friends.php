@@ -13,7 +13,7 @@
 	<ul>
 		<?php if ( bp_is_my_profile() ) bp_get_options_nav(); ?>
 
-		<?php if ( !bp_is_current_action( 'requests' ) ) : ?>
+		<?php if ( ! bp_is_current_action( 'requests' ) ) : ?>
 
 			<li id="members-order-select" class="last filter">
 

@@ -173,7 +173,7 @@ function bp_members_get_path_chunks( $chunks = array() ) {
 			if ( is_numeric( $chunk ) ) {
 				$path_chunks['single_item_action_variables'][] = $chunk;
 			} else {
-				$item_action_variable_rewrite_id_suffix        =  str_replace( '-', '_', $chunk );
+				$item_action_variable_rewrite_id_suffix        = str_replace( '-', '_', $chunk );
 				$path_chunks['single_item_action_variables'][] = bp_rewrites_get_slug( 'members', 'member_' . $item_component_rewrite_id_suffix . '_' . $item_action_rewrite_id_suffix . '_' . $item_action_variable_rewrite_id_suffix, $chunk );
 			}
 		}
@@ -427,7 +427,7 @@ function bp_core_get_userlink( $user_id, $no_anchor = false, $just_link = false 
 		return $display_name;
 	}
 
-	if ( !$url = bp_members_get_user_url( $user_id ) ) {
+	if ( ! $url = bp_members_get_user_url( $user_id ) ) {
 		return false;
 	}
 
@@ -626,7 +626,7 @@ function bp_core_get_active_member_count() {
 		}
 
 		$exclude_users     = $wpdb->get_col( $sql );
-		$exclude_users_sql = !empty( $exclude_users ) ? "AND user_id NOT IN (" . implode( ',', wp_parse_id_list( $exclude_users ) ) . ")" : '';
+		$exclude_users_sql = ! empty( $exclude_users ) ? "AND user_id NOT IN (" . implode( ',', wp_parse_id_list( $exclude_users ) ) . ")" : '';
 		$count             = (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(user_id) FROM {$bp->members->table_name_last_activity} WHERE component = %s AND type = 'last_activity' {$exclude_users_sql}", $bp->members->id ) );
 
 		set_transient( 'bp_active_member_count', $count );
@@ -886,7 +886,7 @@ function bp_is_user_spammer( $user_id = 0 ) {
 
 		case bp_get_member_user_id() :
 			global $members_template;
-			$user = isset( $members_template ) && isset( $members_template->member ) ? $members_template->member :  false;
+			$user = isset( $members_template ) && isset( $members_template->member ) ? $members_template->member : false;
 			break;
 	}
 
@@ -903,7 +903,7 @@ function bp_is_user_spammer( $user_id = 0 ) {
 	} else {
 
 		// Check if spam.
-		if ( !empty( $user->spam ) ) {
+		if ( ! empty( $user->spam ) ) {
 			$is_spammer = true;
 		}
 
@@ -970,7 +970,7 @@ function bp_is_user_deleted( $user_id = 0 ) {
 	} else {
 
 		// Check if deleted.
-		if ( !empty( $user->deleted ) ) {
+		if ( ! empty( $user->deleted ) ) {
 			$is_deleted = true;
 		}
 

@@ -709,7 +709,7 @@ function bp_nouveau_groups_manage_members_buttons( $args = array() ) {
 			}
 
 			// Setup Accept button attributes
-			$buttons['accept_invite'] =  array(
+			$buttons['accept_invite'] = array(
 				'id'                => 'accept_invite',
 				'position'          => 5,
 				'component'         => 'groups',
@@ -765,7 +765,7 @@ function bp_nouveau_groups_manage_members_buttons( $args = array() ) {
 		// Request button for the group's manage screen
 		} elseif ( 'request' === $type ) {
 			// Setup Accept button attributes
-			$buttons['group_membership_accept'] =  array(
+			$buttons['group_membership_accept'] = array(
 				'id'                => 'group_membership_accept',
 				'position'          => 5,
 				'component'         => 'groups',

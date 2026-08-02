@@ -14,7 +14,7 @@
  */
 do_action( 'bp_before_group_request_membership_content' ); ?>
 
-<?php if ( !bp_group_has_requested_membership() ) : ?>
+<?php if ( ! bp_group_has_requested_membership() ) : ?>
 	<h2 class="bp-screen-reader-text"><?php esc_html_e( 'Group membership request form', 'buddypress' ); ?></h2>
 
 	<p>

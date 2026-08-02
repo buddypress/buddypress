@@ -532,7 +532,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 		$action_count = count( $actions );
 		$i            = 0;
 
-		if ( !$action_count )
+		if ( ! $action_count )
 			return '';
 
 		$out = '<div class="' . ( $always_visible ? 'row-actions visible' : 'row-actions' ) . '">';

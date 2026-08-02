@@ -217,7 +217,7 @@ function bp_nouveau_ajax_joinleave_group() {
 				break;
 
 			case 'groups_leave_group' :
-				if (  ! groups_leave_group( $group->id ) ) {
+				if ( ! groups_leave_group( $group->id ) ) {
 					$response = array(
 						'feedback' => sprintf(
 							'<div class="bp-feedback error"><span class="bp-icon" aria-hidden="true"></span><p>%s</p></div>',
@@ -438,7 +438,7 @@ function bp_nouveau_ajax_send_group_invites() {
 	}
 
 	// Send the invites.
-	groups_send_invites( array(	'group_id' => $group_id ) );
+	groups_send_invites( array( 'group_id' => $group_id ) );
 
 	if ( array_search( false, $invited ) ) {
 		$errors = array_keys( $invited, false );

@@ -2175,7 +2175,7 @@ function bp_activity_comments( $deprecated = '' ) {
 function bp_activity_current_comment() {
 	global $activities_template;
 
-	$current_comment = !empty( $activities_template->activity->current_comment )
+	$current_comment = ! empty( $activities_template->activity->current_comment )
 		? $activities_template->activity->current_comment
 		: false;
 
@@ -3136,7 +3136,7 @@ function bp_activity_latest_update( $user_id = 0 ) {
 			return false;
 		}
 
-		if ( !$update = bp_get_user_meta( $user_id, 'bp_latest_update', true ) ) {
+		if ( ! $update = bp_get_user_meta( $user_id, 'bp_latest_update', true ) ) {
 			return false;
 		}
 
@@ -4121,7 +4121,7 @@ function bp_activity_feed_item_title() {
 	function bp_get_activity_feed_item_title() {
 		global $activities_template;
 
-		if ( !empty( $activities_template->activity->action ) ) {
+		if ( ! empty( $activities_template->activity->action ) ) {
 			$content = $activities_template->activity->action;
 		} else {
 			$content = $activities_template->activity->content;

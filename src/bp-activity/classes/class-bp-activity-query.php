@@ -126,7 +126,7 @@ class BP_Activity_Query extends BP_Recursive_Query {
 		);
 
 		$column = isset( $clause['column'] ) ? $this->validate_column( $clause['column'] ) : '';
-		$value  = isset( $clause['value'] )  ? $clause['value'] : '';
+		$value  = isset( $clause['value'] ) ? $clause['value'] : '';
 		if ( empty( $column ) || ! isset( $clause['value'] ) ) {
 			return $sql_chunks;
 		}

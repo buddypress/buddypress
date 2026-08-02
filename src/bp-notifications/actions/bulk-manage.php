@@ -20,9 +20,9 @@ function bp_notifications_action_bulk_manage() {
 	}
 
 	// Get the action.
-	$action        = !empty( $_POST['notification_bulk_action'] ) ? $_POST['notification_bulk_action'] : '';
-	$nonce         = !empty( $_POST['notifications_bulk_nonce'] ) ? $_POST['notifications_bulk_nonce'] : '';
-	$notifications = !empty( $_POST['notifications'] ) ? $_POST['notifications'] : '';
+	$action        = ! empty( $_POST['notification_bulk_action'] ) ? $_POST['notification_bulk_action'] : '';
+	$nonce         = ! empty( $_POST['notifications_bulk_nonce'] ) ? $_POST['notifications_bulk_nonce'] : '';
+	$notifications = ! empty( $_POST['notifications'] ) ? $_POST['notifications'] : '';
 
 	// Bail if no action or no IDs.
 	if ( ( ! in_array( $action, array( 'delete', 'read', 'unread' ), true ) ) || empty( $notifications ) || empty( $nonce ) ) {

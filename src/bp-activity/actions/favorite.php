@@ -15,7 +15,7 @@
  * @return bool False on failure.
  */
 function bp_activity_action_mark_favorite() {
-	if ( !is_user_logged_in() || !bp_is_activity_component() || !bp_is_current_action( 'favorite' ) )
+	if ( ! is_user_logged_in() || ! bp_is_activity_component() || ! bp_is_current_action( 'favorite' ) )
 		return false;
 
 	// Check the nonce.

@@ -36,7 +36,7 @@ function groups_action_create_group() {
 
 	// If no current step is set, reset everything so we can start a fresh group creation.
 	$bp->groups->current_create_step = bp_action_variable( 1 );
-	if ( !bp_get_groups_current_create_step() ) {
+	if ( ! bp_get_groups_current_create_step() ) {
 		unset( $bp->groups->current_create_step );
 		unset( $bp->groups->completed_create_steps );
 
@@ -56,7 +56,7 @@ function groups_action_create_group() {
 	}
 
 	// Fetch the currently completed steps variable.
-	if ( isset( $_COOKIE['bp_completed_create_steps'] ) && !isset( $reset_steps ) )
+	if ( isset( $_COOKIE['bp_completed_create_steps'] ) && ! isset( $reset_steps ) )
 		$bp->groups->completed_create_steps = json_decode( base64_decode( stripslashes( $_COOKIE['bp_completed_create_steps'] ) ) );
 
 	// Set the ID of the new group, if it has already been created in a previous step.
@@ -77,7 +77,7 @@ function groups_action_create_group() {
 		check_admin_referer( 'groups_create_save_' . bp_get_groups_current_create_step() );
 
 		if ( 'group-details' == bp_get_groups_current_create_step() ) {
-			if ( empty( $_POST['group-name'] ) || empty( $_POST['group-desc'] ) || !strlen( trim( $_POST['group-name'] ) ) || !strlen( trim( $_POST['group-desc'] ) ) ) {
+			if ( empty( $_POST['group-name'] ) || empty( $_POST['group-desc'] ) || ! strlen( trim( $_POST['group-name'] ) ) || ! strlen( trim( $_POST['group-desc'] ) ) ) {
 				bp_core_add_message( __( 'Please fill in all of the required fields', 'buddypress' ), 'error' );
 				bp_core_redirect( bp_groups_get_create_url( array( bp_get_groups_current_create_step() ) ) );
 			}
@@ -94,7 +94,7 @@ function groups_action_create_group() {
 			$group_status       = 'public';
 			$group_enable_forum = 1;
 
-			if ( !isset($_POST['group-show-forum']) ) {
+			if ( ! isset($_POST['group-show-forum']) ) {
 				$group_enable_forum = 0;
 			}
 
@@ -123,7 +123,7 @@ function groups_action_create_group() {
 			 *                     'mods', and 'admins'.
 			 */
 			$allowed_invite_status = apply_filters( 'groups_allowed_invite_status', array( 'members', 'mods', 'admins' ) );
-			$invite_status	       = !empty( $_POST['group-invite-status'] ) && in_array( $_POST['group-invite-status'], (array) $allowed_invite_status ) ? $_POST['group-invite-status'] : 'members';
+			$invite_status         = ! empty( $_POST['group-invite-status'] ) && in_array( $_POST['group-invite-status'], (array) $allowed_invite_status ) ? $_POST['group-invite-status'] : 'members';
 
 			groups_update_groupmeta( $bp->groups->new_group_id, 'invite_status', $invite_status );
 		}
@@ -138,7 +138,7 @@ function groups_action_create_group() {
 				}
 			}
 
-			groups_send_invites( array(	'group_id' => $bp->groups->new_group_id ) );
+			groups_send_invites( array( 'group_id' => $bp->groups->new_group_id ) );
 		}
 
 		/**
@@ -166,12 +166,12 @@ function groups_action_create_group() {
 		 * holding the information
 		 */
 		$completed_create_steps                   = isset( $bp->groups->completed_create_steps ) ? $bp->groups->completed_create_steps : array();
-		if ( !in_array( bp_get_groups_current_create_step(), $completed_create_steps ) )
+		if ( ! in_array( bp_get_groups_current_create_step(), $completed_create_steps ) )
 			$bp->groups->completed_create_steps[] = bp_get_groups_current_create_step();
 
 		// Reset cookie info.
-		setcookie( 'bp_new_group_id', $bp->groups->new_group_id, time()+60*60*24, COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
-		setcookie( 'bp_completed_create_steps', base64_encode( json_encode( $bp->groups->completed_create_steps ) ), time()+60*60*24, COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
+		setcookie( 'bp_new_group_id', $bp->groups->new_group_id, time() + 60 * 60 * 24, COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
+		setcookie( 'bp_completed_create_steps', base64_encode( json_encode( $bp->groups->completed_create_steps ) ), time() + 60 * 60 * 24, COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
 
 		// If we have completed all steps and hit done on the final step we
 		// can redirect to the completed group.
@@ -247,7 +247,7 @@ function groups_action_create_group() {
 			$bp->avatar_admin = new stdClass();
 		}
 
-		if ( !empty( $_FILES ) && isset( $_POST['upload'] ) ) {
+		if ( ! empty( $_FILES ) && isset( $_POST['upload'] ) ) {
 			// Normally we would check a nonce here, but the group save nonce is used instead.
 			// Pass the file to the avatar upload handler.
 			if ( bp_core_avatar_handle_upload( $_FILES, 'groups_avatar_upload_dir' ) ) {

@@ -920,7 +920,7 @@ function bp_nouveau_nav_id() {
 
 		if ( 'directory' === $bp_nouveau->displayed_nav ) {
 			$id = sprintf( '%1$s-%2$s', $nav_item->component, $nav_item->slug );
-		} elseif ( 'groups' === $bp_nouveau->displayed_nav || 'personal' ===  $bp_nouveau->displayed_nav ) {
+		} elseif ( 'groups' === $bp_nouveau->displayed_nav || 'personal' === $bp_nouveau->displayed_nav ) {
 			$id = sprintf( '%1$s-%2$s-li', $nav_item->css_id, $bp_nouveau->displayed_nav );
 		} else {
 			$id = $nav_item->slug;
@@ -1468,7 +1468,7 @@ function bp_nouveau_container_classes() {
 			$customizer_option = 'user_nav_display';
 			$component         = 'members';
 			$user_type         = bp_get_member_type( bp_displayed_user_id() );
-			$member_type_class = ( $user_type )? $user_type : '';
+			$member_type_class = $user_type ? $user_type : '';
 
 		} elseif ( bp_is_group() ) {
 			$customizer_option = 'group_nav_display';
@@ -1609,7 +1609,7 @@ function bp_nouveau_single_item_nav_classes() {
 			$menu_type = 'groups-nav';
 		}
 
-		$customizer_option = ( bp_is_user() )? 'user_nav_display' : 'group_nav_display';
+		$customizer_option = bp_is_user() ? 'user_nav_display' : 'group_nav_display';
 
 		$layout_prefs = (int) bp_nouveau_get_temporary_setting( $customizer_option, bp_nouveau_get_appearance_settings( $customizer_option ) );
 
@@ -1676,7 +1676,7 @@ function bp_nouveau_single_item_subnav_classes() {
 			$classes[] = 'bp-invites-nav';
 		}
 
-		$customizer_option = ( bp_is_user() )? 'user_subnav_tabs' : 'group_subnav_tabs';
+		$customizer_option = bp_is_user() ? 'user_subnav_tabs' : 'group_subnav_tabs';
 		$nav_tabs          = (int) bp_nouveau_get_temporary_setting( $customizer_option, bp_nouveau_get_appearance_settings( $customizer_option ) );
 
 		if ( bp_is_user() && 1 === $nav_tabs ) {
@@ -2134,7 +2134,7 @@ function bp_nouveau_filter_container_id() {
 		$component = bp_nouveau_current_object();
 
 		$ids = array(
-			'members'       =>  $component['members_select'],
+			'members'       => $component['members_select'],
 			'friends'       => 'members-friends-select',
 			'notifications' => 'notifications-filter-select',
 			'activity'      => 'activity-filter-select',

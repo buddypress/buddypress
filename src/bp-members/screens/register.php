@@ -132,7 +132,7 @@ function bp_core_screen_signup() {
 		if ( bp_is_active( 'xprofile' ) ) {
 
 			// Make sure hidden field is passed and populated.
-			if ( isset( $_POST['signup_profile_field_ids'] ) && !empty( $_POST['signup_profile_field_ids'] ) ) {
+			if ( isset( $_POST['signup_profile_field_ids'] ) && ! empty( $_POST['signup_profile_field_ids'] ) ) {
 
 				// Let's compact any profile field info into an array.
 				$profile_field_ids = explode( ',', $_POST['signup_profile_field_ids'] );
@@ -169,10 +169,10 @@ function bp_core_screen_signup() {
 				$blog_details = bp_core_validate_blog_signup( $_POST['signup_blog_url'], $_POST['signup_blog_title'] );
 
 				// If there are errors with blog details, set them for display.
-				if ( !empty( $blog_details['errors']->errors['blogname'] ) )
+				if ( ! empty( $blog_details['errors']->errors['blogname'] ) )
 					$bp->signup->errors['signup_blog_url'] = $blog_details['errors']->errors['blogname'][0];
 
-				if ( !empty( $blog_details['errors']->errors['blog_title'] ) )
+				if ( ! empty( $blog_details['errors']->errors['blog_title'] ) )
 					$bp->signup->errors['signup_blog_title'] = $blog_details['errors']->errors['blog_title'][0];
 			}
 		}
@@ -185,7 +185,7 @@ function bp_core_screen_signup() {
 		do_action( 'bp_signup_validate' );
 
 		// Add any errors to the action for the field in the template for display.
-		if ( !empty( $bp->signup->errors ) ) {
+		if ( ! empty( $bp->signup->errors ) ) {
 			foreach ( (array) $bp->signup->errors as $fieldname => $error_message ) {
 				/**
 				 * Filters the error message in the loop.
@@ -234,10 +234,10 @@ function bp_core_screen_signup() {
 					foreach ( (array) $profile_field_ids as $field_id ) {
 						bp_xprofile_maybe_format_datebox_post_data( $field_id );
 
-						if ( !empty( $_POST['field_' . $field_id] ) )
+						if ( ! empty( $_POST['field_' . $field_id] ) )
 							$usermeta['field_' . $field_id] = $_POST['field_' . $field_id];
 
-						if ( !empty( $_POST['field_' . $field_id . '_visibility'] ) )
+						if ( ! empty( $_POST['field_' . $field_id . '_visibility'] ) )
 							$usermeta['field_' . $field_id . '_visibility'] = $_POST['field_' . $field_id . '_visibility'];
 					}
 

@@ -312,7 +312,7 @@ class BP_Groups_Group {
 			$this->slug = groups_check_slug( $this->slug );
 		}
 
-		if ( !empty( $this->id ) ) {
+		if ( ! empty( $this->id ) ) {
 			$sql = $wpdb->prepare(
 				"UPDATE {$bp->groups->table_name} SET
 					creator_id = %d,
@@ -1297,7 +1297,7 @@ class BP_Groups_Group {
 
 		// If a 'type' parameter was passed, parse it and overwrite
 		// 'order' and 'orderby' params passed to the function.
-		if (  ! empty( $r['type'] ) ) {
+		if ( ! empty( $r['type'] ) ) {
 
 			/**
 			 * Filters the 'type' parameter used to overwrite 'order' and 'orderby' values.
@@ -1745,11 +1745,11 @@ class BP_Groups_Group {
 
 		// Multibyte compliance.
 		if ( function_exists( 'mb_strlen' ) ) {
-			if ( mb_strlen( $letter, 'UTF-8' ) > 1 || is_numeric( $letter ) || !$letter ) {
+			if ( mb_strlen( $letter, 'UTF-8' ) > 1 || is_numeric( $letter ) || ! $letter ) {
 				return false;
 			}
 		} else {
-			if ( strlen( $letter ) > 1 || is_numeric( $letter ) || !$letter ) {
+			if ( strlen( $letter ) > 1 || is_numeric( $letter ) || ! $letter ) {
 				return false;
 			}
 		}
@@ -1840,7 +1840,7 @@ class BP_Groups_Group {
 		$user_id = bp_loggedin_user_id();
 
 		foreach ( $paged_groups as &$group ) {
-			$group->is_member  = groups_is_user_member( $user_id, $group->id )  ? 1 : 0;
+			$group->is_member  = groups_is_user_member( $user_id, $group->id ) ? 1 : 0;
 			$group->is_invited = groups_is_user_invited( $user_id, $group->id ) ? 1 : 0;
 			$group->is_pending = groups_is_user_pending( $user_id, $group->id ) ? 1 : 0;
 			$group->is_banned  = (bool) groups_is_user_banned( $user_id, $group->id );

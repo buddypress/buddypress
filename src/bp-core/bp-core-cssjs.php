@@ -237,7 +237,7 @@ function bp_core_add_cropper_inline_js() {
 	$full_width  = bp_core_avatar_full_width();
 
 	// Calculate Aspect Ratio.
-	if ( !empty( $full_height ) && ( $full_width != $full_height ) ) {
+	if ( ! empty( $full_height ) && ( $full_width != $full_height ) ) {
 		$aspect_ratio = $full_width / $full_height;
 	} else {
 		$aspect_ratio = 1;
@@ -434,7 +434,7 @@ function bp_add_cover_image_inline_css( $return = false ) {
 		}
 
 		$cover_image_object = array(
-			'component' =>'groups',
+			'component' => 'groups',
 			'object' => $bp->groups->current_group
 		);
 	} else {

@@ -1466,8 +1466,8 @@ function bp_groups_admin_autocomplete_handler() {
 		wp_die( -1 );
 	}
 
-	$term     = isset( $_GET['term'] )     ? sanitize_text_field( $_GET['term'] ) : '';
-	$group_id = isset( $_GET['group_id'] ) ? absint( $_GET['group_id'] )          : 0;
+	$term     = isset( $_GET['term'] ) ? sanitize_text_field( $_GET['term'] ) : '';
+	$group_id = isset( $_GET['group_id'] ) ? absint( $_GET['group_id'] ) : 0;
 
 	if ( ! $term || ! $group_id ) {
 		wp_die( -1 );

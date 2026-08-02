@@ -520,7 +520,7 @@ function bp_has_groups( $args = '' ) {
 		$search_terms = stripslashes( $_REQUEST[ $search_query_arg ] );
 	} elseif ( ! empty( $_REQUEST['group-filter-box'] ) ) {
 		$search_terms = $_REQUEST['group-filter-box'];
-	} elseif ( !empty( $_REQUEST['s'] ) ) {
+	} elseif ( ! empty( $_REQUEST['s'] ) ) {
 		$search_terms = $_REQUEST['s'];
 	}
 
@@ -3462,7 +3462,7 @@ function bp_has_friends_to_invite( $group = false ) {
 		$group =& $groups_template->group;
 	}
 
-	if ( !friends_check_user_has_friends( bp_loggedin_user_id() ) || !friends_count_invitable_friends( bp_loggedin_user_id(), $group->id ) ) {
+	if ( ! friends_check_user_has_friends( bp_loggedin_user_id() ) || ! friends_count_invitable_friends( bp_loggedin_user_id(), $group->id ) ) {
 		return false;
 	}
 
@@ -4360,7 +4360,7 @@ function bp_group_member_is_friend() {
 	function bp_get_group_member_is_friend() {
 		global $members_template;
 
-		if ( !isset( $members_template->member->is_friend ) ) {
+		if ( ! isset( $members_template->member->is_friend ) ) {
 			$friend_status = 'not_friends';
 		} else {
 			$friend_status = ( 0 == $members_template->member->is_friend )
@@ -5403,7 +5403,7 @@ function bp_groups_current_create_step() {
 	function bp_get_groups_current_create_step() {
 		$bp = buddypress();
 
-		if ( !empty( $bp->groups->current_create_step ) ) {
+		if ( ! empty( $bp->groups->current_create_step ) ) {
 			$current_create_step = $bp->groups->current_create_step;
 		} else {
 			$current_create_step = '';
@@ -5626,7 +5626,7 @@ function bp_directory_groups_search_form() {
  * @since 2.7.0
  */
 function bp_current_group_directory_type_message() {
-	echo wp_kses( bp_get_current_group_directory_type_message(), array( 'strong' =>  true ) );
+	echo wp_kses( bp_get_current_group_directory_type_message(), array( 'strong' => true ) );
 }
 	/**
 	 * Generate the current group type message.
@@ -6709,7 +6709,7 @@ function bp_groups_action_link( $action = '', $query_args = '', $nonce = false )
 			$url = trailingslashit( $url );
 
 			// Add possible query args.
-			if ( !empty( $query_args ) && is_array( $query_args ) ) {
+			if ( ! empty( $query_args ) && is_array( $query_args ) ) {
 				$url = add_query_arg( $query_args, $url );
 			}
 

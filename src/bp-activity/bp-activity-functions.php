@@ -206,7 +206,7 @@ function bp_activity_update_mention_count_for_user( $user_id, $activity_id, $act
 
 	// Adjust the mention list and count for the member.
 	$new_mention_count = (int) bp_get_user_meta( $user_id, 'bp_new_mention_count', true );
-	$new_mentions      =       bp_get_user_meta( $user_id, 'bp_new_mentions', true );
+	$new_mentions      = bp_get_user_meta( $user_id, 'bp_new_mentions', true );
 
 	// Make sure new mentions is an array.
 	if ( empty( $new_mentions ) ) {
@@ -225,7 +225,7 @@ function bp_activity_update_mention_count_for_user( $user_id, $activity_id, $act
 
 		case 'add' :
 		default :
-			if ( !in_array( $activity_id, $new_mentions ) ) {
+			if ( ! in_array( $activity_id, $new_mentions ) ) {
 				$new_mentions[] = (int) $activity_id;
 			}
 
@@ -3053,7 +3053,7 @@ function bp_activity_delete( $args = '' ) {
 		: $args['user_id'];
 
 	$latest_update = bp_get_user_meta( $user_id, 'bp_latest_update', true );
-	if ( !empty( $latest_update ) ) {
+	if ( ! empty( $latest_update ) ) {
 		if ( in_array( (int) $latest_update['id'], (array) $activity_ids_deleted ) ) {
 			bp_delete_user_meta( $user_id, 'bp_latest_update' );
 		}
@@ -3363,7 +3363,7 @@ function bp_activity_thumbnail_content_images( $content, $link = false, $args = 
 	// Remove <img> tags. Also remove caption shortcodes and caption text if present.
 	$content = preg_replace('|(\[caption(.*?)\])?<img[^>]*>([^\[\[]*\[\/caption\])?|', '', $content );
 
-	if ( !empty( $matches ) && !empty( $matches[0] ) ) {
+	if ( ! empty( $matches ) && ! empty( $matches[0] ) ) {
 
 		// Get the SRC value.
 		preg_match( '/<img.*?(src\=[\'|"]{0,1}.*?[\'|"]{0,1})[\s|>]{1}/i', $matches[0][0], $src    );
@@ -3393,7 +3393,7 @@ function bp_activity_thumbnail_content_images( $content, $link = false, $args = 
 			$new_width  = $new_height * $ratio;
 			$image      = '<img src="' . esc_url( $src ) . '" width="' . absint( $new_width ) . '" height="' . absint( $new_height ) . '" alt="' . __( 'Thumbnail', 'buddypress' ) . '" class="align-left thumbnail" />';
 
-			if ( !empty( $link ) ) {
+			if ( ! empty( $link ) ) {
 				$image = '<a href="' . esc_url( $link ) . '">' . $image . '</a>';
 			}
 
@@ -3520,11 +3520,11 @@ function bp_activity_create_summary( $content, $activity ) {
 	}
 
 	$para_count     = substr_count( strtolower( wpautop( $content ) ), '<p>' );
-	$has_audio      = ! empty( $media['has']['audio'] )           && $media['has']['audio'];
-	$has_videos     = ! empty( $media['has']['videos'] )          && $media['has']['videos'];
+	$has_audio      = ! empty( $media['has']['audio'] ) && $media['has']['audio'];
+	$has_videos     = ! empty( $media['has']['videos'] ) && $media['has']['videos'];
 	$has_feat_image = ! empty( $media['has']['featured_images'] ) && $media['has']['featured_images'];
-	$has_galleries  = ! empty( $media['has']['galleries'] )       && $media['has']['galleries'];
-	$has_images     = ! empty( $media['has']['images'] )          && $media['has']['images'];
+	$has_galleries  = ! empty( $media['has']['galleries'] ) && $media['has']['galleries'];
+	$has_images     = ! empty( $media['has']['images'] ) && $media['has']['images'];
 	$has_embeds     = false;
 
 	// Embeds must be subtracted from the paragraph count.
@@ -3688,7 +3688,7 @@ function bp_activity_mark_as_spam( &$activity, $source = 'by_a_person' ) {
 	wp_cache_delete( $activity_id, 'bp_activity_comments' );
 
 	// If Akismet is active, and this was a manual spam/ham request, stop Akismet checking the activity.
-	if ( 'by_a_person' == $source && !empty( $bp->activity->akismet ) ) {
+	if ( 'by_a_person' == $source && ! empty( $bp->activity->akismet ) ) {
 		remove_action( 'bp_activity_before_save', array( $bp->activity->akismet, 'check_activity' ), 4 );
 
 		// Build data package for Akismet.
@@ -3741,7 +3741,7 @@ function bp_activity_mark_as_ham( &$activity, $source = 'by_a_person' ) {
 	wp_cache_delete( $activity_id, 'bp_activity_comments' );
 
 	// If Akismet is active, and this was a manual spam/ham request, stop Akismet checking the activity.
-	if ( 'by_a_person' == $source && !empty( $bp->activity->akismet ) ) {
+	if ( 'by_a_person' == $source && ! empty( $bp->activity->akismet ) ) {
 		remove_action( 'bp_activity_before_save', array( $bp->activity->akismet, 'check_activity' ), 4 );
 
 		// Build data package for Akismet.
@@ -3823,7 +3823,7 @@ function bp_activity_at_message_notification( $activity_id, $receiver_user_id ) 
 				'mentioned.url'    => $message_link,
 				'poster.name'      => $poster_name,
 				'receiver-user.id' => $receiver_user_id,
-				'unsubscribe' 	   => esc_url( bp_email_get_unsubscribe_link( $unsubscribe_args ) ),
+				'unsubscribe'      => esc_url( bp_email_get_unsubscribe_link( $unsubscribe_args ) ),
 			),
 		);
 

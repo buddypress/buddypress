@@ -790,7 +790,7 @@ function bp_notifications_get_registered_components() {
 
 	// Loop through components, look for callbacks, add to return value.
 	foreach ( $active_components as $component ) {
-		if ( !empty( $bp->$component->notification_callback ) ) {
+		if ( ! empty( $bp->$component->notification_callback ) ) {
 			$component_names[] = $component;
 		}
 		// The extended profile component is identified in the active_components array as 'xprofile'.

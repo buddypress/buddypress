@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
 
 /** Theme Setup ***************************************************************/
 
-if ( !class_exists( 'BP_Legacy' ) ) :
+if ( ! class_exists( 'BP_Legacy' ) ) :
 
 /**
  * Loads BuddyPress Legacy Theme functionality.
@@ -304,10 +304,10 @@ class BP_Legacy extends BP_Theme_Compat {
 			'close'               => __( 'Close', 'buddypress' ),
 			'comments'            => __( 'comments', 'buddypress' ),
 			'leave_group_confirm' => __( 'Are you sure you want to leave this group?', 'buddypress' ),
-			'mark_as_fav'	      => __( 'Favorite', 'buddypress' ),
+			'mark_as_fav'         => __( 'Favorite', 'buddypress' ),
 			'my_favs'             => __( 'My Favorites', 'buddypress' ),
 			'rejected'            => __( 'Rejected', 'buddypress' ),
-			'remove_fav'	      => __( 'Remove Favorite', 'buddypress' ),
+			'remove_fav'          => __( 'Remove Favorite', 'buddypress' ),
 			'show_all'            => __( 'Show all', 'buddypress' ),
 			'show_all_comments'   => __( 'Show all comments for this thread', 'buddypress' ),
 
@@ -1858,8 +1858,8 @@ function bp_legacy_theme_ajax_messages_autocomplete_results() {
 	 *
 	 * @param int $value Max results for autocomplete. Default 10.
 	 */
-	$limit = isset( $_GET['limit'] ) ? absint( $_GET['limit'] )          : (int) apply_filters( 'bp_autocomplete_max_results', 10 );
-	$term  = isset( $_GET['q'] )     ? sanitize_text_field( $_GET['q'] ) : '';
+	$limit = isset( $_GET['limit'] ) ? absint( $_GET['limit'] ) : (int) apply_filters( 'bp_autocomplete_max_results', 10 );
+	$term  = isset( $_GET['q'] ) ? sanitize_text_field( $_GET['q'] ) : '';
 
 	// Include everyone in the autocomplete, or just friends?
 	if ( bp_is_current_component( bp_get_messages_slug() ) ) {
@@ -1943,7 +1943,7 @@ function bp_legacy_theme_cover_image( $params = array() ) {
 	$top_offset  = bp_core_avatar_full_height() - 10;
 	$left_offset = bp_core_avatar_full_width() + 20;
 
-	$cover_image = ( !empty( $params['cover_image'] ) ) ? 'background-image: url(' . $params['cover_image'] . ');' : '';
+	$cover_image = ( ! empty( $params['cover_image'] ) ) ? 'background-image: url(' . $params['cover_image'] . ');' : '';
 
 	$hide_avatar_style = '';
 

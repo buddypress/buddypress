@@ -467,7 +467,7 @@ function bp_has_members( $args = '' ) {
 
 	// Pass a filter if ?s= is set.
 	if ( is_null( $r['search_terms'] ) ) {
-		if ( !empty( $_REQUEST['s'] ) ) {
+		if ( ! empty( $_REQUEST['s'] ) ) {
 			$r['search_terms'] = $_REQUEST['s'];
 		} else {
 			$r['search_terms'] = false;
@@ -475,7 +475,7 @@ function bp_has_members( $args = '' ) {
 	}
 
 	// Set per_page to max if max is larger than per_page.
-	if ( !empty( $r['max'] ) && ( $r['per_page'] > $r['max'] ) ) {
+	if ( ! empty( $r['max'] ) && ( $r['per_page'] > $r['max'] ) ) {
 		$r['per_page'] = $r['max'];
 	}
 
@@ -1546,7 +1546,7 @@ function bp_get_loggedin_user_nav() {
 		// loggedin_user->id then check to see if the two users are friends.
 		// if they are, add a highlight CSS class to the friends nav item
 		// if it exists.
-		if ( !bp_is_my_profile() && bp_displayed_user_id() ) {
+		if ( ! bp_is_my_profile() && bp_displayed_user_id() ) {
 			$selected = '';
 
 			if ( bp_is_active( 'friends' ) ) {

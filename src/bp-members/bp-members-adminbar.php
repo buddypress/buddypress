@@ -46,7 +46,7 @@ function bp_members_admin_bar_my_account_menu() {
 		) ) );
 
 		// Show login and sign-up links.
-	} elseif ( !empty( $wp_admin_bar ) ) {
+	} elseif ( ! empty( $wp_admin_bar ) ) {
 
 		add_filter( 'show_admin_bar', '__return_true' );
 
