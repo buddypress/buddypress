@@ -308,7 +308,7 @@ class BP_Members_List_Table extends WP_Users_List_Table {
 			);
 			?>
 		</label>
-		<input type="checkbox" id="signup_<?php echo intval( $signup_object->id ) ?>" name="allsignups[]" value="<?php echo esc_attr( $signup_object->id ) ?>" />
+		<input type="checkbox" id="signup_<?php echo intval( $signup_object->id ); ?>" name="allsignups[]" value="<?php echo esc_attr( $signup_object->id ); ?>" />
 		<?php
 	}
 

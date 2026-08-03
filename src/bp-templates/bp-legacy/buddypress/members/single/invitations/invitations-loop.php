@@ -45,11 +45,11 @@
 							</span>
 						</label>
 					</td>
-					<td class="invitation-invitee"><?php bp_the_members_invitation_property( 'invitee_email' );  ?></td>
-					<td class="invitation-content"><?php bp_the_members_invitation_property( 'content' );  ?></td>
-					<td class="invitation-sent"><?php bp_the_members_invitation_property( 'invite_sent' );  ?></td>
-					<td class="invitation-accepted"><?php bp_the_members_invitation_property( 'accepted' );  ?></td>
-					<td class="invitation-date-modified"><?php bp_the_members_invitation_property( 'date_modified' );   ?></td>
+					<td class="invitation-invitee"><?php bp_the_members_invitation_property( 'invitee_email' ); ?></td>
+					<td class="invitation-content"><?php bp_the_members_invitation_property( 'content' ); ?></td>
+					<td class="invitation-sent"><?php bp_the_members_invitation_property( 'invite_sent' ); ?></td>
+					<td class="invitation-accepted"><?php bp_the_members_invitation_property( 'accepted' ); ?></td>
+					<td class="invitation-date-modified"><?php bp_the_members_invitation_property( 'date_modified' ); ?></td>
 					<td class="invitation-actions"><?php bp_the_members_invitation_action_links(); ?></td>
 				</tr>
 

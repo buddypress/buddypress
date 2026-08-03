@@ -218,7 +218,7 @@ function xprofile_admin_screen( $message = '', $type = 'error' ) {
 							</a>
 						</li>
 
-					<?php endforeach; endif; ?>
+					<?php endforeach; ?><?php endif; ?>
 
 					<li id="signup-group" class="not-sortable last">
 						<a href="#tabs-signup-group" class="ui-tab">
@@ -228,7 +228,8 @@ function xprofile_admin_screen( $message = '', $type = 'error' ) {
 
 				</ul>
 
-				<?php if ( ! empty( $groups ) ) : foreach ( $groups as $group ) :
+				<?php
+				if ( ! empty( $groups ) ) : foreach ( $groups as $group ) :
 
 					// Add Field to Group URL.
 					$add_field_url = add_query_arg(
@@ -261,13 +262,16 @@ function xprofile_admin_screen( $message = '', $type = 'error' ) {
 							$url
 						),
 						'bp_xprofile_delete_group'
-					); ?>
+					);
+					?>
 
 					<noscript>
-						<h3><?php
+						<h3>
+						<?php
 						/** This filter is documented in bp-xprofile/bp-xprofile-template.php */
 						echo esc_html( apply_filters( 'bp_get_the_profile_group_name', $group->name ) );
-						?></h3>
+						?>
+						</h3>
 					</noscript>
 
 					<div id="tabs-<?php echo esc_attr( $group->id ); ?>" class="tab-wrapper">
@@ -294,26 +298,31 @@ function xprofile_admin_screen( $message = '', $type = 'error' ) {
 								 * @param BP_XProfile_Group $group BP_XProfile_Group object
 								 *                                 for the current group.
 								 */
-								do_action( 'xprofile_admin_group_action', $group ); ?>
+								do_action( 'xprofile_admin_group_action', $group );
+								?>
 
 							</div>
 						</div>
 
 						<?php if ( ! empty( $group->description ) ) : ?>
 
-							<p><?php
+							<p>
+							<?php
 							/** This filter is documented in bp-xprofile/bp-xprofile-template.php */
 							echo esc_html( apply_filters( 'bp_get_the_profile_group_description', $group->description ) );
-							?></p>
+							?>
+							</p>
 
 						<?php endif; ?>
 
 						<fieldset id="<?php echo esc_attr( $group->id ); ?>" class="connectedSortable field-group" aria-live="polite" aria-atomic="true" aria-relevant="all">
-							<legend class="screen-reader-text"><?php
+							<legend class="screen-reader-text">
+							<?php
 							/** This filter is documented in bp-xprofile/bp-xprofile-template.php */
 							/* translators: accessibility text */
 							printf( esc_html__( 'Fields for "%s" Group', 'buddypress' ), esc_html( apply_filters( 'bp_get_the_profile_group_name', $group->name ) ) );
-							?></legend>
+							?>
+							</legend>
 
 							<?php
 
@@ -336,7 +345,8 @@ function xprofile_admin_screen( $message = '', $type = 'error' ) {
 
 								} // end for
 
-							else : // !$group->fields ?>
+							else : // !$group->fields
+							?>
 
 								<p class="nodrag nofields"><?php esc_html_e( 'There are no fields in this group.', 'buddypress' ); ?></p>
 
@@ -370,7 +380,7 @@ function xprofile_admin_screen( $message = '', $type = 'error' ) {
 					</div>
 					<fieldset id="signup-fields" class="connectedSortable field-group" aria-live="polite" aria-atomic="true" aria-relevant="all">
 						<legend class="screen-reader-text">
-							<?php esc_html_e( 'Fields to use into the registration form', 'buddypress' );?>
+							<?php esc_html_e( 'Fields to use into the registration form', 'buddypress' ); ?>
 						</legend>
 
 						<?php
@@ -582,13 +592,14 @@ function xprofile_admin_delete_group_screen( $group_id ) {
 
 	$group = new BP_XProfile_Group( $group_id );
 
-	$base_url = remove_query_arg( array( 'mode', 'group_id', '_wpnonce' ), $_SERVER['REQUEST_URI'] ); ?>
+	$base_url = remove_query_arg( array( 'mode', 'group_id', '_wpnonce' ), $_SERVER['REQUEST_URI'] );
+	?>
 
 	<div class="wrap">
-		<h1 class="wp-heading-inline"><?php esc_html_e( 'Delete Field Group', 'buddypress' ) ?></h1>
+		<h1 class="wp-heading-inline"><?php esc_html_e( 'Delete Field Group', 'buddypress' ); ?></h1>
 		<hr class="wp-header-end">
 
-		<p><?php esc_html_e( 'You are about to delete the following field group:', 'buddypress' ) ?></p>
+		<p><?php esc_html_e( 'You are about to delete the following field group:', 'buddypress' ); ?></p>
 
 		<ul class="bp-xprofile-delete-group-list">
 			<li><?php echo esc_html( $group->name ); ?></li>
@@ -853,7 +864,8 @@ function xprofile_admin_delete_field_screen( $field_id, $field_type ) {
 
 	$field = xprofile_get_field( $field_id, null, false );
 
-	$base_url = remove_query_arg( array( 'page', 'mode', 'field_id', 'bp_xprofile_delete_field' ), $_SERVER['REQUEST_URI'] ); ?>
+	$base_url = remove_query_arg( array( 'page', 'mode', 'field_id', 'bp_xprofile_delete_field' ), $_SERVER['REQUEST_URI'] );
+	?>
 
 	<div class="wrap">
 		<h1 class="wp-heading-inline">
@@ -1136,17 +1148,17 @@ function xprofile_admin_field( $admin_field, $admin_group, $class = '', $is_sign
 	}
 	?>
 
-	<fieldset id="<?php echo esc_attr( $fieldset_id ); ?>" class="sortable<?php echo ' ' . esc_attr( $field->type ); if ( ! empty( $class ) ) echo ' ' . esc_attr( $class ); ?>">
+	<fieldset id="<?php echo esc_attr( $fieldset_id ); ?>" class="sortable<?php echo ' ' . esc_attr( $field->type ); ?><?php if ( ! empty( $class ) ) echo ' ' . esc_attr( $class ); ?>">
 		<legend>
 			<span>
 				<?php bp_the_profile_field_name(); ?>
 
-				<?php if ( empty( $field->can_delete ) ) : ?><?php esc_html_e( '(Primary)', 'buddypress' ); endif; ?>
+				<?php if ( empty( $field->can_delete ) ) : ?><?php esc_html_e( '(Primary)', 'buddypress' ); ?><?php endif; ?>
 				<?php bp_the_profile_field_required_label(); ?>
 				<?php if ( $field->get_signup_position() ) : ?>
-					<span class="bp-signup-field-label"><?php esc_html_e( '(Sign-up)', 'buddypress' );?></span>
+					<span class="bp-signup-field-label"><?php esc_html_e( '(Sign-up)', 'buddypress' ); ?></span>
 				<?php endif; ?>
-				<?php if ( bp_get_member_types() ) : echo wp_kses( $field->get_member_type_label(), array( 'span' => array( 'class' => true ) ) ); endif; ?>
+				<?php if ( bp_get_member_types() ) : ?><?php echo wp_kses( $field->get_member_type_label(), array( 'span' => array( 'class' => true ) ) ); ?><?php endif; ?>
 
 				<?php
 
@@ -1158,7 +1170,8 @@ function xprofile_admin_field( $admin_field, $admin_group, $class = '', $is_sign
 				 * @param BP_XProfile_Field $field Current BP_XProfile_Field
 				 *                                 object being rendered.
 				 */
-				do_action( 'xprofile_admin_field_name_legend', $field ); ?>
+				do_action( 'xprofile_admin_field_name_legend', $field );
+				?>
 			</span>
 		</legend>
 		<div class="field-wrapper">
@@ -1217,7 +1230,8 @@ function xprofile_admin_field( $admin_field, $admin_group, $class = '', $is_sign
 				 * @param BP_XProfile_Group $group BP_XProfile_Group object
 				 *                                 for the current group.
 				 */
-				do_action( 'xprofile_admin_field_action', $field ); ?>
+				do_action( 'xprofile_admin_field_action', $field );
+				?>
 
 			</div>
 		</div>

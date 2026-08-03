@@ -64,7 +64,8 @@ do_action( 'bp_before_member_settings_template' ); ?>
 	 *
 	 * @since 2.0.0
 	 */
-	do_action( 'bp_core_xprofile_settings_before_submit' ); ?>
+	do_action( 'bp_core_xprofile_settings_before_submit' );
+	?>
 
 	<div class="submit">
 		<input id="submit" type="submit" name="xprofile-settings-submit" value="<?php esc_attr_e( 'Save Settings', 'buddypress' ); ?>" class="auto" />
@@ -77,7 +78,8 @@ do_action( 'bp_before_member_settings_template' ); ?>
 	 *
 	 * @since 2.0.0
 	 */
-	do_action( 'bp_core_xprofile_settings_after_submit' ); ?>
+	do_action( 'bp_core_xprofile_settings_after_submit' );
+	?>
 
 	<?php wp_nonce_field( 'bp_xprofile_settings' ); ?>
 

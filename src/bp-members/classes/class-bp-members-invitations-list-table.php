@@ -178,7 +178,8 @@ class BP_Members_Invitations_List_Table extends WP_Users_List_Table {
 			 * @param string $url_base       Current URL base for view.
 			 * @param array  $active_filters Current filters being requested.
 			 */
-			do_action( 'bp_members_invitations_list_table_get_views', $url_base, $this->active_filters ); ?>
+			do_action( 'bp_members_invitations_list_table_get_views', $url_base, $this->active_filters );
+			?>
 		</ul>
 	<?php
 	}
@@ -344,7 +345,7 @@ class BP_Members_Invitations_List_Table extends WP_Users_List_Table {
 				printf( esc_html__( 'Select invitation: %s', 'buddypress' ), intval( $invite->id ) );
 			?>
 		</label>
-		<input type="checkbox" id="invitation_<?php echo intval( $invite->id ) ?>" name="invite_ids[]" value="<?php echo esc_attr( $invite->id ) ?>" />
+		<input type="checkbox" id="invitation_<?php echo intval( $invite->id ); ?>" name="invite_ids[]" value="<?php echo esc_attr( $invite->id ); ?>" />
 		<?php
 	}
 

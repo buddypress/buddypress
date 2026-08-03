@@ -23,7 +23,8 @@ do_action( 'bp_before_create_group_page' ); ?>
 	 *
 	 * @since 1.6.0
 	 */
-	do_action( 'bp_before_create_group_content_template' ); ?>
+	do_action( 'bp_before_create_group_content_template' );
+	?>
 
 	<form action="<?php bp_group_creation_form_action(); ?>" method="post" id="create-group-form" class="standard-form" enctype="multipart/form-data">
 
@@ -34,7 +35,8 @@ do_action( 'bp_before_create_group_page' ); ?>
 		 *
 		 * @since 1.2.0
 		 */
-		do_action( 'bp_before_create_group' ); ?>
+		do_action( 'bp_before_create_group' );
+		?>
 
 		<div class="item-list-tabs no-ajax" id="group-create-tabs">
 			<ul>
@@ -48,7 +50,8 @@ do_action( 'bp_before_create_group_page' ); ?>
 			<?php
 
 			/** This action is documented in bp-templates/bp-legacy/buddypress/activity/index.php */
-			do_action( 'template_notices' ); ?>
+			do_action( 'template_notices' );
+			?>
 
 		</div>
 
@@ -71,7 +74,8 @@ do_action( 'bp_before_create_group_page' ); ?>
 				 *
 				 * @since 1.1.0
 				 */
-				do_action( 'bp_before_group_details_creation_step' ); ?>
+				do_action( 'bp_before_group_details_creation_step' );
+				?>
 
 				<div>
 					<label for="group-name"><?php esc_html_e( 'Group Name (required)', 'buddypress' ); ?></label>
@@ -93,7 +97,8 @@ do_action( 'bp_before_create_group_page' ); ?>
 				do_action( 'bp_after_group_details_creation_step' );
 				do_action( 'groups_custom_group_fields_editable' ); // @Deprecated
 
-				wp_nonce_field( 'groups_create_save_group-details' ); ?>
+				wp_nonce_field( 'groups_create_save_group-details' );
+				?>
 
 			<?php endif; ?>
 
@@ -114,7 +119,8 @@ do_action( 'bp_before_create_group_page' ); ?>
 				 *
 				 * @since 1.1.0
 				 */
-				do_action( 'bp_before_group_settings_creation_step' ); ?>
+				do_action( 'bp_before_group_settings_creation_step' );
+				?>
 
 				<fieldset class="group-create-privacy">
 
@@ -205,7 +211,8 @@ do_action( 'bp_before_create_group_page' ); ?>
 				 *
 				 * @since 1.1.0
 				 */
-				do_action( 'bp_after_group_settings_creation_step' ); ?>
+				do_action( 'bp_after_group_settings_creation_step' );
+				?>
 
 				<?php wp_nonce_field( 'groups_create_save_group-settings' ); ?>
 
@@ -228,7 +235,8 @@ do_action( 'bp_before_create_group_page' ); ?>
 				 *
 				 * @since 1.1.0
 				 */
-				do_action( 'bp_before_group_avatar_creation_step' ); ?>
+				do_action( 'bp_before_group_avatar_creation_step' );
+				?>
 
 				<?php if ( 'upload-image' === bp_get_avatar_admin_step() ) : ?>
 
@@ -262,7 +270,8 @@ do_action( 'bp_before_create_group_page' ); ?>
 					 *
 					 * @since 2.3.0
 					 */
-					bp_avatar_get_templates(); ?>
+					bp_avatar_get_templates();
+					?>
 
 				<?php endif; ?>
 
@@ -294,7 +303,8 @@ do_action( 'bp_before_create_group_page' ); ?>
 				 *
 				 * @since 1.1.0
 				 */
-				do_action( 'bp_after_group_avatar_creation_step' ); ?>
+				do_action( 'bp_after_group_avatar_creation_step' );
+				?>
 
 				<?php wp_nonce_field( 'groups_create_save_group-avatar' ); ?>
 
@@ -317,7 +327,8 @@ do_action( 'bp_before_create_group_page' ); ?>
 				 *
 				 * @since 2.4.0
 				 */
-				do_action( 'bp_before_group_cover_image_creation_step' ); ?>
+				do_action( 'bp_before_group_cover_image_creation_step' );
+				?>
 
 				<div id="header-cover-image"></div>
 
@@ -332,7 +343,8 @@ do_action( 'bp_before_create_group_page' ); ?>
 				 *
 				 * @since 2.4.0
 				 */
-				do_action( 'bp_after_group_cover_image_creation_step' ); ?>
+				do_action( 'bp_after_group_cover_image_creation_step' );
+				?>
 
 				<?php wp_nonce_field( 'groups_create_save_group-cover-image' ); ?>
 
@@ -355,7 +367,8 @@ do_action( 'bp_before_create_group_page' ); ?>
 				 *
 				 * @since 1.1.0
 				 */
-				do_action( 'bp_before_group_invites_creation_step' ); ?>
+				do_action( 'bp_before_group_invites_creation_step' );
+				?>
 
 				<?php if ( bp_is_active( 'friends' ) && bp_get_total_friend_count( bp_loggedin_user_id() ) ) : ?>
 
@@ -423,7 +436,8 @@ do_action( 'bp_before_create_group_page' ); ?>
 				 *
 				 * @since 1.1.0
 				 */
-				do_action( 'bp_after_group_invites_creation_step' ); ?>
+				do_action( 'bp_after_group_invites_creation_step' );
+				?>
 
 			<?php endif; ?>
 
@@ -436,7 +450,8 @@ do_action( 'bp_before_create_group_page' ); ?>
 			 *
 			 * @since 1.1.0
 			 */
-			do_action( 'groups_custom_create_steps' ); ?>
+			do_action( 'groups_custom_create_steps' );
+			?>
 
 			<?php
 
@@ -445,7 +460,8 @@ do_action( 'bp_before_create_group_page' ); ?>
 			 *
 			 * @since 1.1.0
 			 */
-			do_action( 'bp_before_group_creation_step_buttons' ); ?>
+			do_action( 'bp_before_group_creation_step_buttons' );
+			?>
 
 			<?php if ( 'crop-image' !== bp_get_avatar_admin_step() ) : ?>
 
@@ -463,7 +479,7 @@ do_action( 'bp_before_create_group_page' ); ?>
 
 						<input type="submit" value="<?php esc_attr_e( 'Next Step', 'buddypress' ); ?>" id="group-creation-next" name="save" />
 
-					<?php endif;?>
+					<?php endif; ?>
 
 					<?php /* Create Button */ ?>
 					<?php if ( bp_is_first_group_creation_step() ) : ?>
@@ -480,7 +496,7 @@ do_action( 'bp_before_create_group_page' ); ?>
 					<?php endif; ?>
 				</div>
 
-			<?php endif;?>
+			<?php endif; ?>
 
 			<?php
 
@@ -489,7 +505,8 @@ do_action( 'bp_before_create_group_page' ); ?>
 			 *
 			 * @since 1.1.0
 			 */
-			do_action( 'bp_after_group_creation_step_buttons' ); ?>
+			do_action( 'bp_after_group_creation_step_buttons' );
+			?>
 
 			<?php /* Don't leave out this hidden field */ ?>
 			<input type="hidden" name="group_id" id="group_id" value="<?php bp_new_group_id(); ?>" />
@@ -501,7 +518,8 @@ do_action( 'bp_before_create_group_page' ); ?>
 			 *
 			 * @since 1.1.0
 			 */
-			do_action( 'bp_directory_groups_content' ); ?>
+			do_action( 'bp_directory_groups_content' );
+			?>
 
 		</div><!-- .item-body -->
 
@@ -512,7 +530,8 @@ do_action( 'bp_before_create_group_page' ); ?>
 		 *
 		 * @since 1.2.0
 		 */
-		do_action( 'bp_after_create_group' ); ?>
+		do_action( 'bp_after_create_group' );
+		?>
 
 	</form>
 
@@ -523,7 +542,8 @@ do_action( 'bp_before_create_group_page' ); ?>
 	 *
 	 * @since 1.6.0
 	 */
-	do_action( 'bp_after_create_group_content_template' ); ?>
+	do_action( 'bp_after_create_group_content_template' );
+	?>
 
 </div>
 

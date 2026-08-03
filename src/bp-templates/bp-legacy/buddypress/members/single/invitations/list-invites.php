@@ -44,4 +44,5 @@
 
 	<p><?php esc_html_e( 'There are no invitations to display.', 'buddypress' ); ?></p>
 
-<?php endif;
+<?php
+endif;

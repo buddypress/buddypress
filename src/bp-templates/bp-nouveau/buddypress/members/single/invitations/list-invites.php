@@ -45,4 +45,5 @@
 
 	<?php bp_nouveau_user_feedback( 'member-invitations-none' ); ?>
 
-<?php endif;
+<?php
+endif;

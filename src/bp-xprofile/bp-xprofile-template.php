@@ -1396,7 +1396,8 @@ function bp_profile_visibility_radio_buttons( $args = '' ) {
 
 				<?php endforeach; ?>
 
-			<?php endif;
+			<?php
+			endif;
 
 			// phpcs:ignore WordPress.Security.EscapeOutput
 			echo $r['after'];
@@ -1477,7 +1478,8 @@ function bp_profile_settings_visibility_select( $args = '' ) {
 			ob_start();
 
 			// phpcs:ignore WordPress.Security.EscapeOutput
-			echo $r['before']; ?>
+			echo $r['before'];
+			?>
 
 			<?php if ( bp_current_user_can( 'bp_xprofile_change_field_visibility' ) ) : ?>
 
@@ -1486,10 +1488,12 @@ function bp_profile_settings_visibility_select( $args = '' ) {
 				echo $r['before_controls'];
 			?>
 
-				<label for="<?php echo esc_attr( 'field_' . $r['field_id'] ); ?>_visibility" class="<?php echo esc_attr( $r['label_class'] ); ?>"><?php
+				<label for="<?php echo esc_attr( 'field_' . $r['field_id'] ); ?>_visibility" class="<?php echo esc_attr( $r['label_class'] ); ?>">
+				<?php
 					/* translators: accessibility text */
 					esc_html_e( 'Select visibility', 'buddypress' );
-				?></label>
+				?>
+				</label>
 				<select class="<?php echo esc_attr( $r['class'] ); ?>" name="<?php echo esc_attr( 'field_' . $r['field_id'] ); ?>_visibility" id="<?php echo esc_attr( 'field_' . $r['field_id'] ); ?>_visibility">
 
 					<?php foreach ( bp_xprofile_get_visibility_levels() as $level ) : ?>
@@ -1509,7 +1513,8 @@ function bp_profile_settings_visibility_select( $args = '' ) {
 
 				<<?php echo esc_html( $r['notoggle_tag'] ); ?> class="<?php echo esc_attr( $r['notoggle_class'] ); ?>"><?php bp_the_profile_field_visibility_level_label(); ?></<?php echo esc_html( $r['notoggle_tag'] ); ?>>
 
-			<?php endif;
+			<?php
+			endif;
 
 			// phpcs:ignore WordPress.Security.EscapeOutput
 			echo $r['after'];

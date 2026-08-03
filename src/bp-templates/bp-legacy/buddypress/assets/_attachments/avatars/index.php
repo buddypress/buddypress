@@ -47,4 +47,5 @@ do_action( 'bp_attachments_avatar_check_template' );
 	<# } #>
 </script>
 
-<?php do_action( 'bp_attachments_avatar_main_template' );
+<?php
+do_action( 'bp_attachments_avatar_main_template' );

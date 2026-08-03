@@ -19,7 +19,8 @@
 	 *
 	 * @since 1.2.0
 	 */
-	do_action( 'bp_before_group_home_content' ); ?>
+	do_action( 'bp_before_group_home_content' );
+	?>
 
 	<div id="item-header" role="complementary">
 
@@ -49,7 +50,8 @@
 				 *
 				 * @since 1.2.0
 				 */
-				do_action( 'bp_group_options_nav' ); ?>
+				do_action( 'bp_group_options_nav' );
+				?>
 
 			</ul>
 		</div>
@@ -88,7 +90,8 @@
 					 *
 					 * @since 1.1.0
 					 */
-					do_action( 'bp_before_group_status_message' ); ?>
+					do_action( 'bp_before_group_status_message' );
+					?>
 
 					<div id="message" class="info">
 						<p><?php bp_group_status_message(); ?></p>
@@ -135,7 +138,8 @@
 		 *
 		 * @since 1.2.0
 		 */
-		do_action( 'bp_after_group_body' ); ?>
+		do_action( 'bp_after_group_body' );
+		?>
 
 	</div><!-- #item-body -->
 
@@ -146,8 +150,9 @@
 	 *
 	 * @since 1.2.0
 	 */
-	do_action( 'bp_after_group_home_content' ); ?>
+	do_action( 'bp_after_group_home_content' );
+	?>
 
-	<?php endwhile; endif; ?>
+	<?php endwhile; ?><?php endif; ?>
 
 </div><!-- #buddypress -->

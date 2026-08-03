@@ -677,10 +677,10 @@ function bp_activity_admin_delete() {
 	$base_url = remove_query_arg( array( 'action', 'action2', 'paged', 's', '_wpnonce', 'aid' ), $_SERVER['REQUEST_URI'] ); ?>
 
 	<div class="wrap">
-		<h1 class="wp-heading-inline"><?php esc_html_e( 'Delete Activities', 'buddypress' ) ?></h1>
+		<h1 class="wp-heading-inline"><?php esc_html_e( 'Delete Activities', 'buddypress' ); ?></h1>
 		<hr class="wp-header-end">
 
-		<p><?php esc_html_e( 'You are about to delete the following activities:', 'buddypress' ) ?></p>
+		<p><?php esc_html_e( 'You are about to delete the following activities:', 'buddypress' ); ?></p>
 
 		<ul class="bp-activity-delete-list">
 		<?php foreach ( $activities['activities'] as $activity ) : ?>
@@ -779,7 +779,8 @@ function bp_activity_admin_edit() {
 	 *
 	 * @param array $value Array holding single activity object that was passed by reference.
 	 */
-	do_action_ref_array( 'bp_activity_admin_edit', array( &$activity ) ); ?>
+	do_action_ref_array( 'bp_activity_admin_edit', array( &$activity ) );
+	?>
 
 	<div class="wrap">
 		<h1 class="wp-heading-inline">
@@ -866,14 +867,16 @@ function bp_activity_admin_edit() {
 
 		<?php else : ?>
 
-			<p><?php
+			<p>
+			<?php
 				printf(
 					'%1$s <a href="%2$s">%3$s</a>',
 					esc_html__( 'No activity found with this ID.', 'buddypress' ),
 					esc_url( bp_get_admin_url( 'admin.php?page=bp-activity' ) ),
 					esc_html__( 'Go back and try again.', 'buddypress' )
 				);
-			?></p>
+			?>
+			</p>
 
 		<?php endif; ?>
 
@@ -940,7 +943,7 @@ function bp_activity_admin_edit_metabox_status( $item ) {
 
 		<div id="major-publishing-actions">
 			<div id="delete-action">
-				<a class="submitdelete deletion" href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'action', 'delete', $base_url ), 'bp-activities-delete' ) ); ?>"><?php esc_html_e( 'Delete Permanently', 'buddypress' ) ?></a>
+				<a class="submitdelete deletion" href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'action', 'delete', $base_url ), 'bp-activities-delete' ) ); ?>"><?php esc_html_e( 'Delete Permanently', 'buddypress' ); ?></a>
 			</div>
 
 			<div id="publishing-action">
@@ -1207,7 +1210,8 @@ function bp_activity_admin_index() {
 	 *
 	 * @param array $messages Array of messages to display at top of page.
 	 */
-	do_action( 'bp_activity_admin_index', $messages ); ?>
+	do_action( 'bp_activity_admin_index', $messages );
+	?>
 
 	<div class="wrap">
 		<h1 class="wp-heading-inline">

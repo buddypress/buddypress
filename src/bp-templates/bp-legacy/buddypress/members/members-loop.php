@@ -17,7 +17,7 @@
 do_action( 'bp_before_members_loop' ); ?>
 
 <?php if ( bp_get_current_member_type() ) : ?>
-	<p class="current-member-type"><?php bp_current_member_type_message() ?></p>
+	<p class="current-member-type"><?php bp_current_member_type_message(); ?></p>
 <?php endif; ?>
 
 <?php if ( bp_has_members( bp_ajax_querystring( 'members' ) ) ) : ?>
@@ -45,7 +45,8 @@ do_action( 'bp_before_members_loop' ); ?>
 	 *
 	 * @since 1.1.0
 	 */
-	do_action( 'bp_before_directory_members_list' ); ?>
+	do_action( 'bp_before_directory_members_list' );
+	?>
 
 	<ul id="members-list" class="item-list" aria-live="assertive" aria-relevant="all">
 
@@ -77,7 +78,8 @@ do_action( 'bp_before_members_loop' ); ?>
 				 *
 				 * @since 1.1.0
 				 */
-				do_action( 'bp_directory_members_item' ); ?>
+				do_action( 'bp_directory_members_item' );
+				?>
 
 				<?php
 				/***
@@ -99,7 +101,8 @@ do_action( 'bp_before_members_loop' ); ?>
 				 *
 				 * @since 1.1.0
 				 */
-				do_action( 'bp_directory_members_actions' ); ?>
+				do_action( 'bp_directory_members_actions' );
+				?>
 
 			</div>
 
@@ -117,7 +120,8 @@ do_action( 'bp_before_members_loop' ); ?>
 	 *
 	 * @since 1.1.0
 	 */
-	do_action( 'bp_after_directory_members_list' ); ?>
+	do_action( 'bp_after_directory_members_list' );
+	?>
 
 	<?php bp_member_hidden_fields(); ?>
 

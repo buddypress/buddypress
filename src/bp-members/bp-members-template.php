@@ -1421,8 +1421,8 @@ function bp_member_random_profile_data() {
 		$random_data = xprofile_get_random_profile_data( bp_get_member_user_id(), true );
 		// phpcs:disable WordPress.Security.EscapeOutput
 		?>
-			<strong><?php echo wp_filter_kses( $random_data[0]->name ) ?></strong>
-			<?php echo wp_filter_kses( $random_data[0]->value ) ?>
+			<strong><?php echo wp_filter_kses( $random_data[0]->name ); ?></strong>
+			<?php echo wp_filter_kses( $random_data[0]->value ); ?>
 		<?php
 		// phpcs:enable
 	}
@@ -3152,7 +3152,7 @@ function bp_members_activity_feed() {
 	}
 	// phpcs:disable WordPress.Security.EscapeOutput
 	?>
-	<link rel="alternate" type="application/rss+xml" title="<?php bloginfo( 'name' ) ?> | <?php bp_displayed_user_fullname() ?> | <?php esc_attr_e( 'Activity RSS Feed', 'buddypress' ) ?>" href="<?php bp_member_activity_feed_link() ?>" />
+	<link rel="alternate" type="application/rss+xml" title="<?php bloginfo( 'name' ); ?> | <?php bp_displayed_user_fullname(); ?> | <?php esc_attr_e( 'Activity RSS Feed', 'buddypress' ); ?>" href="<?php bp_member_activity_feed_link(); ?>" />
 	<?php
 	// phpcs:enable
 }

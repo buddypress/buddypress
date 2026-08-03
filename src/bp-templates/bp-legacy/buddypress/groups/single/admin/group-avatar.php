@@ -52,7 +52,8 @@
 	 *
 	 * @since  2.3.0
 	 */
-	bp_avatar_get_templates(); ?>
+	bp_avatar_get_templates();
+	?>
 
 	<?php wp_nonce_field( 'bp_avatar_upload' ); ?>
 
@@ -78,4 +79,5 @@
 
 	<?php wp_nonce_field( 'bp_avatar_cropstore' ); ?>
 
-<?php endif;
+<?php
+endif;

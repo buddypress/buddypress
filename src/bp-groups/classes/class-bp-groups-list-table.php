@@ -363,7 +363,8 @@ class BP_Groups_List_Table extends WP_List_Table {
 	 * @since 1.7.0
 	 */
 	public function get_views() {
-		$url_base = bp_get_admin_url( 'admin.php?page=bp-groups' ); ?>
+		$url_base = bp_get_admin_url( 'admin.php?page=bp-groups' );
+		?>
 
 		<h2 class="screen-reader-text">
 			<?php
@@ -375,50 +376,58 @@ class BP_Groups_List_Table extends WP_List_Table {
 		<ul class="subsubsub">
 			<li class="all">
 				<a href="<?php echo esc_url( $url_base ); ?>" class="<?php if ( 'all' === $this->view ) echo 'current'; ?>">
-					<?php printf(
+					<?php
+					printf(
 						/* translators: %s is the placeholder for the count html tag `<span class="count"/>` */
 						esc_html__( 'All %s', 'buddypress' ),
 						sprintf(
 							'<span class="count">(%s)</span>',
 							esc_html( number_format_i18n( $this->group_counts['all'] ) )
 						)
-					); ?>
+					);
+					?>
 				</a> |
 			</li>
 			<li class="public">
 				<a href="<?php echo esc_url( add_query_arg( 'group_status', 'public', $url_base ) ); ?>" class="<?php if ( 'public' === $this->view ) echo 'current'; ?>">
-					<?php printf(
+					<?php
+					printf(
 						/* translators: %s is the placeholder for the count html `<span class="count"/>` */
 						esc_html( _n( 'Public %s', 'Public %s', $this->group_counts['public'], 'buddypress' ) ),
 						sprintf(
 							'<span class="count">(%s)</span>',
 							esc_html( number_format_i18n( $this->group_counts['public'] ) )
 						)
-					); ?>
+					);
+					?>
 				</a> |
 			</li>
 			<li class="private">
 				<a href="<?php echo esc_url( add_query_arg( 'group_status', 'private', $url_base ) ); ?>" class="<?php if ( 'private' === $this->view ) echo 'current'; ?>">
-					<?php printf(
+					<?php
+					printf(
 						/* translators: %s is the placeholder for the count html `<span class="count"/>` */
 						esc_html( _n( 'Private %s', 'Private %s', $this->group_counts['private'], 'buddypress' ) ),
 						sprintf(
 							'<span class="count">(%s)</span>',
 							esc_html( number_format_i18n( $this->group_counts['private'] ) )
 						)
-					); ?>
+					);
+					?>
 				</a> |
 			</li>
 			<li class="hidden">
 				<a href="<?php echo esc_url( add_query_arg( 'group_status', 'hidden', $url_base ) ); ?>" class="<?php if ( 'hidden' === $this->view ) echo 'current'; ?>">
-					<?php printf(
+					<?php
+					printf(
 						/* translators: %s is the placeholder for the count html tag */
 						esc_html( _n( 'Hidden %s', 'Hidden %s', $this->group_counts['hidden'], 'buddypress' ) ),
 						sprintf(
 							'<span class="count">(%s)</span>',
 							esc_html( number_format_i18n( $this->group_counts['hidden'] ) )
 						)
-					); ?>
+					);
+					?>
 				</a>
 			</li>
 
@@ -432,7 +441,8 @@ class BP_Groups_List_Table extends WP_List_Table {
 			 * @param string $url_base Current URL base for view.
 			 * @param string $view     Current view being displayed.
 			 */
-			do_action( 'bp_groups_list_table_get_views', $url_base, $this->view ); ?>
+			do_action( 'bp_groups_list_table_get_views', $url_base, $this->view );
+			?>
 		</ul>
 	<?php
 	}
@@ -905,9 +915,9 @@ class BP_Groups_List_Table extends WP_List_Table {
 		$types = bp_groups_get_group_types( array(), 'objects' );
 		?>
 		<div class="alignleft actions">
-			<label class="screen-reader-text" for="<?php echo esc_attr( $id_name ); ?>"><?php esc_html_e( 'Change group type to&hellip;', 'buddypress' ) ?></label>
+			<label class="screen-reader-text" for="<?php echo esc_attr( $id_name ); ?>"><?php esc_html_e( 'Change group type to&hellip;', 'buddypress' ); ?></label>
 			<select name="<?php echo esc_attr( $id_name ); ?>" id="<?php echo esc_attr( $id_name ); ?>" style="display:inline-block;float:none;">
-				<option value=""><?php esc_html_e( 'Change group type to&hellip;', 'buddypress' ) ?></option>
+				<option value=""><?php esc_html_e( 'Change group type to&hellip;', 'buddypress' ); ?></option>
 
 				<?php foreach ( $types as $type ) : ?>
 
@@ -915,7 +925,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 
 				<?php endforeach; ?>
 
-				<option value="remove_group_type"><?php esc_html_e( 'No Group Type', 'buddypress' ) ?></option>
+				<option value="remove_group_type"><?php esc_html_e( 'No Group Type', 'buddypress' ); ?></option>
 
 			</select>
 			<?php

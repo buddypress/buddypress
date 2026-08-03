@@ -23,7 +23,8 @@ do_action( 'bp_before_directory_members_page' ); ?>
 	 *
 	 * @since 1.1.0
 	 */
-	do_action( 'bp_before_directory_members' ); ?>
+	do_action( 'bp_before_directory_members' );
+	?>
 
 	<?php
 
@@ -32,7 +33,8 @@ do_action( 'bp_before_directory_members_page' ); ?>
 	 *
 	 * @since 1.1.0
 	 */
-	do_action( 'bp_before_directory_members_content' ); ?>
+	do_action( 'bp_before_directory_members_content' );
+	?>
 
 	<?php /* Backward compatibility for inline search form. Use template part instead. */ ?>
 	<?php if ( has_filter( 'bp_directory_members_search_form' ) ) : ?>
@@ -53,7 +55,8 @@ do_action( 'bp_before_directory_members_page' ); ?>
 	 *
 	 * @since 1.8.0
 	 */
-	do_action( 'bp_before_directory_members_tabs' ); ?>
+	do_action( 'bp_before_directory_members_tabs' );
+	?>
 
 	<form action="" method="post" id="members-directory-form" class="dir-form">
 
@@ -92,7 +95,8 @@ do_action( 'bp_before_directory_members_page' ); ?>
 				 *
 				 * @since 1.2.0
 				 */
-				do_action( 'bp_members_directory_member_types' ); ?>
+				do_action( 'bp_members_directory_member_types' );
+				?>
 
 			</ul>
 		</div><!-- .item-list-tabs -->
@@ -106,7 +110,8 @@ do_action( 'bp_before_directory_members_page' ); ?>
 				 *
 				 * @since 1.5.0
 				 */
-				do_action( 'bp_members_directory_member_sub_types' ); ?>
+				do_action( 'bp_members_directory_member_sub_types' );
+				?>
 
 				<li id="members-order-select" class="last filter">
 					<label for="members-order-by"><?php esc_html_e( 'Order By:', 'buddypress' ); ?></label>
@@ -125,7 +130,8 @@ do_action( 'bp_before_directory_members_page' ); ?>
 						 *
 						 * @since 1.2.0
 						 */
-						do_action( 'bp_members_directory_order_options' ); ?>
+						do_action( 'bp_members_directory_order_options' );
+						?>
 					</select>
 				</li>
 			</ul>
@@ -149,7 +155,8 @@ do_action( 'bp_before_directory_members_page' ); ?>
 		 *
 		 * @since 1.1.0
 		 */
-		do_action( 'bp_directory_members_content' ); ?>
+		do_action( 'bp_directory_members_content' );
+		?>
 
 		<?php wp_nonce_field( 'directory_members', '_wpnonce-member-filter' ); ?>
 
@@ -160,7 +167,8 @@ do_action( 'bp_before_directory_members_page' ); ?>
 		 *
 		 * @since 1.1.0
 		 */
-		do_action( 'bp_after_directory_members_content' ); ?>
+		do_action( 'bp_after_directory_members_content' );
+		?>
 
 	</form><!-- #members-directory-form -->
 
@@ -171,7 +179,8 @@ do_action( 'bp_before_directory_members_page' ); ?>
 	 *
 	 * @since 1.1.0
 	 */
-	do_action( 'bp_after_directory_members' ); ?>
+	do_action( 'bp_after_directory_members' );
+	?>
 
 </div><!-- #buddypress -->
 

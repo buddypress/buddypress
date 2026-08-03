@@ -31,7 +31,8 @@
 	 *
 	 * @since 1.1.0
 	 */
-	do_action( 'bp_before_group_send_invites_list' ); ?>
+	do_action( 'bp_before_group_send_invites_list' );
+	?>
 
 	<?php if ( bp_group_has_invites( bp_ajax_querystring( 'invite' ) . '&per_page=10' ) ) : ?>
 
@@ -69,7 +70,8 @@
 				 *
 				 * @since 1.1.0
 				 */
-				do_action( 'bp_group_send_invites_item' ); ?>
+				do_action( 'bp_group_send_invites_item' );
+				?>
 
 				<div class="action">
 					<a class="button remove" href="<?php bp_group_invite_user_remove_invite_url(); ?>" id="<?php bp_group_invite_item_id(); ?>"><?php esc_html_e( 'Remove Invite', 'buddypress' ); ?></a>
@@ -81,7 +83,8 @@
 					 *
 					 * @since 1.1.0
 					 */
-					do_action( 'bp_group_send_invites_item_action' ); ?>
+					do_action( 'bp_group_send_invites_item_action' );
+					?>
 				</div>
 			</li>
 
@@ -120,6 +123,7 @@
  *
  * @since 1.1.0
  */
-do_action( 'bp_after_group_send_invites_list' ); ?>
+do_action( 'bp_after_group_send_invites_list' );
+?>
 
 </div><!-- .main-column -->

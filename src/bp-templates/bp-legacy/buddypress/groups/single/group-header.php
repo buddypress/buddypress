@@ -22,7 +22,8 @@ do_action( 'bp_before_group_header' );
 
 		<h2><?php esc_html_e( 'Group Admins', 'buddypress' ); ?></h2>
 
-		<?php bp_group_list_admins();
+		<?php
+		bp_group_list_admins();
 
 		/**
 		 * Fires after the display of the group's administrators.
@@ -38,11 +39,13 @@ do_action( 'bp_before_group_header' );
 			 *
 			 * @since 1.1.0
 			 */
-			do_action( 'bp_before_group_menu_mods' ); ?>
+			do_action( 'bp_before_group_menu_mods' );
+			?>
 
 			<h2><?php esc_html_e( 'Group Mods', 'buddypress' ); ?></h2>
 
-			<?php bp_group_list_mods();
+			<?php
+			bp_group_list_mods();
 
 			/**
 			 * Fires after the display of the group's moderators, if there are any.
@@ -53,7 +56,8 @@ do_action( 'bp_before_group_header' );
 
 		endif;
 
-	endif; ?>
+	endif;
+	?>
 
 </div><!-- #item-actions -->
 
@@ -83,7 +87,8 @@ do_action( 'bp_before_group_header' );
 	 *
 	 * @since 1.2.0
 	 */
-	do_action( 'bp_before_group_header_meta' ); ?>
+	do_action( 'bp_before_group_header_meta' );
+	?>
 
 	<div id="item-meta">
 
@@ -100,7 +105,8 @@ do_action( 'bp_before_group_header' );
 			 *
 			 * @since 1.2.6
 			 */
-			do_action( 'bp_group_header_actions' ); ?>
+			do_action( 'bp_group_header_actions' );
+			?>
 
 		</div><!-- #item-buttons -->
 
@@ -111,7 +117,8 @@ do_action( 'bp_before_group_header' );
 		 *
 		 * @since 1.2.0
 		 */
-		do_action( 'bp_group_header_meta' ); ?>
+		do_action( 'bp_group_header_meta' );
+		?>
 
 	</div>
 </div><!-- #item-header-content -->
@@ -123,12 +130,14 @@ do_action( 'bp_before_group_header' );
  *
  * @since 1.2.0
  */
-do_action( 'bp_after_group_header' );  ?>
+do_action( 'bp_after_group_header' );
+?>
 
 <div id="template-notices" role="alert" aria-atomic="true">
 	<?php
 
 	/** This action is documented in bp-templates/bp-legacy/buddypress/activity/index.php */
-	do_action( 'template_notices' ); ?>
+	do_action( 'template_notices' );
+	?>
 
 </div>

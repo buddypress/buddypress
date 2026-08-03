@@ -20,7 +20,8 @@ do_action( 'bp_before_group_send_invites_content' ); ?>
 	</div>
 <?php
 /* Does the user have friends that could be invited to the group? */
-elseif ( bp_get_new_group_invite_friend_list() ) : ?>
+elseif ( bp_get_new_group_invite_friend_list() ) :
+?>
 
 	<h2 class="bp-screen-reader-text"><?php esc_html_e( 'Send invites', 'buddypress' ); ?></h2>
 
@@ -44,7 +45,8 @@ elseif ( bp_get_new_group_invite_friend_list() ) : ?>
 
 <?php
 /* No eligible friends? Maybe the user doesn't have any friends yet. */
-elseif ( 0 === bp_get_total_friend_count( bp_loggedin_user_id() ) ) : ?>
+elseif ( 0 === bp_get_total_friend_count( bp_loggedin_user_id() ) ) :
+?>
 
 	<div id="message" class="info">
 		<p class="notice"><?php esc_html_e( 'Group invitations can only be extended to friends.', 'buddypress' ); ?></p>
@@ -53,7 +55,8 @@ elseif ( 0 === bp_get_total_friend_count( bp_loggedin_user_id() ) ) : ?>
 
 <?php
 /* The user does have friends, but none are eligible to be invited to this group. */
-else : ?>
+else :
+?>
 
 	<div id="message" class="info">
 		<p class="notice"><?php esc_html_e( 'All of your friends already belong to this group.', 'buddypress' ); ?></p>

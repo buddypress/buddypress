@@ -16,11 +16,13 @@
 
 <p class="bp-help-text"><?php esc_html_e( 'Manage your group members; promote to moderators, admins or demote or ban.', 'buddypress' ); ?></p>
 
-<?php if ( bp_rest_api_is_available() ) :
+<?php
+if ( bp_rest_api_is_available() ) :
 
 	bp_groups_manage_group_members_interface();
 
-else : ?>
+else :
+?>
 
 	<dl class="groups-manage-members-list">
 
@@ -154,7 +156,8 @@ else : ?>
 
 </dl>
 
-	<?php else:
+	<?php
+	else:
 
 		bp_nouveau_user_feedback( 'group-manage-members-none' );
 

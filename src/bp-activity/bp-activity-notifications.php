@@ -415,9 +415,9 @@ function bp_activity_screen_notification_settings() {
 		<thead>
 			<tr>
 				<th class="icon">&nbsp;</th>
-				<th class="title"><?php esc_html_e( 'Activity', 'buddypress' ) ?></th>
-				<th class="yes"><?php esc_html_e( 'Yes', 'buddypress' ) ?></th>
-				<th class="no"><?php esc_html_e( 'No', 'buddypress' )?></th>
+				<th class="title"><?php esc_html_e( 'Activity', 'buddypress' ); ?></th>
+				<th class="yes"><?php esc_html_e( 'Yes', 'buddypress' ); ?></th>
+				<th class="no"><?php esc_html_e( 'No', 'buddypress' ); ?></th>
 			</tr>
 		</thead>
 
@@ -432,7 +432,7 @@ function bp_activity_screen_notification_settings() {
 						?>
 					</td>
 					<td class="yes">
-						<input type="radio" name="notifications[notification_activity_new_mention]" id="notification-activity-new-mention-yes" value="yes" <?php checked( $mention, 'yes', true ) ?>/>
+						<input type="radio" name="notifications[notification_activity_new_mention]" id="notification-activity-new-mention-yes" value="yes" <?php checked( $mention, 'yes', true ); ?>/>
 						<label for="notification-activity-new-mention-yes" class="bp-screen-reader-text">
 							<?php
 								/* translators: accessibility text */
@@ -440,7 +440,7 @@ function bp_activity_screen_notification_settings() {
 							?>
 						</label>
 					</td>
-					<td class="no"><input type="radio" name="notifications[notification_activity_new_mention]" id="notification-activity-new-mention-no" value="no" <?php checked( $mention, 'no', true ) ?>/>
+					<td class="no"><input type="radio" name="notifications[notification_activity_new_mention]" id="notification-activity-new-mention-no" value="no" <?php checked( $mention, 'no', true ); ?>/>
 						<label for="notification-activity-new-mention-no" class="bp-screen-reader-text">
 							<?php
 								/* translators: accessibility text */
@@ -453,9 +453,9 @@ function bp_activity_screen_notification_settings() {
 
 			<tr id="activity-notification-settings-replies">
 				<td>&nbsp;</td>
-				<td><?php esc_html_e( "A member replies to an update or comment you've posted", 'buddypress' ) ?></td>
+				<td><?php esc_html_e( "A member replies to an update or comment you've posted", 'buddypress' ); ?></td>
 				<td class="yes">
-					<input type="radio" name="notifications[notification_activity_new_reply]" id="notification-activity-new-reply-yes" value="yes" <?php checked( $reply, 'yes', true ) ?>/>
+					<input type="radio" name="notifications[notification_activity_new_reply]" id="notification-activity-new-reply-yes" value="yes" <?php checked( $reply, 'yes', true ); ?>/>
 					<label for="notification-activity-new-reply-yes" class="bp-screen-reader-text">
 						<?php
 							/* translators: accessibility text */
@@ -463,7 +463,7 @@ function bp_activity_screen_notification_settings() {
 						?>
 					</label>
 				</td>
-				<td class="no"><input type="radio" name="notifications[notification_activity_new_reply]" id="notification-activity-new-reply-no" value="no" <?php checked( $reply, 'no', true ) ?>/>
+				<td class="no"><input type="radio" name="notifications[notification_activity_new_reply]" id="notification-activity-new-reply-no" value="no" <?php checked( $reply, 'no', true ); ?>/>
 					<label for="notification-activity-new-reply-no" class="bp-screen-reader-text">
 						<?php
 							/* translators: accessibility text */
@@ -480,7 +480,8 @@ function bp_activity_screen_notification_settings() {
 			 *
 			 * @since 1.2.0
 			 */
-			do_action( 'bp_activity_screen_notification_settings' ) ?>
+			do_action( 'bp_activity_screen_notification_settings' )
+			?>
 		</tbody>
 	</table>
 

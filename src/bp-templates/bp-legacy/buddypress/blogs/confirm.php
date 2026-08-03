@@ -16,7 +16,8 @@
 		<?php
 
 		/** This action is documented in bp-templates/bp-legacy/buddypress/activity/index.php */
-		do_action( 'template_notices' ); ?>
+		do_action( 'template_notices' );
+		?>
 
 	</div>
 
@@ -26,13 +27,15 @@
 	 *
 	 * @since 12.0.0
 	 */
-	do_action( 'bp_before_blog_confirmed_content' ); ?>
+	do_action( 'bp_before_blog_confirmed_content' );
+	?>
 
 	<?php if ( bp_blog_signup_enabled() ) : ?>
 
-		<p class="success"><?php esc_html_e( 'Congratulations! You have successfully registered a new site.', 'buddypress' ) ?></p>
+		<p class="success"><?php esc_html_e( 'Congratulations! You have successfully registered a new site.', 'buddypress' ); ?></p>
 		<p>
-			<?php printf(
+			<?php
+			printf(
 				'%s %s',
 				sprintf(
 					/* translators: %s: the link of the new site */
@@ -45,7 +48,8 @@
 					'<a href="' . esc_url( $args['login_url'] ) . '">' . esc_html__( 'Log in', 'buddypress' ) . '</a>',
 					esc_html( $args['user_name'] )
 				)
-			); ?>
+			);
+			?>
 		</p>
 
 	<?php else : ?>
@@ -62,6 +66,7 @@
 	 *
 	 * @since 12.0.0
 	 */
-	do_action( 'bp_after_blog_confirmed_content' ); ?>
+	do_action( 'bp_after_blog_confirmed_content' );
+	?>
 
 </div>

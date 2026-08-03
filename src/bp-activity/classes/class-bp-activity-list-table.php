@@ -350,7 +350,8 @@ class BP_Activity_List_Table extends WP_List_Table {
 	 * @since 1.6.0
 	 */
 	function get_views() {
-		$url_base = add_query_arg( array( 'page' => 'bp-activity' ), bp_get_admin_url( 'admin.php' ) ); ?>
+		$url_base = add_query_arg( array( 'page' => 'bp-activity' ), bp_get_admin_url( 'admin.php' ) );
+		?>
 
 		<h2 class="screen-reader-text">
 			<?php
@@ -362,26 +363,30 @@ class BP_Activity_List_Table extends WP_List_Table {
 		<ul class="subsubsub">
 			<li class="all">
 				<a href="<?php echo esc_url( $url_base ); ?>" class="<?php if ( 'all' === $this->view ) echo 'current'; ?>">
-				<?php printf(
+				<?php
+				printf(
 						/* translators: %s is the placeholder for the count html tag `<span class="count"/>` */
 					esc_html__( 'All %s', 'buddypress' ),
 					sprintf(
 						'<span class="count">(%s)</span>',
 						esc_html( number_format_i18n( $this->all_count ) )
 					)
-				); ?>
+				);
+				?>
 				</a> |
 			</li>
 			<li class="spam">
 				<a href="<?php echo esc_url( add_query_arg( array( 'activity_status' => 'spam' ), $url_base ) ); ?>" class="<?php if ( 'spam' === $this->view ) echo 'current'; ?>">
-					<?php printf(
+					<?php
+					printf(
 						/* translators: %s is the placeholder for the count html tag `<span class="count"/>` */
 						esc_html__( 'Spam %s', 'buddypress' ),
 						sprintf(
 							'<span class="count">(%s)</span>',
 							esc_html( number_format_i18n( $this->spam_count ) )
 						)
-					); ?>
+					);
+					?>
 				</a>
 			</li>
 
@@ -395,7 +400,8 @@ class BP_Activity_List_Table extends WP_List_Table {
 			 * @param string $url_base Current URL base for view.
 			 * @param string $view     Current view being displayed.
 			 */
-			do_action( 'bp_activity_list_table_get_views', $url_base, $this->view ); ?>
+			do_action( 'bp_activity_list_table_get_views', $url_base, $this->view );
+			?>
 		</ul>
 	<?php
 	}
@@ -493,7 +499,8 @@ class BP_Activity_List_Table extends WP_List_Table {
 		$selected = ( ! empty( $_REQUEST['activity_type'] ) ) ? $_REQUEST['activity_type'] : '';
 
 		// Get the actions.
-		$activity_actions = bp_activity_get_actions(); ?>
+		$activity_actions = bp_activity_get_actions();
+		?>
 
 		<div class="alignleft actions">
 			<label for="activity-type" class="screen-reader-text">
@@ -537,7 +544,8 @@ class BP_Activity_List_Table extends WP_List_Table {
 							<?php
 
 							// Skip the incorrectly named pre-1.6 action.
-							if ( 'friends_register_activity_action' !== $action_key  ) : ?>
+							if ( 'friends_register_activity_action' !== $action_key  ) :
+							?>
 
 								<option value="<?php echo esc_attr( $action_key ); ?>" <?php selected( $action_key, $selected ); ?>><?php echo esc_html( $action_values['value'] ); ?></option>
 

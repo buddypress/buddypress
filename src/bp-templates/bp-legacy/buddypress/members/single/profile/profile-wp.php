@@ -23,7 +23,8 @@ do_action( 'bp_before_profile_loop_content' ); ?>
 	 *
 	 * @since 1.1.0
 	 */
-	do_action( 'bp_before_profile_field_content' ); ?>
+	do_action( 'bp_before_profile_field_content' );
+	?>
 
 	<div class="bp-widget wp-profile">
 		<h2>
@@ -107,7 +108,8 @@ do_action( 'bp_before_profile_loop_content' ); ?>
  *
  * @since 1.1.0
  */
-do_action( 'bp_after_profile_field_content' ); ?>
+do_action( 'bp_after_profile_field_content' );
+?>
 
 <?php
 
@@ -116,7 +118,8 @@ do_action( 'bp_after_profile_field_content' ); ?>
  *
  * @since 1.1.0
  */
-do_action( 'bp_profile_field_buttons' ); ?>
+do_action( 'bp_profile_field_buttons' );
+?>
 
 <?php
 

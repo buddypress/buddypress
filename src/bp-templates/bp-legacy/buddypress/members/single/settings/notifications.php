@@ -27,7 +27,8 @@ do_action( 'bp_before_member_settings_template' ); ?>
 	 *
 	 * @since 1.0.0
 	 */
-	do_action( 'bp_notification_settings' ); ?>
+	do_action( 'bp_notification_settings' );
+	?>
 
 	<?php
 
@@ -36,7 +37,8 @@ do_action( 'bp_before_member_settings_template' ); ?>
 	 *
 	 * @since 1.5.0
 	 */
-	do_action( 'bp_members_notification_settings_before_submit' ); ?>
+	do_action( 'bp_members_notification_settings_before_submit' );
+	?>
 
 	<div class="submit">
 		<input type="submit" name="submit" value="<?php esc_attr_e( 'Save Changes', 'buddypress' ); ?>" id="submit" class="auto" />
@@ -49,7 +51,8 @@ do_action( 'bp_before_member_settings_template' ); ?>
 	 *
 	 * @since 1.5.0
 	 */
-	do_action( 'bp_members_notification_settings_after_submit' ); ?>
+	do_action( 'bp_members_notification_settings_after_submit' );
+	?>
 
 	<?php wp_nonce_field( 'bp_settings_notifications' ); ?>
 

@@ -1047,10 +1047,12 @@ function bp_notifications_sort_order_form() {
  */
 function bp_notifications_bulk_management_dropdown() {
 	?>
-	<label class="bp-screen-reader-text" for="notification-select"><?php
+	<label class="bp-screen-reader-text" for="notification-select">
+	<?php
 		/* translators: accessibility text */
 		esc_html_e( 'Select Bulk Action', 'buddypress' );
-	?></label>
+	?>
+	</label>
 	<select name="notification_bulk_action" id="notification-select">
 		<option value="" selected="selected"><?php esc_html_e( 'Bulk Actions', 'buddypress' ); ?></option>
 

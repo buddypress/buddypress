@@ -18,7 +18,8 @@
 	 *
 	 * @since 1.2.0
 	 */
-	do_action( 'bp_before_activity_post_form' ); ?>
+	do_action( 'bp_before_activity_post_form' );
+	?>
 
 	<div id="whats-new-avatar">
 		<a href="<?php bp_loggedin_user_link(); ?>">
@@ -78,13 +79,17 @@
 					<select id="whats-new-post-in" name="whats-new-post-in">
 						<option selected="selected" value="0"><?php esc_html_e( 'My Profile', 'buddypress' ); ?></option>
 
-						<?php if ( bp_has_groups( 'user_id=' . bp_loggedin_user_id() . '&type=alphabetical&max=100&per_page=100&populate_extras=0&update_meta_cache=0' ) ) :
-							while ( bp_groups() ) : bp_the_group(); ?>
+						<?php
+						if ( bp_has_groups( 'user_id=' . bp_loggedin_user_id() . '&type=alphabetical&max=100&per_page=100&populate_extras=0&update_meta_cache=0' ) ) :
+							while ( bp_groups() ) : bp_the_group();
+							?>
 
 								<option value="<?php bp_group_id(); ?>"><?php bp_group_name(); ?></option>
 
-							<?php endwhile;
-						endif; ?>
+							<?php
+							endwhile;
+						endif;
+						?>
 
 					</select>
 				</div>
@@ -104,7 +109,8 @@
 			 *
 			 * @since 1.2.0
 			 */
-			do_action( 'bp_activity_post_form_options' ); ?>
+			do_action( 'bp_activity_post_form_options' );
+			?>
 
 		</div><!-- #whats-new-options -->
 	</div><!-- #whats-new-content -->
@@ -117,6 +123,7 @@
 	 *
 	 * @since 1.2.0
 	 */
-	do_action( 'bp_after_activity_post_form' ); ?>
+	do_action( 'bp_after_activity_post_form' );
+	?>
 
 </form><!-- #whats-new-form -->

@@ -30,7 +30,8 @@
 					 *
 					 * @since 2.0.0
 					 */
-					do_action( 'bp_member_friends_order_options' ); ?>
+					do_action( 'bp_member_friends_order_options' );
+					?>
 
 				</select>
 			</li>
@@ -51,7 +52,8 @@ switch ( bp_current_action() ) :
 		 *
 		 * @since 1.2.0
 		 */
-		do_action( 'bp_before_member_friends_content' ); ?>
+		do_action( 'bp_before_member_friends_content' );
+		?>
 
 		<?php if (is_user_logged_in() ) : ?>
 			<h2 class="bp-screen-reader-text">
@@ -71,7 +73,7 @@ switch ( bp_current_action() ) :
 
 		<div class="members friends">
 
-			<?php bp_get_template_part( 'members/members-loop' ) ?>
+			<?php bp_get_template_part( 'members/members-loop' ); ?>
 
 		</div><!-- .members.friends -->
 

@@ -72,7 +72,8 @@ class BP_XProfile_Field_Type_Selectbox extends BP_XProfile_Field_Type {
 		<?php
 
 		/** This action is documented in bp-xprofile/bp-xprofile-classes */
-		do_action( bp_get_the_profile_field_errors_action() ); ?>
+		do_action( bp_get_the_profile_field_errors_action() );
+		?>
 
 		<select <?php $this->output_edit_field_html_elements( $raw_properties ); ?> aria-labelledby="<?php bp_the_profile_field_input_name(); ?>-1" aria-describedby="<?php bp_the_profile_field_input_name(); ?>-3">
 			<?php bp_the_profile_field_options( array( 'user_id' => $user_id ) ); ?>
@@ -168,10 +169,12 @@ class BP_XProfile_Field_Type_Selectbox extends BP_XProfile_Field_Type {
 	public function admin_field_html( array $raw_properties = array() ) {
 		?>
 
-		<label for="<?php bp_the_profile_field_input_name(); ?>" class="screen-reader-text"><?php
+		<label for="<?php bp_the_profile_field_input_name(); ?>" class="screen-reader-text">
+		<?php
 			/* translators: accessibility text */
 			esc_html_e( 'Select', 'buddypress' );
-		?></label>
+		?>
+		</label>
 		<select <?php $this->output_edit_field_html_elements( $raw_properties ); ?>>
 			<?php bp_the_profile_field_options(); ?>
 		</select>

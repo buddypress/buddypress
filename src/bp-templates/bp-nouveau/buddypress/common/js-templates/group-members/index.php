@@ -90,7 +90,7 @@ if ( ! did_action( '_bp_groups_print_manage_group_members_placeholders' ) ) {
 		<# if ( ! data.editing  && ! data.managingBan && ! data.removing ) { #>
 			{{data.role.name}}
 		<# } else { #>
-			<div id="edit-group-member-{{data.id}}" class="group-member-edit"><?php // Placeholder for the Edit Role Dropdown. ;?></div>
+			<div id="edit-group-member-{{data.id}}" class="group-member-edit"><?php // Placeholder for the Edit Role Dropdown. ; ?></div>
 		<# } #>
 	</td>
 </script>

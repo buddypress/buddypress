@@ -52,7 +52,8 @@ do_action( 'bp_before_activity_entry' ); ?>
 		 *
 		 * @since 1.2.0
 		 */
-		do_action( 'bp_activity_entry_content' ); ?>
+		do_action( 'bp_activity_entry_content' );
+		?>
 
 		<div class="activity-meta">
 
@@ -98,7 +99,8 @@ do_action( 'bp_before_activity_entry' ); ?>
 				 *
 				 * @since 1.2.0
 				 */
-				do_action( 'bp_activity_entry_meta' ); ?>
+				do_action( 'bp_activity_entry_meta' );
+				?>
 
 			<?php endif; ?>
 
@@ -113,7 +115,8 @@ do_action( 'bp_before_activity_entry' ); ?>
 	 *
 	 * @since 1.2.0
 	 */
-	do_action( 'bp_before_activity_entry_comments' ); ?>
+	do_action( 'bp_before_activity_entry_comments' );
+	?>
 
 	<?php if ( ( bp_activity_get_comment_count() || bp_activity_can_comment() ) || bp_is_single_activity() ) : ?>
 
@@ -146,7 +149,8 @@ do_action( 'bp_before_activity_entry' ); ?>
 					 *
 					 * @since 1.5.0
 					 */
-					do_action( 'bp_activity_entry_comments' ); ?>
+					do_action( 'bp_activity_entry_comments' );
+					?>
 
 					<?php wp_nonce_field( 'new_activity_comment', '_wpnonce_new_activity_comment_' . bp_get_activity_id() ); ?>
 
@@ -165,7 +169,8 @@ do_action( 'bp_before_activity_entry' ); ?>
 	 *
 	 * @since 1.2.0
 	 */
-	do_action( 'bp_after_activity_entry_comments' ); ?>
+	do_action( 'bp_after_activity_entry_comments' );
+	?>
 
 </li>
 

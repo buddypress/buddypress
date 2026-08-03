@@ -40,7 +40,8 @@ do_action( 'bp_before_group_request_membership_content' ); ?>
 		 *
 		 * @since 1.1.0
 		 */
-		do_action( 'bp_group_request_membership_content' ); ?>
+		do_action( 'bp_group_request_membership_content' );
+		?>
 
 		<p><input type="submit" name="group-request-send" id="group-request-send" value="<?php echo esc_attr_x( 'Send Request', 'button', 'buddypress' ); ?>" />
 

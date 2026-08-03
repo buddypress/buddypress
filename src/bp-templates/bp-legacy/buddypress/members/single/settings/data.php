@@ -10,7 +10,7 @@
 /** This action is documented in bp-templates/bp-legacy/buddypress/members/single/settings/profile.php */
 do_action( 'bp_before_member_settings_template' ); ?>
 
-<h2><?php esc_html_e( 'Data Export', 'buddypress' );?></h2>
+<h2><?php esc_html_e( 'Data Export', 'buddypress' ); ?></h2>
 
 <?php $request = bp_settings_get_personal_data_request(); ?>
 

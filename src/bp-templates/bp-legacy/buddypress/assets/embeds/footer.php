@@ -14,6 +14,7 @@
 				<div class="wp-embed-meta">
 					<?php
 					/** This action is documented in wp-includes/theme-compat/embed-content.php */
-					do_action( 'embed_content_meta' ); ?>
+					do_action( 'embed_content_meta' );
+					?>
 				</div>
 			</div>

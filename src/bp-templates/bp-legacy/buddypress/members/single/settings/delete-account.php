@@ -33,7 +33,8 @@ do_action( 'bp_before_member_settings_template' ); ?>
 	 *
 	 * @since 1.5.0
 	 */
-	do_action( 'bp_members_delete_account_before_submit' ); ?>
+	do_action( 'bp_members_delete_account_before_submit' );
+	?>
 
 	<label for="delete-account-understand">
 		<input type="checkbox" name="delete-account-understand" id="delete-account-understand" value="1" onclick="if(this.checked) { document.getElementById('delete-account-button').disabled = ''; } else { document.getElementById('delete-account-button').disabled = 'disabled'; }" />
@@ -51,7 +52,8 @@ do_action( 'bp_before_member_settings_template' ); ?>
 	 *
 	 * @since 1.5.0
 	 */
-	do_action( 'bp_members_delete_account_after_submit' ); ?>
+	do_action( 'bp_members_delete_account_after_submit' );
+	?>
 
 	<?php wp_nonce_field( 'delete-account' ); ?>
 

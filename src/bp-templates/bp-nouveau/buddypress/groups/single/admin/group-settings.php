@@ -64,7 +64,8 @@
 <?php
 // Group type selection
 $group_types = bp_groups_get_group_types( array( 'show_in_create_screen' => true ), 'objects' );
-if ( $group_types ) : ?>
+if ( $group_types ) :
+?>
 
 	<fieldset class="group-create-types">
 		<legend><?php esc_html_e( 'Group Types', 'buddypress' ); ?></legend>

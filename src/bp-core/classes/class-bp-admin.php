@@ -822,11 +822,13 @@ class BP_Admin {
 				<div id='plugin-information-title' class="with-banner">
 					<div class='vignette'></div>
 					<h1>
-						<?php printf(
+						<?php
+						printf(
 							/* translators: %s is the placeholder for the BuddyPress version number. */
 							esc_html__( 'BuddyPress %s', 'buddypress' ),
 							esc_html( $version )
-						); ?>
+						);
+						?>
 					</h1>
 				</div>
 				<div id="plugin-information-tabs">
@@ -1721,7 +1723,7 @@ class BP_Admin {
 
 			<?php if ( $notifications ) : foreach ( $notifications as $notification ) : ?>
 				<?php bp_core_admin_format_notifications( $notification ); ?>
-			<?php endforeach; endif; ?>
+			<?php endforeach; ?><?php endif; ?>
 		</div>
 		<?php
 	}

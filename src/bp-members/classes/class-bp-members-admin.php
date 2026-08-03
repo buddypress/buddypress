@@ -947,13 +947,14 @@ class BP_Members_Admin {
 			 * admins do not have the capacity to edit other users, we must add
 			 * this check.
 			 */
-			if ( current_user_can( 'edit_user', $user->ID ) ) : ?>
+			if ( current_user_can( 'edit_user', $user->ID ) ) :
+			?>
 
-				<a class="nav-tab<?php echo esc_attr( $wp_active ); ?>" href="<?php echo esc_url( $wordpress_url );?>"><?php esc_html_e( 'Profile', 'buddypress' ); ?></a>
+				<a class="nav-tab<?php echo esc_attr( $wp_active ); ?>" href="<?php echo esc_url( $wordpress_url ); ?>"><?php esc_html_e( 'Profile', 'buddypress' ); ?></a>
 
 			<?php endif; ?>
 
-			<a class="nav-tab<?php echo esc_attr( $bp_active ); ?>" href="<?php echo esc_url( $community_url );?>"><?php esc_html_e( 'Extended Profile', 'buddypress' ); ?></a>
+			<a class="nav-tab<?php echo esc_attr( $bp_active ); ?>" href="<?php echo esc_url( $community_url ); ?>"><?php esc_html_e( 'Extended Profile', 'buddypress' ); ?></a>
 		</h2>
 
 		<?php
@@ -1282,7 +1283,8 @@ class BP_Members_Admin {
 		// Prepare notice for admin.
 		$notice = $this->get_user_notice();
 
-		if ( ! empty( $notice ) ) : ?>
+		if ( ! empty( $notice ) ) :
+		?>
 
 			<div <?php if ( 'updated' === $notice['class'] ) : ?>id="message" <?php endif; ?>class="<?php echo esc_attr( $notice['class'] ); ?>  notice is-dismissible">
 
@@ -1309,9 +1311,11 @@ class BP_Members_Admin {
 
 			<hr class="wp-header-end">
 
-			<?php if ( ! empty( $user ) ) :
+			<?php
+			if ( ! empty( $user ) ) :
 
-				$this->profile_nav( $user, 'BuddyPress' ); ?>
+				$this->profile_nav( $user, 'BuddyPress' );
+				?>
 
 				<form action="<?php echo esc_url( $form_action_url ); ?>" id="your-profile" method="post">
 					<div id="poststuff">
@@ -1396,13 +1400,16 @@ class BP_Members_Admin {
 		);
 
 		// Bail if user has not been activated yet (how did you get here?).
-		if ( isset( $user->user_status ) && ( 2 === (int) $user->user_status ) ) : ?>
+		if ( isset( $user->user_status ) && ( 2 === (int) $user->user_status ) ) :
+		?>
 
 			<p class="not-activated"><?php esc_html_e( 'User account has not yet been activated', 'buddypress' ); ?></p><br/>
 
-			<?php return;
+			<?php
+			return;
 
-		endif; ?>
+		endif;
+		?>
 
 		<div class="submitbox" id="submitcomment">
 			<div id="minor-publishing">
@@ -1412,14 +1419,15 @@ class BP_Members_Admin {
 					// Get the spam status once here to compare against below.
 					$is_spammer = bp_is_user_spammer( $user->ID );
 
-					if ( $can_manage_user_status ) : ?>
+					if ( $can_manage_user_status ) :
+					?>
 
 						<div class="misc-pub-section" id="comment-status-radio">
 							<label class="approved"><input type="radio" name="user_status" value="ham" <?php checked( $is_spammer, false ); ?>><?php esc_html_e( 'Active', 'buddypress' ); ?></label><br />
 							<label class="spam"><input type="radio" name="user_status" value="spam" <?php checked( $is_spammer, true ); ?>><?php esc_html_e( 'Spammer', 'buddypress' ); ?></label>
 						</div>
 
-					<?php endif;?>
+					<?php endif; ?>
 
 					<div class="misc-pub-section curtime misc-pub-section-last">
 						<?php
@@ -1500,7 +1508,8 @@ class BP_Members_Admin {
 		}
 
 		$datef = __( 'M j, Y @ G:i', 'buddypress' );
-		$date  = date_i18n( $datef, strtotime( $last_active ) ); ?>
+		$date  = date_i18n( $datef, strtotime( $last_active ) );
+		?>
 
 		<ul>
 			<li class="bp-members-profile-stats">
@@ -1541,7 +1550,8 @@ class BP_Members_Admin {
 
 		if ( empty( $user->ID ) ) {
 			return;
-		} ?>
+		}
+		?>
 
 		<div class="avatar">
 
@@ -1558,7 +1568,8 @@ class BP_Members_Admin {
 			);
 			?>
 
-			<?php if ( bp_get_user_has_avatar( $user->ID ) ) :
+			<?php
+			if ( bp_get_user_has_avatar( $user->ID ) ) :
 
 				$query_args = array(
 					'user_id' => $user->ID,
@@ -1573,14 +1584,17 @@ class BP_Members_Admin {
 				}
 
 				$community_url = add_query_arg( $query_args, $this->edit_profile_url );
-				$delete_link   = wp_nonce_url( $community_url, 'delete_avatar' ); ?>
+				$delete_link   = wp_nonce_url( $community_url, 'delete_avatar' );
+				?>
 
 				<a href="<?php echo esc_url( $delete_link ); ?>" class="bp-members-avatar-user-admin"><?php esc_html_e( 'Delete Profile Photo', 'buddypress' ); ?></a>
 
-			<?php endif;
+			<?php
+			endif;
 
 			// Load the Avatar UI templates if user avatar uploads are enabled.
-			if ( ! bp_core_get_root_option( 'bp-disable-avatar-uploads' ) ) : ?>
+			if ( ! bp_core_get_root_option( 'bp-disable-avatar-uploads' ) ) :
+			?>
 				<a href="#TB_inline?width=800px&height=400px&inlineId=bp-members-avatar-editor" class="thickbox bp-members-avatar-user-edit"><?php esc_html_e( 'Edit Profile Photo', 'buddypress' ); ?></a>
 				<div id="bp-members-avatar-editor" style="display:none;">
 					<?php bp_attachments_get_template_part( 'avatars/index' ); ?>
@@ -1621,7 +1635,7 @@ class BP_Members_Admin {
 			<?php foreach ( $types as $type ) : ?>
 				<li>
 					<label class="selectit">
-						<input value="<?php echo esc_attr( $type->name ) ?>" name="bp-members-profile-member-type[]" type="checkbox" <?php checked( true, in_array( $type->name, $current_type, true ) ); ?> <?php disabled( $disabled ); ?>>
+						<input value="<?php echo esc_attr( $type->name ); ?>" name="bp-members-profile-member-type[]" type="checkbox" <?php checked( true, in_array( $type->name, $current_type, true ) ); ?> <?php disabled( $disabled ); ?>>
 						<?php echo esc_html( $type->labels['singular_name'] ); ?>
 					</label>
 				</li>
@@ -2156,11 +2170,13 @@ class BP_Members_Admin {
 		}
 
 		// Loop through errors and display them.
-		foreach ( $errors as $error ) : ?>
+		foreach ( $errors as $error ) :
+		?>
 
-			<li><?php echo esc_html( $error[0] );?>: <?php echo esc_html( $error[1] );?></li>
+			<li><?php echo esc_html( $error[0] ); ?>: <?php echo esc_html( $error[1] ); ?></li>
 
-		<?php endforeach;
+		<?php
+		endforeach;
 
 		// Delete the redirect transient.
 		delete_transient( '_bp_admin_signups_errors' );
@@ -2354,7 +2370,8 @@ class BP_Members_Admin {
 
 		// Display notices.
 		if ( ! empty( $notice ) ) :
-			if ( 'updated' === $notice['class'] ) : ?>
+			if ( 'updated' === $notice['class'] ) :
+			?>
 
 				<div id="message" class="<?php echo esc_attr( $notice['class'] ); ?> notice is-dismissible">
 
@@ -2366,15 +2383,16 @@ class BP_Members_Admin {
 
 				<p><?php echo esc_html( $notice['message'] ); ?></p>
 
-				<?php if ( ! empty( $_REQUEST['notactivated'] ) || ! empty( $_REQUEST['notdeleted'] ) || ! empty( $_REQUEST['notsent'] ) ) :?>
+				<?php if ( ! empty( $_REQUEST['notactivated'] ) || ! empty( $_REQUEST['notdeleted'] ) || ! empty( $_REQUEST['notsent'] ) ) : ?>
 
-					<ul><?php $this->signups_display_errors();?></ul>
+					<ul><?php $this->signups_display_errors(); ?></ul>
 
-				<?php endif;?>
+				<?php endif; ?>
 
 			</div>
 
-		<?php endif;
+		<?php
+		endif;
 
 		// Show the proper screen.
 		switch ( $doaction ) {
@@ -2468,12 +2486,12 @@ class BP_Members_Admin {
 			<?php // Display each signups on its own row. ?>
 			<?php $bp_members_signup_list_table->views(); ?>
 
-			<form id="bp-signups-search-form" action="<?php echo esc_url( $search_form_url );?>">
+			<form id="bp-signups-search-form" action="<?php echo esc_url( $search_form_url ); ?>">
 				<input type="hidden" name="page" value="<?php echo esc_attr( $plugin_page ); ?>" />
 				<?php $bp_members_signup_list_table->search_box( __( 'Search Pending Users', 'buddypress' ), 'bp-signups' ); ?>
 			</form>
 
-			<form id="bp-signups-form" action="<?php echo esc_url( $form_url );?>" method="post">
+			<form id="bp-signups-form" action="<?php echo esc_url( $form_url ); ?>" method="post">
 				<?php $bp_members_signup_list_table->display(); ?>
 			</form>
 		</div>
@@ -2609,7 +2627,8 @@ class BP_Members_Admin {
 			<p><?php echo esc_html( $helper_text ); ?></p>
 
 			<ol class="bp-signups-list">
-			<?php foreach ( $signups as $signup ) :
+			<?php
+			foreach ( $signups as $signup ) :
 				if ( $signup->count_sent > 0 ) {
 					$last_notified = mysql2date( 'Y/m/d g:i:s a', $signup->date_sent );
 				} else {
@@ -2621,10 +2640,11 @@ class BP_Members_Admin {
 				if ( ! empty( $signup->meta['profile_field_ids'] ) ) {
 					$profile_field_ids = array_flip( explode( ',', $signup->meta['profile_field_ids'] ) );
 					unset( $profile_field_ids[1] );
-				} ?>
+				}
+				?>
 
 				<li>
-					<strong><?php echo esc_html( $signup->user_login ) ?></strong>
+					<strong><?php echo esc_html( $signup->user_login ); ?></strong>
 
 					<?php if ( 'activate' === $action || ( 'resend' === $action && bp_get_membership_requests_required() ) ) : ?>
 						<table class="wp-list-table widefat fixed striped">
@@ -2640,8 +2660,10 @@ class BP_Members_Admin {
 								</tr>
 
 								<?php if ( bp_is_active( 'xprofile' ) && ! empty( $profile_field_ids ) ) : ?>
-									<?php foreach ( $profile_field_ids as $pid => $noop ) :
-										$field_value = isset( $signup->meta[ "field_{$pid}" ] ) ? $signup->meta[ "field_{$pid}" ] : ''; ?>
+									<?php
+									foreach ( $profile_field_ids as $pid => $noop ) :
+										$field_value = isset( $signup->meta[ "field_{$pid}" ] ) ? $signup->meta[ "field_{$pid}" ] : '';
+										?>
 										<tr>
 											<td class="column-fields"><?php echo esc_html( $fdata[ $pid ] ); ?></td>
 											<td>
@@ -2652,7 +2674,7 @@ class BP_Members_Admin {
 											</td>
 										</tr>
 
-									<?php endforeach;  ?>
+									<?php endforeach; ?>
 
 								<?php endif; ?>
 
@@ -2707,12 +2729,12 @@ class BP_Members_Admin {
 
 			<?php if ( 'delete' === $action ) : ?>
 
-				<p><strong><?php esc_html_e( 'This action cannot be undone.', 'buddypress' ) ?></strong></p>
+				<p><strong><?php esc_html_e( 'This action cannot be undone.', 'buddypress' ); ?></strong></p>
 
 			<?php endif; ?>
 
 			<a class="button-primary" href="<?php echo esc_url( $action_url ); ?>"><?php esc_html_e( 'Confirm', 'buddypress' ); ?></a>
-			<a class="button" href="<?php echo esc_url( $cancel_url ); ?>"><?php esc_html_e( 'Cancel', 'buddypress' ) ?></a>
+			<a class="button" href="<?php echo esc_url( $cancel_url ); ?>"><?php esc_html_e( 'Cancel', 'buddypress' ); ?></a>
 		</div>
 
 		<?php
@@ -2747,9 +2769,9 @@ class BP_Members_Admin {
 
 		// phpcs:disable WordPress.Security.EscapeOutput
 		?>
-		<label class="screen-reader-text" for="<?php echo $id_name; ?>"><?php esc_html_e( 'Change member type to&hellip;', 'buddypress' ) ?></label>
+		<label class="screen-reader-text" for="<?php echo $id_name; ?>"><?php esc_html_e( 'Change member type to&hellip;', 'buddypress' ); ?></label>
 		<select name="<?php echo $id_name; ?>" id="<?php echo $id_name; ?>" style="display:inline-block;float:none;">
-			<option value=""><?php esc_html_e( 'Change member type to&hellip;', 'buddypress' ) ?></option>
+			<option value=""><?php esc_html_e( 'Change member type to&hellip;', 'buddypress' ); ?></option>
 
 			<?php foreach ( $types as $type ) : ?>
 
@@ -2757,7 +2779,7 @@ class BP_Members_Admin {
 
 			<?php endforeach; ?>
 
-			<option value="remove_member_type"><?php esc_html_e( 'No Member Type', 'buddypress' ) ?></option>
+			<option value="remove_member_type"><?php esc_html_e( 'No Member Type', 'buddypress' ); ?></option>
 
 		</select>
 		<?php
@@ -3285,7 +3307,8 @@ class BP_Members_Admin {
 
 		// Display notices.
 		if ( ! empty( $notice ) ) :
-			if ( 'updated' === $notice['class'] ) : ?>
+			if ( 'updated' === $notice['class'] ) :
+			?>
 
 				<div id="message" class="<?php echo esc_attr( $notice['class'] ); ?> notice is-dismissible">
 
@@ -3298,7 +3321,8 @@ class BP_Members_Admin {
 				<p><?php echo esc_html( $notice['message'] ); ?></p>
 			</div>
 
-		<?php endif;
+		<?php
+		endif;
 
 		// Show the proper screen.
 		switch ( $doaction ) {
@@ -3385,12 +3409,12 @@ class BP_Members_Admin {
 			<?php // Display each invitation on its own row. ?>
 			<?php $bp_members_invitations_list_table->views(); ?>
 
-			<form id="bp-members-invitations-search-form" action="<?php echo esc_url( $search_form_url );?>">
+			<form id="bp-members-invitations-search-form" action="<?php echo esc_url( $search_form_url ); ?>">
 				<input type="hidden" name="page" value="<?php echo esc_attr( $plugin_page ); ?>" />
 				<?php $bp_members_invitations_list_table->search_box( __( 'Search Invitations', 'buddypress' ), 'bp-members-invitations' ); ?>
 			</form>
 
-			<form id="bp-members-invitations-form" action="<?php echo esc_url( $form_url );?>" method="post">
+			<form id="bp-members-invitations-form" action="<?php echo esc_url( $form_url ); ?>" method="post">
 				<?php $bp_members_invitations_list_table->display(); ?>
 			</form>
 		</div>
@@ -3500,7 +3524,8 @@ class BP_Members_Admin {
 			<?php if ( $invites ) : ?>
 
 				<ol class="bp-invitations-list">
-					<?php foreach ( $invites as $invite ) :
+					<?php
+					foreach ( $invites as $invite ) :
 						if ( $invite->invite_sent ) {
 							$last_notified = mysql2date( 'Y/m/d g:i:s a', $invite->date_modified );
 						} else {
@@ -3509,7 +3534,7 @@ class BP_Members_Admin {
 						?>
 
 						<li>
-							<strong><?php echo esc_html( $invite->invitee_email ) ?></strong>
+							<strong><?php echo esc_html( $invite->invitee_email ); ?></strong>
 
 							<?php if ( 'resend' === $action ) : ?>
 
@@ -3531,7 +3556,7 @@ class BP_Members_Admin {
 
 			<?php if ( 'delete' === $action ) : ?>
 
-				<p><strong><?php esc_html_e( 'This action cannot be undone.', 'buddypress' ) ?></strong></p>
+				<p><strong><?php esc_html_e( 'This action cannot be undone.', 'buddypress' ); ?></strong></p>
 
 			<?php endif; ?>
 
@@ -3541,7 +3566,7 @@ class BP_Members_Admin {
 
 			<?php endif; ?>
 
-			<a class="button" href="<?php echo esc_url( $cancel_url ); ?>"><?php esc_html_e( 'Cancel', 'buddypress' ) ?></a>
+			<a class="button" href="<?php echo esc_url( $cancel_url ); ?>"><?php esc_html_e( 'Cancel', 'buddypress' ); ?></a>
 		</div>
 
 		<?php

@@ -17,7 +17,8 @@
 	 *
 	 * @since 1.1.0
 	 */
-	do_action( 'bp_before_message_thread_content' ); ?>
+	do_action( 'bp_before_message_thread_content' );
+	?>
 
 	<?php if ( bp_thread_has_messages() ) : ?>
 
@@ -67,7 +68,8 @@
 			 *
 			 * @since 2.5.0
 			 */
-			do_action( 'bp_after_message_thread_recipients' ); ?>
+			do_action( 'bp_after_message_thread_recipients' );
+			?>
 		</p>
 
 		<?php
@@ -77,7 +79,8 @@
 		 *
 		 * @since 1.1.0
 		 */
-		do_action( 'bp_before_message_thread_list' ); ?>
+		do_action( 'bp_before_message_thread_list' );
+		?>
 
 		<?php while ( bp_thread_messages() ) : bp_thread_the_message(); ?>
 			<?php bp_get_template_part( 'members/single/messages/message' ); ?>
@@ -90,7 +93,8 @@
 		 *
 		 * @since 1.1.0
 		 */
-		do_action( 'bp_after_message_thread_list' ); ?>
+		do_action( 'bp_after_message_thread_list' );
+		?>
 
 		<?php
 
@@ -99,7 +103,8 @@
 		 *
 		 * @since 1.1.0
 		 */
-		do_action( 'bp_before_message_thread_reply' ); ?>
+		do_action( 'bp_before_message_thread_reply' );
+		?>
 
 		<form id="send-reply" action="<?php bp_messages_form_action(); ?>" method="post" class="standard-form">
 
@@ -110,7 +115,8 @@
 					<?php
 
 					/** This action is documented in bp-templates/bp-legacy/buddypress-functions.php */
-					do_action( 'bp_before_message_meta' ); ?>
+					do_action( 'bp_before_message_meta' );
+					?>
 
 					<div class="avatar-box">
 						<?php bp_loggedin_user_avatar( 'type=thumb&height=30&width=30' ); ?>
@@ -121,7 +127,8 @@
 					<?php
 
 					/** This action is documented in bp-templates/bp-legacy/buddypress-functions.php */
-					do_action( 'bp_after_message_meta' ); ?>
+					do_action( 'bp_after_message_meta' );
+					?>
 
 				</div><!-- .message-metadata -->
 
@@ -134,7 +141,8 @@
 					 *
 					 * @since 1.1.0
 					 */
-					do_action( 'bp_before_message_reply_box' ); ?>
+					do_action( 'bp_before_message_reply_box' );
+					?>
 
 					<label for="message_content" class="bp-screen-reader-text">
 						<?php
@@ -151,7 +159,8 @@
 					 *
 					 * @since 1.1.0
 					 */
-					do_action( 'bp_after_message_reply_box' ); ?>
+					do_action( 'bp_after_message_reply_box' );
+					?>
 
 					<div class="submit">
 						<input type="submit" name="send" value="<?php esc_attr_e( 'Send Reply', 'buddypress' ); ?>" id="send_reply_button"/>
@@ -174,7 +183,8 @@
 		 *
 		 * @since 1.1.0
 		 */
-		do_action( 'bp_after_message_thread_reply' ); ?>
+		do_action( 'bp_after_message_thread_reply' );
+		?>
 
 	<?php endif; ?>
 
@@ -185,6 +195,7 @@
 	 *
 	 * @since 1.1.0
 	 */
-	do_action( 'bp_after_message_thread_content' ); ?>
+	do_action( 'bp_after_message_thread_content' );
+	?>
 
 </div>

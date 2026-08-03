@@ -18,4 +18,5 @@
 	<?php bp_get_template_part( 'members/single/friends/requests-loop' ); ?>
 </div>
 
-<?php bp_nouveau_member_hook( 'after', 'friend_requests_content' );
+<?php
+bp_nouveau_member_hook( 'after', 'friend_requests_content' );

@@ -28,7 +28,8 @@
 				 *
 				 * @since 1.2.0
 				 */
-				do_action( 'bp_member_activity_filter_options' ); ?>
+				do_action( 'bp_member_activity_filter_options' );
+				?>
 
 			</select>
 		</li>
@@ -42,7 +43,8 @@
  *
  * @since 1.2.0
  */
-do_action( 'bp_before_member_activity_post_form' ); ?>
+do_action( 'bp_before_member_activity_post_form' );
+?>
 
 <?php
 if ( is_user_logged_in() && bp_is_my_profile() && ( ! bp_current_action() || bp_is_current_action( 'just-me' ) ) )
@@ -60,11 +62,12 @@ do_action( 'bp_after_member_activity_post_form' );
  *
  * @since 1.2.0
  */
-do_action( 'bp_before_member_activity_content' ); ?>
+do_action( 'bp_before_member_activity_content' );
+?>
 
 <div class="activity" aria-live="polite" aria-atomic="true" aria-relevant="all">
 
-	<?php bp_get_template_part( 'activity/activity-loop' ) ?>
+	<?php bp_get_template_part( 'activity/activity-loop' ); ?>
 
 </div><!-- .activity -->
 

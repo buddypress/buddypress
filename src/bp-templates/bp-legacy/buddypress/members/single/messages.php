@@ -36,7 +36,8 @@ switch ( bp_current_action() ) :
 		 *
 		 * @since 1.2.0
 		 */
-		do_action( 'bp_before_member_messages_content' ); ?>
+		do_action( 'bp_before_member_messages_content' );
+		?>
 
 		<?php if ( bp_is_messages_inbox() ) : ?>
 			<h2 class="bp-screen-reader-text">
@@ -86,7 +87,8 @@ switch ( bp_current_action() ) :
 		 *
 		 * @since 1.2.0
 		 */
-		do_action( 'bp_before_member_messages_content' ); ?>
+		do_action( 'bp_before_member_messages_content' );
+		?>
 
 		<h2 class="bp-screen-reader-text">
 			<?php

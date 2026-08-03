@@ -18,7 +18,8 @@
  *
  * @since 1.1.0
  */
-do_action( 'bp_before_group_manage_members_admin' ); ?>
+do_action( 'bp_before_group_manage_members_admin' );
+?>
 
 <div aria-live="polite" aria-relevant="all" aria-atomic="true">
 
@@ -75,7 +76,8 @@ do_action( 'bp_before_group_manage_members_admin' ); ?>
 							 *
 							 * @param string $section Which list contains this item.
 							 */
-							do_action( 'bp_group_manage_members_admin_item', 'admins-list' ); ?>
+							do_action( 'bp_group_manage_members_admin_item', 'admins-list' );
+							?>
 						</div>
 
 						<div class="action">
@@ -92,7 +94,8 @@ do_action( 'bp_before_group_manage_members_admin' ); ?>
 							 *
 							 * @param string $section Which list contains this item.
 							 */
-							do_action( 'bp_group_manage_members_admin_actions', 'admins-list' ); ?>
+							do_action( 'bp_group_manage_members_admin_actions', 'admins-list' );
+							?>
 						</div>
 					</li>
 				<?php endwhile; ?>
@@ -177,7 +180,8 @@ do_action( 'bp_before_group_manage_members_admin' ); ?>
 							 *
 							 * @param string $section Which list contains this item.
 							 */
-							do_action( 'bp_group_manage_members_admin_item', 'admins-list' ); ?>
+							do_action( 'bp_group_manage_members_admin_item', 'admins-list' );
+							?>
 						</div>
 
 						<div class="action">
@@ -193,7 +197,8 @@ do_action( 'bp_before_group_manage_members_admin' ); ?>
 							 *
 							 * @param string $section Which list contains this item.
 							 */
-							do_action( 'bp_group_manage_members_admin_actions', 'mods-list' ); ?>
+							do_action( 'bp_group_manage_members_admin_actions', 'mods-list' );
+							?>
 
 						</div>
 					</li>
@@ -270,7 +275,8 @@ do_action( 'bp_before_group_manage_members_admin' ); ?>
 									echo ' <span class="banned">';
 									esc_html_e( '(banned)', 'buddypress' );
 									echo '</span>';
-								} ?>
+								}
+								?>
 							</div>
 							<p class="joined item-meta">
 								<?php bp_group_member_joined_since(); ?>
@@ -285,7 +291,8 @@ do_action( 'bp_before_group_manage_members_admin' ); ?>
 							 *
 							 * @param string $section Which list contains this item.
 							 */
-							do_action( 'bp_group_manage_members_admin_item', 'admins-list' ); ?>
+							do_action( 'bp_group_manage_members_admin_item', 'admins-list' );
+							?>
 						</div>
 
 						<div class="action">
@@ -312,7 +319,8 @@ do_action( 'bp_before_group_manage_members_admin' ); ?>
 							 *
 							 * @param string $section Which list contains this item.
 							 */
-							do_action( 'bp_group_manage_members_admin_actions', 'members-list' ); ?>
+							do_action( 'bp_group_manage_members_admin_actions', 'members-list' );
+							?>
 						</div>
 					</li>
 

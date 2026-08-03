@@ -34,4 +34,5 @@
 	<# } #>
 </script>
 
-<?php do_action( 'bp_attachments_cover_image_main_template' );
+<?php
+do_action( 'bp_attachments_cover_image_main_template' );

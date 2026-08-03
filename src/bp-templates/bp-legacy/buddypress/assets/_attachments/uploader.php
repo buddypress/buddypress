@@ -17,7 +17,10 @@
 		<h3 class="upload-instructions"><?php esc_html_e( 'The web browser on your device cannot be used to upload files.', 'buddypress' ); ?></h3>
 	<?php elseif ( is_multisite() && ! is_upload_space_available() ) : ?>
 		<h3 class="upload-instructions"><?php esc_html_e( 'Upload Limit Exceeded', 'buddypress' ); ?></h3>
-	<?php else : ?>
+	<?php
+	else :
+		// phpcs:disable Squiz.PHP.EmbeddedPhp -- Preserve the Backbone template's literal HTML bytes.
+	?>
 		<div id="{{data.container}}">
 			<div id="{{data.drop_element}}">
 				<div class="drag-drop-inside">
@@ -30,7 +33,10 @@
 				</div>
 			</div>
 		</div>
-	<?php endif; ?>
+	<?php
+	// phpcs:enable Squiz.PHP.EmbeddedPhp
+	endif;
+	?>
 </script>
 
 <script type="text/html" id="tmpl-progress-window">

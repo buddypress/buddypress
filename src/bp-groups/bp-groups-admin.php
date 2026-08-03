@@ -800,13 +800,13 @@ function bp_groups_admin_edit() {
 												esc_html_e( 'Group Name', 'buddypress' );
 											?>
 										</label>
-										<input type="text" name="bp-groups-name" id="bp-groups-name" value="<?php echo esc_attr( stripslashes( $group_name ) ) ?>" />
+										<input type="text" name="bp-groups-name" id="bp-groups-name" value="<?php echo esc_attr( stripslashes( $group_name ) ); ?>" />
 										<div id="bp-groups-permalink-box">
-											<strong><?php esc_html_e( 'Permalink:', 'buddypress' ) ?></strong>
+											<strong><?php esc_html_e( 'Permalink:', 'buddypress' ); ?></strong>
 											<span id="bp-groups-permalink">
 												<?php bp_groups_directory_url(); ?> <input type="text" id="bp-groups-slug" name="bp-groups-slug" value="<?php bp_group_slug( $group ); ?>" autocomplete="off"> /
 											</span>
-											<a href="<?php bp_group_url( $group ) ?>" class="button button-small" id="bp-groups-visit-group"><?php esc_html_e( 'View Group', 'buddypress' ) ?></a>
+											<a href="<?php bp_group_url( $group ); ?>" class="button button-small" id="bp-groups-visit-group"><?php esc_html_e( 'View Group', 'buddypress' ); ?></a>
 										</div>
 
 										<label for="bp-groups-description" class="screen-reader-text">
@@ -901,13 +901,14 @@ function bp_groups_admin_delete() {
 		$gids[] = $group->id;
 	}
 
-	$base_url = remove_query_arg( array( 'action', 'action2', 'paged', 's', '_wpnonce', 'gid' ), $_SERVER['REQUEST_URI'] ); ?>
+	$base_url = remove_query_arg( array( 'action', 'action2', 'paged', 's', '_wpnonce', 'gid' ), $_SERVER['REQUEST_URI'] );
+	?>
 
 	<div class="wrap">
-		<h1 class="wp-heading-inline"><?php esc_html_e( 'Delete Groups', 'buddypress' ) ?></h1>
+		<h1 class="wp-heading-inline"><?php esc_html_e( 'Delete Groups', 'buddypress' ); ?></h1>
 		<hr class="wp-header-end">
 
-		<p><?php esc_html_e( 'You are about to delete the following groups:', 'buddypress' ) ?></p>
+		<p><?php esc_html_e( 'You are about to delete the following groups:', 'buddypress' ); ?></p>
 
 		<ul class="bp-group-delete-list">
 		<?php foreach ( $groups['groups'] as $group ) : ?>
@@ -975,7 +976,8 @@ function bp_groups_admin_index() {
 	 *
 	 * @param array $messages Array of messages to be displayed.
 	 */
-	do_action( 'bp_groups_admin_index', $messages ); ?>
+	do_action( 'bp_groups_admin_index', $messages );
+	?>
 
 	<div class="wrap">
 
@@ -1027,11 +1029,12 @@ function bp_groups_admin_index() {
  */
 function bp_groups_admin_edit_metabox_settings( $item ) {
 
-	$invite_status = bp_group_get_invite_status( $item->id ); ?>
+	$invite_status = bp_group_get_invite_status( $item->id );
+	?>
 
 	<?php if ( bp_is_active( 'forums' ) ) : ?>
 		<div class="bp-groups-settings-section" id="bp-groups-settings-section-forum">
-			<label for="group-show-forum"><input type="checkbox" name="group-show-forum" id="group-show-forum" <?php checked( $item->enable_forum ) ?> /> <?php esc_html_e( 'Enable discussion forum', 'buddypress' ) ?></label>
+			<label for="group-show-forum"><input type="checkbox" name="group-show-forum" id="group-show-forum" <?php checked( $item->enable_forum ); ?> /> <?php esc_html_e( 'Enable discussion forum', 'buddypress' ); ?></label>
 		</div>
 	<?php endif; ?>
 
@@ -1039,9 +1042,9 @@ function bp_groups_admin_edit_metabox_settings( $item ) {
 		<fieldset>
 			<legend><?php esc_html_e( 'Privacy', 'buddypress' ); ?></legend>
 
-			<label for="bp-group-status-public"><input type="radio" name="group-status" id="bp-group-status-public" value="public" <?php checked( $item->status, 'public' ) ?> /><?php esc_html_e( 'Public', 'buddypress' ) ?></label>
-			<label for="bp-group-status-private"><input type="radio" name="group-status" id="bp-group-status-private" value="private" <?php checked( $item->status, 'private' ) ?> /><?php esc_html_e( 'Private', 'buddypress' ) ?></label>
-			<label for="bp-group-status-hidden"><input type="radio" name="group-status" id="bp-group-status-hidden" value="hidden" <?php checked( $item->status, 'hidden' ) ?> /><?php esc_html_e( 'Hidden', 'buddypress' ) ?></label>
+			<label for="bp-group-status-public"><input type="radio" name="group-status" id="bp-group-status-public" value="public" <?php checked( $item->status, 'public' ); ?> /><?php esc_html_e( 'Public', 'buddypress' ); ?></label>
+			<label for="bp-group-status-private"><input type="radio" name="group-status" id="bp-group-status-private" value="private" <?php checked( $item->status, 'private' ); ?> /><?php esc_html_e( 'Private', 'buddypress' ); ?></label>
+			<label for="bp-group-status-hidden"><input type="radio" name="group-status" id="bp-group-status-hidden" value="hidden" <?php checked( $item->status, 'hidden' ); ?> /><?php esc_html_e( 'Hidden', 'buddypress' ); ?></label>
 		</fieldset>
 	</div>
 
@@ -1049,9 +1052,9 @@ function bp_groups_admin_edit_metabox_settings( $item ) {
 		<fieldset>
 			<legend><?php esc_html_e( 'Who can invite others to this group?', 'buddypress' ); ?></legend>
 
-			<label for="bp-group-invite-status-members"><input type="radio" name="group-invite-status" id="bp-group-invite-status-members" value="members" <?php checked( $invite_status, 'members' ) ?> /><?php esc_html_e( 'All group members', 'buddypress' ) ?></label>
-			<label for="bp-group-invite-status-mods"><input type="radio" name="group-invite-status" id="bp-group-invite-status-mods" value="mods" <?php checked( $invite_status, 'mods' ) ?> /><?php esc_html_e( 'Group admins and mods only', 'buddypress' ) ?></label>
-			<label for="bp-group-invite-status-admins"><input type="radio" name="group-invite-status" id="bp-group-invite-status-admins" value="admins" <?php checked( $invite_status, 'admins' ) ?> /><?php esc_html_e( 'Group admins only', 'buddypress' ) ?></label>
+			<label for="bp-group-invite-status-members"><input type="radio" name="group-invite-status" id="bp-group-invite-status-members" value="members" <?php checked( $invite_status, 'members' ); ?> /><?php esc_html_e( 'All group members', 'buddypress' ); ?></label>
+			<label for="bp-group-invite-status-mods"><input type="radio" name="group-invite-status" id="bp-group-invite-status-mods" value="mods" <?php checked( $invite_status, 'mods' ); ?> /><?php esc_html_e( 'Group admins and mods only', 'buddypress' ); ?></label>
+			<label for="bp-group-invite-status-admins"><input type="radio" name="group-invite-status" id="bp-group-invite-status-admins" value="admins" <?php checked( $invite_status, 'admins' ); ?> /><?php esc_html_e( 'Group admins only', 'buddypress' ); ?></label>
 		</fieldset>
 	</div>
 
@@ -1164,9 +1167,10 @@ function bp_groups_admin_edit_metabox_members( $item ) {
 	echo '<script type="text/javascript">var group_id = "' . esc_js( $item->id ) . '";</script>';
 
 	// Loop through each member type.
-	foreach ( $members as $member_type => $type_users ) : ?>
+	foreach ( $members as $member_type => $type_users ) :
+	?>
 
-		<div class="bp-groups-member-type" id="bp-groups-member-type-<?php echo esc_attr( $member_type ) ?>">
+		<div class="bp-groups-member-type" id="bp-groups-member-type-<?php echo esc_attr( $member_type ); ?>">
 
 			<h3>
 				<?php
@@ -1278,7 +1282,8 @@ function bp_groups_admin_edit_metabox_members( $item ) {
 								 * @param int             $ID   ID of the user being rendered.
 								 * @param BP_Groups_Group $item Object for the current group.
 								 */
-								do_action( 'bp_groups_admin_manage_member_row', $type_user->ID, $item ); ?>
+								do_action( 'bp_groups_admin_manage_member_row', $type_user->ID, $item );
+								?>
 							</td>
 						</tr>
 					<?php endif; ?>
@@ -1296,7 +1301,8 @@ function bp_groups_admin_edit_metabox_members( $item ) {
 
 		</div><!-- .bp-groups-member-type -->
 
-	<?php endforeach;
+	<?php
+	endforeach;
 }
 
 /**
@@ -1319,7 +1325,7 @@ function bp_groups_admin_edit_metabox_status( $item ) {
 	<div id="submitcomment" class="submitbox">
 		<div id="major-publishing-actions">
 			<div id="delete-action">
-				<a class="submitdelete deletion" href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'action', 'delete', $base_url ), 'bp-groups-delete' ) ); ?>"><?php esc_html_e( 'Delete Group', 'buddypress' ) ?></a>
+				<a class="submitdelete deletion" href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'action', 'delete', $base_url ), 'bp-groups-delete' ) ); ?>"><?php esc_html_e( 'Delete Group', 'buddypress' ); ?></a>
 			</div>
 
 			<div id="publishing-action">
@@ -1361,7 +1367,7 @@ function bp_groups_admin_edit_metabox_group_type( $group = null ) {
 	<ul class="categorychecklist form-no-clear">
 		<?php foreach ( $types as $type ) : ?>
 			<li>
-				<label class="selectit"><input value="<?php echo esc_attr( $type->name ) ?>" name="bp-groups-group-type[]" type="checkbox" <?php checked( true, in_array( $type->name, $current_types, true ) ); ?>>
+				<label class="selectit"><input value="<?php echo esc_attr( $type->name ); ?>" name="bp-groups-group-type[]" type="checkbox" <?php checked( true, in_array( $type->name, $current_types, true ) ); ?>>
 					<?php
 						echo esc_html( $type->labels['singular_name'] );
 						if ( in_array( $type->name, $backend_only, true ) ) {

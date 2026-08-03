@@ -35,7 +35,8 @@ do_action( 'bp_before_notices_loop' ); ?>
 	 *
 	 * @since 1.2.0
 	 */
-	do_action( 'bp_after_notices_pagination' ); ?>
+	do_action( 'bp_after_notices_pagination' );
+	?>
 	<?php
 
 	/**
@@ -43,7 +44,8 @@ do_action( 'bp_before_notices_loop' ); ?>
 	 *
 	 * @since 1.2.0
 	 */
-	do_action( 'bp_before_notices' ); ?>
+	do_action( 'bp_before_notices' );
+	?>
 
 	<table id="message-threads" class="messages-notices sitewide-notices">
 		<?php while ( bp_message_threads() ) : bp_message_thread(); ?>
@@ -71,7 +73,8 @@ do_action( 'bp_before_notices_loop' ); ?>
 				 *
 				 * @since 1.2.0
 				 */
-				do_action( 'bp_notices_list_item' ); ?>
+				do_action( 'bp_notices_list_item' );
+				?>
 
 				<td width="10%">
 					<a class="button" href="<?php bp_message_activate_deactivate_link(); ?>" class="confirm"><?php bp_message_activate_deactivate_text(); ?></a>
@@ -88,7 +91,8 @@ do_action( 'bp_before_notices_loop' ); ?>
 	 *
 	 * @since 1.2.0
 	 */
-	do_action( 'bp_after_notices' ); ?>
+	do_action( 'bp_after_notices' );
+	?>
 
 <?php else: ?>
 
@@ -96,7 +100,7 @@ do_action( 'bp_before_notices_loop' ); ?>
 		<p><?php esc_html_e( 'Sorry, no notices were found.', 'buddypress' ); ?></p>
 	</div>
 
-<?php endif;?>
+<?php endif; ?>
 
 <?php
 

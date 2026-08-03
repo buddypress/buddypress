@@ -28,9 +28,9 @@
 
 	<input type="hidden" name="action" value="send-invite">
 
-	<?php wp_nonce_field( 'bp_members_invitation_send_' . bp_displayed_user_id() ) ?>
+	<?php wp_nonce_field( 'bp_members_invitation_send_' . bp_displayed_user_id() ); ?>
 	<p>
-		<input id="submit" type="submit" name="submit" class="submit" value="<?php esc_attr_e( 'Send Invitation', 'buddypress' ) ?>" />
+		<input id="submit" type="submit" name="submit" class="submit" value="<?php esc_attr_e( 'Send Invitation', 'buddypress' ); ?>" />
 	</p>
 </form>
 

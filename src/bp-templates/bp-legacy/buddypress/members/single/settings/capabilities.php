@@ -19,7 +19,8 @@ do_action( 'bp_before_member_settings_template' ); ?>
 	 *
 	 * @since 1.6.0
 	 */
-	do_action( 'bp_members_capabilities_account_before_submit' ); ?>
+	do_action( 'bp_members_capabilities_account_before_submit' );
+	?>
 
 	<label for="user-spammer">
 		<input type="checkbox" name="user-spammer" id="user-spammer" value="1" <?php checked( bp_is_user_spammer( bp_displayed_user_id() ) ); ?> />
@@ -37,7 +38,8 @@ do_action( 'bp_before_member_settings_template' ); ?>
 	 *
 	 * @since 1.6.0
 	 */
-	do_action( 'bp_members_capabilities_account_after_submit' ); ?>
+	do_action( 'bp_members_capabilities_account_after_submit' );
+	?>
 
 	<?php wp_nonce_field( 'capabilities' ); ?>
 

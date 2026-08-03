@@ -61,7 +61,8 @@ do_action( 'bp_before_group_invites_content' ); ?>
 				 *
 				 * @since 1.1.0
 				 */
-				do_action( 'bp_group_invites_item' ); ?>
+				do_action( 'bp_group_invites_item' );
+				?>
 
 				<div class="action">
 					<a class="button accept" href="<?php bp_group_accept_invite_link(); ?>"><?php esc_html_e( 'Accept', 'buddypress' ); ?></a> &nbsp;
@@ -74,7 +75,8 @@ do_action( 'bp_before_group_invites_content' ); ?>
 					 *
 					 * @since 1.1.0
 					 */
-					do_action( 'bp_group_invites_item_action' ); ?>
+					do_action( 'bp_group_invites_item_action' );
+					?>
 
 				</div>
 			</li>
@@ -88,7 +90,7 @@ do_action( 'bp_before_group_invites_content' ); ?>
 		<p><?php esc_html_e( 'You have no outstanding group invites.', 'buddypress' ); ?></p>
 	</div>
 
-<?php endif;?>
+<?php endif; ?>
 
 <?php
 

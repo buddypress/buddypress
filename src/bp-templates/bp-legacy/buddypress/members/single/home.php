@@ -18,7 +18,8 @@
 	 *
 	 * @since 1.2.0
 	 */
-	do_action( 'bp_before_member_home_content' ); ?>
+	do_action( 'bp_before_member_home_content' );
+	?>
 
 	<div id="item-header" role="complementary">
 
@@ -48,7 +49,8 @@
 				 *
 				 * @since 1.2.4
 				 */
-				do_action( 'bp_member_options_nav' ); ?>
+				do_action( 'bp_member_options_nav' );
+				?>
 
 			</ul>
 		</div>
@@ -106,7 +108,8 @@
 		 *
 		 * @since 1.2.0
 		 */
-		do_action( 'bp_after_member_body' ); ?>
+		do_action( 'bp_after_member_body' );
+		?>
 
 	</div><!-- #item-body -->
 
@@ -117,6 +120,7 @@
 	 *
 	 * @since 1.2.0
 	 */
-	do_action( 'bp_after_member_home_content' ); ?>
+	do_action( 'bp_after_member_home_content' );
+	?>
 
 </div><!-- #buddypress -->

@@ -16,7 +16,8 @@
  *
  * @since 1.2.0
  */
-do_action( 'bp_before_member_header' ); ?>
+do_action( 'bp_before_member_header' );
+?>
 
 <div id="cover-image-container">
 	<a id="header-cover-image" href="<?php bp_displayed_user_link(); ?>"></a>
@@ -34,7 +35,10 @@ do_action( 'bp_before_member_header' ); ?>
 
 			<?php if ( bp_is_active( 'activity' ) && bp_activity_do_mentions() ) : ?>
 				<h2 class="user-nicename">@<?php bp_displayed_user_mentionname(); ?></h2>
-			<?php endif; ?>
+			<?php
+			endif;
+			// phpcs:disable Squiz.PHP.EmbeddedPhp -- Keep an inactive action container truly empty.
+			?>
 
 			<div id="item-buttons"><?php
 
@@ -45,6 +49,7 @@ do_action( 'bp_before_member_header' ); ?>
 				 */
 				do_action( 'bp_member_header_actions' ); ?></div><!-- #item-buttons -->
 
+			<?php // phpcs:enable Squiz.PHP.EmbeddedPhp ?>
 			<span class="activity" data-livestamp="<?php bp_core_iso8601_date( bp_get_user_last_activity( bp_displayed_user_id() ) ); ?>"><?php bp_last_activity( bp_displayed_user_id() ); ?></span>
 
 			<?php
@@ -54,7 +59,8 @@ do_action( 'bp_before_member_header' ); ?>
 			 *
 			 * @since 1.2.0
 			 */
-			do_action( 'bp_before_member_header_meta' ); ?>
+			do_action( 'bp_before_member_header_meta' );
+			?>
 
 			<div id="item-meta">
 
@@ -96,12 +102,14 @@ do_action( 'bp_before_member_header' ); ?>
  *
  * @since 1.2.0
  */
-do_action( 'bp_after_member_header' ); ?>
+do_action( 'bp_after_member_header' );
+?>
 
 <div id="template-notices" role="alert" aria-atomic="true">
 	<?php
 
 	/** This action is documented in bp-templates/bp-legacy/buddypress/activity/index.php */
-	do_action( 'template_notices' ); ?>
+	do_action( 'template_notices' );
+	?>
 
 </div>

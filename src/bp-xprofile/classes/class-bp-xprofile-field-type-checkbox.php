@@ -78,13 +78,16 @@ class BP_XProfile_Field_Type_Checkbox extends BP_XProfile_Field_Type {
 			<?php
 
 			/** This action is documented in bp-xprofile/bp-xprofile-classes */
-			do_action( bp_get_the_profile_field_errors_action() ); ?>
+			do_action( bp_get_the_profile_field_errors_action() );
+			?>
 
-			<?php bp_the_profile_field_options(
+			<?php
+			bp_the_profile_field_options(
 				array(
 					'user_id' => $user_id,
 				)
-			); ?>
+			);
+			?>
 
 		<?php
 	}

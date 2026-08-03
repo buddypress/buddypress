@@ -25,7 +25,8 @@
 				esc_html__( 'Your profile photo will be used on your profile and throughout the site. If there is a %s associated with your account email we will use that, or you can upload an image from your computer.', 'buddypress' ),
 				/* Translators: Url to the Gravatar site, you can use the one for your country eg: https://fr.gravatar.com for French translation */
 				'<a href="' . esc_url( __( 'https://gravatar.com', 'buddypress' ) ) . '">Gravatar</a>'
-			); ?>
+			);
+			?>
 		</span>
 	</p>
 
@@ -92,7 +93,8 @@
 			esc_html__( 'Your profile photo will be used on your profile and throughout the site. To change your profile photo, create an account with %s using the same email address as you used to register with this site.', 'buddypress' ),
 			/* Translators: Url to the Gravatar site, you can use the one for your country eg: https://fr.gravatar.com for French translation */
 			'<a href="' . esc_url( __( 'https://gravatar.com', 'buddypress' ) ) . '">Gravatar</a>'
-		); ?>
+		);
+		?>
 	</p>
 
 <?php endif; ?>

@@ -18,7 +18,8 @@
  *
  * @since 1.1.0
  */
-do_action( 'bp_before_profile_avatar_upload_content' ); ?>
+do_action( 'bp_before_profile_avatar_upload_content' );
+?>
 
 <?php if ( ! (int)bp_get_option( 'bp-disable-avatar-uploads' ) ) : ?>
 
@@ -88,7 +89,8 @@ do_action( 'bp_before_profile_avatar_upload_content' ); ?>
 	 *
 	 * @since  2.3.0
 	 */
-	bp_avatar_get_templates(); ?>
+	bp_avatar_get_templates();
+	?>
 
 <?php else : ?>
 

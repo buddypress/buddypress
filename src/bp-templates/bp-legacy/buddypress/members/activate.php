@@ -18,7 +18,8 @@
 	 *
 	 * @since 1.1.0
 	 */
-	do_action( 'bp_before_activation_page' ); ?>
+	do_action( 'bp_before_activation_page' );
+	?>
 
 	<div class="page" id="activate-page">
 
@@ -26,7 +27,8 @@
 			<?php
 
 			/** This action is documented in bp-templates/bp-legacy/buddypress/activity/index.php */
-			do_action( 'template_notices' ); ?>
+			do_action( 'template_notices' );
+			?>
 
 		</div>
 
@@ -37,7 +39,8 @@
 		 *
 		 * @since 1.1.0
 		 */
-		do_action( 'bp_before_activate_content' ); ?>
+		do_action( 'bp_before_activate_content' );
+		?>
 
 		<?php if ( bp_account_was_activated() ) : ?>
 
@@ -79,7 +82,8 @@
 		 *
 		 * @since 1.1.0
 		 */
-		do_action( 'bp_after_activate_content' ); ?>
+		do_action( 'bp_after_activate_content' );
+		?>
 
 	</div><!-- .page -->
 
@@ -90,6 +94,7 @@
 	 *
 	 * @since 1.1.0
 	 */
-	do_action( 'bp_after_activation_page' ); ?>
+	do_action( 'bp_after_activation_page' );
+	?>
 
 </div><!-- #buddypress -->

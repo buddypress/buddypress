@@ -317,8 +317,8 @@ class BP_Activity_Feed {
 
 				if ( 'activity_comment' === bp_get_activity_action_name() ) :
 			?>
-				<strong><?php esc_html_e( 'In reply to', 'buddypress' ) ?></strong> -
-				<?php bp_activity_parent_content() ?>
+				<strong><?php esc_html_e( 'In reply to', 'buddypress' ); ?></strong> -
+				<?php bp_activity_parent_content(); ?>
 			<?php
 				endif;
 
@@ -435,7 +435,8 @@ class BP_Activity_Feed {
 	 *
 	 * @since 1.8.0
 	 */
-	do_action( 'bp_activity_feed_rss_attributes' ); ?>
+	do_action( 'bp_activity_feed_rss_attributes' );
+	?>
 >
 
 <channel>
@@ -456,14 +457,15 @@ class BP_Activity_Feed {
 	 *
 	 * @since 1.8.0
 	 */
-	do_action( 'bp_activity_feed_channel_elements' ); ?>
+	do_action( 'bp_activity_feed_channel_elements' );
+	?>
 
 	<?php if ( bp_has_activities( $this->activity_args ) ) : ?>
 		<?php while ( bp_activities() ) : bp_the_activity(); ?>
 			<item>
 				<guid isPermaLink="false"><?php bp_activity_feed_item_guid(); ?></guid>
 				<title><?php echo esc_html( stripslashes( bp_get_activity_feed_item_title() ) ); ?></title>
-				<link><?php bp_activity_thread_permalink() ?></link>
+				<link><?php bp_activity_thread_permalink(); ?></link>
 				<pubDate><?php echo esc_html( mysql2date( 'D, d M Y H:i:s O', bp_get_activity_feed_item_date(), false ) ); ?></pubDate>
 
 				<?php if ( bp_get_activity_feed_item_description() ) : ?>
@@ -481,12 +483,14 @@ class BP_Activity_Feed {
 				 *
 				 * @since 1.8.0
 				 */
-				do_action( 'bp_activity_feed_item_elements' ); ?>
+				do_action( 'bp_activity_feed_item_elements' );
+				?>
 			</item>
 		<?php endwhile; ?>
 
 	<?php endif; ?>
 </channel>
-</rss><?php
+</rss>
+<?php
 	}
 }

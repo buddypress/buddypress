@@ -49,7 +49,8 @@
 					 *
 					 * @since 1.1.0
 					 */
-					do_action( 'bp_group_membership_requests_admin_item' ); ?>
+					do_action( 'bp_group_membership_requests_admin_item' );
+					?>
 
 				</div>
 
@@ -86,7 +87,8 @@
 					 *
 					 * @since 1.1.0
 					 */
-					do_action( 'bp_group_membership_requests_admin_item_action' ); ?>
+					do_action( 'bp_group_membership_requests_admin_item_action' );
+					?>
 
 				</div>
 			</li>
@@ -116,4 +118,5 @@
 			<p><?php esc_html_e( 'There are no pending membership requests.', 'buddypress' ); ?></p>
 		</div>
 
-	<?php endif;
+	<?php
+	endif;

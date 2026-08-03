@@ -14,7 +14,8 @@
 		<?php
 
 		/** This action is documented in bp-templates/bp-legacy/buddypress/activity/index.php */
-		do_action( 'template_notices' ); ?>
+		do_action( 'template_notices' );
+		?>
 
 	</div>
 

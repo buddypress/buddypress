@@ -76,9 +76,11 @@ class BP_XProfile_Field_Type_Radiobutton extends BP_XProfile_Field_Type {
 			<?php
 
 			/** This action is documented in bp-xprofile/bp-xprofile-classes */
-			do_action( bp_get_the_profile_field_errors_action() ); ?>
+			do_action( bp_get_the_profile_field_errors_action() );
+			?>
 
-			<?php bp_the_profile_field_options( array( 'user_id' => $user_id ) );
+			<?php
+			bp_the_profile_field_options( array( 'user_id' => $user_id ) );
 
 			if ( ! bp_get_the_profile_field_is_required() ) :
 
@@ -96,7 +98,8 @@ class BP_XProfile_Field_Type_Radiobutton extends BP_XProfile_Field_Type {
 					<?php esc_html_e( 'Clear', 'buddypress' ); ?>
 				</a>
 
-			<?php endif;
+			<?php
+			endif;
 			// phpcs:enable
 	}
 
@@ -185,7 +188,8 @@ class BP_XProfile_Field_Type_Radiobutton extends BP_XProfile_Field_Type {
 
 		if ( bp_get_the_profile_field_is_required() ) {
 			return;
-		} ?>
+		}
+		?>
 
 		<a class="clear-value" href="javascript:clear( '<?php echo esc_js( bp_get_the_profile_field_input_name() ); ?>' );">
 			<?php esc_html_e( 'Clear', 'buddypress' ); ?>

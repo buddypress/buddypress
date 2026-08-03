@@ -58,7 +58,8 @@ do_action( 'bp_before_activity_comment' ); ?>
 		 *
 		 * @since 1.6.0
 		 */
-		do_action( 'bp_activity_comment_options' ); ?>
+		do_action( 'bp_activity_comment_options' );
+		?>
 
 	</div>
 

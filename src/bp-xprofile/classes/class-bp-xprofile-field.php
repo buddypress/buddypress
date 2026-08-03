@@ -1336,7 +1336,8 @@ class BP_XProfile_Field {
 							<?php
 
 							// Output the name & description fields.
-							$this->name_and_description(); ?>
+							$this->name_and_description();
+							?>
 
 						</div><!-- #post-body-content -->
 
@@ -1370,7 +1371,8 @@ class BP_XProfile_Field {
 							 *
 							 * @param BP_XProfile_Field $field Current instance of the field.
 							 */
-							do_action( 'xprofile_field_after_sidebarbox', $this ); ?>
+							do_action( 'xprofile_field_after_sidebarbox', $this );
+							?>
 
 						</div>
 
@@ -1400,7 +1402,8 @@ class BP_XProfile_Field {
 							 *
 							 * @param BP_XProfile_Field $field Current instance of the field.
 							 */
-							do_action( 'xprofile_field_after_contentbox', $this ); ?>
+							do_action( 'xprofile_field_after_contentbox', $this );
+							?>
 
 						</div>
 					</div><!-- #post-body -->
@@ -1499,7 +1502,8 @@ class BP_XProfile_Field {
 		 *
 		 * @param BP_XProfile_Field $field Current instance of the field.
 		 */
-		do_action( 'xprofile_field_before_submitbox', $this ); ?>
+		do_action( 'xprofile_field_before_submitbox', $this );
+		?>
 
 		<div id="submitdiv" class="postbox">
 			<h2><?php esc_html_e( 'Submit', 'buddypress' ); ?></h2>
@@ -1516,7 +1520,8 @@ class BP_XProfile_Field {
 						 *
 						 * @param BP_XProfile_Field $field Current instance of the field.
 						 */
-						do_action( 'xprofile_field_submitbox_start', $this ); ?>
+						do_action( 'xprofile_field_submitbox_start', $this );
+						?>
 
 						<input type="hidden" name="field_order" id="field_order" value="<?php echo esc_attr( $this->field_order ); ?>" />
 
@@ -1642,7 +1647,7 @@ class BP_XProfile_Field {
 					</li>
 
 				</ul>
-				<p class="description member-type-none-notice<?php if ( ! empty( $field_member_types ) ) : ?> hide<?php endif; ?>"><?php esc_html_e( 'Unavailable to all members.', 'buddypress' ) ?></p>
+				<p class="description member-type-none-notice<?php if ( ! empty( $field_member_types ) ) : ?> hide<?php endif; ?>"><?php esc_html_e( 'Unavailable to all members.', 'buddypress' ); ?></p>
 			</div>
 
 			<input type="hidden" name="has-member-types" value="1" />
@@ -1661,7 +1666,8 @@ class BP_XProfile_Field {
 		// Default field and field types not supporting the feature cannot have custom visibility.
 		if ( true === $this->is_default_field() || ! $this->field_type_supports( 'allow_custom_visibility' ) ) {
 			return;
-		} ?>
+		}
+		?>
 
 		<div class="postbox" id="field-type-visibiliy-metabox">
 			<h2><label for="default-visibility"><?php esc_html_e( 'Visibility', 'buddypress' ); ?></label></h2>
@@ -1708,7 +1714,8 @@ class BP_XProfile_Field {
 		// Default field and field types not supporting the feature cannot be required.
 		if ( true === $this->is_default_field() || ! $this->field_type_supports( 'required' ) ) {
 			return;
-		} ?>
+		}
+		?>
 
 		<div class="postbox" id="field-type-required-metabox">
 			<h2><label for="required"><?php esc_html_e( 'Requirement', 'buddypress' ); ?></label></h2>
@@ -1733,7 +1740,8 @@ class BP_XProfile_Field {
 		// Field types not supporting the feature cannot use autolink.
 		if ( ! $this->field_type_supports( 'do_autolink' ) ) {
 			return;
-		} ?>
+		}
+		?>
 
 		<div class="postbox" id="field-type-autolink-metabox">
 			<h2><?php esc_html_e( 'Autolink', 'buddypress' ); ?></h2>
@@ -1741,10 +1749,12 @@ class BP_XProfile_Field {
 				<p class="description"><?php esc_html_e( 'On user profiles, link this field to a search of the Members directory, using the field value as a search term.', 'buddypress' ); ?></p>
 
 				<p>
-					<label for="do-autolink" class="screen-reader-text"><?php
+					<label for="do-autolink" class="screen-reader-text">
+					<?php
 						/* translators: accessibility text */
 						esc_html_e( 'Autolink status for this field', 'buddypress' );
-					?></label>
+					?>
+					</label>
 					<select name="do_autolink" id="do-autolink">
 						<option value="on" <?php selected( $this->get_do_autolink() ); ?>><?php esc_html_e( 'Enabled', 'buddypress' ); ?></option>
 						<option value="" <?php selected( $this->get_do_autolink(), false ); ?>><?php esc_html_e( 'Disabled', 'buddypress' ); ?></option>
@@ -1789,7 +1799,8 @@ class BP_XProfile_Field {
 				// Deprecated filter, don't use. Go look at {@link BP_XProfile_Field_Type::admin_new_field_html()}.
 				do_action( 'xprofile_field_additional_options', $this );
 
-				$this->render_admin_form_children(); ?>
+				$this->render_admin_form_children();
+				?>
 
 			</div>
 		</div>

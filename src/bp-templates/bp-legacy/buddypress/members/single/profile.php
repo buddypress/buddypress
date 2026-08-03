@@ -22,11 +22,13 @@
  *
  * @since 1.1.0
  */
-do_action( 'bp_before_profile_content' ); ?>
+do_action( 'bp_before_profile_content' );
+?>
 
 <div class="profile">
 
-<?php switch ( bp_current_action() ) :
+<?php
+switch ( bp_current_action() ) :
 
 	// Edit
 	case 'edit'   :
@@ -60,7 +62,8 @@ do_action( 'bp_before_profile_content' ); ?>
 	default :
 		bp_get_template_part( 'members/single/plugins' );
 		break;
-endswitch; ?>
+endswitch;
+?>
 </div><!-- .profile -->
 
 <?php

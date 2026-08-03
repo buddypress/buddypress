@@ -4794,7 +4794,8 @@ function bp_groups_members_template_part() {
 			 *
 			 * @since 1.5.0
 			 */
-			do_action( 'bp_members_directory_member_sub_types' ); ?>
+			do_action( 'bp_members_directory_member_sub_types' );
+			?>
 
 		</ul>
 	</div>
@@ -4842,7 +4843,8 @@ function bp_groups_members_filter() {
 			 *
 			 * @since 2.0.0
 			 */
-			do_action( 'bp_groups_members_order_options' ); ?>
+			do_action( 'bp_groups_members_order_options' );
+			?>
 
 		</select>
 	</li>
@@ -6507,7 +6509,7 @@ function bp_groups_activity_feed() {
 		return;
 	}
 	?>
-	<link rel="alternate" type="application/rss+xml" title="<?php bloginfo( 'name' ) ?> | <?php echo esc_attr( bp_get_current_group_name() ); ?> | <?php esc_html_e( 'Group Activity RSS Feed', 'buddypress' ) ?>" href="<?php bp_group_activity_feed_link(); ?>" />
+	<link rel="alternate" type="application/rss+xml" title="<?php bloginfo( 'name' ); ?> | <?php echo esc_attr( bp_get_current_group_name() ); ?> | <?php esc_html_e( 'Group Activity RSS Feed', 'buddypress' ); ?>" href="<?php bp_group_activity_feed_link(); ?>" />
 	<?php
 }
 add_action( 'bp_head', 'bp_groups_activity_feed' );

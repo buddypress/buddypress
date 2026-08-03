@@ -65,7 +65,8 @@
 
 	<?php bp_nouveau_group_hook( 'after', 'members_content' ); ?>
 
-<?php else :
+<?php
+else :
 
 	bp_nouveau_user_feedback( 'group-members-none' );
 

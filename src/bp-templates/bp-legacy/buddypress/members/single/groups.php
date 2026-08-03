@@ -31,7 +31,8 @@
 					 *
 					 * @since 1.2.0
 					 */
-					do_action( 'bp_member_group_order_options' ); ?>
+					do_action( 'bp_member_group_order_options' );
+					?>
 
 				</select>
 			</li>
@@ -53,18 +54,23 @@ switch ( bp_current_action() ) :
 		 *
 		 * @since 1.2.0
 		 */
-		do_action( 'bp_before_member_groups_content' ); ?>
+		do_action( 'bp_before_member_groups_content' );
+		?>
 
 		<?php if ( is_user_logged_in() ) : ?>
-			<h2 class="bp-screen-reader-text"><?php
+			<h2 class="bp-screen-reader-text">
+			<?php
 				/* translators: accessibility text */
 				esc_html_e( 'My groups', 'buddypress' );
-			?></h2>
+			?>
+			</h2>
 		<?php else : ?>
-			<h2 class="bp-screen-reader-text"><?php
+			<h2 class="bp-screen-reader-text">
+			<?php
 				/* translators: accessibility text */
 				esc_html_e( 'Member\'s groups', 'buddypress' );
-			?></h2>
+			?>
+			</h2>
 		<?php endif; ?>
 
 		<div class="groups mygroups">

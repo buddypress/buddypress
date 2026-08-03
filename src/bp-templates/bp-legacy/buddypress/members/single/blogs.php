@@ -29,7 +29,8 @@
 				 *
 				 * @since 1.2.0
 				 */
-				do_action( 'bp_member_blog_order_options' ); ?>
+				do_action( 'bp_member_blog_order_options' );
+				?>
 
 			</select>
 		</li>
@@ -47,11 +48,12 @@ switch ( bp_current_action() ) :
 		 *
 		 * @since 1.2.0
 		 */
-		do_action( 'bp_before_member_blogs_content' ); ?>
+		do_action( 'bp_before_member_blogs_content' );
+		?>
 
 		<div class="blogs myblogs">
 
-			<?php bp_get_template_part( 'blogs/blogs-loop' ) ?>
+			<?php bp_get_template_part( 'blogs/blogs-loop' ); ?>
 
 		</div><!-- .blogs.myblogs -->
 

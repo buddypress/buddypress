@@ -8,10 +8,12 @@
  */
 
 ?>
-<h2 class="bp-screen-reader-text"><?php
+<h2 class="bp-screen-reader-text">
+<?php
 	/* translators: accessibility text */
 	esc_html_e( 'Compose Message', 'buddypress' );
-?></h2>
+?>
+</h2>
 
 <form action="<?php bp_messages_form_action(); ?>" method="post" id="send_message_form" class="standard-form" enctype="multipart/form-data">
 
@@ -22,7 +24,8 @@
 	 *
 	 * @since 1.1.0
 	 */
-	do_action( 'bp_before_messages_compose_content' ); ?>
+	do_action( 'bp_before_messages_compose_content' );
+	?>
 
 	<label for="send-to-input"><?php esc_html_e( 'Send To (Username or Friend\'s Name)', 'buddypress' ); ?></label>
 	<ul class="first acfb-holder">
@@ -51,7 +54,8 @@
 	 *
 	 * @since 1.1.0
 	 */
-	do_action( 'bp_after_messages_compose_content' ); ?>
+	do_action( 'bp_after_messages_compose_content' );
+	?>
 
 	<div class="submit">
 		<input type="submit" value="<?php esc_attr_e( 'Send Message', 'buddypress' ); ?>" name="send" id="send" />

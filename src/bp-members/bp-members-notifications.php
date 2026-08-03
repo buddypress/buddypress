@@ -255,8 +255,8 @@ function members_screen_notification_settings() {
 			<tr>
 				<th class="icon"></th>
 				<th class="title"><?php echo esc_html_x( 'Members', 'Member settings on notification settings page', 'buddypress' ); ?></th>
-				<th class="yes"><?php esc_html_e( 'Yes', 'buddypress' ) ?></th>
-				<th class="no"><?php esc_html_e( 'No', 'buddypress' )?></th>
+				<th class="yes"><?php esc_html_e( 'Yes', 'buddypress' ); ?></th>
+				<th class="no"><?php esc_html_e( 'No', 'buddypress' ); ?></th>
 			</tr>
 		</thead>
 
@@ -271,13 +271,13 @@ function members_screen_notification_settings() {
 				<tr id="members-notification-settings-invitation_accepted">
 					<td></td>
 					<td><?php echo esc_html_x( 'Someone accepts your membership invitation', 'Member settings on notification settings page', 'buddypress' ); ?></td>
-					<td class="yes"><input type="radio" name="notifications[notification_members_invitation_accepted]" id="notification-members-invitation-accepted-yes" value="yes" <?php checked( $allow_acceptance_emails, 'yes', true ) ?>/><label for="notification-members-invitation-accepted-yes" class="bp-screen-reader-text">
+					<td class="yes"><input type="radio" name="notifications[notification_members_invitation_accepted]" id="notification-members-invitation-accepted-yes" value="yes" <?php checked( $allow_acceptance_emails, 'yes', true ); ?>/><label for="notification-members-invitation-accepted-yes" class="bp-screen-reader-text">
 						<?php
 						/* translators: accessibility text */
 						esc_html_e( 'Yes, send email', 'buddypress' );
 						?>
 					</label></td>
-					<td class="no"><input type="radio" name="notifications[notification_members_invitation_accepted]" id="notification-members-invitation-accepted-no" value="no" <?php checked( $allow_acceptance_emails, 'no', true ) ?>/><label for="notification-members-invitation-accepted-no" class="bp-screen-reader-text">
+					<td class="no"><input type="radio" name="notifications[notification_members_invitation_accepted]" id="notification-members-invitation-accepted-no" value="no" <?php checked( $allow_acceptance_emails, 'no', true ); ?>/><label for="notification-members-invitation-accepted-no" class="bp-screen-reader-text">
 						<?php
 						/* translators: accessibility text */
 						esc_html_e( 'No, do not send email', 'buddypress' );
@@ -294,14 +294,14 @@ function members_screen_notification_settings() {
 				?>
 				<tr id="members-notification-settings-submitted_membership_request">
 					<td></td>
-					<td><?php echo esc_html_x( 'Someone has requested site membership', 'Member settings on notification settings page', 'buddypress' ) ?></td>
-					<td class="yes"><input type="radio" name="notifications[notification_members_membership_request]" id="notification-members-submitted_membership_request-yes" value="yes" <?php checked( $allow_request_emails, 'yes', true ) ?>/><label for="notification-members-submitted_membership_request-yes" class="bp-screen-reader-text">
+					<td><?php echo esc_html_x( 'Someone has requested site membership', 'Member settings on notification settings page', 'buddypress' ); ?></td>
+					<td class="yes"><input type="radio" name="notifications[notification_members_membership_request]" id="notification-members-submitted_membership_request-yes" value="yes" <?php checked( $allow_request_emails, 'yes', true ); ?>/><label for="notification-members-submitted_membership_request-yes" class="bp-screen-reader-text">
 						<?php
 						/* translators: accessibility text */
 						esc_html_e( 'Yes, send email', 'buddypress' );
 						?>
 					</label></td>
-					<td class="no"><input type="radio" name="notifications[notification_members_membership_request]" id="notification-members-submitted_membership_request-no" value="no" <?php checked( $allow_request_emails, 'no', true ) ?>/><label for="notification-members-submitted_membership_request-no" class="bp-screen-reader-text">
+					<td class="no"><input type="radio" name="notifications[notification_members_membership_request]" id="notification-members-submitted_membership_request-no" value="no" <?php checked( $allow_request_emails, 'no', true ); ?>/><label for="notification-members-submitted_membership_request-no" class="bp-screen-reader-text">
 						<?php
 						/* translators: accessibility text */
 						esc_html_e( 'No, do not send email', 'buddypress' );
@@ -316,7 +316,8 @@ function members_screen_notification_settings() {
 			 *
 			 * @since 1.0.0
 			 */
-			do_action( 'members_screen_notification_settings' ); ?>
+			do_action( 'members_screen_notification_settings' );
+			?>
 
 		</tbody>
 	</table>

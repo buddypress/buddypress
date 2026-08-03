@@ -16,7 +16,8 @@
  *
  * @since 1.2.0
  */
-do_action( 'bp_before_member_header' ); ?>
+do_action( 'bp_before_member_header' );
+?>
 
 <div id="item-header-avatar">
 	<a href="<?php bp_displayed_user_link(); ?>">
@@ -41,7 +42,8 @@ do_action( 'bp_before_member_header' ); ?>
 	 *
 	 * @since 1.2.0
 	 */
-	do_action( 'bp_before_member_header_meta' ); ?>
+	do_action( 'bp_before_member_header_meta' );
+	?>
 
 	<div id="item-meta">
 
@@ -64,7 +66,8 @@ do_action( 'bp_before_member_header' ); ?>
 			 *
 			 * @since 1.2.6
 			 */
-			do_action( 'bp_member_header_actions' ); ?>
+			do_action( 'bp_member_header_actions' );
+			?>
 
 		</div><!-- #item-buttons -->
 
@@ -93,12 +96,14 @@ do_action( 'bp_before_member_header' ); ?>
  *
  * @since 1.2.0
  */
-do_action( 'bp_after_member_header' ); ?>
+do_action( 'bp_after_member_header' );
+?>
 
 <div id="template-notices" role="alert" aria-atomic="true">
 	<?php
 
 	/** This action is documented in bp-templates/bp-legacy/buddypress/activity/index.php */
-	do_action( 'template_notices' ); ?>
+	do_action( 'template_notices' );
+	?>
 
 </div>

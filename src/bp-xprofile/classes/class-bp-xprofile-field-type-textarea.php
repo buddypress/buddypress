@@ -123,9 +123,11 @@ class BP_XProfile_Field_Type_Textarea extends BP_XProfile_Field_Type {
 			);
 		}
 
-		if ( bp_get_the_profile_field_description() ) : ?>
+		if ( bp_get_the_profile_field_description() ) :
+		?>
 			<p class="description" id="<?php bp_the_profile_field_input_name(); ?>-3"><?php bp_the_profile_field_description(); ?></p>
-		<?php endif;
+		<?php
+		endif;
 	}
 
 	/**

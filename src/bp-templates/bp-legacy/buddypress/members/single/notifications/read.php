@@ -44,4 +44,5 @@
 
 	<?php bp_get_template_part( 'members/single/notifications/feedback-no-notifications' ); ?>
 
-<?php endif;
+<?php
+endif;

@@ -120,7 +120,8 @@ class BP_XProfile_Field_Type_Checkbox_Acceptance extends BP_XProfile_Field_Type 
 
 		<?php if ( bp_get_the_profile_field_description() ) : ?>
 			<p class="description" tabindex="0"><?php bp_the_profile_field_description(); ?></p>
-		<?php endif;
+		<?php
+		endif;
 	}
 
 	/**
@@ -161,7 +162,8 @@ class BP_XProfile_Field_Type_Checkbox_Acceptance extends BP_XProfile_Field_Type 
 				);
 				?>
 			</label>
-		<?php endif;
+		<?php
+		endif;
 	}
 
 	/**

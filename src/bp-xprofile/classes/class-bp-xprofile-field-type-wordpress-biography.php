@@ -120,6 +120,7 @@ class BP_XProfile_Field_Type_WordPress_Biography extends BP_XProfile_Field_Type_
 		);
 
 		// phpcs:disable WordPress.Security.EscapeOutput
+		// phpcs:disable Squiz.PHP.EmbeddedPhp -- Keep textarea value bytes adjacent to its tags.
 		?>
 
 		<textarea <?php $this->output_edit_field_html_elements( $r ); ?>><?php
@@ -127,6 +128,7 @@ class BP_XProfile_Field_Type_WordPress_Biography extends BP_XProfile_Field_Type_
 		?></textarea>
 
 		<?php
+		// phpcs:enable Squiz.PHP.EmbeddedPhp
 		// phpcs:enable
 	}
 

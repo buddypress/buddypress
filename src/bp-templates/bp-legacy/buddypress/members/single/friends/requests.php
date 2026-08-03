@@ -72,7 +72,8 @@ do_action( 'bp_before_member_friend_requests_content' ); ?>
 					 *
 					 * @since 1.1.0
 					 */
-					do_action( 'bp_friend_requests_item_action' ); ?>
+					do_action( 'bp_friend_requests_item_action' );
+					?>
 				</div>
 			</li>
 
@@ -86,7 +87,8 @@ do_action( 'bp_before_member_friend_requests_content' ); ?>
 	 *
 	 * @since 1.1.0
 	 */
-	do_action( 'bp_friend_requests_content' ); ?>
+	do_action( 'bp_friend_requests_content' );
+	?>
 
 	<div id="pag-bottom" class="pagination no-ajax">
 
@@ -110,7 +112,7 @@ do_action( 'bp_before_member_friend_requests_content' ); ?>
 		<p><?php esc_html_e( 'You have no pending friendship requests.', 'buddypress' ); ?></p>
 	</div>
 
-<?php endif;?>
+<?php endif; ?>
 
 <?php
 

@@ -48,7 +48,8 @@ do_action( 'bp_attachments_avatar_check_template' );
 			 *
 			 * @since 3.0.0
 			 */
-			do_action( 'bp_attachments_avatar_delete_template' ); ?>
+			do_action( 'bp_attachments_avatar_delete_template' );
+			?>
 	<# } #>
 </script>
 

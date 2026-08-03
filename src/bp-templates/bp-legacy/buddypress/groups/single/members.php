@@ -18,7 +18,8 @@
 	 *
 	 * @since 1.1.0
 	 */
-	do_action( 'bp_before_group_members_content' ); ?>
+	do_action( 'bp_before_group_members_content' );
+	?>
 
 	<div id="pag-top" class="pagination">
 
@@ -43,7 +44,8 @@
 	 *
 	 * @since 1.1.0
 	 */
-	do_action( 'bp_before_group_members_list' ); ?>
+	do_action( 'bp_before_group_members_list' );
+	?>
 
 	<ul id="member-list" class="item-list">
 
@@ -66,7 +68,8 @@
 				 *
 				 * @since 1.1.0
 				 */
-				do_action( 'bp_group_members_list_item' ); ?>
+				do_action( 'bp_group_members_list_item' );
+				?>
 
 				<?php if ( bp_is_active( 'friends' ) ) : ?>
 
@@ -81,7 +84,8 @@
 						 *
 						 * @since 1.1.0
 						 */
-						do_action( 'bp_group_members_list_item_action' ); ?>
+						do_action( 'bp_group_members_list_item_action' );
+						?>
 
 					</div>
 
@@ -99,7 +103,8 @@
 	 *
 	 * @since 1.1.0
 	 */
-	do_action( 'bp_after_group_members_list' ); ?>
+	do_action( 'bp_after_group_members_list' );
+	?>
 
 	<div id="pag-bottom" class="pagination">
 
@@ -124,7 +129,8 @@
 	 *
 	 * @since 1.1.0
 	 */
-	do_action( 'bp_after_group_members_content' ); ?>
+	do_action( 'bp_after_group_members_content' );
+	?>
 
 <?php else: ?>
 
@@ -132,4 +138,5 @@
 		<p><?php esc_html_e( 'No members were found.', 'buddypress' ); ?></p>
 	</div>
 
-<?php endif;
+<?php
+endif;

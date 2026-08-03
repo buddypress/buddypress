@@ -18,10 +18,11 @@
  *
  * @since 1.2.0
  */
-do_action( 'bp_before_groups_loop' ); ?>
+do_action( 'bp_before_groups_loop' );
+?>
 
 <?php if ( bp_get_current_group_directory_type() ) : ?>
-	<p class="current-group-type"><?php bp_current_group_directory_type_message() ?></p>
+	<p class="current-group-type"><?php bp_current_group_directory_type_message(); ?></p>
 <?php endif; ?>
 
 <?php if ( bp_has_groups( bp_ajax_querystring( 'groups' ) ) ) : ?>
@@ -49,7 +50,8 @@ do_action( 'bp_before_groups_loop' ); ?>
 	 *
 	 * @since 1.1.0
 	 */
-	do_action( 'bp_before_directory_groups_list' ); ?>
+	do_action( 'bp_before_directory_groups_list' );
+	?>
 
 	<ul id="groups-list" class="item-list" aria-live="assertive" aria-atomic="true" aria-relevant="all">
 
@@ -82,7 +84,8 @@ do_action( 'bp_before_groups_loop' ); ?>
 				 *
 				 * @since 1.1.0
 				 */
-				do_action( 'bp_directory_groups_item' ); ?>
+				do_action( 'bp_directory_groups_item' );
+				?>
 
 			</div>
 
@@ -95,7 +98,8 @@ do_action( 'bp_before_groups_loop' ); ?>
 				 *
 				 * @since 1.1.0
 				 */
-				do_action( 'bp_directory_groups_actions' ); ?>
+				do_action( 'bp_directory_groups_actions' );
+				?>
 
 				<div class="meta">
 
@@ -119,7 +123,8 @@ do_action( 'bp_before_groups_loop' ); ?>
 	 *
 	 * @since 1.1.0
 	 */
-	do_action( 'bp_after_directory_groups_list' ); ?>
+	do_action( 'bp_after_directory_groups_list' );
+	?>
 
 	<div id="pag-bottom" class="pagination">
 

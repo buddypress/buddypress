@@ -961,10 +961,12 @@ function bp_message_search_form() {
 	?>
 
 	<form action="" method="get" id="search-message-form">
-		<label for="messages_search" class="bp-screen-reader-text"><?php
+		<label for="messages_search" class="bp-screen-reader-text">
+		<?php
 			/* translators: accessibility text */
 			esc_html_e( 'Search Messages', 'buddypress' );
-		?></label>
+		?>
+		</label>
 		<input type="text" name="s" id="messages_search"<?php echo $search_placeholder . $search_value; ?> />
 		<input type="submit" class="button" id="messages_search_submit" name="messages_search_submit" value="<?php esc_html_e( 'Search', 'buddypress' ); ?>" />
 	</form>
@@ -1115,21 +1117,23 @@ function bp_messages_content_value() {
 function bp_messages_options() {
 ?>
 
-	<label for="message-type-select" class="bp-screen-reader-text"><?php
+	<label for="message-type-select" class="bp-screen-reader-text">
+	<?php
 		/* translators: accessibility text */
 		esc_html_e( 'Select:', 'buddypress' );
-	?></label>
+	?>
+	</label>
 	<select name="message-type-select" id="message-type-select">
 		<option value=""><?php esc_html_e( 'Select', 'buddypress' ); ?></option>
-		<option value="read"><?php echo esc_html_x( 'Read', 'Message dropdown filter', 'buddypress' ) ?></option>
-		<option value="unread"><?php echo esc_html_x( 'Unread', 'Message dropdown filter', 'buddypress' ) ?></option>
-		<option value="all"><?php echo esc_html_x( 'All', 'Message dropdown filter', 'buddypress' ) ?></option>
+		<option value="read"><?php echo esc_html_x( 'Read', 'Message dropdown filter', 'buddypress' ); ?></option>
+		<option value="unread"><?php echo esc_html_x( 'Unread', 'Message dropdown filter', 'buddypress' ); ?></option>
+		<option value="all"><?php echo esc_html_x( 'All', 'Message dropdown filter', 'buddypress' ); ?></option>
 	</select> &nbsp;
 
 	<?php if ( ! bp_is_current_action( 'sentbox' ) && ! bp_is_current_action( 'notices' ) ) : ?>
 
-		<a href="#" id="mark_as_read"><?php echo esc_html_x( 'Mark as Read', 'Message management markup', 'buddypress' ) ?></a> &nbsp;
-		<a href="#" id="mark_as_unread"><?php echo esc_html_x( 'Mark as Unread', 'Message management markup', 'buddypress' ) ?></a> &nbsp;
+		<a href="#" id="mark_as_read"><?php echo esc_html_x( 'Mark as Read', 'Message management markup', 'buddypress' ); ?></a> &nbsp;
+		<a href="#" id="mark_as_unread"><?php echo esc_html_x( 'Mark as Unread', 'Message management markup', 'buddypress' ); ?></a> &nbsp;
 
 		<?php wp_nonce_field( 'bp_messages_mark_messages_read', 'mark-messages-read-nonce', false ); ?>
 		<?php wp_nonce_field( 'bp_messages_mark_messages_unread', 'mark-messages-unread-nonce', false ); ?>
@@ -1148,9 +1152,11 @@ function bp_messages_options() {
  */
 function bp_messages_bulk_management_dropdown() {
 	?>
-	<label class="bp-screen-reader-text" for="messages-select"><?php
+	<label class="bp-screen-reader-text" for="messages-select">
+	<?php
 		esc_html_e( 'Select Bulk Action', 'buddypress' );
-	?></label>
+	?>
+	</label>
 	<select name="messages_bulk_action" id="messages-select">
 		<option value="" selected="selected"><?php esc_html_e( 'Bulk Actions', 'buddypress' ); ?></option>
 		<option value="read"><?php esc_html_e( 'Mark read', 'buddypress' ); ?></option>
@@ -1534,7 +1540,7 @@ function bp_message_get_notices() {
 			?>
 			<div id="message" class="info notice" rel="n-<?php echo esc_attr( $notice->id ); ?>">
 				<strong><?php bp_message_notice_subject( $notice ); ?></strong>
-				<a href="<?php bp_message_notice_dismiss_link(); ?>" id="close-notice" class="bp-tooltip button" data-bp-tooltip="<?php esc_attr_e( 'Dismiss this notice', 'buddypress' ) ?>"><span class="bp-screen-reader-text"><?php esc_html_e( 'Dismiss this notice', 'buddypress' ) ?></span> <span aria-hidden="true">&Chi;</span></a>
+				<a href="<?php bp_message_notice_dismiss_link(); ?>" id="close-notice" class="bp-tooltip button" data-bp-tooltip="<?php esc_attr_e( 'Dismiss this notice', 'buddypress' ); ?>"><span class="bp-screen-reader-text"><?php esc_html_e( 'Dismiss this notice', 'buddypress' ); ?></span> <span aria-hidden="true">&Chi;</span></a>
 				<?php bp_message_notice_text( $notice ); ?>
 				<?php wp_nonce_field( 'bp_messages_close_notice', 'close-notice-nonce' ); ?>
 			</div>
@@ -1719,7 +1725,8 @@ function bp_message_get_recipient_tabs() {
 			? bp_core_get_userid( $recipient )
 			: bp_core_get_userid_from_nicename( $recipient );
 
-		if ( ! empty( $user_id ) ) : ?>
+		if ( ! empty( $user_id ) ) :
+		?>
 
 			<li id="un-<?php echo esc_attr( $recipient ); ?>" class="friend-tab">
 				<span>
@@ -1740,7 +1747,8 @@ function bp_message_get_recipient_tabs() {
 				</span>
 			</li>
 
-		<?php endif;
+		<?php
+		endif;
 	}
 }
 

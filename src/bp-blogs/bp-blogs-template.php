@@ -1183,14 +1183,15 @@ function bp_show_blog_signup_form( $blogname = '', $blog_title = '', $errors = '
 			 *
 			 * @since 1.0.0
 			 */
-			do_action( 'signup_hidden_fields' ); ?>
+			do_action( 'signup_hidden_fields' );
+			?>
 
 			<?php bp_blogs_signup_blog( $blogname, $blog_title, $errors ); ?>
 			<p>
 				<input id="submit" type="submit" name="submit" class="submit" value="<?php esc_attr_e( 'Create Site', 'buddypress' ); ?>" />
 			</p>
 
-			<?php wp_nonce_field( 'bp_blog_signup_form' ) ?>
+			<?php wp_nonce_field( 'bp_blog_signup_form' ); ?>
 		</form>
 		<?php
 
@@ -1298,7 +1299,7 @@ function bp_blogs_signup_blog( $blogname = '', $blog_title = '', $errors = '' ) 
 	// Blog Title.
 	?>
 	<p>
-		<label for="blog_title"><?php esc_html_e( 'Site Title:', 'buddypress' ) ?></label>
+		<label for="blog_title"><?php esc_html_e( 'Site Title:', 'buddypress' ); ?></label>
 		<input name="blog_title" type="text" id="blog_title" value="<?php echo esc_html( $blog_title ); ?>" />
 
 		<?php
@@ -1310,7 +1311,7 @@ function bp_blogs_signup_blog( $blogname = '', $blog_title = '', $errors = '' ) 
 
 	<fieldset class="create-site">
 
-		<legend class="label"><?php esc_html_e( 'Privacy: I would like my site to appear in search engines, and in public listings around this network', 'buddypress' ) ?></legend>
+		<legend class="label"><?php esc_html_e( 'Privacy: I would like my site to appear in search engines, and in public listings around this network', 'buddypress' ); ?></legend>
 
 		<p>
 			<label class="checkbox" for="blog_public_on">

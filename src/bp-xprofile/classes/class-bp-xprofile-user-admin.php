@@ -319,7 +319,8 @@ class BP_XProfile_User_Admin {
 					 */
 					do_action( 'bp_custom_profile_edit_fields_pre_visibility' );
 
-					$can_change_visibility = bp_current_user_can( 'bp_xprofile_change_field_visibility' ); ?>
+					$can_change_visibility = bp_current_user_can( 'bp_xprofile_change_field_visibility' );
+					?>
 
 					<p class="field-visibility-settings-<?php echo $can_change_visibility ? 'toggle' : 'notoggle'; ?>" id="field-visibility-settings-toggle-<?php bp_the_profile_field_id(); ?>"><span id="<?php bp_the_profile_field_input_name(); ?>-2">
 
@@ -341,7 +342,7 @@ class BP_XProfile_User_Admin {
 
 					<?php if ( $can_change_visibility ) : ?>
 
-						<div class="field-visibility-settings" id="field-visibility-settings-<?php bp_the_profile_field_id() ?>">
+						<div class="field-visibility-settings" id="field-visibility-settings-<?php bp_the_profile_field_id(); ?>">
 							<fieldset>
 								<legend><?php esc_html_e( 'Who can see this field?', 'buddypress' ); ?></legend>
 
@@ -360,14 +361,16 @@ class BP_XProfile_User_Admin {
 					 *
 					 * @since 1.1.0
 					 */
-					do_action( 'bp_custom_profile_edit_fields' ); ?>
+					do_action( 'bp_custom_profile_edit_fields' );
+					?>
 
 					</fieldset>
 				</div>
 
 			<?php endwhile; // End bp_profile_fields(). ?>
 
-		<?php endwhile; // End bp_profile_groups.
+		<?php
+		endwhile; // End bp_profile_groups.
 	}
 
 	/**
