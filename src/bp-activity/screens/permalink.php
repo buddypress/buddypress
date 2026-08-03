@@ -26,7 +26,12 @@ function bp_activity_action_permalink_router() {
 	}
 
 	// Get the activity details.
-	$activity = bp_activity_get_specific( array( 'activity_ids' => bp_action_variable( 0 ), 'show_hidden' => true ) );
+	$activity = bp_activity_get_specific(
+		array(
+			'activity_ids' => bp_action_variable( 0 ),
+			'show_hidden' => true,
+		)
+	);
 
 	// 404 if activity does not exist.
 	if ( empty( $activity['activities'][0] ) ) {

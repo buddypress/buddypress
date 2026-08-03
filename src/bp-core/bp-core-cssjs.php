@@ -22,31 +22,75 @@ function bp_core_register_common_scripts() {
 	// Set up default scripts to register.
 	$scripts = array(
 		// Legacy.
-		'bp-confirm'        => array( 'file' => "{$url}confirm{$min}.js", 'dependencies' => array( 'jquery' ), 'footer' => false ),
-		'bp-jquery-query'   => array( 'file' => "{$url}jquery-query{$min}.js", 'dependencies' => array( 'jquery' ), 'footer' => false ),
-		'bp-jquery-cookie'  => array( 'file' => "{$url}vendor/jquery-cookie{$min}.js", 'dependencies' => array( 'jquery' ), 'footer' => false ),
-		'bp-jquery-scroll-to' => array( 'file' => "{$url}vendor/jquery-scroll-to{$min}.js", 'dependencies' => array( 'jquery' ), 'footer' => false ),
+		'bp-confirm'        => array(
+			'file' => "{$url}confirm{$min}.js",
+			'dependencies' => array( 'jquery' ),
+			'footer' => false,
+		),
+		'bp-jquery-query'   => array(
+			'file' => "{$url}jquery-query{$min}.js",
+			'dependencies' => array( 'jquery' ),
+			'footer' => false,
+		),
+		'bp-jquery-cookie'  => array(
+			'file' => "{$url}vendor/jquery-cookie{$min}.js",
+			'dependencies' => array( 'jquery' ),
+			'footer' => false,
+		),
+		'bp-jquery-scroll-to' => array(
+			'file' => "{$url}vendor/jquery-scroll-to{$min}.js",
+			'dependencies' => array( 'jquery' ),
+			'footer' => false,
+		),
 
 		// Version 2.1.
-		'jquery-caret' => array( 'file' => "{$url}vendor/jquery.caret{$min}.js", 'dependencies' => array( 'jquery' ), 'footer' => true ),
-		'jquery-atwho' => array( 'file' => "{$url}vendor/jquery.atwho{$min}.js", 'dependencies' => array( 'jquery', 'jquery-caret' ), 'footer' => true ),
+		'jquery-caret' => array(
+			'file' => "{$url}vendor/jquery.caret{$min}.js",
+			'dependencies' => array( 'jquery' ),
+			'footer' => true,
+		),
+		'jquery-atwho' => array(
+			'file' => "{$url}vendor/jquery.atwho{$min}.js",
+			'dependencies' => array( 'jquery', 'jquery-caret' ),
+			'footer' => true,
+		),
 
 		// Version 2.3.
-		'bp-plupload' => array( 'file' => "{$url}bp-plupload{$min}.js", 'dependencies' => array( 'plupload', 'jquery', 'json2', 'wp-backbone' ), 'footer' => true ),
-		'bp-avatar'   => array( 'file' => "{$url}avatar{$min}.js", 'dependencies' => array( 'jcrop' ), 'footer' => true ),
-		'bp-webcam'   => array( 'file' => "{$url}webcam{$min}.js", 'dependencies' => array( 'bp-avatar' ), 'footer' => true ),
+		'bp-plupload' => array(
+			'file' => "{$url}bp-plupload{$min}.js",
+			'dependencies' => array( 'plupload', 'jquery', 'json2', 'wp-backbone' ),
+			'footer' => true,
+		),
+		'bp-avatar'   => array(
+			'file' => "{$url}avatar{$min}.js",
+			'dependencies' => array( 'jcrop' ),
+			'footer' => true,
+		),
+		'bp-webcam'   => array(
+			'file' => "{$url}webcam{$min}.js",
+			'dependencies' => array( 'bp-avatar' ),
+			'footer' => true,
+		),
 
 		// Version 2.4.
-		'bp-cover-image' => array( 'file' => "{$url}cover-image{$min}.js", 'dependencies' => array(), 'footer' => true ),
+		'bp-cover-image' => array(
+			'file' => "{$url}cover-image{$min}.js",
+			'dependencies' => array(),
+			'footer' => true,
+		),
 
 		// Version 2.7.
-		'bp-livestamp' => array( 'file' => "{$url}vendor/livestamp{$min}.js", 'dependencies' => array( 'jquery', 'moment' ), 'footer' => true ),
+		'bp-livestamp' => array(
+			'file' => "{$url}vendor/livestamp{$min}.js",
+			'dependencies' => array( 'jquery', 'moment' ),
+			'footer' => true,
+		),
 	);
 
 	if ( bp_support_blocks() ) {
 		$asset      = array(
 			'dependencies' => array(),
-			'version'      => ''
+			'version'      => '',
 		);
 		$asset_path = trailingslashit( __DIR__ ) . 'blocks/dynamic-widget-block/index.asset.php';
 
@@ -119,20 +163,23 @@ function bp_core_register_common_styles() {
 	 *
 	 * @param array $value Array of stylesheet file information to register.
 	 */
-	$styles = apply_filters( 'bp_core_register_common_styles', array(
-		'bp-admin-bar' => array(
-			'file'         => $admin_bar_file,
-			'dependencies' => array( 'admin-bar' )
-		),
-		'bp-avatar' => array(
-			'file'         => "{$url}avatar{$min}.css",
-			'dependencies' => array( 'jcrop' )
-		),
-		'bp-tooltips' => array(
-			'file'         => $tooltips_uri,
-			'dependencies' => array()
-		),
-	) );
+	$styles = apply_filters(
+		'bp_core_register_common_styles',
+		array(
+			'bp-admin-bar' => array(
+				'file'         => $admin_bar_file,
+				'dependencies' => array( 'admin-bar' ),
+			),
+			'bp-avatar' => array(
+				'file'         => "{$url}avatar{$min}.css",
+				'dependencies' => array( 'jcrop' ),
+			),
+			'bp-tooltips' => array(
+				'file'         => $tooltips_uri,
+				'dependencies' => array(),
+			),
+		)
+	);
 
 	foreach ( $styles as $id => $style ) {
 		wp_register_style( $id, $style['file'], $style['dependencies'], bp_get_version() );
@@ -158,9 +205,13 @@ function bp_core_confirmation_js() {
 
 	wp_enqueue_script( 'bp-confirm' );
 
-	wp_localize_script( 'bp-confirm', 'BP_Confirm', array(
-		'are_you_sure' => __( 'Are you sure?', 'buddypress' ),
-	) );
+	wp_localize_script(
+		'bp-confirm',
+		'BP_Confirm',
+		array(
+			'are_you_sure' => __( 'Are you sure?', 'buddypress' ),
+		)
+	);
 
 }
 add_action( 'bp_enqueue_community_scripts', 'bp_core_confirmation_js' );
@@ -391,13 +442,16 @@ function bp_core_get_js_dependencies() {
 	 *
 	 * @param array $value Array of javascript dependencies for buddypress.js.
 	 */
-	return apply_filters( 'bp_core_get_js_dependencies', array(
-		'jquery',
-		'bp-confirm',
-		'bp-jquery-query',
-		'bp-jquery-cookie',
-		'bp-jquery-scroll-to'
-	) );
+	return apply_filters(
+		'bp_core_get_js_dependencies',
+		array(
+			'jquery',
+			'bp-confirm',
+			'bp-jquery-query',
+			'bp-jquery-cookie',
+			'bp-jquery-scroll-to',
+		)
+	);
 }
 
 /**
@@ -423,7 +477,7 @@ function bp_add_cover_image_inline_css( $return = false ) {
 
 		$cover_image_object = array(
 			'component' => 'members',
-			'object' => $bp->displayed_user
+			'object' => $bp->displayed_user,
 		);
 	} elseif ( bp_is_group() ) {
 
@@ -435,7 +489,7 @@ function bp_add_cover_image_inline_css( $return = false ) {
 
 		$cover_image_object = array(
 			'component' => 'groups',
-			'object' => $bp->groups->current_group
+			'object' => $bp->groups->current_group,
 		);
 	} else {
 		$cover_image_object = apply_filters( 'bp_current_cover_image_object_inline_css', array() );
@@ -463,10 +517,13 @@ function bp_add_cover_image_inline_css( $return = false ) {
 			$object_dir = 'members';
 		}
 
-		$cover_image = bp_attachments_get_attachment( 'url', array(
-			'object_dir' => $object_dir,
-			'item_id'    => $cover_image_object['object']->id,
-		) );
+		$cover_image = bp_attachments_get_attachment(
+			'url',
+			array(
+				'object_dir' => $object_dir,
+				'item_id'    => $cover_image_object['object']->id,
+			)
+		);
 
 		if ( empty( $cover_image ) ) {
 			if ( ! empty( $params['default_cover'] ) ) {
@@ -474,13 +531,18 @@ function bp_add_cover_image_inline_css( $return = false ) {
 			}
 		}
 
-		$inline_css = call_user_func_array( $params['callback'], array( array(
-			'cover_image' => esc_url_raw( $cover_image ),
-			'component'   => sanitize_key( $cover_image_object['component'] ),
-			'object_id'   => (int) $cover_image_object['object']->id,
-			'width'       => (int) $params['width'],
-			'height'      => (int) $params['height'],
-		) ) );
+		$inline_css = call_user_func_array(
+			$params['callback'],
+			array(
+				array(
+					'cover_image' => esc_url_raw( $cover_image ),
+					'component'   => sanitize_key( $cover_image_object['component'] ),
+					'object_id'   => (int) $cover_image_object['object']->id,
+					'width'       => (int) $params['width'],
+					'height'      => (int) $params['height'],
+				),
+			)
+		);
 
 		// Finally add the inline css to the handle.
 		if ( ! empty( $inline_css ) ) {

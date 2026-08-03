@@ -42,11 +42,13 @@ function bp_groups_group_admin_menu() {
 	$bp->group_admin_menu_id = 'group-admin';
 
 	// Add the top-level Group Admin button.
-	$wp_admin_bar->add_node( array(
-		'id'    => $bp->group_admin_menu_id,
-		'title' => __( 'Edit Group', 'buddypress' ),
-		'href'  => bp_get_group_url( $bp->groups->current_group )
-	) );
+	$wp_admin_bar->add_node(
+		array(
+			'id'    => $bp->group_admin_menu_id,
+			'title' => __( 'Edit Group', 'buddypress' ),
+			'href'  => bp_get_group_url( $bp->groups->current_group ),
+		)
+	);
 
 	// Index of the Manage tabs parent slug.
 	$secondary_nav_items = $bp->groups->nav->get_secondary( array( 'parent_slug' => $bp->groups->current_group->slug . '_manage' ) );

@@ -78,9 +78,12 @@ class BP_Registration_Theme_Compat {
 		 *
 		 * @param array $value Array of template paths to add to hierarchy.
 		 */
-		$new_templates = apply_filters( "bp_template_hierarchy_{$component}", array(
-			"members/index-{$component}.php"
-		) );
+		$new_templates = apply_filters(
+			"bp_template_hierarchy_{$component}",
+			array(
+				"members/index-{$component}.php",
+			)
+		);
 
 		// Merge new templates with existing stack
 		// @see bp_get_theme_compat_templates().
@@ -120,17 +123,19 @@ class BP_Registration_Theme_Compat {
 			}
 		}
 
-		bp_theme_compat_reset_post( array(
-			'ID'             => 0,
-			'post_title'     => $title,
-			'post_author'    => 0,
-			'post_date'      => 0,
-			'post_content'   => '',
-			'post_type'      => 'page',
-			'post_status'    => 'publish',
-			'is_page'        => true,
-			'comment_status' => 'closed'
-		) );
+		bp_theme_compat_reset_post(
+			array(
+				'ID'             => 0,
+				'post_title'     => $title,
+				'post_author'    => 0,
+				'post_date'      => 0,
+				'post_content'   => '',
+				'post_type'      => 'page',
+				'post_status'    => 'publish',
+				'is_page'        => true,
+				'comment_status' => 'closed',
+			)
+		);
 	}
 
 	/**

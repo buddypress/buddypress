@@ -53,7 +53,7 @@ function bp_members_membership_requests_cancel_activation_email( $send, $user_id
 	$invites = bp_members_invitations_get_invites(
 		array(
 			'invitee_email' => $user_email,
-			'invite_sent'   => 'sent'
+			'invite_sent'   => 'sent',
 		)
 	);
 

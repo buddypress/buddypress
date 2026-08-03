@@ -112,11 +112,15 @@ function bp_nouveau_get_blogs_filters( $context = '' ) {
 	 * @param array  the blogs filters.
 	 * @param string the context.
 	 */
-	$filters = apply_filters( 'bp_nouveau_get_blogs_filters', array(
-		'active'       => __( 'Last Active', 'buddypress' ),
-		'newest'       => __( 'Newest', 'buddypress' ),
-		'alphabetical' => __( 'Alphabetical', 'buddypress' ),
-	), $context );
+	$filters = apply_filters(
+		'bp_nouveau_get_blogs_filters',
+		array(
+			'active'       => __( 'Last Active', 'buddypress' ),
+			'newest'       => __( 'Newest', 'buddypress' ),
+			'alphabetical' => __( 'Alphabetical', 'buddypress' ),
+		),
+		$context
+	);
 
 	if ( $action ) {
 		return bp_nouveau_parse_hooked_options( $action, $filters );
@@ -135,15 +139,18 @@ function bp_nouveau_get_blogs_filters( $context = '' ) {
  * @return array the settings to add.
  */
 function bp_nouveau_blogs_customizer_settings( $settings = array() ) {
-	return array_merge( $settings, array(
-		'bp_nouveau_appearance[blogs_layout]' => array(
-			'index'             => 'blogs_layout',
-			'capability'        => 'bp_moderate',
-			'sanitize_callback' => 'absint',
-			'transport'         => 'refresh',
-			'type'              => 'option',
-		),
-	) );
+	return array_merge(
+		$settings,
+		array(
+			'bp_nouveau_appearance[blogs_layout]' => array(
+				'index'             => 'blogs_layout',
+				'capability'        => 'bp_moderate',
+				'sanitize_callback' => 'absint',
+				'transport'         => 'refresh',
+				'type'              => 'option',
+			),
+		)
+	);
 }
 
 /**
@@ -156,27 +163,30 @@ function bp_nouveau_blogs_customizer_settings( $settings = array() ) {
  * @return array the controls to add.
  */
 function bp_nouveau_blogs_customizer_controls( $controls = array() ) {
-	return array_merge( $controls, array(
-		'blogs_layout' => array(
-			'label'      => __( 'Sites loop:', 'buddypress' ),
-			'section'    => 'bp_nouveau_loops_layout',
-			'settings'   => 'bp_nouveau_appearance[blogs_layout]',
-			'type'       => 'select',
-			'choices'    => bp_nouveau_customizer_grid_choices(),
-		),
-		'sites_dir_layout' => array(
-			'label'      => __( 'Use column navigation for the Sites directory.', 'buddypress' ),
-			'section'    => 'bp_nouveau_dir_layout',
-			'settings'   => 'bp_nouveau_appearance[sites_dir_layout]',
-			'type'       => 'checkbox',
-		),
-		'sites_dir_tabs' => array(
-			'label'      => __( 'Use tab styling for Sites directory navigation.', 'buddypress' ),
-			'section'    => 'bp_nouveau_dir_layout',
-			'settings'   => 'bp_nouveau_appearance[sites_dir_tabs]',
-			'type'       => 'checkbox',
-		),
-	) );
+	return array_merge(
+		$controls,
+		array(
+			'blogs_layout' => array(
+				'label'      => __( 'Sites loop:', 'buddypress' ),
+				'section'    => 'bp_nouveau_loops_layout',
+				'settings'   => 'bp_nouveau_appearance[blogs_layout]',
+				'type'       => 'select',
+				'choices'    => bp_nouveau_customizer_grid_choices(),
+			),
+			'sites_dir_layout' => array(
+				'label'      => __( 'Use column navigation for the Sites directory.', 'buddypress' ),
+				'section'    => 'bp_nouveau_dir_layout',
+				'settings'   => 'bp_nouveau_appearance[sites_dir_layout]',
+				'type'       => 'checkbox',
+			),
+			'sites_dir_tabs' => array(
+				'label'      => __( 'Use tab styling for Sites directory navigation.', 'buddypress' ),
+				'section'    => 'bp_nouveau_dir_layout',
+				'settings'   => 'bp_nouveau_appearance[sites_dir_tabs]',
+				'type'       => 'checkbox',
+			),
+		)
+	);
 }
 
 /**

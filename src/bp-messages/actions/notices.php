@@ -122,7 +122,7 @@ function bp_messages_action_dismiss_notice() {
 		$feedback = __( 'Notice has been dismissed.', 'buddypress' );
 		$type     = 'success';
 	} else {
-		$feedback = __( 'There was a problem dismissing the notice.', 'buddypress');
+		$feedback = __( 'There was a problem dismissing the notice.', 'buddypress' );
 		$type     = 'error';
 	}
 

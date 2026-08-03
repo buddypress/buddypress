@@ -324,7 +324,7 @@ function bp_has_activities( $args = '' ) {
 	 */
 	if ( isset( $_GET['afilter'] ) && apply_filters( 'bp_activity_enable_afilter_support', false ) ) {
 		$r['filter'] = array(
-			'object' => $_GET['afilter']
+			'object' => $_GET['afilter'],
 		);
 	} elseif ( ! empty( $r['user_id'] ) || ! empty( $r['object'] ) || ! empty( $r['action'] ) || ! empty( $r['primary_id'] ) || ! empty( $r['secondary_id'] ) || ! empty( $r['offset'] ) || ! empty( $r['offset_lower'] ) || ! empty( $r['since'] ) ) {
 		$r['filter'] = array(
@@ -335,7 +335,7 @@ function bp_has_activities( $args = '' ) {
 			'secondary_id' => $r['secondary_id'],
 			'offset'       => $r['offset'],
 			'offset_lower' => $r['offset_lower'],
-			'since'        => $r['since']
+			'since'        => $r['since'],
 		);
 	} else {
 		$r['filter'] = false;
@@ -1009,7 +1009,7 @@ function bp_activity_avatar( $args = '' ) {
 			'class'   => 'avatar',
 			'email'   => false,
 			'type'    => $type_default,
-			'user_id' => false
+			'user_id' => false,
 		);
 
 		$r = bp_parse_args(
@@ -1073,7 +1073,8 @@ function bp_activity_avatar( $args = '' ) {
 		 *
 		 * @param array $value HTML image element containing the activity avatar.
 		 */
-		return apply_filters( 'bp_get_activity_avatar',
+		return apply_filters(
+			'bp_get_activity_avatar',
 			bp_core_fetch_avatar(
 				array(
 					'item_id' => $item_id,
@@ -1267,7 +1268,8 @@ function bp_activity_secondary_avatar( $args = '' ) {
 			 */
 			$avatar = apply_filters( 'bp_get_activity_secondary_avatar', $avatar );
 
-			return sprintf( '<a href="%s" class="%s">%s</a>',
+			return sprintf(
+				'<a href="%s" class="%s">%s</a>',
 				esc_url( $link ),
 				esc_attr( $r['link_class'] ),
 				$avatar
@@ -1361,11 +1363,14 @@ function bp_activity_action( $args = array() ) {
 		 *
 		 * @param array $value Array containing the current action, the current activity, and the $args array passed into the function.
 		 */
-		$action = apply_filters_ref_array( 'bp_get_activity_action_pre_meta', array(
-			$activities_template->activity->action,
-			&$activities_template->activity,
-			$r
-		) );
+		$action = apply_filters_ref_array(
+			'bp_get_activity_action_pre_meta',
+			array(
+				$activities_template->activity->action,
+				&$activities_template->activity,
+				$r,
+			)
+		);
 
 		// Prepend the activity action meta (link, time since, etc...).
 		if ( ! empty( $action ) && empty( $r['no_timestamp'] ) ) {
@@ -1380,11 +1385,14 @@ function bp_activity_action( $args = array() ) {
 		 *
 		 * @param array $value Array containing the current action, the current activity, and the $r array passed into the function.
 		 */
-		return apply_filters_ref_array( 'bp_get_activity_action', array(
-			$action,
-			&$activities_template->activity,
-			$r
-		) );
+		return apply_filters_ref_array(
+			'bp_get_activity_action',
+			array(
+				$action,
+				&$activities_template->activity,
+				$r,
+			)
+		);
 	}
 
 /**
@@ -1759,17 +1767,21 @@ function bp_insert_activity_meta( $content = '' ) {
 	 *
 	 * @param array $value Array containing the time since markup and the current activity component.
 	 */
-	$time_since = apply_filters_ref_array( 'bp_activity_time_since', array(
-		$time_since,
-		&$activities_template->activity
-	) );
+	$time_since = apply_filters_ref_array(
+		'bp_activity_time_since',
+		array(
+			$time_since,
+			&$activities_template->activity,
+		)
+	);
 
 	// Insert the permalink.
 	if ( ! bp_is_single_activity() ) {
 
 		// Setup variables for activity meta.
 		$activity_permalink = bp_activity_get_permalink( $activities_template->activity->id, $activities_template->activity );
-		$activity_meta      = sprintf( '%1$s <a href="%2$s" class="view activity-time-since bp-tooltip" data-bp-tooltip="%3$s">%4$s</a>',
+		$activity_meta      = sprintf(
+			'%1$s <a href="%2$s" class="view activity-time-since bp-tooltip" data-bp-tooltip="%3$s">%4$s</a>',
 			$new_content,
 			$activity_permalink,
 			esc_attr__( 'View Discussion', 'buddypress' ),
@@ -1784,10 +1796,13 @@ function bp_insert_activity_meta( $content = '' ) {
 		 * @param array $value Array containing the html markup for the activity permalink, after being parsed by
 		 *                     sprintf and current activity component.
 		 */
-		$new_content = apply_filters_ref_array( 'bp_activity_permalink', array(
-			$activity_meta,
-			&$activities_template->activity
-		) );
+		$new_content = apply_filters_ref_array(
+			'bp_activity_permalink',
+			array(
+				$activity_meta,
+				&$activities_template->activity,
+			)
+		);
 	} else {
 		$new_content .= str_pad( $time_since, strlen( $time_since ) + 2, ' ', STR_PAD_BOTH );
 	}
@@ -2977,14 +2992,17 @@ function bp_activity_css_class() {
 		 *
 		 * @param array $value Array of classes used to determine classes applied to HTML element.
 		 */
-		$mini_activity_actions = apply_filters( 'bp_activity_mini_activity_types', array(
-			'friendship_accepted',
-			'friendship_created',
-			'new_blog',
-			'joined_group',
-			'created_group',
-			'new_member'
-		) );
+		$mini_activity_actions = apply_filters(
+			'bp_activity_mini_activity_types',
+			array(
+				'friendship_accepted',
+				'friendship_created',
+				'new_blog',
+				'joined_group',
+				'created_group',
+				'new_member',
+			)
+		);
 
 		$class = ' activity-item';
 
@@ -3755,7 +3773,7 @@ function bp_activity_comments_user_avatars( $args = array() ) {
 					'height'  => $r['height'],
 					'html'    => $r['html'],
 					'type'    => $r['type'],
-					'width'   => $r['width']
+					'width'   => $r['width'],
 				)
 			);
 
@@ -3917,7 +3935,7 @@ function bp_activity_types_list( $output = 'select', $args = '' ) {
 	foreach ( $activities as $type => $description ) {
 
 		// See if we need to preselect the current type.
-		$checked  = checked(  true, in_array( $type, (array) $args['selected'], true ), false );
+		$checked  = checked( true, in_array( $type, (array) $args['selected'], true ), false );
 		$selected = selected( true, in_array( $type, (array) $args['selected'], true ), false );
 
 		// Switch output based on the element.
@@ -4022,7 +4040,7 @@ function bp_member_activity_feed_link() {
 			$link          = bp_displayed_user_url( bp_members_get_path_chunks( $path_chunks ) );
 
 		// Group feed link.
-		} elseif ( bp_is_active( 'groups'  ) && bp_is_current_action( bp_get_groups_slug()  ) ) {
+		} elseif ( bp_is_active( 'groups' ) && bp_is_current_action( bp_get_groups_slug() ) ) {
 			$path_chunks[] = bp_get_groups_slug();
 			$path_chunks[] = array( 'feed' );
 			$link          = bp_displayed_user_url( bp_members_get_path_chunks( $path_chunks ) );

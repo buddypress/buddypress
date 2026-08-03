@@ -225,11 +225,14 @@ function bp_nouveau_blogs_loop_buttons( $args = array() ) {
 		$button_args = bp_get_blogs_visit_blog_button_args();
 		if ( array_filter( $button_args ) ) {
 			// Set defaults if not set.
-			$button_args = array_merge( array(
-				'wrapper_id' => '',
-				'link_id'    => '',
-				'link_rel'   => ''
-			), $button_args );
+			$button_args = array_merge(
+				array(
+					'wrapper_id' => '',
+					'link_id'    => '',
+					'link_rel'   => '',
+				),
+				$button_args
+			);
 
 			$buttons['visit_blog'] = array(
 				'id'                => 'visit_blog',

@@ -36,7 +36,7 @@ function bp_groups_group_access_protection() {
 					$current_group,
 					bp_groups_get_path_chunks( array( 'home' ) )
 				),
-				'redirect' => false
+				'redirect' => false,
 			);
 		}
 	}
@@ -47,7 +47,7 @@ function bp_groups_group_access_protection() {
 		$no_access_args  = array(
 			'message'  => __( 'You are not an admin of this group.', 'buddypress' ),
 			'root'     => bp_get_group_url( $current_group ),
-			'redirect' => false
+			'redirect' => false,
 		);
 	}
 

@@ -173,15 +173,23 @@ function bp_groups_admin_load() {
 
 	} elseif ( 'edit' === $doaction && ! empty( $_GET['gid'] ) ) {
 		// Columns screen option.
-		add_screen_option( 'layout_columns', array( 'default' => 2, 'max' => 2, ) );
+		add_screen_option(
+			'layout_columns',
+			array(
+				'default' => 2,
+				'max' => 2,
+			)
+		);
 
-		get_current_screen()->add_help_tab( array(
-			'id'      => 'bp-group-edit-overview',
-			'title'   => __( 'Overview', 'buddypress' ),
-			'content' =>
-				'<p>' . __( 'This page is a convenient way to edit the details associated with one of your groups.', 'buddypress' ) . '</p>' .
-				'<p>' . __( 'The Name and Description box is fixed in place, but you can reposition all the other boxes using drag and drop, and can minimize or expand them by clicking the title bar of each box. Use the Screen Options tab to hide or unhide, or to choose a 1- or 2-column layout for this screen.', 'buddypress' ) . '</p>'
-		) );
+		get_current_screen()->add_help_tab(
+			array(
+				'id'      => 'bp-group-edit-overview',
+				'title'   => __( 'Overview', 'buddypress' ),
+				'content' =>
+					'<p>' . __( 'This page is a convenient way to edit the details associated with one of your groups.', 'buddypress' ) . '</p>' .
+					'<p>' . __( 'The Name and Description box is fixed in place, but you can reposition all the other boxes using drag and drop, and can minimize or expand them by clicking the title bar of each box. Use the Screen Options tab to hide or unhide, or to choose a 1- or 2-column layout for this screen.', 'buddypress' ) . '</p>',
+			)
+		);
 
 		// Help panel - sidebar links.
 		get_current_screen()->set_help_sidebar(
@@ -228,21 +236,25 @@ function bp_groups_admin_load() {
 		add_screen_option( 'per_page', array( 'label' => _x( 'Groups', 'Groups per page (screen options)', 'buddypress' )) );
 
 		// Help panel - overview text.
-		get_current_screen()->add_help_tab( array(
-			'id'      => 'bp-groups-overview',
-			'title'   => __( 'Overview', 'buddypress' ),
-			'content' =>
-				'<p>' . __( 'You can manage groups much like you can manage comments and other content. This screen is customizable in the same ways as other management screens, and you can act on groups by using the on-hover action links or the Bulk Actions.', 'buddypress' ) . '</p>',
-		) );
+		get_current_screen()->add_help_tab(
+			array(
+				'id'      => 'bp-groups-overview',
+				'title'   => __( 'Overview', 'buddypress' ),
+				'content' =>
+					'<p>' . __( 'You can manage groups much like you can manage comments and other content. This screen is customizable in the same ways as other management screens, and you can act on groups by using the on-hover action links or the Bulk Actions.', 'buddypress' ) . '</p>',
+			)
+		);
 
-		get_current_screen()->add_help_tab( array(
-			'id'      => 'bp-groups-overview-actions',
-			'title'   => __( 'Group Actions', 'buddypress' ),
-			'content' =>
-				'<p>' . __( 'Clicking "View" will take you to the group&#8217;s public page. Use this link to see what the group looks like on the front end of your site.', 'buddypress' ) . '</p>' .
-				'<p>' . __( 'Clicking "Edit" will take you to a Dashboard panel where you can manage various details about the group, such as its name and description, its members, and other settings.', 'buddypress' ) . '</p>' .
-				'<p>' . __( 'If you click "Delete" under a specific group, or select a number of groups and then choose Delete from the Bulk Actions menu, you will be led to a page where you&#8217;ll be asked to confirm the permanent deletion of the group(s).', 'buddypress' ) . '</p>',
-		) );
+		get_current_screen()->add_help_tab(
+			array(
+				'id'      => 'bp-groups-overview-actions',
+				'title'   => __( 'Group Actions', 'buddypress' ),
+				'content' =>
+					'<p>' . __( 'Clicking "View" will take you to the group&#8217;s public page. Use this link to see what the group looks like on the front end of your site.', 'buddypress' ) . '</p>' .
+					'<p>' . __( 'Clicking "Edit" will take you to a Dashboard panel where you can manage various details about the group, such as its name and description, its members, and other settings.', 'buddypress' ) . '</p>' .
+					'<p>' . __( 'If you click "Delete" under a specific group, or select a number of groups and then choose Delete from the Bulk Actions menu, you will be led to a page where you&#8217;ll be asked to confirm the permanent deletion of the group(s).', 'buddypress' ) . '</p>',
+			)
+		);
 
 		// Help panel - sidebar links.
 		get_current_screen()->set_help_sidebar(
@@ -251,18 +263,24 @@ function bp_groups_admin_load() {
 		);
 
 		// Add accessible hidden heading and text for Groups screen pagination.
-		get_current_screen()->set_screen_reader_content( array(
-			/* translators: accessibility text */
-			'heading_pagination' => __( 'Groups list navigation', 'buddypress' ),
-		) );
+		get_current_screen()->set_screen_reader_content(
+			array(
+				/* translators: accessibility text */
+				'heading_pagination' => __( 'Groups list navigation', 'buddypress' ),
+			)
+		);
 	}
 
 	// Enqueue CSS and JavaScript.
 	wp_enqueue_script( 'bp_groups_admin_js', $bp->plugin_url . "bp-groups/admin/js/admin{$min}.js", array( 'jquery', 'wp-ajax-response', 'jquery-ui-autocomplete' ), bp_get_version(), true );
-	wp_localize_script( 'bp_groups_admin_js', 'BP_Group_Admin', array(
-		'add_member_placeholder' => __( 'Start typing a username to add a new member.', 'buddypress' ),
-		'warn_on_leave'          => __( 'If you leave this page, you will lose any unsaved changes you have made to the group.', 'buddypress' ),
-	) );
+	wp_localize_script(
+		'bp_groups_admin_js',
+		'BP_Group_Admin',
+		array(
+			'add_member_placeholder' => __( 'Start typing a username to add a new member.', 'buddypress' ),
+			'warn_on_leave'          => __( 'If you leave this page, you will lose any unsaved changes you have made to the group.', 'buddypress' ),
+		)
+	);
 	wp_enqueue_style( 'bp_groups_admin_css', $bp->plugin_url . "bp-groups/admin/css/admin{$min}.css", array(), bp_get_version() );
 
 	wp_style_add_data( 'bp_groups_admin_css', 'rtl', 'replace' );
@@ -281,7 +299,7 @@ function bp_groups_admin_load() {
 		$redirect_to = add_query_arg(
 			array(
 				'gid'    => $group_id,
-				'action' => 'edit'
+				'action' => 'edit',
 			),
 			$redirect_to
 		);
@@ -797,7 +815,18 @@ function bp_groups_admin_edit() {
 												esc_html_e( 'Group Description', 'buddypress' );
 											?>
 										</label>
-										<?php wp_editor( stripslashes( $group->description ), 'bp-groups-description', array( 'media_buttons' => false, 'teeny' => true, 'textarea_rows' => 5, 'quicktags' => array( 'buttons' => 'strong,em,link,block,del,ins,img,code,spell,close' ) ) ); ?>
+										<?php
+										wp_editor(
+											stripslashes( $group->description ),
+											'bp-groups-description',
+											array(
+												'media_buttons' => false,
+												'teeny' => true,
+												'textarea_rows' => 5,
+												'quicktags' => array( 'buttons' => 'strong,em,link,block,del,ins,img,code,spell,close' ),
+											)
+										);
+										?>
 									</div>
 								</div>
 							</div>
@@ -858,11 +887,13 @@ function bp_groups_admin_delete() {
 		$group_ids = explode( ',', $group_ids );
 	}
 	$group_ids = wp_parse_id_list( $group_ids );
-	$groups    = groups_get_groups( array(
-		'include'     => $group_ids,
-		'show_hidden' => true,
-		'per_page'    => null, // Return all results.
-	) );
+	$groups    = groups_get_groups(
+		array(
+			'include'     => $group_ids,
+			'show_hidden' => true,
+			'per_page'    => null, // Return all results.
+		)
+	);
 
 	// Create a new list of group ids, based on those that actually exist.
 	$gids = array();
@@ -884,13 +915,26 @@ function bp_groups_admin_delete() {
 		<?php endforeach; ?>
 		</ul>
 
-		<p><strong><?php esc_html_e( 'This action cannot be undone.', 'buddypress' ) ?></strong></p>
+		<p><strong><?php esc_html_e( 'This action cannot be undone.', 'buddypress' ); ?></strong></p>
 
-		<a class="button-primary" href="<?php echo esc_url( wp_nonce_url( add_query_arg( array( 'action' => 'do_delete', 'gid' => implode( ',', $gids ) ), $base_url ), 'bp-groups-delete' ) ); ?>"><?php esc_html_e( 'Delete Permanently', 'buddypress' ) ?></a>
-		<a class="button" href="<?php echo esc_attr( $base_url ); ?>"><?php esc_html_e( 'Cancel', 'buddypress' ) ?></a>
+		<?php
+		// phpcs:disable Squiz.PHP.EmbeddedPhp.ContentAfterEnd -- Keep the close tag adjacent to the delete link so the rendered href has no added whitespace.
+		$delete_url = wp_nonce_url(
+			add_query_arg(
+				array(
+					'action' => 'do_delete',
+					'gid' => implode( ',', $gids ),
+				),
+				$base_url
+			),
+			'bp-groups-delete'
+		);
+		?><a class="button-primary" href="<?php echo esc_url( $delete_url ); ?>"><?php esc_html_e( 'Delete Permanently', 'buddypress' ); ?></a>
+		<a class="button" href="<?php echo esc_attr( $base_url ); ?>"><?php esc_html_e( 'Cancel', 'buddypress' ); ?></a>
 	</div>
 
 	<?php
+	// phpcs:enable Squiz.PHP.EmbeddedPhp.ContentAfterEnd
 }
 
 /**
@@ -1094,21 +1138,23 @@ function bp_groups_admin_edit_metabox_members( $item ) {
 	foreach ( $members as $type => &$member_type_users ) {
 		$page_qs_key       = $type . '_page';
 		$current_type_page = isset( $_GET[ $page_qs_key ] ) ? absint( $_GET[ $page_qs_key ] ) : 1;
-		$member_type_query = new BP_Group_Member_Query( array(
-			'group_id'   => $item->id,
-			'group_role' => array( $type ),
-			'type'       => 'alphabetical',
-			/**
-			 * Filters the admin members type per page value.
-			 *
-			 * @since 2.8.0
-			 *
-			 * @param int    $value Member types per page. Default 10.
-			 * @param string $type  Member type.
-			 */
-			'per_page'   => apply_filters( 'bp_groups_admin_members_type_per_page', 10, $type ),
-			'page'       => $current_type_page,
-		) );
+		$member_type_query = new BP_Group_Member_Query(
+			array(
+				'group_id'   => $item->id,
+				'group_role' => array( $type ),
+				'type'       => 'alphabetical',
+				/**
+				 * Filters the admin members type per page value.
+				 *
+				 * @since 2.8.0
+				 *
+				 * @param int    $value Member types per page. Default 10.
+				 * @param string $type  Member type.
+				 */
+				'per_page'   => apply_filters( 'bp_groups_admin_members_type_per_page', 10, $type ),
+				'page'       => $current_type_page,
+			)
+		);
 
 		$member_type_users   = $member_type_query->results;
 		$pagination[ $type ] = bp_groups_admin_create_pagination_links( $member_type_query, $type );
@@ -1165,7 +1211,7 @@ function bp_groups_admin_edit_metabox_members( $item ) {
 										array(
 											'item_id' => $type_user->ID,
 											'width'   => '32',
-											'height'  => '32'
+											'height'  => '32',
 										)
 									);
 								?>
@@ -1264,7 +1310,7 @@ function bp_groups_admin_edit_metabox_status( $item ) {
 	$base_url = add_query_arg(
 		array(
 			'page' => 'bp-groups',
-			'gid'  => $item->id
+			'gid'  => $item->id,
 		),
 		bp_get_admin_url( 'admin.php' )
 	);
@@ -1453,7 +1499,12 @@ function bp_groups_admin_create_pagination_links( BP_Group_Member_Query $query, 
 function bp_groups_admin_get_usernames_from_ids( $user_ids = array() ) {
 
 	$usernames = array();
-	$users     = new WP_User_Query( array( 'blog_id' => 0, 'include' => $user_ids ) );
+	$users     = new WP_User_Query(
+		array(
+			'blog_id' => 0,
+			'include' => $user_ids,
+		)
+	);
 
 	foreach ( (array) $users->results as $user ) {
 		$usernames[] = $user->user_login;

@@ -79,9 +79,12 @@ class BP_Activity_Theme_Compat {
 		 *
 		 * @param array $index-directory Array holding template names to be merged into template list.
 		 */
-		$new_templates = apply_filters( 'bp_template_hierarchy_activity_directory', array(
-			'activity/index-directory.php'
-		) );
+		$new_templates = apply_filters(
+			'bp_template_hierarchy_activity_directory',
+			array(
+				'activity/index-directory.php',
+			)
+		);
 
 		// Merge new templates with existing stack
 		// @see bp_get_theme_compat_templates().
@@ -96,17 +99,19 @@ class BP_Activity_Theme_Compat {
 	 * @since 1.7.0
 	 */
 	public function directory_dummy_post() {
-		bp_theme_compat_reset_post( array(
-			'ID'             => 0,
-			'post_title'     => bp_get_directory_title( 'activity' ),
-			'post_author'    => 0,
-			'post_date'      => 0,
-			'post_content'   => '',
-			'post_type'      => 'page',
-			'post_status'    => 'publish',
-			'is_page'        => true,
-			'comment_status' => 'closed'
-		) );
+		bp_theme_compat_reset_post(
+			array(
+				'ID'             => 0,
+				'post_title'     => bp_get_directory_title( 'activity' ),
+				'post_author'    => 0,
+				'post_date'      => 0,
+				'post_content'   => '',
+				'post_type'      => 'page',
+				'post_status'    => 'publish',
+				'is_page'        => true,
+				'comment_status' => 'closed',
+			)
+		);
 	}
 
 	/**
@@ -139,9 +144,12 @@ class BP_Activity_Theme_Compat {
 		 *
 		 * @param array $index Array holding template names to be merged into template list.
 		 */
-		$new_templates = apply_filters( 'bp_template_hierarchy_activity_single_item', array(
-			'activity/single/index.php'
-		) );
+		$new_templates = apply_filters(
+			'bp_template_hierarchy_activity_single_item',
+			array(
+				'activity/single/index.php',
+			)
+		);
 
 		// Merge new templates with existing stack
 		// @see bp_get_theme_compat_templates().
@@ -156,17 +164,19 @@ class BP_Activity_Theme_Compat {
 	 * @since 1.7.0
 	 */
 	public function single_dummy_post() {
-		bp_theme_compat_reset_post( array(
-			'ID'             => 0,
-			'post_title'     => __( 'Activity', 'buddypress' ),
-			'post_author'    => 0,
-			'post_date'      => 0,
-			'post_content'   => '',
-			'post_type'      => 'page',
-			'post_status'    => 'publish',
-			'is_page'        => true,
-			'comment_status' => 'closed'
-		) );
+		bp_theme_compat_reset_post(
+			array(
+				'ID'             => 0,
+				'post_title'     => __( 'Activity', 'buddypress' ),
+				'post_author'    => 0,
+				'post_date'      => 0,
+				'post_content'   => '',
+				'post_type'      => 'page',
+				'post_status'    => 'publish',
+				'is_page'        => true,
+				'comment_status' => 'closed',
+			)
+		);
 	}
 
 	/**

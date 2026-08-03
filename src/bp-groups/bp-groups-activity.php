@@ -107,7 +107,7 @@ function bp_groups_format_activity_action_created_group( $action, $activity ) {
 	$group_link = '<a href="' . esc_url( bp_get_group_url( $group ) ) . '">' . esc_html( $group->name ) . '</a>';
 
 	/* translators: 1: the user link. 2: the group link. */
-	$action = sprintf( esc_html__( '%1$s created the group %2$s', 'buddypress'), $user_link, $group_link );
+	$action = sprintf( esc_html__( '%1$s created the group %2$s', 'buddypress' ), $user_link, $group_link );
 
 	/**
 	 * Filters the 'created_group' activity actions.
@@ -337,7 +337,7 @@ function bp_groups_filter_activity_scope( $retval = array(), $filter = array() )
 	if ( ! empty( $user_id ) && ( $user_id !== bp_loggedin_user_id() ) ) {
 		$show_hidden = array(
 			'column' => 'hide_sitewide',
-			'value'  => 0
+			'value'  => 0,
 		);
 	}
 
@@ -347,12 +347,12 @@ function bp_groups_filter_activity_scope( $retval = array(), $filter = array() )
 			'relation' => 'AND',
 			array(
 				'column' => 'component',
-				'value'  => buddypress()->groups->id
+				'value'  => buddypress()->groups->id,
 			),
 			array(
 				'column'  => 'item_id',
 				'compare' => 'IN',
-				'value'   => (array) $groups['groups']
+				'value'   => (array) $groups['groups'],
 			),
 		),
 		$show_hidden,
@@ -360,7 +360,7 @@ function bp_groups_filter_activity_scope( $retval = array(), $filter = array() )
 		// Overrides.
 		'override' => array(
 			'filter'      => array( 'user_id' => 0 ),
-			'show_hidden' => true
+			'show_hidden' => true,
 		),
 	);
 }
@@ -605,13 +605,15 @@ function groups_post_update( $args = '' ) {
 	 */
 	$content_filtered = apply_filters( 'groups_activity_new_update_content', $content );
 
-	$activity_id = groups_record_activity( array(
-		'user_id'    => $user_id,
-		'content'    => $content_filtered,
-		'type'       => 'activity_update',
-		'item_id'    => $group_id,
-		'error_type' => $r['error_type'],
-	) );
+	$activity_id = groups_record_activity(
+		array(
+			'user_id'    => $user_id,
+			'content'    => $content_filtered,
+			'type'       => 'activity_update',
+			'item_id'    => $group_id,
+			'error_type' => $r['error_type'],
+		)
+	);
 
 	groups_update_groupmeta( $group_id, 'last_activity', bp_core_current_time() );
 
@@ -779,12 +781,14 @@ function bp_groups_membership_accepted_add_activity( $user_id, $group_id ) {
 	);
 
 	// Record in activity streams.
-	groups_record_activity( array(
-		'action'  => $action,
-		'type'    => 'joined_group',
-		'item_id' => $group_id,
-		'user_id' => $user_id
-	) );
+	groups_record_activity(
+		array(
+			'action'  => $action,
+			'type'    => 'joined_group',
+			'item_id' => $group_id,
+			'user_id' => $user_id,
+		)
+	);
 }
 add_action( 'groups_membership_accepted', 'bp_groups_membership_accepted_add_activity', 10, 2 );
 
@@ -854,13 +858,15 @@ function bp_groups_group_details_updated_add_activity( $group_id, $old_group, $n
 	groups_update_groupmeta( $group_id, 'updated_details_' . $time, $changed );
 
 	// Record in activity streams.
-	groups_record_activity( array(
-		'type'          => 'group_details_updated',
-		'item_id'       => $group_id,
-		'user_id'       => bp_loggedin_user_id(),
-		'recorded_time' => $time,
+	groups_record_activity(
+		array(
+			'type'          => 'group_details_updated',
+			'item_id'       => $group_id,
+			'user_id'       => bp_loggedin_user_id(),
+			'recorded_time' => $time,
 
-	) );
+		)
+	);
 }
 add_action( 'groups_details_updated', 'bp_groups_group_details_updated_add_activity', 10, 3 );
 
@@ -881,7 +887,7 @@ function bp_groups_delete_group_delete_all_activity( $group_id ) {
 	bp_activity_delete(
 		array(
 			'item_id'   => $group_id,
-			'component' => buddypress()->groups->id
+			'component' => buddypress()->groups->id,
 		)
 	);
 }
@@ -911,12 +917,14 @@ function bp_groups_leave_group_delete_recent_activity( $group_id, $user_id ) {
 
 	// Check the time period, and maybe delete their recent group activity.
 	if ( $membership->date_modified && time() <= strtotime( '+5 minutes', (int) strtotime( $membership->date_modified ) ) ) {
-		bp_activity_delete( array(
-			'component' => buddypress()->groups->id,
-			'type'      => 'joined_group',
-			'user_id'   => $user_id,
-			'item_id'   => $group_id
-		) );
+		bp_activity_delete(
+			array(
+				'component' => buddypress()->groups->id,
+				'type'      => 'joined_group',
+				'user_id'   => $user_id,
+				'item_id'   => $group_id,
+			)
+		);
 	}
 }
 add_action( 'groups_leave_group', 'bp_groups_leave_group_delete_recent_activity', 10, 2 );

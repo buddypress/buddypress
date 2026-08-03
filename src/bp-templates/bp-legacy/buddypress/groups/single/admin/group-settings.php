@@ -42,7 +42,7 @@ do_action( 'bp_before_group_settings_admin' ); ?>
 			<li><?php esc_html_e( 'Group content and activity will only be visible to members of the group.', 'buddypress' ); ?></li>
 		</ul>
 
-		<label for="group-status-hidden"><input type="radio" name="group-status" id="group-status-hidden" value="hidden"<?php if ( 'hidden' === bp_get_new_group_status() ) { ?> checked="checked"<?php } ?> aria-describedby="hidden-group-description" /> <?php esc_html_e('This is a hidden group', 'buddypress' ); ?></label>
+		<label for="group-status-hidden"><input type="radio" name="group-status" id="group-status-hidden" value="hidden"<?php if ( 'hidden' === bp_get_new_group_status() ) { ?> checked="checked"<?php } ?> aria-describedby="hidden-group-description" /> <?php esc_html_e( 'This is a hidden group', 'buddypress' ); ?></label>
 
 		<ul id="hidden-group-description">
 			<li><?php esc_html_e( 'Only users who are invited can join the group.', 'buddypress' ); ?></li>

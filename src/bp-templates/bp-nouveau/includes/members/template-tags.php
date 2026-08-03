@@ -282,7 +282,8 @@ function bp_nouveau_members_loop_buttons( $args = array() ) {
 							'class'           => 'button accept',
 							'rel'             => '',
 						),
-					), 'reject_friendship' => array(
+					),
+					'reject_friendship' => array(
 						'id'                => 'reject_friendship',
 						'position'          => 15,
 						'component'         => 'friends',

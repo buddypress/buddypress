@@ -197,7 +197,7 @@ class BP_Activity_Template {
 				9 => 'exclude',
 				10 => 'in',
 				11 => 'spam',
-				12 => 'page_arg'
+				12 => 'page_arg',
 			);
 
 			$args = bp_core_parse_args_array( $old_args_keys, $function_args );
@@ -234,7 +234,7 @@ class BP_Activity_Template {
 		extract( $r );
 
 		$this->pag_arg  = sanitize_key( $r['page_arg'] );
-		$this->pag_page = bp_sanitize_pagination_arg( $this->pag_arg, $r['page']     );
+		$this->pag_page = bp_sanitize_pagination_arg( $this->pag_arg, $r['page'] );
 		$this->pag_num  = bp_sanitize_pagination_arg( 'num', $r['per_page'] );
 
 		// Check if post/comment replies are disabled.
@@ -245,40 +245,44 @@ class BP_Activity_Template {
 
 		// Fetch specific activity items based on ID's.
 		if ( ! empty( $include ) ) {
-			$this->activities = bp_activity_get_specific( array(
-				'activity_ids'      => explode( ',', $include ),
-				'max'               => $max,
-				'count_total'       => $count_total,
-				'page'              => $this->pag_page,
-				'per_page'          => $this->pag_num,
-				'sort'              => $sort,
-				'display_comments'  => $display_comments,
-				'show_hidden'       => $show_hidden,
-				'spam'              => $spam,
-				'update_meta_cache' => $update_meta_cache,
-			) );
+			$this->activities = bp_activity_get_specific(
+				array(
+					'activity_ids'      => explode( ',', $include ),
+					'max'               => $max,
+					'count_total'       => $count_total,
+					'page'              => $this->pag_page,
+					'per_page'          => $this->pag_num,
+					'sort'              => $sort,
+					'display_comments'  => $display_comments,
+					'show_hidden'       => $show_hidden,
+					'spam'              => $spam,
+					'update_meta_cache' => $update_meta_cache,
+				)
+			);
 
 		// Fetch all activity items.
 		} else {
-			$this->activities = bp_activity_get( array(
-				'display_comments'  => $display_comments,
-				'max'               => $max,
-				'count_total'       => $count_total,
-				'per_page'          => $this->pag_num,
-				'page'              => $this->pag_page,
-				'sort'              => $sort,
-				'search_terms'      => $search_terms,
-				'meta_query'        => $meta_query,
-				'date_query'        => $date_query,
-				'filter_query'      => $filter_query,
-				'filter'            => $filter,
-				'scope'             => $scope,
-				'show_hidden'       => $show_hidden,
-				'exclude'           => $exclude,
-				'in'                => $in,
-				'spam'              => $spam,
-				'update_meta_cache' => $update_meta_cache,
-			) );
+			$this->activities = bp_activity_get(
+				array(
+					'display_comments'  => $display_comments,
+					'max'               => $max,
+					'count_total'       => $count_total,
+					'per_page'          => $this->pag_num,
+					'page'              => $this->pag_page,
+					'sort'              => $sort,
+					'search_terms'      => $search_terms,
+					'meta_query'        => $meta_query,
+					'date_query'        => $date_query,
+					'filter_query'      => $filter_query,
+					'filter'            => $filter,
+					'scope'             => $scope,
+					'show_hidden'       => $show_hidden,
+					'exclude'           => $exclude,
+					'in'                => $in,
+					'spam'              => $spam,
+					'update_meta_cache' => $update_meta_cache,
+				)
+			);
 		}
 
 		// The total_activity_count property will be set only if a
@@ -296,7 +300,7 @@ class BP_Activity_Template {
 		$this->activities = $this->activities['activities'];
 
 		if ( $max ) {
-			if ( $max >= count($this->activities) ) {
+			if ( $max >= count( $this->activities ) ) {
 				$this->activity_count = count( $this->activities );
 			} else {
 				$this->activity_count = (int) $max;
@@ -329,16 +333,18 @@ class BP_Activity_Template {
 		}
 
 		if ( (int) $this->total_activity_count && (int) $this->pag_num ) {
-			$this->pag_links = paginate_links( array(
-				'base'      => add_query_arg( $this->pag_arg, '%#%' ),
-				'format'    => '',
-				'total'     => ceil( (int) $this->total_activity_count / (int) $this->pag_num ),
-				'current'   => (int) $this->pag_page,
-				'prev_text' => _x( '&larr;', 'Activity pagination previous text', 'buddypress' ),
-				'next_text' => _x( '&rarr;', 'Activity pagination next text', 'buddypress' ),
-				'mid_size'  => 1,
-				'add_args'  => array(),
-			) );
+			$this->pag_links = paginate_links(
+				array(
+					'base'      => add_query_arg( $this->pag_arg, '%#%' ),
+					'format'    => '',
+					'total'     => ceil( (int) $this->total_activity_count / (int) $this->pag_num ),
+					'current'   => (int) $this->pag_page,
+					'prev_text' => _x( '&larr;', 'Activity pagination previous text', 'buddypress' ),
+					'next_text' => _x( '&rarr;', 'Activity pagination next text', 'buddypress' ),
+					'mid_size'  => 1,
+					'add_args'  => array(),
+				)
+			);
 		}
 	}
 
@@ -448,7 +454,7 @@ class BP_Activity_Template {
 			 *
 			 * @since 1.1.0
 			 */
-			do_action('activity_loop_start');
+			do_action( 'activity_loop_start' );
 		}
 	}
 }

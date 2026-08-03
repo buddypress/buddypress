@@ -293,7 +293,7 @@ class BP_Messages_REST_Controller extends WP_REST_Controller {
 			'bp_rest_authorization_required',
 			__( 'Sorry, you are not allowed to perform this action.', 'buddypress' ),
 			array(
-				'status' => rest_authorization_required_code()
+				'status' => rest_authorization_required_code(),
 			)
 		);
 

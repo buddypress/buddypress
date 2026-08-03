@@ -51,7 +51,7 @@ function groups_action_create_group() {
 
 	// If this is a creation step that is not recognized, just redirect them back to the first screen.
 	if ( bp_get_groups_current_create_step() && empty( $bp->groups->group_creation_steps[ bp_get_groups_current_create_step() ] ) ) {
-		bp_core_add_message( __('There was an error saving group details. Please try again.', 'buddypress'), 'error' );
+		bp_core_add_message( __( 'There was an error saving group details. Please try again.', 'buddypress' ), 'error' );
 		bp_core_redirect( $redirect_url );
 	}
 
@@ -84,7 +84,16 @@ function groups_action_create_group() {
 
 			$new_group_id = isset( $bp->groups->new_group_id ) ? $bp->groups->new_group_id : 0;
 
-			if ( ! $bp->groups->new_group_id = groups_create_group( array( 'group_id' => $new_group_id, 'name' => $_POST['group-name'], 'description' => $_POST['group-desc'], 'slug' => groups_check_slug( sanitize_title( esc_attr( $_POST['group-name'] ) ) ), 'date_created' => bp_core_current_time(), 'status' => 'public' ) ) ) {
+			if ( ! $bp->groups->new_group_id = groups_create_group(
+				array(
+					'group_id' => $new_group_id,
+					'name' => $_POST['group-name'],
+					'description' => $_POST['group-desc'],
+					'slug' => groups_check_slug( sanitize_title( esc_attr( $_POST['group-name'] ) ) ),
+					'date_created' => bp_core_current_time(),
+					'status' => 'public',
+				)
+			) ) {
 				bp_core_add_message( __( 'There was an error saving group details. Please try again.', 'buddypress' ), 'error' );
 				bp_core_redirect( bp_groups_get_create_url( array( bp_get_groups_current_create_step() ) ) );
 			}
@@ -94,7 +103,7 @@ function groups_action_create_group() {
 			$group_status       = 'public';
 			$group_enable_forum = 1;
 
-			if ( ! isset($_POST['group-show-forum']) ) {
+			if ( ! isset( $_POST['group-show-forum'] ) ) {
 				$group_enable_forum = 0;
 			}
 
@@ -103,7 +112,13 @@ function groups_action_create_group() {
 			elseif ( 'hidden' === $_POST['group-status'] )
 				$group_status = 'hidden';
 
-			if ( ! $bp->groups->new_group_id = groups_create_group( array( 'group_id' => $bp->groups->new_group_id, 'status' => $group_status, 'enable_forum' => $group_enable_forum ) ) ) {
+			if ( ! $bp->groups->new_group_id = groups_create_group(
+				array(
+					'group_id' => $bp->groups->new_group_id,
+					'status' => $group_status,
+					'enable_forum' => $group_enable_forum,
+				)
+			) ) {
 				bp_core_add_message( __( 'There was an error saving group details. Please try again.', 'buddypress' ), 'error' );
 				bp_core_redirect( bp_groups_get_create_url( array( bp_get_groups_current_create_step() ) ) );
 			}
@@ -131,10 +146,12 @@ function groups_action_create_group() {
 		if ( 'group-invites' === bp_get_groups_current_create_step() ) {
 			if ( ! empty( $_POST['friends'] ) ) {
 				foreach ( (array) $_POST['friends'] as $friend ) {
-					groups_invite_user( array(
-						'user_id'  => (int) $friend,
-						'group_id' => $bp->groups->new_group_id,
-					) );
+					groups_invite_user(
+						array(
+							'user_id'  => (int) $friend,
+							'group_id' => $bp->groups->new_group_id,
+						)
+					);
 				}
 			}
 
@@ -185,10 +202,12 @@ function groups_action_create_group() {
 
 			// Once we completed all steps, record the group creation in the activity stream.
 			if ( bp_is_active( 'activity' ) ) {
-				groups_record_activity( array(
-					'type' => 'created_group',
-					'item_id' => $bp->groups->new_group_id
-				) );
+				groups_record_activity(
+					array(
+						'type' => 'created_group',
+						'item_id' => $bp->groups->new_group_id,
+					)
+				);
 			}
 
 			/**
@@ -270,7 +289,7 @@ function groups_action_create_group() {
 				'crop_x'        => $_POST['x'],
 				'crop_y'        => $_POST['y'],
 				'crop_w'        => $_POST['w'],
-				'crop_h'        => $_POST['h']
+				'crop_h'        => $_POST['h'],
 			);
 
 			$cropped_avatar = bp_core_avatar_handle_crop( $args, 'array' );
@@ -347,7 +366,7 @@ function groups_action_sort_creation_steps() {
 			'rewrite_id'   => $step['rewrite_id'],
 			'default_slug' => $step['slug'],
 			'name'         => $step['name'],
-			'position'     => $position
+			'position'     => $position,
 		);
 	}
 

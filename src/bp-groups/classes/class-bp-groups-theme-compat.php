@@ -113,17 +113,19 @@ class BP_Groups_Theme_Compat {
 	 * @since 1.7.0
 	 */
 	public function directory_dummy_post() {
-		bp_theme_compat_reset_post( array(
-			'ID'             => 0,
-			'post_title'     => bp_get_directory_title( 'groups' ),
-			'post_author'    => 0,
-			'post_date'      => 0,
-			'post_content'   => '',
-			'post_type'      => 'page',
-			'post_status'    => 'publish',
-			'is_page'        => true,
-			'comment_status' => 'closed'
-		) );
+		bp_theme_compat_reset_post(
+			array(
+				'ID'             => 0,
+				'post_title'     => bp_get_directory_title( 'groups' ),
+				'post_author'    => 0,
+				'post_date'      => 0,
+				'post_content'   => '',
+				'post_type'      => 'page',
+				'post_status'    => 'publish',
+				'is_page'        => true,
+				'comment_status' => 'closed',
+			)
+		);
 	}
 
 	/**
@@ -157,9 +159,12 @@ class BP_Groups_Theme_Compat {
 		 *
 		 * @param array $value Array of default template files to use.
 		 */
-		$new_templates = apply_filters( 'bp_template_hierarchy_groups_create', array(
-			'groups/index-create.php'
-		) );
+		$new_templates = apply_filters(
+			'bp_template_hierarchy_groups_create',
+			array(
+				'groups/index-create.php',
+			)
+		);
 
 		// Merge new templates with existing stack.
 		// @see bp_get_theme_compat_templates().
@@ -177,17 +182,19 @@ class BP_Groups_Theme_Compat {
 
 		$title = _x( 'Groups', 'Group creation page', 'buddypress' );
 
-		bp_theme_compat_reset_post( array(
-			'ID'             => 0,
-			'post_title'     => $title,
-			'post_author'    => 0,
-			'post_date'      => 0,
-			'post_content'   => '',
-			'post_type'      => 'page',
-			'post_status'    => 'publish',
-			'is_page'        => true,
-			'comment_status' => 'closed'
-		) );
+		bp_theme_compat_reset_post(
+			array(
+				'ID'             => 0,
+				'post_title'     => $title,
+				'post_author'    => 0,
+				'post_date'      => 0,
+				'post_content'   => '',
+				'post_type'      => 'page',
+				'post_status'    => 'publish',
+				'is_page'        => true,
+				'comment_status' => 'closed',
+			)
+		);
 	}
 
 	/**
@@ -223,13 +230,16 @@ class BP_Groups_Theme_Compat {
 		 *
 		 * @param array $value Array of default template files to use.
 		 */
-		$new_templates = apply_filters( 'bp_template_hierarchy_groups_single_item', array(
-			'groups/single/index-id-' . (int) bp_get_current_group_id() . '.php',
-			'groups/single/index-slug-' . sanitize_file_name( bp_get_current_group_slug() ) . '.php',
-			'groups/single/index-action-' . sanitize_file_name( bp_current_action() ) . '.php',
-			'groups/single/index-status-' . sanitize_file_name( $group->status ) . '.php',
-			'groups/single/index.php'
-		) );
+		$new_templates = apply_filters(
+			'bp_template_hierarchy_groups_single_item',
+			array(
+				'groups/single/index-id-' . (int) bp_get_current_group_id() . '.php',
+				'groups/single/index-slug-' . sanitize_file_name( bp_get_current_group_slug() ) . '.php',
+				'groups/single/index-action-' . sanitize_file_name( bp_current_action() ) . '.php',
+				'groups/single/index-status-' . sanitize_file_name( $group->status ) . '.php',
+				'groups/single/index.php',
+			)
+		);
 
 		// Merge new templates with existing stack.
 		// @see bp_get_theme_compat_templates().
@@ -244,17 +254,19 @@ class BP_Groups_Theme_Compat {
 	 * @since 1.7.0
 	 */
 	public function single_dummy_post() {
-		bp_theme_compat_reset_post( array(
-			'ID'             => 0,
-			'post_title'     => bp_get_current_group_name(),
-			'post_author'    => 0,
-			'post_date'      => 0,
-			'post_content'   => '',
-			'post_type'      => 'page',
-			'post_status'    => 'publish',
-			'is_page'        => true,
-			'comment_status' => 'closed'
-		) );
+		bp_theme_compat_reset_post(
+			array(
+				'ID'             => 0,
+				'post_title'     => bp_get_current_group_name(),
+				'post_author'    => 0,
+				'post_date'      => 0,
+				'post_content'   => '',
+				'post_type'      => 'page',
+				'post_status'    => 'publish',
+				'is_page'        => true,
+				'comment_status' => 'closed',
+			)
+		);
 	}
 
 	/**

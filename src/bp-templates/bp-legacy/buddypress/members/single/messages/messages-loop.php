@@ -114,14 +114,28 @@ do_action( 'bp_before_member_messages_loop' ); ?>
 
 						<?php if ( 'sentbox' !== bp_current_action() ) : ?>
 							<td class="thread-from">
-								<?php bp_message_thread_avatar( array( 'width' => 25, 'height' => 25 ) ); ?>
+								<?php
+								bp_message_thread_avatar(
+									array(
+										'width' => 25,
+										'height' => 25,
+									)
+								);
+								?>
 								<span class="from"><?php esc_html_e( 'From:', 'buddypress' ); ?></span> <?php bp_message_thread_from(); ?>
 								<?php bp_message_thread_total_and_unread_count(); ?>
 								<span class="activity"><?php bp_message_thread_last_post_date(); ?></span>
 							</td>
 						<?php else: ?>
 							<td class="thread-from">
-								<?php bp_message_thread_avatar( array( 'width' => 25, 'height' => 25 ) ); ?>
+								<?php
+								bp_message_thread_avatar(
+									array(
+										'width' => 25,
+										'height' => 25,
+									)
+								);
+								?>
 								<span class="to"><?php esc_html_e( 'To:', 'buddypress' ); ?></span> <?php bp_message_thread_to(); ?>
 								<?php bp_message_thread_total_and_unread_count(); ?>
 								<span class="activity"><?php bp_message_thread_last_post_date(); ?></span>

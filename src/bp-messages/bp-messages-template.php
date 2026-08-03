@@ -669,9 +669,13 @@ function bp_message_thread_total_count( $thread_id = false ) {
 			$thread_id = bp_get_message_thread_id();
 		}
 
-		$thread_template = new BP_Messages_Thread_Template( $thread_id, 'ASC', array(
-			'update_meta_cache' => false
-		) );
+		$thread_template = new BP_Messages_Thread_Template(
+			$thread_id,
+			'ASC',
+			array(
+				'update_meta_cache' => false,
+			)
+		);
 
 		$count = 0;
 		if ( ! empty( $thread_template->message_count ) ) {
@@ -1117,15 +1121,15 @@ function bp_messages_options() {
 	?></label>
 	<select name="message-type-select" id="message-type-select">
 		<option value=""><?php esc_html_e( 'Select', 'buddypress' ); ?></option>
-		<option value="read"><?php echo esc_html_x('Read', 'Message dropdown filter', 'buddypress') ?></option>
-		<option value="unread"><?php echo esc_html_x('Unread', 'Message dropdown filter', 'buddypress') ?></option>
-		<option value="all"><?php echo esc_html_x('All', 'Message dropdown filter', 'buddypress') ?></option>
+		<option value="read"><?php echo esc_html_x( 'Read', 'Message dropdown filter', 'buddypress' ) ?></option>
+		<option value="unread"><?php echo esc_html_x( 'Unread', 'Message dropdown filter', 'buddypress' ) ?></option>
+		<option value="all"><?php echo esc_html_x( 'All', 'Message dropdown filter', 'buddypress' ) ?></option>
 	</select> &nbsp;
 
 	<?php if ( ! bp_is_current_action( 'sentbox' ) && ! bp_is_current_action( 'notices' ) ) : ?>
 
-		<a href="#" id="mark_as_read"><?php echo esc_html_x('Mark as Read', 'Message management markup', 'buddypress') ?></a> &nbsp;
-		<a href="#" id="mark_as_unread"><?php echo esc_html_x('Mark as Unread', 'Message management markup', 'buddypress') ?></a> &nbsp;
+		<a href="#" id="mark_as_read"><?php echo esc_html_x( 'Mark as Read', 'Message management markup', 'buddypress' ) ?></a> &nbsp;
+		<a href="#" id="mark_as_unread"><?php echo esc_html_x( 'Mark as Unread', 'Message management markup', 'buddypress' ) ?></a> &nbsp;
 
 		<?php wp_nonce_field( 'bp_messages_mark_messages_read', 'mark-messages-read-nonce', false ); ?>
 		<?php wp_nonce_field( 'bp_messages_mark_messages_unread', 'mark-messages-unread-nonce', false ); ?>
@@ -1437,9 +1441,9 @@ function bp_message_activate_deactivate_text() {
 		global $messages_template;
 
 		if ( 1 === (int) $messages_template->thread->is_active  ) {
-			$text = __('Deactivate', 'buddypress');
+			$text = __( 'Deactivate', 'buddypress' );
 		} else {
-			$text = __('Activate', 'buddypress');
+			$text = __( 'Activate', 'buddypress' );
 		}
 
 		/**
@@ -1726,7 +1730,7 @@ function bp_message_get_recipient_tabs() {
 								'item_id' => $user_id,
 								'type'    => 'thumb',
 								'width'   => 15,
-								'height'  => 15
+								'height'  => 15,
 							)
 						);
 
@@ -2231,7 +2235,7 @@ function bp_the_thread_message_sender_avatar( $args = '' ) {
 					'type'    => $r['type'],
 					'width'   => $r['width'],
 					'height'  => $r['height'],
-					'alt'     => bp_core_get_user_displayname( $thread_template->message->sender_id )
+					'alt'     => bp_core_get_user_displayname( $thread_template->message->sender_id ),
 				)
 			),
 			$r

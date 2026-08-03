@@ -104,8 +104,8 @@ add_filter( 'bp_get_activity_content_body', 'bp_activity_truncate_entry', 5 );
 add_filter( 'bp_get_activity_content', 'bp_activity_truncate_entry', 5 );
 
 add_filter( 'bp_activity_get_user_favorites', 'bp_activity_sanitize_user_favorites_meta' );
-add_filter( 'bp_get_total_favorite_count_for_user', 'bp_core_number_format'                    );
-add_filter( 'bp_get_total_mention_count_for_user', 'bp_core_number_format'                    );
+add_filter( 'bp_get_total_favorite_count_for_user', 'bp_core_number_format' );
+add_filter( 'bp_get_total_mention_count_for_user', 'bp_core_number_format' );
 
 add_filter( 'bp_activity_get_embed_excerpt', 'bp_activity_embed_excerpt_onclick_location_filter', 9 );
 
@@ -133,7 +133,7 @@ add_action( 'bp_activity_before_save', 'bp_activity_check_disallowed_keys', 2, 1
 function bp_activity_get_moderated_activity_types() {
 	$types = array(
 		'activity_comment',
-		'activity_update'
+		'activity_update',
 	);
 
 	/**
@@ -423,7 +423,7 @@ function bp_activity_truncate_entry( $text, $args = array() ) {
 	 */
 	$maybe_truncate_text = apply_filters(
 		'bp_activity_maybe_truncate_entry',
-		isset( $activities_template->activity->type ) && ! in_array( $activities_template->activity->type, array( 'new_blog_post', ), true )
+		isset( $activities_template->activity->type ) && ! in_array( $activities_template->activity->type, array( 'new_blog_post' ), true )
 	);
 
 	// The full text of the activity update should always show on the single activity screen.
@@ -652,10 +652,13 @@ function bp_activity_heartbeat_strings( $strings = array() ) {
 		$pulse = $global_pulse;
 	}
 
-	$strings = array_merge( $strings, array(
-		'newest' => __( 'Load Newest', 'buddypress' ),
-		'pulse'  => absint( $pulse ),
-	) );
+	$strings = array_merge(
+		$strings,
+		array(
+			'newest' => __( 'Load Newest', 'buddypress' ),
+			'pulse'  => absint( $pulse ),
+		)
+	);
 
 	return $strings;
 }
@@ -688,7 +691,7 @@ function bp_activity_filter_just_me_scope( $retval = array(), $filter = array() 
 	if ( ! empty( $user_id ) && $user_id !== bp_loggedin_user_id() ) {
 		$show_hidden = array(
 			'column' => 'hide_sitewide',
-			'value'  => 0
+			'value'  => 0,
 		);
 	}
 
@@ -696,7 +699,7 @@ function bp_activity_filter_just_me_scope( $retval = array(), $filter = array() 
 		'relation' => 'AND',
 		array(
 			'column' => 'user_id',
-			'value'  => $user_id
+			'value'  => $user_id,
 		),
 		$show_hidden,
 
@@ -704,7 +707,7 @@ function bp_activity_filter_just_me_scope( $retval = array(), $filter = array() 
 		'override' => array(
 			'display_comments' => 'stream',
 			'filter'           => array( 'user_id' => 0 ),
-			'show_hidden'      => true
+			'show_hidden'      => true,
 		),
 	);
 
@@ -743,7 +746,7 @@ function bp_activity_filter_favorites_scope( $retval = array(), $filter = array(
 	if ( ! empty( $user_id ) && ( $user_id !== bp_loggedin_user_id() ) ) {
 		$show_hidden = array(
 			'column' => 'hide_sitewide',
-			'value'  => 0
+			'value'  => 0,
 		);
 	}
 
@@ -752,7 +755,7 @@ function bp_activity_filter_favorites_scope( $retval = array(), $filter = array(
 		array(
 			'column'  => 'id',
 			'compare' => 'IN',
-			'value'   => (array) $favs
+			'value'   => (array) $favs,
 		),
 		$show_hidden,
 
@@ -760,7 +763,7 @@ function bp_activity_filter_favorites_scope( $retval = array(), $filter = array(
 		'override' => array(
 			'display_comments' => true,
 			'filter'           => array( 'user_id' => 0 ),
-			'show_hidden'      => true
+			'show_hidden'      => true,
 		),
 	);
 
@@ -799,7 +802,7 @@ function bp_activity_filter_mentions_scope( $retval = array(), $filter = array()
 	if ( ! empty( $user_id ) && $user_id !== bp_loggedin_user_id() ) {
 		$show_hidden = array(
 			'column' => 'hide_sitewide',
-			'value'  => 0
+			'value'  => 0,
 		);
 	}
 
@@ -810,7 +813,7 @@ function bp_activity_filter_mentions_scope( $retval = array(), $filter = array()
 			'compare' => 'LIKE',
 
 			// Start search at @ symbol and stop search at closing tag delimiter.
-			'value'   => '@' . bp_activity_get_user_mentionname( $user_id ) . '<'
+			'value'   => '@' . bp_activity_get_user_mentionname( $user_id ) . '<',
 		),
 		$show_hidden,
 
@@ -818,7 +821,7 @@ function bp_activity_filter_mentions_scope( $retval = array(), $filter = array()
 		'override' => array(
 			'display_comments' => 'stream',
 			'filter'           => array( 'user_id' => 0 ),
-			'show_hidden'      => true
+			'show_hidden'      => true,
 		),
 	);
 

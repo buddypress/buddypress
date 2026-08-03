@@ -25,7 +25,15 @@ do_action( 'bp_before_group_manage_members_admin' ); ?>
 	<div class="bp-widget group-members-list group-admins-list">
 		<h3 class="section-header"><?php esc_html_e( 'Administrators', 'buddypress' ); ?></h3>
 
-		<?php if ( bp_group_has_members( array( 'per_page' => 15, 'group_role' => array( 'admin' ), 'page_arg' => 'mlpage-admin' ) ) ) : ?>
+		<?php
+		if ( bp_group_has_members(
+			array(
+				'per_page' => 15,
+				'group_role' => array( 'admin' ),
+				'page_arg' => 'mlpage-admin',
+			)
+		) ) :
+		?>
 
 			<?php if ( bp_group_member_needs_pagination() ) : ?>
 
@@ -118,7 +126,15 @@ do_action( 'bp_before_group_manage_members_admin' ); ?>
 	<div class="bp-widget group-members-list group-mods-list">
 		<h3 class="section-header"><?php esc_html_e( 'Moderators', 'buddypress' ); ?></h3>
 
-		<?php if ( bp_group_has_members( array( 'per_page' => 15, 'group_role' => array( 'mod' ), 'page_arg' => 'mlpage-mod' ) ) ) : ?>
+		<?php
+		if ( bp_group_has_members(
+			array(
+				'per_page' => 15,
+				'group_role' => array( 'mod' ),
+				'page_arg' => 'mlpage-mod',
+			)
+		) ) :
+		?>
 
 			<?php if ( bp_group_member_needs_pagination() ) : ?>
 
@@ -213,7 +229,14 @@ do_action( 'bp_before_group_manage_members_admin' ); ?>
 	<div class="bp-widget group-members-list">
 		<h3 class="section-header"><?php esc_html_e( 'Members', 'buddypress' ); ?></h3>
 
-		<?php if ( bp_group_has_members( array( 'per_page' => 15, 'exclude_banned' => 0 ) ) ) : ?>
+		<?php
+		if ( bp_group_has_members(
+			array(
+				'per_page' => 15,
+				'exclude_banned' => 0,
+			)
+		) ) :
+		?>
 
 			<?php if ( bp_group_member_needs_pagination() ) : ?>
 

@@ -28,13 +28,18 @@ function groups_screen_group_invite() {
 
 		if ( ! empty( $_POST['friends'] ) ) {
 			foreach ( (array) $_POST['friends'] as $friend ) {
-				groups_invite_user( array( 'user_id' => $friend, 'group_id' => $bp->groups->current_group->id ) );
+				groups_invite_user(
+					array(
+						'user_id' => $friend,
+						'group_id' => $bp->groups->current_group->id,
+					)
+				);
 			}
 		}
 
 		// Send the invites.
 		groups_send_invites( array( 'group_id' => $bp->groups->current_group->id ) );
-		bp_core_add_message( __('Group invites sent.', 'buddypress') );
+		bp_core_add_message( __( 'Group invites sent.', 'buddypress' ) );
 
 		/**
 		 * Fires after the sending of a group invite inside the group's Send Invites page.

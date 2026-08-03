@@ -118,30 +118,36 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 					esc_html_e( 'Day', 'buddypress' );
 				?></label>
 				<select <?php $this->output_edit_field_html_elements( $day_r ); ?>>
-					<?php bp_the_profile_field_options( array(
-						'type'    => 'day',
-						'user_id' => $user_id,
-					) ); ?>
+					<?php bp_the_profile_field_options(
+						array(
+							'type'    => 'day',
+							'user_id' => $user_id,
+						)
+					); ?>
 				</select>
 
 				<label for="<?php bp_the_profile_field_input_name(); ?>_month" class="xprofile-field-label"><?php
 					esc_html_e( 'Month', 'buddypress' );
 				?></label>
 				<select <?php $this->output_edit_field_html_elements( $month_r ); ?>>
-					<?php bp_the_profile_field_options( array(
-						'type'    => 'month',
-						'user_id' => $user_id,
-					) ); ?>
+					<?php bp_the_profile_field_options(
+						array(
+							'type'    => 'month',
+							'user_id' => $user_id,
+						)
+					); ?>
 				</select>
 
 				<label for="<?php bp_the_profile_field_input_name(); ?>_year" class="xprofile-field-label"><?php
 					esc_html_e( 'Year', 'buddypress' );
 				?></label>
 				<select <?php $this->output_edit_field_html_elements( $year_r ); ?>>
-					<?php bp_the_profile_field_options( array(
-						'type'    => 'year',
-						'user_id' => $user_id,
-					) ); ?>
+					<?php bp_the_profile_field_options(
+						array(
+							'type'    => 'year',
+							'user_id' => $user_id,
+						)
+					); ?>
 				</select>
 
 			</div>
@@ -571,32 +577,36 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 
 						<div class="bp-date-range-type-values">
 							<label for="field-settings[range_relative_start]"><?php esc_html_e( 'Start:', 'buddypress' ); ?></label>
-							<?php printf( '<input type="text" class="date-range-numeric" name="field-settings[range_relative_start]" id="field-settings[range_relative_start]" value="%s" />',
+							<?php printf(
+								'<input type="text" class="date-range-numeric" name="field-settings[range_relative_start]" id="field-settings[range_relative_start]" value="%s" />',
 								esc_attr( abs( $settings['range_relative_start'] ) )
-								);
+							);
 							?>
 
 							<label class="screen-reader-text" for="field-settings[range_relative_start_type]"><?php esc_html_e( 'Select range', 'buddypress' ); ?></label>
-							<?php printf( '<select name="field-settings[range_relative_start_type]" id="field-settings[range_relative_start_type]"><option value="past" %s>%s</option><option value="future" %s>%s</option></select>',
+							<?php printf(
+								'<select name="field-settings[range_relative_start_type]" id="field-settings[range_relative_start_type]"><option value="past" %s>%s</option><option value="future" %s>%s</option></select>',
 								selected( true, $settings['range_relative_start'] <= 0, false ),
 								esc_attr__( 'years ago', 'buddypress' ),
 								selected( true, $settings['range_relative_start'] > 0, false ),
 								esc_attr__( 'years from now', 'buddypress' )
-								);
+							);
 							?>
 
 							<label for="field-settings[range_relative_end]"><?php esc_html_e( 'End:', 'buddypress' ); ?></label>
-							<?php printf( '<input type="text" class="date-range-numeric" name="field-settings[range_relative_end]" id="field-settings[range_relative_end]" value="%s" />',
+							<?php printf(
+								'<input type="text" class="date-range-numeric" name="field-settings[range_relative_end]" id="field-settings[range_relative_end]" value="%s" />',
 								esc_attr( abs( $settings['range_relative_end'] ) )
-								);
+							);
 							?>
 							<label class="screen-reader-text" for="field-settings[range_relative_end_type]"><?php esc_html_e( 'Select range', 'buddypress' ); ?></label>
-							<?php printf( '<select name="field-settings[range_relative_end_type]" id="field-settings[range_relative_end_type]"><option value="past" %s>%s</option><option value="future" %s>%s</option></select>',
-									selected( true, $settings['range_relative_end'] <= 0, false ),
-									esc_attr__( 'years ago', 'buddypress' ),
-									selected( true, $settings['range_relative_end'] > 0, false ),
-									esc_attr__( 'years from now', 'buddypress' )
-								);
+							<?php printf(
+								'<select name="field-settings[range_relative_end_type]" id="field-settings[range_relative_end_type]"><option value="past" %s>%s</option><option value="future" %s>%s</option></select>',
+								selected( true, $settings['range_relative_end'] <= 0, false ),
+								esc_attr__( 'years ago', 'buddypress' ),
+								selected( true, $settings['range_relative_end'] > 0, false ),
+								esc_attr__( 'years from now', 'buddypress' )
+							);
 							?>
 						</div>
 					</div>

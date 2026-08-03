@@ -48,7 +48,12 @@ function bp_activity_action_delete_activity( $activity_id = 0 ) {
 	do_action( 'bp_activity_before_action_delete_activity', $activity_id, $activity->user_id );
 
 	// Delete the activity item and provide user feedback.
-	if ( bp_activity_delete( array( 'id' => $activity_id, 'user_id' => $activity->user_id ) ) )
+	if ( bp_activity_delete(
+		array(
+			'id' => $activity_id,
+			'user_id' => $activity->user_id,
+		)
+	) )
 		bp_core_add_message( __( 'Activity deleted successfully', 'buddypress' ) );
 	else
 		bp_core_add_message( __( 'There was an error when deleting that activity', 'buddypress' ), 'error' );

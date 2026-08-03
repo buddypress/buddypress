@@ -395,7 +395,7 @@ function bp_do_activation_redirect() {
 
 	$query_args = array(
 		'page'  => 'bp-components',
-		'hello' => 'buddypress'
+		'hello' => 'buddypress',
 	);
 
 	if ( get_transient( '_bp_is_new_install' ) ) {

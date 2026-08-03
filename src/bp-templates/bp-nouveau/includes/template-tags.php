@@ -307,7 +307,6 @@ function bp_nouveau_user_feedback( $feedback_id = '' ) {
 	$bp_nouveau->user_feedback = $feedback;
 
 	bp_get_template_part(
-
 		/**
 		 * Filter here if you wish to use a different templates than the notice one.
 		 *
@@ -464,7 +463,8 @@ function bp_nouveau_pagination( $position ) {
 			 * }
 			 * @param string $pagination_type Information about the pagination type.
 			 */
-			$pagination_params = apply_filters( 'bp_nouveau_pagination_params',
+			$pagination_params = apply_filters(
+				'bp_nouveau_pagination_params',
 				array(
 					'pag_count' => '',
 					'pag_links' => '',
@@ -598,10 +598,13 @@ function bp_nouveau_loop_classes() {
 				$grid_classes = bp_nouveau_customizer_grid_choices( 'classes' );
 
 				if ( isset( $grid_classes[ $layout_prefs ] ) ) {
-					$classes = array_merge( $classes, array(
-						'grid',
-						$grid_classes[ $layout_prefs ],
-					) );
+					$classes = array_merge(
+						$classes,
+						array(
+							'grid',
+							$grid_classes[ $layout_prefs ],
+						)
+					);
 				}
 
 				if ( ! isset( $bp_nouveau->{$component} ) ) {
@@ -723,11 +726,14 @@ function bp_nouveau_avatar_args() {
 	 *     @param int    $height Avatar height value.
 	 * }
 	 */
-	return apply_filters( 'bp_nouveau_avatar_args', array(
-		'type'   => 'full',
-		'width'  => bp_core_avatar_full_width(),
-		'height' => bp_core_avatar_full_height(),
-	) );
+	return apply_filters(
+		'bp_nouveau_avatar_args',
+		array(
+			'type'   => 'full',
+			'width'  => bp_core_avatar_full_width(),
+			'height' => bp_core_avatar_full_height(),
+		)
+	);
 }
 
 
@@ -1037,7 +1043,7 @@ function bp_nouveau_nav_scope() {
 
 		if ( 'directory' === $bp_nouveau->displayed_nav ) {
 			$scope = array(
-				'data-bp-scope' => $nav_item->slug
+				'data-bp-scope' => $nav_item->slug,
 			);
 
 		} elseif ( 'personal' === $bp_nouveau->displayed_nav && ! empty( $nav_item->secondary ) ) {
@@ -1053,7 +1059,7 @@ function bp_nouveau_nav_scope() {
 			}
 
 			$scope = array(
-				'data-bp-user-scope' => $nav_item->slug
+				'data-bp-user-scope' => $nav_item->slug,
 			);
 
 		} else {
@@ -1369,7 +1375,7 @@ function bp_nouveau_directory_type_navs_class() {
 			'main-navs',
 			'bp-navs',
 			'dir-navs',
-			$tab_style
+			$tab_style,
 		);
 
 		/**
@@ -2267,7 +2273,8 @@ function bp_nouveau_filter_options() {
 			$filters = bp_nouveau_get_component_filters();
 
 			foreach ( $filters as $key => $value ) {
-				$output .= sprintf( '<option value="%1$s">%2$s</option>%3$s',
+				$output .= sprintf(
+					'<option value="%1$s">%2$s</option>%3$s',
 					esc_attr( $key ),
 					esc_html( $value ),
 					PHP_EOL
@@ -2336,10 +2343,13 @@ function bp_nouveau_get_customizer_link( $args = array() ) {
 		return '';
 	}
 
-	$customizer_link = add_query_arg( array(
-		'autofocus[section]' => $r['autofocus'],
-		'url'                => $url,
-	), admin_url( 'customize.php' ) );
+	$customizer_link = add_query_arg(
+		array(
+			'autofocus[section]' => $r['autofocus'],
+			'url'                => $url,
+		),
+		admin_url( 'customize.php' )
+	);
 
 	return sprintf( '<a href="%1$s">%2$s</a>', esc_url( $customizer_link ), esc_html( $r['text'] ) );
 }
@@ -2422,16 +2432,30 @@ function bp_nouveau_signup_form( $section = 'account_details' ) {
 
 	foreach ( $fields as $name => $attributes ) {
 		if ( 'signup_password' === $name ) {
+			// phpcs:disable Squiz.PHP.EmbeddedPhp.ContentBeforeOpen, Squiz.PHP.EmbeddedPhp.ContentAfterEnd -- Preserve the input's exact static HTML whitespace while formatting its PHP call.
 			?>
 			<label for="pass1"><?php esc_html_e( 'Choose a Password (required)', 'buddypress' ); ?></label>
-			<?php if ( isset( buddypress()->signup->errors['signup_password'] ) ) :
+			<?php
+			if ( isset( buddypress()->signup->errors['signup_password'] ) ) :
 				nouveau_error_template( buddypress()->signup->errors['signup_password'] );
-			endif; ?>
+			endif;
+			?>
 
 			<div class="user-pass1-wrap">
 				<div class="wp-pwd">
 					<div class="password-input-wrapper">
-						<input type="password" data-reveal="1" name="signup_password" id="pass1" class="password-entry" size="24" value="" <?php bp_form_field_attributes( 'password', array( 'data-pw' => wp_generate_password( 12 ), 'aria-describedby' => 'pass-strength-result' ) ); ?> />
+						<input type="password" data-reveal="1" name="signup_password" id="pass1" class="password-entry" size="24" value="" <?php
+						bp_form_field_attributes(
+							'password',
+							array(
+								'data-pw' => wp_generate_password( 12 ),
+								'aria-describedby' => 'pass-strength-result',
+							)
+						);
+						?> /><?php
+						// phpcs:enable Squiz.PHP.EmbeddedPhp.ContentBeforeOpen, Squiz.PHP.EmbeddedPhp.ContentAfterEnd
+						?>
+
 						<button type="button" class="button wp-hide-pw">
 							<span class="dashicons dashicons-hidden" aria-hidden="true"></span>
 						</button>
@@ -2665,7 +2689,8 @@ function bp_nouveau_submit_button( $action, $object_id = 0 ) {
 		do_action( $submit_data['before'] );
 	}
 
-	$submit_input = sprintf( '<input type="submit" %s/>',
+	$submit_input = sprintf(
+		'<input type="submit" %s/>',
 		bp_get_form_field_attributes( 'submit', $submit_data['attributes'] )  // Safe.
 	);
 

@@ -789,15 +789,17 @@ function bp_xprofile_bp_user_query_search( $sql, BP_User_Query $query ) {
 
 	// Combine the core search (against wp_users) into a single OR clause
 	// with the xprofile_data search.
-	$matched_user_ids = $wpdb->get_col( $wpdb->prepare(
-		"SELECT user_id FROM {$bp->profile->table_name_data} WHERE value LIKE %s OR value LIKE %s",
-		$search_terms_nospace,
-		$search_terms_space
-	) );
+	$matched_user_ids = $wpdb->get_col(
+		$wpdb->prepare(
+			"SELECT user_id FROM {$bp->profile->table_name_data} WHERE value LIKE %s OR value LIKE %s",
+			$search_terms_nospace,
+			$search_terms_space
+		)
+	);
 
 	if ( ! empty( $matched_user_ids ) ) {
 		$search_core            = $sql['where']['search'];
-		$search_combined        = " ( u.{$query->uid_name} IN (" . implode(',', $matched_user_ids) . ") OR {$search_core} )";
+		$search_combined        = " ( u.{$query->uid_name} IN (" . implode( ',', $matched_user_ids ) . ") OR {$search_core} )";
 		$sql['where']['search'] = $search_combined;
 	}
 
@@ -875,11 +877,16 @@ function xprofile_sync_wp_profile( $user_id = 0, ...$args ) {
 		}
 	}
 
-	bp_update_user_meta( $user_id, 'nickname', $fullname  );
+	bp_update_user_meta( $user_id, 'nickname', $fullname );
 	bp_update_user_meta( $user_id, 'first_name', $userdata['first_name'] );
-	bp_update_user_meta( $user_id, 'last_name', $userdata['last_name']  );
+	bp_update_user_meta( $user_id, 'last_name', $userdata['last_name'] );
 
-	wp_update_user( array( 'ID' => $user_id, 'display_name' => $fullname ) );
+	wp_update_user(
+		array(
+			'ID' => $user_id,
+			'display_name' => $fullname,
+		)
+	);
 }
 add_action( 'bp_core_signup_user', 'xprofile_sync_wp_profile', 10, 5 );
 add_action( 'bp_core_activated_user', 'xprofile_sync_wp_profile', 10, 3 );

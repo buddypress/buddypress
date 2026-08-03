@@ -58,7 +58,7 @@ function bp_members_screen_change_avatar() {
 			'crop_x'        => $_POST['x'],
 			'crop_y'        => $_POST['y'],
 			'crop_w'        => $_POST['w'],
-			'crop_h'        => $_POST['h']
+			'crop_h'        => $_POST['h'],
 		);
 
 		// Handle crop.
@@ -102,7 +102,7 @@ function bp_members_screen_change_avatar() {
 	$templates = array(
 		/** This filter is documented in wp-includes/deprecated.php */
 		apply_filters_deprecated( 'xprofile_template_change_avatar', array( 'members/single/home' ), '6.0.0', 'bp_members_template_change_avatar' ),
-		'members/single/index'
+		'members/single/index',
 	);
 
 	/**

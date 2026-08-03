@@ -22,7 +22,7 @@ function groups_screen_group_invites() {
 		}
 
 		if ( ! groups_accept_invite( bp_displayed_user_id(), $group_id ) ) {
-			bp_core_add_message( __('Group invite could not be accepted', 'buddypress'), 'error' );
+			bp_core_add_message( __( 'Group invite could not be accepted', 'buddypress' ), 'error' );
 		} else {
 			// Record this in activity streams.
 			$group = groups_get_group( $group_id );
@@ -31,10 +31,12 @@ function groups_screen_group_invites() {
 			bp_core_add_message( sprintf( __( 'Group invite accepted. View %s.', 'buddypress' ), bp_get_group_link( $group ) ) );
 
 			if ( bp_is_active( 'activity' ) ) {
-				groups_record_activity( array(
-					'type'    => 'joined_group',
-					'item_id' => $group->id
-				) );
+				groups_record_activity(
+					array(
+						'type'    => 'joined_group',
+						'item_id' => $group->id,
+					)
+				);
 			}
 		}
 

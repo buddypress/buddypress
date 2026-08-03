@@ -13,7 +13,7 @@
 
 <?php if ( 'upload-image' === bp_get_avatar_admin_step() ) : ?>
 
-	<p><?php esc_html_e('Upload an image to use as a profile photo for this group. The image will be shown on the main group page, and in search results.', 'buddypress' ); ?></p>
+	<p><?php esc_html_e( 'Upload an image to use as a profile photo for this group. The image will be shown on the main group page, and in search results.', 'buddypress' ); ?></p>
 
 	<p>
 		<label for="file" class="bp-screen-reader-text">
@@ -31,7 +31,18 @@
 
 		<p><?php esc_html_e( "If you'd like to remove the existing group profile photo but not upload a new one, please use the delete group profile photo button.", 'buddypress' ); ?></p>
 
-		<?php bp_button( array( 'id' => 'delete_group_avatar', 'component' => 'groups', 'wrapper_id' => 'delete-group-avatar-button', 'link_class' => 'edit', 'link_href' => bp_get_group_avatar_delete_link(), 'link_text' => __( 'Delete Group Profile Photo', 'buddypress' ) ) ); ?>
+		<?php
+		bp_button(
+			array(
+				'id' => 'delete_group_avatar',
+				'component' => 'groups',
+				'wrapper_id' => 'delete-group-avatar-button',
+				'link_class' => 'edit',
+				'link_href' => bp_get_group_avatar_delete_link(),
+				'link_text' => __( 'Delete Group Profile Photo', 'buddypress' ),
+			)
+		);
+		?>
 
 	<?php endif; ?>
 

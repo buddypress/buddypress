@@ -567,7 +567,7 @@ class BP_Signup {
 				'user_login'   => $user_login,
 				'user_pass'    => $user_password,
 				'display_name' => sanitize_title( $user_login ),
-				'user_email'   => $user_email
+				'user_email'   => $user_email,
 			)
 		);
 
@@ -583,7 +583,7 @@ class BP_Signup {
 		// wp_insert_user(), but we delete them so that inactive
 		// signups don't appear in various user counts.
 		delete_user_option( $user_id, 'capabilities' );
-		delete_user_option( $user_id, 'user_level'   );
+		delete_user_option( $user_id, 'user_level' );
 
 		// Set any profile data.
 		if ( bp_is_active( 'xprofile' ) ) {
@@ -1115,9 +1115,9 @@ class BP_Signup {
 					// Signups table.
 					buddypress()->members->table_name_signups,
 					// Where.
-					array( 'signup_id' => $signup->signup_id, ),
+					array( 'signup_id' => $signup->signup_id ),
 					// WHERE sanitization format.
-					array( '%d', )
+					array( '%d' )
 				);
 
 				$result['deleted'][] = $signup->signup_id;

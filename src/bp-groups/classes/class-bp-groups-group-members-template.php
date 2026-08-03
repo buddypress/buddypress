@@ -173,7 +173,7 @@ class BP_Groups_Group_Members_Template {
 		);
 
 		$this->pag_arg  = sanitize_key( $r['page_arg'] );
-		$this->pag_page = bp_sanitize_pagination_arg( $this->pag_arg, $r['page']     );
+		$this->pag_page = bp_sanitize_pagination_arg( $this->pag_arg, $r['page'] );
 		$this->pag_num  = bp_sanitize_pagination_arg( 'num', $r['per_page'] );
 
 		/**
@@ -219,16 +219,18 @@ class BP_Groups_Group_Members_Template {
 			$this->member_count = (int) $r['max'];
 		}
 
-		$this->pag_links = paginate_links( array(
-			'base'      => add_query_arg( array( $this->pag_arg => '%#%' ), $base_url ),
-			'format'    => '',
-			'total'     => ! empty( $this->pag_num ) ? ceil( $this->total_member_count / $this->pag_num ) : $this->total_member_count,
-			'current'   => $this->pag_page,
-			'prev_text' => '&larr;',
-			'next_text' => '&rarr;',
-			'mid_size'  => 1,
-			'add_args'  => array(),
-		) );
+		$this->pag_links = paginate_links(
+			array(
+				'base'      => add_query_arg( array( $this->pag_arg => '%#%' ), $base_url ),
+				'format'    => '',
+				'total'     => ! empty( $this->pag_num ) ? ceil( $this->total_member_count / $this->pag_num ) : $this->total_member_count,
+				'current'   => $this->pag_page,
+				'prev_text' => '&larr;',
+				'next_text' => '&rarr;',
+				'mid_size'  => 1,
+				'add_args'  => array(),
+			)
+		);
 	}
 
 	/**

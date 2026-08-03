@@ -997,8 +997,8 @@ function bp_the_profile_field_visibility_level_label() {
  * @return string
  */
 function bp_unserialize_profile_field( $value ) {
-	if ( is_serialized($value) ) {
-		$field_value = @unserialize($value);
+	if ( is_serialized( $value ) ) {
+		$field_value = @unserialize( $value );
 		$field_value = implode( ', ', $field_value );
 		return $field_value;
 	}
@@ -1304,15 +1304,17 @@ function bp_current_profile_group_id() {
  * @since 1.0.0
  */
 function bp_edit_profile_button() {
-	bp_button( array(
-		'id'                => 'edit_profile',
-		'component'         => 'xprofile',
-		'must_be_logged_in' => true,
-		'block_self'        => true,
-		'link_href'         => bp_displayed_user_url( bp_members_get_path_chunks( array( bp_get_profile_slug(), 'edit' ) ) ),
-		'link_class'        => 'edit',
-		'link_text'         => __( 'Edit Profile', 'buddypress' ),
-	) );
+	bp_button(
+		array(
+			'id'                => 'edit_profile',
+			'component'         => 'xprofile',
+			'must_be_logged_in' => true,
+			'block_self'        => true,
+			'link_href'         => bp_displayed_user_url( bp_members_get_path_chunks( array( bp_get_profile_slug(), 'edit' ) ) ),
+			'link_class'        => 'edit',
+			'link_text'         => __( 'Edit Profile', 'buddypress' ),
+		)
+	);
 }
 
 /** Visibility ****************************************************************/

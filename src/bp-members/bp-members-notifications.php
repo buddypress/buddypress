@@ -74,12 +74,15 @@ function members_format_notifications( $action, $item_id, $secondary_item_id, $t
 				/* translators: %d: is the number of people who requested site membership */
 				$text = sprintf( __( '%d people have requested site membership.', 'buddypress' ), (int) $total_items );
 			} else {
-				$link   = add_query_arg( array(
-					'mod_req'   => 1,
-					'page'      => 'bp-signups',
-					'signup_id' => $item_id,
-					'action'    => 'resend',
-				), bp_get_admin_url( 'users.php' ) );
+				$link   = add_query_arg(
+					array(
+						'mod_req'   => 1,
+						'page'      => 'bp-signups',
+						'signup_id' => $item_id,
+						'action'    => 'resend',
+					),
+					bp_get_admin_url( 'users.php' )
+				);
 				$amount = 'single';
 
 				/* translators: %s: new user name */
@@ -109,10 +112,16 @@ function members_format_notifications( $action, $item_id, $secondary_item_id, $t
 		$return = apply_filters( 'bp_members_' . $amount . '_' . $action . '_notification', '<a href="' . esc_url( $link ) . '">' . esc_html( $text ) . '</a>', (int) $total_items, $item_id, $secondary_item_id );
 	} else {
 		/** This filter is documented in bp-members/bp-members-notifications.php */
-		$return = apply_filters( 'bp_members_' . $amount . '_' . $action . '_notification', array(
-			'link' => $link,
-			'text' => $text
-		), (int) $total_items, $item_id, $secondary_item_id );
+		$return = apply_filters(
+			'bp_members_' . $amount . '_' . $action . '_notification',
+			array(
+				'link' => $link,
+				'text' => $text,
+			),
+			(int) $total_items,
+			$item_id,
+			$secondary_item_id
+		);
 	}
 
 	/**
@@ -166,15 +175,17 @@ function bp_members_invitations_accepted_invitation_notification( $invite, $new_
 			$secondary_item_id = 0;
 		}
 
-		bp_notifications_add_notification( array(
-			'user_id'           => $invite->inviter_id,
-			'item_id'           => $new_user->ID,
-			'secondary_item_id' => $secondary_item_id,
-			'component_name'    => buddypress()->members->id,
-			'component_action'  => 'accepted_invitation',
-			'date_notified'     => bp_core_current_time(),
-			'is_new'            => 1,
-		) );
+		bp_notifications_add_notification(
+			array(
+				'user_id'           => $invite->inviter_id,
+				'item_id'           => $new_user->ID,
+				'secondary_item_id' => $secondary_item_id,
+				'component_name'    => buddypress()->members->id,
+				'component_action'  => 'accepted_invitation',
+				'date_notified'     => bp_core_current_time(),
+				'is_new'            => 1,
+			)
+		);
 	}
 }
 add_action( 'members_invitations_invite_accepted', 'bp_members_invitations_accepted_invitation_notification', 10, 3 );

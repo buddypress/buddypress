@@ -26,7 +26,7 @@ function bp_members_register_scripts( $scripts = array() ) {
 
 	$asset      = array(
 		'dependencies' => array(),
-		'version'      => ''
+		'version'      => '',
 	);
 	$asset_path = trailingslashit( __DIR__ ) . 'blocks/dynamic-widget/index.asset.php';
 

@@ -290,8 +290,14 @@ class BP_XProfile_Field {
 		}
 
 		$int_fields = array(
-			'id', 'is_required', 'group_id', 'parent_id', 'is_default_option',
-			'field_order', 'option_order', 'can_delete',
+			'id',
+			'is_required',
+			'group_id',
+			'parent_id',
+			'is_default_option',
+			'field_order',
+			'option_order',
+			'can_delete',
 		);
 
 		foreach ( $args as $k => $v ) {
@@ -511,7 +517,7 @@ class BP_XProfile_Field {
 				$parent_id = $this->id;
 
 				// Allow plugins to filter the field's child options (i.e. the items in a selectbox).
-				$post_option  = ! empty( $_POST[ "{$this->type}_option" ]           ) ? $_POST[ "{$this->type}_option" ] : '';
+				$post_option  = ! empty( $_POST[ "{$this->type}_option" ] ) ? $_POST[ "{$this->type}_option" ] : '';
 				$post_default = ! empty( $_POST[ "isDefault_{$this->type}_option" ] ) ? $_POST[ "isDefault_{$this->type}_option" ] : '';
 
 				/**
@@ -1273,11 +1279,14 @@ class BP_XProfile_Field {
 		if ( empty( $this->id ) ) {
 			$title  = __( 'Add New Field', 'buddypress' );
 			$button = __( 'Save', 'buddypress' );
-			$action = add_query_arg( array(
-				'page'     => 'bp-profile-setup',
-				'mode'     => 'add_field',
-				'group_id' => (int) $this->group_id,
-			), $users_url . '#tabs-' . (int) $this->group_id );
+			$action = add_query_arg(
+				array(
+					'page'     => 'bp-profile-setup',
+					'mode'     => 'add_field',
+					'group_id' => (int) $this->group_id,
+				),
+				$users_url . '#tabs-' . (int) $this->group_id
+			);
 
 			if ( ! empty( $_POST['saveField'] ) ) {
 				$this->name        = $_POST['title'];
@@ -1295,12 +1304,15 @@ class BP_XProfile_Field {
 		} else {
 			$title  = __( 'Edit Field', 'buddypress' );
 			$button = __( 'Update', 'buddypress' );
-			$action = add_query_arg( array(
-				'page'     => 'bp-profile-setup',
-				'mode'     => 'edit_field',
-				'group_id' => (int) $this->group_id,
-				'field_id' => (int) $this->id,
-			), $users_url . '#tabs-' . (int) $this->group_id );
+			$action = add_query_arg(
+				array(
+					'page'     => 'bp-profile-setup',
+					'mode'     => 'edit_field',
+					'group_id' => (int) $this->group_id,
+					'field_id' => (int) $this->id,
+				),
+				$users_url . '#tabs-' . (int) $this->group_id
+			);
 		} ?>
 
 		<div class="wrap">
@@ -1457,18 +1469,28 @@ class BP_XProfile_Field {
 
 		// Setup the URL for deleting
 		$users_url  = bp_get_admin_url( 'users.php' );
-		$cancel_url = add_query_arg( array(
-			'page' => 'bp-profile-setup',
-		), $users_url );
+		$cancel_url = add_query_arg(
+			array(
+				'page' => 'bp-profile-setup',
+			),
+			$users_url
+		);
 
 
 		// Delete.
 		if ( $this->can_delete ) {
-			$delete_url = wp_nonce_url( add_query_arg( array(
-				'page'     => 'bp-profile-setup',
-				'mode'     => 'delete_field',
-				'field_id' => (int) $this->id,
-			), $users_url ), 'bp_xprofile_delete_field-' . $this->id, 'bp_xprofile_delete_field' );
+			$delete_url = wp_nonce_url(
+				add_query_arg(
+					array(
+						'page'     => 'bp-profile-setup',
+						'mode'     => 'delete_field',
+						'field_id' => (int) $this->id,
+					),
+					$users_url
+				),
+				'bp_xprofile_delete_field-' . $this->id,
+				'bp_xprofile_delete_field'
+			);
 		}
 		/**
 		 * Fires before XProfile Field submit metabox.
@@ -1748,7 +1770,7 @@ class BP_XProfile_Field {
 		?>
 
 		<div class="postbox">
-			<h2><label for="fieldtype"><?php esc_html_e( 'Type', 'buddypress'); ?></label></h2>
+			<h2><label for="fieldtype"><?php esc_html_e( 'Type', 'buddypress' ); ?></label></h2>
 			<div class="inside" aria-live="polite" aria-atomic="true" aria-relevant="all">
 				<?php if ( ! $this->field_type_supports( 'switch_fieldtype' ) ) : ?>
 					<input type="text" disabled="true" value="<?php echo esc_attr( $this->type_obj->name ); ?>">

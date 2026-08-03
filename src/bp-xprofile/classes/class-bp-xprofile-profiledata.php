@@ -260,7 +260,7 @@ class BP_XProfile_ProfileData {
 				$result = $this->delete();
 
 			} else {
-				$result   = $wpdb->query( $wpdb->prepare("INSERT INTO {$bp->profile->table_name_data} (user_id, field_id, value, last_updated) VALUES (%d, %d, %s, %s)", $this->user_id, $this->field_id, $this->value, $this->last_updated ) );
+				$result   = $wpdb->query( $wpdb->prepare( "INSERT INTO {$bp->profile->table_name_data} (user_id, field_id, value, last_updated) VALUES (%d, %d, %s, %s)", $this->user_id, $this->field_id, $this->value, $this->last_updated ) );
 				$this->id = $wpdb->insert_id;
 			}
 
@@ -434,13 +434,15 @@ class BP_XProfile_ProfileData {
 	 */
 	public static function get_all_for_user( $user_id ) {
 
-		$groups = bp_xprofile_get_groups( array(
-			'user_id'                => $user_id,
-			'hide_empty_groups'      => true,
-			'hide_empty_fields'      => true,
-			'fetch_fields'           => true,
-			'fetch_field_data'       => true,
-		) );
+		$groups = bp_xprofile_get_groups(
+			array(
+				'user_id'                => $user_id,
+				'hide_empty_groups'      => true,
+				'hide_empty_fields'      => true,
+				'fetch_fields'           => true,
+				'fetch_field_data'       => true,
+			)
+		);
 
 		$profile_data = array();
 

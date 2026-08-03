@@ -36,7 +36,7 @@ function groups_screen_group_request_membership() {
 	}
 
 	// If the user has submitted a request, send it.
-	if ( isset( $_POST['group-request-send']) ) {
+	if ( isset( $_POST['group-request-send'] ) ) {
 
 		// Check the nonce.
 		if ( ! check_admin_referer( 'groups_request_membership' ) ) {
@@ -46,7 +46,7 @@ function groups_screen_group_request_membership() {
 		// Default arguments for the membership request.
 		$request_args = array(
 			'user_id'  => bp_loggedin_user_id(),
-			'group_id' => $bp->groups->current_group->id
+			'group_id' => $bp->groups->current_group->id,
 		);
 
 		// If the member added a message to their request include it into the request arguments.

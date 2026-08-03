@@ -74,19 +74,23 @@ function groups_action_clean_up_invites_requests( $user_id, $group_id ) {
 
 	$invites_class = new BP_Groups_Invitation_Manager();
 	// Remove invitations/requests where the deleted user is the receiver.
-	$invites_class->delete( array(
-		'user_id' => $user_id,
-		'item_id' => $group_id,
-		'type'    => 'all'
-	) );
+	$invites_class->delete(
+		array(
+			'user_id' => $user_id,
+			'item_id' => $group_id,
+			'type'    => 'all',
+		)
+	);
 	/**
 	 * Remove invitations where the deleted user is the sender.
 	 * We'll use groups_uninvite_user() so that notifications will be cleaned up.
 	 */
-	$pending_invites = groups_get_invites( array(
-		'inviter_id' => $user_id,
-		'item_id'    => $group_id,
-	) );
+	$pending_invites = groups_get_invites(
+		array(
+			'inviter_id' => $user_id,
+			'item_id'    => $group_id,
+		)
+	);
 
 	if ( $pending_invites ) {
 		foreach ( $pending_invites as $invite ) {

@@ -33,17 +33,22 @@ function bp_activity_admin_menu() {
 		return;
 	}
 
-	$activity_edit_link = add_query_arg( array(
-		'page' => 'bp-activity',
-		'aid' => bp_current_action(),
-		'action' => 'edit'
-	), bp_get_admin_url( 'admin.php' ) );
+	$activity_edit_link = add_query_arg(
+		array(
+			'page' => 'bp-activity',
+			'aid' => bp_current_action(),
+			'action' => 'edit',
+		),
+		bp_get_admin_url( 'admin.php' )
+	);
 
 	// Add the top-level Edit Activity button.
-	$wp_admin_bar->add_node( array(
-		'id'    => 'activity-admin',
-		'title' => __( 'Edit Activity', 'buddypress' ),
-		'href'  => esc_url( $activity_edit_link ),
-	) );
+	$wp_admin_bar->add_node(
+		array(
+			'id'    => 'activity-admin',
+			'title' => __( 'Edit Activity', 'buddypress' ),
+			'href'  => esc_url( $activity_edit_link ),
+		)
+	);
 }
 add_action( 'admin_bar_menu', 'bp_activity_admin_menu', 99 );

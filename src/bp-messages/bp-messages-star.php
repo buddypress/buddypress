@@ -369,10 +369,12 @@ add_filter( 'bp_get_the_thread_message_css_class', 'bp_messages_star_message_css
  */
 function bp_messages_filter_starred_message_threads( $r = array() ) {
 	$r['box']        = 'starred';
-	$r['meta_query'] = array( array(
-		'key'   => 'starred_by_user',
-		'value' => $r['user_id']
-	) );
+	$r['meta_query'] = array(
+		array(
+			'key'   => 'starred_by_user',
+			'value' => $r['user_id'],
+		),
+	);
 
 	return $r;
 }

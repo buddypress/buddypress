@@ -127,13 +127,15 @@ function groups_notification_new_membership_request( $requesting_user_id = 0, $a
 
 	// Trigger a BuddyPress Notification.
 	if ( bp_is_active( 'notifications' ) ) {
-		bp_notifications_add_notification( array(
-			'user_id'           => $admin_id,
-			'item_id'           => $group_id,
-			'secondary_item_id' => $requesting_user_id,
-			'component_name'    => buddypress()->groups->id,
-			'component_action'  => 'new_membership_request',
-		) );
+		bp_notifications_add_notification(
+			array(
+				'user_id'           => $admin_id,
+				'item_id'           => $group_id,
+				'secondary_item_id' => $requesting_user_id,
+				'component_name'    => buddypress()->groups->id,
+				'component_action'  => 'new_membership_request',
+			)
+		);
 	}
 
 	// Bail if member opted out of receiving this email.
@@ -147,10 +149,12 @@ function groups_notification_new_membership_request( $requesting_user_id = 0, $a
 	);
 
 	$request_message = '';
-	$requests        = groups_get_requests( $args = array(
-		'user_id'    => $requesting_user_id,
-		'item_id'    => $group_id,
-	) );
+	$requests        = groups_get_requests(
+		$args        = array(
+			'user_id'    => $requesting_user_id,
+			'item_id'    => $group_id,
+		)
+	);
 
 	if ( $requests ) {
 		$request_message = current( $requests )->content;
@@ -197,12 +201,14 @@ function groups_notification_membership_request_completed( $requesting_user_id =
 		// What type of acknowledgement.
 		$type = ! empty( $accepted ) ? 'membership_request_accepted' : 'membership_request_rejected';
 
-		bp_notifications_add_notification( array(
-			'user_id'           => $requesting_user_id,
-			'item_id'           => $group_id,
-			'component_name'    => buddypress()->groups->id,
-			'component_action'  => $type,
-		) );
+		bp_notifications_add_notification(
+			array(
+				'user_id'           => $requesting_user_id,
+				'item_id'           => $group_id,
+				'component_name'    => buddypress()->groups->id,
+				'component_action'  => $type,
+			)
+		);
 	}
 
 	// Bail if member opted out of receiving this email.
@@ -268,12 +274,14 @@ function groups_notification_promoted_member( $user_id = 0, $group_id = 0 ) {
 
 	// Trigger a BuddyPress Notification.
 	if ( bp_is_active( 'notifications' ) ) {
-		bp_notifications_add_notification( array(
-			'user_id'           => $user_id,
-			'item_id'           => $group_id,
-			'component_name'    => buddypress()->groups->id,
-			'component_action'  => $type,
-		) );
+		bp_notifications_add_notification(
+			array(
+				'user_id'           => $user_id,
+				'item_id'           => $group_id,
+				'component_name'    => buddypress()->groups->id,
+				'component_action'  => $type,
+			)
+		);
 	}
 
 	// Bail if admin opted out of receiving this email.
@@ -324,12 +332,14 @@ function groups_notification_group_invites( &$group, &$member, $inviter_user_id 
 
 	// Trigger a BuddyPress Notification.
 	if ( bp_is_active( 'notifications' ) ) {
-		bp_notifications_add_notification( array(
-			'user_id'          => $invited_user_id,
-			'item_id'          => $group->id,
-			'component_name'   => buddypress()->groups->id,
-			'component_action' => 'group_invite',
-		) );
+		bp_notifications_add_notification(
+			array(
+				'user_id'          => $invited_user_id,
+				'item_id'          => $group->id,
+				'component_name'   => buddypress()->groups->id,
+				'component_action' => 'group_invite',
+			)
+		);
 	}
 
 	// Bail if member opted out of receiving this email.
@@ -348,11 +358,13 @@ function groups_notification_group_invites( &$group, &$member, $inviter_user_id 
 	);
 
 	$invite_message = '';
-	$invitations    = groups_get_invites( $args = array(
-		'user_id'    => $invited_user_id,
-		'item_id'    => $group->id,
-		'inviter_id' => $inviter_user_id,
-	) );
+	$invitations    = groups_get_invites(
+		$args       = array(
+			'user_id'    => $invited_user_id,
+			'item_id'    => $group->id,
+			'inviter_id' => $inviter_user_id,
+		)
+	);
 	if ( $invitations ) {
 		$invite_message = current( $invitations )->content;
 	}
@@ -455,10 +467,18 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					 * @param string $text              Notification content.
 					 * @param string $notification_link The permalink for notification.
 					 */
-					return apply_filters( 'bp_groups_' . $amount . '_' . $action . 's_notification', array(
-						'link' => $notification_link,
-						'text' => $text
-					), $group_link, $total_items, $group->name, $text, $notification_link );
+					return apply_filters(
+						'bp_groups_' . $amount . '_' . $action . 's_notification',
+						array(
+							'link' => $notification_link,
+							'text' => $text,
+						),
+						$group_link,
+						$total_items,
+						$group->name,
+						$text,
+						$notification_link
+					);
 				}
 			} else {
 				$user_fullname = bp_core_get_user_displayname( $requesting_user_id );
@@ -510,10 +530,18 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					 * @param string $text              Notification content.
 					 * @param string $notification_link The permalink for notification.
 					 */
-					return apply_filters( 'bp_groups_' . $amount . '_' . $action . '_notification', array(
-						'link' => $notification_link,
-						'text' => $text
-					), $group_link, $user_fullname, $group->name, $text, $notification_link );
+					return apply_filters(
+						'bp_groups_' . $amount . '_' . $action . '_notification',
+						array(
+							'link' => $notification_link,
+							'text' => $text,
+						),
+						$group_link,
+						$user_fullname,
+						$group->name,
+						$text,
+						$notification_link
+					);
 				}
 			}
 
@@ -565,10 +593,17 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					 * @param string $text              Notification content.
 					 * @param string $notification_link The permalink for notification.
 					 */
-					return apply_filters( 'bp_groups_' . $amount . '_' . $action . '_notification', array(
-						'link' => $notification_link,
-						'text' => $text
-					), $total_items, $group->name, $text, $notification_link );
+					return apply_filters(
+						'bp_groups_' . $amount . '_' . $action . '_notification',
+						array(
+							'link' => $notification_link,
+							'text' => $text,
+						),
+						$total_items,
+						$group->name,
+						$text,
+						$notification_link
+					);
 				}
 			} else {
 				/* translators: %s: group name. */
@@ -605,10 +640,17 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					 * @param string $text              Notification content.
 					 * @param string $notification_link The permalink for notification.
 					 */
-					return apply_filters( $filter, array(
-						'link' => $notification_link,
-						'text' => $text
-					), $group_link, $group->name, $text, $notification_link );
+					return apply_filters(
+						$filter,
+						array(
+							'link' => $notification_link,
+							'text' => $text,
+						),
+						$group_link,
+						$group->name,
+						$text,
+						$notification_link
+					);
 				}
 			}
 
@@ -660,10 +702,17 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					 * @param string $text              Notification content.
 					 * @param string $notification_link The permalink for notification.
 					 */
-					return apply_filters( 'bp_groups_' . $amount . '_' . $action . '_notification', array(
-						'link' => $notification_link,
-						'text' => $text
-					), $total_items, $group->name, $text, $notification_link );
+					return apply_filters(
+						'bp_groups_' . $amount . '_' . $action . '_notification',
+						array(
+							'link' => $notification_link,
+							'text' => $text,
+						),
+						$total_items,
+						$group->name,
+						$text,
+						$notification_link
+					);
 				}
 			} else {
 				/* translators: %s: group name. */
@@ -699,10 +748,17 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					 * @param string $text              Notification content.
 					 * @param string $notification_link The permalink for notification.
 					 */
-					return apply_filters( 'bp_groups_' . $amount . '_' . $action . '_notification', array(
-						'link' => $notification_link,
-						'text' => $text
-					), $group_link, $group->name, $text, $notification_link );
+					return apply_filters(
+						'bp_groups_' . $amount . '_' . $action . '_notification',
+						array(
+							'link' => $notification_link,
+							'text' => $text,
+						),
+						$group_link,
+						$group->name,
+						$text,
+						$notification_link
+					);
 				}
 			}
 
@@ -750,10 +806,16 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					 * @param string $text              Notification content.
 					 * @param string $notification_link The permalink for notification.
 					 */
-					return apply_filters( 'bp_groups_' . $amount . '_' . $action . '_notification', array(
-						'link' => $notification_link,
-						'text' => $text
-					), $total_items, $text, $notification_link );
+					return apply_filters(
+						'bp_groups_' . $amount . '_' . $action . '_notification',
+						array(
+							'link' => $notification_link,
+							'text' => $text,
+						),
+						$total_items,
+						$text,
+						$notification_link
+					);
 				}
 			} else {
 				/* translators: %s: group name. */
@@ -787,10 +849,17 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					 * @param string $text              Notification content.
 					 * @param string $notification_link The permalink for notification.
 					 */
-					return apply_filters( 'bp_groups_' . $amount . '_' . $action . '_notification', array(
-						'link' => $notification_link,
-						'text' => $text
-					), $group_link, $group->name, $text, $notification_link );
+					return apply_filters(
+						'bp_groups_' . $amount . '_' . $action . '_notification',
+						array(
+							'link' => $notification_link,
+							'text' => $text,
+						),
+						$group_link,
+						$group->name,
+						$text,
+						$notification_link
+					);
 				}
 			}
 
@@ -838,10 +907,16 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					 * @param string $text              Notification content.
 					 * @param string $notification_link The permalink for notification.
 					 */
-					return apply_filters( 'bp_groups_' . $amount . '_' . $action . '_notification', array(
-						'link' => $notification_link,
-						'text' => $text
-					), $total_items, $text, $notification_link );
+					return apply_filters(
+						'bp_groups_' . $amount . '_' . $action . '_notification',
+						array(
+							'link' => $notification_link,
+							'text' => $text,
+						),
+						$total_items,
+						$text,
+						$notification_link
+					);
 				}
 			} else {
 				/* translators: %s: group name. */
@@ -875,10 +950,17 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					 * @param string $text              Notification content.
 					 * @param string $notification_link The permalink for notification.
 					 */
-					return apply_filters( 'bp_groups_' . $amount . '_' . $action . '_notification', array(
-						'link' => $notification_link,
-						'text' => $text
-					), $group_link, $group->name, $text, $notification_link );
+					return apply_filters(
+						'bp_groups_' . $amount . '_' . $action . '_notification',
+						array(
+							'link' => $notification_link,
+							'text' => $text,
+						),
+						$group_link,
+						$group->name,
+						$text,
+						$notification_link
+					);
 				}
 			}
 
@@ -925,10 +1007,16 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					 * @param string $text              Notification content.
 					 * @param string $notification_link The permalink for notification.
 					 */
-					return apply_filters( 'bp_groups_' . $amount . '_' . $action . '_notification', array(
-						'link' => $notification_link,
-						'text' => $text
-					), $total_items, $text, $notification_link );
+					return apply_filters(
+						'bp_groups_' . $amount . '_' . $action . '_notification',
+						array(
+							'link' => $notification_link,
+							'text' => $text,
+						),
+						$total_items,
+						$text,
+						$notification_link
+					);
 				}
 			} else {
 				/* translators: %s: group name. */
@@ -962,10 +1050,17 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					 * @param string $text              Notification content.
 					 * @param string $notification_link The permalink for notification.
 					 */
-					return apply_filters( 'bp_groups_' . $amount . '_' . $action . '_notification', array(
-						'link' => $notification_link,
-						'text' => $text
-					), $group_link, $group->name, $text, $notification_link );
+					return apply_filters(
+						'bp_groups_' . $amount . '_' . $action . '_notification',
+						array(
+							'link' => $notification_link,
+							'text' => $text,
+						),
+						$group_link,
+						$group->name,
+						$text,
+						$notification_link
+					);
 				}
 			}
 
@@ -1108,8 +1203,8 @@ function bp_groups_screen_my_groups_mark_notifications() {
 		// Mark notifications read.
 		bp_notifications_mark_notifications_by_type( $user_id, $group_id, 'membership_request_accepted' );
 		bp_notifications_mark_notifications_by_type( $user_id, $group_id, 'membership_request_rejected' );
-		bp_notifications_mark_notifications_by_type( $user_id, $group_id, 'member_promoted_to_mod'      );
-		bp_notifications_mark_notifications_by_type( $user_id, $group_id, 'member_promoted_to_admin'    );
+		bp_notifications_mark_notifications_by_type( $user_id, $group_id, 'member_promoted_to_mod' );
+		bp_notifications_mark_notifications_by_type( $user_id, $group_id, 'member_promoted_to_admin' );
 	}
 }
 add_action( 'groups_screen_my_groups', 'bp_groups_screen_my_groups_mark_notifications', 10 );

@@ -634,20 +634,24 @@ function messages_notification_new_message( $raw_args = array() ) {
 			'notification_type' => 'messages-unread',
 		);
 
-		bp_send_email( 'messages-unread', $ud, array(
-			'tokens' => array(
-				'usermessage' => wp_strip_all_tags( stripslashes( $message ) ),
-				'message.url' => esc_url(
-					bp_members_get_user_url(
-						$recipient->user_id,
-						bp_members_get_path_chunks( array( bp_get_messages_slug(), 'view', array( $thread_id ) ) )
-					)
+		bp_send_email(
+			'messages-unread',
+			$ud,
+			array(
+				'tokens' => array(
+					'usermessage' => wp_strip_all_tags( stripslashes( $message ) ),
+					'message.url' => esc_url(
+						bp_members_get_user_url(
+							$recipient->user_id,
+							bp_members_get_path_chunks( array( bp_get_messages_slug(), 'view', array( $thread_id ) ) )
+						)
+					),
+					'sender.name' => $sender_name,
+					'usersubject' => sanitize_text_field( stripslashes( $subject ) ),
+					'unsubscribe' => esc_url( bp_email_get_unsubscribe_link( $unsubscribe_args ) ),
 				),
-				'sender.name' => $sender_name,
-				'usersubject' => sanitize_text_field( stripslashes( $subject ) ),
-				'unsubscribe' => esc_url( bp_email_get_unsubscribe_link( $unsubscribe_args ) ),
-			),
-		) );
+			)
+		);
 	}
 
 	/**
@@ -691,13 +695,15 @@ function bp_messages_personal_data_exporter( $email_address, $page ) {
 		);
 	}
 
-	$user_threads = BP_Messages_Thread::get_current_threads_for_user( array(
-		'user_id' => $user->ID,
-		'box'     => 'sentbox',
-		'type'    => null,
-		'limit'   => $number,
-		'page'    => $page,
-	) );
+	$user_threads = BP_Messages_Thread::get_current_threads_for_user(
+		array(
+			'user_id' => $user->ID,
+			'box'     => 'sentbox',
+			'type'    => null,
+			'limit'   => $number,
+			'page'    => $page,
+		)
+	);
 
 	if ( empty( $user_threads ) ) {
 		return array(

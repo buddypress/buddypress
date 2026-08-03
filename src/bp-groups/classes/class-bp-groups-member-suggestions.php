@@ -152,7 +152,12 @@ class BP_Groups_Member_Suggestions extends BP_Members_Suggestions {
 		foreach ( $user_query->results as $user ) {
 			$result          = new stdClass();
 			$result->ID      = $user->user_nicename;
-			$result->image   = bp_core_fetch_avatar( array( 'html' => false, 'item_id' => $user->ID ) );
+			$result->image   = bp_core_fetch_avatar(
+				array(
+					'html' => false,
+					'item_id' => $user->ID,
+				)
+			);
 			$result->name    = bp_core_get_user_displayname( $user->ID );
 			$result->user_id = $user->ID;
 

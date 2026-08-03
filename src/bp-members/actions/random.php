@@ -16,7 +16,12 @@ function bp_core_get_random_member() {
 	if ( ! isset( $_GET['random-member'] ) )
 		return;
 
-	$user = bp_core_get_users( array( 'type' => 'random', 'per_page' => 1 ) );
+	$user = bp_core_get_users(
+		array(
+			'type' => 'random',
+			'per_page' => 1,
+		)
+	);
 	bp_core_redirect( bp_members_get_user_url( $user['users'][0]->id ) );
 }
 add_action( 'bp_actions', 'bp_core_get_random_member' );

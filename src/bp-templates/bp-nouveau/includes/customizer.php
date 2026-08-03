@@ -25,11 +25,14 @@ function bp_nouveau_customize_register( WP_Customize_Manager $wp_customize ) {
 	$bp_nouveau_options = bp_nouveau_get_appearance_settings();
 	$layout_widths      = bp_nouveau_get_theme_layout_widths();
 
-	$wp_customize->add_panel( 'bp_nouveau_panel', array(
-		'description' => __( 'Customize the appearance of BuddyPress Nouveau Template pack.', 'buddypress' ),
-		'title'       => _x( 'BuddyPress Nouveau', 'Customizer Panel', 'buddypress' ),
-		'priority'    => 200,
-	) );
+	$wp_customize->add_panel(
+		'bp_nouveau_panel',
+		array(
+			'description' => __( 'Customize the appearance of BuddyPress Nouveau Template pack.', 'buddypress' ),
+			'title'       => _x( 'BuddyPress Nouveau', 'Customizer Panel', 'buddypress' ),
+			'priority'    => 200,
+		)
+	);
 
 	/**
 	 * Filters the BuddyPress Nouveau customizer sections and their arguments.
@@ -38,38 +41,41 @@ function bp_nouveau_customize_register( WP_Customize_Manager $wp_customize ) {
 	 *
 	 * @param array $value Array of Customizer sections.
 	 */
-	$sections = apply_filters( 'bp_nouveau_customizer_sections', array(
-		'bp_nouveau_general_settings' => array(
-			'title'       => __( 'General BP Settings', 'buddypress' ),
-			'panel'       => 'bp_nouveau_panel',
-			'priority'    => 10,
-			'description' => __( 'Configure general BuddyPress appearance options.', 'buddypress' ),
-		),
-		'bp_nouveau_user_front_page' => array(
-			'title'       => __( 'Member front page', 'buddypress' ),
-			'panel'       => 'bp_nouveau_panel',
-			'priority'    => 30,
-			'description' => __( 'Configure the default front page for members.', 'buddypress' ),
-		),
-		'bp_nouveau_user_primary_nav' => array(
-			'title'       => __( 'Member navigation', 'buddypress' ),
-			'panel'       => 'bp_nouveau_panel',
-			'priority'    => 50,
-			'description' => __( 'Customize the navigation menu for members. In the preview window, navigate to a user to preview your changes.', 'buddypress' ),
-		),
-		'bp_nouveau_loops_layout' => array(
-			'title'       => __( 'Loop layouts', 'buddypress' ),
-			'panel'       => 'bp_nouveau_panel',
-			'priority'    => 70,
-			'description' => __( 'Set the number of columns to use for BuddyPress loops.', 'buddypress' ),
-		),
-		'bp_nouveau_dir_layout' => array(
-			'title'       => __( 'Directory layouts', 'buddypress' ),
-			'panel'       => 'bp_nouveau_panel',
-			'priority'    => 80,
-			'description' => __( 'Select the layout style for directory content &amp; navigation.', 'buddypress' ),
-		),
-	) );
+	$sections = apply_filters(
+		'bp_nouveau_customizer_sections',
+		array(
+			'bp_nouveau_general_settings' => array(
+				'title'       => __( 'General BP Settings', 'buddypress' ),
+				'panel'       => 'bp_nouveau_panel',
+				'priority'    => 10,
+				'description' => __( 'Configure general BuddyPress appearance options.', 'buddypress' ),
+			),
+			'bp_nouveau_user_front_page' => array(
+				'title'       => __( 'Member front page', 'buddypress' ),
+				'panel'       => 'bp_nouveau_panel',
+				'priority'    => 30,
+				'description' => __( 'Configure the default front page for members.', 'buddypress' ),
+			),
+			'bp_nouveau_user_primary_nav' => array(
+				'title'       => __( 'Member navigation', 'buddypress' ),
+				'panel'       => 'bp_nouveau_panel',
+				'priority'    => 50,
+				'description' => __( 'Customize the navigation menu for members. In the preview window, navigate to a user to preview your changes.', 'buddypress' ),
+			),
+			'bp_nouveau_loops_layout' => array(
+				'title'       => __( 'Loop layouts', 'buddypress' ),
+				'panel'       => 'bp_nouveau_panel',
+				'priority'    => 70,
+				'description' => __( 'Set the number of columns to use for BuddyPress loops.', 'buddypress' ),
+			),
+			'bp_nouveau_dir_layout' => array(
+				'title'       => __( 'Directory layouts', 'buddypress' ),
+				'panel'       => 'bp_nouveau_panel',
+				'priority'    => 80,
+				'description' => __( 'Select the layout style for directory content &amp; navigation.', 'buddypress' ),
+			),
+		)
+	);
 
 	// Add the sections to the customizer
 	foreach ( $sections as $id_section => $section_args ) {
@@ -83,120 +89,123 @@ function bp_nouveau_customize_register( WP_Customize_Manager $wp_customize ) {
 	 *
 	 * @param array $value Array of Customizer settings.
 	 */
-	$settings = apply_filters( 'bp_nouveau_customizer_settings', array(
-		'bp_nouveau_appearance[user_front_page]' => array(
-			'index'             => 'user_front_page',
-			'capability'        => 'bp_moderate',
-			'sanitize_callback' => 'absint',
-			'transport'         => 'refresh',
-			'type'              => 'option',
-		),
-		'bp_nouveau_appearance[user_front_bio]' => array(
-			'index'             => 'user_front_bio',
-			'capability'        => 'bp_moderate',
-			'sanitize_callback' => 'absint',
-			'transport'         => 'refresh',
-			'type'              => 'option',
-		),
-		'bp_nouveau_appearance[user_nav_display]' => array(
-			'index'             => 'user_nav_display',
-			'capability'        => 'bp_moderate',
-			'sanitize_callback' => 'absint',
-			'transport'         => 'refresh',
-			'type'              => 'option',
-		),
-		'bp_nouveau_appearance[user_nav_tabs]' => array(
-			'index'             => 'user_nav_tabs',
-			'capability'        => 'bp_moderate',
-			'sanitize_callback' => 'absint',
-			'transport'         => 'refresh',
-			'type'              => 'option',
-		),
-		'bp_nouveau_appearance[user_subnav_tabs]' => array(
-			'index'             => 'user_subnav_tabs',
-			'capability'        => 'bp_moderate',
-			'sanitize_callback' => 'absint',
-			'transport'         => 'refresh',
-			'type'              => 'option',
-		),
-		'bp_nouveau_appearance[user_nav_order]' => array(
-			'index'             => 'user_nav_order',
-			'capability'        => 'bp_moderate',
-			'sanitize_callback' => 'bp_nouveau_sanitize_nav_order',
-			'transport'         => 'refresh',
-			'type'              => 'option',
-		),
-		'bp_nouveau_appearance[members_layout]' => array(
-			'index'             => 'members_layout',
-			'capability'        => 'bp_moderate',
-			'sanitize_callback' => 'absint',
-			'transport'         => 'refresh',
-			'type'              => 'option',
-		),
-		'bp_nouveau_appearance[members_group_layout]' => array(
-			'index'             => 'members_group_layout',
-			'capability'        => 'bp_moderate',
-			'sanitize_callback' => 'absint',
-			'transport'         => 'refresh',
-			'type'              => 'option',
-		),
-		'bp_nouveau_appearance[members_friends_layout]' => array(
-			'index'             => 'members_friends_layout',
-			'capability'        => 'bp_moderate',
-			'sanitize_callback' => 'absint',
-			'transport'         => 'refresh',
-			'type'              => 'option',
-		),
-		'bp_nouveau_appearance[activity_dir_layout]' => array(
-			'index'             => 'activity_dir_layout',
-			'capability'        => 'bp_moderate',
-			'sanitize_callback' => 'absint',
-			'transport'         => 'refresh',
-			'type'              => 'option',
-		),
-		'bp_nouveau_appearance[activity_dir_tabs]' => array(
-			'index'             => 'activity_dir_tabs',
-			'capability'        => 'bp_moderate',
-			'sanitize_callback' => 'absint',
-			'transport'         => 'refresh',
-			'type'              => 'option',
-		),
-		'bp_nouveau_appearance[members_dir_layout]' => array(
-			'index'             => 'members_dir_layout',
-			'capability'        => 'bp_moderate',
-			'sanitize_callback' => 'absint',
-			'transport'         => 'refresh',
-			'type'              => 'option',
-		),
-		'bp_nouveau_appearance[members_dir_tabs]' => array(
-			'index'             => 'members_dir_tabs',
-			'capability'        => 'bp_moderate',
-			'sanitize_callback' => 'absint',
-			'transport'         => 'refresh',
-			'type'              => 'option',
-		),
-		'bp_nouveau_appearance[groups_dir_layout]' => array(
-			'index'             => 'groups_dir_layout',
-			'capability'        => 'bp_moderate',
-			'sanitize_callback' => 'absint',
-			'transport'         => 'refresh',
-			'type'              => 'option',
-		),
-		'bp_nouveau_appearance[sites_dir_layout]' => array(
-			'index'             => 'sites_dir_layout',
-			'capability'        => 'bp_moderate',
-			'sanitize_callback' => 'absint',
-			'transport'         => 'refresh',
-			'type'              => 'option',
-		),
-		'bp_nouveau_appearance[sites_dir_tabs]' => array(
-			'index'             => 'sites_dir_tabs',
-			'capability'        => 'bp_moderate',
-			'sanitize_callback' => 'absint',
-			'transport'         => 'refresh',
-			'type'              => 'option',
-		),
-	) );
+	$settings = apply_filters(
+		'bp_nouveau_customizer_settings',
+		array(
+			'bp_nouveau_appearance[user_front_page]' => array(
+				'index'             => 'user_front_page',
+				'capability'        => 'bp_moderate',
+				'sanitize_callback' => 'absint',
+				'transport'         => 'refresh',
+				'type'              => 'option',
+			),
+			'bp_nouveau_appearance[user_front_bio]' => array(
+				'index'             => 'user_front_bio',
+				'capability'        => 'bp_moderate',
+				'sanitize_callback' => 'absint',
+				'transport'         => 'refresh',
+				'type'              => 'option',
+			),
+			'bp_nouveau_appearance[user_nav_display]' => array(
+				'index'             => 'user_nav_display',
+				'capability'        => 'bp_moderate',
+				'sanitize_callback' => 'absint',
+				'transport'         => 'refresh',
+				'type'              => 'option',
+			),
+			'bp_nouveau_appearance[user_nav_tabs]' => array(
+				'index'             => 'user_nav_tabs',
+				'capability'        => 'bp_moderate',
+				'sanitize_callback' => 'absint',
+				'transport'         => 'refresh',
+				'type'              => 'option',
+			),
+			'bp_nouveau_appearance[user_subnav_tabs]' => array(
+				'index'             => 'user_subnav_tabs',
+				'capability'        => 'bp_moderate',
+				'sanitize_callback' => 'absint',
+				'transport'         => 'refresh',
+				'type'              => 'option',
+			),
+			'bp_nouveau_appearance[user_nav_order]' => array(
+				'index'             => 'user_nav_order',
+				'capability'        => 'bp_moderate',
+				'sanitize_callback' => 'bp_nouveau_sanitize_nav_order',
+				'transport'         => 'refresh',
+				'type'              => 'option',
+			),
+			'bp_nouveau_appearance[members_layout]' => array(
+				'index'             => 'members_layout',
+				'capability'        => 'bp_moderate',
+				'sanitize_callback' => 'absint',
+				'transport'         => 'refresh',
+				'type'              => 'option',
+			),
+			'bp_nouveau_appearance[members_group_layout]' => array(
+				'index'             => 'members_group_layout',
+				'capability'        => 'bp_moderate',
+				'sanitize_callback' => 'absint',
+				'transport'         => 'refresh',
+				'type'              => 'option',
+			),
+			'bp_nouveau_appearance[members_friends_layout]' => array(
+				'index'             => 'members_friends_layout',
+				'capability'        => 'bp_moderate',
+				'sanitize_callback' => 'absint',
+				'transport'         => 'refresh',
+				'type'              => 'option',
+			),
+			'bp_nouveau_appearance[activity_dir_layout]' => array(
+				'index'             => 'activity_dir_layout',
+				'capability'        => 'bp_moderate',
+				'sanitize_callback' => 'absint',
+				'transport'         => 'refresh',
+				'type'              => 'option',
+			),
+			'bp_nouveau_appearance[activity_dir_tabs]' => array(
+				'index'             => 'activity_dir_tabs',
+				'capability'        => 'bp_moderate',
+				'sanitize_callback' => 'absint',
+				'transport'         => 'refresh',
+				'type'              => 'option',
+			),
+			'bp_nouveau_appearance[members_dir_layout]' => array(
+				'index'             => 'members_dir_layout',
+				'capability'        => 'bp_moderate',
+				'sanitize_callback' => 'absint',
+				'transport'         => 'refresh',
+				'type'              => 'option',
+			),
+			'bp_nouveau_appearance[members_dir_tabs]' => array(
+				'index'             => 'members_dir_tabs',
+				'capability'        => 'bp_moderate',
+				'sanitize_callback' => 'absint',
+				'transport'         => 'refresh',
+				'type'              => 'option',
+			),
+			'bp_nouveau_appearance[groups_dir_layout]' => array(
+				'index'             => 'groups_dir_layout',
+				'capability'        => 'bp_moderate',
+				'sanitize_callback' => 'absint',
+				'transport'         => 'refresh',
+				'type'              => 'option',
+			),
+			'bp_nouveau_appearance[sites_dir_layout]' => array(
+				'index'             => 'sites_dir_layout',
+				'capability'        => 'bp_moderate',
+				'sanitize_callback' => 'absint',
+				'transport'         => 'refresh',
+				'type'              => 'option',
+			),
+			'bp_nouveau_appearance[sites_dir_tabs]' => array(
+				'index'             => 'sites_dir_tabs',
+				'capability'        => 'bp_moderate',
+				'sanitize_callback' => 'absint',
+				'transport'         => 'refresh',
+				'type'              => 'option',
+			),
+		)
+	);
 
 	if ( $layout_widths ) {
 		$settings['bp_nouveau_appearance[global_alignment]'] = array(

@@ -142,11 +142,13 @@ class BP_Groups_Invitation_Manager extends BP_Invitation_Manager {
 	 */
 	public function mark_accepted( $args ) {
 		// Delete all existing invitations/requests to this group for this user.
-		$this->delete( array(
-			'user_id' => $args['user_id'],
-			'item_id' => $args['item_id'],
-			'type'    => 'all'
-		) );
+		$this->delete(
+			array(
+				'user_id' => $args['user_id'],
+				'item_id' => $args['item_id'],
+				'type'    => 'all',
+			)
+		);
 	}
 
 	/**

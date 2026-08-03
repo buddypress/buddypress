@@ -326,15 +326,15 @@ class BP_Groups_Group {
 				WHERE
 					id = %d
 				",
-					$this->creator_id,
-					$this->name,
-					$this->slug,
-					$this->description,
-					$this->status,
-					$this->parent_id,
-					$this->enable_forum,
-					$this->date_created,
-					$this->id
+				$this->creator_id,
+				$this->name,
+				$this->slug,
+				$this->description,
+				$this->status,
+				$this->parent_id,
+				$this->enable_forum,
+				$this->date_created,
+				$this->id
 			);
 		} else {
 			$sql = $wpdb->prepare(
@@ -350,18 +350,18 @@ class BP_Groups_Group {
 				) VALUES (
 					%d, %s, %s, %s, %s, %d, %d, %s
 				)",
-					$this->creator_id,
-					$this->name,
-					$this->slug,
-					$this->description,
-					$this->status,
-					$this->parent_id,
-					$this->enable_forum,
-					$this->date_created
+				$this->creator_id,
+				$this->name,
+				$this->slug,
+				$this->description,
+				$this->status,
+				$this->parent_id,
+				$this->enable_forum,
+				$this->date_created
 			);
 		}
 
-		if ( false === $wpdb->query($sql) )
+		if ( false === $wpdb->query( $sql ) )
 			return false;
 
 		if ( empty( $this->id ) )
@@ -586,10 +586,12 @@ class BP_Groups_Group {
 		$admin_mod_users = array();
 
 		if ( ! empty( $admin_mod_ids ) ) {
-			$admin_mod_users = get_users( array(
-				'include' => $admin_mod_ids,
-				'blog_id' => null,
-			) );
+			$admin_mod_users = get_users(
+				array(
+					'include' => $admin_mod_ids,
+					'blog_id' => null,
+				)
+			);
 		}
 
 		$admin_objects = $mod_objects = array();
@@ -768,7 +770,7 @@ class BP_Groups_Group {
 			'meta_query'         => array(
 				array(
 					'key'   => 'previous_slug',
-					'value' => $slug
+					'value' => $slug,
 				),
 			),
 			'orderby'            => 'meta_id',
@@ -812,12 +814,14 @@ class BP_Groups_Group {
 			$sent_arg = 'all';
 		}
 
-		return groups_get_invites( array(
-			'item_id'     => $group_id,
-			'inviter_id'  => $user_id,
-			'invite_sent' => $sent_arg,
-			'fields'      => 'user_ids',
-		) );
+		return groups_get_invites(
+			array(
+				'item_id'     => $group_id,
+				'inviter_id'  => $user_id,
+				'invite_sent' => $sent_arg,
+				'fields'      => 'user_ids',
+			)
+		);
 	}
 
 	/**
@@ -863,7 +867,10 @@ class BP_Groups_Group {
 			$i++;
 		}
 
-		return array( 'groups' => $paged_groups, 'total' => $groups['total'] );
+		return array(
+			'groups' => $paged_groups,
+			'total' => $groups['total'],
+		);
 	}
 
 	/**
@@ -905,7 +912,10 @@ class BP_Groups_Group {
 			$i++;
 		}
 
-		return array( 'groups' => $paged_groups, 'total' => $groups['total'] );
+		return array(
+			'groups' => $paged_groups,
+			'total' => $groups['total'],
+		);
 	}
 
 	/**
@@ -996,7 +1006,7 @@ class BP_Groups_Group {
 	 */
 	public static function get_membership_requests( $group_id, $limit = null, $page = null ) {
 		$args = array(
-			'item_id' => $group_id
+			'item_id' => $group_id,
 		);
 		if ( $limit ) {
 			$args['per_page'] = $limit;
@@ -1008,7 +1018,10 @@ class BP_Groups_Group {
 		$requests = groups_get_requests( $args );
 		$total    = count( groups_get_membership_requested_user_ids( $group_id ) );
 
-		return array( 'requests' => $requests, 'total' => $total );
+		return array(
+			'requests' => $requests,
+			'total' => $total,
+		);
 	}
 
 	/**
@@ -1224,7 +1237,7 @@ class BP_Groups_Group {
 				$searches[] = $wpdb->prepare( "$search_column LIKE %s", $wildcarded );
 			}
 
-			$where_conditions['search'] = '(' . implode(' OR ', $searches) . ')';
+			$where_conditions['search'] = '(' . implode( ' OR ', $searches ) . ')';
 		}
 
 		$meta_query_sql = self::get_meta_query_sql( $r['meta_query'] );
@@ -1238,7 +1251,7 @@ class BP_Groups_Group {
 		}
 
 		// Only use 'group_type__in', if 'group_type' is not set.
-		if ( empty( $r['group_type'] ) && ! empty( $r['group_type__in']) ) {
+		if ( empty( $r['group_type'] ) && ! empty( $r['group_type__in'] ) ) {
 			$r['group_type'] = $r['group_type__in'];
 		}
 
@@ -1368,7 +1381,7 @@ class BP_Groups_Group {
 
 		$per_page = (int) $r['per_page'];
 		if ( ! empty( $r['per_page'] ) && ! empty( $r['page'] ) && -1 !== $per_page ) {
-			$sql['pagination'] = $wpdb->prepare( 'LIMIT %d, %d', intval( ( $r['page'] - 1 ) * $r['per_page']), $per_page );
+			$sql['pagination'] = $wpdb->prepare( 'LIMIT %d, %d', intval( ( $r['page'] - 1 ) * $r['per_page'] ), $per_page );
 		}
 
 		$where = '';
@@ -1665,7 +1678,7 @@ class BP_Groups_Group {
 
 		return array(
 			'order' => $order,
-			'orderby' => $orderby
+			'orderby' => $orderby,
 		);
 	}
 
@@ -1866,9 +1879,11 @@ class BP_Groups_Group {
 
 		$invites_class = new BP_Groups_Invitation_Manager();
 
-		return $invites_class->delete( array(
-			'item_id' => $group_id,
-		) );
+		return $invites_class->delete(
+			array(
+				'item_id' => $group_id,
+			)
+		);
 	}
 
 	/**

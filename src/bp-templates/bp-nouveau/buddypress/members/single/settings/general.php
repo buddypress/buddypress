@@ -20,7 +20,10 @@ bp_nouveau_member_hook( 'before', 'settings_template' ); ?>
 
 <form action="<?php bp_displayed_user_link( array( bp_nouveau_get_component_slug( 'settings' ), 'general' ) ); ?>" method="post" class="standard-form" id="your-profile">
 
-	<?php if ( ! is_super_admin() ) : ?>
+	<?php
+	if ( ! is_super_admin() ) :
+		// phpcs:disable Squiz.PHP.EmbeddedPhp.ContentBeforeOpen, Squiz.PHP.EmbeddedPhp.ContentAfterEnd -- Preserve the input's exact static HTML whitespace while formatting its PHP call.
+	?>
 
 		<label for="pwd">
 			<?php
@@ -48,7 +51,18 @@ bp_nouveau_member_hook( 'before', 'settings_template' ); ?>
 		<div class="wp-pwd">
 			<label for="pass1"><?php esc_html_e( 'Add Your New Password', 'buddypress' ); ?></label>
 			<span class="password-input-wrapper">
-				<input type="password" name="pass1" id="pass1" size="24" class="settings-input small password-entry" value="" <?php bp_form_field_attributes( 'password', array( 'data-pw' => wp_generate_password( 24 ), 'aria-describedby' => 'pass-strength-result' ) ); ?> />
+				<input type="password" name="pass1" id="pass1" size="24" class="settings-input small password-entry" value="" <?php
+				bp_form_field_attributes(
+					'password',
+					array(
+						'data-pw' => wp_generate_password( 24 ),
+						'aria-describedby' => 'pass-strength-result',
+					)
+				);
+				?> /><?php
+				// phpcs:enable Squiz.PHP.EmbeddedPhp.ContentBeforeOpen, Squiz.PHP.EmbeddedPhp.ContentAfterEnd
+				?>
+
 			</span>
 			<button type="button" class="button wp-hide-pw" data-toggle="0" aria-label="<?php esc_attr_e( 'Hide password', 'buddypress' ); ?>">
 				<span class="dashicons dashicons-hidden" aria-hidden="true"></span>

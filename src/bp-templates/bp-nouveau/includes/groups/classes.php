@@ -84,11 +84,13 @@ class BP_Nouveau_Group_Invite_Query extends BP_User_Query {
 		}
 
 		// Fetch **all** invited users.
-		$pending_invites = groups_get_invites( array(
-			'item_id'     => $this->query_vars['group_id'],
-			'invite_sent' => 'sent',
-			'fields'      => 'user_ids'
-		) );
+		$pending_invites = groups_get_invites(
+			array(
+				'item_id'     => $this->query_vars['group_id'],
+				'invite_sent' => 'sent',
+				'fields'      => 'user_ids',
+			)
+		);
 
 		// This is a clue that we only want the invitations.
 		if ( false === $this->query_vars['is_confirmed'] ) {
@@ -373,10 +375,13 @@ class BP_Nouveau_Customizer_Group_Nav extends BP_Core_Nav {
 	 * @return array The list of "global" group front templates.
 	 */
 	public function all_groups_fronts( $templates = array() ) {
-		return array_intersect( array(
-			'groups/single/front.php',
-			'groups/single/default-front.php',
-		), $templates );
+		return array_intersect(
+			array(
+				'groups/single/front.php',
+				'groups/single/default-front.php',
+			),
+			$templates
+		);
 	}
 
 	/**
@@ -435,7 +440,12 @@ class BP_Nouveau_Group_Meta {
 		_doing_it_wrong( 'bp_nouveau_group_meta', sprintf( esc_html__( 'Please use %s instead', 'buddypress' ), 'bp_nouveau_the_group_meta( array( \'keys\' => \'' . esc_html( $key ) . '\' ) )' ), '7.0.0' );
 
 		// Backwards compatibility.
-		return bp_nouveau_the_group_meta( array( 'keys' => $key, 'echo' => false ) );
+		return bp_nouveau_the_group_meta(
+			array(
+				'keys' => $key,
+				'echo' => false,
+			)
+		);
 	}
 
 	/**

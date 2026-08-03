@@ -122,7 +122,7 @@ function bp_get_groups_directory_url( $path_chunks = array() ) {
 	$path_chunks = bp_parse_args(
 		array_intersect_key( $path_chunks, $supported_chunks ),
 		array(
-			'component_id' => 'groups'
+			'component_id' => 'groups',
 		)
 	);
 
@@ -363,10 +363,12 @@ function bp_group_type_list( $group_id = 0, $r = array() ) {
 
 			// Render parent element.
 			if ( ! empty( $r['parent_element'] ) ) {
-				$parent_elem = new BP_Core_HTML_Element( array(
-					'element' => $r['parent_element'],
-					'attr'    => $r['parent_attr'],
-				) );
+				$parent_elem = new BP_Core_HTML_Element(
+					array(
+						'element' => $r['parent_element'],
+						'attr'    => $r['parent_attr'],
+					)
+				);
 
 				// Set before and after.
 				$before = $parent_elem->get( 'open_tag' );
@@ -375,11 +377,13 @@ function bp_group_type_list( $group_id = 0, $r = array() ) {
 
 			// Render label element.
 			if ( ! empty( $r['label_element'] ) ) {
-				$label = new BP_Core_HTML_Element( array(
-					'element'    => $r['label_element'],
-					'attr'       => $r['label_attr'],
-					'inner_html' => esc_html( $label_text ),
-				) );
+				$label = new BP_Core_HTML_Element(
+					array(
+						'element'    => $r['label_element'],
+						'attr'       => $r['label_attr'],
+						'inner_html' => esc_html( $label_text ),
+					)
+				);
 				$label = $label->contents() . ' ';
 
 			// No element, just the label.
@@ -392,11 +396,13 @@ function bp_group_type_list( $group_id = 0, $r = array() ) {
 
 			// Render the list of types element.
 			if ( ! empty( $r['list_element'] ) ) {
-				$list_element = new BP_Core_HTML_Element( array(
-					'element'    => $r['list_element'],
-					'attr'       => $r['list_element_attr'],
-					'inner_html' => $list,
-				) );
+				$list_element = new BP_Core_HTML_Element(
+					array(
+						'element'    => $r['list_element'],
+						'attr'       => $r['list_element_attr'],
+						'inner_html' => $list,
+					)
+				);
 
 				$list = $list_element->contents();
 			}
@@ -555,30 +561,32 @@ function bp_has_groups( $args = '' ) {
 	);
 
 	// Setup the Groups template global.
-	$groups_template = new BP_Groups_Template( array(
-		'type'               => $r['type'],
-		'order'              => $r['order'],
-		'orderby'            => $r['orderby'],
-		'page'               => (int) $r['page'],
-		'per_page'           => (int) $r['per_page'],
-		'max'                => (int) $r['max'],
-		'show_hidden'        => $r['show_hidden'],
-		'page_arg'           => $r['page_arg'],
-		'user_id'            => (int) $r['user_id'],
-		'slug'               => $r['slug'],
-		'search_terms'       => $r['search_terms'],
-		'group_type'         => $r['group_type'],
-		'group_type__in'     => $r['group_type__in'],
-		'group_type__not_in' => $r['group_type__not_in'],
-		'status'             => $r['status'],
-		'meta_query'         => $r['meta_query'],
-		'date_query'         => $r['date_query'],
-		'include'            => $r['include'],
-		'exclude'            => $r['exclude'],
-		'parent_id'          => $r['parent_id'],
-		'update_meta_cache'  => (bool) $r['update_meta_cache'],
-		'update_admin_cache' => (bool) $r['update_admin_cache'],
-	) );
+	$groups_template = new BP_Groups_Template(
+		array(
+			'type'               => $r['type'],
+			'order'              => $r['order'],
+			'orderby'            => $r['orderby'],
+			'page'               => (int) $r['page'],
+			'per_page'           => (int) $r['per_page'],
+			'max'                => (int) $r['max'],
+			'show_hidden'        => $r['show_hidden'],
+			'page_arg'           => $r['page_arg'],
+			'user_id'            => (int) $r['user_id'],
+			'slug'               => $r['slug'],
+			'search_terms'       => $r['search_terms'],
+			'group_type'         => $r['group_type'],
+			'group_type__in'     => $r['group_type__in'],
+			'group_type__not_in' => $r['group_type__not_in'],
+			'status'             => $r['status'],
+			'meta_query'         => $r['meta_query'],
+			'date_query'         => $r['date_query'],
+			'include'            => $r['include'],
+			'exclude'            => $r['exclude'],
+			'parent_id'          => $r['parent_id'],
+			'update_meta_cache'  => (bool) $r['update_meta_cache'],
+			'update_admin_cache' => (bool) $r['update_admin_cache'],
+		)
+	);
 
 	/**
 	 * Filters whether or not there are groups to iterate over for the groups loop.
@@ -4108,7 +4116,7 @@ function bp_group_member_avatar( $args = '' ) {
 				'type'    => 'full',
 				'email'   => $members_template->member->user_email,
 				/* translators: %s: member name */
-				'alt'     => sprintf( __( 'Profile picture of %s', 'buddypress' ), $members_template->member->display_name )
+				'alt'     => sprintf( __( 'Profile picture of %s', 'buddypress' ), $members_template->member->display_name ),
 			)
 		);
 
@@ -4154,7 +4162,7 @@ function bp_group_member_avatar_thumb( $args = '' ) {
 				'type'    => 'thumb',
 				'email'   => $members_template->member->user_email,
 				/* translators: %s: member name */
-				'alt'     => sprintf( __( 'Profile picture of %s', 'buddypress' ), $members_template->member->display_name )
+				'alt'     => sprintf( __( 'Profile picture of %s', 'buddypress' ), $members_template->member->display_name ),
 			)
 		);
 
@@ -4489,7 +4497,7 @@ function bp_group_member_joined_since( $args = array() ) {
 			bp_core_get_last_activity(
 				$members_template->member->date_modified,
 				/* translators: %s: human time diff */
-				__( 'joined %s', 'buddypress')
+				__( 'joined %s', 'buddypress' )
 			)
 		);
 	}
@@ -4700,7 +4708,7 @@ function bp_groups_front_template_part() {
 	} else if ( bp_is_active( 'activity' ) ) {
 		bp_get_template_part( 'groups/single/activity' );
 
-	} else if ( bp_is_active( 'members'  ) ) {
+	} else if ( bp_is_active( 'members' ) ) {
 		bp_groups_members_template_part();
 	}
 
@@ -4743,10 +4751,13 @@ function bp_groups_get_front_template( $group = null ) {
 		$template_names[] = 'groups/single/front-group-type-' . sanitize_file_name( $group_type ) . '.php';
 	}
 
-	$template_names = array_merge( $template_names, array(
-		'groups/single/front-status-' . sanitize_file_name( $group->status ) . '.php',
-		'groups/single/front.php'
-	) );
+	$template_names = array_merge(
+		$template_names,
+		array(
+			'groups/single/front-status-' . sanitize_file_name( $group->status ) . '.php',
+			'groups/single/front.php',
+		)
+	);
 
 	/**
 	 * Filters the hierarchy of group front templates corresponding to a specific group.
@@ -5315,11 +5326,14 @@ function bp_new_group_avatar( $args = '' ) {
 		);
 
 		// Merge parsed arguments with object specific data.
-		$r = array_merge( $r, array(
-			'item_id'    => bp_get_current_group_id(),
-			'object'     => 'group',
-			'avatar_dir' => 'group-avatars',
-		) );
+		$r = array_merge(
+			$r,
+			array(
+				'item_id'    => bp_get_current_group_id(),
+				'object'     => 'group',
+				'avatar_dir' => 'group-avatars',
+			)
+		);
 
 		// Get the avatar.
 		$avatar = bp_core_fetch_avatar( $r );
@@ -5718,14 +5732,16 @@ function bp_group_current_avatar( $type = 'thumb' ) {
 	 */
 	function bp_get_group_current_avatar( $type = 'thumb' ) {
 
-		$group_avatar = bp_core_fetch_avatar( array(
-			'item_id'    => bp_get_current_group_id(),
-			'object'     => 'group',
-			'type'       => $type,
-			'avatar_dir' => 'group-avatars',
-			'alt'        => __( 'Group avatar', 'buddypress' ),
-			'class'      => 'avatar'
-		) );
+		$group_avatar = bp_core_fetch_avatar(
+			array(
+				'item_id'    => bp_get_current_group_id(),
+				'object'     => 'group',
+				'type'       => $type,
+				'avatar_dir' => 'group-avatars',
+				'alt'        => __( 'Group avatar', 'buddypress' ),
+				'class'      => 'avatar',
+			)
+		);
 
 		/**
 		 * Filters the current group avatar.
@@ -5937,7 +5953,7 @@ function bp_group_request_user_avatar_thumb() {
 				'item_id' => $requests_template->request->user_id,
 				'type'    => 'thumb',
 				/* translators: %s: member name */
-				'alt'     => sprintf( __( 'Profile picture of %s', 'buddypress' ), bp_core_get_user_displayname( $requests_template->request->user_id ) )
+				'alt'     => sprintf( __( 'Profile picture of %s', 'buddypress' ), bp_core_get_user_displayname( $requests_template->request->user_id ) ),
 			)
 		)
 	);
@@ -5966,7 +5982,7 @@ function bp_group_request_reject_link() {
 			array(
 				'_wpnonce' => wp_create_nonce( 'groups_reject_membership_request' ),
 				'user_id'  => $requests_template->request->user_id,
-				'action'   => 'reject'
+				'action'   => 'reject',
 			),
 			bp_get_group_manage_url(
 				groups_get_current_group(),
@@ -6007,7 +6023,7 @@ function bp_group_request_accept_link() {
 			array(
 				'_wpnonce' => wp_create_nonce( 'groups_accept_membership_request' ),
 				'user_id'  => $requests_template->request->user_id,
-				'action'   => 'accept'
+				'action'   => 'accept',
 			),
 			bp_get_group_manage_url(
 				groups_get_current_group(),

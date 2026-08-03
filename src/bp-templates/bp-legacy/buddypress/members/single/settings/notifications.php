@@ -51,7 +51,7 @@ do_action( 'bp_before_member_settings_template' ); ?>
 	 */
 	do_action( 'bp_members_notification_settings_after_submit' ); ?>
 
-	<?php wp_nonce_field('bp_settings_notifications' ); ?>
+	<?php wp_nonce_field( 'bp_settings_notifications' ); ?>
 
 </form>
 

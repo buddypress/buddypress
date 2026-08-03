@@ -25,13 +25,16 @@ function bp_nouveau_notifications_register_scripts( $scripts = array() ) {
 		return $scripts;
 	}
 
-	return array_merge( $scripts, array(
-		'bp-nouveau-notifications' => array(
-			'file'         => 'js/buddypress-notifications%s.js',
-			'dependencies' => array( 'bp-nouveau' ),
-			'footer'       => true,
-		),
-	) );
+	return array_merge(
+		$scripts,
+		array(
+			'bp-nouveau-notifications' => array(
+				'file'         => 'js/buddypress-notifications%s.js',
+				'dependencies' => array( 'bp-nouveau' ),
+				'footer'       => true,
+			),
+		)
+	);
 }
 
 /**

@@ -36,12 +36,12 @@ add_action( 'bp_admin_enqueue_scripts', 'xprofile_add_admin_css' );
  */
 function xprofile_add_admin_js() {
 	if ( ! empty( $_GET['page'] ) && strpos( $_GET['page'], 'bp-profile-setup' ) !== false ) {
-		wp_enqueue_script( 'jquery-ui-core'      );
-		wp_enqueue_script( 'jquery-ui-tabs'      );
-		wp_enqueue_script( 'jquery-ui-mouse'     );
+		wp_enqueue_script( 'jquery-ui-core' );
+		wp_enqueue_script( 'jquery-ui-tabs' );
+		wp_enqueue_script( 'jquery-ui-mouse' );
 		wp_enqueue_script( 'jquery-ui-draggable' );
 		wp_enqueue_script( 'jquery-ui-droppable' );
-		wp_enqueue_script( 'jquery-ui-sortable'  );
+		wp_enqueue_script( 'jquery-ui-sortable' );
 
 		$min = bp_core_get_minified_asset_suffix();
 		wp_enqueue_script( 'xprofile-admin-js', buddypress()->plugin_url . "bp-xprofile/admin/js/admin{$min}.js", array( 'jquery', 'jquery-ui-sortable' ), bp_get_version() );

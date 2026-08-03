@@ -361,7 +361,7 @@ class BP_Akismet {
 		$activity_data['akismet_comment_nonce'] = 'inactive';
 		$activity_data['comment_author']        = $userdata->display_name;
 		$activity_data['comment_author_email']  = $userdata->user_email;
-		$activity_data['comment_author_url']    = bp_core_get_userlink( $userdata->ID, false, true);
+		$activity_data['comment_author_url']    = bp_core_get_userlink( $userdata->ID, false, true );
 		$activity_data['comment_content']       = $activity->content;
 		$activity_data['comment_type']          = $activity->type;
 		$activity_data['permalink']             = bp_activity_get_permalink( $activity->id, $activity );

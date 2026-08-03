@@ -24,13 +24,16 @@ function bp_nouveau_members_register_scripts( $scripts = array() ) {
 		return $scripts;
 	}
 
-	return array_merge( $scripts, array(
-		'bp-nouveau-member-invites' => array(
-			'file'         => 'js/buddypress-member-invites%s.js',
-			'dependencies' => array(),
-			'footer'       => true,
-		),
-	) );
+	return array_merge(
+		$scripts,
+		array(
+			'bp-nouveau-member-invites' => array(
+				'file'         => 'js/buddypress-member-invites%s.js',
+				'dependencies' => array(),
+				'footer'       => true,
+			),
+		)
+	);
 }
 
 /**
@@ -248,10 +251,13 @@ function bp_nouveau_member_reset_front_template( $templates = array() ) {
  * @return array Only the global front templates.
  */
 function bp_nouveau_member_restrict_user_front_templates( $templates = array() ) {
-	return array_intersect( array(
-		'members/single/front.php',
-		'members/single/default-front.php',
-	), $templates );
+	return array_intersect(
+		array(
+			'members/single/front.php',
+			'members/single/default-front.php',
+		),
+		$templates
+	);
 }
 
 /**
@@ -380,9 +386,12 @@ function bp_nouveau_member_is_home_widgets() {
  * @return array The Activities Template arguments.
  */
 function bp_nouveau_member_activity_widget_overrides( $args = array() ) {
-	return array_merge( $args, array(
-		'user_id' => bp_displayed_user_id(),
-	) );
+	return array_merge(
+		$args,
+		array(
+			'user_id' => bp_displayed_user_id(),
+		)
+	);
 }
 
 /**
@@ -395,9 +404,12 @@ function bp_nouveau_member_activity_widget_overrides( $args = array() ) {
  * @return array The Groups Template arguments.
  */
 function bp_nouveau_member_groups_widget_overrides( $args = array() ) {
-	return array_merge( $args, array(
-		'user_id' => bp_displayed_user_id(),
-	) );
+	return array_merge(
+		$args,
+		array(
+			'user_id' => bp_displayed_user_id(),
+		)
+	);
 }
 
 /**
@@ -415,9 +427,12 @@ function bp_nouveau_member_members_widget_overrides( $args = array() ) {
 		return $args;
 	}
 
-	return array_merge( $args, array(
-		'include' => bp_displayed_user_id(),
-	) );
+	return array_merge(
+		$args,
+		array(
+			'include' => bp_displayed_user_id(),
+		)
+	);
 }
 
 /**

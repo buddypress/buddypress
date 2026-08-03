@@ -963,8 +963,8 @@ function bp_nouveau_groups_manage_members_buttons( $args = array() ) {
 					'link_text'         => $button_args['link_text'],
 					'link_title'        => $button_args['link_title'],
 					'parent_attr'       => array(
-							'id'    => $button_args['wrapper_id'],
-							'class' => $parent_class,
+						'id'    => $button_args['wrapper_id'],
+						'class' => $parent_class,
 					),
 					'button_attr'       => array(
 						'id'    => ! empty( $button_args['link_id'] ) ? $button_args['link_id'] : '',
@@ -1457,10 +1457,13 @@ function bp_nouveau_group_type_checked( $type = null ) {
  * @since 4.0.0
  */
 function bp_nouveau_add_notify_group_members_checkbox() {
-	printf( '<p class="bp-controls-wrap">
+	printf(
+		'<p class="bp-controls-wrap">
 		<label for="group-notify-members" class="bp-label-text">
 			<input type="checkbox" name="group-notify-members" id="group-notify-members" value="1" /> %s
 		</label>
-	</p>', esc_html__( 'Notify group members of these changes via email', 'buddypress' ) );
+	</p>',
+		esc_html__( 'Notify group members of these changes via email', 'buddypress' )
+	);
 }
 add_action( 'groups_custom_group_fields_editable', 'bp_nouveau_add_notify_group_members_checkbox', 20 );

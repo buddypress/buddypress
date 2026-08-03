@@ -54,16 +54,18 @@ class BP_Groups_List_Table extends WP_List_Table {
 	public function __construct() {
 
 		// Define singular and plural labels, as well as whether we support AJAX.
-		parent::__construct( array(
-			'ajax'     => false,
-			'plural'   => 'groups',
-			'singular' => 'group',
-		) );
+		parent::__construct(
+			array(
+				'ajax'     => false,
+				'plural'   => 'groups',
+				'singular' => 'group',
+			)
+		);
 
 		// Add Group Type column and bulk change controls.
 		if ( bp_groups_get_group_types() ) {
 			// Add Group Type column.
-			add_filter( 'bp_groups_list_table_get_columns', array( $this, 'add_type_column' )                  );
+			add_filter( 'bp_groups_list_table_get_columns', array( $this, 'add_type_column' ) );
 			add_filter( 'bp_groups_admin_get_group_custom_column', array( $this, 'column_content_group_type' ), 10, 3 );
 			// Add the bulk change select.
 			add_action( 'bp_groups_list_table_after_bulk_actions', array( $this, 'add_group_type_bulk_change_select' ) );
@@ -169,7 +171,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 				'per_page' => $per_page,
 				'page'     => $page,
 				'orderby'  => $orderby,
-				'order'    => $order
+				'order'    => $order,
 			);
 
 			if ( $group_type ) {
@@ -189,11 +191,13 @@ class BP_Groups_List_Table extends WP_List_Table {
 		$this->items = $groups;
 
 		// Store information needed for handling table pagination.
-		$this->set_pagination_args( array(
-			'per_page'    => $per_page,
-			'total_items' => $groups_template->total_group_count,
-			'total_pages' => ceil( $groups_template->total_group_count / $per_page )
-		) );
+		$this->set_pagination_args(
+			array(
+				'per_page'    => $per_page,
+				'total_items' => $groups_template->total_group_count,
+				'total_pages' => ceil( $groups_template->total_group_count / $per_page ),
+			)
+		);
 
 		// Set the Total number of groups.
 		if ( 'all' === $this->view ) {
@@ -449,9 +453,12 @@ class BP_Groups_List_Table extends WP_List_Table {
 		 *
 		 * @param array $value Array of bulk actions to display.
 		 */
-		return apply_filters( 'bp_groups_list_table_get_bulk_actions', array(
-			'delete' => __( 'Delete', 'buddypress' )
-		) );
+		return apply_filters(
+			'bp_groups_list_table_get_bulk_actions',
+			array(
+				'delete' => __( 'Delete', 'buddypress' ),
+			)
+		);
 	}
 
 	/**
@@ -472,14 +479,17 @@ class BP_Groups_List_Table extends WP_List_Table {
 		 *
 		 * @param array $value Array of slugs and titles for the columns.
 		 */
-		return apply_filters( 'bp_groups_list_table_get_columns', array(
-			'cb'          => '<input name type="checkbox" />',
-			'comment'     => _x( 'Name', 'Groups admin Group Name column header', 'buddypress' ),
-			'description' => _x( 'Description', 'Groups admin Group Description column header', 'buddypress' ),
-			'status'      => _x( 'Status', 'Groups admin Privacy Status column header', 'buddypress' ),
-			'members'     => _x( 'Members', 'Groups admin Members column header', 'buddypress' ),
-			'last_active' => _x( 'Last Active', 'Groups admin Last Active column header', 'buddypress' )
-		) );
+		return apply_filters(
+			'bp_groups_list_table_get_columns',
+			array(
+				'cb'          => '<input name type="checkbox" />',
+				'comment'     => _x( 'Name', 'Groups admin Group Name column header', 'buddypress' ),
+				'description' => _x( 'Description', 'Groups admin Group Description column header', 'buddypress' ),
+				'status'      => _x( 'Status', 'Groups admin Privacy Status column header', 'buddypress' ),
+				'members'     => _x( 'Members', 'Groups admin Members column header', 'buddypress' ),
+				'last_active' => _x( 'Last Active', 'Groups admin Last Active column header', 'buddypress' ),
+			)
+		);
 	}
 
 	/**
@@ -507,12 +517,15 @@ class BP_Groups_List_Table extends WP_List_Table {
 		 *
 		 * @param array $value Array of keys and their values.
 		 */
-		return apply_filters( 'bp_groups_list_table_get_sortable_columns', array(
-			'gid'         => array( 'gid', false ),
-			'comment'     => array( 'name', false ),
-			'members'     => array( 'members', false ),
-			'last_active' => array( 'last_active', false ),
-		) );
+		return apply_filters(
+			'bp_groups_list_table_get_sortable_columns',
+			array(
+				'gid'         => array( 'gid', false ),
+				'comment'     => array( 'name', false ),
+				'members'     => array( 'members', false ),
+				'last_active' => array( 'last_active', false ),
+			)
+		);
 	}
 
 	/**
@@ -614,13 +627,13 @@ class BP_Groups_List_Table extends WP_List_Table {
 
 		// Rollover actions.
 		// Edit.
-		$actions['edit'] = sprintf( '<a href="%s">%s</a>', esc_url( $edit_url   ), __( 'Edit', 'buddypress' ) );
+		$actions['edit'] = sprintf( '<a href="%s">%s</a>', esc_url( $edit_url ), __( 'Edit', 'buddypress' ) );
 
 		// Delete.
 		$actions['delete'] = sprintf( '<a href="%s">%s</a>', esc_url( $delete_url ), __( 'Delete', 'buddypress' ) );
 
 		// View.
-		$actions['view'] = sprintf( '<a href="%s">%s</a>', esc_url( $view_url   ), __( 'View', 'buddypress' ) );
+		$actions['view'] = sprintf( '<a href="%s">%s</a>', esc_url( $view_url ), __( 'View', 'buddypress' ) );
 
 		/**
 		 * Filters the actions that will be shown for the column content.
@@ -636,20 +649,22 @@ class BP_Groups_List_Table extends WP_List_Table {
 		$avatar = '';
 
 		if ( buddypress()->avatar->show_avatars ) {
-			$avatar = bp_core_fetch_avatar( array(
-				'item_id'    => $item['id'],
-				'object'     => 'group',
-				'type'       => 'thumb',
-				'avatar_dir' => 'group-avatars',
-				'alt'        => sprintf(
-					/* translators: %s: the Group name */
-					__( 'Group logo of %s', 'buddypress' ),
-					$group_name
-				),
-				'width'      => '32',
-				'height'     => '32',
-				'title'      => $group_name
-			) );
+			$avatar = bp_core_fetch_avatar(
+				array(
+					'item_id'    => $item['id'],
+					'object'     => 'group',
+					'type'       => 'thumb',
+					'avatar_dir' => 'group-avatars',
+					'alt'        => sprintf(
+						/* translators: %s: the Group name */
+						__( 'Group logo of %s', 'buddypress' ),
+						$group_name
+					),
+					'width'      => '32',
+					'height'     => '32',
+					'title'      => $group_name,
+				)
+			);
 		}
 
 		$content = sprintf( '<strong><a href="%s">%s</a></strong>', esc_url( $edit_url ), $group_name );
@@ -664,7 +679,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 					'class'  => true,
 					'height' => true,
 					'width'  => true,
-				)
+				),
 			)
 		);
 		// phpcs:ignore WordPress.Security.EscapeOutput
@@ -830,12 +845,15 @@ class BP_Groups_List_Table extends WP_List_Table {
 		}
 
 		add_filter( 'bp_get_group_type_directory_permalink', array( $this, 'group_type_permalink_use_admin_filter' ), 10, 2 );
-		$retval = bp_get_group_type_list( $item['id'], array(
-			'parent_element' => '',
-			'label_element'  => '',
-			'label'          => '',
-			'show_all'       => true
-		) );
+		$retval = bp_get_group_type_list(
+			$item['id'],
+			array(
+				'parent_element' => '',
+				'label_element'  => '',
+				'label'          => '',
+				'show_all'       => true,
+			)
+		);
 		remove_filter( 'bp_get_group_type_directory_permalink', array( $this, 'group_type_permalink_use_admin_filter' ), 10 );
 
 		// phpcs:ignore WordPress.Security.EscapeOutput

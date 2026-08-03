@@ -204,7 +204,7 @@ class BP_Groups_Template {
 		extract( $r );
 
 		$this->pag_arg  = sanitize_key( $r['page_arg'] );
-		$this->pag_page = bp_sanitize_pagination_arg( $this->pag_arg, $r['page']     );
+		$this->pag_page = bp_sanitize_pagination_arg( $this->pag_arg, $r['page'] );
 		$this->pag_num  = bp_sanitize_pagination_arg( 'num', $r['per_page'] );
 
 		if ( bp_current_user_can( 'bp_moderate' ) || ( is_user_logged_in() && $user_id === bp_loggedin_user_id() ) ) {
@@ -236,7 +236,7 @@ class BP_Groups_Template {
 
 		} else {
 			$this->groups = groups_get_groups(
-					array(
+				array(
 					'type'               => $type,
 					'order'              => $order,
 					'orderby'            => $orderby,
@@ -296,7 +296,7 @@ class BP_Groups_Template {
 		// Build pagination links.
 		if ( (int) $this->total_group_count && (int) $this->pag_num ) {
 			$pag_args = array(
-				$this->pag_arg => '%#%'
+				$this->pag_arg => '%#%',
 			);
 
 			if ( defined( 'DOING_AJAX' ) && true === (bool) DOING_AJAX ) {
@@ -316,16 +316,18 @@ class BP_Groups_Template {
 				$add_args[ $query_arg ] = urlencode( $search_terms );
 			}
 
-			$this->pag_links = paginate_links( array(
-				'base'      => add_query_arg( $pag_args, $base ),
-				'format'    => '',
-				'total'     => ceil( (int) $this->total_group_count / (int) $this->pag_num ),
-				'current'   => $this->pag_page,
-				'prev_text' => _x( '&larr;', 'Group pagination previous text', 'buddypress' ),
-				'next_text' => _x( '&rarr;', 'Group pagination next text', 'buddypress' ),
-				'mid_size'  => 1,
-				'add_args'  => $add_args,
-			) );
+			$this->pag_links = paginate_links(
+				array(
+					'base'      => add_query_arg( $pag_args, $base ),
+					'format'    => '',
+					'total'     => ceil( (int) $this->total_group_count / (int) $this->pag_num ),
+					'current'   => $this->pag_page,
+					'prev_text' => _x( '&larr;', 'Group pagination previous text', 'buddypress' ),
+					'next_text' => _x( '&rarr;', 'Group pagination next text', 'buddypress' ),
+					'mid_size'  => 1,
+					'add_args'  => $add_args,
+				)
+			);
 		}
 	}
 
@@ -395,7 +397,7 @@ class BP_Groups_Template {
 			 *
 			 * @since 1.5.0
 			 */
-			do_action('group_loop_end');
+			do_action( 'group_loop_end' );
 			// Do some cleaning up after the loop.
 			$this->rewind_groups();
 		}

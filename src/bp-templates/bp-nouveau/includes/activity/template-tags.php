@@ -337,7 +337,7 @@ function bp_nouveau_activity_entry_buttons( $args = array() ) {
 				'button_attr'       => array(
 					'class'           => 'button view bp-secondary-action bp-tooltip',
 					'data-bp-tooltip' => __( 'View Conversation', 'buddypress' ),
-					),
+				),
 				'link_text' => sprintf(
 					'<span class="bp-screen-reader-text">%1$s</span>',
 					__( 'View Conversation', 'buddypress' )
@@ -533,7 +533,7 @@ function bp_nouveau_activity_entry_buttons( $args = array() ) {
 					'class'           => 'bp-secondary-action spam-activity confirm button item-button bp-tooltip',
 					'id'              => 'activity_make_spam_' . $activity_id,
 					'data-bp-tooltip' => _x( 'Spam', 'button', 'buddypress' ),
-					),
+				),
 				'link_text'  => sprintf(
 					/**
 					 * Sets the activity spam button icon.
@@ -727,16 +727,19 @@ function bp_nouveau_activity_comment_action() {
 		 *
 		 * @param string $value HTML Output
 		 */
-		return apply_filters( 'bp_nouveau_get_activity_comment_action',
-			/* translators: 1: user profile link, 2: user name, 3: activity permalink, 4: activity recorded date, 5: activity timestamp, 6: activity human time since */
-			sprintf( __( '<a href="%1$s">%2$s</a> replied <a href="%3$s" class="activity-time-since"><time class="time-since" datetime="%4$s" data-bp-timestamp="%5$d">%6$s</time></a>', 'buddypress' ),
+		return apply_filters(
+			'bp_nouveau_get_activity_comment_action',
+			sprintf(
+				/* translators: 1: user profile link, 2: user name, 3: activity permalink, 4: activity recorded date, 5: activity timestamp, 6: activity human time since */
+				__( '<a href="%1$s">%2$s</a> replied <a href="%3$s" class="activity-time-since"><time class="time-since" datetime="%4$s" data-bp-timestamp="%5$d">%6$s</time></a>', 'buddypress' ),
 				esc_url( bp_get_activity_comment_user_link() ),
 				esc_html( bp_get_activity_comment_name() ),
 				esc_url( bp_get_activity_comment_permalink() ),
 				esc_attr( bp_get_activity_comment_date_recorded_raw() ),
 				esc_attr( strtotime( bp_get_activity_comment_date_recorded_raw() ) ),
 				esc_attr( bp_get_activity_comment_date_recorded() )
-		) );
+			)
+		);
 	}
 
 /**

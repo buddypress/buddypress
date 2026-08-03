@@ -50,8 +50,8 @@ class BP_Activity_oEmbed_Extension extends BP_Core_oEmbed_Extension {
 		return array(
 			'hide_media' => array(
 				'default' => false,
-				'sanitize_callback' => 'wp_validate_boolean'
-			)
+				'sanitize_callback' => 'wp_validate_boolean',
+			),
 		);
 	}
 
@@ -148,7 +148,7 @@ class BP_Activity_oEmbed_Extension extends BP_Core_oEmbed_Extension {
 			'author_url'   => bp_members_get_user_url( $activity->user_id ),
 
 			// Custom identifier.
-			'x_buddypress' => 'activity'
+			'x_buddypress' => 'activity',
 		);
 	}
 
@@ -172,7 +172,8 @@ class BP_Activity_oEmbed_Extension extends BP_Core_oEmbed_Extension {
 		$GLOBALS['activities_template']->activity = $activity;
 
 		// 'wp-embedded-content' CSS class is necessary due to how the embed JS works.
-		$blockquote = sprintf( '<blockquote class="wp-embedded-content bp-activity-item">%1$s%2$s %3$s</blockquote>',
+		$blockquote = sprintf(
+			'<blockquote class="wp-embedded-content bp-activity-item">%1$s%2$s %3$s</blockquote>',
 			bp_activity_get_embed_excerpt( $activity->content ),
 			'- ' . bp_core_get_user_displayname( $activity->user_id ) . $mentionname,
 			'<a href="' . esc_url( bp_activity_get_permalink( $item_id ) ) . '">' . $date . '</a>'

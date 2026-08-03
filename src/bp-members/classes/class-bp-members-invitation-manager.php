@@ -115,7 +115,7 @@ class BP_Members_Invitation_Manager extends BP_Invitation_Manager {
 					$args = array(
 						'invitee_email' => $invite->invitee_email,
 						'item_id'       => get_current_network_id(),
-						'type'          => 'all'
+						'type'          => 'all',
 					);
 					$this->mark_accepted( $args );
 				}

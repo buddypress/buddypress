@@ -46,10 +46,12 @@ function bp_messages_star_bulk_manage_handler() {
 				$thread = new BP_Messages_thread( $thread );
 				$mids   = wp_list_pluck( $thread->messages, 'id' );
 
-				bp_messages_star_set_action( array(
-					'action'     => 'star',
-					'message_id' => $mids[0],
-				) );
+				bp_messages_star_set_action(
+					array(
+						'action'     => 'star',
+						'message_id' => $mids[0],
+					)
+				);
 			}
 
 			/* translators: %s: number of starred messages */
@@ -60,11 +62,13 @@ function bp_messages_star_bulk_manage_handler() {
 			$count = count( $threads );
 
 			foreach ( $threads as $thread ) {
-				bp_messages_star_set_action( array(
-					'action'    => 'unstar',
-					'thread_id' => $thread,
-					'bulk'      => true
-				) );
+				bp_messages_star_set_action(
+					array(
+						'action'    => 'unstar',
+						'thread_id' => $thread,
+						'bulk'      => true,
+					)
+				);
 			}
 
 			/* translators: %s: number of unstarred messages */

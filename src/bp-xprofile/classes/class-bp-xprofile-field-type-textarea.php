@@ -105,12 +105,16 @@ class BP_XProfile_Field_Type_Textarea extends BP_XProfile_Field_Type {
 			 *                        profile edit screen, 'admin' when intended for the Profile Fields
 			 *                        Dashboard panel.
 			 */
-			$editor_args = apply_filters( 'bp_xprofile_field_type_textarea_editor_args', array(
-				'teeny'         => true,
-				'media_buttons' => false,
-				'quicktags'     => true,
-				'textarea_rows' => 10,
-			), 'edit' );
+			$editor_args = apply_filters(
+				'bp_xprofile_field_type_textarea_editor_args',
+				array(
+					'teeny'         => true,
+					'media_buttons' => false,
+					'quicktags'     => true,
+					'textarea_rows' => 10,
+				),
+				'edit'
+			);
 
 			wp_editor(
 				bp_get_the_profile_field_edit_value(),
@@ -153,12 +157,16 @@ class BP_XProfile_Field_Type_Textarea extends BP_XProfile_Field_Type {
 		} else {
 
 			/** This filter is documented in bp-xprofile/classes/class-bp-xprofile-field-type-textarea.php */
-			$editor_args = apply_filters( 'bp_xprofile_field_type_textarea_editor_args', array(
-				'teeny'         => true,
-				'media_buttons' => false,
-				'quicktags'     => true,
-				'textarea_rows' => 1,
-			), 'admin' );
+			$editor_args = apply_filters(
+				'bp_xprofile_field_type_textarea_editor_args',
+				array(
+					'teeny'         => true,
+					'media_buttons' => false,
+					'quicktags'     => true,
+					'textarea_rows' => 1,
+				),
+				'admin'
+			);
 
 			wp_editor(
 				'',

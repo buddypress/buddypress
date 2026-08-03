@@ -42,12 +42,14 @@ class BP_Members_Invitations_List_Table extends WP_Users_List_Table {
 	 */
 	public function __construct() {
 		// Define singular and plural labels, as well as whether we support AJAX.
-		parent::__construct( array(
-			'ajax'     => false,
-			'plural'   => 'invitations',
-			'singular' => 'invitation',
-			'screen'   => get_current_screen()->id,
-		) );
+		parent::__construct(
+			array(
+				'ajax'     => false,
+				'plural'   => 'invitations',
+				'singular' => 'invitation',
+				'screen'   => get_current_screen()->id,
+			)
+		);
 	}
 
 	/**
@@ -94,10 +96,12 @@ class BP_Members_Invitations_List_Table extends WP_Users_List_Table {
 		$this->items       = $invites_class->get_invitations( $args );
 		$this->total_items = $invites_class->get_invitations_total_count( $args );
 
-		$this->set_pagination_args( array(
-			'total_items' => $this->total_items,
-			'per_page'    => $per_page,
-		) );
+		$this->set_pagination_args(
+			array(
+				'total_items' => $this->total_items,
+				'per_page'    => $per_page,
+			)
+		);
 	}
 
 	/**
@@ -218,7 +222,7 @@ class BP_Members_Invitations_List_Table extends WP_Users_List_Table {
 				'inviter_registered_date'  => __( 'Inviter Registered', 'buddypress' ),
 				'invitation_date_modified' => __( 'Date Modified', 'buddypress' ),
 				'invitation_sent'          => __( 'Email Sent', 'buddypress' ),
-				'invitation_accepted'      => __( 'Accepted', 'buddypress' )
+				'invitation_accepted'      => __( 'Accepted', 'buddypress' ),
 			)
 		);
 	}
@@ -453,7 +457,7 @@ class BP_Members_Invitations_List_Table extends WP_Users_List_Table {
 						'class'  => true,
 						'height' => true,
 						'width'  => true,
-					)
+					),
 				)
 			),
 			esc_url( $user_link ),

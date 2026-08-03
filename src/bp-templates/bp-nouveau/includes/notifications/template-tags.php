@@ -43,7 +43,8 @@ function bp_nouveau_notifications_filters() {
 				continue;
 			}
 
-			$output .= sprintf( '<option value="%1$s" %2$s>%3$s</option>',
+			$output .= sprintf(
+				'<option value="%1$s" %2$s>%3$s</option>',
 				esc_attr( sanitize_key( $filter['id'] ) ),
 				selected( $selected, $filter['id'], false ),
 				esc_html( $filter['label'] )
@@ -51,7 +52,8 @@ function bp_nouveau_notifications_filters() {
 		}
 
 		if ( $output ) {
-			$output = sprintf( '<option value="%1$s" %2$s>%3$s</option>',
+			$output = sprintf(
+				'<option value="%1$s" %2$s>%3$s</option>',
 				0,
 				selected( $selected, 0, false ),
 				esc_html__( '&mdash; Everything &mdash;', 'buddypress' )

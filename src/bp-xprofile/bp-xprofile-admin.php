@@ -157,21 +157,26 @@ function xprofile_admin_screen( $message = '', $type = 'error' ) {
 	$url = bp_get_admin_url( 'users.php' );
 
 	// Add Group.
-	$add_group_url = add_query_arg( array(
-		'page' => 'bp-profile-setup',
-		'mode' => 'add_group',
-	), $url );
+	$add_group_url = add_query_arg(
+		array(
+			'page' => 'bp-profile-setup',
+			'mode' => 'add_group',
+		),
+		$url
+	);
 
 	// Validate type.
 	$type = preg_replace( '|[^a-z]|i', '', $type );
 
 	// Get all of the profile groups & fields.
-	$groups = bp_xprofile_get_groups( array(
-		'fetch_fields' => true,
-	) ); ?>
+	$groups = bp_xprofile_get_groups(
+		array(
+			'fetch_fields' => true,
+		)
+	); ?>
 
 	<div class="wrap">
-		<h1 class="wp-heading-inline"><?php echo esc_html_x( 'Profile Fields', 'Settings page header', 'buddypress'); ?></h1>
+		<h1 class="wp-heading-inline"><?php echo esc_html_x( 'Profile Fields', 'Settings page header', 'buddypress' ); ?></h1>
 
 			<a id="add_group" class="page-title-action" href="<?php echo esc_url( $add_group_url ); ?>"><?php esc_html_e( 'Add New Field Group', 'buddypress' ); ?></a>
 
@@ -181,7 +186,7 @@ function xprofile_admin_screen( $message = '', $type = 'error' ) {
 
 			<?php
 
-			wp_nonce_field( 'bp_reorder_fields', '_wpnonce_reorder_fields'        );
+			wp_nonce_field( 'bp_reorder_fields', '_wpnonce_reorder_fields' );
 			wp_nonce_field( 'bp_reorder_groups', '_wpnonce_reorder_groups', false );
 
 			if ( ! empty( $message ) ) :
@@ -207,7 +212,7 @@ function xprofile_admin_screen( $message = '', $type = 'error' ) {
 								?>
 
 								<?php if ( ! $group->can_delete ) : ?>
-									<?php esc_html_e( '(Primary)', 'buddypress'); ?>
+									<?php esc_html_e( '(Primary)', 'buddypress' ); ?>
 								<?php endif; ?>
 
 							</a>
@@ -226,25 +231,37 @@ function xprofile_admin_screen( $message = '', $type = 'error' ) {
 				<?php if ( ! empty( $groups ) ) : foreach ( $groups as $group ) :
 
 					// Add Field to Group URL.
-					$add_field_url = add_query_arg( array(
-						'page'     => 'bp-profile-setup',
-						'mode'     => 'add_field',
-						'group_id' => (int) $group->id,
-					), $url );
+					$add_field_url = add_query_arg(
+						array(
+							'page'     => 'bp-profile-setup',
+							'mode'     => 'add_field',
+							'group_id' => (int) $group->id,
+						),
+						$url
+					);
 
 					// Edit Group URL.
-					$edit_group_url = add_query_arg( array(
-						'page'     => 'bp-profile-setup',
-						'mode'     => 'edit_group',
-						'group_id' => (int) $group->id,
-					), $url );
+					$edit_group_url = add_query_arg(
+						array(
+							'page'     => 'bp-profile-setup',
+							'mode'     => 'edit_group',
+							'group_id' => (int) $group->id,
+						),
+						$url
+					);
 
 					// Delete Group URL.
-					$delete_group_url = wp_nonce_url( add_query_arg( array(
-						'page'     => 'bp-profile-setup',
-						'mode'     => 'delete_group',
-						'group_id' => (int) $group->id,
-					), $url ), 'bp_xprofile_delete_group' ); ?>
+					$delete_group_url = wp_nonce_url(
+						add_query_arg(
+							array(
+								'page'     => 'bp-profile-setup',
+								'mode'     => 'delete_group',
+								'group_id' => (int) $group->id,
+							),
+							$url
+						),
+						'bp_xprofile_delete_group'
+					); ?>
 
 					<noscript>
 						<h3><?php
@@ -403,7 +420,7 @@ function xprofile_admin_screen( $message = '', $type = 'error' ) {
 							// Include a link to edit settings.
 							$settings_link = '';
 
-							if ( is_multisite() && current_user_can( 'manage_network_users') ) {
+							if ( is_multisite() && current_user_can( 'manage_network_users' ) ) {
 								$settings_link = sprintf(
 									' <a href="%1$s">%2$s</a>.',
 									esc_url( network_admin_url( 'settings.php' ) ),
@@ -577,13 +594,26 @@ function xprofile_admin_delete_group_screen( $group_id ) {
 			<li><?php echo esc_html( $group->name ); ?></li>
 		</ul>
 
-		<p><strong><?php esc_html_e( 'This action cannot be undone.', 'buddypress' ) ?></strong></p>
+		<p><strong><?php esc_html_e( 'This action cannot be undone.', 'buddypress' ); ?></strong></p>
 
-		<a class="button-primary" href="<?php echo esc_url( wp_nonce_url( add_query_arg( array( 'mode' => 'do_delete_group', 'group_id' => $group_id ), $base_url ), 'bp_xprofile_delete_group' ) ); ?>"><?php esc_html_e( 'Delete Permanently', 'buddypress' ) ?></a>
-		<a class="button" href="<?php echo esc_attr( $base_url ); ?>"><?php esc_html_e( 'Cancel', 'buddypress' ) ?></a>
+		<?php
+		// phpcs:disable Squiz.PHP.EmbeddedPhp.ContentAfterEnd -- Keep the close tag adjacent to the delete link so the rendered href has no added whitespace.
+		$delete_url = wp_nonce_url(
+			add_query_arg(
+				array(
+					'mode' => 'do_delete_group',
+					'group_id' => $group_id,
+				),
+				$base_url
+			),
+			'bp_xprofile_delete_group'
+		);
+		?><a class="button-primary" href="<?php echo esc_url( $delete_url ); ?>"><?php esc_html_e( 'Delete Permanently', 'buddypress' ); ?></a>
+		<a class="button" href="<?php echo esc_attr( $base_url ); ?>"><?php esc_html_e( 'Cancel', 'buddypress' ); ?></a>
 	</div>
 
 	<?php
+	// phpcs:enable Squiz.PHP.EmbeddedPhp.ContentAfterEnd
 }
 
 /**
@@ -1078,20 +1108,26 @@ function xprofile_admin_field( $admin_field, $admin_group, $class = '', $is_sign
 	$url = bp_get_admin_url( 'users.php' );
 
 	// Edit.
-	$field_edit_url = add_query_arg( array(
-		'page'     => 'bp-profile-setup',
-		'mode'     => 'edit_field',
-		'group_id' => (int) $field->group_id,
-		'field_id' => (int) $field->id,
-	), $url );
+	$field_edit_url = add_query_arg(
+		array(
+			'page'     => 'bp-profile-setup',
+			'mode'     => 'edit_field',
+			'group_id' => (int) $field->group_id,
+			'field_id' => (int) $field->id,
+		),
+		$url
+	);
 
 	// Delete.
 	if ( $field->can_delete ) {
-		$field_delete_url = add_query_arg( array(
-			'page'     => 'bp-profile-setup',
-			'mode'     => 'delete_field',
-			'field_id' => (int) $field->id,
-		), $url . '#tabs-' . (int) $field->group_id );
+		$field_delete_url = add_query_arg(
+			array(
+				'page'     => 'bp-profile-setup',
+				'mode'     => 'delete_field',
+				'field_id' => (int) $field->id,
+			),
+			$url . '#tabs-' . (int) $field->group_id
+		);
 	}
 
 	// Avoid duplicate IDs into the signup group.

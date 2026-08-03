@@ -31,9 +31,9 @@ function messages_action_delete_message() {
 
 		// Delete message.
 		if ( ! messages_delete_thread( $thread_id ) ) {
-			bp_core_add_message( __('There was an error deleting that message.', 'buddypress'), 'error' );
+			bp_core_add_message( __( 'There was an error deleting that message.', 'buddypress' ), 'error' );
 		} else {
-			bp_core_add_message( __('Message deleted.', 'buddypress') );
+			bp_core_add_message( __( 'Message deleted.', 'buddypress' ) );
 		}
 		bp_core_redirect( $redirect );
 	}

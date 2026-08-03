@@ -25,18 +25,21 @@ function bp_nouveau_activity_register_scripts( $scripts = array() ) {
 		return $scripts;
 	}
 
-	return array_merge( $scripts, array(
-		'bp-nouveau-activity' => array(
-			'file'         => 'js/buddypress-activity%s.js',
-			'dependencies' => array( 'bp-nouveau' ),
-			'footer'       => true,
-		),
-		'bp-nouveau-activity-post-form' => array(
-			'file'         => 'js/buddypress-activity-post-form%s.js',
-			'dependencies' => array( 'bp-nouveau', 'bp-nouveau-activity', 'json2', 'wp-backbone' ),
-			'footer'       => true,
-		),
-	) );
+	return array_merge(
+		$scripts,
+		array(
+			'bp-nouveau-activity' => array(
+				'file'         => 'js/buddypress-activity%s.js',
+				'dependencies' => array( 'bp-nouveau' ),
+				'footer'       => true,
+			),
+			'bp-nouveau-activity-post-form' => array(
+				'file'         => 'js/buddypress-activity-post-form%s.js',
+				'dependencies' => array( 'bp-nouveau', 'bp-nouveau-activity', 'json2', 'wp-backbone' ),
+				'footer'       => true,
+			),
+		)
+	);
 }
 
 /**
@@ -81,21 +84,26 @@ function bp_nouveau_activity_localize_scripts( $params = array() ) {
 	if ( buddypress()->avatar->show_avatars ) {
 		$width           = bp_core_avatar_thumb_width();
 		$height          = bp_core_avatar_thumb_height();
-		$activity_params = array_merge( $activity_params, array(
-			'avatar_url'    => bp_get_loggedin_user_avatar( array(
-				'width'  => $width,
-				'height' => $height,
-				'html'   => false,
-			) ),
-			'avatar_width'  => $width,
-			'avatar_height' => $height,
-			'user_domain'   => bp_loggedin_user_url(),
-			'avatar_alt'    => sprintf(
-				/* translators: %s: member name */
-				__( 'Profile photo of %s', 'buddypress' ),
-				$user_displayname
-			),
-		) );
+		$activity_params = array_merge(
+			$activity_params,
+			array(
+				'avatar_url'    => bp_get_loggedin_user_avatar(
+					array(
+						'width'  => $width,
+						'height' => $height,
+						'html'   => false,
+					)
+				),
+				'avatar_width'  => $width,
+				'avatar_height' => $height,
+				'user_domain'   => bp_loggedin_user_url(),
+				'avatar_alt'    => sprintf(
+					/* translators: %s: member name */
+					__( 'Profile photo of %s', 'buddypress' ),
+					$user_displayname
+				),
+			)
+		);
 	}
 
 	/**
@@ -146,7 +154,12 @@ function bp_nouveau_activity_localize_scripts( $params = array() ) {
 		);
 
 		// the groups component is active & the current user is at least a member of 1 group
-		if ( bp_is_active( 'groups' ) && bp_has_groups( array( 'user_id' => bp_loggedin_user_id(), 'max' => 1 ) ) ) {
+		if ( bp_is_active( 'groups' ) && bp_has_groups(
+			array(
+				'user_id' => bp_loggedin_user_id(),
+				'max' => 1,
+			)
+		) ) {
 			$activity_objects['group'] = array(
 				'text'                     => __( 'Post in: Group', 'buddypress' ),
 				'autocomplete_placeholder' => __( 'Start typing the group name...', 'buddypress' ),
@@ -539,20 +552,23 @@ function bp_nouveau_activity_notification_filters() {
  * @return array the controls to add.
  */
 function bp_nouveau_activity_customizer_controls( $controls = array() ) {
-	return array_merge( $controls, array(
-		'act_dir_layout' => array(
-			'label'      => __( 'Use column navigation for the Activity directory.', 'buddypress' ),
-			'section'    => 'bp_nouveau_dir_layout',
-			'settings'   => 'bp_nouveau_appearance[activity_dir_layout]',
-			'type'       => 'checkbox',
-		),
-		'act_dir_tabs' => array(
-			'label'      => __( 'Use tab styling for Activity directory navigation.', 'buddypress' ),
-			'section'    => 'bp_nouveau_dir_layout',
-			'settings'   => 'bp_nouveau_appearance[activity_dir_tabs]',
-			'type'       => 'checkbox',
-		),
-	) );
+	return array_merge(
+		$controls,
+		array(
+			'act_dir_layout' => array(
+				'label'      => __( 'Use column navigation for the Activity directory.', 'buddypress' ),
+				'section'    => 'bp_nouveau_dir_layout',
+				'settings'   => 'bp_nouveau_appearance[activity_dir_layout]',
+				'type'       => 'checkbox',
+			),
+			'act_dir_tabs' => array(
+				'label'      => __( 'Use tab styling for Activity directory navigation.', 'buddypress' ),
+				'section'    => 'bp_nouveau_dir_layout',
+				'settings'   => 'bp_nouveau_appearance[activity_dir_tabs]',
+				'type'       => 'checkbox',
+			),
+		)
+	);
 }
 
 /**

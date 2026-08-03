@@ -140,19 +140,21 @@ class BP_Groups_Invite_Template {
 		);
 
 		$this->pag_arg  = sanitize_key( $r['page_arg'] );
-		$this->pag_page = bp_sanitize_pagination_arg( $this->pag_arg, $r['page']     );
+		$this->pag_page = bp_sanitize_pagination_arg( $this->pag_arg, $r['page'] );
 		$this->pag_num  = bp_sanitize_pagination_arg( 'num', $r['per_page'] );
 
-		$iquery = new BP_Group_Member_Query( array(
-			'group_id' => $r['group_id'],
-			'type'     => 'first_joined',
-			'per_page' => $this->pag_num,
-			'page'     => $this->pag_page,
+		$iquery = new BP_Group_Member_Query(
+			array(
+				'group_id' => $r['group_id'],
+				'type'     => 'first_joined',
+				'per_page' => $this->pag_num,
+				'page'     => $this->pag_page,
 
-			// These filters ensure we get only pending invites.
-			'is_confirmed' => false,
-			'inviter_id'   => $r['user_id'],
-		) );
+				// These filters ensure we get only pending invites.
+				'is_confirmed' => false,
+				'inviter_id'   => $r['user_id'],
+			)
+		);
 
 		$this->invite_data        = $iquery->results;
 		$this->total_invite_count = $iquery->total_users;
@@ -162,16 +164,18 @@ class BP_Groups_Invite_Template {
 		// If per_page is set to 0 (show all results), don't generate
 		// pag_links.
 		if ( ! empty( $this->pag_num ) ) {
-			$this->pag_links = paginate_links( array(
-				'base'      => add_query_arg( $this->pag_arg, '%#%' ),
-				'format'    => '',
-				'total'     => ceil( $this->total_invite_count / $this->pag_num ),
-				'current'   => $this->pag_page,
-				'prev_text' => '&larr;',
-				'next_text' => '&rarr;',
-				'mid_size'  => 1,
-				'add_args'  => array(),
-			) );
+			$this->pag_links = paginate_links(
+				array(
+					'base'      => add_query_arg( $this->pag_arg, '%#%' ),
+					'format'    => '',
+					'total'     => ceil( $this->total_invite_count / $this->pag_num ),
+					'current'   => $this->pag_page,
+					'prev_text' => '&larr;',
+					'next_text' => '&rarr;',
+					'mid_size'  => 1,
+					'add_args'  => array(),
+				)
+			);
 		} else {
 			$this->pag_links = '';
 		}
@@ -279,7 +283,7 @@ class BP_Groups_Invite_Template {
 					/* translators: %s: member name */
 					__( 'Profile photo of %s', 'buddypress' ),
 					$this->invite->user->fullname
-				)
+				),
 			)
 		);
 
@@ -291,7 +295,7 @@ class BP_Groups_Invite_Template {
 					/* translators: %s: member name */
 					__( 'Profile photo of %s', 'buddypress' ),
 					$this->invite->user->fullname
-				)
+				),
 			)
 		);
 
@@ -305,7 +309,7 @@ class BP_Groups_Invite_Template {
 					$this->invite->user->fullname
 				),
 				'width'   => 30,
-				'height'  => 30
+				'height'  => 30,
 			)
 		);
 

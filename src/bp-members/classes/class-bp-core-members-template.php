@@ -153,7 +153,7 @@ class BP_Core_Members_Template {
 				11 => 'page_arg',
 				12 => 'member_type',
 				13 => 'member_type__in',
-				14 => 'member_type__not_in'
+				14 => 'member_type__not_in',
 			);
 
 			$args = bp_core_parse_args_array( $old_args_keys, $args );
@@ -192,7 +192,7 @@ class BP_Core_Members_Template {
 
 		$this->pag_arg  = sanitize_key( $r['page_arg'] );
 		$this->pag_page = bp_sanitize_pagination_arg( $this->pag_arg, $r['page_number'] );
-		$this->pag_num  = bp_sanitize_pagination_arg( 'num', $r['per_page']    );
+		$this->pag_num  = bp_sanitize_pagination_arg( 'num', $r['per_page'] );
 		$this->type     = $r['type'];
 
 		if ( ! empty( $_REQUEST['letter'] ) ) {
@@ -261,16 +261,18 @@ class BP_Core_Members_Template {
 				$add_args[ $query_arg ] = urlencode( $r['search_terms'] );
 			}
 
-			$this->pag_links = paginate_links( array(
-				'base'      => add_query_arg( $pag_args, $base ),
-				'format'    => '',
-				'total'     => ceil( (int) $this->total_member_count / (int) $this->pag_num ),
-				'current'   => (int) $this->pag_page,
-				'prev_text' => _x( '&larr;', 'Member pagination previous text', 'buddypress' ),
-				'next_text' => _x( '&rarr;', 'Member pagination next text', 'buddypress' ),
-				'mid_size'  => 1,
-				'add_args'  => $add_args,
-			) );
+			$this->pag_links = paginate_links(
+				array(
+					'base'      => add_query_arg( $pag_args, $base ),
+					'format'    => '',
+					'total'     => ceil( (int) $this->total_member_count / (int) $this->pag_num ),
+					'current'   => (int) $this->pag_page,
+					'prev_text' => _x( '&larr;', 'Member pagination previous text', 'buddypress' ),
+					'next_text' => _x( '&rarr;', 'Member pagination next text', 'buddypress' ),
+					'mid_size'  => 1,
+					'add_args'  => $add_args,
+				)
+			);
 		}
 	}
 
@@ -336,7 +338,7 @@ class BP_Core_Members_Template {
 			 *
 			 * @since 1.5.0
 			 */
-			do_action('member_loop_end');
+			do_action( 'member_loop_end' );
 			// Do some cleaning up after the loop.
 			$this->rewind_members();
 		}

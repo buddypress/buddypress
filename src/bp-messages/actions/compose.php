@@ -59,7 +59,7 @@ function bp_messages_action_create_message() {
 			array(
 				'send_to_usernames' => '',
 				'subject'           => '',
-				'content'           => ''
+				'content'           => '',
 			)
 		)
 	);

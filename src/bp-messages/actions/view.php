@@ -32,11 +32,13 @@ function messages_action_conversation() {
 		// Check the nonce.
 		check_admin_referer( 'messages_send_message', 'send_message_nonce' );
 
-		$new_reply = messages_new_message( array(
-			'thread_id' => $thread_id,
-			'subject'   => ! empty( $_POST['subject'] ) ? $_POST['subject'] : false,
-			'content'   => $_POST['content']
-		) );
+		$new_reply = messages_new_message(
+			array(
+				'thread_id' => $thread_id,
+				'subject'   => ! empty( $_POST['subject'] ) ? $_POST['subject'] : false,
+				'content'   => $_POST['content'],
+			)
+		);
 
 		// Send the reply.
 		if ( ! empty( $new_reply ) ) {

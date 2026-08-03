@@ -35,7 +35,7 @@
 		</p>
 
 		<div class="bp-profile-button">
-			<a href="<?php bp_activity_generated_content_part( 'group_url' ); ?>" class="button large primary button-primary" role="button"><?php esc_html_e( 'View group', 'buddypress'); ?></a>
+			<a href="<?php bp_activity_generated_content_part( 'group_url' ); ?>" class="button large primary button-primary" role="button"><?php esc_html_e( 'View group', 'buddypress' ); ?></a>
 		</div>
 	</div>
 </div>

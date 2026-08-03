@@ -197,16 +197,19 @@ function bp_nouveau_ajax_button( $output = '', $button = null, $before = '', $af
 			return $output;
 		}
 
-		$find_id = array_intersect( $parse_class, array(
-			'pending_friend',
-			'is_friend',
-			'not_friends',
-			'leave-group',
-			'join-group',
-			'accept-invite',
-			'membership-requested',
-			'request-membership',
-		) );
+		$find_id = array_intersect(
+			$parse_class,
+			array(
+				'pending_friend',
+				'is_friend',
+				'not_friends',
+				'leave-group',
+				'join-group',
+				'accept-invite',
+				'membership-requested',
+				'request-membership',
+			)
+		);
 
 		if ( 1 !== count( $find_id ) ) {
 			return $output;
@@ -223,11 +226,13 @@ function bp_nouveau_ajax_button( $output = '', $button = null, $before = '', $af
 	}
 
 	// Re-render the button with our custom data attribute.
-	$output = new BP_Core_HTML_Element( array(
-		'element'    => $r['button_element'],
-		'attr'       => $r['button_attr'],
-		'inner_html' => ! empty( $r['link_text'] ) ? $r['link_text'] : ''
-	) );
+	$output = new BP_Core_HTML_Element(
+		array(
+			'element'    => $r['button_element'],
+			'attr'       => $r['button_attr'],
+			'inner_html' => ! empty( $r['link_text'] ) ? $r['link_text'] : '',
+		)
+	);
 	$output = $output->contents();
 
 	// Add span bp-screen-reader-text class
@@ -454,7 +459,13 @@ function bp_nouveau_parse_hooked_dir_nav( $hook = '', $component = '', $position
 		return $extra_nav_items;
 	}
 
-	$extra_nav_items = array_fill_keys( $lis[1], array( 'component' => $component, 'position' => $position ) );
+	$extra_nav_items = array_fill_keys(
+		$lis[1],
+		array(
+			'component' => $component,
+			'position' => $position,
+		)
+	);
 	preg_match_all( '/<a\s[^>]*>(.*)<\/a>/siU', $output, $as );
 
 	if ( ! empty( $as[0] ) ) {
@@ -741,10 +752,26 @@ function bp_nouveau_get_appearance_settings( $option = '' ) {
  */
 function bp_nouveau_customizer_grid_choices( $type = 'option' ) {
 	$columns = array(
-		array( 'key' => '1', 'label' => __( 'One column', 'buddypress'    ), 'class' => ''      ),
-		array( 'key' => '2', 'label' => __( 'Two columns', 'buddypress'   ), 'class' => 'two'   ),
-		array( 'key' => '3', 'label' => __( 'Three columns', 'buddypress' ), 'class' => 'three' ),
-		array( 'key' => '4', 'label' => __( 'Four columns', 'buddypress'  ), 'class' => 'four'  ),
+		array(
+			'key' => '1',
+			'label' => __( 'One column', 'buddypress' ),
+			'class' => '',
+		),
+		array(
+			'key' => '2',
+			'label' => __( 'Two columns', 'buddypress' ),
+			'class' => 'two',
+		),
+		array(
+			'key' => '3',
+			'label' => __( 'Three columns', 'buddypress' ),
+			'class' => 'three',
+		),
+		array(
+			'key' => '4',
+			'label' => __( 'Four columns', 'buddypress' ),
+			'class' => 'four',
+		),
 	);
 
 	if ( 'option' === $type ) {
@@ -988,7 +1015,7 @@ function bp_nouveau_get_user_feedback( $feedback_id = '' ) {
 				'type'    => 'info',
 				'message' => __( 'Member registration is currently not allowed.', 'buddypress' ),
 				'before'  => 'bp_before_registration_disabled',
-				'after'   => 'bp_after_registration_disabled'
+				'after'   => 'bp_after_registration_disabled',
 			),
 			'request-details'                   => array(
 				'type'    => 'info',
@@ -1223,62 +1250,65 @@ function bp_nouveau_get_signup_fields( $section = '' ) {
 	 *
 	 * @param array $value The list of fields organized into sections.
 	 */
-	$fields = apply_filters( 'bp_nouveau_get_signup_fields', array(
-		'account_details' => array(
-			'signup_username' => array(
-				'label'          => __( 'Username', 'buddypress' ),
-				'required'       => true,
-				'value'          => 'bp_get_signup_username_value',
-				'attribute_type' => 'username',
-				'type'           => 'text',
-				'class'          => '',
+	$fields = apply_filters(
+		'bp_nouveau_get_signup_fields',
+		array(
+			'account_details' => array(
+				'signup_username' => array(
+					'label'          => __( 'Username', 'buddypress' ),
+					'required'       => true,
+					'value'          => 'bp_get_signup_username_value',
+					'attribute_type' => 'username',
+					'type'           => 'text',
+					'class'          => '',
+				),
+				'signup_email' => array(
+					'label'          => __( 'Email Address', 'buddypress' ),
+					'required'       => true,
+					'value'          => 'bp_get_signup_email_value',
+					'attribute_type' => 'email',
+					'type'           => 'email',
+					'class'          => '',
+				),
+				'signup_password' => array(),
+				'signup_password_confirm' => array(),
 			),
-			'signup_email' => array(
-				'label'          => __( 'Email Address', 'buddypress' ),
-				'required'       => true,
-				'value'          => 'bp_get_signup_email_value',
-				'attribute_type' => 'email',
-				'type'           => 'email',
-				'class'          => '',
+			'blog_details' => array(
+				'signup_blog_url' => array(
+					'label'          => __( 'Site URL', 'buddypress' ),
+					'required'       => true,
+					'value'          => 'bp_get_signup_blog_url_value',
+					'attribute_type' => 'slug',
+					'type'           => 'text',
+					'class'          => '',
+				),
+				'signup_blog_title' => array(
+					'label'          => __( 'Site Title', 'buddypress' ),
+					'required'       => true,
+					'value'          => 'bp_get_signup_blog_title_value',
+					'attribute_type' => 'title',
+					'type'           => 'text',
+					'class'          => '',
+				),
+				'signup_blog_privacy_public' => array(
+					'label'          => __( 'Yes', 'buddypress' ),
+					'required'       => false,
+					'value'          => 'public',
+					'attribute_type' => '',
+					'type'           => 'radio',
+					'class'          => '',
+				),
+				'signup_blog_privacy_private' => array(
+					'label'          => __( 'No', 'buddypress' ),
+					'required'       => false,
+					'value'          => 'private',
+					'attribute_type' => '',
+					'type'           => 'radio',
+					'class'          => '',
+				),
 			),
-			'signup_password' => array(),
-			'signup_password_confirm' => array(),
-		),
-		'blog_details' => array(
-			'signup_blog_url' => array(
-				'label'          => __( 'Site URL', 'buddypress' ),
-				'required'       => true,
-				'value'          => 'bp_get_signup_blog_url_value',
-				'attribute_type' => 'slug',
-				'type'           => 'text',
-				'class'          => '',
-			),
-			'signup_blog_title' => array(
-				'label'          => __( 'Site Title', 'buddypress' ),
-				'required'       => true,
-				'value'          => 'bp_get_signup_blog_title_value',
-				'attribute_type' => 'title',
-				'type'           => 'text',
-				'class'          => '',
-			),
-			'signup_blog_privacy_public' => array(
-				'label'          => __( 'Yes', 'buddypress' ),
-				'required'       => false,
-				'value'          => 'public',
-				'attribute_type' => '',
-				'type'           => 'radio',
-				'class'          => '',
-			),
-			'signup_blog_privacy_private' => array(
-				'label'          => __( 'No', 'buddypress' ),
-				'required'       => false,
-				'value'          => 'private',
-				'attribute_type' => '',
-				'type'           => 'radio',
-				'class'          => '',
-			),
-		),
-	) );
+		)
+	);
 
 	if ( ! bp_get_blog_signup_allowed() ) {
 		unset( $fields['blog_details'] );

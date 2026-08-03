@@ -123,7 +123,7 @@ function bp_core_get_users( $args = '' ) {
 		// ...but reformat the results to match bp_core_get_users() behavior.
 		$retval = array(
 			'users' => array_values( $users->results ),
-			'total' => $users->total_users
+			'total' => $users->total_users,
 		);
 	}
 
@@ -1321,10 +1321,12 @@ function bp_remove_user_data_on_delete_user_hook( $component, $user_id ) {
  * @return bool
  */
 function bp_core_delete_avatar_on_user_delete( $user_id ) {
-	return bp_core_delete_existing_avatar( array(
-		'item_id' => $user_id,
-		'object'  => 'user',
-	) );
+	return bp_core_delete_existing_avatar(
+		array(
+			'item_id' => $user_id,
+			'object'  => 'user',
+		)
+	);
 }
 add_action( 'wpmu_delete_user', 'bp_core_delete_avatar_on_user_delete' );
 
@@ -1997,9 +1999,11 @@ function bp_core_activate_signup( $key ) {
 		$user_id = $user['user_id'];
 
 	} else {
-		$signups = BP_Signup::get( array(
-			'activation_key' => $key,
-		) );
+		$signups = BP_Signup::get(
+			array(
+				'activation_key' => $key,
+			)
+		);
 
 		if ( empty( $signups['signups'] ) ) {
 			return new WP_Error( 'invalid_key', __( 'Invalid activation key.', 'buddypress' ) );
@@ -2051,9 +2055,11 @@ function bp_core_activate_signup( $key ) {
 		}
 
 		// Fetch the signup so we have the data later on.
-		$signups = BP_Signup::get( array(
-			'activation_key' => $key,
-		) );
+		$signups = BP_Signup::get(
+			array(
+				'activation_key' => $key,
+			)
+		);
 
 		$signup = isset( $signups['signups'] ) && ! empty( $signups['signups'][0] ) ? $signups['signups'][0] : false;
 
@@ -2197,17 +2203,19 @@ function bp_members_migrate_signups() {
 	$status_2_ids = $wpdb->get_col( "SELECT ID FROM {$wpdb->users} WHERE user_status = '2'" );
 
 	if ( ! empty( $status_2_ids ) ) {
-		$signups = get_users( array(
-			'fields'  => array(
-				'ID',
-				'user_login',
-				'user_pass',
-				'user_registered',
-				'user_email',
-				'display_name',
-			),
-			'include' => $status_2_ids,
-		) );
+		$signups = get_users(
+			array(
+				'fields'  => array(
+					'ID',
+					'user_login',
+					'user_pass',
+					'user_registered',
+					'user_email',
+					'display_name',
+				),
+				'include' => $status_2_ids,
+			)
+		);
 
 		// Fetch activation keys separately, to avoid the all_with_meta
 		// overhead.
@@ -2253,17 +2261,19 @@ function bp_members_migrate_signups() {
 		$user_login = preg_replace( '/\s+/', '', sanitize_user( $signup->user_login, true ) );
 		$user_email = sanitize_email( $signup->user_email );
 
-		BP_Signup::add( array(
-			'user_login'     => $user_login,
-			'user_email'     => $user_email,
-			'registered'     => $signup->user_registered,
-			'activation_key' => $signup->activation_key,
-			'meta'           => $meta
-		) );
+		BP_Signup::add(
+			array(
+				'user_login'     => $user_login,
+				'user_email'     => $user_email,
+				'registered'     => $signup->user_registered,
+				'activation_key' => $signup->activation_key,
+				'meta'           => $meta,
+			)
+		);
 
 		// Deleting these options will remove signups from users count.
 		delete_user_option( $signup->ID, 'capabilities' );
-		delete_user_option( $signup->ID, 'user_level'   );
+		delete_user_option( $signup->ID, 'user_level' );
 	}
 }
 
@@ -2328,14 +2338,17 @@ function bp_core_signup_avatar_upload_dir() {
 	 *
 	 * @param array $value Array of path and URL values for created storage directory.
 	 */
-	return apply_filters( 'bp_core_signup_avatar_upload_dir', array(
-		'path'    => $path,
-		'url'     => $newurl,
-		'subdir'  => $newsubdir,
-		'basedir' => $newbdir,
-		'baseurl' => $newburl,
-		'error'   => false,
-	) );
+	return apply_filters(
+		'bp_core_signup_avatar_upload_dir',
+		array(
+			'path'    => $path,
+			'url'     => $newurl,
+			'subdir'  => $newsubdir,
+			'basedir' => $newbdir,
+			'baseurl' => $newburl,
+			'error'   => false,
+		)
+	);
 }
 
 /**
@@ -2370,13 +2383,15 @@ function bp_core_signup_send_validation_email( $user_id, $user_email, $key, $sal
 	if ( $signup ) {
 		$meta = array(
 			'sent_date'  => current_time( 'mysql', true ),
-			'count_sent' => $signup->count_sent + 1
+			'count_sent' => $signup->count_sent + 1,
 		);
 
-		BP_Signup::update( array(
-			'signup_id' => $signup->id,
-			'meta'      => $meta,
-		) );
+		BP_Signup::update(
+			array(
+				'signup_id' => $signup->id,
+				'meta'      => $meta,
+			)
+		);
 	}
 }
 
@@ -2643,7 +2658,7 @@ function bp_stop_live_spammer() {
 			'action' => 'bp-spam',
 
 			// Reauthorize user to login.
-			'reauth' => 1
+			'reauth' => 1,
 		);
 
 		/**
@@ -2930,10 +2945,13 @@ function bp_register_member_type( $member_type, $args = array() ) {
 
 	// Make sure the relevant labels have been filled in.
 	$default_name = isset( $r['labels']['name'] ) ? $r['labels']['name'] : ucfirst( $r['name'] );
-	$r['labels']  = array_merge( array(
-		'name'          => $default_name,
-		'singular_name' => $default_name,
-	), $r['labels'] );
+	$r['labels']  = array_merge(
+		array(
+			'name'          => $default_name,
+			'singular_name' => $default_name,
+		),
+		$r['labels']
+	);
 
 	// Directory slug.
 	if ( $r['has_directory'] ) {
@@ -3372,14 +3390,17 @@ function bp_members_avatar_upload_dir( $directory = 'avatars', $user_id = 0 ) {
 	 *
 	 * @param array $value Array containing the path, URL, and other helpful settings.
 	 */
-	return apply_filters( 'bp_members_avatar_upload_dir', array(
-		'path'    => $path,
-		'url'     => $newurl,
-		'subdir'  => $newsubdir,
-		'basedir' => $newbdir,
-		'baseurl' => $newburl,
-		'error'   => false,
-	) );
+	return apply_filters(
+		'bp_members_avatar_upload_dir',
+		array(
+			'path'    => $path,
+			'url'     => $newurl,
+			'subdir'  => $newsubdir,
+			'basedir' => $newbdir,
+			'baseurl' => $newburl,
+			'error'   => false,
+		)
+	);
 }
 
 /**

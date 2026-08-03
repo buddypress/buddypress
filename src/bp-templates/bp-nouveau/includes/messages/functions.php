@@ -25,13 +25,16 @@ function bp_nouveau_messages_enqueue_styles( $styles = array() ) {
 		return $styles;
 	}
 
-	return array_merge( $styles, array(
-		'bp-nouveau-messages-at' => array(
-			'file'         => buddypress()->plugin_url . 'bp-activity/css/mentions%1$s%2$s.css',
-			'dependencies' => array( 'bp-nouveau' ),
-			'version'      => bp_get_version(),
-		),
-	) );
+	return array_merge(
+		$styles,
+		array(
+			'bp-nouveau-messages-at' => array(
+				'file'         => buddypress()->plugin_url . 'bp-activity/css/mentions%1$s%2$s.css',
+				'dependencies' => array( 'bp-nouveau' ),
+				'version'      => bp_get_version(),
+			),
+		)
+	);
 }
 
 /**
@@ -48,19 +51,22 @@ function bp_nouveau_messages_register_scripts( $scripts = array() ) {
 		return $scripts;
 	}
 
-	return array_merge( $scripts, array(
-		'bp-nouveau-messages-at' => array(
-			'file'         => buddypress()->plugin_url . 'bp-activity/js/mentions%s.js',
-			'dependencies' => array( 'bp-nouveau', 'jquery', 'jquery-atwho' ),
-			'version'      => bp_get_version(),
-			'footer'       => true,
-		),
-		'bp-nouveau-messages' => array(
-			'file'         => 'js/buddypress-messages%s.js',
-			'dependencies' => array( 'bp-nouveau', 'json2', 'wp-backbone', 'bp-nouveau-messages-at' ),
-			'footer'       => true,
-		),
-	) );
+	return array_merge(
+		$scripts,
+		array(
+			'bp-nouveau-messages-at' => array(
+				'file'         => buddypress()->plugin_url . 'bp-activity/js/mentions%s.js',
+				'dependencies' => array( 'bp-nouveau', 'jquery', 'jquery-atwho' ),
+				'version'      => bp_get_version(),
+				'footer'       => true,
+			),
+			'bp-nouveau-messages' => array(
+				'file'         => 'js/buddypress-messages%s.js',
+				'dependencies' => array( 'bp-nouveau', 'json2', 'wp-backbone', 'bp-nouveau-messages-at' ),
+				'footer'       => true,
+			),
+		)
+	);
 }
 
 /**
@@ -165,19 +171,22 @@ function bp_nouveau_messages_localize_scripts( $params = array() ) {
 
 	// Star private messages.
 	if ( bp_is_active( 'messages', 'star' ) ) {
-		$params['messages'] = array_merge( $params['messages'], array(
-			'strings' => array(
-				'text_unstar'  => __( 'Unstar', 'buddypress' ),
-				'text_star'    => __( 'Star', 'buddypress' ),
-				'title_unstar' => __( 'Starred', 'buddypress' ),
-				'title_star'   => __( 'Not starred', 'buddypress' ),
-				'title_unstar_thread' => __( 'Remove all starred messages in this thread', 'buddypress' ),
-				'title_star_thread'   => __( 'Star the first message in this thread', 'buddypress' ),
-			),
-			'is_single_thread' => (int) bp_is_messages_conversation(),
-			'star_counter'     => 0,
-			'unstar_counter'   => 0
-		) );
+		$params['messages'] = array_merge(
+			$params['messages'],
+			array(
+				'strings' => array(
+					'text_unstar'  => __( 'Unstar', 'buddypress' ),
+					'text_star'    => __( 'Star', 'buddypress' ),
+					'title_unstar' => __( 'Starred', 'buddypress' ),
+					'title_star'   => __( 'Not starred', 'buddypress' ),
+					'title_unstar_thread' => __( 'Remove all starred messages in this thread', 'buddypress' ),
+					'title_star_thread'   => __( 'Star the first message in this thread', 'buddypress' ),
+				),
+				'is_single_thread' => (int) bp_is_messages_conversation(),
+				'star_counter'     => 0,
+				'unstar_counter'   => 0,
+			)
+		);
 	}
 
 	return $params;
@@ -205,9 +214,13 @@ function bp_nouveau_messages_adjust_nav() {
 		if ( 'notices' === $secondary_nav_item->slug ) {
 			bp_core_remove_subnav_item( bp_nouveau_get_component_slug( 'messages' ), $secondary_nav_item->slug, 'members' );
 		} elseif ( 'compose' === $secondary_nav_item->slug ) {
-			$bp->members->nav->edit_nav( array(
-				'user_has_access' => bp_is_my_profile()
-			), $secondary_nav_item->slug, bp_nouveau_get_component_slug( 'messages' ) );
+			$bp->members->nav->edit_nav(
+				array(
+					'user_has_access' => bp_is_my_profile(),
+				),
+				$secondary_nav_item->slug,
+				bp_nouveau_get_component_slug( 'messages' )
+			);
 		}
 	}
 }

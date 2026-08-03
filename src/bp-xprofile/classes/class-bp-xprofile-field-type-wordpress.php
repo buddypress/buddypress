@@ -211,7 +211,13 @@ abstract class BP_XProfile_Field_Type_WordPress extends BP_XProfile_Field_Type {
 									}
 
 									foreach ( $meta_values as $meta_value ) {
-										$meta_object = wp_list_filter( $metas, array( 'meta_key' => $meta_key, 'meta_value' => $meta_value ) );
+										$meta_object = wp_list_filter(
+											$metas,
+											array(
+												'meta_key' => $meta_key,
+												'meta_value' => $meta_value,
+											)
+										);
 
 										if ( 1 === count( $meta_object ) ) {
 											$meta_object                                     = reset( $meta_object );

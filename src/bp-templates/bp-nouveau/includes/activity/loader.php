@@ -70,7 +70,9 @@ class BP_Nouveau_Activity {
 
 		// Load AJAX code only on AJAX requests.
 		} else {
-			add_action( 'admin_init', function () {
+			add_action(
+				'admin_init',
+				function () {
 				// AJAX condtion.
 				if ( defined( 'DOING_AJAX' ) && true === DOING_AJAX &&
 					// Check to see if action is activity-specific.
@@ -78,7 +80,8 @@ class BP_Nouveau_Activity {
 				) {
 					require bp_nouveau()->activity->dir . 'ajax.php';
 				}
-			} );
+				}
+			);
 		}
 	}
 

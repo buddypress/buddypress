@@ -39,7 +39,7 @@
 		</p>
 
 		<div class="bp-profile-button">
-			<a href="<?php bp_activity_generated_content_part( 'user_url' ); ?>" class="button large primary button-primary" role="button"><?php esc_html_e( 'View Profile', 'buddypress'); ?></a>
+			<a href="<?php bp_activity_generated_content_part( 'user_url' ); ?>" class="button large primary button-primary" role="button"><?php esc_html_e( 'View Profile', 'buddypress' ); ?></a>
 		</div>
 	</div>
 </div>

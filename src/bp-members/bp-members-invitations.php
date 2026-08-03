@@ -152,7 +152,7 @@ function bp_members_invitations_maybe_bypass_request_approval( $send, $details )
 	$invites = bp_members_invitations_get_invites(
 		array(
 			'invitee_email' => $details['user_email'],
-			'invite_sent'   => 'sent'
+			'invite_sent'   => 'sent',
 		)
 	);
 

@@ -65,7 +65,7 @@ function bp_activity_action_post_comment() {
 		array(
 			'content'     => $content,
 			'activity_id' => $activity_id,
-			'parent_id'   => false
+			'parent_id'   => false,
 		)
 	);
 

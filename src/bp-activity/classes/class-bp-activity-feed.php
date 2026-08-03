@@ -360,7 +360,7 @@ class BP_Activity_Feed {
 		@header( 'ETag: ' . '"' . $etag . '"' );
 
 		// First commit of BuddyPress! (Easter egg).
-		@header( 'Expires: Tue, 25 Mar 2008 17:13:55 GMT');
+		@header( 'Expires: Tue, 25 Mar 2008 17:13:55 GMT' );
 
 		// Get ETag from supported user agents.
 		if ( isset( $_SERVER['HTTP_IF_NONE_MATCH'] ) ) {

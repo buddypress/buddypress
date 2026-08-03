@@ -80,9 +80,11 @@ class BP_XProfile_Field_Type_Checkbox extends BP_XProfile_Field_Type {
 			/** This action is documented in bp-xprofile/bp-xprofile-classes */
 			do_action( bp_get_the_profile_field_errors_action() ); ?>
 
-			<?php bp_the_profile_field_options( array(
-				'user_id' => $user_id,
-			) ); ?>
+			<?php bp_the_profile_field_options(
+				array(
+					'user_id' => $user_id,
+				)
+			); ?>
 
 		<?php
 	}
@@ -154,7 +156,8 @@ class BP_XProfile_Field_Type_Checkbox extends BP_XProfile_Field_Type {
 				$selected = ' checked="checked"';
 			}
 
-			$new_html = sprintf( '<label for="%3$s" class="option-label"><input %1$s type="checkbox" name="%2$s" id="%3$s" value="%4$s">%5$s</label>',
+			$new_html = sprintf(
+				'<label for="%3$s" class="option-label"><input %1$s type="checkbox" name="%2$s" id="%3$s" value="%4$s">%5$s</label>',
 				$selected,
 				esc_attr( bp_get_the_profile_field_input_name() . '[]' ),
 				esc_attr( "field_{$options[$k]->id}_{$k}" ),

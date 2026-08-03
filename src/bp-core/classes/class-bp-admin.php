@@ -627,7 +627,7 @@ class BP_Admin {
 				'href'   => add_query_arg(
 					array(
 						'page'  => 'bp-components',
-						'hello' => 'buddypress'
+						'hello' => 'buddypress',
 					),
 					bp_get_admin_url( $this->settings_page )
 				),
@@ -666,10 +666,13 @@ class BP_Admin {
 		);
 
 		// Add a few links to the existing links array.
-		return array_merge( $links, array(
-			'settings' => '<a href="' . esc_url( add_query_arg( $settings_args, bp_get_admin_url( $this->settings_page ) ) ) . '">' . esc_html__( 'Settings', 'buddypress' ) . '</a>',
-			'about'    => '<a href="' . esc_url( add_query_arg( $about_args, bp_get_admin_url( $this->settings_page ) ) ) . '">' . esc_html_x( 'Hello, BuddyPress!', 'Colloquial alternative to "learn about BuddyPress"', 'buddypress' ) . '</a>'
-		) );
+		return array_merge(
+			$links,
+			array(
+				'settings' => '<a href="' . esc_url( add_query_arg( $settings_args, bp_get_admin_url( $this->settings_page ) ) ) . '">' . esc_html__( 'Settings', 'buddypress' ) . '</a>',
+				'about'    => '<a href="' . esc_url( add_query_arg( $about_args, bp_get_admin_url( $this->settings_page ) ) ) . '">' . esc_html_x( 'Hello, BuddyPress!', 'Colloquial alternative to "learn about BuddyPress"', 'buddypress' ) . '</a>',
+			)
+		);
 	}
 
 	/**
@@ -696,16 +699,16 @@ class BP_Admin {
 	public function admin_head() {
 
 		// Settings pages.
-		remove_submenu_page( $this->settings_page, 'bp-rewrites'            );
-		remove_submenu_page( $this->settings_page, 'bp-settings'            );
-		remove_submenu_page( $this->settings_page, 'bp-credits'             );
+		remove_submenu_page( $this->settings_page, 'bp-rewrites' );
+		remove_submenu_page( $this->settings_page, 'bp-settings' );
+		remove_submenu_page( $this->settings_page, 'bp-credits' );
 		remove_submenu_page( $this->settings_page, 'bp-admin-notifications' );
 
 		// Network Admin Tools.
 		remove_submenu_page( 'network-tools', 'network-tools' );
 
 		// About and Credits pages.
-		remove_submenu_page( 'index.php', 'bp-about'   );
+		remove_submenu_page( 'index.php', 'bp-about' );
 		remove_submenu_page( 'index.php', 'bp-credits' );
 
 		// Nonmembers Opt-outs page.
@@ -728,10 +731,14 @@ class BP_Admin {
 		if ( isset( $this->submenu_pages['settings']['bp-components'] ) && 0 === strpos( get_current_screen()->id, $this->submenu_pages['settings']['bp-components'] ) && ! empty( $_GET['hello'] ) && $_GET['hello'] === 'buddypress' ) {
 			wp_enqueue_style( 'bp-hello-css' );
 			wp_enqueue_script( 'bp-hello-js' );
-			wp_localize_script( 'bp-hello-js', 'bpHelloStrings', array(
-				'pageNotFound' => __( 'Sorry, the page you requested was not found.', 'buddypress' ),
-				'modalLabel'   => __( 'Hello BuddyPress', 'buddypress' ),
-			) );
+			wp_localize_script(
+				'bp-hello-js',
+				'bpHelloStrings',
+				array(
+					'pageNotFound' => __( 'Sorry, the page you requested was not found.', 'buddypress' ),
+					'modalLabel'   => __( 'Hello BuddyPress', 'buddypress' ),
+				)
+			);
 		}
 	}
 
@@ -923,13 +930,13 @@ class BP_Admin {
 							echo '&nbsp;';
 							printf(
 									/* Translators: %s is a the link to the new Contributor Documentation on GitHub */
-									esc_html__( 'Don’t hesitate to send us some encouraging words and please consider contributing back to %s.', 'buddypress' ),
-									sprintf(
-										'<a href="%1$s">%2$s</a>',
-										esc_url( 'https://github.com/buddypress/buddypress/tree/master/docs/contributor#readme' ),
-										esc_html__( 'the project', 'buddypress' )
-									)
-								);
+								esc_html__( 'Don’t hesitate to send us some encouraging words and please consider contributing back to %s.', 'buddypress' ),
+								sprintf(
+									'<a href="%1$s">%2$s</a>',
+									esc_url( 'https://github.com/buddypress/buddypress/tree/master/docs/contributor#readme' ),
+									esc_html__( 'the project', 'buddypress' )
+								)
+							);
 							?>
 						</p>
 
@@ -1281,7 +1288,7 @@ class BP_Admin {
 	 */
 	public function emails_register_situation_column( $columns = array() ) {
 		$situation = array(
-			'situation' => _x( 'Situations', 'Email post type', 'buddypress' )
+			'situation' => _x( 'Situations', 'Email post type', 'buddypress' ),
 		);
 
 		// Inject our 'Situations' column just before the last 'Date' column.
@@ -1437,25 +1444,28 @@ class BP_Admin {
 		 *
 		 * @param array $value Array of admin stylesheet file information to register.
 		 */
-		$styles = apply_filters( 'bp_core_admin_register_styles', array(
-			// Legacy.
-			'bp-admin-common-css' => array(
-				'file'         => $common_css,
-				'dependencies' => array(),
-			),
+		$styles = apply_filters(
+			'bp_core_admin_register_styles',
+			array(
+				// Legacy.
+				'bp-admin-common-css' => array(
+					'file'         => $common_css,
+					'dependencies' => array(),
+				),
 
-			// 2.5
-			'bp-customizer-controls' => array(
-				'file'         => "{$url}customizer-controls{$min}.css",
-				'dependencies' => array(),
-			),
+				// 2.5
+				'bp-customizer-controls' => array(
+					'file'         => "{$url}customizer-controls{$min}.css",
+					'dependencies' => array(),
+				),
 
-			// 3.0
-			'bp-hello-css' => array(
-				'file'         => "{$url}hello{$min}.css",
-				'dependencies' => array( 'bp-admin-common-css', 'thickbox', 'bp-tooltips' ),
-			),
-		) );
+				// 3.0
+				'bp-hello-css' => array(
+					'file'         => "{$url}hello{$min}.css",
+					'dependencies' => array( 'bp-admin-common-css', 'thickbox', 'bp-tooltips' ),
+				),
+			)
+		);
 
 		$version = bp_get_version();
 
@@ -1485,49 +1495,52 @@ class BP_Admin {
 		 *
 		 * @param array $value Array of admin JS file information to register.
 		 */
-		$scripts = apply_filters( 'bp_core_admin_register_scripts', array(
-			// 2.5
-			'bp-customizer-controls' => array(
-				'file'         => "{$url}customizer-controls{$min}.js",
-				'dependencies' => array( 'jquery' ),
-				'footer'       => true,
-			),
+		$scripts = apply_filters(
+			'bp_core_admin_register_scripts',
+			array(
+				// 2.5
+				'bp-customizer-controls' => array(
+					'file'         => "{$url}customizer-controls{$min}.js",
+					'dependencies' => array( 'jquery' ),
+					'footer'       => true,
+				),
 
-			// 10.0
-			'bp-thickbox' => array(
-				'file'         => "{$url}bp-thickbox{$min}.js",
-				'dependencies' => array( 'thickbox' ),
-				'footer'       => true,
-			),
+				// 10.0
+				'bp-thickbox' => array(
+					'file'         => "{$url}bp-thickbox{$min}.js",
+					'dependencies' => array( 'thickbox' ),
+					'footer'       => true,
+				),
 
-			// 3.0
-			'bp-hello-js' => array(
-				'file'         => "{$url}hello{$min}.js",
-				'dependencies' => array( 'bp-thickbox', 'wp-api-request', 'underscore', 'plugin-install' ),
-				'footer'       => true,
-			),
+				// 3.0
+				'bp-hello-js' => array(
+					'file'         => "{$url}hello{$min}.js",
+					'dependencies' => array( 'bp-thickbox', 'wp-api-request', 'underscore', 'plugin-install' ),
+					'footer'       => true,
+				),
 
-			// 10.0
-			'bp-dismissible-admin-notices' => array(
-				'file'         => "{$url}dismissible-admin-notices.js",
-				'dependencies' => array(),
-				'footer'       => true,
-				'extra'        => array(
-					'name' => 'bpDismissibleAdminNoticesSettings',
-					'data' => array(
-						'url'    => bp_core_ajax_url(),
-						'nonce'  => wp_create_nonce( 'bp_dismiss_admin_notice' ),
+				// 10.0
+				'bp-dismissible-admin-notices' => array(
+					'file'         => "{$url}dismissible-admin-notices.js",
+					'dependencies' => array(),
+					'footer'       => true,
+					'extra'        => array(
+						'name' => 'bpDismissibleAdminNoticesSettings',
+						'data' => array(
+							'url'    => bp_core_ajax_url(),
+							'nonce'  => wp_create_nonce( 'bp_dismiss_admin_notice' ),
+						),
 					),
 				),
-			),
 
-			// 12.0
-			'bp-rewrites-ui' => array(
-				'file' => "{$url}rewrites-ui.js",
-				'dependencies' => array(),
-				'footer'       => true,
-			),
-		) );
+				// 12.0
+				'bp-rewrites-ui' => array(
+					'file' => "{$url}rewrites-ui.js",
+					'dependencies' => array(),
+					'footer'       => true,
+				),
+			)
+		);
 
 		$version = bp_get_version();
 
@@ -1583,7 +1596,7 @@ class BP_Admin {
 
 		if ( $current_tab_id && isset( $tabs[ $current_tab_id ] ) ) {
 			$this->nav_tabs = bp_core_admin_tabs( $tabs[ $current_tab_id ], $context, false );
-			$grid_columns   = array_fill( 0, count( $this->nav_tabs ), '1fr');
+			$grid_columns   = array_fill( 0, count( $this->nav_tabs ), '1fr' );
 			$help_tab_css   = '';
 
 			if ( $screen->get_help_tabs() ) {

@@ -196,15 +196,17 @@ function messages_format_notifications( $action, $item_id, $secondary_item_id, $
 function bp_messages_message_sent_add_notification( $message ) {
 	if ( ! empty( $message->recipients ) ) {
 		foreach ( (array) $message->recipients as $recipient ) {
-			bp_notifications_add_notification( array(
-				'user_id'           => $recipient->user_id,
-				'item_id'           => $message->id,
-				'secondary_item_id' => $message->sender_id,
-				'component_name'    => buddypress()->messages->id,
-				'component_action'  => 'new_message',
-				'date_notified'     => bp_core_current_time(),
-				'is_new'            => 1,
-			) );
+			bp_notifications_add_notification(
+				array(
+					'user_id'           => $recipient->user_id,
+					'item_id'           => $message->id,
+					'secondary_item_id' => $message->sender_id,
+					'component_name'    => buddypress()->messages->id,
+					'component_action'  => 'new_message',
+					'date_notified'     => bp_core_current_time(),
+					'is_new'            => 1,
+				)
+			);
 		}
 	}
 }
@@ -229,12 +231,14 @@ function bp_messages_screen_conversation_mark_notifications() {
 	}
 
 	// Get unread PM notifications for the user.
-	$new_pm_notifications = BP_Notifications_Notification::get( array(
-		'user_id'           => bp_loggedin_user_id(),
-		'component_name'    => buddypress()->messages->id,
-		'component_action'  => 'new_message',
-		'is_new'            => 1,
-	) );
+	$new_pm_notifications = BP_Notifications_Notification::get(
+		array(
+			'user_id'           => bp_loggedin_user_id(),
+			'component_name'    => buddypress()->messages->id,
+			'component_action'  => 'new_message',
+			'is_new'            => 1,
+		)
+	);
 	$unread_message_ids   = wp_list_pluck( $new_pm_notifications, 'item_id' );
 
 	// No unread PMs, so stop!

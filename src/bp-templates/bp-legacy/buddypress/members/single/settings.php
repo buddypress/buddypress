@@ -23,24 +23,24 @@
 
 switch ( bp_current_action() ) :
 	case 'notifications'  :
-		bp_get_template_part( 'members/single/settings/notifications'  );
+		bp_get_template_part( 'members/single/settings/notifications' );
 		break;
 	case 'capabilities'   :
-		bp_get_template_part( 'members/single/settings/capabilities'   );
+		bp_get_template_part( 'members/single/settings/capabilities' );
 		break;
 	case 'delete-account' :
 		bp_get_template_part( 'members/single/settings/delete-account' );
 		break;
 	case 'general'        :
-		bp_get_template_part( 'members/single/settings/general'        );
+		bp_get_template_part( 'members/single/settings/general' );
 		break;
 	case 'profile'        :
-		bp_get_template_part( 'members/single/settings/profile'        );
+		bp_get_template_part( 'members/single/settings/profile' );
 		break;
 	case 'data'           :
-		bp_get_template_part( 'members/single/settings/data'           );
+		bp_get_template_part( 'members/single/settings/data' );
 		break;
 	default:
-		bp_get_template_part( 'members/single/plugins'                 );
+		bp_get_template_part( 'members/single/plugins' );
 		break;
 endswitch;

@@ -42,12 +42,14 @@ class BP_Members_MS_List_Table extends WP_MS_Users_List_Table {
 	 */
 	public function __construct() {
 		// Define singular and plural labels, as well as whether we support AJAX.
-		parent::__construct( array(
-			'ajax'     => false,
-			'plural'   => 'signups',
-			'singular' => 'signup',
-			'screen'   => get_current_screen()->id,
-		) );
+		parent::__construct(
+			array(
+				'ajax'     => false,
+				'plural'   => 'signups',
+				'singular' => 'signup',
+				'screen'   => get_current_screen()->id,
+			)
+		);
 	}
 
 	/**
@@ -73,7 +75,7 @@ class BP_Members_MS_List_Table extends WP_MS_Users_List_Table {
 			'number'     => $signups_per_page,
 			'usersearch' => $usersearch,
 			'orderby'    => 'signup_id',
-			'order'      => 'DESC'
+			'order'      => 'DESC',
 		);
 
 		if ( isset( $_REQUEST['orderby'] ) ) {
@@ -90,10 +92,12 @@ class BP_Members_MS_List_Table extends WP_MS_Users_List_Table {
 		$this->items         = $signups['signups'];
 		$this->signup_counts = $signups['total'];
 
-		$this->set_pagination_args( array(
-			'total_items' => $this->signup_counts,
-			'per_page'    => $signups_per_page,
-		) );
+		$this->set_pagination_args(
+			array(
+				'total_items' => $this->signup_counts,
+				'per_page'    => $signups_per_page,
+			)
+		);
 	}
 
 	/**
@@ -149,7 +153,7 @@ class BP_Members_MS_List_Table extends WP_MS_Users_List_Table {
 			'email'      => __( 'Email', 'buddypress' ),
 			'registered' => __( 'Registered', 'buddypress' ),
 			'date_sent'  => __( 'Last Sent', 'buddypress' ),
-			'count_sent' => __( 'Emails Sent', 'buddypress' )
+			'count_sent' => __( 'Emails Sent', 'buddypress' ),
 		);
 
 		/**
@@ -358,7 +362,7 @@ class BP_Members_MS_List_Table extends WP_MS_Users_List_Table {
 					'class'  => true,
 					'height' => true,
 					'width'  => true,
-				)
+				),
 			)
 		);
 		printf( '<strong><a href="%1$s" class="edit">%2$s</a></strong><br/>', esc_url( $activate_link ), esc_html( $signup_object->user_login ) );
@@ -366,7 +370,7 @@ class BP_Members_MS_List_Table extends WP_MS_Users_List_Table {
 		$actions = array();
 
 		$actions['activate'] = sprintf( '<a href="%1$s">%2$s</a>', esc_url( $activate_link ), esc_html__( 'Activate', 'buddypress' ) );
-		$actions['resend']   = sprintf( '<a href="%1$s">%2$s</a>', esc_url( $email_link    ), esc_html__( 'Email', 'buddypress' ) );
+		$actions['resend']   = sprintf( '<a href="%1$s">%2$s</a>', esc_url( $email_link ), esc_html__( 'Email', 'buddypress' ) );
 
 		if ( current_user_can( 'delete_users' ) ) {
 			$actions['delete'] = sprintf( '<a href="%1$s" class="delete">%2$s</a>', esc_url( $delete_link ), esc_html__( 'Delete', 'buddypress' ) );
