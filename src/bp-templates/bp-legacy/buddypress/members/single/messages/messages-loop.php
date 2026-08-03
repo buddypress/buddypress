@@ -112,7 +112,7 @@ do_action( 'bp_before_member_messages_loop' ); ?>
 							?></span></label>
 						</td>
 
-						<?php if ( 'sentbox' != bp_current_action() ) : ?>
+						<?php if ( 'sentbox' !== bp_current_action() ) : ?>
 							<td class="thread-from">
 								<?php bp_message_thread_avatar( array( 'width' => 25, 'height' => 25 ) ); ?>
 								<span class="from"><?php esc_html_e( 'From:', 'buddypress' ); ?></span> <?php bp_message_thread_from(); ?>

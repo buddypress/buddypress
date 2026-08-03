@@ -154,7 +154,7 @@ function bp_groups_admin_load() {
 	do_action( 'bp_groups_admin_load', $doaction );
 
 	// Edit screen.
-	if ( 'do_delete' == $doaction && ! empty( $_GET['gid'] ) ) {
+	if ( 'do_delete' === $doaction && ! empty( $_GET['gid'] ) ) {
 
 		check_admin_referer( 'bp-groups-delete' );
 
@@ -171,7 +171,7 @@ function bp_groups_admin_load() {
 
 		bp_core_redirect( $redirect_to );
 
-	} elseif ( 'edit' == $doaction && ! empty( $_GET['gid'] ) ) {
+	} elseif ( 'edit' === $doaction && ! empty( $_GET['gid'] ) ) {
 		// Columns screen option.
 		add_screen_option( 'layout_columns', array( 'default' => 2, 'max' => 2, ) );
 
@@ -271,7 +271,7 @@ function bp_groups_admin_load() {
 	}
 
 	// Saving group edits.
-	if ( $doaction && 'save' == $doaction ) {
+	if ( $doaction && 'save' === $doaction ) {
 		// Get group ID.
 		$group_id = 0;
 		if ( isset( $_REQUEST['gid'] ) ) {
@@ -461,7 +461,7 @@ function bp_groups_admin_load() {
 			// attempting to remove the all user admins.
 			$admin_count = 0;
 			foreach ( $new_group_role as $new_role ) {
-				if ( 'admin' == $new_role ) {
+				if ( 'admin' === $new_role ) {
 					$admin_count++;
 					break;
 				}
@@ -588,11 +588,11 @@ function bp_groups_admin() {
 	$doaction = bp_admin_list_table_current_bulk_action();
 
 	// Display the single group edit screen.
-	if ( 'edit' == $doaction && ! empty( $_GET['gid'] ) ) {
+	if ( 'edit' === $doaction && ! empty( $_GET['gid'] ) ) {
 		bp_groups_admin_edit();
 
 	// Display the group deletion confirmation screen.
-	} elseif ( 'delete' == $doaction && ! empty( $_GET['gid'] ) ) {
+	} elseif ( 'delete' === $doaction && ! empty( $_GET['gid'] ) ) {
 		bp_groups_admin_delete();
 
 	// Otherwise, display the groups index screen.
@@ -770,7 +770,7 @@ function bp_groups_admin_edit() {
 			<form action="<?php echo esc_url( $form_url ); ?>" id="bp-groups-edit-form" method="post">
 				<div id="poststuff">
 
-					<div id="post-body" class="metabox-holder columns-<?php echo 1 == get_current_screen()->get_columns() ? '1' : '2'; ?>">
+					<div id="post-body" class="metabox-holder columns-<?php echo 1 === get_current_screen()->get_columns() ? '1' : '2'; ?>">
 						<div id="post-body-content">
 							<div id="postdiv">
 								<div id="bp_groups_name" class="groupbox">
@@ -1315,10 +1315,10 @@ function bp_groups_admin_edit_metabox_group_type( $group = null ) {
 	<ul class="categorychecklist form-no-clear">
 		<?php foreach ( $types as $type ) : ?>
 			<li>
-				<label class="selectit"><input value="<?php echo esc_attr( $type->name ) ?>" name="bp-groups-group-type[]" type="checkbox" <?php checked( true, in_array( $type->name, $current_types ) ); ?>>
+				<label class="selectit"><input value="<?php echo esc_attr( $type->name ) ?>" name="bp-groups-group-type[]" type="checkbox" <?php checked( true, in_array( $type->name, $current_types, true ) ); ?>>
 					<?php
 						echo esc_html( $type->labels['singular_name'] );
-						if ( in_array( $type->name, $backend_only ) ) {
+						if ( in_array( $type->name, $backend_only, true ) ) {
 							printf( ' <span class="description">%s</span>', esc_html__( '(Not available on the front end)', 'buddypress' ) );
 						}
 					?>
@@ -1384,7 +1384,7 @@ add_action( 'bp_group_admin_edit_after', 'bp_groups_process_group_type_update' )
 function bp_groups_admin_create_pagination_links( BP_Group_Member_Query $query, $member_type ) {
 	$pagination = '';
 
-	if ( ! in_array( $member_type, array( 'admin', 'mod', 'member', 'banned' ) ) ) {
+	if ( ! in_array( $member_type, array( 'admin', 'mod', 'member', 'banned' ), true ) ) {
 		return $pagination;
 	}
 
@@ -1422,7 +1422,7 @@ function bp_groups_admin_create_pagination_links( BP_Group_Member_Query $query, 
 		)
 	);
 
-	if ( 1 == $query->total_users ) {
+	if ( 1 === $query->total_users ) {
 		$viewing_text = __( 'Viewing 1 member', 'buddypress' );
 	} else {
 		$viewing_text = sprintf(

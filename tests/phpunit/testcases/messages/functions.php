@@ -133,6 +133,24 @@ class BP_Tests_Messages_Functions extends BP_UnitTestCase {
 	/**
 	 * @group messages_new_message
 	 */
+	public function test_messages_new_message_with_numeric_string_sender_id() {
+		$sender    = self::factory()->user->create();
+		$recipient = self::factory()->user->create();
+		$thread_id = messages_new_message( array(
+			'sender_id'  => (string) $sender,
+			'recipients' => array( $recipient, $sender ),
+			'subject'    => 'A new message',
+			'content'    => 'Hey there!',
+		) );
+
+		$this->assertIsInt( $thread_id );
+		$this->assertSame( 0, messages_get_unread_count( $sender ) );
+		$this->assertSame( 1, messages_get_unread_count( $recipient ) );
+	}
+
+	/**
+	 * @group messages_new_message
+	 */
 	public function test_messages_new_message_wp_error_generic() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();

@@ -44,7 +44,7 @@ elseif ( bp_get_new_group_invite_friend_list() ) : ?>
 
 <?php
 /* No eligible friends? Maybe the user doesn't have any friends yet. */
-elseif ( 0 == bp_get_total_friend_count( bp_loggedin_user_id() ) ) : ?>
+elseif ( 0 === bp_get_total_friend_count( bp_loggedin_user_id() ) ) : ?>
 
 	<div id="message" class="info">
 		<p class="notice"><?php esc_html_e( 'Group invitations can only be extended to friends.', 'buddypress' ); ?></p>

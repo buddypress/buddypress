@@ -165,7 +165,7 @@ function bp_core_screen_signup() {
 		if ( isset( $_POST['signup_with_blog'] ) ) {
 			$active_signup = bp_core_get_root_option( 'registration' );
 
-			if ( 'blog' == $active_signup || 'all' == $active_signup ) {
+			if ( 'blog' === $active_signup || 'all' === $active_signup ) {
 				$blog_details = bp_core_validate_blog_signup( $_POST['signup_blog_url'], $_POST['signup_blog_title'] );
 
 				// If there are errors with blog details, set them for display.
@@ -220,7 +220,7 @@ function bp_core_screen_signup() {
 			// No errors! Let's register those deets.
 			$active_signup = bp_core_get_root_option( 'registration' );
 
-			if ( 'none' != $active_signup || $requests_enabled ) {
+			if ( 'none' !== $active_signup || $requests_enabled ) {
 
 				// Make sure the extended profiles module is enabled.
 				if ( bp_is_active( 'xprofile' ) ) {
@@ -249,8 +249,8 @@ function bp_core_screen_signup() {
 				$usermeta['password'] = wp_hash_password( $_POST['signup_password'] );
 
 				// If the user decided to create a blog, save those details to usermeta.
-				if ( 'blog' == $active_signup || 'all' == $active_signup )
-					$usermeta['public'] = ( isset( $_POST['signup_blog_privacy'] ) && 'public' == $_POST['signup_blog_privacy'] ) ? true : false;
+				if ( 'blog' === $active_signup || 'all' === $active_signup )
+					$usermeta['public'] = ( isset( $_POST['signup_blog_privacy'] ) && 'public' === $_POST['signup_blog_privacy'] ) ? true : false;
 
 				/**
 				 * Filters the user meta used for signup.

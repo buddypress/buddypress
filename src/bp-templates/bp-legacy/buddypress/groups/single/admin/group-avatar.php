@@ -11,7 +11,7 @@
 
 <h2 class="bp-screen-reader-text"><?php esc_html_e( 'Group Avatar', 'buddypress' ); ?></h2>
 
-<?php if ( 'upload-image' == bp_get_avatar_admin_step() ) : ?>
+<?php if ( 'upload-image' === bp_get_avatar_admin_step() ) : ?>
 
 	<p><?php esc_html_e('Upload an image to use as a profile photo for this group. The image will be shown on the main group page, and in search results.', 'buddypress' ); ?></p>
 
@@ -47,7 +47,7 @@
 
 <?php endif; ?>
 
-<?php if ( 'crop-image' == bp_get_avatar_admin_step() ) : ?>
+<?php if ( 'crop-image' === bp_get_avatar_admin_step() ) : ?>
 
 	<h4><?php esc_html_e( 'Crop Profile Photo', 'buddypress' ); ?></h4>
 

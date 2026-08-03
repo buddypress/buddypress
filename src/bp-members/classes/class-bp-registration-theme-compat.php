@@ -103,7 +103,7 @@ class BP_Registration_Theme_Compat {
 				$title = __( 'Create an Account', 'buddypress' );
 			}
 
-			if ( 'completed-confirmation' == bp_get_current_signup_step() ) {
+			if ( 'completed-confirmation' === bp_get_current_signup_step() ) {
 				if ( bp_get_membership_requests_required() ) {
 					$title = __( 'Your Membership Request has been submitted.', 'buddypress' );
 				} else {

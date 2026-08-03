@@ -924,7 +924,7 @@ function bp_messages_pagination_count() {
 	$to_num    = bp_core_number_format( ( $start_num + ( $messages_template->pag_num - 1 ) > $messages_template->total_thread_count ) ? $messages_template->total_thread_count : $start_num + ( $messages_template->pag_num - 1 ) );
 	$total     = bp_core_number_format( $messages_template->total_thread_count );
 
-	if ( 1 == $messages_template->total_thread_count ) {
+	if ( 1 === $messages_template->total_thread_count ) {
 		$message = __( 'Viewing 1 message', 'buddypress' );
 	} else {
 		/* translators: 1: message from number. 2: message to number. 3: total messages. */

@@ -373,7 +373,7 @@ function groups_edit_base_group_details( $args = array() ) {
 	if ( $r['name'] ) {
 		$group->name = $r['name'];
 	}
-	if ( $r['slug'] && $r['slug'] != $group->slug ) {
+	if ( $r['slug'] && $r['slug'] !== $group->slug ) {
 		$group->slug = groups_check_slug( $r['slug'] );
 	}
 	if ( $r['description'] ) {
@@ -385,7 +385,7 @@ function groups_edit_base_group_details( $args = array() ) {
 	}
 
 	// Maybe update the "previous_slug" groupmeta.
-	if ( $group->slug != $old_group->slug ) {
+	if ( $group->slug !== $old_group->slug ) {
 		/*
 		 * If the old slug exists in this group's past, delete that entry.
 		 * Recent previous_slugs are preferred when selecting the current group
@@ -544,11 +544,11 @@ function groups_check_slug( $slug ) {
 	// First, make the proposed slug work in a URL.
 	$slug = sanitize_title( $slug );
 
-	if ( 'wp' == substr( $slug, 0, 2 ) ) {
+	if ( 'wp' === substr( $slug, 0, 2 ) ) {
 		$slug = substr( $slug, 2, strlen( $slug ) - 2 );
 	}
 
-	if ( in_array( $slug, (array) $bp->groups->forbidden_names ) ) {
+	if ( in_array( $slug, (array) $bp->groups->forbidden_names, true ) ) {
 		$slug = $slug . '-' . rand();
 	}
 
@@ -1194,7 +1194,7 @@ function bp_get_user_groups( $user_id, $args = array() ) {
 		}
 
 		foreach ( $filters as $filter_name => $filter_value ) {
-			if ( ! isset( $membership->{$filter_name} ) || $filter_value != $membership->{$filter_name} ) {
+			if ( ! isset( $membership->{$filter_name} ) || (string) $filter_value !== (string) $membership->{$filter_name} ) {
 				continue 2;
 			}
 		}
@@ -1224,7 +1224,7 @@ function bp_get_user_groups( $user_id, $args = array() ) {
 		}
 
 		foreach ( $filters as $filter_name => $filter_value ) {
-			if ( ! isset( $invitation->{$filter_name} ) || $filter_value != $invitation->{$filter_name} ) {
+			if ( ! isset( $invitation->{$filter_name} ) || (string) $filter_value !== (string) $invitation->{$filter_name} ) {
 				continue 2;
 			}
 		}
@@ -1237,7 +1237,7 @@ function bp_get_user_groups( $user_id, $args = array() ) {
 	// By default, results are ordered by membership id.
 	if ( 'group_id' === $r['orderby'] ) {
 		ksort( $groups );
-	} elseif ( in_array( $r['orderby'], array( 'id', 'date_modified' ) ) ) {
+	} elseif ( in_array( $r['orderby'], array( 'id', 'date_modified' ), true ) ) {
 		$groups = bp_sort_by_key( $groups, $r['orderby'] );
 	}
 
@@ -3475,7 +3475,7 @@ function bp_groups_has_group_type( $group_id, $group_type ) {
 		return false;
 	}
 
-	return in_array( $group_type, $types );
+	return in_array( $group_type, $types, true );
 }
 
 /**

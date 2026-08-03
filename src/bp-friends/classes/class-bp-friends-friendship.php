@@ -373,7 +373,7 @@ class BP_Friends_Friendship {
 		}
 
 		// Sort the results on a column name.
-		if ( in_array( $r['order_by'], array( 'id', 'initiator_user_id', 'friend_user_id' ) ) ) {
+		if ( in_array( $r['order_by'], array( 'id', 'initiator_user_id', 'friend_user_id' ), true ) ) {
 			$friendships = bp_sort_by_key( $friendships, $r['order_by'], 'num', true );
 		}
 

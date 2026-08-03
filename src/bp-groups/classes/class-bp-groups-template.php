@@ -207,13 +207,13 @@ class BP_Groups_Template {
 		$this->pag_page = bp_sanitize_pagination_arg( $this->pag_arg, $r['page']     );
 		$this->pag_num  = bp_sanitize_pagination_arg( 'num', $r['per_page'] );
 
-		if ( bp_current_user_can( 'bp_moderate' ) || ( is_user_logged_in() && $user_id == bp_loggedin_user_id() ) ) {
+		if ( bp_current_user_can( 'bp_moderate' ) || ( is_user_logged_in() && $user_id === bp_loggedin_user_id() ) ) {
 			$show_hidden = true;
 		}
 
-		if ( 'invites' == $type ) {
+		if ( 'invites' === $type ) {
 			$this->groups = groups_get_invites_for_user( $user_id, $this->pag_num, $this->pag_page, $exclude );
-		} elseif ( 'single-group' == $type ) {
+		} elseif ( 'single-group' === $type ) {
 			$this->single_group = true;
 
 			if ( groups_get_current_group() ) {
@@ -261,11 +261,11 @@ class BP_Groups_Template {
 			);
 		}
 
-		if ( 'invites' == $type ) {
+		if ( 'invites' === $type ) {
 			$this->total_group_count = (int) $this->groups['total'];
 			$this->group_count       = (int) $this->groups['total'];
 			$this->groups            = $this->groups['groups'];
-		} elseif ( 'single-group' == $type ) {
+		} elseif ( 'single-group' === $type ) {
 			if ( empty( $group->id ) ) {
 				$this->total_group_count = 0;
 				$this->group_count       = 0;
@@ -388,7 +388,7 @@ class BP_Groups_Template {
 	function groups() {
 		if ( $this->current_group + 1 < $this->group_count ) {
 			return true;
-		} elseif ( $this->current_group + 1 == $this->group_count ) {
+		} elseif ( $this->current_group + 1 === $this->group_count ) {
 
 			/**
 			 * Fires right before the rewinding of groups list.
@@ -419,7 +419,7 @@ class BP_Groups_Template {
 		$this->in_the_loop = true;
 		$this->group       = $this->next_group();
 
-		if ( 0 == $this->current_group ) {
+		if ( 0 === $this->current_group ) {
 
 			/**
 			 * Fires if the current group item is the first in the loop.

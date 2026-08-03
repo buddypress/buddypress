@@ -2052,7 +2052,7 @@ function bp_group_admin_ids( $group = false, $format = 'string' ) {
 		}
 	}
 
-	if ( 'string' == $format && ! empty( $admin_ids ) ) {
+	if ( 'string' === $format && ! empty( $admin_ids ) ) {
 		$admin_ids = implode( ',', $admin_ids );
 	}
 
@@ -2099,7 +2099,7 @@ function bp_group_mod_ids( $group = false, $format = 'string' ) {
 		}
 	}
 
-	if ( 'string' == $format && ! empty( $mod_ids ) ) {
+	if ( 'string' === $format && ! empty( $mod_ids ) ) {
 		$mod_ids = implode( ',', $mod_ids );
 	}
 
@@ -2176,7 +2176,7 @@ function bp_groups_pagination_count() {
 		$to_num    = bp_core_number_format( ( $start_num + ( $groups_template->pag_num - 1 ) > $groups_template->total_group_count ) ? $groups_template->total_group_count : $start_num + ( $groups_template->pag_num - 1 ) );
 		$total     = bp_core_number_format( $groups_template->total_group_count );
 
-		if ( 1 == $groups_template->total_group_count ) {
+		if ( 1 === $groups_template->total_group_count ) {
 			$message = __( 'Viewing 1 group', 'buddypress' );
 		} else {
 			/* translators: 1: group from number. 2: group to number. 3: total groups. */
@@ -2886,7 +2886,7 @@ function bp_group_admin_tabs( $group = false ) {
 
 	$css_id = 'manage-members';
 
-	if ( 'private' == $group->status ) {
+	if ( 'private' === $group->status ) {
 		$css_id = 'membership-requests';
 	}
 
@@ -3513,7 +3513,7 @@ function bp_group_join_button( $group = false ) {
 
 			// Stop sole admins from abandoning their group.
 			$group_admins = groups_get_group_admins( $group->id );
-			if ( ( 1 == count( $group_admins ) ) && ( bp_loggedin_user_id() === (int) $group_admins[0]->user_id ) ) {
+			if ( ( 1 === count( $group_admins ) ) && ( bp_loggedin_user_id() === (int) $group_admins[0]->user_id ) ) {
 				return $button_args;
 			}
 
@@ -4363,7 +4363,7 @@ function bp_group_member_is_friend() {
 		if ( ! isset( $members_template->member->is_friend ) ) {
 			$friend_status = 'not_friends';
 		} else {
-			$friend_status = ( 0 == $members_template->member->is_friend )
+			$friend_status = ( 0 === (int) $members_template->member->is_friend )
 				? 'pending'
 				: 'is_friend';
 		}
@@ -4628,7 +4628,7 @@ function bp_group_member_pagination_count() {
 		$to_num    = bp_core_number_format( ( $start_num + ( $members_template->pag_num - 1 ) > $members_template->total_member_count ) ? $members_template->total_member_count : $start_num + ( $members_template->pag_num - 1 ) );
 		$total     = bp_core_number_format( $members_template->total_member_count );
 
-		if ( 1 == $members_template->total_member_count ) {
+		if ( 1 === $members_template->total_member_count ) {
 			$message = __( 'Viewing 1 member', 'buddypress' );
 		} else {
 			/* translators: 1: group member from number. 2: group member to number. 3: total group members. */
@@ -5012,7 +5012,7 @@ function bp_is_group_creation_step( $step_slug ) {
 
 	// If this the first step, we can just accept and return true.
 	$keys = array_keys( $bp->groups->group_creation_steps );
-	if ( ! bp_action_variable( 1 ) && array_shift( $keys ) == $step_slug ) {
+	if ( ! bp_action_variable( 1 ) && array_shift( $keys ) === $step_slug ) {
 		return true;
 	}
 
@@ -5052,14 +5052,14 @@ function bp_is_group_creation_step_complete( $step_slugs ) {
 		$found = true;
 
 		foreach ( (array) $step_slugs as $step_slug ) {
-			if ( ! in_array( $step_slug, $bp->groups->completed_create_steps ) ) {
+			if ( ! in_array( $step_slug, $bp->groups->completed_create_steps, true ) ) {
 				$found = false;
 			}
 		}
 
 		return $found;
 	} else {
-		return in_array( $step_slugs, $bp->groups->completed_create_steps );
+		return in_array( $step_slugs, $bp->groups->completed_create_steps, true );
 	}
 
 	return true;
@@ -5079,7 +5079,7 @@ function bp_are_previous_group_creation_steps_complete( $step_slug ) {
 
 	// If this is the first group creation step, return true.
 	$keys = array_keys( $bp->groups->group_creation_steps );
-	if ( array_shift( $keys ) == $step_slug ) {
+	if ( array_shift( $keys ) === $step_slug ) {
 		return true;
 	}
 
@@ -5561,7 +5561,7 @@ function bp_new_group_invite_friend_list( $args = array() ) {
 			$invites = groups_get_invites_for_group( $r['user_id'], $r['group_id'] );
 
 			for ( $i = 0, $count = count( $friends ); $i < $count; ++$i ) {
-				$checked = in_array( (int) $friends[ $i ]['id'], (array) $invites );
+				$checked = in_array( (int) $friends[ $i ]['id'], wp_parse_id_list( $invites ), true );
 				$items[] = '<' . $r['separator'] . '><label for="f-' . esc_attr( $friends[ $i ]['id'] ) . '"><input' . checked( $checked, true, false ) . ' type="checkbox" name="friends[]" id="f-' . esc_attr( $friends[ $i ]['id'] ) . '" value="' . esc_attr( $friends[ $i ]['id'] ) . '" /> ' . esc_html( $friends[ $i ]['full_name'] ) . '</label></' . $r['separator'] . '>';
 			}
 		}
@@ -6151,7 +6151,7 @@ function bp_group_requests_pagination_count() {
 		$to_num    = bp_core_number_format( ( $start_num + ( $requests_template->pag_num - 1 ) > $requests_template->total_request_count ) ? $requests_template->total_request_count : $start_num + ( $requests_template->pag_num - 1 ) );
 		$total     = bp_core_number_format( $requests_template->total_request_count );
 
-		if ( 1 == $requests_template->total_request_count ) {
+		if ( 1 === $requests_template->total_request_count ) {
 			$message = __( 'Viewing 1 request', 'buddypress' );
 		} else {
 			/* translators: 1: group request from number. 2: group request to number. 3: total group requests. */
@@ -6466,7 +6466,7 @@ function bp_group_invite_pagination_count() {
 		$to_num    = bp_core_number_format( ( $start_num + ( $invites_template->pag_num - 1 ) > $invites_template->total_invite_count ) ? $invites_template->total_invite_count : $start_num + ( $invites_template->pag_num - 1 ) );
 		$total     = bp_core_number_format( $invites_template->total_invite_count );
 
-		if ( 1 == $invites_template->total_invite_count ) {
+		if ( 1 === $invites_template->total_invite_count ) {
 			$message = __( 'Viewing 1 invitation', 'buddypress' );
 		} else {
 			/* translators: 1: Invitations from number. 2: Invitations to number. 3: Total invitations. */

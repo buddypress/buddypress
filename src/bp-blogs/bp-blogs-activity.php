@@ -569,7 +569,7 @@ function bp_blogs_comments_open( $activity ) {
 	} else {
 
 		// Comments are closed.
-		if ( 'closed' == bp_activity_get_meta( $activity->id, 'post_comment_status' ) ) {
+		if ( 'closed' === bp_activity_get_meta( $activity->id, 'post_comment_status' ) ) {
 			return false;
 		}
 
@@ -790,7 +790,7 @@ function bp_blogs_sync_add_from_activity_comment( $comment_id, $params, $parent_
 	}
 
 	// Get userdata.
-	if ( $params['user_id'] == bp_loggedin_user_id() ) {
+	if ( (int) $params['user_id'] === bp_loggedin_user_id() ) {
 		$user = buddypress()->loggedin_user->userdata;
 	} else {
 		$user = bp_core_get_core_userdata( $params['user_id'] );

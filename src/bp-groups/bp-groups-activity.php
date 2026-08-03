@@ -510,7 +510,7 @@ function groups_record_activity( $args = '' ) {
 	if ( ! empty( $args['item_id'] ) ) {
 		$group = bp_groups_get_activity_group( $args['item_id'] );
 
-		if ( isset( $group->status ) && 'public' != $group->status ) {
+		if ( isset( $group->status ) && 'public' !== $group->status ) {
 			$hide_sitewide = true;
 		}
 	}

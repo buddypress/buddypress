@@ -246,7 +246,7 @@ class BP_Blogs_Blog {
 			)
 		);
 
-		if ( ! is_user_logged_in() || ( ! bp_current_user_can( 'bp_moderate' ) && ( $r['user_id'] != bp_loggedin_user_id() ) ) ) {
+		if ( ! is_user_logged_in() || ( ! bp_current_user_can( 'bp_moderate' ) && ( (int) $r['user_id'] !== bp_loggedin_user_id() ) ) ) {
 			$hidden_sql = 'AND wb.public = 1';
 		} else {
 			$hidden_sql = '';

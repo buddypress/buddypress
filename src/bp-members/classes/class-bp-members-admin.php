@@ -823,7 +823,7 @@ class BP_Members_Admin {
 	 * @since 2.0.0
 	 */
 	public function enqueue_scripts() {
-		if ( ! in_array( get_current_screen()->id, $this->screen_id ) ) {
+		if ( ! in_array( get_current_screen()->id, $this->screen_id, true ) ) {
 			return;
 		}
 
@@ -1015,7 +1015,7 @@ class BP_Members_Admin {
 		$allowed_actions = apply_filters( 'bp_members_admin_allowed_actions', array( 'update', 'delete_avatar', 'spam', 'ham' ) );
 
 		// Prepare the display of the Community Profile screen.
-		if ( ! in_array( $doaction, $allowed_actions ) ) {
+		if ( ! in_array( $doaction, $allowed_actions, true ) ) {
 			add_screen_option( 'layout_columns', array( 'default' => 2, 'max' => 2, ) );
 
 			$show_avatars = buddypress()->avatar->show_avatars;
@@ -1188,7 +1188,7 @@ class BP_Members_Admin {
 			wp_enqueue_script( 'dashboard' );
 
 		// Spam or Ham user.
-		} elseif ( in_array( $doaction, array( 'spam', 'ham' ) ) && empty( $this->is_self_profile ) ) {
+		} elseif ( in_array( $doaction, array( 'spam', 'ham' ), true ) && empty( $this->is_self_profile ) ) {
 
 			check_admin_referer( 'edit-bp-profile_' . $user_id );
 
@@ -1306,7 +1306,7 @@ class BP_Members_Admin {
 				<form action="<?php echo esc_url( $form_action_url ); ?>" id="your-profile" method="post">
 					<div id="poststuff">
 
-						<div id="post-body" class="metabox-holder columns-<?php echo 1 == get_current_screen()->get_columns() ? '1' : '2'; ?>">
+						<div id="post-body" class="metabox-holder columns-<?php echo 1 === get_current_screen()->get_columns() ? '1' : '2'; ?>">
 
 							<div id="postbox-container-1" class="postbox-container">
 								<?php do_meta_boxes( get_current_screen()->id, 'side', $user ); ?>
@@ -1371,7 +1371,7 @@ class BP_Members_Admin {
 		 * Also prevent admins from marking themselves or other
 		 * admins as spammers.
 		 */
-		$can_manage_user_status = ( empty( $this->is_self_profile ) && ( ! in_array( $user->user_login, get_super_admins() ) ) && empty( $this->subsite_activated ) ) || ( ! empty( $this->subsite_activated ) && current_user_can( 'manage_network_users' ) );
+		$can_manage_user_status = ( empty( $this->is_self_profile ) && ( ! in_array( $user->user_login, get_super_admins(), true ) ) && empty( $this->subsite_activated ) ) || ( ! empty( $this->subsite_activated ) && current_user_can( 'manage_network_users' ) );
 
 		/**
 		 * Use this filter to disable/enable the WP-Admin/Extended profile primary action.
@@ -1386,7 +1386,7 @@ class BP_Members_Admin {
 		);
 
 		// Bail if user has not been activated yet (how did you get here?).
-		if ( isset( $user->user_status ) && ( 2 == $user->user_status ) ) : ?>
+		if ( isset( $user->user_status ) && ( 2 === (int) $user->user_status ) ) : ?>
 
 			<p class="not-activated"><?php esc_html_e( 'User account has not yet been activated', 'buddypress' ); ?></p><br/>
 
@@ -1481,7 +1481,7 @@ class BP_Members_Admin {
 		}
 
 		// If account is not activated last activity is the time user registered.
-		if ( isset( $user->user_status ) && 2 == $user->user_status ) {
+		if ( isset( $user->user_status ) && 2 === (int) $user->user_status ) {
 			$last_active = $user->user_registered;
 
 		// Account is activated, getting user's last activity.
@@ -1611,7 +1611,7 @@ class BP_Members_Admin {
 			<?php foreach ( $types as $type ) : ?>
 				<li>
 					<label class="selectit">
-						<input value="<?php echo esc_attr( $type->name ) ?>" name="bp-members-profile-member-type[]" type="checkbox" <?php checked( true, in_array( $type->name, $current_type ) ); ?> <?php disabled( $disabled ); ?>>
+						<input value="<?php echo esc_attr( $type->name ) ?>" name="bp-members-profile-member-type[]" type="checkbox" <?php checked( true, in_array( $type->name, $current_type, true ) ); ?> <?php disabled( $disabled ); ?>>
 						<?php echo esc_html( $type->labels['singular_name'] ); ?>
 					</label>
 				</li>
@@ -1772,7 +1772,7 @@ class BP_Members_Admin {
 	 * @return int The pagination preferences.
 	 */
 	public function signup_screen_options( $value = 0, $option = '', $new_value = 0 ) {
-		if ( 'users_page_bp_signups_network_per_page' != $option && 'users_page_bp_signups_per_page' != $option ) {
+		if ( 'users_page_bp_signups_network_per_page' !== $option && 'users_page_bp_signups_per_page' !== $option ) {
 			return $value;
 		}
 
@@ -1930,7 +1930,7 @@ class BP_Members_Admin {
 		$allowed_actions = apply_filters( 'bp_signups_admin_allowed_actions', array( 'do_delete', 'do_activate', 'do_resend' ) );
 
 		// Prepare the display of the Signups screen.
-		if ( ! in_array( $doaction, $allowed_actions ) || ( -1 == $doaction ) ) {
+		if ( ! in_array( $doaction, $allowed_actions, true ) || ( '-1' === (string) $doaction ) ) {
 
 			if ( is_network_admin() ) {
 				$bp_members_signup_list_table = self::get_list_table_class( 'BP_Members_MS_List_Table', 'ms-users' );
@@ -2024,7 +2024,7 @@ class BP_Members_Admin {
 			}
 
 			// Handle resent activation links.
-			if ( 'do_resend' == $doaction ) {
+			if ( 'do_resend' === $doaction ) {
 
 				// Nonce check.
 				check_admin_referer( 'signups_resend' );
@@ -2051,7 +2051,7 @@ class BP_Members_Admin {
 				bp_core_redirect( $redirect_to );
 
 			// Handle activated accounts.
-			} elseif ( 'do_activate' == $doaction ) {
+			} elseif ( 'do_activate' === $doaction ) {
 
 				// Nonce check.
 				check_admin_referer( 'signups_activate' );
@@ -2078,7 +2078,7 @@ class BP_Members_Admin {
 				bp_core_redirect( $redirect_to );
 
 			// Handle sign-ups delete.
-			} elseif ( 'do_delete' == $doaction ) {
+			} elseif ( 'do_delete' === $doaction ) {
 
 				// Nonce check.
 				check_admin_referer( 'signups_delete' );
@@ -2491,7 +2491,7 @@ class BP_Members_Admin {
 		switch ( $action ) {
 			case 'delete' :
 				$header_text = __( 'Delete Pending Accounts', 'buddypress' );
-				if ( 1 == count( $signup_ids ) ) {
+				if ( 1 === count( $signup_ids ) ) {
 					$helper_text = __( 'You are about to delete the following account:', 'buddypress' );
 				} else {
 					$helper_text = __( 'You are about to delete the following accounts:', 'buddypress' );
@@ -2500,7 +2500,7 @@ class BP_Members_Admin {
 
 			case 'activate' :
 				$header_text = __( 'Activate Pending Accounts', 'buddypress' );
-				if ( 1 == count( $signup_ids ) ) {
+				if ( 1 === count( $signup_ids ) ) {
 					$helper_text = __( 'You are about to activate the following account:', 'buddypress' );
 				} else {
 					$helper_text = __( 'You are about to activate the following accounts:', 'buddypress' );
@@ -2554,7 +2554,7 @@ class BP_Members_Admin {
 
 		// Prefetch registration field data.
 		$fdata = array();
-		if ( bp_is_active( 'xprofile' ) && ( 'activate' == $action || ( 'resend' == $action && bp_get_membership_requests_required() ) ) ) {
+		if ( bp_is_active( 'xprofile' ) && ( 'activate' === $action || ( 'resend' === $action && bp_get_membership_requests_required() ) ) ) {
 			$field_groups = bp_xprofile_get_groups( array(
 				'exclude_fields'    => 1,
 				'update_meta_cache' => false,
@@ -2594,7 +2594,7 @@ class BP_Members_Admin {
 				<li>
 					<strong><?php echo esc_html( $signup->user_login ) ?></strong>
 
-					<?php if ( 'activate' == $action || ( 'resend' == $action && bp_get_membership_requests_required() ) ) : ?>
+					<?php if ( 'activate' === $action || ( 'resend' === $action && bp_get_membership_requests_required() ) ) : ?>
 						<table class="wp-list-table widefat fixed striped">
 							<tbody>
 								<tr>
@@ -2651,7 +2651,7 @@ class BP_Members_Admin {
 
 					<?php endif; ?>
 
-					<?php if ( 'resend' == $action ) : ?>
+					<?php if ( 'resend' === $action ) : ?>
 
 						<p class="description">
 							<?php
@@ -2768,7 +2768,7 @@ class BP_Members_Admin {
 		}
 
 		// Check that the selected type actually exists.
-		if ( 'remove_member_type' != $new_type && null === bp_get_member_type_object( $new_type ) ) {
+		if ( 'remove_member_type' !== $new_type && null === bp_get_member_type_object( $new_type ) ) {
 			$error = true;
 		} else {
 			// Run through user ids.
@@ -2904,7 +2904,7 @@ class BP_Members_Admin {
 			$type_slug = sanitize_text_field( $_REQUEST['bp-member-type'] );
 
 			// Check that the type is registered.
-			if ( null == bp_get_member_type_object( $type_slug ) ) {
+			if ( null === bp_get_member_type_object( $type_slug ) ) {
 				return;
 			}
 
@@ -2978,7 +2978,7 @@ class BP_Members_Admin {
 		$allowed_actions = apply_filters( 'bp_members_invitations_admin_allowed_actions', array( 'do_delete',  'do_resend' ) );
 
 		// Prepare the display of the bulk invitation action screen.
-		if ( ! in_array( $doaction, $allowed_actions ) ) {
+		if ( ! in_array( $doaction, $allowed_actions, true ) ) {
 
 			$bp_members_invitations_list_table = self::get_list_table_class( 'BP_Members_Invitations_List_Table', 'users' );
 
@@ -3028,7 +3028,7 @@ class BP_Members_Admin {
 			$invite_ids = wp_parse_id_list( $_REQUEST['invite_ids'] );
 
 			// Handle resent invitations.
-			if ( 'do_resend' == $doaction ) {
+			if ( 'do_resend' === $doaction ) {
 
 				// Nonce check.
 				check_admin_referer( 'invitations_resend' );
@@ -3056,7 +3056,7 @@ class BP_Members_Admin {
 				bp_core_redirect( $redirect_to );
 
 			// Handle invitation deletion.
-			} elseif ( 'do_delete' == $doaction ) {
+			} elseif ( 'do_delete' === $doaction ) {
 
 				// Nonce check.
 				check_admin_referer( 'invitations_delete' );

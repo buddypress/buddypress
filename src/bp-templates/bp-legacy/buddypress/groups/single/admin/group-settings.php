@@ -26,7 +26,7 @@ do_action( 'bp_before_group_settings_admin' ); ?>
 
 	<div class="radio">
 
-		<label for="group-status-public"><input type="radio" name="group-status" id="group-status-public" value="public"<?php if ( 'public' == bp_get_new_group_status() || ! bp_get_new_group_status() ) { ?> checked="checked"<?php } ?> aria-describedby="public-group-description" /> <?php esc_html_e( 'This is a public group', 'buddypress' ); ?></label>
+		<label for="group-status-public"><input type="radio" name="group-status" id="group-status-public" value="public"<?php if ( 'public' === bp_get_new_group_status() || ! bp_get_new_group_status() ) { ?> checked="checked"<?php } ?> aria-describedby="public-group-description" /> <?php esc_html_e( 'This is a public group', 'buddypress' ); ?></label>
 
 		<ul id="public-group-description">
 			<li><?php esc_html_e( 'Any site member can join this group.', 'buddypress' ); ?></li>
@@ -34,7 +34,7 @@ do_action( 'bp_before_group_settings_admin' ); ?>
 			<li><?php esc_html_e( 'Group content and activity will be visible to any site member.', 'buddypress' ); ?></li>
 		</ul>
 
-		<label for="group-status-private"><input type="radio" name="group-status" id="group-status-private" value="private"<?php if ( 'private' == bp_get_new_group_status() ) { ?> checked="checked"<?php } ?> aria-describedby="private-group-description" /> <?php esc_html_e( 'This is a private group', 'buddypress' ); ?></label>
+		<label for="group-status-private"><input type="radio" name="group-status" id="group-status-private" value="private"<?php if ( 'private' === bp_get_new_group_status() ) { ?> checked="checked"<?php } ?> aria-describedby="private-group-description" /> <?php esc_html_e( 'This is a private group', 'buddypress' ); ?></label>
 
 		<ul id="private-group-description">
 			<li><?php esc_html_e( 'Only users who request membership and are accepted can join the group.', 'buddypress' ); ?></li>
@@ -42,7 +42,7 @@ do_action( 'bp_before_group_settings_admin' ); ?>
 			<li><?php esc_html_e( 'Group content and activity will only be visible to members of the group.', 'buddypress' ); ?></li>
 		</ul>
 
-		<label for="group-status-hidden"><input type="radio" name="group-status" id="group-status-hidden" value="hidden"<?php if ( 'hidden' == bp_get_new_group_status() ) { ?> checked="checked"<?php } ?> aria-describedby="hidden-group-description" /> <?php esc_html_e('This is a hidden group', 'buddypress' ); ?></label>
+		<label for="group-status-hidden"><input type="radio" name="group-status" id="group-status-hidden" value="hidden"<?php if ( 'hidden' === bp_get_new_group_status() ) { ?> checked="checked"<?php } ?> aria-describedby="hidden-group-description" /> <?php esc_html_e('This is a hidden group', 'buddypress' ); ?></label>
 
 		<ul id="hidden-group-description">
 			<li><?php esc_html_e( 'Only users who are invited can join the group.', 'buddypress' ); ?></li>

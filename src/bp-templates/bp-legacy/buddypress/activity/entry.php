@@ -56,7 +56,7 @@ do_action( 'bp_before_activity_entry' ); ?>
 
 		<div class="activity-meta">
 
-			<?php if ( bp_get_activity_type() == 'activity_comment' ) : ?>
+			<?php if ( bp_get_activity_type() === 'activity_comment' ) : ?>
 
 				<a href="<?php bp_activity_thread_permalink(); ?>" class="button view bp-secondary-action"><?php esc_html_e( 'View Conversation', 'buddypress' ); ?></a>
 

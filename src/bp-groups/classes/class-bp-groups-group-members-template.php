@@ -283,7 +283,7 @@ class BP_Groups_Group_Members_Template {
 		$tick = intval( $this->current_member + 1 );
 		if ( $tick < $this->member_count ) {
 			return true;
-		} elseif ( $tick == $this->member_count ) {
+		} elseif ( $tick === $this->member_count ) {
 
 			/**
 			 * Fires right before the rewinding of members list.
@@ -314,7 +314,7 @@ class BP_Groups_Group_Members_Template {
 		$this->member      = $this->next_member();
 
 		// Loop has just started.
-		if ( 0 == $this->current_member ) {
+		if ( 0 === $this->current_member ) {
 
 			/**
 			 * Fires if the current member item is the first in the members list.

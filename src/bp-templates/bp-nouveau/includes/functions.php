@@ -104,7 +104,7 @@ function bp_nouveau_ajax_querystring( $query_string, $object ) {
 	}
 
 	// If page have been passed via the AJAX post request, use those.
-	if ( '-1' != $post_query['page'] ) {
+	if ( '-1' !== $post_query['page'] ) {
 		$qs[] = 'page=' . absint( $post_query['page'] );
 	}
 
@@ -124,7 +124,7 @@ function bp_nouveau_ajax_querystring( $query_string, $object ) {
 	}
 
 	$object_search_text = bp_get_search_default_text( $object );
-	if ( ! empty( $post_query['search_terms'] ) && $object_search_text != $post_query['search_terms'] && 'false' != $post_query['search_terms'] && 'undefined' != $post_query['search_terms'] ) {
+	if ( ! empty( $post_query['search_terms'] ) && $object_search_text !== $post_query['search_terms'] && 'false' !== $post_query['search_terms'] && 'undefined' !== $post_query['search_terms'] ) {
 		$qs[] = 'search_terms=' . urlencode( $_POST['search_terms'] );
 	}
 

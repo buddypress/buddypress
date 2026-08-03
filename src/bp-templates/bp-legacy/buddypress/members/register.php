@@ -24,7 +24,7 @@
 
 		<form action="" name="signup_form" id="signup_form" class="standard-form" method="post" enctype="multipart/form-data">
 
-		<?php if ( 'registration-disabled' == bp_get_current_signup_step() ) : ?>
+		<?php if ( 'registration-disabled' === bp_get_current_signup_step() ) : ?>
 
 			<div id="template-notices" role="alert" aria-atomic="true">
 				<?php
@@ -55,7 +55,7 @@
 			do_action( 'bp_after_registration_disabled' ); ?>
 		<?php endif; // registration-disabled signup step ?>
 
-		<?php if ( 'request-details' == bp_get_current_signup_step() ) : ?>
+		<?php if ( 'request-details' === bp_get_current_signup_step() ) : ?>
 
 			<div id="template-notices" role="alert" aria-atomic="true">
 				<?php
@@ -317,8 +317,8 @@
 							 */
 							do_action( 'bp_signup_blog_privacy_errors' ); ?>
 
-							<label for="signup_blog_privacy_public"><input type="radio" name="signup_blog_privacy" id="signup_blog_privacy_public" value="public"<?php if ( 'public' == bp_get_signup_blog_privacy_value() || ! bp_get_signup_blog_privacy_value() ) : ?> checked="checked"<?php endif; ?> /> <?php esc_html_e( 'Yes', 'buddypress' ); ?></label>
-							<label for="signup_blog_privacy_private"><input type="radio" name="signup_blog_privacy" id="signup_blog_privacy_private" value="private"<?php if ( 'private' == bp_get_signup_blog_privacy_value() ) : ?> checked="checked"<?php endif; ?> /> <?php esc_html_e( 'No', 'buddypress' ); ?></label>
+							<label for="signup_blog_privacy_public"><input type="radio" name="signup_blog_privacy" id="signup_blog_privacy_public" value="public"<?php if ( 'public' === bp_get_signup_blog_privacy_value() || ! bp_get_signup_blog_privacy_value() ) : ?> checked="checked"<?php endif; ?> /> <?php esc_html_e( 'Yes', 'buddypress' ); ?></label>
+							<label for="signup_blog_privacy_private"><input type="radio" name="signup_blog_privacy" id="signup_blog_privacy_private" value="private"<?php if ( 'private' === bp_get_signup_blog_privacy_value() ) : ?> checked="checked"<?php endif; ?> /> <?php esc_html_e( 'No', 'buddypress' ); ?></label>
 						</fieldset>
 
 						<?php
@@ -378,7 +378,7 @@
 
 		<?php endif; // request-details signup step ?>
 
-		<?php if ( 'completed-confirmation' == bp_get_current_signup_step() ) : ?>
+		<?php if ( 'completed-confirmation' === bp_get_current_signup_step() ) : ?>
 
 			<div id="template-notices" role="alert" aria-atomic="true">
 				<?php

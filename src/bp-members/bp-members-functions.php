@@ -907,7 +907,7 @@ function bp_is_user_spammer( $user_id = 0 ) {
 			$is_spammer = true;
 		}
 
-		if ( 1 == $user->user_status ) {
+		if ( 1 === (int) $user->user_status ) {
 			$is_spammer = true;
 		}
 	}
@@ -974,7 +974,7 @@ function bp_is_user_deleted( $user_id = 0 ) {
 			$is_deleted = true;
 		}
 
-		if ( 2 == $user->user_status ) {
+		if ( 2 === (int) $user->user_status ) {
 			$is_deleted = true;
 		}
 	}
@@ -1385,7 +1385,7 @@ function bp_core_boot_spammer( $user ) {
 
 	// The user exists; now do a check to see if the user is a spammer
 	// if the user is a spammer, stop them in their tracks!
-	if ( is_a( $user, 'WP_User' ) && ( ( is_multisite() && (int) $user->spam ) || 1 == $user->user_status ) ) {
+	if ( is_a( $user, 'WP_User' ) && ( ( is_multisite() && (int) $user->spam ) || 1 === (int) $user->user_status ) ) {
 		return new WP_Error( 'invalid_username', __( '<strong>Error</strong>: Your account has been marked as a spammer.', 'buddypress' ) );
 	}
 
@@ -2291,7 +2291,7 @@ function bp_core_map_user_registration( $user_id ) {
 		$lastname  = ' ' . bp_get_user_meta( $user_id, 'last_name', true );
 		$name      = $firstname . $lastname;
 
-		if ( empty( $name ) || ' ' == $name ) {
+		if ( empty( $name ) || ' ' === $name ) {
 			$name = bp_get_user_meta( $user_id, 'nickname', true );
 		}
 
@@ -2399,12 +2399,12 @@ function bp_core_signup_disable_inactive( $user = null, $username = '', $passwor
 	// An existing WP_User with a user_status of 2 is either a legacy
 	// signup, or is a user created for backward compatibility. See
 	// {@link bp_core_signup_user()} for more details.
-	if ( is_a( $user, 'WP_User' ) && 2 == $user->user_status ) {
+	if ( is_a( $user, 'WP_User' ) && 2 === (int) $user->user_status ) {
 		$user_login = $user->user_login;
 
 	// If no WP_User is found corresponding to the username, this
 	// is a potential signup.
-	} elseif ( is_wp_error( $user ) && 'invalid_username' == $user->get_error_code() ) {
+	} elseif ( is_wp_error( $user ) && 'invalid_username' === $user->get_error_code() ) {
 		$user_login = $username;
 
 	// This is an activated user, so bail.

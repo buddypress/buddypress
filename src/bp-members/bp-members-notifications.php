@@ -89,7 +89,7 @@ function members_format_notifications( $action, $item_id, $secondary_item_id, $t
 	}
 
 	// Return either an HTML link or an array, depending on the requested format.
-	if ( 'string' == $format ) {
+	if ( 'string' === $format ) {
 
 		/**
 		 * Filters the format of members notifications based on type and amount * of notifications pending.

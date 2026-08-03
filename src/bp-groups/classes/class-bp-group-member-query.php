@@ -258,7 +258,7 @@ class BP_Group_Member_Query extends BP_User_Query {
 		// Sanitize: Only 'admin', 'mod', 'member', and 'banned' are valid.
 		$allowed_roles = array( 'admin', 'mod', 'member', 'banned' );
 		foreach ( $roles as $role_key => $role_value ) {
-			if ( ! in_array( $role_value, $allowed_roles ) ) {
+			if ( ! in_array( $role_value, $allowed_roles, true ) ) {
 				unset( $roles[ $role_key ] );
 			}
 		}
@@ -269,7 +269,7 @@ class BP_Group_Member_Query extends BP_User_Query {
 		// which there is no dedicated is_ column), figure out a list
 		// of columns *not* to match.
 		$roles_sql = '';
-		if ( in_array( 'member', $roles ) ) {
+		if ( in_array( 'member', $roles, true ) ) {
 			$role_columns = array();
 			foreach ( array_diff( $allowed_roles, $roles ) as $excluded_role ) {
 				$role_columns[] = 'is_' . $excluded_role . ' = 0';
@@ -401,10 +401,10 @@ class BP_Group_Member_Query extends BP_User_Query {
 		// results from  BP_Group_Member_Query::get_group_members().
 		// In all other cases, we fall through and let BP_User_Query
 		// do its own (non-group-specific) ordering.
-		if ( in_array( $query->query_vars['type'], array( 'last_joined', 'first_joined', 'group_activity' ) ) ) {
+		if ( in_array( $query->query_vars['type'], array( 'last_joined', 'first_joined', 'group_activity' ), true ) ) {
 
 			// Group Activity DESC.
-			if ( 'group_activity' == $query->query_vars['type'] ) {
+			if ( 'group_activity' === $query->query_vars['type'] ) {
 				$gm_ids = $this->get_gm_ids_ordered_by_activity( $query, $gm_ids );
 			}
 

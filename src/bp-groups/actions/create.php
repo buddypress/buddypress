@@ -76,7 +76,7 @@ function groups_action_create_group() {
 		// Check the nonce.
 		check_admin_referer( 'groups_create_save_' . bp_get_groups_current_create_step() );
 
-		if ( 'group-details' == bp_get_groups_current_create_step() ) {
+		if ( 'group-details' === bp_get_groups_current_create_step() ) {
 			if ( empty( $_POST['group-name'] ) || empty( $_POST['group-desc'] ) || ! strlen( trim( $_POST['group-name'] ) ) || ! strlen( trim( $_POST['group-desc'] ) ) ) {
 				bp_core_add_message( __( 'Please fill in all of the required fields', 'buddypress' ), 'error' );
 				bp_core_redirect( bp_groups_get_create_url( array( bp_get_groups_current_create_step() ) ) );
@@ -90,7 +90,7 @@ function groups_action_create_group() {
 			}
 		}
 
-		if ( 'group-settings' == bp_get_groups_current_create_step() ) {
+		if ( 'group-settings' === bp_get_groups_current_create_step() ) {
 			$group_status       = 'public';
 			$group_enable_forum = 1;
 
@@ -98,9 +98,9 @@ function groups_action_create_group() {
 				$group_enable_forum = 0;
 			}
 
-			if ( 'private' == $_POST['group-status'] )
+			if ( 'private' === $_POST['group-status'] )
 				$group_status = 'private';
-			elseif ( 'hidden' == $_POST['group-status'] )
+			elseif ( 'hidden' === $_POST['group-status'] )
 				$group_status = 'hidden';
 
 			if ( ! $bp->groups->new_group_id = groups_create_group( array( 'group_id' => $bp->groups->new_group_id, 'status' => $group_status, 'enable_forum' => $group_enable_forum ) ) ) {
@@ -123,7 +123,7 @@ function groups_action_create_group() {
 			 *                     'mods', and 'admins'.
 			 */
 			$allowed_invite_status = apply_filters( 'groups_allowed_invite_status', array( 'members', 'mods', 'admins' ) );
-			$invite_status         = ! empty( $_POST['group-invite-status'] ) && in_array( $_POST['group-invite-status'], (array) $allowed_invite_status ) ? $_POST['group-invite-status'] : 'members';
+			$invite_status         = ! empty( $_POST['group-invite-status'] ) && in_array( $_POST['group-invite-status'], (array) $allowed_invite_status, true ) ? $_POST['group-invite-status'] : 'members';
 
 			groups_update_groupmeta( $bp->groups->new_group_id, 'invite_status', $invite_status );
 		}
@@ -166,7 +166,7 @@ function groups_action_create_group() {
 		 * holding the information
 		 */
 		$completed_create_steps                   = isset( $bp->groups->completed_create_steps ) ? $bp->groups->completed_create_steps : array();
-		if ( ! in_array( bp_get_groups_current_create_step(), $completed_create_steps ) )
+		if ( ! in_array( bp_get_groups_current_create_step(), $completed_create_steps, true ) )
 			$bp->groups->completed_create_steps[] = bp_get_groups_current_create_step();
 
 		// Reset cookie info.
@@ -176,7 +176,7 @@ function groups_action_create_group() {
 		// If we have completed all steps and hit done on the final step we
 		// can redirect to the completed group.
 		$keys = array_keys( $bp->groups->group_creation_steps );
-		if ( count( $bp->groups->completed_create_steps ) == count( $keys ) && bp_get_groups_current_create_step() == array_pop( $keys ) ) {
+		if ( count( $bp->groups->completed_create_steps ) === count( $keys ) && bp_get_groups_current_create_step() === array_pop( $keys ) ) {
 			unset( $bp->groups->current_create_step );
 			unset( $bp->groups->completed_create_steps );
 
@@ -207,7 +207,7 @@ function groups_action_create_group() {
 			 * we need to loop the step array and fetch the next step that way.
 			 */
 			foreach ( $keys as $key ) {
-				if ( $key == bp_get_groups_current_create_step() ) {
+				if ( $key === bp_get_groups_current_create_step() ) {
 					$next = 1;
 					continue;
 				}
@@ -242,7 +242,7 @@ function groups_action_create_group() {
 	}
 
 	// Group avatar is handled separately.
-	if ( 'group-avatar' == bp_get_groups_current_create_step() && isset( $_POST['upload'] ) ) {
+	if ( 'group-avatar' === bp_get_groups_current_create_step() && isset( $_POST['upload'] ) ) {
 		if ( ! isset( $bp->avatar_admin ) ) {
 			$bp->avatar_admin = new stdClass();
 		}

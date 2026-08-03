@@ -730,7 +730,7 @@ function bp_legacy_theme_ajax_querystring( $query_string, $object ) {
 	 */
 
 	// Activity stream filtering on action.
-	if ( ! empty( $_BP_COOKIE[ 'bp-' . $object . '-filter' ] ) && '-1' != $_BP_COOKIE[ 'bp-' . $object . '-filter' ] ) {
+	if ( ! empty( $_BP_COOKIE[ 'bp-' . $object . '-filter' ] ) && '-1' !== $_BP_COOKIE[ 'bp-' . $object . '-filter' ] ) {
 		$qs[] = 'type=' . urlencode( $_BP_COOKIE[ 'bp-' . $object . '-filter' ] );
 
 		if ( bp_is_active( 'activity' ) ) {
@@ -747,19 +747,19 @@ function bp_legacy_theme_ajax_querystring( $query_string, $object ) {
 	}
 
 	if ( ! empty( $_BP_COOKIE[ 'bp-' . $object . '-scope' ] ) ) {
-		if ( 'personal' == $_BP_COOKIE[ 'bp-' . $object . '-scope' ] ) {
+		if ( 'personal' === $_BP_COOKIE[ 'bp-' . $object . '-scope' ] ) {
 			$user_id = ( bp_displayed_user_id() ) ? bp_displayed_user_id() : bp_loggedin_user_id();
 			$qs[]    = 'user_id=' . $user_id;
 		}
 
 		// Activity stream scope only on activity directory.
-		if ( 'all' != $_BP_COOKIE[ 'bp-' . $object . '-scope' ] && ! bp_displayed_user_id() && ! bp_is_single_item() ) {
+		if ( 'all' !== $_BP_COOKIE[ 'bp-' . $object . '-scope' ] && ! bp_displayed_user_id() && ! bp_is_single_item() ) {
 			$qs[] = 'scope=' . urlencode( $_BP_COOKIE[ 'bp-' . $object . '-scope' ] );
 		}
 	}
 
 	// If page and search_terms have been passed via the AJAX post request, use those.
-	if ( ! empty( $_POST['page'] ) && '-1' != $_POST['page'] ) {
+	if ( ! empty( $_POST['page'] ) && '-1' !== $_POST['page'] ) {
 		$qs[] = 'page=' . absint( $_POST['page'] );
 	}
 
@@ -779,7 +779,7 @@ function bp_legacy_theme_ajax_querystring( $query_string, $object ) {
 	}
 
 	$object_search_text = bp_get_search_default_text( $object );
-	if ( ! empty( $_POST['search_terms'] ) && is_string( $_POST['search_terms'] ) && $object_search_text != $_POST['search_terms'] && 'false' != $_POST['search_terms'] && 'undefined' != $_POST['search_terms'] ) {
+	if ( ! empty( $_POST['search_terms'] ) && is_string( $_POST['search_terms'] ) && $object_search_text !== $_POST['search_terms'] && 'false' !== $_POST['search_terms'] && 'undefined' !== $_POST['search_terms'] ) {
 		$qs[] = 'search_terms=' . urlencode( $_POST['search_terms'] );
 	}
 
@@ -1209,7 +1209,7 @@ function bp_legacy_theme_delete_activity_comment() {
 	$comment = new BP_Activity_Activity( $_POST['id'] );
 
 	// Check access.
-	if ( ! bp_current_user_can( 'bp_moderate' ) && $comment->user_id != bp_loggedin_user_id() ) {
+	if ( ! bp_current_user_can( 'bp_moderate' ) && $comment->user_id !== bp_loggedin_user_id() ) {
 		exit( '-1' );
 	}
 
@@ -1417,7 +1417,7 @@ function bp_legacy_theme_ajax_invite_user() {
 	$group_id  = (int) $_POST['group_id'];
 	$friend_id = (int) $_POST['friend_id'];
 
-	if ( 'invite' == $_POST['friend_action'] ) {
+	if ( 'invite' === $_POST['friend_action'] ) {
 		if ( ! friends_check_friendship( bp_loggedin_user_id(), $_POST['friend_id'] ) ) {
 			return;
 		}
@@ -1460,7 +1460,7 @@ function bp_legacy_theme_ajax_invite_user() {
 				<a class="button remove" href="' . esc_url( wp_nonce_url( $uninvite_url, 'groups_invite_uninvite_user' ) ) . '" id="uid-' . esc_attr( $user->id ) . '">' . esc_html__( 'Remove Invite', 'buddypress' ) . '</a>
 			  </div>';
 
-		if ( 'is_pending' == $user_status ) {
+		if ( 'is_pending' === $user_status ) {
 			/* translators: %s: user link */
 			echo '<p class="description">' . sprintf( esc_html__( '%s has previously requested to join this group. Sending an invitation will automatically add the member to the group.', 'buddypress' ), $user->user_link ) . '</p>';
 		}
@@ -1469,7 +1469,7 @@ function bp_legacy_theme_ajax_invite_user() {
 		// phpcs:enable
 		exit;
 
-	} elseif ( 'uninvite' == $_POST['friend_action'] ) {
+	} elseif ( 'uninvite' === $_POST['friend_action'] ) {
 		// Users who have previously requested membership should not
 		// have their requests deleted on the "uninvite" action.
 		if ( BP_Groups_Member::check_for_membership_request( $friend_id, $group_id ) ) {
@@ -1509,7 +1509,7 @@ function bp_legacy_theme_ajax_addremove_friend() {
 	}
 
 	// Trying to cancel friendship.
-	if ( 'is_friend' == BP_Friends_Friendship::check_is_friend( bp_loggedin_user_id(), $friend_id ) ) {
+	if ( 'is_friend' === BP_Friends_Friendship::check_is_friend( bp_loggedin_user_id(), $friend_id ) ) {
 		check_ajax_referer( 'friends_remove_friend' );
 
 		if ( ! friends_remove_friend( bp_loggedin_user_id(), $friend_id ) ) {
@@ -1520,7 +1520,7 @@ function bp_legacy_theme_ajax_addremove_friend() {
 		}
 
 	// Trying to request friendship.
-	} elseif ( 'not_friends' == BP_Friends_Friendship::check_is_friend( bp_loggedin_user_id(), $friend_id ) ) {
+	} elseif ( 'not_friends' === BP_Friends_Friendship::check_is_friend( bp_loggedin_user_id(), $friend_id ) ) {
 		check_ajax_referer( 'friends_add_friend' );
 
 		if ( ! friends_add_friend( bp_loggedin_user_id(), $friend_id ) ) {
@@ -1531,7 +1531,7 @@ function bp_legacy_theme_ajax_addremove_friend() {
 		}
 
 	// Trying to cancel pending request.
-	} elseif ( 'pending' == BP_Friends_Friendship::check_is_friend( bp_loggedin_user_id(), $friend_id ) ) {
+	} elseif ( 'pending' === BP_Friends_Friendship::check_is_friend( bp_loggedin_user_id(), $friend_id ) ) {
 		check_ajax_referer( 'friends_withdraw_friendship' );
 
 		if ( friends_withdraw_friendship( bp_loggedin_user_id(), $friend_id ) ) {

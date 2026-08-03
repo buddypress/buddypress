@@ -606,7 +606,7 @@ add_action( 'clean_site_cache', 'bp_blogs_delete_url_blogmeta' );
  * @param array   $args        Array of arguments.
  */
 function bp_blogs_publish_post_activity_meta( $activity_id, $post, $args ) {
-	if ( empty( $activity_id ) || 'post' != $post->post_type ) {
+	if ( empty( $activity_id ) || 'post' !== $post->post_type ) {
 		return;
 	}
 
@@ -716,7 +716,7 @@ function bp_blogs_update_post_activity_meta( $post, $activity, $activity_post_ob
 	}
 
 	// Add post comment status to activity meta if closed.
-	if( 'closed' == $post->comment_status ) {
+	if( 'closed' === $post->comment_status ) {
 		bp_activity_update_meta( $activity->id, 'post_comment_status', $post->comment_status );
 	} else {
 		bp_activity_delete_meta( $activity->id, 'post_comment_status' );
@@ -911,7 +911,7 @@ function bp_blogs_add_user_to_blog( $user_id, $role = false, $blog_id = 0 ) {
 	}
 
 	// Bail if no role was found or role is not in the allowed roles array.
-	if ( empty( $role ) || ! in_array( $role, bp_blogs_get_allowed_roles() ) ) {
+	if ( empty( $role ) || ! in_array( $role, bp_blogs_get_allowed_roles(), true ) ) {
 		return false;
 	}
 

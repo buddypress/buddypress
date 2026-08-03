@@ -438,8 +438,8 @@ function bp_nouveau_ajax_send_group_invites() {
 	// Send the invites.
 	groups_send_invites( array( 'group_id' => $group_id ) );
 
-	if ( array_search( false, $invited ) ) {
-		$errors = array_keys( $invited, false );
+	if ( array_search( false, $invited, true ) ) {
+		$errors = array_keys( $invited, false, true );
 
 		$error_count   = count( $errors );
 		$error_message = sprintf(

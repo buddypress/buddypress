@@ -56,6 +56,8 @@ function messages_new_message( $args = '' ) {
 		'messages_new_message'
 	);
 
+	$r['sender_id'] = (int) $r['sender_id'];
+
 	// Check if the message content is empty.
 	$content       = $r['content'];
 	$empty_content = false;
@@ -166,7 +168,7 @@ function messages_new_message( $args = '' ) {
 
 		// Strip the sender from the recipient list, and unset them if they are
 		// not alone. If they are alone, let them talk to themselves.
-		$self_send = array_search( $r['sender_id'], $recipient_ids );
+		$self_send = array_search( $r['sender_id'], $recipient_ids, true );
 		if ( ! empty( $self_send ) && ( count( $recipient_ids ) > 1 ) ) {
 			unset( $recipient_ids[ $self_send ] );
 		}
@@ -601,6 +603,8 @@ function messages_notification_new_message( $raw_args = array() ) {
 	// Barf.
 	extract( $args );
 
+	$sender_id = (int) $sender_id;
+
 	if ( empty( $recipients ) ) {
 		return;
 	}
@@ -615,7 +619,7 @@ function messages_notification_new_message( $raw_args = array() ) {
 
 	// Send an email to each recipient.
 	foreach ( $recipients as $recipient ) {
-		if ( $sender_id == $recipient->user_id || 'no' == bp_get_user_meta( $recipient->user_id, 'notification_messages_new_message', true ) ) {
+		if ( $sender_id === $recipient->user_id || 'no' === bp_get_user_meta( $recipient->user_id, 'notification_messages_new_message', true ) ) {
 			continue;
 		}
 

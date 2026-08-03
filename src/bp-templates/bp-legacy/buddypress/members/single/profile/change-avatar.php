@@ -34,7 +34,7 @@ do_action( 'bp_before_profile_avatar_upload_content' ); ?>
 
 	<form action="" method="post" id="avatar-upload-form" class="standard-form" enctype="multipart/form-data">
 
-		<?php if ( 'upload-image' == bp_get_avatar_admin_step() ) : ?>
+		<?php if ( 'upload-image' === bp_get_avatar_admin_step() ) : ?>
 
 			<?php wp_nonce_field( 'bp_avatar_upload' ); ?>
 			<p><?php esc_html_e( 'Click below to select a JPG, GIF or PNG format photo from your computer and then click \'Upload Image\' to proceed.', 'buddypress' ); ?></p>
@@ -58,7 +58,7 @@ do_action( 'bp_before_profile_avatar_upload_content' ); ?>
 
 		<?php endif; ?>
 
-		<?php if ( 'crop-image' == bp_get_avatar_admin_step() ) : ?>
+		<?php if ( 'crop-image' === bp_get_avatar_admin_step() ) : ?>
 
 			<h5><?php esc_html_e( 'Crop Your New Profile Photo', 'buddypress' ); ?></h5>
 

@@ -326,7 +326,7 @@ function bp_nouveau_ajax_messages_send_reply() {
 		) );
 
 		$reply['star_link']  = $star_link;
-		$reply['is_starred'] = array_search( 'unstar', explode( '/', $star_link ) );
+		$reply['is_starred'] = array_search( 'unstar', explode( '/', $star_link ), true );
 	}
 
 	$extra_content = bp_nouveau_messages_catch_hook_content( array(
@@ -440,7 +440,7 @@ function bp_nouveau_ajax_get_user_message_threads() {
 			$threads->threads[ $i ]['star_link'] = $star_link;
 
 			$star_link_data                       = explode( '/', $star_link );
-			$threads->threads[ $i ]['is_starred'] = array_search( 'unstar', $star_link_data );
+			$threads->threads[ $i ]['is_starred'] = array_search( 'unstar', $star_link_data, true );
 
 			// Defaults to last
 			$sm_id = $last_message_id;
@@ -599,7 +599,7 @@ function bp_nouveau_ajax_get_thread_messages() {
 			) );
 
 			$thread->messages[ $i ]['star_link']  = $star_link;
-			$thread->messages[ $i ]['is_starred'] = array_search( 'unstar', explode( '/', $star_link ) );
+			$thread->messages[ $i ]['is_starred'] = array_search( 'unstar', explode( '/', $star_link ), true );
 			$thread->messages[ $i ]['star_nonce'] = wp_create_nonce( 'bp-messages-star-' . bp_get_the_thread_message_id() );
 		}
 

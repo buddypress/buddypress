@@ -135,7 +135,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 		}
 
 		// Use the status request to set the current view.
-		if ( isset( $_GET['group_status'] ) && in_array( $_GET['group_status'], array( 'public', 'private', 'hidden' ) ) ) {
+		if ( isset( $_GET['group_status'] ) && in_array( $_GET['group_status'], array( 'public', 'private', 'hidden' ), true ) ) {
 			$this->view = $_GET['group_status'];
 		}
 
@@ -144,7 +144,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 
 		// Pass a dummy array if there are no groups of this type.
 		$include = false;
-		if ( 'all' != $this->view && isset( $this->group_type_ids[ $this->view ] ) ) {
+		if ( 'all' !== $this->view && isset( $this->group_type_ids[ $this->view ] ) ) {
 			$include = ! empty( $this->group_type_ids[ $this->view ] ) ? $this->group_type_ids[ $this->view ] : array( 0 );
 		}
 
@@ -538,8 +538,8 @@ class BP_Groups_List_Table extends WP_List_Table {
 		$out = '<div class="' . ( $always_visible ? 'row-actions visible' : 'row-actions' ) . '">';
 		foreach ( $actions as $action => $link ) {
 			++$i;
-			( $i == $action_count ) ? $sep = '' : $sep = ' | ';
-			$out                          .= "<span class='$action'>$link$sep</span>";
+			( $i === $action_count ) ? $sep = '' : $sep = ' | ';
+			$out                           .= "<span class='$action'>$link$sep</span>";
 		}
 		$out .= '</div>';
 

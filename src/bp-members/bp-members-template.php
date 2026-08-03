@@ -552,29 +552,29 @@ function bp_members_pagination_count() {
 		$to_num    = bp_core_number_format( ( $start_num + ( $members_template->pag_num - 1 ) > $members_template->total_member_count ) ? $members_template->total_member_count : $start_num + ( $members_template->pag_num - 1 ) );
 		$total     = bp_core_number_format( $members_template->total_member_count );
 
-		if ( 'active' == $members_template->type ) {
-			if ( 1 == $members_template->total_member_count ) {
+		if ( 'active' === $members_template->type ) {
+			if ( 1 === $members_template->total_member_count ) {
 				$pag = __( 'Viewing 1 active member', 'buddypress' );
 			} else {
 				/* translators: 1: active member from number. 2: active member to number. 3: total active members. */
 				$pag = sprintf( _n( 'Viewing %1$s - %2$s of %3$s active member', 'Viewing %1$s - %2$s of %3$s active members', $members_template->total_member_count, 'buddypress' ), $from_num, $to_num, $total );
 			}
-		} elseif ( 'popular' == $members_template->type ) {
-			if ( 1 == $members_template->total_member_count ) {
+		} elseif ( 'popular' === $members_template->type ) {
+			if ( 1 === $members_template->total_member_count ) {
 				$pag = __( 'Viewing 1 member with friends', 'buddypress' );
 			} else {
 				/* translators: 1: member with friends from number. 2: member with friends to number. 3: total members with friends. */
 				$pag = sprintf( _n( 'Viewing %1$s - %2$s of %3$s member with friends', 'Viewing %1$s - %2$s of %3$s members with friends', $members_template->total_member_count, 'buddypress' ), $from_num, $to_num, $total );
 			}
-		} elseif ( 'online' == $members_template->type ) {
-			if ( 1 == $members_template->total_member_count ) {
+		} elseif ( 'online' === $members_template->type ) {
+			if ( 1 === $members_template->total_member_count ) {
 				$pag = __( 'Viewing 1 online member', 'buddypress' );
 			} else {
 				/* translators: 1: online member from number. 2: online member to number. 3: total online members. */
 				$pag = sprintf( _n( 'Viewing %1$s - %2$s of %3$s online member', 'Viewing %1$s - %2$s of %3$s online members', $members_template->total_member_count, 'buddypress' ), $from_num, $to_num, $total );
 			}
 		} else {
-			if ( 1 == $members_template->total_member_count ) {
+			if ( 1 === $members_template->total_member_count ) {
 				$pag = __( 'Viewing 1 member', 'buddypress' );
 			} else {
 				/* translators: 1: member from number. 2: member to number. 3: total members. */
@@ -1538,7 +1538,7 @@ function bp_get_loggedin_user_nav() {
 		$selected = '';
 
 		// If the current component matches the nav item id, then add a highlight CSS class.
-		if ( ! bp_is_directory() && ! empty( $bp->active_components[ bp_current_component() ] ) && $bp->active_components[ bp_current_component() ] == $nav_item->css_id ) {
+		if ( ! bp_is_directory() && ! empty( $bp->active_components[ bp_current_component() ] ) && $bp->active_components[ bp_current_component() ] === $nav_item->css_id ) {
 			$selected = ' class="current selected"';
 		}
 
@@ -1550,7 +1550,7 @@ function bp_get_loggedin_user_nav() {
 			$selected = '';
 
 			if ( bp_is_active( 'friends' ) ) {
-				if ( $nav_item->css_id == $bp->friends->id ) {
+				if ( $nav_item->css_id === $bp->friends->id ) {
 					if ( friends_check_friendship( bp_loggedin_user_id(), bp_displayed_user_id() ) ) {
 						$selected = ' class="current selected"';
 					}
@@ -3389,7 +3389,7 @@ function bp_members_invitations_pagination_count() {
 		$to_num     = bp_core_number_format( ( $start_num + ( $query_loop->pag_num - 1 ) > $query_loop->total_invitation_count ) ? $query_loop->total_invitation_count : $start_num + ( $query_loop->pag_num - 1 ) );
 		$total      = bp_core_number_format( $query_loop->total_invitation_count );
 
-		if ( 1 == $query_loop->total_invitation_count ) {
+		if ( 1 === $query_loop->total_invitation_count ) {
 			$pag = __( 'Viewing 1 invitation', 'buddypress' );
 		} else {
 			/* translators: 1: Invitations from number. 2: Invitations to number. 3: Total invitations. */

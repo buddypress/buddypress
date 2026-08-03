@@ -753,9 +753,9 @@ class BP_Messages_Thread {
 			$pag_sql = $wpdb->prepare( ' LIMIT %d, %d', intval( ( $r['page'] - 1 ) * $r['limit'] ), intval( $r['limit'] ) );
 		}
 
-		if ( $r['type'] == 'unread' ) {
+		if ( $r['type'] === 'unread' ) {
 			$type_sql = ' AND r.unread_count != 0 ';
-		} elseif ( $r['type'] == 'read' ) {
+		} elseif ( $r['type'] === 'read' ) {
 			$type_sql = ' AND r.unread_count = 0 ';
 		}
 

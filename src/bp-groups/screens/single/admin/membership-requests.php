@@ -15,7 +15,7 @@
 function groups_screen_group_admin_requests() {
 	$bp = buddypress();
 
-	if ( 'membership-requests' != bp_get_group_current_admin_tab() ) {
+	if ( 'membership-requests' !== bp_get_group_current_admin_tab() ) {
 		return;
 	}
 

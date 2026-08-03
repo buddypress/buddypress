@@ -381,8 +381,8 @@ function bp_word_or_name( $youtext, $nametext, $capitalize = true, $echo = true 
 		$youtext = bp_core_ucfirst( $youtext );
 	}
 
-	if ( bp_displayed_user_id() == bp_loggedin_user_id() ) {
-		if ( true == $echo ) {
+	if ( bp_displayed_user_id() === bp_loggedin_user_id() ) {
+		if ( true === $echo ) {
 
 			/**
 			 * Filters the text used based on context of own profile or someone else's profile.
@@ -401,7 +401,7 @@ function bp_word_or_name( $youtext, $nametext, $capitalize = true, $echo = true 
 		$fullname = bp_get_displayed_user_fullname();
 		$fullname = (array) explode( ' ', $fullname );
 		$nametext = sprintf( $nametext, $fullname[0] );
-		if ( true == $echo ) {
+		if ( true === $echo ) {
 
 			/** This filter is documented in bp-core/bp-core-template.php */
 			echo esc_html( apply_filters( 'bp_word_or_name', $nametext ) );
@@ -834,7 +834,7 @@ function bp_create_excerpt( $text, $length = 225, $options = array() ) {
 				if ( preg_match( '/<[\w]+[^>]*>/s', $tag[0] ) ) {
 					array_unshift( $openTags, $tag[2] );
 				} elseif ( preg_match('/<\/([\w]+)[^>]*>/s', $tag[0], $closeTag ) ) {
-					$pos = array_search( $closeTag[1], $openTags );
+					$pos = array_search( $closeTag[1], $openTags, true );
 					if ( $pos !== false ) {
 						array_splice( $openTags, $pos, 1 );
 					}
@@ -954,7 +954,7 @@ function bp_create_excerpt( $text, $length = 225, $options = array() ) {
 			preg_match_all( '/<\/([a-z]+)>/', $bits, $droppedTags, PREG_SET_ORDER );
 			if ( ! empty( $droppedTags ) ) {
 				foreach ( $droppedTags as $closingTag ) {
-					if ( ! in_array( $closingTag[1], $openTags ) ) {
+					if ( ! in_array( $closingTag[1], $openTags, true ) ) {
 						array_unshift( $openTags, $closingTag[1] );
 					}
 				}
@@ -1384,7 +1384,7 @@ function bp_root_slug( $component = '' ) {
 
 			// Backward compatibility: in legacy plugins, the canonical component id
 			// was stored as an array value in $bp->active_components.
-			$component_name = ( '1' == $bp->active_components[ $component ] )
+			$component_name = ( '1' === (string) $bp->active_components[ $component ] )
 				? $component
 				: $bp->active_components[ $component ];
 
@@ -1433,7 +1433,7 @@ function bp_get_name_from_root_slug( $root_slug = '' ) {
 
 	// Loop through active components and look for a match.
 	foreach ( array_keys( $bp->active_components ) as $component ) {
-		if ( ( ! empty( $bp->{$component}->slug ) && ( $bp->{$component}->slug == $root_slug ) ) || ( ! empty( $bp->{$component}->root_slug ) && ( $bp->{$component}->root_slug === $root_slug ) ) ) {
+		if ( ( ! empty( $bp->{$component}->slug ) && ( $bp->{$component}->slug === $root_slug ) ) || ( ! empty( $bp->{$component}->root_slug ) && ( $bp->{$component}->root_slug === $root_slug ) ) ) {
 			return $bp->{$component}->name;
 		}
 	}
@@ -1572,22 +1572,22 @@ function bp_is_current_component( $component = '' ) {
 
 		// First, check to see whether $component_name and the current
 		// component are a simple match.
-		if ( $bp->current_component == $component ) {
+		if ( $bp->current_component === $component ) {
 			$is_current_component = true;
 
 		// Since the current component is based on the visible URL slug let's
 		// check the component being passed and see if its root_slug matches.
-		} elseif ( isset( $bp->{$component}->root_slug ) && $bp->{$component}->root_slug == $bp->current_component ) {
+		} elseif ( isset( $bp->{$component}->root_slug ) && $bp->{$component}->root_slug === $bp->current_component ) {
 			$is_current_component = true;
 
 		// Because slugs can differ from root_slugs, we should check them too.
-		} elseif ( isset( $bp->{$component}->slug ) && $bp->{$component}->slug == $bp->current_component ) {
+		} elseif ( isset( $bp->{$component}->slug ) && $bp->{$component}->slug === $bp->current_component ) {
 			$is_current_component = true;
 
 		// Next, check to see whether $component is a canonical,
 		// non-translatable component name. If so, we can return its
 		// corresponding slug from $bp->active_components.
-		} elseif ( $key = array_search( $component, $bp->active_components ) ) {
+		} elseif ( $key = array_search( $component, $bp->active_components, true ) ) {
 			if ( strstr( $bp->current_component, $key ) ) {
 				$is_current_component = true;
 			}
@@ -1598,11 +1598,11 @@ function bp_is_current_component( $component = '' ) {
 			foreach ( $bp->active_components as $id ) {
 				// If the $component parameter does not match the current_component,
 				// then move along, these are not the droids you are looking for.
-				if ( empty( $bp->{$id}->root_slug ) || $bp->{$id}->root_slug != $bp->current_component ) {
+				if ( empty( $bp->{$id}->root_slug ) || $bp->{$id}->root_slug !== $bp->current_component ) {
 					continue;
 				}
 
-				if ( $id == $component ) {
+				if ( $id === $component ) {
 					$is_current_component = true;
 					break;
 				}
@@ -1668,7 +1668,7 @@ function bp_is_action_variable( $action_variable = '', $position = false ) {
 	if ( false !== $position ) {
 		// When a $position is specified, check that slot in the action_variables array.
 		if ( $action_variable ) {
-			$is_action_variable = $action_variable == bp_action_variable( $position );
+			$is_action_variable = $action_variable === bp_action_variable( $position );
 		} else {
 			// If no $action_variable is provided, we are essentially checking to see
 			// whether the slot is empty.
@@ -1676,7 +1676,7 @@ function bp_is_action_variable( $action_variable = '', $position = false ) {
 		}
 	} else {
 		// When no $position is specified, check the entire array.
-		$is_action_variable = in_array( $action_variable, (array)bp_action_variables() );
+		$is_action_variable = in_array( $action_variable, (array) bp_action_variables(), true );
 	}
 
 	/**
@@ -1904,7 +1904,7 @@ function bp_is_component_front_page( $component = '' ) {
 	 * @param bool   $value     Whether or not the specified component directory is set as front page.
 	 * @param string $component Current component being checked.
 	 */
-	return (bool) apply_filters( 'bp_is_component_front_page', ( $bp->pages->{$component}->id == $page_on_front ), $component );
+	return (bool) apply_filters( 'bp_is_component_front_page', ( (int) $bp->pages->{$component}->id === (int) $page_on_front ), $component );
 }
 
 /**
@@ -2264,7 +2264,7 @@ function bp_is_members_directory() {
  * @return bool True if the current page is part of the profile of the logged-in user.
  */
 function bp_is_my_profile() {
-	if ( is_user_logged_in() && bp_loggedin_user_id() == bp_displayed_user_id() ) {
+	if ( is_user_logged_in() && bp_loggedin_user_id() === bp_displayed_user_id() ) {
 		$my_profile = true;
 	} else {
 		$my_profile = false;
@@ -3467,7 +3467,7 @@ add_filter( 'post_class', 'bp_get_the_post_class' );
  *             equal to, or greater than the second.
  */
 function _bp_nav_menu_sort( $a, $b ) {
-	if ( $a['position'] == $b['position'] ) {
+	if ( (int) $a['position'] === (int) $b['position'] ) {
 		return 0;
 	} elseif ( $a['position'] < $b['position'] ) {
 		return -1;
@@ -3643,7 +3643,7 @@ function bp_nav_menu( $args = array() ) {
 		 */
 		$allowed_tags = apply_filters( 'wp_nav_menu_container_allowedtags', array( 'div', 'nav', ) );
 
-		if ( in_array( $args->container, $allowed_tags ) ) {
+		if ( in_array( $args->container, $allowed_tags, true ) ) {
 			$show_container = true;
 
 			$class     = $args->container_class ? ' class="' . esc_attr( $args->container_class ) . '"' : ' class="menu-bp-container"';
@@ -3672,7 +3672,7 @@ function bp_nav_menu( $args = array() ) {
 		$wrap_id = 'menu-bp';
 
 		// If a specific ID wasn't requested, and there are multiple menus on the same screen, make sure the autogenerated ID is unique.
-		while ( in_array( $wrap_id, $menu_id_slugs ) ) {
+		while ( in_array( $wrap_id, $menu_id_slugs, true ) ) {
 			if ( preg_match( '#-(\d+)$#', $wrap_id, $matches ) ) {
 				$wrap_id = preg_replace('#-(\d+)$#', '-' . ++$matches[1], $wrap_id );
 			} else {

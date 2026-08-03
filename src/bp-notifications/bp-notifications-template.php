@@ -958,7 +958,7 @@ function bp_notifications_pagination_count() {
 		$to_num     = bp_core_number_format( ( $start_num + ( $query_loop->pag_num - 1 ) > $query_loop->total_notification_count ) ? $query_loop->total_notification_count : $start_num + ( $query_loop->pag_num - 1 ) );
 		$total      = bp_core_number_format( $query_loop->total_notification_count );
 
-		if ( 1 == $query_loop->total_notification_count ) {
+		if ( 1 === $query_loop->total_notification_count ) {
 			$pag = __( 'Viewing 1 notification', 'buddypress' );
 		} else {
 			/* translators: 1: notification from number. 2: notification to number. 3: total notifications. */

@@ -268,7 +268,7 @@ class BP_Groups_Component extends BP_Component {
 		 */
 		$current_group_class = apply_filters( 'bp_groups_current_group_class', 'BP_Groups_Group' );
 
-		if ( $current_group_class == 'BP_Groups_Group' ) {
+		if ( $current_group_class === 'BP_Groups_Group' ) {
 			$current_group = groups_get_group( $group_id );
 
 		} else {

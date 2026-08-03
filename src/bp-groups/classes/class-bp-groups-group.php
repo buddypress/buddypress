@@ -1196,8 +1196,8 @@ class BP_Groups_Group {
 		}
 
 		if ( $search ) {
-			$leading_wild  = ( ltrim( $search, '*' ) != $search );
-			$trailing_wild = ( rtrim( $search, '*' ) != $search );
+			$leading_wild  = ( ltrim( $search, '*' ) !== $search );
+			$trailing_wild = ( rtrim( $search, '*' ) !== $search );
 			if ( $leading_wild && $trailing_wild ) {
 				$wild = 'both';
 			} elseif ( $leading_wild ) {
@@ -1211,8 +1211,8 @@ class BP_Groups_Group {
 			$search = trim( $search, '*' );
 
 			$searches      = array();
-			$leading_wild  = ( 'leading' == $wild || 'both' == $wild ) ? '%' : '';
-			$trailing_wild = ( 'trailing' == $wild || 'both' == $wild ) ? '%' : '';
+			$leading_wild  = ( 'leading' === $wild || 'both' === $wild ) ? '%' : '';
+			$trailing_wild = ( 'trailing' === $wild || 'both' === $wild ) ? '%' : '';
 			$wildcarded    = $leading_wild . bp_esc_like( $search ) . $trailing_wild;
 
 			$search_columns = array( 'name', 'description' );
@@ -1366,8 +1366,9 @@ class BP_Groups_Group {
 			$sql['orderby'] = "ORDER BY {$orderby} {$order}";
 		}
 
-		if ( ! empty( $r['per_page'] ) && ! empty( $r['page'] ) && $r['per_page'] != -1 ) {
-			$sql['pagination'] = $wpdb->prepare( 'LIMIT %d, %d', intval( ( $r['page'] - 1 ) * $r['per_page']), intval( $r['per_page'] ) );
+		$per_page = (int) $r['per_page'];
+		if ( ! empty( $r['per_page'] ) && ! empty( $r['page'] ) && -1 !== $per_page ) {
+			$sql['pagination'] = $wpdb->prepare( 'LIMIT %d, %d', intval( ( $r['page'] - 1 ) * $r['per_page']), $per_page );
 		}
 
 		$where = '';

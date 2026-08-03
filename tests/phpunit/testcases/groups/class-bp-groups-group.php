@@ -776,10 +776,21 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 
 		// Passing 'per_page' => -1 should result in pagination not being applied.
 		$groups = BP_Groups_Group::get( array(
-			'per_page' => -1
+			'per_page' => -1,
+			'page'     => 1,
 		) );
 
 		// Should return all groups; "paged" group total should match 25
+		$this->assertEquals( count( $group_ids ), count( $groups['groups'] ) );
+
+		unset( $groups );
+
+		// The string '-1' should also result in pagination not being applied.
+		$groups = BP_Groups_Group::get( array(
+			'per_page' => '-1',
+			'page'     => 1,
+		) );
+
 		$this->assertEquals( count( $group_ids ), count( $groups['groups'] ) );
 
 		unset( $groups );

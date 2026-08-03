@@ -959,7 +959,7 @@ class BP_Notifications_Notification {
 		$conditions[] = "{$field} IN ({$_items})";
 
 		foreach ( $update_args['data'] as $update_field => $value ) {
-			$index  = array_search( $update_field, array_keys( $update_args['data'] ) );
+			$index  = array_search( $update_field, array_keys( $update_args['data'] ), true );
 			$format = $update_args['format'][ $index ];
 
 			$fields[] = "{$update_field} = {$format}";
@@ -967,7 +967,7 @@ class BP_Notifications_Notification {
 		}
 
 		foreach ( $where_args['data'] as $where_field => $value ) {
-			$index  = array_search( $where_field, array_keys( $where_args['data'] ) );
+			$index  = array_search( $where_field, array_keys( $where_args['data'] ), true );
 			$format = $where_args['format'][ $index ];
 
 			$conditions[] = "{$where_field} = {$format}";
@@ -1056,7 +1056,7 @@ class BP_Notifications_Notification {
 		$conditions[] = "{$field} IN ({$_items})";
 
 		foreach ( $where['data'] as $where_field => $value ) {
-			$index  = array_search( $where_field, array_keys( $where['data'] ) );
+			$index  = array_search( $where_field, array_keys( $where['data'] ), true );
 			$format = $where['format'][ $index ];
 
 			$conditions[] = "{$where_field} = {$format}";

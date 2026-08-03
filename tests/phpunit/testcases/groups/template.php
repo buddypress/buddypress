@@ -987,6 +987,27 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group bp_get_group_member_is_friend
+	 */
+	public function test_bp_get_group_member_is_friend_with_string_pending_status() {
+		$had_members_template      = isset( $GLOBALS['members_template'] );
+		$previous_members_template = $had_members_template ? $GLOBALS['members_template'] : null;
+
+		global $members_template;
+		$members_template                    = new stdClass();
+		$members_template->member            = new stdClass();
+		$members_template->member->is_friend = '0';
+
+		$this->assertSame( 'pending', bp_get_group_member_is_friend() );
+
+		if ( $had_members_template ) {
+			$members_template = $previous_members_template;
+		} else {
+			unset( $GLOBALS['members_template'] );
+		}
+	}
+
+	/**
 	 * @group bp_get_group_member_id
 	 */
 	public function test_bp_get_group_member_id() {

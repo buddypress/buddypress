@@ -247,7 +247,7 @@ function bp_nouveau_template_notices() {
 		$template_message['dismiss'] = false;
 
 		// Set dismiss button true for sitewide notices
-		if ( 'bp-sitewide-notice' == $template_message['type'] ) {
+		if ( 'bp-sitewide-notice' === $template_message['type'] ) {
 			$template_message['dismiss'] = true;
 		}
 

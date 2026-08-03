@@ -268,7 +268,7 @@ function bp_get_blogs_pagination_count() {
 	$to_num    = bp_core_number_format( ( $start_num + ( $blogs_template->pag_num - 1 ) > $blogs_template->total_blog_count ) ? $blogs_template->total_blog_count : $start_num + ( $blogs_template->pag_num - 1 ) );
 	$total     = bp_core_number_format( $blogs_template->total_blog_count );
 
-	if ( 1 == $blogs_template->total_blog_count ) {
+	if ( 1 === $blogs_template->total_blog_count ) {
 		$message = __( 'Viewing 1 site', 'buddypress' );
 	} else {
 		/* translators: 1: the site from number. 2: the site to number. 3: the total number of sites. */

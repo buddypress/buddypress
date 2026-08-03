@@ -420,7 +420,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					)
 				);
 
-				if ( 'string' == $format ) {
+				if ( 'string' === $format ) {
 
 					/**
 					 * Filters groups multiple new membership request notification for string format.
@@ -475,7 +475,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					)
 				);
 
-				if ( 'string' == $format ) {
+				if ( 'string' === $format ) {
 
 					/**
 					 * Filters groups single new membership request notification for string format.
@@ -536,7 +536,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					bp_loggedin_user_url( bp_members_get_path_chunks( array( bp_get_groups_slug() ) ) )
 				);
 
-				if ( 'string' == $format ) {
+				if ( 'string' === $format ) {
 
 					/**
 					 * Filters multiple accepted group membership requests notification for string format.
@@ -576,7 +576,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 				$filter            = 'bp_groups_single_membership_request_accepted_notification';
 				$notification_link = add_query_arg( 'n', 1, $group_link );
 
-				if ( 'string' == $format ) {
+				if ( 'string' === $format ) {
 
 					/**
 					 * Filters single accepted group membership request notification for string format.
@@ -631,7 +631,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					bp_loggedin_user_url( bp_members_get_path_chunks( array( bp_get_groups_slug() ) ) )
 				);
 
-				if ( 'string' == $format ) {
+				if ( 'string' === $format ) {
 
 					/**
 					 * Filters multiple rejected group membership requests notification for string format.
@@ -670,7 +670,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 				$text              = sprintf( __( 'Membership for group "%s" rejected', 'buddypress' ), $group->name );
 				$notification_link = add_query_arg( 'n', 1, $group_link );
 
-				if ( 'string' == $format ) {
+				if ( 'string' === $format ) {
 
 					/**
 					 * Filters single rejected group membership requests notification for string format.
@@ -725,7 +725,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					bp_loggedin_user_url( bp_members_get_path_chunks( array( bp_get_groups_slug() ) ) )
 				);
 
-				if ( 'string' == $format ) {
+				if ( 'string' === $format ) {
 					/**
 					 * Filters multiple promoted to group admin notification for string format.
 					 * Complete filter - bp_groups_multiple_member_promoted_to_admin_notification.
@@ -760,7 +760,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 				$text              = sprintf( __( 'You were promoted to an admin in the group "%s"', 'buddypress' ), $group->name );
 				$notification_link = add_query_arg( 'n', 1, $group_link );
 
-				if ( 'string' == $format ) {
+				if ( 'string' === $format ) {
 					/**
 					 * Filters single promoted to group admin notification for non-string format.
 					 * Complete filter - bp_groups_single_member_promoted_to_admin_notification.
@@ -813,7 +813,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					bp_loggedin_user_url( bp_members_get_path_chunks( array( bp_get_groups_slug() ) ) )
 				);
 
-				if ( 'string' == $format ) {
+				if ( 'string' === $format ) {
 					/**
 					 * Filters multiple promoted to group mod notification for string format.
 					 * Complete filter - bp_groups_multiple_member_promoted_to_mod_notification.
@@ -848,7 +848,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 				$text              = sprintf( __( 'You were promoted to a mod in the group "%s"', 'buddypress' ), $group->name );
 				$notification_link = add_query_arg( 'n', 1, $group_link );
 
-				if ( 'string' == $format ) {
+				if ( 'string' === $format ) {
 					/**
 					 * Filters single promoted to group mod notification for string format.
 					 * Complete filter - bp_groups_single_member_promoted_to_mod_notification.
@@ -900,7 +900,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 				$text   = sprintf( __( 'You have %d new group invitations', 'buddypress' ), (int) $total_items );
 				$amount = 'multiple';
 
-				if ( 'string' == $format ) {
+				if ( 'string' === $format ) {
 					/**
 					 * Filters multiple group invitation notification for string format.
 					 * Complete filter - bp_groups_multiple_group_invite_notification.
@@ -935,7 +935,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 				$text   = sprintf( __( 'You have an invitation to the group: %s', 'buddypress' ), $group->name );
 				$filter = 'bp_groups_single_group_invite_notification';
 
-				if ( 'string' == $format ) {
+				if ( 'string' === $format ) {
 					/**
 					 * Filters single group invitation notification for string format.
 					 * Complete filter - bp_groups_single_group_invite_notification.

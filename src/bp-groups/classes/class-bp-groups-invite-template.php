@@ -229,7 +229,7 @@ class BP_Groups_Invite_Template {
 		$tick = intval( $this->current_invite + 1 );
 		if ( $tick < $this->invite_count ) {
 			return true;
-		} elseif ( $tick == $this->invite_count ) {
+		} elseif ( $tick === $this->invite_count ) {
 
 			/**
 			 * Fires right before the rewinding of invites list.
@@ -335,7 +335,7 @@ class BP_Groups_Invite_Template {
 		$this->invite->group_id = $group_id;
 
 		// loop has just started
-		if ( 0 == $this->current_invite ) {
+		if ( 0 === $this->current_invite ) {
 
 			/**
 			 * Fires if the current invite item is the first in the loop.

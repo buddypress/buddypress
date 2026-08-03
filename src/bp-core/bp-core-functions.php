@@ -604,7 +604,7 @@ function bp_core_get_directory_page_ids( $status = 'active' ) {
 		}
 
 		// Trashed pages should never appear in results.
-		if ( 'trash' == get_post_status( $page_id ) ) {
+		if ( 'trash' === get_post_status( $page_id ) ) {
 			unset( $page_ids[ $component_name ] );
 		}
 
@@ -787,7 +787,7 @@ function bp_core_get_directory_pages() {
 
 			foreach ( (array) $page_ids as $component_id => $page_id ) {
 				foreach ( (array) $page_names as $page_name ) {
-					if ( $page_name->ID == $page_id ) {
+					if ( (int) $page_name->ID === (int) $page_id ) {
 						if ( ! isset( $pages->{$component_id} ) || ! is_object( $pages->{$component_id} ) ) {
 							$pages->{$component_id} = new stdClass();
 						}
@@ -798,7 +798,7 @@ function bp_core_get_directory_pages() {
 						$slug[]                        = $page_name->post_name;
 
 						// Get the slug.
-						while ( $page_name->post_parent != 0 ) {
+						while ( (int) $page_name->post_parent !== 0 ) {
 							$parent                 = $wpdb->get_results( $wpdb->prepare( "SELECT post_name, post_parent FROM {$posts_table_name} WHERE ID = %d", $page_name->post_parent ) );
 							$slug[]                 = $parent[0]->post_name;
 							$page_name->post_parent = $parent[0]->post_parent;
@@ -1065,7 +1065,7 @@ function bp_core_on_directory_page_delete( $post_id ) {
 	}
 
 	$page_ids       = bp_core_get_directory_page_ids( 'all' );
-	$component_name = array_search( $post_id, $page_ids );
+	$component_name = array_search( (int) $post_id, array_map( 'intval', $page_ids ), true );
 
 	if ( ! empty( $component_name ) ) {
 		unset( $page_ids[ $component_name ] );
@@ -1353,8 +1353,8 @@ function bp_core_time_diff( $args = array() ) {
 			$seconds = $chunks[ $i ];
 
 			// Finding the biggest chunk (if the chunk fits, break).
-			$count = floor( $diff / $seconds );
-			if ( 0 != $count ) {
+			$count = (int) floor( $diff / $seconds );
+			if ( 0 !== $count ) {
 				break;
 			}
 		}

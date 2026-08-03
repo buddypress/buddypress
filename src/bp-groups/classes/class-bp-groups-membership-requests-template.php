@@ -248,7 +248,7 @@ class BP_Groups_Membership_Requests_Template {
 		$tick = intval( $this->current_request + 1 );
 		if ( $tick < $this->request_count ) {
 			return true;
-		} elseif ( $tick == $this->request_count ) {
+		} elseif ( $tick === $this->request_count ) {
 
 			/**
 			 * Fires right before the rewinding of group membership requests list.
@@ -274,7 +274,7 @@ class BP_Groups_Membership_Requests_Template {
 		$this->request     = $this->next_request();
 
 		// Loop has just started.
-		if ( 0 == $this->current_request ) {
+		if ( 0 === $this->current_request ) {
 
 			/**
 			 * Fires if the current group membership request item is the first in the loop.

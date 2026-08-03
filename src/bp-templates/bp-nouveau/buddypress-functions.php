@@ -375,7 +375,7 @@ class BP_Nouveau extends BP_Theme_Compat {
 	public function register_scripts() {
 		$min          = bp_core_get_minified_asset_suffix();
 		$dependencies = bp_core_get_js_dependencies();
-		$bp_confirm   = array_search( 'bp-confirm', $dependencies );
+		$bp_confirm   = array_search( 'bp-confirm', $dependencies, true );
 
 		unset( $dependencies[ $bp_confirm ] );
 
