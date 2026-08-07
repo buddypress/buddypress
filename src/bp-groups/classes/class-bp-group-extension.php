@@ -90,6 +90,7 @@ if ( class_exists( 'BP_Group_Extension', false ) ) {
  *
  * @since 1.1.0
  */
+#[AllowDynamicProperties]
 class BP_Group_Extension {
 
 	/** Public ************************************************************/

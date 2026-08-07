@@ -34,6 +34,7 @@ defined( 'ABSPATH' ) || exit;
  *     @type string $url     Base URL of the theme.
  * }
  */
+#[AllowDynamicProperties]
 class BP_Theme_Compat {
 
 	/**
