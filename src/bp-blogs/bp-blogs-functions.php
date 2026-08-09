@@ -540,7 +540,7 @@ function bp_blogs_update_option_thread_comments_depth( $oldvalue, $newvalue ) {
 
 	$comments_enabled = get_option( 'thread_comments' );
 
-	if (  $comments_enabled ) {
+	if ( $comments_enabled ) {
 		bp_blogs_update_blogmeta( $wpdb->blogid, 'thread_comments_depth', $newvalue );
 	}
 }
@@ -716,7 +716,7 @@ function bp_blogs_update_post_activity_meta( $post, $activity, $activity_post_ob
 	}
 
 	// Add post comment status to activity meta if closed.
-	if( 'closed' === $post->comment_status ) {
+	if ( 'closed' === $post->comment_status ) {
 		bp_activity_update_meta( $activity->id, 'post_comment_status', $post->comment_status );
 	} else {
 		bp_activity_delete_meta( $activity->id, 'post_comment_status' );
@@ -975,8 +975,9 @@ add_action( 'remove_user_from_blog', 'bp_blogs_remove_user_from_blog', 10, 2 );
  * @since 1.6.0
  */
 function bp_blogs_maybe_add_user_to_blog() {
-	if ( ! is_multisite() )
+	if ( ! is_multisite() ) {
 		return;
+	}
 
 	remove_action( 'init', 'maybe_add_existing_user_to_blog' );
 	add_action( 'init', 'maybe_add_existing_user_to_blog', 20 );

@@ -135,7 +135,6 @@ function xprofile_admin( $message = '', $type = 'error' ) {
 		} elseif ( 'add_group' === $mode ) {
 			xprofile_admin_manage_group();
 		}
-
 	} else {
 		xprofile_admin_screen( $message, $type );
 	}
@@ -202,7 +201,7 @@ function xprofile_admin_screen( $message = '', $type = 'error' ) {
 			<div id="tabs" aria-live="polite" aria-atomic="true" aria-relevant="all">
 				<ul id="field-group-tabs">
 
-					<?php if ( ! empty( $groups ) ) : foreach ( $groups as $group ) : ?>
+					<?php /* phpcs:ignore Squiz.ControlStructures.ControlSignature.NewlineAfterOpenBrace -- Preserve generated output whitespace. */ if ( ! empty( $groups ) ) : foreach ( $groups as $group ) : ?>
 
 						<li id="group_<?php echo esc_attr( $group->id ); ?>">
 							<a href="#tabs-<?php echo esc_attr( $group->id ); ?>" class="ui-tab">
@@ -229,7 +228,8 @@ function xprofile_admin_screen( $message = '', $type = 'error' ) {
 				</ul>
 
 				<?php
-				if ( ! empty( $groups ) ) : foreach ( $groups as $group ) :
+				if ( ! empty( $groups ) ) :
+					foreach ( $groups as $group ) :
 
 					// Add Field to Group URL.
 					$add_field_url = add_query_arg(
@@ -1002,7 +1002,6 @@ function xprofile_ajax_reorder_fields() {
 						)
 					);
 				}
-
 			} else {
 				wp_send_json_error();
 			}
@@ -1148,17 +1147,17 @@ function xprofile_admin_field( $admin_field, $admin_group, $class = '', $is_sign
 	}
 	?>
 
-	<fieldset id="<?php echo esc_attr( $fieldset_id ); ?>" class="sortable<?php echo ' ' . esc_attr( $field->type ); ?><?php if ( ! empty( $class ) ) echo ' ' . esc_attr( $class ); ?>">
+	<fieldset id="<?php echo esc_attr( $fieldset_id ); ?>" class="sortable<?php echo ' ' . esc_attr( $field->type ); ?><?php /* phpcs:ignore Generic.ControlStructures.InlineControlStructure.NotAllowed -- Preserve generated attribute whitespace. */ if ( ! empty( $class ) ) echo ' ' . esc_attr( $class ); ?>">
 		<legend>
 			<span>
 				<?php bp_the_profile_field_name(); ?>
 
-				<?php if ( empty( $field->can_delete ) ) : ?><?php esc_html_e( '(Primary)', 'buddypress' ); ?><?php endif; ?>
+				<?php /* phpcs:ignore Squiz.ControlStructures.ControlSignature.NewlineAfterOpenBrace -- Preserve generated output whitespace. */ if ( empty( $field->can_delete ) ) : ?><?php esc_html_e( '(Primary)', 'buddypress' ); ?><?php endif; ?>
 				<?php bp_the_profile_field_required_label(); ?>
 				<?php if ( $field->get_signup_position() ) : ?>
 					<span class="bp-signup-field-label"><?php esc_html_e( '(Sign-up)', 'buddypress' ); ?></span>
 				<?php endif; ?>
-				<?php if ( bp_get_member_types() ) : ?><?php echo wp_kses( $field->get_member_type_label(), array( 'span' => array( 'class' => true ) ) ); ?><?php endif; ?>
+				<?php /* phpcs:ignore Squiz.ControlStructures.ControlSignature.NewlineAfterOpenBrace -- Preserve generated output whitespace. */ if ( bp_get_member_types() ) : ?><?php echo wp_kses( $field->get_member_type_label(), array( 'span' => array( 'class' => true ) ) ); ?><?php endif; ?>
 
 				<?php
 

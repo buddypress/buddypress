@@ -13,8 +13,9 @@
  * @since 1.0.0
  */
 function bp_core_get_random_member() {
-	if ( ! isset( $_GET['random-member'] ) )
+	if ( ! isset( $_GET['random-member'] ) ) {
 		return;
+	}
 
 	$user = bp_core_get_users(
 		array(

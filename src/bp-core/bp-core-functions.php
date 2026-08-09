@@ -673,7 +673,7 @@ function bp_core_get_component_from_directory_page_id( $page_id = 0 ) {
 	$bp_pages = bp_core_get_directory_page_ids( 'all' );
 
 	$component = false;
-	foreach ( $bp_pages as $component_id => $p_id) {
+	foreach ( $bp_pages as $component_id => $p_id ) {
 		if ( $page_id === $p_id ) {
 			$component = $component_id;
 			break;
@@ -1367,27 +1367,27 @@ function bp_core_time_diff( $args = array() ) {
 			$retval = array();
 
 			switch ( $seconds ) {
-				case YEAR_IN_SECONDS :
+				case YEAR_IN_SECONDS:
 					/* translators: %s: the number of years. */
 					$retval[] = sprintf( _n( '%s year', '%s years', $count, 'buddypress' ), $count );
 					break;
-				case 30 * DAY_IN_SECONDS :
+				case 30 * DAY_IN_SECONDS:
 					/* translators: %s: the number of months. */
 					$retval[] = sprintf( _n( '%s month', '%s months', $count, 'buddypress' ), $count );
 					break;
-				case WEEK_IN_SECONDS :
+				case WEEK_IN_SECONDS:
 					/* translators: %s: the number of weeks. */
 					$retval[] = sprintf( _n( '%s week', '%s weeks', $count, 'buddypress' ), $count );
 					break;
-				case DAY_IN_SECONDS :
+				case DAY_IN_SECONDS:
 					/* translators: %s: the number of days. */
 					$retval[] = sprintf( _n( '%s day', '%s days', $count, 'buddypress' ), $count );
 					break;
-				case HOUR_IN_SECONDS :
+				case HOUR_IN_SECONDS:
 					/* translators: %s: the number of hours. */
 					$retval[] = sprintf( _n( '%s hour', '%s hours', $count, 'buddypress' ), $count );
 					break;
-				case MINUTE_IN_SECONDS :
+				case MINUTE_IN_SECONDS:
 					/* translators: %s: the number of minutes. */
 					$retval[] = sprintf( _n( '%s minute', '%s minutes', $count, 'buddypress' ), $count );
 					break;
@@ -1411,23 +1411,23 @@ function bp_core_time_diff( $args = array() ) {
 				if ( 0 !== (int) $count2 ) {
 
 					switch ( $seconds2 ) {
-						case 30 * DAY_IN_SECONDS :
+						case 30 * DAY_IN_SECONDS:
 							/* translators: %s: the number of months. */
 							$retval[] = sprintf( _n( '%s month', '%s months', $count2, 'buddypress' ), $count2 );
 							break;
-						case WEEK_IN_SECONDS :
+						case WEEK_IN_SECONDS:
 							/* translators: %s: the number of weeks. */
 							$retval[] = sprintf( _n( '%s week', '%s weeks', $count2, 'buddypress' ), $count2 );
 							break;
-						case DAY_IN_SECONDS :
+						case DAY_IN_SECONDS:
 							/* translators: %s: the number of days. */
 							$retval[] = sprintf( _n( '%s day', '%s days', $count2, 'buddypress' ), $count2 );
 							break;
-						case HOUR_IN_SECONDS :
+						case HOUR_IN_SECONDS:
 							/* translators: %s: the number of hours. */
 							$retval[] = sprintf( _n( '%s hour', '%s hours', $count2, 'buddypress' ), $count2 );
 							break;
-						case MINUTE_IN_SECONDS :
+						case MINUTE_IN_SECONDS:
 							/* translators: %s: the number of minutes. */
 							$retval[] = sprintf( _n( '%s minute', '%s minutes', $count2, 'buddypress' ), $count2 );
 							break;
@@ -1491,7 +1491,7 @@ function bp_core_time_since( $older_date, $newer_date = false ) {
 		'older_date' => $older_date,
 	);
 
-	if ( $newer_date) {
+	if ( $newer_date ) {
 		$args['newer_date'] = $newer_date;
 	}
 
@@ -1616,7 +1616,7 @@ function bp_core_iso8601_date( $timestamp = '' ) {
 			$date = new DateTime( $timestamp, new DateTimeZone( 'UTC' ) );
 
 		// Not a valid date, so return blank string.
-		} catch( Exception $e ) {
+		} catch ( Exception $e ) {
 			return '';
 		}
 
@@ -2868,17 +2868,17 @@ function bp_core_get_components( $type = 'all' ) {
 	}
 
 	switch ( $type ) {
-		case 'required' :
+		case 'required':
 			$components = $required_components;
 			break;
-		case 'optional' :
+		case 'optional':
 			$components = $optional_components;
 			break;
-		case 'retired' :
+		case 'retired':
 			$components = $retired_components;
 			break;
-		case 'all' :
-		default :
+		case 'all':
+		default:
 			$components = array_merge( $required_components, $optional_components, $retired_components );
 			break;
 	}
@@ -3043,7 +3043,7 @@ function bp_nav_menu_get_loggedout_pages() {
 	// registration is disabled).
 	$bp_directory_page_ids = bp_core_get_directory_page_ids();
 
-	if( ! empty( $bp_directory_page_ids['register'] ) ) {
+	if ( ! empty( $bp_directory_page_ids['register'] ) ) {
 		$register_page   = get_post( $bp_directory_page_ids['register'] );
 		$bp_menu_items[] = array(
 			'name' => $register_page->post_title,
@@ -3138,7 +3138,6 @@ function bp_core_get_suggestions( $args ) {
 		if ( isset( $args['group_id'] ) ) {
 			$class = 'BP_Groups_Member_Suggestions';
 		}
-
 	} else {
 
 		/**
@@ -3885,7 +3884,7 @@ function bp_send_email( $email_type, $to, $args = array() ) {
 	 * @param string                   $email_type Type of email being sent.
 	 * @param string|array|int|WP_User $to         Either a email address, user ID, WP_User object,
 	 *                                             or an array containing the address and name.
-     * @param array                    $args {
+	 * @param array                    $args {
 	 *     Optional. Array of extra parameters.
 	 *
 	 *     @type array $tokens Optional. Associative arrays of string replacements for the email.

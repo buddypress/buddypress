@@ -526,7 +526,7 @@ function bp_activity_pagination_links() {
 function bp_activity_has_more_items() {
 	global $activities_template;
 
-	if ( ! empty( $activities_template->has_more_items )  ) {
+	if ( ! empty( $activities_template->has_more_items ) ) {
 		$has_more_items = true;
 	} else {
 		$remaining_pages = 0;
@@ -1143,7 +1143,7 @@ function bp_activity_secondary_avatar( $args = '' ) {
 
 		// Set item_id and object (default to user).
 		switch ( $activities_template->activity->component ) {
-			case 'groups' :
+			case 'groups':
 				if ( bp_disable_group_avatar_uploads() ) {
 					return false;
 				}
@@ -1170,7 +1170,7 @@ function bp_activity_secondary_avatar( $args = '' ) {
 				}
 
 				break;
-			case 'blogs' :
+			case 'blogs':
 				$object  = 'blog';
 				$item_id = $activities_template->activity->item_id;
 				$link    = home_url();
@@ -1181,7 +1181,7 @@ function bp_activity_secondary_avatar( $args = '' ) {
 				}
 
 				break;
-			case 'friends' :
+			case 'friends':
 				$object  = 'user';
 				$item_id = $activities_template->activity->secondary_item_id;
 				$link    = bp_core_get_userlink( $item_id, false, true );
@@ -1192,7 +1192,7 @@ function bp_activity_secondary_avatar( $args = '' ) {
 				}
 
 				break;
-			default :
+			default:
 				$object     = 'user';
 				$item_id    = $activities_template->activity->user_id;
 				$r['email'] = $activities_template->activity->user_email;
@@ -3255,17 +3255,17 @@ function bp_activity_filter_links( $args = false ) {
 					$tag    = 'li';
 					$before = '<li id="afilter-' . $component . '"' . $selected . '>';
 					$after  = '</li>';
-				break;
+					break;
 				case 'paragraph':
 					$tag    = 'p';
 					$before = '<p id="afilter-' . $component . '"' . $selected . '>';
 					$after  = '</p>';
-				break;
+					break;
 				case 'span':
 					$tag    = 'span';
 					$before = '<span id="afilter-' . $component . '"' . $selected . '>';
 					$after  = '</span>';
-				break;
+					break;
 			}
 
 			$link = add_query_arg( 'afilter', $component );
@@ -3551,10 +3551,10 @@ function bp_activity_recurse_comments_activity_ids( $activity = array(), $activi
 	}
 
 	if ( ! empty( $activity->children ) ) {
-		foreach ($activity->children as $child ) {
+		foreach ( $activity->children as $child ) {
 			$activity_ids[] = $child->id;
 
-			if( ! empty( $child->children ) ) {
+			if ( ! empty( $child->children ) ) {
 				$activity_ids = bp_activity_recurse_comments_activity_ids( $child, $activity_ids );
 			}
 		}
@@ -3940,11 +3940,11 @@ function bp_activity_types_list( $output = 'select', $args = '' ) {
 
 		// Switch output based on the element.
 		switch ( $output ) {
-			case 'select' :
+			case 'select':
 				// phpcs:ignore WordPress.Security.EscapeOutput
 				printf( '<option value="%1$s" %2$s>%3$s</option>', esc_attr( $type ), $selected, esc_html( $description ) );
 				break;
-			case 'checkbox' :
+			case 'checkbox':
 				// phpcs:ignore WordPress.Security.EscapeOutput
 				printf( '<label style="" for="%1$s[]">%2$s<input type="checkbox" id="%1$s[]" name="%1$s[]" value="%3$s" %4$s/></label>', esc_attr( $args['checkbox_name'] ), esc_html( $description ), esc_attr( $args['checkbox_name'] ), esc_attr( $args['checkbox_name'] ), esc_attr( $type ), $checked );
 				break;

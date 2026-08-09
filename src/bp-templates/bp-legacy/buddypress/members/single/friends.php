@@ -11,7 +11,11 @@
 
 <div class="item-list-tabs no-ajax" id="subnav" aria-label="<?php esc_attr_e( 'Member secondary navigation', 'buddypress' ); ?>" role="navigation">
 	<ul>
-		<?php if ( bp_is_my_profile() ) bp_get_options_nav(); ?>
+		<?php
+		if ( bp_is_my_profile() ) {
+			bp_get_options_nav();
+		}
+		?>
 
 		<?php if ( ! bp_is_current_action( 'requests' ) ) : ?>
 
@@ -45,8 +49,7 @@
 switch ( bp_current_action() ) :
 
 	// Home/My Friends
-	case 'my-friends' :
-
+	case 'my-friends':
 		/**
 		 * Fires before the display of member friends content.
 		 *
@@ -55,7 +58,7 @@ switch ( bp_current_action() ) :
 		do_action( 'bp_before_member_friends_content' );
 		?>
 
-		<?php if (is_user_logged_in() ) : ?>
+		<?php if ( is_user_logged_in() ) : ?>
 			<h2 class="bp-screen-reader-text">
 				<?php
 					/* translators: accessibility text */
@@ -87,12 +90,12 @@ switch ( bp_current_action() ) :
 		do_action( 'bp_after_member_friends_content' );
 		break;
 
-	case 'requests' :
+	case 'requests':
 		bp_get_template_part( 'members/single/friends/requests' );
 		break;
 
 	// Any other
-	default :
+	default:
 		bp_get_template_part( 'members/single/plugins' );
 		break;
 endswitch;

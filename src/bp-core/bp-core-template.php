@@ -650,19 +650,19 @@ function bp_form_field_attributes( $name = '', $attributes = array() ) {
 		$name = strtolower( $name );
 
 		switch ( $name ) {
-			case 'username' :
-			case 'blogname' :
+			case 'username':
+			case 'blogname':
 				$attributes['autocomplete']   = 'off';
 				$attributes['autocapitalize'] = 'none';
 				break;
 
-			case 'email' :
+			case 'email':
 				if ( wp_is_mobile() ) {
 					$attributes['autocapitalize'] = 'none';
 				}
 				break;
 
-			case 'password' :
+			case 'password':
 				$attributes['spellcheck']   = 'false';
 				$attributes['autocomplete'] = 'off';
 
@@ -685,7 +685,7 @@ function bp_form_field_attributes( $name = '', $attributes = array() ) {
 
 		foreach ( $attributes as $attr => $value ) {
 			// Numeric keyed array.
-			if (is_numeric( $attr ) ) {
+			if ( is_numeric( $attr ) ) {
 				$retval .= sprintf( ' %s', esc_attr( $value ) );
 
 			// Associative keyed array.
@@ -3199,7 +3199,7 @@ function bp_the_body_class() {
 		/* Components ********************************************************/
 
 		if ( ! bp_is_blog_page() ) {
-			if ( bp_is_user_profile() )  {
+			if ( bp_is_user_profile() ) {
 				$bp_classes[] = 'xprofile';
 			}
 
@@ -3223,7 +3223,7 @@ function bp_the_body_class() {
 				$bp_classes[] = 'groups';
 			}
 
-			if ( bp_is_settings_component()  ) {
+			if ( bp_is_settings_component() ) {
 				$bp_classes[] = 'settings';
 			}
 		}

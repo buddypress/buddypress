@@ -48,7 +48,7 @@ function bp_activity_format_notifications( $action, $item_id, $secondary_item_id
 				/* translators: 1: the user display name */
 				$text = sprintf( __( '%1$s mentioned you', 'buddypress' ), $user_fullname );
 			}
-		break;
+			break;
 
 		case 'update_reply':
 			$link   = bp_get_notifications_permalink();
@@ -67,7 +67,7 @@ function bp_activity_format_notifications( $action, $item_id, $secondary_item_id
 				/* translators: 1: the user display name */
 				$text = sprintf( __( '%1$s commented on one of your updates', 'buddypress' ), $user_fullname );
 			}
-		break;
+			break;
 
 		case 'comment_reply':
 			$link   = bp_get_notifications_permalink();
@@ -86,7 +86,7 @@ function bp_activity_format_notifications( $action, $item_id, $secondary_item_id
 				/* translators: 1: the user display name */
 				$text = sprintf( __( '%1$s replied to one of your activity comments', 'buddypress' ), $user_fullname );
 			}
-		break;
+			break;
 	}
 
 	if ( 'string' === $format ) {

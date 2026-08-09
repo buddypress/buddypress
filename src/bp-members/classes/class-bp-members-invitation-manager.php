@@ -111,7 +111,7 @@ class BP_Members_Invitation_Manager extends BP_Invitation_Manager {
 				bp_update_user_meta( $new_user->ID, 'accepted_members_invitation', $invite->id );
 
 				// We will mark all invitations to this user as "accepted."
-				if ( ! empty( $invite->invitee_email )  ) {
+				if ( ! empty( $invite->invitee_email ) ) {
 					$args = array(
 						'invitee_email' => $invite->invitee_email,
 						'item_id'       => get_current_network_id(),

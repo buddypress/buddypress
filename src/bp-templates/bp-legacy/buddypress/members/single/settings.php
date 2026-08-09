@@ -22,22 +22,22 @@
 <?php
 
 switch ( bp_current_action() ) :
-	case 'notifications'  :
+	case 'notifications':
 		bp_get_template_part( 'members/single/settings/notifications' );
 		break;
-	case 'capabilities'   :
+	case 'capabilities':
 		bp_get_template_part( 'members/single/settings/capabilities' );
 		break;
-	case 'delete-account' :
+	case 'delete-account':
 		bp_get_template_part( 'members/single/settings/delete-account' );
 		break;
-	case 'general'        :
+	case 'general':
 		bp_get_template_part( 'members/single/settings/general' );
 		break;
-	case 'profile'        :
+	case 'profile':
 		bp_get_template_part( 'members/single/settings/profile' );
 		break;
-	case 'data'           :
+	case 'data':
 		bp_get_template_part( 'members/single/settings/data' );
 		break;
 	default:

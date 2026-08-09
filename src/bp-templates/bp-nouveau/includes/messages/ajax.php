@@ -436,7 +436,8 @@ function bp_nouveau_ajax_get_user_message_threads() {
 	$threads->threads = array();
 	$i                = 0;
 
-	while ( bp_message_threads() ) : bp_message_thread();
+	while ( bp_message_threads() ) :
+		bp_message_thread();
 		$last_message_id = (int) $messages_template->thread->last_message_id;
 		$sender_data     = bp_nouveau_ajax_get_message_sender_data( $messages_template->thread->last_sender_id );
 
@@ -616,7 +617,8 @@ function bp_nouveau_ajax_get_thread_messages() {
 	$thread->messages = array();
 	$i                = 0;
 
-	while ( bp_thread_messages() ) : bp_thread_the_message();
+	while ( bp_thread_messages() ) :
+		bp_thread_the_message();
 		$sender_data = bp_nouveau_ajax_get_message_sender_data( bp_get_the_thread_message_sender_id() );
 
 		$thread->messages[ $i ] = array(

@@ -50,7 +50,10 @@ do_action( 'bp_before_members_loop' ); ?>
 
 	<ul id="members-list" class="item-list" aria-live="assertive" aria-relevant="all">
 
-	<?php while ( bp_members() ) : bp_the_member(); ?>
+	<?php
+	while ( bp_members() ) :
+		bp_the_member();
+		?>
 
 		<li <?php bp_member_class(); ?>>
 			<div class="item-avatar">
@@ -141,7 +144,7 @@ do_action( 'bp_before_members_loop' ); ?>
 
 	</div>
 
-<?php else: ?>
+<?php else : ?>
 
 	<div id="message" class="info">
 		<p><?php esc_html_e( 'Sorry, no members were found.', 'buddypress' ); ?></p>

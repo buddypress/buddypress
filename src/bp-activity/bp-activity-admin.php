@@ -384,7 +384,7 @@ function bp_activity_admin_load() {
 			}
 
 			switch ( $doaction ) {
-				case 'do_delete' :
+				case 'do_delete':
 					if ( 'activity_comment' === $activity->type ) {
 						$delete_result = bp_activity_delete_comment( $activity->item_id, $activity->id );
 					} else {
@@ -398,7 +398,7 @@ function bp_activity_admin_load() {
 					}
 					break;
 
-				case 'ham' :
+				case 'ham':
 					/**
 					 * Remove moderation and disallowed keyword checks in case we want to ham an activity
 					 * which contains one of these listed keys.
@@ -417,7 +417,7 @@ function bp_activity_admin_load() {
 					}
 					break;
 
-				case 'spam' :
+				case 'spam':
 					bp_activity_mark_as_spam( $activity );
 					$result = $activity->save();
 
@@ -511,28 +511,34 @@ function bp_activity_admin_load() {
 		}
 
 		// Activity action.
-		if ( isset( $_POST['bp-activities-action'] ) )
+		if ( isset( $_POST['bp-activities-action'] ) ) {
 			$activity->action = $_POST['bp-activities-action'];
+		}
 
 		// Activity content.
-		if ( isset( $_POST['bp-activities-content'] ) )
+		if ( isset( $_POST['bp-activities-content'] ) ) {
 			$activity->content = $_POST['bp-activities-content'];
+		}
 
 		// Activity primary link.
-		if ( ! empty( $_POST['bp-activities-link'] ) )
+		if ( ! empty( $_POST['bp-activities-link'] ) ) {
 			$activity->primary_link = $_POST['bp-activities-link'];
+		}
 
 		// Activity user ID.
-		if ( ! empty( $_POST['bp-activities-userid'] ) )
+		if ( ! empty( $_POST['bp-activities-userid'] ) ) {
 			$activity->user_id = (int) $_POST['bp-activities-userid'];
+		}
 
 		// Activity item primary ID.
-		if ( isset( $_POST['bp-activities-primaryid'] ) )
+		if ( isset( $_POST['bp-activities-primaryid'] ) ) {
 			$activity->item_id = (int) $_POST['bp-activities-primaryid'];
+		}
 
 		// Activity item secondary ID.
-		if ( isset( $_POST['bp-activities-secondaryid'] ) )
+		if ( isset( $_POST['bp-activities-secondaryid'] ) ) {
 			$activity->secondary_item_id = (int) $_POST['bp-activities-secondaryid'];
+		}
 
 		// Activity type.
 		if ( ! empty( $_POST['bp-activities-type'] ) ) {
@@ -568,10 +574,11 @@ function bp_activity_admin_load() {
 
 		// Has the spam status has changed?
 		if ( $new_spam_status !== $prev_spam_status ) {
-			if ( $new_spam_status )
+			if ( $new_spam_status ) {
 				bp_activity_mark_as_spam( $activity );
-			else
+			} else {
 				bp_activity_mark_as_ham( $activity );
+			}
 		}
 
 		// Save.
@@ -581,8 +588,9 @@ function bp_activity_admin_load() {
 		wp_cache_delete( 'bp_activity_sitewide_front', 'bp' );
 
 		// Check for any error during activity save.
-		if ( false === $result )
+		if ( false === $result ) {
 			$error = $activity->id;
+		}
 
 		/**
 		 * Fires before redirect so plugins can do something first on save action.
@@ -744,8 +752,9 @@ function bp_activity_admin_edit() {
 
 	// @todo: Check if user is allowed to edit activity items
 	// if ( ! current_user_can( 'bp_edit_activity' ) )
-	if ( ! is_super_admin() )
+	if ( ! is_super_admin() ) {
 		die( '-1' );
+	}
 
 	// Get the activity from the database.
 	$activity = bp_activity_get(

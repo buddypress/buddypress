@@ -31,14 +31,13 @@ function members_format_notifications( $action, $item_id, $secondary_item_id, $t
 
 	switch ( $action ) {
 		case 'accepted_invitation':
-
 			// Set up the string and the filter.
 			if ( (int) $total_items > 1 ) {
 				$link   = bp_get_notifications_permalink();
 				$amount = 'multiple';
 
 				// This is the inviter whose invitation was accepted.
-				if ( 0 !== (int) $secondary_item_id )  {
+				if ( 0 !== (int) $secondary_item_id ) {
 					/* translators: %d: the number of new users */
 					$text = sprintf( __( '%d members accepted your membership invitations', 'buddypress' ), (int) $total_items );
 				// This is someone who also invited that user to join.
@@ -51,7 +50,7 @@ function members_format_notifications( $action, $item_id, $secondary_item_id, $t
 				$amount = 'single';
 
 				// This is the inviter whose invitation was accepted.
-				if ( 0 !== (int) $secondary_item_id )  {
+				if ( 0 !== (int) $secondary_item_id ) {
 					/* translators: %s: new user name */
 					$text = sprintf( __( '%s accepted your membership invitation', 'buddypress' ), bp_core_get_user_displayname( $item_id ) );
 					// This is someone who also invited that user to join.

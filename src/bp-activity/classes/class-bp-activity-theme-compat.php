@@ -36,8 +36,9 @@ class BP_Activity_Theme_Compat {
 	public function is_activity() {
 
 		// Bail if not looking at a group.
-		if ( ! bp_is_activity_component() )
+		if ( ! bp_is_activity_component() ) {
 			return;
+		}
 
 		// Activity Directory.
 		if ( ! bp_displayed_user_id() && ! bp_current_action() ) {

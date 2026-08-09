@@ -53,7 +53,10 @@ do_action( 'bp_before_group_manage_members_admin' );
 			<?php endif; ?>
 
 			<ul id="admins-list" class="item-list">
-				<?php while ( bp_group_members() ) : bp_group_the_member(); ?>
+				<?php
+				while ( bp_group_members() ) :
+					bp_group_the_member();
+					?>
 					<li>
 						<div class="item-avatar">
 							<?php bp_group_member_avatar_thumb(); ?>
@@ -117,7 +120,7 @@ do_action( 'bp_before_group_manage_members_admin' );
 
 			<?php endif; ?>
 
-		<?php else: ?>
+		<?php else : ?>
 
 		<div id="message" class="info">
 			<p><?php esc_html_e( 'No group administrators were found.', 'buddypress' ); ?></p>
@@ -157,7 +160,10 @@ do_action( 'bp_before_group_manage_members_admin' );
 
 			<ul id="mods-list" class="item-list">
 
-				<?php while ( bp_group_members() ) : bp_group_the_member(); ?>
+				<?php
+				while ( bp_group_members() ) :
+					bp_group_the_member();
+					?>
 					<li>
 						<div class="item-avatar">
 							<?php bp_group_member_avatar_thumb(); ?>
@@ -222,7 +228,7 @@ do_action( 'bp_before_group_manage_members_admin' );
 
 			<?php endif; ?>
 
-		<?php else: ?>
+		<?php else : ?>
 
 			<div id="message" class="info">
 				<p><?php esc_html_e( 'No group moderators were found.', 'buddypress' ); ?></p>
@@ -260,7 +266,10 @@ do_action( 'bp_before_group_manage_members_admin' );
 			<?php endif; ?>
 
 			<ul id="members-list" class="item-list" aria-live="assertive" aria-relevant="all">
-				<?php while ( bp_group_members() ) : bp_group_the_member(); ?>
+				<?php
+				while ( bp_group_members() ) :
+					bp_group_the_member();
+					?>
 
 					<li class="<?php bp_group_member_css_class(); ?>">
 						<div class="item-avatar">
@@ -343,7 +352,7 @@ do_action( 'bp_before_group_manage_members_admin' );
 
 			<?php endif; ?>
 
-		<?php else: ?>
+		<?php else : ?>
 
 			<div id="message" class="info">
 				<p><?php esc_html_e( 'No group members were found.', 'buddypress' ); ?></p>

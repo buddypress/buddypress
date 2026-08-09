@@ -500,14 +500,15 @@ function bp_groups_admin_load() {
 						$result = false;
 
 						switch ( $new_role ) {
-							case 'mod' :
+							case 'mod':
 								// Admin to mod is a demotion. Demote to
 								// member, then fall through.
 								if ( 'admin' === $existing_role ) {
 									$result = groups_demote_member( $user_id, $group_id );
 								}
 
-							case 'admin' :
+							// Fall through.
+							case 'admin':
 								// If the user was banned, we must
 								// unban first.
 								if ( 'banned' === $existing_role ) {
@@ -520,8 +521,7 @@ function bp_groups_admin_load() {
 
 								break;
 
-							case 'member' :
-
+							case 'member':
 								if ( 'admin' === $existing_role || 'mod' === $existing_role ) {
 									$result = groups_demote_member( $user_id, $group_id );
 								} elseif ( 'banned' === $existing_role ) {
@@ -530,14 +530,12 @@ function bp_groups_admin_load() {
 
 								break;
 
-							case 'banned' :
-
+							case 'banned':
 								$result = groups_ban_member( $user_id, $group_id );
 
 								break;
 
-							case 'remove' :
-
+							case 'remove':
 								$result = groups_remove_member( $user_id, $group_id );
 
 								break;
@@ -1175,10 +1173,14 @@ function bp_groups_admin_edit_metabox_members( $item ) {
 			<h3>
 				<?php
 				switch ( $member_type ) :
-					case 'admin'  : esc_html_e( 'Administrators', 'buddypress' ); break;
-					case 'mod'    : esc_html_e( 'Moderators', 'buddypress' ); break;
-					case 'member' : esc_html_e( 'Members', 'buddypress' ); break;
-					case 'banned' : esc_html_e( 'Banned Members', 'buddypress' ); break;
+					case 'admin':
+						esc_html_e( 'Administrators', 'buddypress' ); break;
+					case 'mod':
+						esc_html_e( 'Moderators', 'buddypress' ); break;
+					case 'member':
+						esc_html_e( 'Members', 'buddypress' ); break;
+					case 'banned':
+						esc_html_e( 'Banned Members', 'buddypress' ); break;
 				endswitch;
 				?>
 			</h3>
@@ -1583,7 +1585,7 @@ function bp_groups_admin_process_group_type_bulk_changes( $doaction ) {
 	// Bail if nonce check fails.
 	check_admin_referer( 'bp-bulk-groups-change-type-' . bp_loggedin_user_id(), 'bp-bulk-groups-change-type-nonce' );
 
-	if ( ! bp_current_user_can( 'bp_moderate' )  ) {
+	if ( ! bp_current_user_can( 'bp_moderate' ) ) {
 		return;
 	}
 

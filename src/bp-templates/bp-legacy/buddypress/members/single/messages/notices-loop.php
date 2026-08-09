@@ -48,7 +48,10 @@ do_action( 'bp_before_notices_loop' ); ?>
 	?>
 
 	<table id="message-threads" class="messages-notices sitewide-notices">
-		<?php while ( bp_message_threads() ) : bp_message_thread(); ?>
+		<?php
+		while ( bp_message_threads() ) :
+			bp_message_thread();
+			?>
 			<tr id="notice-<?php bp_message_notice_id(); ?>" class="<?php bp_message_css_class(); ?>">
 				<td width="1%"></td>
 				<td width="38%">
@@ -94,7 +97,7 @@ do_action( 'bp_before_notices_loop' ); ?>
 	do_action( 'bp_after_notices' );
 	?>
 
-<?php else: ?>
+<?php else : ?>
 
 	<div id="message" class="info">
 		<p><?php esc_html_e( 'Sorry, no notices were found.', 'buddypress' ); ?></p>

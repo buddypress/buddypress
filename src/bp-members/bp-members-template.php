@@ -2663,9 +2663,10 @@ function bp_signup_username_value() {
 	 * @return string
 	 */
 	function bp_get_signup_username_value() {
-		$value     = '';
-		if ( isset( $_POST['signup_username'] ) )
+		$value = '';
+		if ( isset( $_POST['signup_username'] ) ) {
 			$value = $_POST['signup_username'];
+		}
 
 		/**
 		 * Filters the username submitted during signup.
@@ -2731,9 +2732,10 @@ function bp_signup_with_blog_value() {
 	 * @return string
 	 */
 	function bp_get_signup_with_blog_value() {
-		$value     = '';
-		if ( isset( $_POST['signup_with_blog'] ) )
+		$value = '';
+		if ( isset( $_POST['signup_with_blog'] ) ) {
 			$value = $_POST['signup_with_blog'];
+		}
 
 		/**
 		 * Filters the 'signup_with_blog' value submitted during signup.
@@ -2763,9 +2765,10 @@ function bp_signup_blog_url_value() {
 	 * @return string
 	 */
 	function bp_get_signup_blog_url_value() {
-		$value     = '';
-		if ( isset( $_POST['signup_blog_url'] ) )
+		$value = '';
+		if ( isset( $_POST['signup_blog_url'] ) ) {
 			$value = $_POST['signup_blog_url'];
+		}
 
 		/**
 		 * Filters the 'signup_blog_url' value submitted during signup.
@@ -2831,9 +2834,10 @@ function bp_signup_blog_title_value() {
 	 * @return string
 	 */
 	function bp_get_signup_blog_title_value() {
-		$value     = '';
-		if ( isset( $_POST['signup_blog_title'] ) )
+		$value = '';
+		if ( isset( $_POST['signup_blog_title'] ) ) {
 			$value = $_POST['signup_blog_title'];
+		}
 
 		/**
 		 * Filters the 'signup_blog_title' value submitted during signup.
@@ -2863,9 +2867,10 @@ function bp_signup_blog_privacy_value() {
 	 * @return string
 	 */
 	function bp_get_signup_blog_privacy_value() {
-		$value     = '';
-		if ( isset( $_POST['signup_blog_privacy'] ) )
+		$value = '';
+		if ( isset( $_POST['signup_blog_privacy'] ) ) {
 			$value = $_POST['signup_blog_privacy'];
+		}
 
 		/**
 		 * Filters the 'signup_blog_privacy' value submitted during signup.

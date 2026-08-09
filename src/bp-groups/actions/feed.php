@@ -19,8 +19,9 @@ function groups_action_group_feed() {
 	// Get current group.
 	$group = groups_get_current_group();
 
-	if ( ! bp_is_active( 'activity' ) || ! bp_is_groups_component() || ! $group || ! bp_is_current_action( 'feed' ) )
+	if ( ! bp_is_active( 'activity' ) || ! bp_is_groups_component() || ! $group || ! bp_is_current_action( 'feed' ) ) {
 		return false;
+	}
 
 	// If group isn't public or if logged-in user is not a member of the group, do
 	// not output the group activity feed.

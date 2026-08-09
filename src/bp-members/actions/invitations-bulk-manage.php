@@ -41,7 +41,7 @@ function bp_members_invitations_action_bulk_manage() {
 
 	// Cancel or resend depending on the user 'action'.
 	switch ( $action ) {
-		case 'cancel' :
+		case 'cancel':
 			$success = 0;
 			foreach ( $invitations as $invite_id ) {
 				if ( bp_members_invitations_delete_by_id( $invite_id ) ) {
@@ -58,7 +58,7 @@ function bp_members_invitations_action_bulk_manage() {
 			bp_core_add_message( $message );
 			break;
 
-		case 'resend' :
+		case 'resend':
 			$success = 0;
 			foreach ( $invitations as $invite_id ) {
 				if ( bp_members_invitation_resend_by_id( $invite_id ) ) {

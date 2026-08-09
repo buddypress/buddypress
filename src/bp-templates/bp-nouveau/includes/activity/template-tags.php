@@ -385,8 +385,7 @@ function bp_nouveau_activity_entry_buttons( $args = array() ) {
 				$buttons['activity_conversation']['button_attr']['href'] = bp_get_activity_comment_link();
 				$buttons['activity_conversation']['button_attr']['role'] = 'button';
 			}
-
-		}
+			}
 
 		if ( bp_activity_can_favorite() ) {
 
@@ -813,7 +812,7 @@ function bp_nouveau_activity_comment_buttons( $args = array() ) {
 		 * otherwise simply pass any value found in args
 		 * or set var false.
 		 */
-		if ( 'ul' === $args['container']  ) {
+		if ( 'ul' === $args['container'] ) {
 			$parent_element = 'li';
 		} elseif ( ! empty( $args['parent_element'] ) ) {
 			$parent_element = $args['parent_element'];

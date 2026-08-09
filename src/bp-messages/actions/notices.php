@@ -49,7 +49,7 @@ function bp_messages_action_edit_notice() {
 	switch ( $action ) {
 
 		// Deactivate.
-		case 'deactivate' :
+		case 'deactivate':
 			$success  = $notice->deactivate();
 			$feedback = true === $success
 				? __( 'Notice deactivated successfully.', 'buddypress' )
@@ -57,7 +57,7 @@ function bp_messages_action_edit_notice() {
 			break;
 
 		// Activate.
-		case 'activate' :
+		case 'activate':
 			$success  = $notice->activate();
 			$feedback = true === $success
 				? __( 'Notice activated successfully.', 'buddypress' )
@@ -65,7 +65,7 @@ function bp_messages_action_edit_notice() {
 			break;
 
 		// Delete.
-		case 'delete' :
+		case 'delete':
 			$success  = $notice->delete();
 			$feedback = true === $success
 				? __( 'Notice deleted successfully.', 'buddypress' )

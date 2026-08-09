@@ -216,7 +216,7 @@ function bp_activity_update_mention_count_for_user( $user_id, $activity_id, $act
 	}
 
 	switch ( $action ) {
-		case 'delete' :
+		case 'delete':
 			$key = array_search( $activity_id, $new_mentions, true );
 
 			if ( $key !== false ) {
@@ -225,8 +225,8 @@ function bp_activity_update_mention_count_for_user( $user_id, $activity_id, $act
 
 			break;
 
-		case 'add' :
-		default :
+		case 'add':
+		default:
 			if ( ! in_array( $activity_id, $new_mentions, true ) ) {
 				$new_mentions[] = (int) $activity_id;
 			}
@@ -630,7 +630,6 @@ function bp_activity_get_post_types_tracking_args() {
 
 			$post_types_tracking_args[ $track_post_type->action_id ] = $track_post_type;
 		}
-
 	}
 
 	/**
@@ -717,7 +716,7 @@ function bp_activity_type_supports( $activity_type = '', $feature = '' ) {
 		 *
 		 * For example, 'new_blog_post' and 'new_blog_comment' will both return true.
 		 */
-		case 'post-type-comment-tracking' :
+		case 'post-type-comment-tracking':
 			// Set the activity track global if not set yet.
 			if ( empty( $bp->activity->track ) ) {
 				$bp->activity->track = bp_activity_get_post_types_tracking_args();
@@ -733,7 +732,7 @@ function bp_activity_type_supports( $activity_type = '', $feature = '' ) {
 		 *
 		 * For example, 'new_blog_post' will return true; 'new_blog_comment' will return false.
 		 */
-		case 'post-type-comment-reply' :
+		case 'post-type-comment-reply':
 			// Set the activity track global if not set yet.
 			if ( empty( $bp->activity->track ) ) {
 				$bp->activity->track = bp_activity_get_post_types_tracking_args();
@@ -747,7 +746,7 @@ function bp_activity_type_supports( $activity_type = '', $feature = '' ) {
 		/**
 		 * Does this activity type support comment & reply?
 		 */
-		case 'comment-reply' :
+		case 'comment-reply':
 			// Set the activity track global if not set yet.
 			if ( empty( $bp->activity->track ) ) {
 				$bp->activity->track = bp_activity_get_post_types_tracking_args();
@@ -777,7 +776,7 @@ function bp_activity_type_supports( $activity_type = '', $feature = '' ) {
 		/**
 		 * Does this activity type support `generated-content`?
 		 */
-		case 'generated-content' :
+		case 'generated-content':
 			$activity_types = _bp_activity_get_types_by_support( 'generated-content' );
 
 			$retval = in_array( $activity_type, $activity_types, true );
@@ -2346,7 +2345,7 @@ function bp_activity_post_type_publish( $post_id = 0, $post = null, $user_id = 0
 	);
 
 	// Backward compatibility filters for the 'blogs' component.
-	if ( 'blogs' === $activity_post_object->component_id )  {
+	if ( 'blogs' === $activity_post_object->component_id ) {
 		$activity_content      = apply_filters( 'bp_blogs_activity_new_post_content', $post->post_content, $post, $post_url, $post->post_type );
 		$activity_primary_link = apply_filters( 'bp_blogs_activity_new_post_primary_link', $post_url, $post_id, $post->post_type );
 	} else {
@@ -2370,7 +2369,7 @@ function bp_activity_post_type_publish( $post_id = 0, $post = null, $user_id = 0
 		$activity_summary = bp_activity_create_summary( $activity_args['content'], $activity_args );
 
 		// Backward compatibility filter for blog posts.
-		if ( 'blogs' === $activity_post_object->component_id )  {
+		if ( 'blogs' === $activity_post_object->component_id ) {
 			$activity_args['content'] = apply_filters( 'bp_blogs_record_activity_content', $activity_summary, $activity_args['content'], $activity_args, $post->post_type );
 		} else {
 			$activity_args['content'] = $activity_summary;
@@ -2393,7 +2392,7 @@ function bp_activity_post_type_publish( $post_id = 0, $post = null, $user_id = 0
 		return;
 	} else {
 		// Backward compatibility filter for the blogs component.
-		if ( 'blogs' === $activity_post_object->component_id )  {
+		if ( 'blogs' === $activity_post_object->component_id ) {
 			$activity_args['action'] = apply_filters( 'bp_blogs_record_activity_action', $activity_args['action'] );
 		}
 	}
@@ -2651,7 +2650,7 @@ function bp_activity_post_type_comment( $comment_id = 0, $is_approved = true, $a
 	$comment_link = get_comment_link( $post_type_comment->comment_ID );
 
 	// Backward compatibility filters for the 'blogs' component.
-	if ( 'blogs' === $activity_comment_object->component_id )  {
+	if ( 'blogs' === $activity_comment_object->component_id ) {
 		$activity_content      = apply_filters_ref_array( 'bp_blogs_activity_new_comment_content', array( $post_type_comment->comment_content, &$post_type_comment, $comment_link ) );
 		$activity_primary_link = apply_filters_ref_array( 'bp_blogs_activity_new_comment_primary_link', array( $comment_link, &$post_type_comment ) );
 	} else {
@@ -2685,7 +2684,7 @@ function bp_activity_post_type_comment( $comment_id = 0, $is_approved = true, $a
 			$activity_summary = bp_activity_create_summary( $activity_args['content'], $activity_args );
 
 			// Backward compatibility filter for blog comments.
-			if ( 'blogs' === $activity_post_object->component_id )  {
+			if ( 'blogs' === $activity_post_object->component_id ) {
 				$activity_args['content'] = apply_filters( 'bp_blogs_record_activity_content', $activity_summary, $activity_args['content'], $activity_args, $post_type );
 			} else {
 				$activity_args['content'] = $activity_summary;
@@ -2710,7 +2709,7 @@ function bp_activity_post_type_comment( $comment_id = 0, $is_approved = true, $a
 			return;
 		} else {
 			// Backward compatibility filter for the blogs component.
-			if ( 'blogs' === $activity_post_object->component_id )  {
+			if ( 'blogs' === $activity_post_object->component_id ) {
 				$activity_args['action'] = apply_filters( 'bp_blogs_record_activity_action', $activity_args['action'] );
 			}
 		}
@@ -2891,7 +2890,6 @@ function bp_activity_new_comment( $args = '' ) {
 			$bp->activity->errors['new_comment'] = $error;
 			return false;
 		}
-
 	}
 
 	// Check to see if the parent activity is hidden, and if so, hide this comment publicly.
@@ -4369,7 +4367,7 @@ function bp_activity_transition_post_type_comment_status( $new_status, $old_stat
 	// Spam/ham the activity if it's not already in that state.
 	if ( 'spam_activity' === $action && ! $activity->is_spam ) {
 		bp_activity_mark_as_spam( $activity );
-	} elseif ( 'ham_activity' === $action) {
+	} elseif ( 'ham_activity' === $action ) {
 		bp_activity_mark_as_ham( $activity );
 	}
 

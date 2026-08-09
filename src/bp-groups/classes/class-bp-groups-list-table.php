@@ -105,16 +105,16 @@ class BP_Groups_List_Table extends WP_List_Table {
 		$orderby = 'last_activity';
 		if ( ! empty( $_REQUEST['orderby'] ) ) {
 			switch ( $_REQUEST['orderby'] ) {
-				case 'name' :
+				case 'name':
 					$orderby = 'name';
 					break;
-				case 'id' :
+				case 'id':
 					$orderby = 'date_created';
 					break;
-				case 'members' :
+				case 'members':
 					$orderby = 'total_member_count';
 					break;
-				case 'last_active' :
+				case 'last_active':
 					$orderby = 'last_activity';
 					break;
 			}
@@ -375,7 +375,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 
 		<ul class="subsubsub">
 			<li class="all">
-				<a href="<?php echo esc_url( $url_base ); ?>" class="<?php if ( 'all' === $this->view ) echo 'current'; ?>">
+				<a href="<?php echo esc_url( $url_base ); ?>" class="<?php /* phpcs:ignore Generic.ControlStructures.InlineControlStructure.NotAllowed -- Preserve generated attribute whitespace. */ if ( 'all' === $this->view ) echo 'current'; ?>">
 					<?php
 					printf(
 						/* translators: %s is the placeholder for the count html tag `<span class="count"/>` */
@@ -389,7 +389,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 				</a> |
 			</li>
 			<li class="public">
-				<a href="<?php echo esc_url( add_query_arg( 'group_status', 'public', $url_base ) ); ?>" class="<?php if ( 'public' === $this->view ) echo 'current'; ?>">
+				<a href="<?php echo esc_url( add_query_arg( 'group_status', 'public', $url_base ) ); ?>" class="<?php /* phpcs:ignore Generic.ControlStructures.InlineControlStructure.NotAllowed -- Preserve generated attribute whitespace. */ if ( 'public' === $this->view ) echo 'current'; ?>">
 					<?php
 					printf(
 						/* translators: %s is the placeholder for the count html `<span class="count"/>` */
@@ -403,7 +403,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 				</a> |
 			</li>
 			<li class="private">
-				<a href="<?php echo esc_url( add_query_arg( 'group_status', 'private', $url_base ) ); ?>" class="<?php if ( 'private' === $this->view ) echo 'current'; ?>">
+				<a href="<?php echo esc_url( add_query_arg( 'group_status', 'private', $url_base ) ); ?>" class="<?php /* phpcs:ignore Generic.ControlStructures.InlineControlStructure.NotAllowed -- Preserve generated attribute whitespace. */ if ( 'private' === $this->view ) echo 'current'; ?>">
 					<?php
 					printf(
 						/* translators: %s is the placeholder for the count html `<span class="count"/>` */
@@ -417,7 +417,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 				</a> |
 			</li>
 			<li class="hidden">
-				<a href="<?php echo esc_url( add_query_arg( 'group_status', 'hidden', $url_base ) ); ?>" class="<?php if ( 'hidden' === $this->view ) echo 'current'; ?>">
+				<a href="<?php echo esc_url( add_query_arg( 'group_status', 'hidden', $url_base ) ); ?>" class="<?php /* phpcs:ignore Generic.ControlStructures.InlineControlStructure.NotAllowed -- Preserve generated attribute whitespace. */ if ( 'hidden' === $this->view ) echo 'current'; ?>">
 					<?php
 					printf(
 						/* translators: %s is the placeholder for the count html tag */
@@ -555,8 +555,9 @@ class BP_Groups_List_Table extends WP_List_Table {
 		$action_count = count( $actions );
 		$i            = 0;
 
-		if ( ! $action_count )
+		if ( ! $action_count ) {
 			return '';
+		}
 
 		$out = '<div class="' . ( $always_visible ? 'row-actions visible' : 'row-actions' ) . '">';
 		foreach ( $actions as $action => $link ) {
@@ -734,13 +735,13 @@ class BP_Groups_List_Table extends WP_List_Table {
 		// @todo This should be abstracted out somewhere for the whole
 		// Groups component.
 		switch ( $status ) {
-			case 'public' :
+			case 'public':
 				$status_desc = __( 'Public', 'buddypress' );
 				break;
-			case 'private' :
+			case 'private':
 				$status_desc = __( 'Private', 'buddypress' );
 				break;
-			case 'hidden' :
+			case 'hidden':
 				$status_desc = __( 'Hidden', 'buddypress' );
 				break;
 		}

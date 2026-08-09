@@ -15,7 +15,8 @@
 do_action( 'bp_before_profile_edit_content' );
 
 if ( bp_has_profile( 'profile_group_id=' . bp_get_current_profile_group_id() ) ) :
-	while ( bp_profile_groups() ) : bp_the_profile_group(); ?>
+	while ( bp_profile_groups() ) :
+		bp_the_profile_group(); ?>
 
 <form action="<?php bp_the_profile_group_edit_form_action(); ?>" method="post" id="profile-edit-form" class="standard-form <?php bp_the_profile_group_slug(); ?>">
 
@@ -42,7 +43,10 @@ if ( bp_has_profile( 'profile_group_id=' . bp_get_current_profile_group_id() ) )
 
 		<div class="clear"></div>
 
-		<?php while ( bp_profile_fields() ) : bp_the_profile_field(); ?>
+		<?php
+		while ( bp_profile_fields() ) :
+			bp_the_profile_field();
+			?>
 
 			<div<?php bp_field_css_class( 'editfield' ); ?>>
 				<fieldset>

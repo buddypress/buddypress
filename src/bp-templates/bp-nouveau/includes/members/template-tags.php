@@ -244,7 +244,7 @@ function bp_nouveau_members_loop_buttons( $args = array() ) {
 		 */
 		$parent_element = false;
 
-		if ( ! empty( $args['container'] ) && 'ul' === $args['container']  ) {
+		if ( ! empty( $args['container'] ) && 'ul' === $args['container'] ) {
 			$parent_element = 'li';
 		} elseif ( ! empty( $args['parent_element'] ) ) {
 			$parent_element = $args['parent_element'];

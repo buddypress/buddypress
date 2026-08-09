@@ -16,8 +16,9 @@
  */
 function bp_activity_action_post_update() {
 	// Do not proceed if user is not logged in, not viewing activity, or not posting.
-	if ( ! is_user_logged_in() || ! bp_is_activity_component() || ! bp_is_current_action( 'post' ) )
+	if ( ! is_user_logged_in() || ! bp_is_activity_component() || ! bp_is_current_action( 'post' ) ) {
 		return false;
+	}
 
 	// Check the nonce.
 	check_admin_referer( 'post_update', '_wpnonce_post_update' );
@@ -75,7 +76,6 @@ function bp_activity_action_post_update() {
 				)
 			);
 		}
-
 	} else {
 
 		/**
@@ -94,10 +94,11 @@ function bp_activity_action_post_update() {
 	}
 
 	// Provide user feedback.
-	if ( ! empty( $activity_id ) )
+	if ( ! empty( $activity_id ) ) {
 		bp_core_add_message( __( 'Update Posted!', 'buddypress' ) );
-	else
+	} else {
 		bp_core_add_message( __( 'There was an error when posting your update. Please try again.', 'buddypress' ), 'error' );
+	}
 
 	// Redirect.
 	bp_core_redirect( wp_get_referer() );

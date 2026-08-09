@@ -105,9 +105,9 @@ do_action( 'bp_before_member_messages_loop' ); ?>
 
 			<tbody>
 
-				<?php while ( bp_message_threads() ) : bp_message_thread(); ?>
+				<?php /* phpcs:ignore Squiz.ControlStructures.ControlSignature.NewlineAfterOpenBrace -- Preserve generated output whitespace. */ while ( bp_message_threads() ) : bp_message_thread(); ?>
 
-					<tr id="m-<?php bp_message_thread_id(); ?>" class="<?php bp_message_css_class(); ?><?php if ( bp_message_thread_has_unread() ) : ?> unread<?php else: ?> read<?php endif; ?>">
+					<tr id="m-<?php bp_message_thread_id(); ?>" class="<?php bp_message_css_class(); ?><?php /* phpcs:ignore Squiz.ControlStructures.ControlSignature.NewlineAfterOpenBrace -- Preserve generated output whitespace. */ if ( bp_message_thread_has_unread() ) : ?> unread<?php /* phpcs:ignore Squiz.ControlStructures.ControlSignature.NewlineAfterOpenBrace, Squiz.ControlStructures.ControlSignature.SpaceAfterKeyword, WordPress.WhiteSpace.ControlStructureSpacing.NoSpaceBetweenStructureColon -- Preserve generated output whitespace. */ else: ?> read<?php endif; ?>">
 						<td class="bulk-select-check">
 							<label for="bp-message-thread-<?php bp_message_thread_id(); ?>"><input type="checkbox" name="message_ids[]" id="bp-message-thread-<?php bp_message_thread_id(); ?>" class="message-check" value="<?php bp_message_thread_id(); ?>" /><span class="bp-screen-reader-text">
 							<?php
@@ -131,7 +131,7 @@ do_action( 'bp_before_member_messages_loop' ); ?>
 								<?php bp_message_thread_total_and_unread_count(); ?>
 								<span class="activity"><?php bp_message_thread_last_post_date(); ?></span>
 							</td>
-						<?php else: ?>
+						<?php else : ?>
 							<td class="thread-from">
 								<?php
 								bp_message_thread_avatar(
@@ -225,7 +225,7 @@ do_action( 'bp_before_member_messages_loop' ); ?>
 	do_action( 'bp_after_member_messages_options' );
 	?>
 
-<?php else: ?>
+<?php else : ?>
 
 	<div id="message" class="info">
 		<p><?php esc_html_e( 'Sorry, no messages were found.', 'buddypress' ); ?></p>

@@ -56,8 +56,9 @@ function groups_action_create_group() {
 	}
 
 	// Fetch the currently completed steps variable.
-	if ( isset( $_COOKIE['bp_completed_create_steps'] ) && ! isset( $reset_steps ) )
+	if ( isset( $_COOKIE['bp_completed_create_steps'] ) && ! isset( $reset_steps ) ) {
 		$bp->groups->completed_create_steps = json_decode( base64_decode( stripslashes( $_COOKIE['bp_completed_create_steps'] ) ) );
+	}
 
 	// Set the ID of the new group, if it has already been created in a previous step.
 	if ( bp_get_new_group_id() ) {
@@ -107,10 +108,11 @@ function groups_action_create_group() {
 				$group_enable_forum = 0;
 			}
 
-			if ( 'private' === $_POST['group-status'] )
+			if ( 'private' === $_POST['group-status'] ) {
 				$group_status = 'private';
-			elseif ( 'hidden' === $_POST['group-status'] )
+			} elseif ( 'hidden' === $_POST['group-status'] ) {
 				$group_status = 'hidden';
+			}
 
 			if ( ! $bp->groups->new_group_id = groups_create_group(
 				array(
@@ -182,9 +184,10 @@ function groups_action_create_group() {
 		 * we need to add the current step to the array of completed steps, then update the cookies
 		 * holding the information
 		 */
-		$completed_create_steps                   = isset( $bp->groups->completed_create_steps ) ? $bp->groups->completed_create_steps : array();
-		if ( ! in_array( bp_get_groups_current_create_step(), $completed_create_steps, true ) )
+		$completed_create_steps = isset( $bp->groups->completed_create_steps ) ? $bp->groups->completed_create_steps : array();
+		if ( ! in_array( bp_get_groups_current_create_step(), $completed_create_steps, true ) ) {
 			$bp->groups->completed_create_steps[] = bp_get_groups_current_create_step();
+		}
 
 		// Reset cookie info.
 		setcookie( 'bp_new_group_id', $bp->groups->new_group_id, time() + 60 * 60 * 24, COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
@@ -251,7 +254,7 @@ function groups_action_create_group() {
 		$message = __( 'Invite successfully removed', 'buddypress' );
 		$error   = false;
 
-		if( ! groups_uninvite_user( (int) $_REQUEST['user_id'], $bp->groups->new_group_id ) ) {
+		if ( ! groups_uninvite_user( (int) $_REQUEST['user_id'], $bp->groups->new_group_id ) ) {
 			$message = __( 'There was an error removing the invite', 'buddypress' );
 			$error   = 'error';
 		}

@@ -18,7 +18,10 @@
 
 			<?php if ( bp_activity_embed_has_activity( bp_current_action() ) ) : ?>
 
-				<?php while ( bp_activities() ) : bp_the_activity(); ?>
+				<?php
+				while ( bp_activities() ) :
+					bp_the_activity();
+					?>
 					<p class="bp-embed-activity-action">
 						<?php bp_activity_action( array( 'no_timestamp' => true ) ); ?>
 					</p>

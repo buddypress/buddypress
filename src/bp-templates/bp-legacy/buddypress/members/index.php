@@ -43,7 +43,7 @@ do_action( 'bp_before_directory_members_page' ); ?>
 			<?php bp_directory_members_search_form(); ?>
 		</div><!-- #members-dir-search -->
 
-	<?php else: ?>
+	<?php else : ?>
 
 		<?php bp_get_template_part( 'common/search/dir-search-form' ); ?>
 

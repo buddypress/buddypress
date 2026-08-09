@@ -98,7 +98,8 @@ class BP_XProfile_User_Admin {
 		if ( ! bp_is_user_spammer( $user_id ) && bp_has_profile( $profile_args ) ) {
 
 			// Loop through field groups and add a metabox for each one.
-			while ( bp_profile_groups() ) : bp_the_profile_group();
+			while ( bp_profile_groups() ) :
+				bp_the_profile_group();
 				add_meta_box(
 					'bp_xprofile_user_admin_fields_' . sanitize_key( bp_get_the_profile_group_slug() ),
 					esc_html( bp_get_the_profile_group_name() ),
@@ -292,7 +293,8 @@ class BP_XProfile_User_Admin {
 		}
 
 		// Loop through profile groups & fields.
-		while ( bp_profile_groups() ) : bp_the_profile_group(); ?>
+		while ( bp_profile_groups() ) :
+			bp_the_profile_group(); ?>
 
 			<input type="hidden" name="field_ids[]" id="<?php echo esc_attr( 'field_ids_' . bp_get_the_profile_group_slug() ); ?>" value="<?php echo esc_attr( bp_get_the_profile_group_field_ids() ); ?>" />
 
@@ -302,7 +304,10 @@ class BP_XProfile_User_Admin {
 
 			<?php endif; ?>
 
-			<?php while ( bp_profile_fields() ) : bp_the_profile_field(); ?>
+			<?php
+			while ( bp_profile_fields() ) :
+				bp_the_profile_field();
+				?>
 
 				<div<?php bp_field_css_class( 'bp-profile-field' ); ?>>
 					<fieldset>

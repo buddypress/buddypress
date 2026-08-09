@@ -24,7 +24,7 @@ defined( 'ABSPATH' ) || exit;
  */
 function bp_xprofile_map_meta_caps( $caps, $cap, $user_id, $args ) {
 	switch ( $cap ) {
-		case 'bp_xprofile_change_field_visibility' :
+		case 'bp_xprofile_change_field_visibility':
 			$caps = array( 'exist' );
 
 			// You may pass args manually: $field_id, $profile_user_id.

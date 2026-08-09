@@ -362,7 +362,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 
 		<ul class="subsubsub">
 			<li class="all">
-				<a href="<?php echo esc_url( $url_base ); ?>" class="<?php if ( 'all' === $this->view ) echo 'current'; ?>">
+				<a href="<?php echo esc_url( $url_base ); ?>" class="<?php /* phpcs:ignore Generic.ControlStructures.InlineControlStructure.NotAllowed -- Preserve generated attribute whitespace. */ if ( 'all' === $this->view ) echo 'current'; ?>">
 				<?php
 				printf(
 						/* translators: %s is the placeholder for the count html tag `<span class="count"/>` */
@@ -376,7 +376,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 				</a> |
 			</li>
 			<li class="spam">
-				<a href="<?php echo esc_url( add_query_arg( array( 'activity_status' => 'spam' ), $url_base ) ); ?>" class="<?php if ( 'spam' === $this->view ) echo 'current'; ?>">
+				<a href="<?php echo esc_url( add_query_arg( array( 'activity_status' => 'spam' ), $url_base ) ); ?>" class="<?php /* phpcs:ignore Generic.ControlStructures.InlineControlStructure.NotAllowed -- Preserve generated attribute whitespace. */ if ( 'spam' === $this->view ) echo 'current'; ?>">
 					<?php
 					printf(
 						/* translators: %s is the placeholder for the count html tag `<span class="count"/>` */
@@ -530,7 +530,6 @@ class BP_Activity_List_Table extends WP_List_Table {
 						} else {
 							$component_name = buddypress()->$component->name;
 						}
-
 					} else {
 						// Prevent warnings by other plugins if a component is disabled but the activity type has been registered.
 						$component_name = ucfirst( $component );
@@ -544,7 +543,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 							<?php
 
 							// Skip the incorrectly named pre-1.6 action.
-							if ( 'friends_register_activity_action' !== $action_key  ) :
+							if ( 'friends_register_activity_action' !== $action_key ) :
 							?>
 
 								<option value="<?php echo esc_attr( $action_key ); ?>" <?php selected( $action_key, $selected ); ?>><?php echo esc_html( $action_values['value'] ); ?></option>

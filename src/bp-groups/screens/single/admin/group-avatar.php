@@ -61,7 +61,6 @@ function groups_screen_group_admin_avatar() {
 			// Make sure we include the jQuery jCrop file for image cropping.
 			add_action( 'wp_print_scripts', 'bp_core_add_jquery_cropper' );
 		}
-
 	}
 
 	// If the image cropping is done, crop the image and save a full/thumb version.

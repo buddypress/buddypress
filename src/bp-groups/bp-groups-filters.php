@@ -273,19 +273,19 @@ function bp_groups_user_can_filter( $retval, $user_id, $capability, $site_id, $a
 				$invite_status = bp_group_get_invite_status( $group_id );
 
 				switch ( $invite_status ) {
-					case 'admins' :
+					case 'admins':
 						if ( groups_is_user_admin( $user_id, $group_id ) ) {
 							$retval = true;
 						}
 						break;
 
-					case 'mods' :
+					case 'mods':
 						if ( groups_is_user_mod( $user_id, $group_id ) || groups_is_user_admin( $user_id, $group_id ) ) {
 							$retval = true;
 						}
 						break;
 
-					case 'members' :
+					case 'members':
 						if ( groups_is_user_member( $user_id, $group_id ) ) {
 							$retval = true;
 						}

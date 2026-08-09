@@ -47,8 +47,7 @@
 switch ( bp_current_action() ) :
 
 	// Home/My Groups
-	case 'my-groups' :
-
+	case 'my-groups':
 		/**
 		 * Fires before the display of member groups content.
 		 *
@@ -90,12 +89,12 @@ switch ( bp_current_action() ) :
 		break;
 
 	// Group Invitations
-	case 'invites' :
+	case 'invites':
 		bp_get_template_part( 'members/single/groups/invites' );
 		break;
 
 	// Any other
-	default :
+	default:
 		bp_get_template_part( 'members/single/plugins' );
 		break;
 endswitch;

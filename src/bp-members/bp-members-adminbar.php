@@ -144,7 +144,6 @@ function bp_members_admin_bar_user_admin_menu() {
 				)
 			);
 		}
-
 	}
 
 	if ( bp_is_active( 'settings' ) ) {

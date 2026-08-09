@@ -1446,7 +1446,7 @@ function bp_message_activate_deactivate_text() {
 	function bp_get_message_activate_deactivate_text() {
 		global $messages_template;
 
-		if ( 1 === (int) $messages_template->thread->is_active  ) {
+		if ( 1 === (int) $messages_template->thread->is_active ) {
 			$text = __( 'Deactivate', 'buddypress' );
 		} else {
 			$text = __( 'Activate', 'buddypress' );

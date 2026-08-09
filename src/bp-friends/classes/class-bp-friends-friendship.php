@@ -356,7 +356,6 @@ class BP_Friends_Friendship {
 					|| ( 'NOT' === $operator && 0 === $matched ) ) {
 					$friendships[ $friendship->id ] = $friendship;
 				}
-
 			} else {
 				/*
 				 * This is the more typical 'AND' style of filter.
@@ -369,7 +368,6 @@ class BP_Friends_Friendship {
 				}
 				$friendships[ $friendship->id ] = $friendship;
 			}
-
 		}
 
 		// Sort the results on a column name.

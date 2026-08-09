@@ -244,8 +244,9 @@ function bp_activity_at_name_filter( $content, $activity_id = 0 ) {
 	$usernames = bp_activity_find_mentions( $content );
 
 	// No mentions? Stop now!
-	if ( empty( $usernames ) )
+	if ( empty( $usernames ) ) {
 		return $content;
+	}
 
 	// We don't want to link @mentions that are inside of links, so we
 	// temporarily remove them.
@@ -296,8 +297,9 @@ function bp_activity_at_name_filter_updates( $activity ) {
 	}
 
 	// If activity was marked as spam, stop the rest of this function.
-	if ( ! empty( $activity->is_spam ) )
+	if ( ! empty( $activity->is_spam ) ) {
 		return;
+	}
 
 	// Try to find mentions.
 	$usernames = bp_activity_find_mentions( $activity->content );
@@ -333,8 +335,9 @@ function bp_activity_at_name_send_emails( $activity ) {
 	$bp = buddypress();
 
 	// If our temporary variable doesn't exist, stop now.
-	if ( empty( $bp->activity->mentioned_users ) )
+	if ( empty( $bp->activity->mentioned_users ) ) {
 		return;
+	}
 
 	// Grab our temporary variable from bp_activity_at_name_filter_updates().
 	$usernames = $bp->activity->mentioned_users;

@@ -191,7 +191,7 @@ function bp_nouveau_ajax_button( $output = '', $button = null, $before = '', $af
 		'group_membership'  => true,
 	);
 
-	if ( ! empty( $reset_ids[ $button->id ] ) )  {
+	if ( ! empty( $reset_ids[ $button->id ] ) ) {
 		$parse_class = array_map( 'sanitize_html_class', explode( ' ', $r['button_attr']['class'] ) );
 		if ( false === $parse_class ) {
 			return $output;

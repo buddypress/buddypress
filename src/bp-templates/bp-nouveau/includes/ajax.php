@@ -141,26 +141,26 @@ function bp_nouveau_ajax_object_template_loader() {
 	}
 
 	switch ( $template ) {
-		case 'group_members' :
-		case 'groups/single/members' :
+		case 'group_members':
+		case 'groups/single/members':
 			$template_part = 'groups/single/members-loop.php';
-		break;
+			break;
 
-		case 'group_requests' :
+		case 'group_requests':
 			$template_part = 'groups/single/requests-loop.php';
-		break;
+			break;
 
-		case 'friend_requests' :
+		case 'friend_requests':
 			$template_part = 'members/single/friends/requests-loop.php';
-		break;
+			break;
 
-		case 'member_notifications' :
+		case 'member_notifications':
 			$template_part = 'members/single/notifications/notifications-loop.php';
-		break;
+			break;
 
-		default :
+		default:
 			$template_part = $object . '/' . $object . '-loop.php';
-		break;
+			break;
 	}
 
 	ob_start();

@@ -839,7 +839,6 @@ function bp_nouveau_has_nav( $args = array() ) {
 
 			$nav = $user_nav->get_primary( $args );
 		}
-
 	} elseif ( ! empty( $bp_nouveau->object_nav ) ) {
 		$bp_nouveau->displayed_nav = $bp_nouveau->object_nav;
 
@@ -1358,7 +1357,7 @@ function bp_nouveau_directory_type_navs_class() {
 		$component = sanitize_key( bp_current_component() );
 
 		// If component is 'blogs' we need to access options as 'Sites'.
-		if ('blogs' === $component) {
+		if ( 'blogs' === $component ) {
 			$component = 'sites';
 		};
 
@@ -1499,8 +1498,7 @@ function bp_nouveau_container_classes() {
 					$customizer_option = '';
 					break;
 			}
-
-		} else {
+			} else {
 			/**
 			 * Filters the BuddyPress Nouveau single item setting ID.
 			 *
@@ -1516,7 +1514,7 @@ function bp_nouveau_container_classes() {
 		}
 
 		// Provide a class token to acknowledge additional extended profile fields added to default account reg screen
-		if ( 'register' === bp_current_component() && bp_is_active( 'xprofile' ) && bp_nouveau_has_signup_xprofile_fields()) {
+		if ( 'register' === bp_current_component() && bp_is_active( 'xprofile' ) && bp_nouveau_has_signup_xprofile_fields() ) {
 			$classes[] = 'extended-default-reg';
 		}
 
@@ -1598,7 +1596,7 @@ function bp_nouveau_single_item_nav_classes() {
 			$classes[] = 'bp-priority-nav';
 		}
 
-		if ( bp_is_group() && 1 === $nav_tabs) {
+		if ( bp_is_group() && 1 === $nav_tabs ) {
 			$classes[] = 'group-nav-tabs';
 			$classes[] = 'tabbed-links';
 		} elseif ( bp_is_user() && 1 === $nav_tabs ) {
@@ -2096,7 +2094,6 @@ function bp_nouveau_current_object() {
 				$component['data_filter'] = 'group_' . bp_current_action();
 			}
 		}
-
 	} else {
 		$component_id = bp_current_component();
 		if ( ! bp_is_directory() ) {
@@ -2211,7 +2208,7 @@ function bp_nouveau_filter_label() {
 }
 	/**
 	 * Get data filter's label.
- 	 *
+	 *
 	 * @since 3.0.0
 	 *
 	 * @return string

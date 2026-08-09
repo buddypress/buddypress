@@ -263,7 +263,7 @@ function bp_messages_star_set_action( $args = array() ) {
 	}
 
 	// Check if user has access to thread.
-	if( ! messages_check_thread_access( $thread_id, $r['user_id'] ) ) {
+	if ( ! messages_check_thread_access( $thread_id, $r['user_id'] ) ) {
 		return false;
 	}
 

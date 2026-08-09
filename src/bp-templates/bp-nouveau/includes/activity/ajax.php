@@ -569,7 +569,6 @@ function bp_nouveau_ajax_post_update() {
 				$is_private = 'public' !== $status;
 			}
 		}
-
 	} else {
 		/** This filter is documented in bp-activity/actions/post.php */
 		$activity_id = apply_filters( 'bp_activity_custom_update', false, $object, $item_id, $_POST['content'] );

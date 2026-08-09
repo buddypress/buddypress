@@ -38,7 +38,7 @@ function bp_messages_star_bulk_manage_handler() {
 
 	// It's star time!
 	switch ( $action ) {
-		case 'star' :
+		case 'star':
 			$count = count( $threads );
 
 			// If we're starring a thread, we only star the first message in the thread.
@@ -58,7 +58,7 @@ function bp_messages_star_bulk_manage_handler() {
 			bp_core_add_message( sprintf( _n( '%s message was successfully starred', '%s messages were successfully starred', $count, 'buddypress' ), $count ) );
 			break;
 
-		case 'unstar' :
+		case 'unstar':
 			$count = count( $threads );
 
 			foreach ( $threads as $thread ) {

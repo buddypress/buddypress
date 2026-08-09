@@ -28,9 +28,8 @@
 switch ( bp_current_action() ) :
 
 	// Inbox/Sentbox
-	case 'inbox'   :
-	case 'sentbox' :
-
+	case 'inbox':
+	case 'sentbox':
 		/**
 		 * Fires before the member messages content for inbox and sentbox.
 		 *
@@ -70,18 +69,17 @@ switch ( bp_current_action() ) :
 		break;
 
 	// Single Message View
-	case 'view' :
+	case 'view':
 		bp_get_template_part( 'members/single/messages/single' );
 		break;
 
 	// Compose
-	case 'compose' :
+	case 'compose':
 		bp_get_template_part( 'members/single/messages/compose' );
 		break;
 
 	// Sitewide Notices
-	case 'notices' :
-
+	case 'notices':
 		/**
 		 * Fires before the member messages content for notices.
 		 *
@@ -112,7 +110,7 @@ switch ( bp_current_action() ) :
 		break;
 
 	// Any other
-	default :
+	default:
 		bp_get_template_part( 'members/single/plugins' );
 		break;
 endswitch;

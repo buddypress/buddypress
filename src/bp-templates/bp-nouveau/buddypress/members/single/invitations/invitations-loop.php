@@ -32,7 +32,10 @@
 
 		<tbody>
 
-			<?php while ( bp_the_members_invitations() ) : bp_the_members_invitation(); ?>
+			<?php
+			while ( bp_the_members_invitations() ) :
+				bp_the_members_invitation();
+				?>
 
 				<tr>
 					<td class="bulk-select-check">

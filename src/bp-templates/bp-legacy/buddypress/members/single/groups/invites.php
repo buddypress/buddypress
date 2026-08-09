@@ -25,7 +25,10 @@ do_action( 'bp_before_group_invites_content' ); ?>
 
 	<ul id="group-list" class="invites item-list">
 
-		<?php while ( bp_groups() ) : bp_the_group(); ?>
+		<?php
+		while ( bp_groups() ) :
+			bp_the_group();
+			?>
 
 			<li>
 				<?php if ( ! bp_disable_group_avatar_uploads() ) : ?>
@@ -84,7 +87,7 @@ do_action( 'bp_before_group_invites_content' ); ?>
 		<?php endwhile; ?>
 	</ul>
 
-<?php else: ?>
+<?php else : ?>
 
 	<div id="message" class="info">
 		<p><?php esc_html_e( 'You have no outstanding group invites.', 'buddypress' ); ?></p>

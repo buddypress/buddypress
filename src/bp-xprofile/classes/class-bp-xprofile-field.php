@@ -328,11 +328,11 @@ class BP_XProfile_Field {
 	 */
 	public function __get( $key ) {
 		switch ( $key ) {
-			case 'default_visibility' :
+			case 'default_visibility':
 				return $this->get_default_visibility();
 				break;
 
-			case 'allow_custom_visibility' :
+			case 'allow_custom_visibility':
 				return $this->get_allow_custom_visibility();
 				break;
 		}
@@ -349,8 +349,8 @@ class BP_XProfile_Field {
 	public function __isset( $key ) {
 		switch ( $key ) {
 			// Backward compatibility for when these were public methods.
-			case 'allow_custom_visibility' :
-			case 'default_visibility' :
+			case 'allow_custom_visibility':
+			case 'default_visibility':
 				return true;
 				break;
 		}
@@ -1647,7 +1647,7 @@ class BP_XProfile_Field {
 					</li>
 
 				</ul>
-				<p class="description member-type-none-notice<?php if ( ! empty( $field_member_types ) ) : ?> hide<?php endif; ?>"><?php esc_html_e( 'Unavailable to all members.', 'buddypress' ); ?></p>
+				<p class="description member-type-none-notice<?php /* phpcs:ignore Squiz.ControlStructures.ControlSignature.NewlineAfterOpenBrace -- Preserve generated output whitespace. */ if ( ! empty( $field_member_types ) ) : ?> hide<?php endif; ?>"><?php esc_html_e( 'Unavailable to all members.', 'buddypress' ); ?></p>
 			</div>
 
 			<input type="hidden" name="has-member-types" value="1" />

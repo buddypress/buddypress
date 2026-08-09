@@ -242,7 +242,7 @@ function bp_nouveau_ajax_joinleave_group() {
 			}
 			break;
 
-			case 'groups_request_membership' :
+			case 'groups_request_membership':
 				if ( ! groups_send_membership_request(
 					[
 						'user_id' => $user_id,
@@ -268,7 +268,7 @@ function bp_nouveau_ajax_joinleave_group() {
 				}
 				break;
 
-			case 'groups_leave_group' :
+			case 'groups_leave_group':
 				if ( ! groups_leave_group( $group->id ) ) {
 					$response = array(
 						'feedback' => sprintf(

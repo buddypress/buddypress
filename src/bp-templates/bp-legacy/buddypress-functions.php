@@ -90,16 +90,19 @@ class BP_Legacy extends BP_Theme_Compat {
 		if ( ! is_admin() || ( defined( 'DOING_AJAX' ) && DOING_AJAX ) ) {
 			// Register buttons for the relevant component templates
 			// Friends button.
-			if ( bp_is_active( 'friends' ) )
+			if ( bp_is_active( 'friends' ) ) {
 				add_action( 'bp_member_header_actions', 'bp_add_friend_button', 5 );
+			}
 
 			// Activity button.
-			if ( bp_is_active( 'activity' ) && bp_activity_do_mentions() )
+			if ( bp_is_active( 'activity' ) && bp_activity_do_mentions() ) {
 				add_action( 'bp_member_header_actions', 'bp_send_public_message_button', 20 );
+			}
 
 			// Messages button.
-			if ( bp_is_active( 'messages' ) )
+			if ( bp_is_active( 'messages' ) ) {
 				add_action( 'bp_member_header_actions', 'bp_send_private_message_button', 20 );
+			}
 
 			// Group buttons.
 			if ( bp_is_active( 'groups' ) ) {
@@ -535,8 +538,8 @@ class BP_Legacy extends BP_Theme_Compat {
 	 */
 	function secondary_avatars( $action, $activity ) {
 		switch ( $activity->component ) {
-			case 'groups' :
-			case 'friends' :
+			case 'groups':
+			case 'friends':
 				// Only insert avatar if one exists.
 				if ( $secondary_avatar = bp_get_activity_secondary_avatar() ) {
 					$reverse_content = strrev( $action );
@@ -872,8 +875,9 @@ function bp_legacy_theme_object_template_loader() {
 	 * context. Without this check, templates will load the 'single' version
 	 * of themselves rather than the directory version.
 	 */
-	if ( ! bp_current_action() )
+	if ( ! bp_current_action() ) {
 		bp_update_is_directory( true, bp_current_component() );
+	}
 
 	// The template part can be overridden by the calling JS function.
 	if ( ! empty( $_POST['template'] ) && 'groups/single/members' === $_POST['template'] ) {
@@ -1044,7 +1048,7 @@ function bp_legacy_theme_post_update() {
 		);
 
 	} elseif ( 'groups' === $object ) {
-		if ( $item_id && bp_is_active( 'groups' ) )
+		if ( $item_id && bp_is_active( 'groups' ) ) {
 			$activity_id = groups_post_update(
 				array(
 					'content' => $_POST['content'],
@@ -1052,7 +1056,7 @@ function bp_legacy_theme_post_update() {
 					'error_type' => 'wp_error',
 				)
 			);
-
+		}
 	} else {
 
 		/** This filter is documented in bp-activity/actions/post.php */
@@ -1664,7 +1668,7 @@ function bp_legacy_theme_ajax_joinleave_group() {
 	}
 
 	switch ( $request_type ) {
-		case 'join_group' :
+		case 'join_group':
 			if ( ! bp_current_user_can( 'groups_join_group', array( 'group_id' => $group->id ) ) ) {
 				esc_html_e( 'Error joining group', 'buddypress' );
 			}
@@ -1692,9 +1696,9 @@ function bp_legacy_theme_ajax_joinleave_group() {
 				);
 				echo '<a id="group-' . esc_attr( $group->id ) . '" class="group-button leave-group" rel="leave" href="' . esc_url( $leave_url ) . '">' . esc_html__( 'Leave Group', 'buddypress' ) . '</a>';
 			}
-		break;
+			break;
 
-		case 'accept_invite' :
+		case 'accept_invite':
 			check_ajax_referer( 'groups_accept_invite' );
 
 			if ( ! groups_accept_invite( bp_loggedin_user_id(), $group->id ) ) {
@@ -1709,9 +1713,9 @@ function bp_legacy_theme_ajax_joinleave_group() {
 				);
 				echo '<a id="group-' . esc_attr( $group->id ) . '" class="group-button leave-group" rel="leave" href="' . esc_url( $leave_url ) . '">' . esc_html__( 'Leave Group', 'buddypress' ) . '</a>';
 			}
-		break;
+			break;
 
-		case 'request_membership' :
+		case 'request_membership':
 			check_ajax_referer( 'groups_request_membership' );
 
 			if ( ! bp_current_user_can( 'groups_request_membership', array( 'group_id' => $group->id ) ) || ! groups_send_membership_request(
@@ -1724,9 +1728,9 @@ function bp_legacy_theme_ajax_joinleave_group() {
 			} else {
 				echo '<a id="group-' . esc_attr( $group->id ) . '" class="group-button disabled pending membership-requested" rel="membership-requested" href="' . esc_url( bp_get_group_url( $group ) ) . '">' . esc_html__( 'Request Sent', 'buddypress' ) . '</a>';
 			}
-		break;
+			break;
 
-		case 'leave_group' :
+		case 'leave_group':
 			check_ajax_referer( 'groups_leave_group' );
 
 			if ( ! groups_leave_group( $group->id ) ) {
@@ -1750,7 +1754,7 @@ function bp_legacy_theme_ajax_joinleave_group() {
 				);
 				echo '<a id="group-' . esc_attr( $group->id ) . '" class="group-button request-membership" rel="join" href="' . esc_url( $request_url ) . '">' . esc_html__( 'Request Membership', 'buddypress' ) . '</a>';
 			}
-		break;
+			break;
 	}
 
 	exit;

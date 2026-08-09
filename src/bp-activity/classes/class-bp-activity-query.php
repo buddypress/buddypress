@@ -195,8 +195,8 @@ class BP_Activity_Query extends BP_Recursive_Query {
 			} else {
 				switch ( $compare ) {
 					// IN uses different syntax.
-					case 'IN' :
-					case 'NOT IN' :
+					case 'IN':
+					case 'NOT IN':
 						$in_sql = BP_Activity_Activity::get_in_operator_sql( "{$alias}{$column}", $value );
 
 						// 'NOT IN' operator is as easy as a string replace!
@@ -207,19 +207,19 @@ class BP_Activity_Query extends BP_Recursive_Query {
 						$sql_chunks['where'][] = $in_sql;
 						break;
 
-					case 'BETWEEN' :
-					case 'NOT BETWEEN' :
+					case 'BETWEEN':
+					case 'NOT BETWEEN':
 						$value = array_slice( $value, 0, 2 );
 						$where = $wpdb->prepare( '%s AND %s', $value );
 						break;
 
-					case 'LIKE' :
-					case 'NOT LIKE' :
+					case 'LIKE':
+					case 'NOT LIKE':
 						$value = '%' . bp_esc_like( $value ) . '%';
 						$where = $wpdb->prepare( '%s', $value );
 						break;
 
-					default :
+					default:
 						$where = $wpdb->prepare( '%s', $value );
 						break;
 

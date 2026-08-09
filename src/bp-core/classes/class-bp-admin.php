@@ -1721,7 +1721,10 @@ class BP_Admin {
 				</tbody>
 			</table>
 
-			<?php if ( $notifications ) : foreach ( $notifications as $notification ) : ?>
+			<?php
+			if ( $notifications ) :
+				foreach ( $notifications as $notification ) :
+				?>
 				<?php bp_core_admin_format_notifications( $notification ); ?>
 			<?php endforeach; ?><?php endif; ?>
 		</div>

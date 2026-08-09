@@ -275,13 +275,13 @@ class BP_Activity_Feed {
 		switch ( $this->id ) {
 
 			// Sitewide and friends feeds use the 'personal' hook.
-			case 'sitewide' :
-			case 'friends' :
+			case 'sitewide':
+			case 'friends':
 				$id = 'personal';
 
 				break;
 
-			default :
+			default:
 				$id = $this->id;
 
 				break;
@@ -310,11 +310,10 @@ class BP_Activity_Feed {
 		switch ( $this->id ) {
 
 			// Also output parent activity item if we're on a specific feed.
-			case 'favorites' :
-			case 'friends' :
-			case 'mentions' :
-			case 'personal' :
-
+			case 'favorites':
+			case 'friends':
+			case 'mentions':
+			case 'personal':
 				if ( 'activity_comment' === bp_get_activity_action_name() ) :
 			?>
 				<strong><?php esc_html_e( 'In reply to', 'buddypress' ); ?></strong> -
@@ -461,7 +460,10 @@ class BP_Activity_Feed {
 	?>
 
 	<?php if ( bp_has_activities( $this->activity_args ) ) : ?>
-		<?php while ( bp_activities() ) : bp_the_activity(); ?>
+		<?php
+		while ( bp_activities() ) :
+			bp_the_activity();
+			?>
 			<item>
 				<guid isPermaLink="false"><?php bp_activity_feed_item_guid(); ?></guid>
 				<title><?php echo esc_html( stripslashes( bp_get_activity_feed_item_title() ) ); ?></title>

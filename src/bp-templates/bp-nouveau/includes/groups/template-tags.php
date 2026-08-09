@@ -679,7 +679,7 @@ function bp_nouveau_groups_manage_members_buttons( $args = array() ) {
 		 * If the 'container' is set to 'ul' set $parent_element to li,
 		 * otherwise simply pass any value found in $args or set var false.
 		 */
-		if ( ! empty( $args['container'] ) && 'ul' === $args['container']  ) {
+		if ( ! empty( $args['container'] ) && 'ul' === $args['container'] ) {
 			$parent_element = 'li';
 		} elseif ( ! empty( $args['parent_element'] ) ) {
 			$parent_element = $args['parent_element'];
@@ -1174,23 +1174,23 @@ function bp_nouveau_the_group_meta( $args = array() ) {
 
 		foreach ( $keys as $key ) {
 			switch ( $key ) {
-				case 'status' :
+				case 'status':
 					$group_meta['status'] = bp_get_group_type( $group );
 					break;
 
-				case 'count' :
+				case 'count':
 					$group_meta['count'] = bp_get_group_member_count( $group );
 					break;
 
-				case 'group_type_list' :
+				case 'group_type_list':
 					$group_meta['group_type_list'] = bp_get_group_type_list( $group->id );
 					break;
 
-				case 'description' :
+				case 'description':
 					$group_meta['description'] = bp_get_group_description( $group );
 					break;
 
-				case 'extra' :
+				case 'extra':
 					$group_meta['extra'] = '';
 
 					if ( $is_group ) {

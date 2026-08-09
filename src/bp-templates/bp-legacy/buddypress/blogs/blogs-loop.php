@@ -42,7 +42,10 @@ do_action( 'bp_before_blogs_loop' ); ?>
 
 	<ul id="blogs-list" class="item-list">
 
-	<?php while ( bp_blogs() ) : bp_the_blog(); ?>
+	<?php
+	while ( bp_blogs() ) :
+		bp_the_blog();
+		?>
 
 		<li <?php bp_blog_class(); ?>>
 			<div class="item-avatar">
@@ -119,7 +122,7 @@ do_action( 'bp_before_blogs_loop' ); ?>
 
 	</div>
 
-<?php else: ?>
+<?php else : ?>
 
 	<div id="message" class="info">
 		<p><?php esc_html_e( 'Sorry, there were no sites found.', 'buddypress' ); ?></p>

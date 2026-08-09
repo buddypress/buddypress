@@ -90,7 +90,11 @@ do_action( 'bp_before_activity_entry' ); ?>
 
 				<?php endif; ?>
 
-				<?php if ( bp_activity_user_can_delete() ) bp_activity_delete_link(); ?>
+				<?php
+				if ( bp_activity_user_can_delete() ) {
+					bp_activity_delete_link();
+				}
+				?>
 
 				<?php
 

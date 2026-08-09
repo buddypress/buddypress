@@ -302,7 +302,7 @@ EOD;
 				$anchor_text = sprintf( __( 'View on %s', 'buddypress' ), $oembed->provider_name );
 			}
 
-			if ( true === isset( $anchor_text ) )  {
+			if ( true === isset( $anchor_text ) ) {
 				$caption .= sprintf( '<a rel="nofollow" href="%1$s" onclick="top.location.href=\'%1$s\'">%2$s</a>', esc_url( $url ), apply_filters( 'the_title', $anchor_text ) );
 			}
 
@@ -359,7 +359,6 @@ EOD;
 				esc_html__( 'Your browser does not support HTML5 audio', 'buddypress' )
 			);
 		}
-
 	}
 
 	/** This hook is documented in /bp-activity/bp-activity-embeds.php */

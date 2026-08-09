@@ -170,7 +170,6 @@ class BP_Messages_Notices_Admin {
 			} else {
 				$redirect_to = add_query_arg( 'error', 'update', $this->url );
 			}
-
 		}
 
 		if ( $redirect_to ) {

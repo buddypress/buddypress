@@ -49,7 +49,10 @@
 
 	<ul id="member-list" class="item-list">
 
-		<?php while ( bp_group_members() ) : bp_group_the_member(); ?>
+		<?php
+		while ( bp_group_members() ) :
+			bp_group_the_member();
+			?>
 
 			<li>
 				<a href="<?php bp_group_member_domain(); ?>">
@@ -132,7 +135,7 @@
 	do_action( 'bp_after_group_members_content' );
 	?>
 
-<?php else: ?>
+<?php else : ?>
 
 	<div id="message" class="info">
 		<p><?php esc_html_e( 'No members were found.', 'buddypress' ); ?></p>

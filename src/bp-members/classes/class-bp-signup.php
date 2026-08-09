@@ -1027,7 +1027,6 @@ class BP_Signup {
 				} else {
 					$result['errors'][ $signup->signup_id ] = array( $signup->user_login, $user->get_error_message() );
 				}
-
 			} else {
 				$result['activated'][] = $user;
 			}

@@ -10,7 +10,11 @@
 ?>
 <div id="buddypress">
 
-	<?php if ( bp_has_groups() ) : while ( bp_groups() ) : bp_the_group(); ?>
+	<?php
+	if ( bp_has_groups() ) :
+		while ( bp_groups() ) :
+			bp_the_group();
+			?>
 
 	<?php
 
@@ -112,22 +116,28 @@
 			else :
 
 				// Group Admin
-				if     ( bp_is_group_admin_page() ) : bp_get_template_part( 'groups/single/admin' );
+				if ( bp_is_group_admin_page() ) :
+					bp_get_template_part( 'groups/single/admin' );
 
 				// Group Activity
-				elseif ( bp_is_group_activity()   ) : bp_get_template_part( 'groups/single/activity' );
+				elseif ( bp_is_group_activity() ) :
+					bp_get_template_part( 'groups/single/activity' );
 
 				// Group Members
-				elseif ( bp_is_group_members()    ) : bp_groups_members_template_part();
+				elseif ( bp_is_group_members() ) :
+					bp_groups_members_template_part();
 
 				// Group Invitations
-				elseif ( bp_is_group_invites()    ) : bp_get_template_part( 'groups/single/send-invites' );
+				elseif ( bp_is_group_invites() ) :
+					bp_get_template_part( 'groups/single/send-invites' );
 
 				// Membership request
-				elseif ( bp_is_group_membership_request() ) : bp_get_template_part( 'groups/single/request-membership' );
+				elseif ( bp_is_group_membership_request() ) :
+					bp_get_template_part( 'groups/single/request-membership' );
 
 				// Anything else (plugins mostly)
-				else                                : bp_get_template_part( 'groups/single/plugins' );
+				else :
+					bp_get_template_part( 'groups/single/plugins' );
 
 				endif;
 

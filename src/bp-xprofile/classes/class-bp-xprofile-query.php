@@ -457,25 +457,25 @@ class BP_XProfile_Query {
 			}
 
 			switch ( $field_compare ) {
-				case 'IN' :
-				case 'NOT IN' :
+				case 'IN':
+				case 'NOT IN':
 					$field_compare_string = '(' . substr( str_repeat( ',%s', count( $field_value ) ), 1 ) . ')';
 					$where                = $wpdb->prepare( $field_compare_string, $field_value );
 					break;
 
-				case 'BETWEEN' :
-				case 'NOT BETWEEN' :
+				case 'BETWEEN':
+				case 'NOT BETWEEN':
 					$field_value = array_slice( $field_value, 0, 2 );
 					$where       = $wpdb->prepare( '%s AND %s', $field_value );
 					break;
 
-				case 'LIKE' :
-				case 'NOT LIKE' :
+				case 'LIKE':
+				case 'NOT LIKE':
 					$field_value = '%' . bp_esc_like( $field_value ) . '%';
 					$where       = $wpdb->prepare( '%s', $field_value );
 					break;
 
-				default :
+				default:
 					$where = $wpdb->prepare( '%s', $field_value );
 					break;
 

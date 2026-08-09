@@ -1067,7 +1067,6 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 			break;
 
 		default:
-
 			/**
 			 * Filters plugin-added group-related custom component_actions.
 			 *

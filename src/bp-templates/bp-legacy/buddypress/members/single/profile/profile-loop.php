@@ -12,7 +12,10 @@ do_action( 'bp_before_profile_loop_content' ); ?>
 
 <?php if ( bp_has_profile() ) : ?>
 
-	<?php while ( bp_profile_groups() ) : bp_the_profile_group(); ?>
+	<?php
+	while ( bp_profile_groups() ) :
+		bp_the_profile_group();
+		?>
 
 		<?php if ( bp_profile_group_has_fields() ) : ?>
 
@@ -28,7 +31,10 @@ do_action( 'bp_before_profile_loop_content' ); ?>
 
 				<table class="profile-fields">
 
-					<?php while ( bp_profile_fields() ) : bp_the_profile_field(); ?>
+					<?php
+					while ( bp_profile_fields() ) :
+						bp_the_profile_field();
+						?>
 
 						<?php if ( bp_field_has_data() ) : ?>
 

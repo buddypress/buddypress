@@ -22,7 +22,10 @@ do_action( 'bp_before_activity_loop' ); ?>
 
 	<?php endif; ?>
 
-	<?php while ( bp_activities() ) : bp_the_activity(); ?>
+	<?php
+	while ( bp_activities() ) :
+		bp_the_activity();
+		?>
 
 		<?php bp_get_template_part( 'activity/entry' ); ?>
 

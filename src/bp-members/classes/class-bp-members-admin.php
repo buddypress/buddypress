@@ -528,19 +528,19 @@ class BP_Members_Admin {
 					'message' => __( 'Profile photo was deleted.', 'buddypress' ),
 				);
 				break;
-			case 'ham' :
+			case 'ham':
 				$notice = array(
 					'class'   => 'updated',
 					'message' => __( 'User removed as spammer.', 'buddypress' ),
 				);
 				break;
-			case 'spam' :
+			case 'spam':
 				$notice = array(
 					'class'   => 'updated',
 					'message' => __( 'User marked as spammer. Spam users are visible only to site admins.', 'buddypress' ),
 				);
 				break;
-			case 1 :
+			case 1:
 				$notice = array(
 					'class'   => 'updated',
 					'message' => __( 'Profile updated.', 'buddypress' ),
@@ -558,19 +558,19 @@ class BP_Members_Admin {
 					'message' => __( 'There was a problem deleting that profile photo. Please try again.', 'buddypress' ),
 				);
 				break;
-			case 'ham' :
+			case 'ham':
 				$notice = array(
 					'class'   => 'error',
 					'message' => __( 'User could not be removed as spammer.', 'buddypress' ),
 				);
 				break;
-			case 'spam' :
+			case 'spam':
 				$notice = array(
 					'class'   => 'error',
 					'message' => __( 'User could not be marked as spammer.', 'buddypress' ),
 				);
 				break;
-			case 1 :
+			case 1:
 				$notice = array(
 					'class'   => 'error',
 					'message' => __( 'An error occurred while trying to update the profile.', 'buddypress' ),
@@ -1049,7 +1049,7 @@ class BP_Members_Admin {
 				unset( $available_actions['stats'] );
 			}
 
-			if ( ! $show_avatars )  {
+			if ( ! $show_avatars ) {
 				unset( $available_actions['avatar'] );
 			}
 
@@ -1076,7 +1076,6 @@ class BP_Members_Admin {
 				if ( isset( $available_actions['avatar'] ) ) {
 					$available_actions['avatar'] = __( 'edit or delete your profile photo', 'buddypress' );
 				}
-
 			} elseif ( is_multisite() && ! current_user_can( 'manage_network_users' ) ) {
 				unset( $available_actions['status'] );
 			}
@@ -1286,7 +1285,7 @@ class BP_Members_Admin {
 		if ( ! empty( $notice ) ) :
 		?>
 
-			<div <?php if ( 'updated' === $notice['class'] ) : ?>id="message" <?php endif; ?>class="<?php echo esc_attr( $notice['class'] ); ?>  notice is-dismissible">
+			<div <?php /* phpcs:ignore Squiz.ControlStructures.ControlSignature.NewlineAfterOpenBrace -- Preserve generated output whitespace. */ if ( 'updated' === $notice['class'] ) : ?>id="message" <?php endif; ?>class="<?php echo esc_attr( $notice['class'] ); ?>  notice is-dismissible">
 
 				<p><?php echo esc_html( $notice['message'] ); ?></p>
 
@@ -2047,7 +2046,6 @@ class BP_Members_Admin {
 					)
 				);
 			}
-
 		} else {
 			if ( ! empty( $_REQUEST['signup_ids'] ) ) {
 				$signups = wp_parse_id_list( $_REQUEST['signup_ids'] );
@@ -2375,7 +2373,7 @@ class BP_Members_Admin {
 
 				<div id="message" class="<?php echo esc_attr( $notice['class'] ); ?> notice is-dismissible">
 
-			<?php else: ?>
+			<?php else : ?>
 
 				<div class="<?php echo esc_attr( $notice['class'] ); ?> notice is-dismissible">
 
@@ -2396,9 +2394,9 @@ class BP_Members_Admin {
 
 		// Show the proper screen.
 		switch ( $doaction ) {
-			case 'activate' :
-			case 'delete' :
-			case 'resend' :
+			case 'activate':
+			case 'delete':
+			case 'resend':
 				$this->signups_admin_manage( $doaction );
 				break;
 
@@ -2537,7 +2535,7 @@ class BP_Members_Admin {
 
 		// Set up strings.
 		switch ( $action ) {
-			case 'delete' :
+			case 'delete':
 				$header_text = __( 'Delete Pending Accounts', 'buddypress' );
 				if ( 1 === count( $signup_ids ) ) {
 					$helper_text = __( 'You are about to delete the following account:', 'buddypress' );
@@ -2546,7 +2544,7 @@ class BP_Members_Admin {
 				}
 				break;
 
-			case 'activate' :
+			case 'activate':
 				$header_text = __( 'Activate Pending Accounts', 'buddypress' );
 				if ( 1 === count( $signup_ids ) ) {
 					$helper_text = __( 'You are about to activate the following account:', 'buddypress' );
@@ -2555,8 +2553,7 @@ class BP_Members_Admin {
 				}
 				break;
 
-			case 'resend' :
-
+			case 'resend':
 				if ( bp_get_membership_requests_required() ) {
 					$header_text = __( 'Approve Membership Requests', 'buddypress' );
 					if ( 1 === count( $signup_ids ) ) {
@@ -3312,7 +3309,7 @@ class BP_Members_Admin {
 
 				<div id="message" class="<?php echo esc_attr( $notice['class'] ); ?> notice is-dismissible">
 
-			<?php else: ?>
+			<?php else : ?>
 
 				<div class="<?php echo esc_attr( $notice['class'] ); ?> notice is-dismissible">
 
@@ -3326,8 +3323,8 @@ class BP_Members_Admin {
 
 		// Show the proper screen.
 		switch ( $doaction ) {
-			case 'delete' :
-			case 'resend' :
+			case 'delete':
+			case 'resend':
 				$this->invitations_admin_manage( $doaction );
 				break;
 
@@ -3449,7 +3446,7 @@ class BP_Members_Admin {
 
 		// Check invite IDs and set up strings.
 		switch ( $action ) {
-			case 'delete' :
+			case 'delete':
 				// Query for matching invites, and filter out bad IDs.
 				$args       = array(
 					'id'          => $ids,
@@ -3467,7 +3464,7 @@ class BP_Members_Admin {
 				}
 				break;
 
-			case 'resend' :
+			case 'resend':
 				/**
 				 * Query for matching invites, and filter out bad IDs
 				 * or those that have already been accepted.

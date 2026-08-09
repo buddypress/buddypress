@@ -82,7 +82,10 @@
 		do_action( 'bp_before_message_thread_list' );
 		?>
 
-		<?php while ( bp_thread_messages() ) : bp_thread_the_message(); ?>
+		<?php
+		while ( bp_thread_messages() ) :
+			bp_thread_the_message();
+			?>
 			<?php bp_get_template_part( 'members/single/messages/message' ); ?>
 		<?php endwhile; ?>
 

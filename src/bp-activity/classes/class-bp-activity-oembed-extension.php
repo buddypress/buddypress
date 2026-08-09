@@ -105,7 +105,6 @@ class BP_Activity_oEmbed_Extension extends BP_Core_oEmbed_Extension {
 					$activity_id = (int) $query_vars['bp_member_action'];
 				}
 			}
-
 		} elseif ( false !== strpos( $url, '/' . bp_get_activity_slug() . '/' ) ) {
 			// Do more checks.
 			$url = trim( untrailingslashit( $url ) );

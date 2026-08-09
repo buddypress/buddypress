@@ -143,27 +143,27 @@ class BP_Members_Invitations_List_Table extends WP_Users_List_Table {
 		</h2>
 		<ul class="subsubsub">
 			<li class="all">
-				<a href="<?php echo esc_url( $url_base ); ?>" class="<?php if ( empty( $this->active_filters ) ) echo 'current'; ?>">
+				<a href="<?php echo esc_url( $url_base ); ?>" class="<?php /* phpcs:ignore Generic.ControlStructures.InlineControlStructure.NotAllowed -- Preserve generated attribute whitespace. */ if ( empty( $this->active_filters ) ) echo 'current'; ?>">
 					<?php esc_html_e( 'All', 'buddypress' ); ?>
 				</a> |
 			</li>
 			<li class="pending">
-				<a href="<?php echo esc_url( add_query_arg( 'accepted', 'pending', $url_base ) ); ?>" class="<?php if ( in_array( 'pending', $this->active_filters, true ) ) echo 'current'; ?>">
+				<a href="<?php echo esc_url( add_query_arg( 'accepted', 'pending', $url_base ) ); ?>" class="<?php /* phpcs:ignore Generic.ControlStructures.InlineControlStructure.NotAllowed -- Preserve generated attribute whitespace. */ if ( in_array( 'pending', $this->active_filters, true ) ) echo 'current'; ?>">
 					<?php esc_html_e( 'Pending', 'buddypress' ); ?>
 				</a> |
 			</li>
 			<li class="accepted">
-				<a href="<?php echo esc_url( add_query_arg( 'accepted', 'accepted', $url_base ) ); ?>" class="<?php if ( in_array( 'accepted', $this->active_filters, true ) ) echo 'current'; ?>">
+				<a href="<?php echo esc_url( add_query_arg( 'accepted', 'accepted', $url_base ) ); ?>" class="<?php /* phpcs:ignore Generic.ControlStructures.InlineControlStructure.NotAllowed -- Preserve generated attribute whitespace. */ if ( in_array( 'accepted', $this->active_filters, true ) ) echo 'current'; ?>">
 					<?php esc_html_e( 'Accepted', 'buddypress' ); ?>
 				</a> |
 			</li>
 			<li class="draft">
-				<a href="<?php echo esc_url( add_query_arg( 'sent', 'draft', $url_base ) ); ?>" class="<?php if ( in_array( 'draft', $this->active_filters, true ) ) echo 'current'; ?>">
+				<a href="<?php echo esc_url( add_query_arg( 'sent', 'draft', $url_base ) ); ?>" class="<?php /* phpcs:ignore Generic.ControlStructures.InlineControlStructure.NotAllowed -- Preserve generated attribute whitespace. */ if ( in_array( 'draft', $this->active_filters, true ) ) echo 'current'; ?>">
 					<?php esc_html_e( 'Draft (Unsent)', 'buddypress' ); ?>
 				</a> |
 			</li>
 			<li class="sent">
-				<a href="<?php echo esc_url( add_query_arg( 'sent', 'sent', $url_base ) ); ?>" class="<?php if ( in_array( 'sent', $this->active_filters, true ) ) echo 'current'; ?>">
+				<a href="<?php echo esc_url( add_query_arg( 'sent', 'sent', $url_base ) ); ?>" class="<?php /* phpcs:ignore Generic.ControlStructures.InlineControlStructure.NotAllowed -- Preserve generated attribute whitespace. */ if ( in_array( 'sent', $this->active_filters, true ) ) echo 'current'; ?>">
 					<?php esc_html_e( 'Sent', 'buddypress' ); ?>
 				</a>
 			</li>
@@ -500,7 +500,7 @@ class BP_Members_Invitations_List_Table extends WP_Users_List_Table {
 	 * @param BP_Invitation $invite BP_Invitation object.
 	 */
 	public function column_invitation_sent( $invite = null ) {
-		if ( $invite->invite_sent) {
+		if ( $invite->invite_sent ) {
 			esc_html_e( 'Yes', 'buddypress' );
 		} else {
 			esc_html_e( 'No', 'buddypress' );

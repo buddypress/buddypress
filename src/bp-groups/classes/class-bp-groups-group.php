@@ -361,11 +361,13 @@ class BP_Groups_Group {
 			);
 		}
 
-		if ( false === $wpdb->query( $sql ) )
+		if ( false === $wpdb->query( $sql ) ) {
 			return false;
+		}
 
-		if ( empty( $this->id ) )
+		if ( empty( $this->id ) ) {
 			$this->id = $wpdb->insert_id;
+		}
 
 		/**
 		 * Fires after the current group item has been saved.
@@ -439,9 +441,9 @@ class BP_Groups_Group {
 	 */
 	public function __get( $key ) {
 		switch ( $key ) {
-			case 'last_activity' :
-			case 'total_member_count' :
-			case 'forum_id' :
+			case 'last_activity':
+			case 'total_member_count':
+			case 'forum_id':
 				$retval = groups_get_groupmeta( $this->id, $key );
 
 				if ( 'last_activity' !== $key ) {
@@ -450,29 +452,29 @@ class BP_Groups_Group {
 
 				return $retval;
 
-			case 'admins' :
+			case 'admins':
 				return $this->get_admins();
 
-			case 'mods' :
+			case 'mods':
 				return $this->get_mods();
 
-			case 'is_member' :
-			case 'is_user_member' :
+			case 'is_member':
+			case 'is_user_member':
 				return $this->get_is_member();
 
-			case 'is_invited' :
+			case 'is_invited':
 				return groups_check_user_has_invite( bp_loggedin_user_id(), $this->id );
 
-			case 'is_pending' :
+			case 'is_pending':
 				return groups_check_for_membership_request( bp_loggedin_user_id(), $this->id );
 
-			case 'user_has_access' :
+			case 'user_has_access':
 				return $this->get_user_has_access();
 
-			case 'is_visible' :
+			case 'is_visible':
 				return $this->is_visible();
 
-			default :
+			default:
 				return isset( $this->{$key} ) ? $this->{$key} : null;
 		}
 	}
@@ -490,20 +492,20 @@ class BP_Groups_Group {
 	 */
 	public function __isset( $key ) {
 		switch ( $key ) {
-			case 'admins' :
-			case 'is_invited' :
-			case 'is_member' :
-			case 'is_user_member' :
-			case 'is_pending' :
-			case 'last_activity' :
-			case 'mods' :
-			case 'total_member_count' :
-			case 'user_has_access' :
-			case 'is_visible' :
-			case 'forum_id' :
+			case 'admins':
+			case 'is_invited':
+			case 'is_member':
+			case 'is_user_member':
+			case 'is_pending':
+			case 'last_activity':
+			case 'mods':
+			case 'total_member_count':
+			case 'user_has_access':
+			case 'is_visible':
+			case 'forum_id':
 				return true;
 
-			default :
+			default:
 				return isset( $this->{$key} );
 		}
 	}
@@ -522,10 +524,10 @@ class BP_Groups_Group {
 	 */
 	public function __set( $key, $value ) {
 		switch ( $key ) {
-			case 'user_has_access' :
+			case 'user_has_access':
 				return $this->user_has_access = (bool) $value;
 
-			default :
+			default:
 				$this->{$key} = $value;
 		}
 	}
@@ -965,8 +967,9 @@ class BP_Groups_Group {
 
 		$members = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(id) FROM {$bp->groups->table_name_members} WHERE group_id = %d", $group_id ) );
 
-		if ( empty( $members ) )
+		if ( empty( $members ) ) {
 			return false;
+		}
 
 		return true;
 	}
@@ -1053,17 +1056,17 @@ class BP_Groups_Group {
 	 *                                            Default: null (no limit).
 	 *     @type int          $user_id            Optional. If provided, results will be limited to groups
 	 *                                            of which the specified user is a member. Default: null.
- 	 *     @type array|string $slug               Optional. Array or comma-separated list of group slugs to limit
- 	 *                                            results to.
+	 *     @type array|string $slug               Optional. Array or comma-separated list of group slugs to limit
+	 *                                            results to.
 	 *                                            Default: false.
 	 *     @type string       $search_terms       Optional. If provided, only groups whose names or descriptions
 	 *                                            match the search terms will be returned. Allows specifying the
 	 *                                            wildcard position using a '*' character before or after the
 	 *                                            string or both. Works in concert with $search_columns.
 	 *                                            Default: false.
-  	 *     @type string       $search_columns     Optional. If provided, only apply the search terms to the
-  	 *                                            specified columns. Works in concert with $search_terms.
-  	 *                                            Default: empty array.
+	 *     @type string       $search_columns     Optional. If provided, only apply the search terms to the
+	 *                                            specified columns. Works in concert with $search_terms.
+	 *                                            Default: empty array.
 	 *     @type array|string $group_type         Array or comma-separated list of group types to limit results to.
 	 *     @type array|string $group_type__in     Array or comma-separated list of group types to limit results to.
 	 *     @type array|string $group_type__not_in Array or comma-separated list of group types that will be
@@ -1087,12 +1090,12 @@ class BP_Groups_Group {
 	 *     @type bool         $update_admin_cache Optional. Whether to pre-fetch administrator IDs for the returned
 	 *                                            groups. Default: false.
 	 *     @type bool         $show_hidden        Whether to include hidden groups in results. Default: false.
- 	 *     @type array|string $status             Optional. Array or comma-separated list of group statuses to limit
- 	 *                                            results to. If specified, $show_hidden is ignored.
+	 *     @type array|string $status             Optional. Array or comma-separated list of group statuses to limit
+	 *                                            results to. If specified, $show_hidden is ignored.
 	 *                                            Default: empty array.
- 	 *     @type string       $fields             Which fields to return. Specify 'ids' to fetch a list of IDs.
- 	 *                                            Default: 'all' (return BP_Groups_Group objects).
- 	 *                                            If set, meta and admin caches will not be prefetched.
+	 *     @type string       $fields             Which fields to return. Specify 'ids' to fetch a list of IDs.
+	 *                                            Default: 'all' (return BP_Groups_Group objects).
+	 *                                            If set, meta and admin caches will not be prefetched.
 	 * }
 	 * @return array {
 	 *     @type array $groups Array of group objects returned by the
@@ -1650,27 +1653,27 @@ class BP_Groups_Group {
 		$order = $orderby = '';
 
 		switch ( $type ) {
-			case 'newest' :
+			case 'newest':
 				$order   = 'DESC';
 				$orderby = 'date_created';
 				break;
 
-			case 'active' :
+			case 'active':
 				$order   = 'DESC';
 				$orderby = 'last_activity';
 				break;
 
-			case 'popular' :
+			case 'popular':
 				$order   = 'DESC';
 				$orderby = 'total_member_count';
 				break;
 
-			case 'alphabetical' :
+			case 'alphabetical':
 				$order   = 'ASC';
 				$orderby = 'name';
 				break;
 
-			case 'random' :
+			case 'random':
 				$order   = '';
 				$orderby = 'random';
 				break;
@@ -1693,28 +1696,28 @@ class BP_Groups_Group {
 	 */
 	protected static function convert_orderby_to_order_by_term( $orderby ) {
 		switch ( $orderby ) {
-			case 'date_created' :
-			default :
+			case 'date_created':
+			default:
 				$order_by_term = 'g.date_created';
 				break;
 
-			case 'last_activity' :
+			case 'last_activity':
 				$order_by_term = 'gm_last_activity.meta_value';
 				break;
 
-			case 'total_member_count' :
+			case 'total_member_count':
 				$order_by_term = 'CONVERT(gm_total_member_count.meta_value, SIGNED)';
 				break;
 
-			case 'name' :
+			case 'name':
 				$order_by_term = 'g.name';
 				break;
 
-			case 'random' :
+			case 'random':
 				$order_by_term = 'rand()';
 				break;
 
-			case 'meta_id' :
+			case 'meta_id':
 				$order_by_term = buddypress()->groups->table_name_groupmeta . '.id';
 				break;
 		}

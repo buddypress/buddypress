@@ -876,15 +876,15 @@ function bp_is_user_spammer( $user_id = 0 ) {
 
 	// Get locally-cached data if available.
 	switch ( $user_id ) {
-		case bp_loggedin_user_id() :
+		case bp_loggedin_user_id():
 			$user = ! empty( $bp->loggedin_user->userdata ) ? $bp->loggedin_user->userdata : false;
 			break;
 
-		case bp_displayed_user_id() :
+		case bp_displayed_user_id():
 			$user = ! empty( $bp->displayed_user->userdata ) ? $bp->displayed_user->userdata : false;
 			break;
 
-		case bp_get_member_user_id() :
+		case bp_get_member_user_id():
 			global $members_template;
 			$user = isset( $members_template ) && isset( $members_template->member ) ? $members_template->member : false;
 			break;
@@ -948,11 +948,11 @@ function bp_is_user_deleted( $user_id = 0 ) {
 
 	// Get locally-cached data if available.
 	switch ( $user_id ) {
-		case bp_loggedin_user_id() :
+		case bp_loggedin_user_id():
 			$user = ! empty( $bp->loggedin_user->userdata ) ? $bp->loggedin_user->userdata : false;
 			break;
 
-		case bp_displayed_user_id() :
+		case bp_displayed_user_id():
 			$user = ! empty( $bp->displayed_user->userdata ) ? $bp->displayed_user->userdata : false;
 			break;
 	}

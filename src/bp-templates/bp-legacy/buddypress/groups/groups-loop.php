@@ -55,7 +55,10 @@ do_action( 'bp_before_groups_loop' );
 
 	<ul id="groups-list" class="item-list" aria-live="assertive" aria-atomic="true" aria-relevant="all">
 
-	<?php while ( bp_groups() ) : bp_the_group(); ?>
+	<?php
+	while ( bp_groups() ) :
+		bp_the_group();
+		?>
 
 		<li <?php bp_group_class(); ?>>
 			<?php if ( ! bp_disable_group_avatar_uploads() ) : ?>
@@ -142,7 +145,7 @@ do_action( 'bp_before_groups_loop' );
 
 	</div>
 
-<?php else: ?>
+<?php else : ?>
 
 	<div id="message" class="info">
 		<p><?php esc_html_e( 'There were no groups found.', 'buddypress' ); ?></p>

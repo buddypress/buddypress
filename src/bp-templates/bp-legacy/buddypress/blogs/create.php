@@ -39,7 +39,7 @@ do_action( 'bp_before_create_blog_content_template' ); ?>
 
 		<?php bp_show_blog_signup_form(); ?>
 
-	<?php else: ?>
+	<?php else : ?>
 
 		<div id="message" class="info">
 			<p><?php esc_html_e( 'Site registration is currently disabled', 'buddypress' ); ?></p>

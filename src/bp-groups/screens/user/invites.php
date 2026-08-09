@@ -51,8 +51,9 @@ function groups_screen_group_invites() {
 
 	} elseif ( bp_is_action_variable( 'reject' ) && is_numeric( $group_id ) ) {
 		// Check the nonce.
-		if ( ! check_admin_referer( 'groups_reject_invite' ) )
+		if ( ! check_admin_referer( 'groups_reject_invite' ) ) {
 			return;
+		}
 
 		if ( ! groups_reject_invite( bp_displayed_user_id(), $group_id ) ) {
 			bp_core_add_message( __( 'Group invite could not be rejected', 'buddypress' ), 'error' );

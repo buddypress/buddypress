@@ -165,7 +165,8 @@ function bp_members_admin_preview_signup_profile_info( $signup_field_labels = ar
 
 			<table class="signup-profile-data-drawer wp-list-table widefat fixed striped">
 				<?php
-				if ( 1 <= count( $profile_field_ids ) ): foreach ( array_keys( $profile_field_ids ) as $profile_field_id ) :
+				if ( 1 <= count( $profile_field_ids ) ) :
+					foreach ( array_keys( $profile_field_ids ) as $profile_field_id ) :
 					$field_value = isset( $signup_object->meta[ "field_{$profile_field_id}" ] ) ? $signup_object->meta[ "field_{$profile_field_id}" ] : '';
 					?>
 					<tr>
@@ -177,7 +178,7 @@ function bp_members_admin_preview_signup_profile_info( $signup_field_labels = ar
 							?>
 						</td>
 					</tr>
-				<?php endforeach; else: ?>
+				<?php endforeach; else : ?>
 					<tr>
 						<td><?php esc_html_e( 'There is no additional information to display.', 'buddypress' ); ?></td>
 					</tr>

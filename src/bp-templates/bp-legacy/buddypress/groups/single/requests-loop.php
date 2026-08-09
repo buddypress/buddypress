@@ -28,7 +28,10 @@
 	</div>
 
 	<ul id="request-list" class="item-list">
-		<?php while ( bp_group_membership_requests() ) : bp_group_the_membership_request(); ?>
+		<?php
+		while ( bp_group_membership_requests() ) :
+			bp_group_the_membership_request();
+			?>
 
 			<li class="item-list group-request-list">
 
@@ -112,7 +115,7 @@
 
 	</div>
 
-	<?php else: ?>
+	<?php else : ?>
 
 		<div id="message" class="info">
 			<p><?php esc_html_e( 'There are no pending membership requests.', 'buddypress' ); ?></p>

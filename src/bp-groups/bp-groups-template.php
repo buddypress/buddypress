@@ -818,7 +818,7 @@ function bp_group_name( $group = false ) {
 	 * @param false|int|string|BP_Groups_Group $group (Optional) The Group ID, the Group Slug or the Group object.
 	 *                                                Default: current group in loop.
 	 * @return string
- 	 */
+	 */
 	function bp_get_group_name( $group = false ) {
 		$group = bp_get_group( $group );
 
@@ -856,7 +856,7 @@ function bp_group_type( $group = false ) {
 	 * @since 10.0.0 Updated to use `bp_get_group`.
 	 *
 	 * @param false|int|string|BP_Groups_Group $group (Optional) The Group ID, the Group Slug or the Group object.
-     *                                                Default: false.
+	 *                                                Default: false.
 	 * @return string
 	 */
 	function bp_get_group_type( $group = false ) {
@@ -906,7 +906,7 @@ function bp_group_status( $group = false ) {
 	 * @since 10.0.0 Updated to use `bp_get_group`.
 	 *
 	 * @param false|int|string|BP_Groups_Group $group (Optional) The Group ID, the Group Slug or the Group object.
-     *                                                Default: false.
+	 *                                                Default: false.
 	 * @return string
 	 */
 	function bp_get_group_status( $group = false ) {
@@ -966,7 +966,7 @@ function bp_group_avatar( $args = '', $group = false ) {
 	 *     @type string       $alt     Default: 'Group logo of [group name]'.
 	 * }
 	 * @param false|int|string|BP_Groups_Group $group (Optional) The Group ID, the Group Slug or the Group object.
-     *                                                Default: false.
+	 *                                                Default: false.
 	 * @return string|bool                            HTML output for the Group Avatar. or false if avatar uploads is disabled.
 	 */
 	function bp_get_group_avatar( $args = '', $group = false ) {
@@ -1202,7 +1202,7 @@ function bp_group_last_active( $group = false, $args = array() ) {
 	 * @since 10.0.0 Updated to use `bp_get_group`.
 	 *
 	 * @param false|int|string|BP_Groups_Group $group (Optional) The Group ID, the Group Slug or the Group object.
-     *                                                Default: false.
+	 *                                                Default: false.
 	 * @param array|string                     $args {
 	 *                         Array of optional parameters.
 	 *
@@ -1349,7 +1349,7 @@ function bp_group_link( $group = false ) {
 	 * @since 10.0.0 Updated to use `bp_get_group`.
 	 *
 	 * @param false|int|string|BP_Groups_Group $group (Optional) The Group ID, the Group Slug or the Group object.
-     *                                                Default: false.
+	 *                                                Default: false.
 	 * @return string
 	 */
 	function bp_get_group_link( $group = false ) {
@@ -1459,7 +1459,7 @@ function bp_group_slug( $group = false ) {
 	 * @since 10.0.0 Updated to use `bp_get_group`.
 	 *
 	 * @param false|int|string|BP_Groups_Group $group (Optional) The Group ID, the Group Slug or the Group object.
-     *                                                Default: false.
+	 *                                                Default: false.
 	 * @return string
 	 */
 	function bp_get_group_slug( $group = false ) {
@@ -1501,7 +1501,7 @@ function bp_group_description( $group = false ) {
 	 * @since 10.0.0 Updated to use `bp_get_group`.
 	 *
 	 * @param false|int|string|BP_Groups_Group $group (Optional) The Group ID, the Group Slug or the Group object.
-     *                                                Default: false.
+	 *                                                Default: false.
 	 * @return string
 	 */
 	function bp_get_group_description( $group = false ) {
@@ -1545,7 +1545,7 @@ function bp_group_description_editable( $group = false ) {
 	 * @since 10.0.0 Updated to use `bp_get_group`.
 	 *
 	 * @param false|int|string|BP_Groups_Group $group (Optional) The Group ID, the Group Slug or the Group object.
-     *                                                Default: false.
+	 *                                                Default: false.
 	 * @return string
 	 */
 	function bp_get_group_description_editable( $group = false ) {
@@ -1592,7 +1592,7 @@ function bp_group_description_excerpt( $group = false, $length = 225 ) {
 	 * @since 10.0.0 Updated to use `bp_get_group`.
 	 *
 	 * @param false|int|string|BP_Groups_Group $group  (Optional) The Group ID, the Group Slug or the Group object.
-     *                                                 Default: false.
+	 *                                                 Default: false.
 	 * @param int                              $length (Optional) Length of returned string, including ellipsis.
 	 *                                                 Default: 225.
 	 * @return string
@@ -1636,7 +1636,7 @@ function bp_group_date_created( $group = false, $args = array() ) {
 	 * @since 10.0.0 Updated to use `bp_get_group`.
 	 *
 	 * @param false|int|string|BP_Groups_Group $group (Optional) The Group ID, the Group Slug or the Group object.
-     *                                                Default: false.
+	 *                                                Default: false.
 	 * @param array|string                     $args {
 	 *     Array of optional parameters.
 	 *
@@ -1696,7 +1696,7 @@ function bp_group_creator_username( $group = false ) {
 	 * @since 10.0.0 Updated to use `bp_get_group`.
 	 *
 	 * @param false|int|string|BP_Groups_Group $group (Optional) The Group ID, the Group Slug or the Group object.
-     *                                                Default: false.
+	 *                                                Default: false.
 	 * @return string
 	 */
 	function bp_get_group_creator_username( $group = false ) {
@@ -1736,7 +1736,7 @@ function bp_group_creator_id( $group = false ) {
 	 * @since 10.0.0 Updated to use `bp_get_group`.
 	 *
 	 * @param false|int|string|BP_Groups_Group $group (Optional) The Group ID, the Group Slug or the Group object.
-     *                                                Default: false.
+	 *                                                Default: false.
 	 * @return int
 	 */
 	function bp_get_group_creator_id( $group = false ) {
@@ -1776,7 +1776,7 @@ function bp_group_creator_permalink( $group = false ) {
 	 * @since 10.0.0 Updated to use `bp_get_group`.
 	 *
 	 * @param false|int|string|BP_Groups_Group $group (Optional) The Group ID, the Group Slug or the Group object.
-     *                                                Default: false.
+	 *                                                Default: false.
 	 * @return string
 	 */
 	function bp_get_group_creator_permalink( $group = false ) {
@@ -1847,7 +1847,7 @@ function bp_group_creator_avatar( $group = false, $args = array() ) {
 	 * @since 10.0.0 Updated to use `bp_get_group`.
 	 *
 	 * @param false|int|string|BP_Groups_Group $group (Optional) The Group ID, the Group Slug or the Group object.
-     *                                                Default: false.
+	 *                                                Default: false.
 	 * @param array                            $args  {
 	 *     Array of optional arguments. See {@link bp_core_fetch_avatar()}
 	 *     for detailed description of arguments.
@@ -2243,7 +2243,7 @@ function bp_group_total_members( $group = false ) {
 	 * @since 1.0.0
 	 *
 	 * @param false|int|string|BP_Groups_Group $group (Optional) The Group ID, the Group Slug or the Group object.
-     *                                                Default: false.
+	 *                                                Default: false.
 	 * @return int
 	 */
 	function bp_get_group_total_members( $group = false ) {
@@ -2285,7 +2285,7 @@ function bp_group_member_count( $group = false ) {
 	 * @since 10.0.0 Updated to use `bp_get_group`.
 	 *
 	 * @param false|int|string|BP_Groups_Group $group (Optional) The Group ID, the Group Slug or the Group object.
-     *                                                Default: false.
+	 *                                                Default: false.
 	 * @return string
 	 */
 	function bp_get_group_member_count( $group = false ) {
@@ -2333,7 +2333,7 @@ function bp_group_forum_permalink( $group = false ) {
 	 * @since 10.0.0 Updated to use `bp_get_group`.
 	 *
 	 * @param false|int|string|BP_Groups_Group $group (Optional) The Group ID, the Group Slug or the Group object.
-     *                                                Default: false.
+	 *                                                Default: false.
 	 * @return string
 	 */
 	function bp_get_group_forum_permalink( $group = false ) {
@@ -2680,7 +2680,7 @@ function bp_group_member_demote_link( $user_id = 0, $group = false ) {
 	 *
 	 * @param int                              $user_id ID of the member to demote. Default: 0.
 	 * @param false|int|string|BP_Groups_Group $group (Optional) The Group ID, the Group Slug or the Group object.
-     *                                                Default: false.
+	 *                                                Default: false.
 	 * @return string
 	 */
 	function bp_get_group_member_demote_link( $user_id = 0, $group = false ) {
@@ -2735,7 +2735,7 @@ function bp_group_member_ban_link( $user_id = 0, $group = false ) {
 	 *
 	 * @param int                              $user_id ID of the member to ban. Default: 0.
 	 * @param false|int|string|BP_Groups_Group $group   (Optional) The Group ID, the Group Slug or the Group object.
-     *                                                  Default: false.
+	 *                                                  Default: false.
 	 * @return string
 	 */
 	function bp_get_group_member_ban_link( $user_id = 0, $group = false ) {
@@ -2789,7 +2789,7 @@ function bp_group_member_unban_link( $user_id = 0, $group = false ) {
 	 *
 	 * @param int                              $user_id ID of the member to unban. Default: 0.
 	 * @param false|int|string|BP_Groups_Group $group   (Optional) The Group ID, the Group Slug or the Group object.
-     *                                                  Default: false.
+	 *                                                  Default: false.
 	 * @return string
 	 */
 	function bp_get_group_member_unban_link( $user_id = 0, $group = false ) {
@@ -2843,7 +2843,7 @@ function bp_group_member_remove_link( $user_id = 0, $group = false ) {
 	 *
 	 * @param int                              $user_id ID of the member to remove. Default: 0.
 	 * @param false|int|string|BP_Groups_Group $group   (Optional) The Group ID, the Group Slug or the Group object.
-     *                                                  Default: false.
+	 *                                                  Default: false.
 	 * @return string
 	 */
 	function bp_get_group_member_remove_link( $user_id = 0, $group = false ) {
@@ -2986,7 +2986,7 @@ function bp_group_form_action( $page, $group = false ) {
 	 *
 	 * @param string                           $page  Page slug.
 	 * @param false|int|string|BP_Groups_Group $group (Optional) The Group ID, the Group Slug or the Group object.
-     *                                                Default: false.
+	 *                                                Default: false.
 	 * @return string
 	 */
 	function bp_get_group_form_action( $page, $group = false ) {
@@ -3039,7 +3039,7 @@ function bp_group_admin_form_action( $page = false, $group = false ) {
 	 *
 	 * @param false|string|bool                $page  (Optional). Page slug. Default: false.
 	 * @param false|int|string|BP_Groups_Group $group (Optional) The Group ID, the Group Slug or the Group object.
-     *                                                Default: false.
+	 *                                                Default: false.
 	 * @return string
 	 */
 	function bp_get_group_admin_form_action( $page = false, $group = false ) {
@@ -3552,11 +3552,10 @@ function bp_group_join_button( $group = false ) {
 
 			// Show different buttons based on group status.
 			switch ( $group->status ) {
-				case 'hidden' :
+				case 'hidden':
 					return $button_args;
 
 				case 'public':
-
 					// Member has outstanding invitation -
 					// show an "Accept Invitation" button.
 					if ( $group->is_invited ) {
@@ -3602,8 +3601,7 @@ function bp_group_join_button( $group = false ) {
 
 					break;
 
-				case 'private' :
-
+				case 'private':
 					// Member has outstanding invitation -
 					// show an "Accept Invitation" button.
 					if ( $group->is_invited ) {
@@ -3837,10 +3835,10 @@ function bp_group_status_message( $group = null ) {
 
 	// Group has a status.
 	} else {
-		switch( $group->status ) {
+		switch ( $group->status ) {
 
 			// Private group.
-			case 'private' :
+			case 'private':
 				if ( ! bp_group_has_requested_membership( $group ) ) {
 					if ( is_user_logged_in() ) {
 						if ( bp_group_is_invited( $group ) ) {
@@ -3858,8 +3856,8 @@ function bp_group_status_message( $group = null ) {
 				break;
 
 			// Hidden group.
-			case 'hidden' :
-			default :
+			case 'hidden':
+			default:
 				$message = __( 'This is a hidden group and only invited members can join.', 'buddypress' );
 				break;
 		}

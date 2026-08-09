@@ -239,7 +239,7 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 				for ( $i = 1; $i < 32; ++$i ) {
 					$html .= sprintf( '<option value="%1$s" %2$s>%3$s</option>', (int) $i, selected( $day, $i, false ), (int) $i );
 				}
-			break;
+				break;
 
 			case 'month':
 				$months = array(
@@ -262,7 +262,7 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 				for ( $i = 0; $i < 12; ++$i ) {
 					$html .= sprintf( '<option value="%1$s" %2$s>%3$s</option>', esc_attr( $eng_months[ $i ] ), selected( $month, $eng_months[ $i ], false ), $months[ $i ] );
 				}
-			break;
+				break;
 
 			case 'year':
 				$html = sprintf( '<option value="" %1$s>%2$s</option>', selected( $year, 0, false ), /* translators: no option picked in select box */ esc_html__( '----', 'buddypress' ) );
@@ -280,7 +280,7 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 				for ( $i = $end; $i >= $start; $i-- ) {
 					$html .= sprintf( '<option value="%1$s" %2$s>%3$s</option>', (int) $i, selected( $year, $i, false ), (int) $i );
 				}
-			break;
+				break;
 		}
 
 		// phpcs:ignore WordPress.Security.EscapeOutput
@@ -421,22 +421,22 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 	public static function validate_settings( $settings ) {
 		foreach ( $settings as $key => &$value ) {
 			switch ( $key ) {
-				case 'range_type' :
+				case 'range_type':
 					if ( $value !== 'absolute' ) {
 						$value = 'relative';
 					}
-				break;
+					break;
 
 				// @todo More date restrictions?
-				case 'range_absolute_start' :
-				case 'range_absolute_end' :
+				case 'range_absolute_start':
+				case 'range_absolute_end':
 					$value = absint( $value );
-				break;
+					break;
 
-				case 'range_relative_start' :
-				case 'range_relative_end' :
+				case 'range_relative_start':
+				case 'range_relative_end':
 					$value = intval( $value );
-				break;
+					break;
 			}
 		}
 
@@ -456,8 +456,8 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 		$saved_settings = array();
 		foreach ( array_keys( $existing_settings ) as $setting ) {
 			switch ( $setting ) {
-				case 'range_relative_start' :
-				case 'range_relative_end' :
+				case 'range_relative_start':
+				case 'range_relative_end':
 					$op_key = $setting . '_type';
 					if ( isset( $settings[ $op_key ] ) && 'past' === $settings[ $op_key ] ) {
 						$value = 0 - intval( $settings[ $setting ] );
@@ -466,13 +466,13 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 					}
 
 					$saved_settings[ $setting ] = $value;
-				break;
+					break;
 
-				default :
+				default:
 					if ( isset( $settings[ $setting ] ) ) {
 						$saved_settings[ $setting ] = $settings[ $setting ];
 					}
-				break;
+					break;
 			}
 		}
 
@@ -520,7 +520,7 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 						<?php esc_html_e( 'Date format', 'buddypress' ); ?>
 					</legend>
 
-					<?php foreach ( $this->get_date_formats() as $format ): ?>
+					<?php foreach ( $this->get_date_formats() as $format ) : ?>
 						<div class="bp-date-format-option">
 							<label for="date-format-<?php echo esc_attr( $format ); ?>">
 								<input type="radio" name="field-settings[date_format]" id="date-format-<?php echo esc_attr( $format ); ?>" value="<?php echo esc_attr( $format ); ?>" <?php checked( $format, $settings['date_format'] ); ?> />
@@ -550,7 +550,7 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 							<span class="date-format-label"><?php esc_html_e( 'Custom:', 'buddypress' ); ?></span>
 						</label>
 						<label for="date-format-custom-value" class="screen-reader-text"><?php esc_html_e( 'Enter custom time format', 'buddypress' ); ?></label>
-						<input type="text" name="field-settings[date_format_custom]" id="date-format-custom-value" class="date-format-custom-value" value="<?php echo esc_attr( $settings['date_format_custom'] ); ?>" aria-describedby="date-format-custom-example" /> <span class="screen-reader-text"><?php esc_html_e( 'Example:', 'buddypress' ); ?></span><span class="date-format-custom-example" id="date-format-custom-sample"><?php if ( $settings['date_format_custom'] ) : ?><?php echo esc_html( date_i18n( $settings['date_format_custom'] ) ); ?><?php endif; ?></span><span class="spinner" id="date-format-custom-spinner" aria-hidden="true"></span>
+						<input type="text" name="field-settings[date_format_custom]" id="date-format-custom-value" class="date-format-custom-value" value="<?php echo esc_attr( $settings['date_format_custom'] ); ?>" aria-describedby="date-format-custom-example" /> <span class="screen-reader-text"><?php esc_html_e( 'Example:', 'buddypress' ); ?></span><span class="date-format-custom-example" id="date-format-custom-sample"><?php /* phpcs:ignore Squiz.ControlStructures.ControlSignature.NewlineAfterOpenBrace -- Preserve generated output whitespace. */ if ( $settings['date_format_custom'] ) : ?><?php echo esc_html( date_i18n( $settings['date_format_custom'] ) ); ?><?php endif; ?></span><span class="spinner" id="date-format-custom-spinner" aria-hidden="true"></span>
 
 						<p><a href="https://wordpress.org/documentation/article/customize-date-and-time-format/"><?php esc_html_e( 'Documentation on date and time formatting', 'buddypress' ); ?></a></p>
 					</div>
@@ -666,21 +666,21 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 		$settings = self::get_field_settings( $field_id );
 
 		switch ( $settings['date_format'] ) {
-			case 'elapsed' :
+			case 'elapsed':
 				$formatted = bp_core_time_since( $field_value );
-			break;
+				break;
 
-			case 'age' :
+			case 'age':
 				$formatted = bp_core_time_old( $field_value );
-			break;
+				break;
 
-			case 'custom' :
+			case 'custom':
 				$formatted = date_i18n( $settings['date_format_custom'], $field_value );
-			break;
+				break;
 
-			default :
+			default:
 				$formatted = date_i18n( $settings['date_format'], $field_value );
-			break;
+				break;
 		}
 
 		return $formatted;
