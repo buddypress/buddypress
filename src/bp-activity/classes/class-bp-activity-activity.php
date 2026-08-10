@@ -28,7 +28,7 @@ class BP_Activity_Activity {
 	 * @since 1.0.0
 	 * @var int
 	 */
-	var $id;
+	public $id;
 
 	/**
 	 * ID of the associated item.
@@ -36,7 +36,7 @@ class BP_Activity_Activity {
 	 * @since 1.0.0
 	 * @var int
 	 */
-	var $item_id;
+	public $item_id;
 
 	/**
 	 * ID of the associated secondary item.
@@ -44,7 +44,7 @@ class BP_Activity_Activity {
 	 * @since 1.0.0
 	 * @var int
 	 */
-	var $secondary_item_id;
+	public $secondary_item_id;
 
 	/**
 	 * ID of user associated with the activity item.
@@ -52,7 +52,7 @@ class BP_Activity_Activity {
 	 * @since 1.0.0
 	 * @var int
 	 */
-	var $user_id;
+	public $user_id;
 
 	/**
 	 * The primary URL for the activity in RSS feeds.
@@ -60,7 +60,7 @@ class BP_Activity_Activity {
 	 * @since 1.0.0
 	 * @var string
 	 */
-	var $primary_link = '';
+	public $primary_link = '';
 
 	/**
 	 * BuddyPress component the activity item relates to.
@@ -68,7 +68,7 @@ class BP_Activity_Activity {
 	 * @since 1.2.0
 	 * @var string
 	 */
-	var $component = '';
+	public $component = '';
 
 	/**
 	 * Activity type, eg 'new_blog_post'.
@@ -76,7 +76,7 @@ class BP_Activity_Activity {
 	 * @since 1.2.0
 	 * @var string
 	 */
-	var $type = '';
+	public $type = '';
 
 	/**
 	 * Description of the activity, eg 'Alex updated his profile.'.
@@ -84,7 +84,7 @@ class BP_Activity_Activity {
 	 * @since 1.2.0
 	 * @var string
 	 */
-	var $action = '';
+	public $action = '';
 
 	/**
 	 * The content of the activity item.
@@ -92,7 +92,7 @@ class BP_Activity_Activity {
 	 * @since 1.2.0
 	 * @var string
 	 */
-	var $content = '';
+	public $content = '';
 
 	/**
 	 * The date the activity item was recorded, in 'Y-m-d h:i:s' format.
@@ -100,7 +100,7 @@ class BP_Activity_Activity {
 	 * @since 1.0.0
 	 * @var string
 	 */
-	var $date_recorded = '';
+	public $date_recorded = '';
 
 	/**
 	 * Whether the item should be hidden in sitewide streams.
@@ -108,7 +108,7 @@ class BP_Activity_Activity {
 	 * @since 1.1.0
 	 * @var int
 	 */
-	var $hide_sitewide = 0;
+	public $hide_sitewide = 0;
 
 	/**
 	 * Node boundary start for activity or activity comment.
@@ -116,7 +116,7 @@ class BP_Activity_Activity {
 	 * @since 1.5.0
 	 * @var int
 	 */
-	var $mptt_left;
+	public $mptt_left;
 
 	/**
 	 * Node boundary end for activity or activity comment.
@@ -124,7 +124,7 @@ class BP_Activity_Activity {
 	 * @since 1.5.0
 	 * @var int
 	 */
-	var $mptt_right;
+	public $mptt_right;
 
 	/**
 	 * Whether this item is marked as spam.
@@ -132,7 +132,7 @@ class BP_Activity_Activity {
 	 * @since 1.6.0
 	 * @var int
 	 */
-	var $is_spam;
+	public $is_spam;
 
 	/**
 	 * Error holder.

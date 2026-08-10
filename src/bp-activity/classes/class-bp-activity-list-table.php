@@ -90,7 +90,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 	 *
 	 * @since 1.6.0
 	 */
-	function prepare_items() {
+	public function prepare_items() {
 
 		// Option defaults.
 		$filter       = array();
@@ -247,7 +247,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 	 *
 	 * @return array Column headers.
 	 */
-	function get_column_info() {
+	public function get_column_info() {
 		$this->_column_headers = array(
 			$this->get_columns(),
 			array(),
@@ -274,7 +274,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 	 *
 	 * @since 1.6.0
 	 */
-	function no_items() {
+	public function no_items() {
 		esc_html_e( 'No activities found.', 'buddypress' );
 	}
 
@@ -283,7 +283,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 	 *
 	 * @since 1.6.0
 	 */
-	function display() {
+	public function display() {
 		$this->display_tablenav( 'top' ); ?>
 
 		<h2 class="screen-reader-text">
@@ -322,7 +322,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 	 *
 	 * @param object $item The current item.
 	 */
-	function single_row( $item ) {
+	public function single_row( $item ) {
 		static $even = false;
 
 		$row_classes = array();
@@ -354,7 +354,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 	 *
 	 * @since 1.6.0
 	 */
-	function get_views() {
+	public function get_views() {
 		$url_base   = add_query_arg( array( 'page' => 'bp-activity' ), bp_get_admin_url( 'admin.php' ) );
 		$all_class  = 'all' === $this->view ? 'current' : '';
 		$spam_class = 'spam' === $this->view ? 'current' : '';
@@ -445,7 +445,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 	 *
 	 * @return array The columns to appear in the Activity list table.
 	 */
-	function get_columns() {
+	public function get_columns() {
 
 		/**
 		 * Filters the titles for the columns for the activity list table.
@@ -492,7 +492,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 	 *
 	 * @param string $which 'top' or 'bottom'.
 	 */
-	function extra_tablenav( $which ) {
+	public function extra_tablenav( $which ) {
 
 		// Bail on bottom table nav.
 		if ( 'bottom' === $which ) {
@@ -613,7 +613,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 	 *
 	 * @param array $item A singular item (one full row).
 	 */
-	function column_cb( $item ) {
+	public function column_cb( $item ) {
 		/* translators: accessibility text */
 		printf( '<label class="screen-reader-text" for="aid-%1$d">' . esc_html__( 'Select activity item %1$d', 'buddypress' ) . '</label><input type="checkbox" name="aid[]" value="%1$d" id="aid-%1$d" />', intval( $item['id'] ) );
 	}
@@ -627,7 +627,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 	 *
 	 * @param array $item A singular item (one full row).
 	 */
-	function column_author( $item ) {
+	public function column_author( $item ) {
 		$avatar = get_avatar( $item['user_id'], '32' );
 
 		printf(
@@ -659,7 +659,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 	 *
 	 * @param array $item A singular item (one full row).
 	 */
-	function column_action( $item ) {
+	public function column_action( $item ) {
 		$actions = bp_activity_admin_get_activity_actions();
 
 		if ( isset( $actions[ $item['type'] ] ) ) {
@@ -681,7 +681,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 	 *
 	 * @param array $item A singular item (one full row).
 	 */
-	function column_comment( $item ) {
+	public function column_comment( $item ) {
 		// Determine what type of item (row) we're dealing with.
 		if ( $item['is_spam'] ) {
 			$item_status = 'spam';
@@ -805,7 +805,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 	 *
 	 * @param array $item A singular item (one full row).
 	 */
-	function column_response( $item ) {
+	public function column_response( $item ) {
 
 		// Is $item is a root activity?
 		?>

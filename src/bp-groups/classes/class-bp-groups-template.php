@@ -135,7 +135,7 @@ class BP_Groups_Template {
 	 *     @type int $page Default: 1.
 	 * }
 	 */
-	function __construct( ...$args ) {
+	public function __construct( ...$args ) {
 		// Backward compatibility with old method of passing arguments.
 		if ( ! is_array( $args[0] ) || count( $args ) > 1 ) {
 			_deprecated_argument(
@@ -340,7 +340,7 @@ class BP_Groups_Template {
 	 *
 	 * @return bool True if there are items in the loop, otherwise false.
 	 */
-	function has_groups() {
+	public function has_groups() {
 		if ( $this->group_count ) {
 			return true;
 		}
@@ -355,7 +355,7 @@ class BP_Groups_Template {
 	 *
 	 * @return object The next group to iterate over.
 	 */
-	function next_group() {
+	public function next_group() {
 		$this->current_group++;
 		$this->group = $this->groups[ $this->current_group ];
 
@@ -367,7 +367,7 @@ class BP_Groups_Template {
 	 *
 	 * @since 1.2.0
 	 */
-	function rewind_groups() {
+	public function rewind_groups() {
 		$this->current_group = -1;
 		if ( $this->group_count > 0 ) {
 			$this->group = $this->groups[0];
@@ -387,7 +387,7 @@ class BP_Groups_Template {
 	 *
 	 * @return bool True if there are more groups to show, otherwise false.
 	 */
-	function groups() {
+	public function groups() {
 		if ( $this->current_group + 1 < $this->group_count ) {
 			return true;
 		} elseif ( $this->current_group + 1 === $this->group_count ) {
@@ -417,7 +417,7 @@ class BP_Groups_Template {
 	 *
 	 * @see bp_the_group()
 	 */
-	function the_group() {
+	public function the_group() {
 		$this->in_the_loop = true;
 		$this->group       = $this->next_group();
 

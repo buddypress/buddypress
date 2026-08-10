@@ -76,7 +76,7 @@ class BP_Akismet {
 	 * @param array $activity The activity for the current row being processed.
 	 * @return array The hover links.
 	 */
-	function comment_row_action( $actions, $activity ) {
+	public function comment_row_action( $actions, $activity ) {
 		$akismet_result = bp_activity_get_meta( $activity['id'], '_bp_akismet_result' );
 		$user_result    = bp_activity_get_meta( $activity['id'], '_bp_akismet_user_result' );
 		$desc           = '';
@@ -661,7 +661,7 @@ class BP_Akismet {
 	 *
 	 * @param string $screen_action The type of screen that has been requested.
 	 */
-	function add_history_metabox( $screen_action ) {
+	public function add_history_metabox( $screen_action ) {
 		// Only proceed if we're on the edit screen.
 		if ( 'edit' !== $screen_action ) {
 			return;
@@ -681,7 +681,7 @@ class BP_Akismet {
 	 *
 	 * @param object $item Activity item.
 	 */
-	function history_metabox( $item ) {
+	public function history_metabox( $item ) {
 		$history = self::get_activity_history( $item->id );
 
 		if ( empty( $history ) ) {

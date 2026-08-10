@@ -536,7 +536,7 @@ class BP_Legacy extends BP_Theme_Compat {
 	 * @param BP_Activity_Activity $activity Activity object.
 	 * @return string
 	 */
-	function secondary_avatars( $action, $activity ) {
+	public function secondary_avatars( $action, $activity ) {
 		switch ( $activity->component ) {
 			case 'groups':
 			case 'friends':

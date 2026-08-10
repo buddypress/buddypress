@@ -357,7 +357,7 @@ class BP_Activity_Template {
 	 *
 	 * @return bool True if there are items in the loop, otherwise false.
 	 */
-	function has_activities() {
+	public function has_activities() {
 		if ( $this->activity_count ) {
 			return true;
 		}

@@ -533,7 +533,7 @@ class BP_Members_Invitations_List_Table extends WP_Users_List_Table {
 	 * @param string        $column_name The column name.
 	 * @return string
 	 */
-	function column_default( $invite = null, $column_name = '' ) {
+	public function column_default( $invite = null, $column_name = '' ) {
 
 		/**
 		 * Filters the single site custom columns for plugins.
