@@ -24,7 +24,7 @@
 
 			<?php bp_nouveau_search_form(); ?>
 
- 		</div>
+		</div>
 	<?php endif; ?>
 
 	<?php if ( bp_is_user() && ! bp_is_current_action( 'requests' ) ) : ?>

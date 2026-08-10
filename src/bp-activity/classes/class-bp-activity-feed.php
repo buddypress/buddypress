@@ -356,7 +356,7 @@ class BP_Activity_Feed {
 		// Set cache-related headers.
 		@header( 'Last-Modified: ' . $last_modified );
 		@header( 'Pragma: no-cache' );
-		@header( 'ETag: ' . '"' . $etag . '"' );
+		@header( 'ETag: "' . $etag . '"' );
 
 		// First commit of BuddyPress! (Easter egg).
 		@header( 'Expires: Tue, 25 Mar 2008 17:13:55 GMT' );

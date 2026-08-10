@@ -697,7 +697,6 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 	public function get_date_formats() {
 		$date_formats = array_unique( apply_filters( 'date_formats', array( __( 'F j, Y', 'buddypress' ), 'Y-m-d', 'm/d/Y', 'd/m/Y' ) ) );
 
-
 		/**
 		 * Filters the available date formats for XProfile date fields.
 		 *

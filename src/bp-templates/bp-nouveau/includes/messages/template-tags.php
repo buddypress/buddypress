@@ -94,7 +94,6 @@ function bp_nouveau_messages_member_interface() {
 
 	// Load the Private messages UI
 
-
 	/**
 	 * Fires after the member messages content.
 	 *

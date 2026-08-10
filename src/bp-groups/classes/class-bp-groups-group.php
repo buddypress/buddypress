@@ -768,7 +768,7 @@ class BP_Groups_Group {
 			return false;
 		}
 
-		$args   = array(
+		$args = array(
 			'meta_query'         => array(
 				array(
 					'key'   => 'previous_slug',

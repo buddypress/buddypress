@@ -691,7 +691,7 @@ class BP_XProfile_ProfileData {
 					if ( $values[ $i ]->name === $fields[ $j ] ) {
 						$new_values[ $fields[ $j ] ] = $values[ $i ]->value;
 					} elseif ( ! array_key_exists( $fields[ $j ], $new_values ) ) {
-						$new_values[ $fields[ $j ] ] = NULL;
+						$new_values[ $fields[ $j ] ] = null;
 					}
 				}
 			}

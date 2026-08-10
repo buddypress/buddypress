@@ -78,8 +78,8 @@ class BP_Legacy extends BP_Theme_Compat {
 
 		/** Scripts ***********************************************************/
 
-		add_action( 'bp_enqueue_community_scripts', array( $this, 'enqueue_styles'   ) ); // Enqueue theme CSS
-		add_action( 'bp_enqueue_community_scripts', array( $this, 'enqueue_scripts'  ) ); // Enqueue theme JS
+		add_action( 'bp_enqueue_community_scripts', array( $this, 'enqueue_styles' ) ); // Enqueue theme CSS
+		add_action( 'bp_enqueue_community_scripts', array( $this, 'enqueue_scripts' ) ); // Enqueue theme JS
 		add_action( 'bp_enqueue_community_scripts', array( $this, 'localize_scripts' ) ); // Enqueue theme script localization
 
 		// Body no-js class.
@@ -665,7 +665,7 @@ function bp_legacy_theme_group_create_nav() {
  */
 function bp_legacy_groups_admin_screen_hidden_input() {
 	?>
- 	<input type="hidden" name="group-id" id="group-id" value="<?php bp_group_id(); ?>" />
+	<input type="hidden" name="group-id" id="group-id" value="<?php bp_group_id(); ?>" />
 	<?php
 }
 
@@ -1022,7 +1022,6 @@ function bp_legacy_theme_post_update() {
 	$activity_id = 0;
 	$item_id     = 0;
 	$object      = '';
-
 
 	// Try to get the item id from posted variables.
 	if ( ! empty( $_POST['item_id'] ) ) {
@@ -1719,10 +1718,10 @@ function bp_legacy_theme_ajax_joinleave_group() {
 			check_ajax_referer( 'groups_request_membership' );
 
 			if ( ! bp_current_user_can( 'groups_request_membership', array( 'group_id' => $group->id ) ) || ! groups_send_membership_request(
-				[
+				array(
 					'user_id' => bp_loggedin_user_id(),
 					'group_id' => $group->id,
-				]
+				)
 			) ) {
 				esc_html_e( 'Error requesting membership', 'buddypress' );
 			} else {

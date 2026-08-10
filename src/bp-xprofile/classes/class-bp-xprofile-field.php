@@ -1363,7 +1363,6 @@ class BP_XProfile_Field {
 							// Output the autolink metabox.
 							$this->autolink_metabox();
 
-
 							/**
 							 * Fires after XProfile Field sidebar metabox.
 							 *
@@ -1478,7 +1477,6 @@ class BP_XProfile_Field {
 			),
 			$users_url
 		);
-
 
 		// Delete.
 		if ( $this->can_delete ) {

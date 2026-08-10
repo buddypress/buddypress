@@ -264,7 +264,7 @@ function bp_activity_admin_load() {
 		$bp_activity_list_table = new BP_Activity_List_Table();
 
 		// The per_page screen option.
-		add_screen_option( 'per_page', array( 'label' => _x( 'Activity', 'Activity items per page (screen options)', 'buddypress' )) );
+		add_screen_option( 'per_page', array( 'label' => _x( 'Activity', 'Activity items per page (screen options)', 'buddypress' ) ) );
 
 		// Help panel - overview text.
 		get_current_screen()->add_help_tab(
@@ -478,7 +478,6 @@ function bp_activity_admin_load() {
 		wp_safe_redirect( apply_filters( 'bp_activity_admin_action_redirect', $redirect_to ) );
 		exit;
 
-
 	// Save the edit.
 	} elseif ( $doaction && 'save' === $doaction ) {
 		// Build redirection URL.
@@ -617,7 +616,6 @@ function bp_activity_admin_load() {
 		 */
 		wp_safe_redirect( apply_filters( 'bp_activity_admin_edit_redirect', $redirect_to ) );
 		exit;
-
 
 	// If a referrer and a nonce is supplied, but no action, redirect back.
 	} elseif ( ! empty( $_GET['_wp_http_referer'] ) ) {

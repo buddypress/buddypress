@@ -1066,7 +1066,7 @@ function bp_update_user_last_activity( $user_id = 0, $time = '' ) {
 	}
 
 	/** This filter is documented in bp_core_get_users() */
-	$use_legacy_query = apply_filters( 'bp_use_legacy_user_query', false, __FUNCTION__, [ 'user_id' => $user_id ] );
+	$use_legacy_query = apply_filters( 'bp_use_legacy_user_query', false, __FUNCTION__, array( 'user_id' => $user_id ) );
 
 	/*
 	 * As of BuddyPress 2.0, last_activity is no longer stored in usermeta.

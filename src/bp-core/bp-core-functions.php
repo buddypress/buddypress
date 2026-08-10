@@ -2824,8 +2824,7 @@ function bp_core_get_components( $type = 'all' ) {
 		),
 	);
 
-	$retired_components = array(
-	);
+	$retired_components = array();
 
 	$optional_components = array(
 		'xprofile' => array(
@@ -3157,7 +3156,6 @@ function bp_core_get_suggestions( $args ) {
 	if ( ! $class || ! class_exists( $class ) ) {
 		return new WP_Error( 'missing_parameter' );
 	}
-
 
 	$suggestions = new $class( $args );
 	$validation  = $suggestions->validate();
@@ -3779,7 +3777,6 @@ function bp_get_email( $email_type ) {
 	$post  = apply_filters( 'bp_get_email_post', $post[0], $email_type, $args, $post );
 	$email = new BP_Email( $email_type );
 
-
 	/*
 	 * Set some email properties for convenience.
 	 */
@@ -3918,7 +3915,6 @@ function bp_send_email( $email_type, $to, $args = array() ) {
 			$email->get( 'content_plaintext', 'replace-tokens' )
 		);
 	}
-
 
 	/*
 	 * Send the email.

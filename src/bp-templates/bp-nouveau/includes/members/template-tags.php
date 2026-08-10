@@ -275,7 +275,7 @@ function bp_nouveau_members_loop_buttons( $args = array() ) {
 						'link_text'         => _x( 'Accept', 'button', 'buddypress' ),
 						'parent_attr'       => array(
 							'id'    => '',
-							'class' => $parent_class ,
+							'class' => $parent_class,
 						),
 						'button_element'    => $button_element,
 						'button_attr'       => array(
@@ -295,7 +295,7 @@ function bp_nouveau_members_loop_buttons( $args = array() ) {
 							'class' => $parent_class,
 						),
 						'button_element'    => $button_element,
-						'button_attr'       => array (
+						'button_attr'       => array(
 							'class'           => 'button reject',
 							'rel'             => '',
 						),

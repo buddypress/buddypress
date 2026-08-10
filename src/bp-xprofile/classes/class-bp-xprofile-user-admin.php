@@ -61,7 +61,7 @@ class BP_XProfile_User_Admin {
 		add_action( 'bp_members_admin_xprofile_metabox', array( $this, 'register_metaboxes' ), 10, 3 );
 
 		// Saves the profile actions for user ( profile fields ).
-		add_action( 'bp_members_admin_update_user', array( $this, 'user_admin_load'    ), 10, 4 );
+		add_action( 'bp_members_admin_update_user', array( $this, 'user_admin_load' ), 10, 4 );
 	}
 
 	/**
@@ -110,7 +110,6 @@ class BP_XProfile_User_Admin {
 					array( 'profile_group_id' => bp_get_the_profile_group_id() )
 				);
 			endwhile;
-
 
 		} else {
 			// If member is already a spammer, show a generic metabox.

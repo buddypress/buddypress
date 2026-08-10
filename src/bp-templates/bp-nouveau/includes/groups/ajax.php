@@ -244,10 +244,10 @@ function bp_nouveau_ajax_joinleave_group() {
 
 			case 'groups_request_membership':
 				if ( ! groups_send_membership_request(
-					[
+					array(
 						'user_id' => $user_id,
 						'group_id' => $group->id,
-					]
+					)
 				) ) {
 					$response = array(
 						'feedback' => sprintf(

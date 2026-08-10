@@ -513,7 +513,7 @@ function bp_nouveau_activity_entry_buttons( $args = array() ) {
 				'href'            => $delete_args['link_href'],
 				'class'           => $delete_args['link_class'],
 				'data-bp-tooltip' => $delete_args['data_bp_tooltip'],
-				'data-bp-nonce'   => $delete_args['data-attr'] ,
+				'data-bp-nonce'   => $delete_args['data-attr'],
 			),
 			'link_text'  => sprintf( '<span class="bp-screen-reader-text">%s</span>', esc_html( $delete_args['data_bp_tooltip'] ) ),
 		);

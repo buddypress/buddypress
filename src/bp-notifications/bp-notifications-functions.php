@@ -128,7 +128,7 @@ function bp_notifications_mark_notification( $id, $is_new = false ) {
 
 	return BP_Notifications_Notification::update(
 		array( 'is_new' => $is_new ),
-		array( 'id'     => $id     )
+		array( 'id' => $id )
 	);
 }
 
@@ -728,7 +728,7 @@ function bp_notifications_bulk_manage_notifications( $action, $notification_ids 
 			break;
 	}
 
-	return ( bool ) $result;
+	return (bool) $result;
 }
 
 /**

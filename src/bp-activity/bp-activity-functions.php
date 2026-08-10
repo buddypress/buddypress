@@ -3949,7 +3949,6 @@ function bp_activity_new_comment_notification( $comment_id = 0, $commenter_id = 
 		do_action( 'bp_activity_sent_reply_to_update_notification', $original_activity, $comment_id, $commenter_id, $params );
 	}
 
-
 	/*
 	 * If this is a reply to another comment, send an email notification to the
 	 * author of the immediate parent comment.

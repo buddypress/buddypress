@@ -1352,7 +1352,7 @@ function bp_xprofile_get_hidden_field_types_for_user( $displayed_user_id = 0, $c
  */
 function bp_xprofile_get_fields_by_visibility_levels( $user_id, $levels = array() ) {
 	if ( ! is_array( $levels ) ) {
-		$levels = (array)$levels;
+		$levels = (array) $levels;
 	}
 
 	$user_visibility_levels = (array) bp_get_user_meta( $user_id, 'bp_xprofile_visibility_levels', true );

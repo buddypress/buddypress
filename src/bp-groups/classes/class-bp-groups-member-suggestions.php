@@ -141,7 +141,6 @@ class BP_Groups_Member_Suggestions extends BP_Members_Suggestions {
 			return $user_query;
 		}
 
-
 		if ( isset( $user_query['group_id'] ) ) {
 			$user_query = new BP_Group_Member_Query( $user_query );
 		} else {

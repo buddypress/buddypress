@@ -34,6 +34,5 @@ function bp_activity_screen_favorites() {
 		'members/single/index',
 	);
 
-
 	bp_core_load_template( $templates );
 }

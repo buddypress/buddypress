@@ -241,7 +241,7 @@ class BP_Messages_Notice {
 			$args,
 			array(
 				'pag_num'  => 20, // Number of notices per page.
-				'pag_page' => 1 , // Page number.
+				'pag_page' => 1, // Page number.
 			)
 		);
 

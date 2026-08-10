@@ -127,7 +127,7 @@ class BP_Nouveau_Friends {
 
 	/**
 	 * Register Friends Ajax actions.
- 	 *
+	 *
 	 * @since 12.0.0
 	 */
 	public function register_ajax_actions() {

@@ -16,13 +16,13 @@ defined( 'ABSPATH' ) || exit;
  * @since 5.0.0
  */
 function bp_groups_register_scripts() {
-    wp_register_script(
-        'bp-group-manage-members',
-        sprintf( '%1$sbp-groups/js/manage-members%2$s.js', buddypress()->plugin_url, bp_core_get_minified_asset_suffix() ),
-        array( 'json2', 'wp-backbone', 'wp-api-request' ),
-        bp_get_version(),
-        true
-    );
+	wp_register_script(
+		'bp-group-manage-members',
+		sprintf( '%1$sbp-groups/js/manage-members%2$s.js', buddypress()->plugin_url, bp_core_get_minified_asset_suffix() ),
+		array( 'json2', 'wp-backbone', 'wp-api-request' ),
+		bp_get_version(),
+		true
+	);
 }
 add_action( 'bp_enqueue_scripts', 'bp_groups_register_scripts', 1 );
 add_action( 'bp_admin_enqueue_scripts', 'bp_groups_register_scripts', 1 );

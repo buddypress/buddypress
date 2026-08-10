@@ -290,21 +290,21 @@ class BP_Members_Admin {
 		/** Extended Profile **************************************************/
 
 		// Enqueue all admin JS and CSS.
-		add_action( 'bp_admin_enqueue_scripts', array( $this, 'enqueue_scripts'   ) );
+		add_action( 'bp_admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 
 		// Add some page specific output to the <head>.
-		add_action( 'bp_admin_head', array( $this, 'admin_head'        ), 999 );
+		add_action( 'bp_admin_head', array( $this, 'admin_head' ), 999 );
 
 		// Add menu item to all users menu.
-		add_action( 'admin_menu', array( $this, 'admin_menus'       ), 5 );
-		add_action( 'network_admin_menu', array( $this, 'admin_menus'       ), 5 );
+		add_action( 'admin_menu', array( $this, 'admin_menus' ), 5 );
+		add_action( 'network_admin_menu', array( $this, 'admin_menus' ), 5 );
 
 		if ( bp_members_is_community_profile_enabled() ) {
 			add_action( 'user_admin_menu', array( $this, 'user_profile_menu' ), 5 );
 
 			// Create the Profile Navigation (Profile/Extended Profile).
-			add_action( 'edit_user_profile', array( $this, 'profile_nav'       ), 99, 1 );
-			add_action( 'show_user_profile', array( $this, 'profile_nav'       ), 99, 1 );
+			add_action( 'edit_user_profile', array( $this, 'profile_nav' ), 99, 1 );
+			add_action( 'show_user_profile', array( $this, 'profile_nav' ), 99, 1 );
 
 			// Editing users of a specific site.
 			add_action( 'admin_head-site-users.php', array( $this, 'profile_admin_head' ) );
@@ -350,7 +350,7 @@ class BP_Members_Admin {
 					$user_screen .= '-network';
 				}
 
-				add_filter( "views_{$user_screen}", array( $this, 'signup_filter_view'    ), 10, 1 );
+				add_filter( "views_{$user_screen}", array( $this, 'signup_filter_view' ), 10, 1 );
 				add_filter( 'set-screen-option', array( $this, 'signup_screen_options' ), 10, 3 );
 			}
 
@@ -373,10 +373,10 @@ class BP_Members_Admin {
 
 			// Add "Change type" <select> to WP admin users list table and process bulk members type changes.
 			add_action( 'restrict_manage_users', array( $this, 'users_table_output_type_change_select' ) );
-			add_action( 'load-users.php', array( $this, 'users_table_process_bulk_type_change'  ) );
+			add_action( 'load-users.php', array( $this, 'users_table_process_bulk_type_change' ) );
 
 			// Add the member type column to the WP admin users list table.
-			add_filter( 'manage_users_columns', array( $this, 'users_table_add_type_column'    ) );
+			add_filter( 'manage_users_columns', array( $this, 'users_table_add_type_column' ) );
 			add_filter( 'manage_users_custom_column', array( $this, 'users_table_populate_type_cell' ), 10, 3 );
 
 			// Filter WP admin users list table to include users of the specified type.
@@ -3027,7 +3027,7 @@ class BP_Members_Admin {
 		 *
 		 * @param array $value Array of allowed actions to use.
 		 */
-		$allowed_actions = apply_filters( 'bp_members_invitations_admin_allowed_actions', array( 'do_delete',  'do_resend' ) );
+		$allowed_actions = apply_filters( 'bp_members_invitations_admin_allowed_actions', array( 'do_delete', 'do_resend' ) );
 
 		// Prepare the display of the bulk invitation action screen.
 		if ( ! in_array( $doaction, $allowed_actions, true ) ) {
@@ -3439,7 +3439,6 @@ class BP_Members_Admin {
 		} elseif ( ! empty( $_GET['invite_id'] ) ) {
 			$ids = absint( $_GET['invite_id'] );
 		}
-
 
 		if ( empty( $ids ) ) {
 			return false;

@@ -233,7 +233,7 @@ function bp_groups_admin_load() {
 		$bp_groups_list_table = new BP_Groups_List_Table();
 
 		// The per_page screen option.
-		add_screen_option( 'per_page', array( 'label' => _x( 'Groups', 'Groups per page (screen options)', 'buddypress' )) );
+		add_screen_option( 'per_page', array( 'label' => _x( 'Groups', 'Groups per page (screen options)', 'buddypress' ) ) );
 
 		// Help panel - overview text.
 		get_current_screen()->add_help_tab(
@@ -585,7 +585,6 @@ function bp_groups_admin_load() {
 		 */
 		wp_safe_redirect( apply_filters( 'bp_group_admin_edit_redirect', $redirect_to ) );
 		exit;
-
 
 	// If a referrer and a nonce is supplied, but no action, redirect back.
 	} elseif ( ! empty( $_GET['_wp_http_referer'] ) ) {
