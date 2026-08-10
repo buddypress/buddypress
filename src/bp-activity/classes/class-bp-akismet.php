@@ -174,7 +174,7 @@ class BP_Akismet {
 	 */
 	public function check_member_activity_update( $content, $user_id, $activity_id ) {
 		// By default, only handle activity updates and activity comments.
-		if ( empty( $this->last_activity ) || ! in_array( $this->last_activity->type, BP_Akismet::get_activity_types(), true ) ) {
+		if ( empty( $this->last_activity ) || ! in_array( $this->last_activity->type, self::get_activity_types(), true ) ) {
 			return;
 		}
 
@@ -200,7 +200,7 @@ class BP_Akismet {
 		}
 
 		// By default, only handle activity updates and activity comments.
-		if ( ! in_array( bp_get_activity_type(), BP_Akismet::get_activity_types(), true ) ) {
+		if ( ! in_array( bp_get_activity_type(), self::get_activity_types(), true ) ) {
 			return;
 		}
 
@@ -239,7 +239,7 @@ class BP_Akismet {
 
 		// By default, only handle activity updates and activity comments.
 		$current_comment = bp_activity_current_comment();
-		if ( empty( $current_comment ) || ! in_array( $current_comment->type, BP_Akismet::get_activity_types(), true ) ) {
+		if ( empty( $current_comment ) || ! in_array( $current_comment->type, self::get_activity_types(), true ) ) {
 			return;
 		}
 
@@ -410,7 +410,7 @@ class BP_Akismet {
 	 */
 	public function check_activity( $activity ) {
 		// By default, only handle activity updates and activity comments.
-		if ( ! in_array( $activity->type, BP_Akismet::get_activity_types(), true ) ) {
+		if ( ! in_array( $activity->type, self::get_activity_types(), true ) ) {
 			return;
 		}
 
@@ -418,7 +418,7 @@ class BP_Akismet {
 		$this->last_activity = null;
 
 		// Build data package for Akismet.
-		$activity_data = BP_Akismet::build_akismet_data_package( $activity );
+		$activity_data = self::build_akismet_data_package( $activity );
 
 		// Check with Akismet to see if this is spam.
 		$activity_data = $this->send_akismet_request( $activity_data, 'check', 'spam' );
@@ -472,7 +472,7 @@ class BP_Akismet {
 	 */
 	public function update_activity_spam_meta( $activity ) {
 		// By default, only handle activity updates and activity comments.
-		if ( ! in_array( $activity->type, BP_Akismet::get_activity_types(), true ) ) {
+		if ( ! in_array( $activity->type, self::get_activity_types(), true ) ) {
 			return;
 		}
 
@@ -499,7 +499,7 @@ class BP_Akismet {
 	 */
 	public function update_activity_ham_meta( $activity ) {
 		// By default, only handle activity updates and activity comments.
-		if ( ! in_array( $activity->type, BP_Akismet::get_activity_types(), true ) ) {
+		if ( ! in_array( $activity->type, self::get_activity_types(), true ) ) {
 			return;
 		}
 
@@ -531,7 +531,7 @@ class BP_Akismet {
 		}
 
 		// By default, only handle activity updates and activity comments.
-		if ( ! in_array( $this->last_activity->type, BP_Akismet::get_activity_types(), true ) ) {
+		if ( ! in_array( $this->last_activity->type, self::get_activity_types(), true ) ) {
 			return;
 		}
 
@@ -682,7 +682,7 @@ class BP_Akismet {
 	 * @param object $item Activity item.
 	 */
 	function history_metabox( $item ) {
-		$history = BP_Akismet::get_activity_history( $item->id );
+		$history = self::get_activity_history( $item->id );
 
 		if ( empty( $history ) ) {
 			$message = '&mdash;';

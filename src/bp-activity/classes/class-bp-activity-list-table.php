@@ -184,7 +184,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 
 		// If we're viewing a specific activity, flatten all activities into a single array.
 		if ( $include_id ) {
-			$activities['activities'] = BP_Activity_List_Table::flatten_activity_array( $activities['activities'] );
+			$activities['activities'] = self::flatten_activity_array( $activities['activities'] );
 			$activities['total']      = count( $activities['activities'] );
 
 			// Sort the array by the activity object's date_recorded value.
@@ -994,7 +994,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 		foreach ( (array) $tree as $node ) {
 			if ( isset( $node->children ) ) {
 
-				foreach ( BP_Activity_List_Table::flatten_activity_array( $node->children ) as $child ) {
+				foreach ( self::flatten_activity_array( $node->children ) as $child ) {
 					$tree[] = $child;
 				}
 

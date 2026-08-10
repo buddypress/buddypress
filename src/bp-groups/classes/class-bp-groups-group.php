@@ -782,7 +782,8 @@ class BP_Groups_Group {
 			'update_meta_cache'  => false,
 			'show_hidden'        => true,
 		);
-		$groups = BP_Groups_Group::get( $args );
+
+		$groups = self::get( $args );
 
 		$group_id = null;
 		if ( $groups['groups'] ) {
@@ -858,7 +859,7 @@ class BP_Groups_Group {
 			'order'        => $order,
 		);
 
-		$groups = BP_Groups_Group::get( $args );
+		$groups = self::get( $args );
 
 		// Modify the results to match the old format.
 		$paged_groups = array();
@@ -903,7 +904,7 @@ class BP_Groups_Group {
 			'order'        => $order,
 		);
 
-		$groups = BP_Groups_Group::get( $args );
+		$groups = self::get( $args );
 
 		// Modify the results to match the old format.
 		$paged_groups = array();
