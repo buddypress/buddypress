@@ -456,12 +456,10 @@ function bp_groups_admin_load() {
 
 				if ( empty( $user ) ) {
 					$error['new_user'][] = $un;
-				} else {
-					if ( ! groups_join_group( $group_id, $user->ID ) ) {
+				} elseif ( ! groups_join_group( $group_id, $user->ID ) ) {
 						$error['new_user'][] = $un;
 					} else {
 						$updated['new_user'][] = $un;
-					}
 				}
 			}
 
@@ -1173,13 +1171,17 @@ function bp_groups_admin_edit_metabox_members( $item ) {
 				<?php
 				switch ( $member_type ) :
 					case 'admin':
-						esc_html_e( 'Administrators', 'buddypress' ); break;
+						esc_html_e( 'Administrators', 'buddypress' );
+						break;
 					case 'mod':
-						esc_html_e( 'Moderators', 'buddypress' ); break;
+						esc_html_e( 'Moderators', 'buddypress' );
+						break;
 					case 'member':
-						esc_html_e( 'Members', 'buddypress' ); break;
+						esc_html_e( 'Members', 'buddypress' );
+						break;
 					case 'banned':
-						esc_html_e( 'Banned Members', 'buddypress' ); break;
+						esc_html_e( 'Banned Members', 'buddypress' );
+						break;
 				endswitch;
 				?>
 			</h3>

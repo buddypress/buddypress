@@ -1792,13 +1792,11 @@ function bp_activity_format_activity_action_custom_post_type_post( $action, $act
 			/* translators: 1: the activity author user link. 2: the post link. 3: the blog link. */
 			$action = sprintf( esc_html_x( '%1$s wrote a new %2$s, on the site %3$s', 'Activity Custom Post Type post action', 'buddypress' ), $user_link, $post_link, $blog_link );
 		}
-	} else {
-		if ( ! empty( $bp->activity->track[ $activity->type ]->new_post_type_action ) ) {
+	} elseif ( ! empty( $bp->activity->track[ $activity->type ]->new_post_type_action ) ) {
 			$action = sprintf( $bp->activity->track[ $activity->type ]->new_post_type_action, $user_link, $post_url );
 		} else {
 			/* translators: 1: the activity author user link. 2: the post link. */
 			$action = sprintf( esc_html_x( '%1$s wrote a new %2$s', 'Activity Custom Post Type post action', 'buddypress' ), $user_link, $post_link );
-		}
 	}
 
 	/**
@@ -1846,13 +1844,11 @@ function bp_activity_format_activity_action_custom_post_type_comment( $action, $
 			/* translators: 1: the activity author user link. 2: the post link. 3: the blog link. */
 			$action = sprintf( esc_html_x( '%1$s commented on the %2$s, on the site %3$s', 'Activity Custom Post Type comment action', 'buddypress' ), $user_link, $post_link, $blog_link );
 		}
-	} else {
-		if ( ! empty( $bp->activity->track[ $activity->type ]->new_post_type_comment_action ) ) {
+	} elseif ( ! empty( $bp->activity->track[ $activity->type ]->new_post_type_comment_action ) ) {
 			$action = sprintf( $bp->activity->track[ $activity->type ]->new_post_type_comment_action, $user_link, $activity->primary_link );
 		} else {
 			/* translators: 1: the activity author user link. 2: the post link. */
 			$action = sprintf( esc_html_x( '%1$s commented on the %2$s', 'Activity Custom Post Type post comment action', 'buddypress' ), $user_link, $post_link );
-		}
 	}
 
 	/**
@@ -2390,11 +2386,9 @@ function bp_activity_post_type_publish( $post_id = 0, $post = null, $user_id = 0
 	// Make sure the action is set.
 	if ( empty( $activity_args['action'] ) ) {
 		return;
-	} else {
+	} elseif ( 'blogs' === $activity_post_object->component_id ) {
 		// Backward compatibility filter for the blogs component.
-		if ( 'blogs' === $activity_post_object->component_id ) {
-			$activity_args['action'] = apply_filters( 'bp_blogs_record_activity_action', $activity_args['action'] );
-		}
+		$activity_args['action'] = apply_filters( 'bp_blogs_record_activity_action', $activity_args['action'] );
 	}
 
 	$activity_id = bp_activity_add( $activity_args );
@@ -2707,11 +2701,9 @@ function bp_activity_post_type_comment( $comment_id = 0, $is_approved = true, $a
 		// Make sure the action is set.
 		if ( empty( $activity_args['action'] ) ) {
 			return;
-		} else {
+		} elseif ( 'blogs' === $activity_post_object->component_id ) {
 			// Backward compatibility filter for the blogs component.
-			if ( 'blogs' === $activity_post_object->component_id ) {
-				$activity_args['action'] = apply_filters( 'bp_blogs_record_activity_action', $activity_args['action'] );
-			}
+			$activity_args['action'] = apply_filters( 'bp_blogs_record_activity_action', $activity_args['action'] );
 		}
 
 		$activity_id = bp_activity_add( $activity_args );

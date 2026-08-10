@@ -526,7 +526,7 @@ class BP_Akismet {
 	 */
 	public function update_activity_akismet_meta( $activity ) {
 		// Check we're dealing with what was last updated by Akismet.
-		if ( empty( $this->last_activity ) || ! empty( $this->last_activity ) && $activity->id !== $this->last_activity->id ) {
+		if ( empty( $this->last_activity ) || ( ! empty( $this->last_activity ) && $activity->id !== $this->last_activity->id ) ) {
 			return;
 		}
 

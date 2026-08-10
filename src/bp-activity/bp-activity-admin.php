@@ -148,7 +148,7 @@ add_action( 'wp_ajax_bp-activity-admin-reply', 'bp_activity_admin_reply' );
  * @return array Hidden Meta Boxes.
  */
 function bp_activity_admin_edit_hidden_metaboxes( $hidden, $screen ) {
-	if ( empty( $screen->id ) || 'toplevel_page_bp-activity' !== $screen->id && 'toplevel_page_bp-activity-network' !== $screen->id ) {
+	if ( empty( $screen->id ) || ( 'toplevel_page_bp-activity' !== $screen->id && 'toplevel_page_bp-activity-network' !== $screen->id ) ) {
 		return $hidden;
 	}
 

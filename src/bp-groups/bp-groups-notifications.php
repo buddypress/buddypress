@@ -326,7 +326,7 @@ function groups_notification_group_invites( &$group, &$member, $inviter_user_id 
 
 	if ( $member instanceof BP_Groups_Member ) {
 		$invited_user_id = $member->user_id;
-	} else if ( is_int( $member ) ) {
+	} elseif ( is_int( $member ) ) {
 		$invited_user_id = $member;
 	}
 

@@ -53,13 +53,10 @@ function bp_activity_action_permalink_router() {
 			$redirect = bp_members_get_user_url( $activity->user_id, $path_chunks );
 
 		// Activity is something else.
-		} else {
-
-			// Set redirect to group activity stream.
-			if ( $group = groups_get_group( $activity->item_id ) ) {
-				$path_chunks = bp_groups_get_path_chunks( array( bp_get_activity_slug(), $activity->id ) );
-				$redirect    = bp_get_group_url( $group, $path_chunks );
-			}
+		// Set redirect to group activity stream.
+		} elseif ( $group = groups_get_group( $activity->item_id ) ) {
+			$path_chunks = bp_groups_get_path_chunks( array( bp_get_activity_slug(), $activity->id ) );
+			$redirect    = bp_get_group_url( $group, $path_chunks );
 		}
 
 	// Set redirect to users' activity stream.

@@ -274,7 +274,7 @@ function xprofile_sanitize_data_value_before_save( $field_value, $field_id = 0, 
 function xprofile_filter_format_field_value( $field_value, $field_type = '' ) {
 
 	// Valid field values of 0 or '0' get caught by empty(), so we have an extra check for these. See #BP5731.
-	if ( ! isset( $field_value ) || empty( $field_value ) && ( '0' !== $field_value ) ) {
+	if ( ! isset( $field_value ) || ( empty( $field_value ) && '0' !== $field_value ) ) {
 		return false;
 	}
 
@@ -447,18 +447,15 @@ function xprofile_filter_link_profile_data( $field_value, $field_type = 'textbox
 				$new_values[] = make_clickable( $value );
 
 				// Is not clickable.
+			// More than 5 spaces.
+			} elseif ( count( explode( ' ', $value ) ) > 5 ) {
+				$new_values[] = $value;
+
+			// Less than 5 spaces.
 			} else {
-
-				// More than 5 spaces.
-				if ( count( explode( ' ', $value ) ) > 5 ) {
-					$new_values[] = $value;
-
-					// Less than 5 spaces.
-				} else {
-					$query_arg    = bp_core_get_component_search_query_arg( 'members' );
-					$search_url   = add_query_arg( array( $query_arg => urlencode( $value ) ), bp_get_members_directory_permalink() );
-					$new_values[] = '<a href="' . esc_url( $search_url ) . '" rel="nofollow">' . $value . '</a>';
-				}
+				$query_arg    = bp_core_get_component_search_query_arg( 'members' );
+				$search_url   = add_query_arg( array( $query_arg => urlencode( $value ) ), bp_get_members_directory_permalink() );
+				$new_values[] = '<a href="' . esc_url( $search_url ) . '" rel="nofollow">' . $value . '</a>';
 			}
 		}
 

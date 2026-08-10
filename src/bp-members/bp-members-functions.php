@@ -3596,7 +3596,7 @@ function bp_members_invitations_delete_by_id( $id = 0 ) {
 		 * @param BP_Invitation $existing_invite The invitation to be deleted.
 		 */
 		do_action( 'bp_members_invitations_canceled_invitation', $existing_invite );
-	} else if ( ! $existing_invite->accepted ) {
+	} elseif ( ! $existing_invite->accepted ) {
 		/**
 		 * Fires after the deletion of a sent, but not yet accepted, community invite.
 		 *

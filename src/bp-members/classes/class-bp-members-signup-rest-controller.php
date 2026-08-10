@@ -1001,9 +1001,9 @@ class BP_Members_Signup_REST_Controller extends WP_REST_Controller {
 
 		if ( 'id' === $field && is_numeric( $identifier ) ) {
 			$signup_args['include'] = array( intval( $identifier ) );
-		} else if ( 'email' === $field && is_email( $identifier ) ) {
+		} elseif ( 'email' === $field && is_email( $identifier ) ) {
 			$signup_args['usersearch'] = $identifier;
-		} else if ( 'activation_key' === $field ) {
+		} elseif ( 'activation_key' === $field ) {
 			// The activation key is used when activating a signup.
 
 			// Block numeric IDs to prevent enumeration attacks.

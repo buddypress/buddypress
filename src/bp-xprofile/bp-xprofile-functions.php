@@ -460,7 +460,7 @@ function xprofile_set_field_data( $field, $user_id, $value, $is_required = false
 	$value = apply_filters( 'bp_xprofile_set_field_data_pre_validate', $value, $field, $field_type_obj );
 
 	// Special-case support for integer 0 for the number field type.
-	if ( $is_required && ! is_integer( $value ) && $value !== '0' && ( empty( $value ) || ! is_array( $value ) && ! strlen( trim( $value ) ) ) ) {
+	if ( $is_required && ! is_integer( $value ) && $value !== '0' && ( empty( $value ) || ( ! is_array( $value ) && ! strlen( trim( $value ) ) ) ) ) {
 		return false;
 	}
 

@@ -592,14 +592,12 @@ function bp_search_default_text( $component = '' ) {
 		if ( ! empty( $component ) ) {
 			if ( ! empty( $bp->{$component}->search_string ) ) {
 				$default_text = $bp->{$component}->search_string;
-			} else {
+			} elseif ( ! empty( $bp->pages->{$component}->slug ) ) {
 				// When the request comes through AJAX, we need to get the component
 				// name out of $bp->pages.
-				if ( ! empty( $bp->pages->{$component}->slug ) ) {
-					$key = $bp->pages->{$component}->slug;
-					if ( ! empty( $bp->{$key}->search_string ) ) {
-						$default_text = $bp->{$key}->search_string;
-					}
+				$key = $bp->pages->{$component}->slug;
+				if ( ! empty( $bp->{$key}->search_string ) ) {
+					$default_text = $bp->{$key}->search_string;
 				}
 			}
 		}
@@ -3253,10 +3251,8 @@ function bp_the_body_class() {
 			if ( bp_is_user_activity() ) {
 				$bp_classes[] = 'my-activity';
 			}
-		} else {
-			if ( bp_get_current_member_type() || ( bp_is_groups_directory() && bp_get_current_group_directory_type() ) ) {
+		} elseif ( bp_get_current_member_type() || ( bp_is_groups_directory() && bp_get_current_group_directory_type() ) ) {
 				$bp_classes[] = 'type';
-			}
 		}
 
 		if ( bp_is_my_profile() ) {

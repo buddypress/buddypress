@@ -373,7 +373,7 @@ function bp_blog_avatar( $args = '' ) {
 
 		if ( ! empty( $args['blog_id'] ) ) {
 			$blog_id = (int) $args['blog_id'];
-		} else if ( isset( $blogs_template->blog->blog_id ) ) {
+		} elseif ( isset( $blogs_template->blog->blog_id ) ) {
 			$blog_id = bp_get_blog_id();
 
 			/* translators: %s is the blog name */

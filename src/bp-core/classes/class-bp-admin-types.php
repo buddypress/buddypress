@@ -526,7 +526,7 @@ class BP_Admin_Types {
 	 * @return string|null|int
 	 */
 	public function column_contents( $column_content = '', $column_name = '', $type_id = 0 ) {
-		if ( 'plural_name' !== $column_name && 'counts' !== $column_name || ! $type_id ) {
+		if ( ( 'plural_name' !== $column_name && 'counts' !== $column_name ) || ! $type_id ) {
 			return $column_content;
 		}
 

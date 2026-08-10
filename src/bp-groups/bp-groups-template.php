@@ -4703,10 +4703,10 @@ function bp_groups_front_template_part() {
 
 		load_template( $located, true );
 
-	} else if ( bp_is_active( 'activity' ) ) {
+	} elseif ( bp_is_active( 'activity' ) ) {
 		bp_get_template_part( 'groups/single/activity' );
 
-	} else if ( bp_is_active( 'members' ) ) {
+	} elseif ( bp_is_active( 'members' ) ) {
 		bp_groups_members_template_part();
 	}
 

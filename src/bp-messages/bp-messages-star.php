@@ -277,30 +277,27 @@ function bp_messages_star_set_action( $args = array() ) {
 			bp_messages_add_meta( $r['message_id'], 'starred_by_user', $r['user_id'] );
 			return true;
 		}
-	// Unstar.
-	} else {
-		// Unstar one message.
-		if ( false === $r['bulk'] ) {
-			if ( false === $is_starred ) {
-				return true;
-			} else {
-				bp_messages_delete_meta( $r['message_id'], 'starred_by_user', $r['user_id'] );
-				return true;
-			}
-
-		// Unstar all messages in a thread.
+	// Unstar one message.
+	} elseif ( false === $r['bulk'] ) {
+		if ( false === $is_starred ) {
+			return true;
 		} else {
-			$thread = new BP_Messages_Thread( $thread_id );
-			$mids   = wp_list_pluck( $thread->messages, 'id' );
-
-			foreach ( $mids as $mid ) {
-				if ( true === bp_messages_is_message_starred( $mid, $r['user_id'] ) ) {
-					bp_messages_delete_meta( $mid, 'starred_by_user', $r['user_id'] );
-				}
-			}
-
+			bp_messages_delete_meta( $r['message_id'], 'starred_by_user', $r['user_id'] );
 			return true;
 		}
+
+	// Unstar all messages in a thread.
+	} else {
+		$thread = new BP_Messages_Thread( $thread_id );
+		$mids   = wp_list_pluck( $thread->messages, 'id' );
+
+		foreach ( $mids as $mid ) {
+			if ( true === bp_messages_is_message_starred( $mid, $r['user_id'] ) ) {
+				bp_messages_delete_meta( $mid, 'starred_by_user', $r['user_id'] );
+			}
+		}
+
+		return true;
 	}
 }
 

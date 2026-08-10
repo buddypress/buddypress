@@ -573,13 +573,11 @@ function bp_members_pagination_count() {
 				/* translators: 1: online member from number. 2: online member to number. 3: total online members. */
 				$pag = sprintf( _n( 'Viewing %1$s - %2$s of %3$s online member', 'Viewing %1$s - %2$s of %3$s online members', $members_template->total_member_count, 'buddypress' ), $from_num, $to_num, $total );
 			}
-		} else {
-			if ( 1 === $members_template->total_member_count ) {
+		} elseif ( 1 === $members_template->total_member_count ) {
 				$pag = __( 'Viewing 1 member', 'buddypress' );
 			} else {
 				/* translators: 1: member from number. 2: member to number. 3: total members. */
 				$pag = sprintf( _n( 'Viewing %1$s - %2$s of %3$s member', 'Viewing %1$s - %2$s of %3$s members', $members_template->total_member_count, 'buddypress' ), $from_num, $to_num, $total );
-			}
 		}
 
 		/**
@@ -2701,7 +2699,7 @@ function bp_signup_email_value() {
 		$value = '';
 		if ( isset( $_POST['signup_email'] ) ) {
 			$value = $_POST['signup_email'];
-		} else if ( bp_get_members_invitations_allowed() ) {
+		} elseif ( bp_get_members_invitations_allowed() ) {
 			$invite = bp_get_members_invitation_from_request();
 			if ( $invite ) {
 				$value = $invite->invitee_email;

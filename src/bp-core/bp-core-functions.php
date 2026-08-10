@@ -3864,7 +3864,7 @@ function bp_send_email( $email_type, $to, $args = array() ) {
 	if ( 'settings-verify-email-change' === $email_type && isset( $args['tokens']['displayname'] ) ) {
 		$email->set_to( $to, $args['tokens']['displayname'] );
 	// Emails sent to nonmembers will have no recipient.name populated.
-	} else if ( 'bp-members-invitation' === $email_type ) {
+	} elseif ( 'bp-members-invitation' === $email_type ) {
 		$email->set_to( $to, $to );
 	} else {
 		$email->set_to( $to );
@@ -4555,7 +4555,7 @@ function bp_email_unsubscribe_handler() {
 	$new_hash = '';
 	if ( ! empty( $raw_user_id ) ) {
 		$new_hash = hash_hmac( 'sha1', "{$raw_email_type}:{$raw_user_id}", bp_email_get_salt() );
-	} else if ( ! empty( $raw_user_email ) ) {
+	} elseif ( ! empty( $raw_user_email ) ) {
 		$new_hash = hash_hmac( 'sha1', "{$raw_email_type}:{$raw_user_email}", bp_email_get_salt() );
 	}
 
@@ -4586,7 +4586,7 @@ function bp_email_unsubscribe_handler() {
 		}
 
 	// This is an unsubscribe request from a nonmember.
-	} else if ( $raw_user_email ) {
+	} elseif ( $raw_user_email ) {
 		// Unsubscribe.
 		if ( bp_user_has_opted_out( $raw_user_email ) ) {
 			$result_msg = $emails[ $raw_email_type ]['unsubscribe']['message'];
@@ -4711,7 +4711,7 @@ function bp_email_get_unsubscribe_link( $args ) {
 		);
 
 	// Case where the recipient is not a member of the site.
-	} else if ( ! empty( $args['email_address'] ) ) {
+	} elseif ( ! empty( $args['email_address'] ) ) {
 		$email_address = $args['email_address'];
 		$member_id     = (int) $args['member_id'];
 		$link          = add_query_arg(

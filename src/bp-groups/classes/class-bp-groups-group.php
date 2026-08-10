@@ -811,7 +811,7 @@ class BP_Groups_Group {
 	public static function get_invites( $user_id, $group_id, $sent = null ) {
 		if ( 0 === $sent ) {
 			$sent_arg = 'draft';
-		} else if ( 1 === $sent ) {
+		} elseif ( 1 === $sent ) {
 			$sent_arg = 'sent';
 		} else {
 			$sent_arg = 'all';
@@ -1766,10 +1766,8 @@ class BP_Groups_Group {
 			if ( mb_strlen( $letter, 'UTF-8' ) > 1 || is_numeric( $letter ) || ! $letter ) {
 				return false;
 			}
-		} else {
-			if ( strlen( $letter ) > 1 || is_numeric( $letter ) || ! $letter ) {
+		} elseif ( strlen( $letter ) > 1 || is_numeric( $letter ) || ! $letter ) {
 				return false;
-			}
 		}
 
 		return self::get(

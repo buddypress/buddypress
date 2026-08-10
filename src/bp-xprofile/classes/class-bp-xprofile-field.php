@@ -549,10 +549,8 @@ class BP_XProfile_Field {
 							if ( isset( $defaults[ $option_key ] ) ) {
 								$is_default = 1;
 							}
-						} else {
-							if ( (int) $defaults === $option_key ) {
+						} elseif ( (int) $defaults === $option_key ) {
 								$is_default = 1;
-							}
 						}
 
 						if ( '' !== $option_value ) {

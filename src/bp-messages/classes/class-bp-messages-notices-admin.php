@@ -226,12 +226,10 @@ class BP_Messages_Notices_Admin {
 							} else {
 								esc_html_e( 'Notice was not updated. Please try again.', 'buddypress' );
 							}
-						} else {
-							if ( 'create' === $_GET['success'] ) {
+						} elseif ( 'create' === $_GET['success'] ) {
 								esc_html_e( 'Notice successfully created.', 'buddypress' );
 							} else {
 								esc_html_e( 'Notice successfully updated.', 'buddypress' );
-							}
 						}
 						?>
 					</p>

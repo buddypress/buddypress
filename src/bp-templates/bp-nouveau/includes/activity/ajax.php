@@ -252,21 +252,21 @@ function bp_nouveau_ajax_delete_activity() {
 		}
 
 	// Deleting an activity.
-	} else {
-		if ( ! bp_activity_delete(
+	} elseif (
+		! bp_activity_delete(
 			array(
-				'id' => $activity->id,
+				'id'      => $activity->id,
 				'user_id' => $activity->user_id,
 			)
-		) ) {
-			wp_send_json_error( $response );
+		)
+	) {
+		wp_send_json_error( $response );
 
-			// The activity has been deleted successfully.
-		} else {
-			$response = array(
-				'deleted' => array( $activity->id ),
-			);
-		}
+		// The activity has been deleted successfully.
+	} else {
+		$response = array(
+			'deleted' => array( $activity->id ),
+		);
 	}
 
 	/** This action is documented in bp-activity/bp-activity-actions.php */
