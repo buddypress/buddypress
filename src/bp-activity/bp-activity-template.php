@@ -1619,7 +1619,7 @@ function bp_activity_has_content() {
 
 				// Find the activity index.
 				while ( (int) $activities_template->activities[ $activity_index ]->id !== (int) $activity_id ) {
-					$activity_index++;
+					++$activity_index;
 				}
 
 				// Add the generated content object.
@@ -2560,7 +2560,7 @@ function bp_activity_comment_count() {
 			// Loop through children and recursively count comments.
 			if ( ! empty( $comment->children ) ) {
 				foreach ( (array) $comment->children as $comment ) {
-					$new_count++;
+					++$new_count;
 					$new_count = bp_activity_recurse_comment_count( $comment, $new_count );
 				}
 			}

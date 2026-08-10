@@ -3667,7 +3667,7 @@ function bp_members_invitations_delete_invites( $args = array() ) {
 	foreach ( $invites as $invite ) {
 		$success = bp_members_invitations_delete_by_id( $invite->id );
 		if ( $success ) {
-			$deleted++;
+			++$deleted;
 		}
 	}
 

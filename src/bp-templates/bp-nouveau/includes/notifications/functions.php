@@ -163,7 +163,7 @@ function bp_nouveau_notifications_sort( $filters = array() ) {
 			$sorted_keys = array_keys( $sorted );
 
 			do {
-				$position += 1;
+				++$position;
 			} while ( in_array( $position, $sorted_keys, true ) );
 		}
 

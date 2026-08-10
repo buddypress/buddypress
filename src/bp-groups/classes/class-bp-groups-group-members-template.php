@@ -256,7 +256,7 @@ class BP_Groups_Group_Members_Template {
 	 * @return object
 	 */
 	public function next_member() {
-		$this->current_member++;
+		++$this->current_member;
 		$this->member = $this->members[ $this->current_member ];
 
 		return $this->member;

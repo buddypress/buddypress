@@ -4928,7 +4928,7 @@ function bp_group_creation_tabs() {
 
 		// phpcs:ignore WordPress.Security.EscapeOutput
 		printf( '<li%1$s>%2$s</li>', $current_class, $step_name );
-		$counter++;
+		++$counter;
 		unset( $is_enabled );
 	}
 

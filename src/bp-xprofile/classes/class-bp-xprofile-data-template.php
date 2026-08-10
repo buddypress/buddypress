@@ -245,7 +245,7 @@ class BP_XProfile_Data_Template {
 	 * @return object
 	 */
 	public function next_group() {
-		$this->current_group++;
+		++$this->current_group;
 
 		$this->group       = $this->groups[ $this->current_group ];
 		$this->field_count = 0;
@@ -341,7 +341,7 @@ class BP_XProfile_Data_Template {
 	 * @return int
 	 */
 	public function next_field() {
-		$this->current_field++;
+		++$this->current_field;
 
 		$this->field = $this->group->fields[ $this->current_field ];
 

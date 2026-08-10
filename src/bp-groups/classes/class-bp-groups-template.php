@@ -356,7 +356,7 @@ class BP_Groups_Template {
 	 * @return object The next group to iterate over.
 	 */
 	public function next_group() {
-		$this->current_group++;
+		++$this->current_group;
 		$this->group = $this->groups[ $this->current_group ];
 
 		return $this->group;

@@ -240,7 +240,7 @@ class BP_Messages_Message {
 		if ( is_array( $recipient_usernames ) ) {
 			$rec_un_count = count( $recipient_usernames );
 
-			for ( $i = 0, $count = $rec_un_count; $i < $count; ++ $i ) {
+			for ( $i = 0, $count = $rec_un_count; $i < $count; ++$i ) {
 				if ( $rid = bp_core_get_userid( trim( $recipient_usernames[ $i ] ) ) ) {
 					$recipient_ids[] = $rid;
 				}

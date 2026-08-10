@@ -348,7 +348,7 @@ class BP_Friends_Friendship {
 
 				foreach ( $filters as $filter_name => $filter_value ) {
 					if ( isset( $friendship->{$filter_name} ) && $filter_value === $friendship->{$filter_name} ) {
-						$matched++;
+						++$matched;
 					}
 				}
 
@@ -1012,7 +1012,7 @@ class BP_Friends_Friendship {
 				continue;
 			}
 
-			$invitable_count++;
+			++$invitable_count;
 		}
 
 		return $invitable_count;

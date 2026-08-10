@@ -259,7 +259,7 @@ function bp_activity_at_name_filter( $content, $activity_id = 0 ) {
 			foreach ( $content_matches[1] as $replacement ) {
 				$replacements[ '#BPAN' . $replace_count ] = $replacement;
 				$content                                  = str_replace( $replacement, '#BPAN' . $replace_count, $content );
-				$replace_count++;
+				++$replace_count;
 			}
 		}
 	}

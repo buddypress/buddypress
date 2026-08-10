@@ -297,7 +297,7 @@ class BP_Core_Members_Template {
 	 * @return object The next member to iterate over.
 	 */
 	public function next_member() {
-		$this->current_member++;
+		++$this->current_member;
 		$this->member = $this->members[ $this->current_member ];
 
 		return $this->member;

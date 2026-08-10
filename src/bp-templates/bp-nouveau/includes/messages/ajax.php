@@ -497,7 +497,7 @@ function bp_nouveau_ajax_get_user_message_threads() {
 			$threads->threads[ $i ] = array_merge( $threads->threads[ $i ], $thread_extra_content );
 		}
 
-		$i += 1;
+		++$i;
 	endwhile;
 
 	$threads->threads = array_filter( $threads->threads );
@@ -672,7 +672,7 @@ function bp_nouveau_ajax_get_thread_messages() {
 			$thread->messages[ $i ] = array_merge( $thread->messages[ $i ], $extra_content );
 		}
 
-		$i += 1;
+		++$i;
 	endwhile;
 
 	$thread->messages = array_filter( $thread->messages );

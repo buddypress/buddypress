@@ -45,7 +45,7 @@ function bp_members_invitations_action_bulk_manage() {
 			$success = 0;
 			foreach ( $invitations as $invite_id ) {
 				if ( bp_members_invitations_delete_by_id( $invite_id ) ) {
-					$success++;
+					++$success;
 				}
 			}
 			$message = sprintf(
@@ -62,7 +62,7 @@ function bp_members_invitations_action_bulk_manage() {
 			$success = 0;
 			foreach ( $invitations as $invite_id ) {
 				if ( bp_members_invitation_resend_by_id( $invite_id ) ) {
-					$success++;
+					++$success;
 				}
 			}
 			$message = sprintf(

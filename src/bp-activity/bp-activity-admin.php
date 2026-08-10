@@ -394,7 +394,7 @@ function bp_activity_admin_load() {
 					if ( ! $delete_result ) {
 						$errors[] = $activity->id;
 					} else {
-						$deleted++;
+						++$deleted;
 					}
 					break;
 
@@ -413,7 +413,7 @@ function bp_activity_admin_load() {
 					if ( ! $result ) {
 						$errors[] = $activity->id;
 					} else {
-						$unspammed++;
+						++$unspammed;
 					}
 					break;
 
@@ -425,7 +425,7 @@ function bp_activity_admin_load() {
 					if ( ! $result ) {
 						$errors[] = $activity->id;
 					} else {
-						$spammed++;
+						++$spammed;
 					}
 					break;
 

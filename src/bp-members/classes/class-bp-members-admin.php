@@ -3094,7 +3094,7 @@ class BP_Members_Admin {
 				$success = 0;
 				foreach ( $invite_ids as $invite_id ) {
 					if ( bp_members_invitation_resend_by_id( $invite_id ) ) {
-						$success++;
+						++$success;
 					}
 				}
 
@@ -3122,7 +3122,7 @@ class BP_Members_Admin {
 				$success = 0;
 				foreach ( $invite_ids as $invite_id ) {
 					if ( bp_members_invitations_delete_by_id( $invite_id ) ) {
-						$success++;
+						++$success;
 					}
 				}
 

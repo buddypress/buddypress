@@ -110,7 +110,7 @@ class BP_Messages_Thread_Template {
 	 * @return object The next message to iterate over.
 	 */
 	public function next_message() {
-		$this->current_message++;
+		++$this->current_message;
 		$this->message = $this->thread->messages[ $this->current_message ];
 
 		return $this->message;

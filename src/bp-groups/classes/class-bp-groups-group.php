@@ -867,7 +867,7 @@ class BP_Groups_Group {
 		foreach ( $groups['groups'] as $group ) {
 			$paged_groups[ $i ]           = new stdClass();
 			$paged_groups[ $i ]->group_id = $group->id;
-			$i++;
+			++$i;
 		}
 
 		return array(
@@ -912,7 +912,7 @@ class BP_Groups_Group {
 		foreach ( $groups['groups'] as $group ) {
 			$paged_groups[ $i ]           = new stdClass();
 			$paged_groups[ $i ]->group_id = $group->id;
-			$i++;
+			++$i;
 		}
 
 		return array(

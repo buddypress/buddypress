@@ -283,7 +283,7 @@ class BP_Notifications_Template {
 	 */
 	public function next_notification() {
 
-		$this->current_notification++;
+		++$this->current_notification;
 
 		$this->notification = $this->notifications[ $this->current_notification ];
 

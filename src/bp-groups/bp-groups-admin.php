@@ -163,7 +163,7 @@ function bp_groups_admin_load() {
 		$count = 0;
 		foreach ( $group_ids as $group_id ) {
 			if ( groups_delete_group( $group_id ) ) {
-				$count++;
+				++$count;
 			}
 		}
 
@@ -480,7 +480,7 @@ function bp_groups_admin_load() {
 			$admin_count = 0;
 			foreach ( $new_group_role as $new_role ) {
 				if ( 'admin' === $new_role ) {
-					$admin_count++;
+					++$admin_count;
 					break;
 				}
 			}

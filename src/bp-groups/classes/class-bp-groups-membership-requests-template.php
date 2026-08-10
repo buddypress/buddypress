@@ -222,7 +222,7 @@ class BP_Groups_Membership_Requests_Template {
 	 * @return object
 	 */
 	public function next_request() {
-		$this->current_request++;
+		++$this->current_request;
 		$this->request = $this->requests[ $this->current_request ];
 
 		return $this->request;

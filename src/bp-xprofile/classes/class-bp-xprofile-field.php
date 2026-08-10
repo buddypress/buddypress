@@ -562,7 +562,7 @@ class BP_XProfile_Field {
 							}
 						}
 
-						$counter++;
+						++$counter;
 					}
 				}
 			}

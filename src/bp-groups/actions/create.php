@@ -350,7 +350,7 @@ function groups_action_sort_creation_steps() {
 
 	foreach ( (array) $bp->groups->group_creation_steps as $slug => $step ) {
 		while ( ! empty( $temp[ $step['position'] ] ) ) {
-			$step['position']++;
+			++$step['position'];
 		}
 
 		$temp[ $step['position'] ] = array(

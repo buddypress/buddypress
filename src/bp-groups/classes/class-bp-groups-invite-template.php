@@ -204,7 +204,7 @@ class BP_Groups_Invite_Template {
 	 * @return object
 	 */
 	public function next_invite() {
-		$this->current_invite++;
+		++$this->current_invite;
 		$this->invite = $this->invites[ $this->current_invite ];
 
 		return $this->invite;

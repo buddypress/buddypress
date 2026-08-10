@@ -1017,7 +1017,7 @@ function bp_core_set_unique_directory_page_slug( $slug = '', $post_ID = 0, $post
 			do {
 				$alt_post_name   = _truncate_post_slug( $slug, 200 - ( strlen( $suffix ) + 1 ) ) . "-$suffix";
 				$post_name_check = in_array( $alt_post_name, $illegal_names, true );
-				$suffix++;
+				++$suffix;
 			} while ( $post_name_check );
 			$slug = $alt_post_name;
 		}

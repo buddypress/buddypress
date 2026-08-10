@@ -1124,7 +1124,7 @@ function bp_activity_add_user_favorite( $activity_id, $user_id = 0 ) {
 	// Update the total number of users who have favorited this activity.
 	$fav_count = (int) bp_activity_get_meta( $activity_id, 'favorite_count' );
 	if ( ! empty( $fav_count ) ) {
-		$fav_count += 1;
+		++$fav_count;
 	} else {
 		$fav_count = 1;
 	}

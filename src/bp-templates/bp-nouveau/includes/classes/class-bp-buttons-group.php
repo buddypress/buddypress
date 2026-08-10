@@ -76,7 +76,7 @@ class BP_Buttons_Group {
 				$sorted_keys = array_keys( $sorted );
 
 				do {
-					$position += 1;
+					++$position;
 				} while ( in_array( $position, $sorted_keys, true ) );
 			}
 

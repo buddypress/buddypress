@@ -261,7 +261,7 @@ class BP_Members_Invitations_Template {
 	 */
 	public function next_invitation() {
 
-		$this->current_invitation++;
+		++$this->current_invitation;
 
 		$this->invitation = $this->invitations[ $this->current_invitation ];
 

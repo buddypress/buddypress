@@ -443,7 +443,7 @@ function bp_nouveau_ajax_new_activity_comment() {
 		$depth     = 1;
 		$parent_id = (int) $activities_template->activities[0]->secondary_item_id;
 		while ( $parent_id !== (int) $activities_template->activities[0]->item_id ) {
-			$depth++;
+			++$depth;
 			$p_obj     = new BP_Activity_Activity( $parent_id );
 			$parent_id = (int) $p_obj->secondary_item_id;
 		}
