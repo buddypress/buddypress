@@ -1563,7 +1563,7 @@ function bp_groups_admin_autocomplete_handler() {
 		}
 	}
 
-	wp_die( json_encode( $matches ) );
+	wp_die( wp_json_encode( $matches ) );
 }
 add_action( 'wp_ajax_bp_group_admin_member_autocomplete', 'bp_groups_admin_autocomplete_handler' );
 

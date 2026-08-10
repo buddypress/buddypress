@@ -549,12 +549,12 @@ function groups_check_slug( $slug ) {
 	}
 
 	if ( in_array( $slug, (array) $bp->groups->forbidden_names, true ) ) {
-		$slug = $slug . '-' . rand();
+		$slug = $slug . '-' . wp_rand();
 	}
 
 	if ( BP_Groups_Group::check_slug( $slug ) ) {
 		do {
-			$slug = $slug . '-' . rand();
+			$slug = $slug . '-' . wp_rand();
 		} while ( BP_Groups_Group::check_slug( $slug ) );
 	}
 

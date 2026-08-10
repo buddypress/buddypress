@@ -991,7 +991,7 @@ function bp_legacy_theme_activity_template_loader() {
 	$result['feed_url'] = apply_filters( 'bp_legacy_theme_activity_feed_url', $feed_url, $scope );
 	ob_end_clean();
 
-	exit( json_encode( $result ) );
+	exit( wp_json_encode( $result ) );
 }
 
 /**
