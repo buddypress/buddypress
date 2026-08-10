@@ -52,11 +52,16 @@
 				<?php
 					/* translators: accessibility text */
 					esc_html_e( 'Post what\'s new', 'buddypress' );
+
+					$has_suggestions_group = bp_is_group();
+					$suggestions_group_id  = $has_suggestions_group ? (int) bp_get_current_group_id() : 0;
+					$has_recipient         = isset( $_GET['r'] );
+					$recipient             = $has_recipient ? $_GET['r'] : '';
 				?>
 			</label>
 			<textarea class="bp-suggestions" name="whats-new" id="whats-new" cols="50" rows="10"
-				<?php /* phpcs:ignore Squiz.ControlStructures.ControlSignature.NewlineAfterOpenBrace -- Preserve generated output whitespace. */ if ( bp_is_group() ) : ?>data-suggestions-group-id="<?php echo esc_attr( (int) bp_get_current_group_id() ); ?>" <?php endif; ?>
-			><?php /* phpcs:ignore Squiz.ControlStructures.ControlSignature.NewlineAfterOpenBrace -- Preserve generated output whitespace. */ if ( isset( $_GET['r'] ) ) : ?>@<?php echo esc_textarea( $_GET['r'] ); ?> <?php endif; ?></textarea>
+				<?php echo $has_suggestions_group ? 'data-suggestions-group-id="' . esc_attr( $suggestions_group_id ) . '" ' : ''; ?>
+			><?php echo $has_recipient ? '@' . esc_textarea( $recipient ) . ' ' : ''; ?></textarea>
 		</div>
 
 		<div id="whats-new-options">
@@ -81,8 +86,9 @@
 
 						<?php
 						if ( bp_has_groups( 'user_id=' . bp_loggedin_user_id() . '&type=alphabetical&max=100&per_page=100&populate_extras=0&update_meta_cache=0' ) ) :
-							/* phpcs:ignore Squiz.ControlStructures.ControlSignature.NewlineAfterOpenBrace -- Preserve generated output whitespace. */ while ( bp_groups() ) : bp_the_group();
-							?>
+							while ( bp_groups() ) :
+								bp_the_group();
+								?>
 
 								<option value="<?php bp_group_id(); ?>"><?php bp_group_name(); ?></option>
 

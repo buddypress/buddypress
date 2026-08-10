@@ -178,9 +178,17 @@
 					<h2><?php esc_html_e( 'Profile Details', 'buddypress' ); ?></h2>
 
 					<?php /* Use the profile field loop to render input fields for the 'base' profile field group */ ?>
-					<?php /* phpcs:ignore Squiz.ControlStructures.ControlSignature.NewlineAfterOpenBrace -- Preserve generated output whitespace. */ if ( bp_is_active( 'xprofile' ) ) : if ( bp_has_profile( bp_xprofile_signup_args() ) ) : while ( bp_profile_groups() ) : bp_the_profile_group(); ?>
+					<?php
+					if ( bp_is_active( 'xprofile' ) ) :
+						if ( bp_has_profile( bp_xprofile_signup_args() ) ) :
+							while ( bp_profile_groups() ) :
+								bp_the_profile_group();
+								?>
 
-					<?php /* phpcs:ignore Squiz.ControlStructures.ControlSignature.NewlineAfterOpenBrace -- Preserve generated output whitespace. */ while ( bp_profile_fields() ) : bp_the_profile_field(); ?>
+					<?php
+					while ( bp_profile_fields() ) :
+						bp_the_profile_field();
+						?>
 
 						<div<?php bp_field_css_class( 'editfield' ); ?>>
 							<fieldset>
@@ -285,6 +293,9 @@
 				 * @since 1.1.0
 				 */
 				do_action( 'bp_before_blog_details_fields' );
+
+				$signup_with_blog_checked = (int) bp_get_signup_with_blog_value();
+				$show_blog_details        = (int) bp_get_signup_with_blog_value();
 				?>
 
 				<?php /***** Blog Creation Details ******/ ?>
@@ -293,9 +304,9 @@
 
 					<h2><?php esc_html_e( 'Blog Details', 'buddypress' ); ?></h2>
 
-					<p><label for="signup_with_blog"><input type="checkbox" name="signup_with_blog" id="signup_with_blog" value="1"<?php /* phpcs:ignore Squiz.ControlStructures.ControlSignature.NewlineAfterOpenBrace -- Preserve generated output whitespace. */ if ( (int) bp_get_signup_with_blog_value() ) : ?> checked="checked"<?php endif; ?> /> <?php esc_html_e( 'Yes, I\'d like to create a new site', 'buddypress' ); ?></label></p>
+					<p><label for="signup_with_blog"><input type="checkbox" name="signup_with_blog" id="signup_with_blog" value="1"<?php echo $signup_with_blog_checked ? ' checked="checked"' : ''; ?> /> <?php esc_html_e( 'Yes, I\'d like to create a new site', 'buddypress' ); ?></label></p>
 
-					<div id="blog-details"<?php /* phpcs:ignore Squiz.ControlStructures.ControlSignature.NewlineAfterOpenBrace -- Preserve generated output whitespace. */ if ( (int) bp_get_signup_with_blog_value() ) : ?>class="show"<?php endif; ?>>
+					<div id="blog-details"<?php echo $show_blog_details ? 'class="show"' : ''; ?>>
 
 						<label for="signup_blog_url"><?php esc_html_e( 'Blog URL', 'buddypress' ); ?> <?php esc_html_e( '(required)', 'buddypress' ); ?></label>
 						<?php
@@ -336,10 +347,13 @@
 							 * @since 1.1.0
 							 */
 							do_action( 'bp_signup_blog_privacy_errors' );
+
+							$public_blog_checked  = 'public' === bp_get_signup_blog_privacy_value() || ! bp_get_signup_blog_privacy_value();
+							$private_blog_checked = 'private' === bp_get_signup_blog_privacy_value();
 							?>
 
-							<label for="signup_blog_privacy_public"><input type="radio" name="signup_blog_privacy" id="signup_blog_privacy_public" value="public"<?php /* phpcs:ignore Squiz.ControlStructures.ControlSignature.NewlineAfterOpenBrace -- Preserve generated output whitespace. */ if ( 'public' === bp_get_signup_blog_privacy_value() || ! bp_get_signup_blog_privacy_value() ) : ?> checked="checked"<?php endif; ?> /> <?php esc_html_e( 'Yes', 'buddypress' ); ?></label>
-							<label for="signup_blog_privacy_private"><input type="radio" name="signup_blog_privacy" id="signup_blog_privacy_private" value="private"<?php /* phpcs:ignore Squiz.ControlStructures.ControlSignature.NewlineAfterOpenBrace -- Preserve generated output whitespace. */ if ( 'private' === bp_get_signup_blog_privacy_value() ) : ?> checked="checked"<?php endif; ?> /> <?php esc_html_e( 'No', 'buddypress' ); ?></label>
+							<label for="signup_blog_privacy_public"><input type="radio" name="signup_blog_privacy" id="signup_blog_privacy_public" value="public"<?php echo $public_blog_checked ? ' checked="checked"' : ''; ?> /> <?php esc_html_e( 'Yes', 'buddypress' ); ?></label>
+							<label for="signup_blog_privacy_private"><input type="radio" name="signup_blog_privacy" id="signup_blog_privacy_private" value="private"<?php echo $private_blog_checked ? ' checked="checked"' : ''; ?> /> <?php esc_html_e( 'No', 'buddypress' ); ?></label>
 						</fieldset>
 
 						<?php

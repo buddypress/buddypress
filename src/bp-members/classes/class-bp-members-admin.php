@@ -1283,9 +1283,10 @@ class BP_Members_Admin {
 		$notice = $this->get_user_notice();
 
 		if ( ! empty( $notice ) ) :
-		?>
+			$show_message_id = 'updated' === $notice['class'];
+			?>
 
-			<div <?php /* phpcs:ignore Squiz.ControlStructures.ControlSignature.NewlineAfterOpenBrace -- Preserve generated output whitespace. */ if ( 'updated' === $notice['class'] ) : ?>id="message" <?php endif; ?>class="<?php echo esc_attr( $notice['class'] ); ?>  notice is-dismissible">
+			<div <?php echo $show_message_id ? 'id="message" ' : ''; ?>class="<?php echo esc_attr( $notice['class'] ); ?>  notice is-dismissible">
 
 				<p><?php echo esc_html( $notice['message'] ); ?></p>
 

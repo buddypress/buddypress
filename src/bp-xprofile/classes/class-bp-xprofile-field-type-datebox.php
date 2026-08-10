@@ -504,7 +504,8 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 
 		$class = $current_field->type !== $type ? 'display: none;' : '';
 
-		$settings = self::get_field_settings( $current_field->id );
+		$settings               = self::get_field_settings( $current_field->id );
+		$has_custom_date_format = ! empty( $settings['date_format_custom'] );
 		?>
 
 <div id="<?php echo esc_attr( $type ); ?>" class="postbox bp-options-box" style="<?php echo esc_attr( $class ); ?> margin-top: 15px;">
@@ -550,7 +551,7 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 							<span class="date-format-label"><?php esc_html_e( 'Custom:', 'buddypress' ); ?></span>
 						</label>
 						<label for="date-format-custom-value" class="screen-reader-text"><?php esc_html_e( 'Enter custom time format', 'buddypress' ); ?></label>
-						<input type="text" name="field-settings[date_format_custom]" id="date-format-custom-value" class="date-format-custom-value" value="<?php echo esc_attr( $settings['date_format_custom'] ); ?>" aria-describedby="date-format-custom-example" /> <span class="screen-reader-text"><?php esc_html_e( 'Example:', 'buddypress' ); ?></span><span class="date-format-custom-example" id="date-format-custom-sample"><?php /* phpcs:ignore Squiz.ControlStructures.ControlSignature.NewlineAfterOpenBrace -- Preserve generated output whitespace. */ if ( $settings['date_format_custom'] ) : ?><?php echo esc_html( date_i18n( $settings['date_format_custom'] ) ); ?><?php endif; ?></span><span class="spinner" id="date-format-custom-spinner" aria-hidden="true"></span>
+						<input type="text" name="field-settings[date_format_custom]" id="date-format-custom-value" class="date-format-custom-value" value="<?php echo esc_attr( $settings['date_format_custom'] ); ?>" aria-describedby="date-format-custom-example" /> <span class="screen-reader-text"><?php esc_html_e( 'Example:', 'buddypress' ); ?></span><span class="date-format-custom-example" id="date-format-custom-sample"><?php echo $has_custom_date_format ? esc_html( date_i18n( $settings['date_format_custom'] ) ) : ''; ?></span><span class="spinner" id="date-format-custom-spinner" aria-hidden="true"></span>
 
 						<p><a href="https://wordpress.org/documentation/article/customize-date-and-time-format/"><?php esc_html_e( 'Documentation on date and time formatting', 'buddypress' ); ?></a></p>
 					</div>

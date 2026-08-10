@@ -363,7 +363,11 @@ class BP_Groups_List_Table extends WP_List_Table {
 	 * @since 1.7.0
 	 */
 	public function get_views() {
-		$url_base = bp_get_admin_url( 'admin.php?page=bp-groups' );
+		$url_base      = bp_get_admin_url( 'admin.php?page=bp-groups' );
+		$all_class     = 'all' === $this->view ? 'current' : '';
+		$public_class  = 'public' === $this->view ? 'current' : '';
+		$private_class = 'private' === $this->view ? 'current' : '';
+		$hidden_class  = 'hidden' === $this->view ? 'current' : '';
 		?>
 
 		<h2 class="screen-reader-text">
@@ -375,7 +379,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 
 		<ul class="subsubsub">
 			<li class="all">
-				<a href="<?php echo esc_url( $url_base ); ?>" class="<?php /* phpcs:ignore Generic.ControlStructures.InlineControlStructure.NotAllowed -- Preserve generated attribute whitespace. */ if ( 'all' === $this->view ) echo 'current'; ?>">
+				<a href="<?php echo esc_url( $url_base ); ?>" class="<?php echo esc_attr( $all_class ); ?>">
 					<?php
 					printf(
 						/* translators: %s is the placeholder for the count html tag `<span class="count"/>` */
@@ -389,7 +393,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 				</a> |
 			</li>
 			<li class="public">
-				<a href="<?php echo esc_url( add_query_arg( 'group_status', 'public', $url_base ) ); ?>" class="<?php /* phpcs:ignore Generic.ControlStructures.InlineControlStructure.NotAllowed -- Preserve generated attribute whitespace. */ if ( 'public' === $this->view ) echo 'current'; ?>">
+				<a href="<?php echo esc_url( add_query_arg( 'group_status', 'public', $url_base ) ); ?>" class="<?php echo esc_attr( $public_class ); ?>">
 					<?php
 					printf(
 						/* translators: %s is the placeholder for the count html `<span class="count"/>` */
@@ -403,7 +407,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 				</a> |
 			</li>
 			<li class="private">
-				<a href="<?php echo esc_url( add_query_arg( 'group_status', 'private', $url_base ) ); ?>" class="<?php /* phpcs:ignore Generic.ControlStructures.InlineControlStructure.NotAllowed -- Preserve generated attribute whitespace. */ if ( 'private' === $this->view ) echo 'current'; ?>">
+				<a href="<?php echo esc_url( add_query_arg( 'group_status', 'private', $url_base ) ); ?>" class="<?php echo esc_attr( $private_class ); ?>">
 					<?php
 					printf(
 						/* translators: %s is the placeholder for the count html `<span class="count"/>` */
@@ -417,7 +421,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 				</a> |
 			</li>
 			<li class="hidden">
-				<a href="<?php echo esc_url( add_query_arg( 'group_status', 'hidden', $url_base ) ); ?>" class="<?php /* phpcs:ignore Generic.ControlStructures.InlineControlStructure.NotAllowed -- Preserve generated attribute whitespace. */ if ( 'hidden' === $this->view ) echo 'current'; ?>">
+				<a href="<?php echo esc_url( add_query_arg( 'group_status', 'hidden', $url_base ) ); ?>" class="<?php echo esc_attr( $hidden_class ); ?>">
 					<?php
 					printf(
 						/* translators: %s is the placeholder for the count html tag */

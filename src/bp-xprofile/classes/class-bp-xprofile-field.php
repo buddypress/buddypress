@@ -1621,6 +1621,7 @@ class BP_XProfile_Field {
 		}
 
 		$field_member_types = $this->get_member_types();
+		$none_notice_class  = ! empty( $field_member_types ) ? ' hide' : '';
 
 		?>
 
@@ -1647,7 +1648,7 @@ class BP_XProfile_Field {
 					</li>
 
 				</ul>
-				<p class="description member-type-none-notice<?php /* phpcs:ignore Squiz.ControlStructures.ControlSignature.NewlineAfterOpenBrace -- Preserve generated output whitespace. */ if ( ! empty( $field_member_types ) ) : ?> hide<?php endif; ?>"><?php esc_html_e( 'Unavailable to all members.', 'buddypress' ); ?></p>
+				<p class="description member-type-none-notice<?php echo esc_attr( $none_notice_class ); ?>"><?php esc_html_e( 'Unavailable to all members.', 'buddypress' ); ?></p>
 			</div>
 
 			<input type="hidden" name="has-member-types" value="1" />

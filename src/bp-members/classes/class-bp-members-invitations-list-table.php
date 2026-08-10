@@ -23,7 +23,7 @@ class BP_Members_Invitations_List_Table extends WP_Users_List_Table {
 	 * E.g. "All", "Pending", "Sent", "Unsent"...
 	 *
 	 * @since 8.0.0
-	 * @var string
+	 * @var string[]
 	 */
 	public $active_filters = array();
 
@@ -133,37 +133,40 @@ class BP_Members_Invitations_List_Table extends WP_Users_List_Table {
 			),
 			$tools_url
 		);
+
+		$all_class      = empty( $this->active_filters ) ? 'current' : '';
+		$pending_class  = in_array( 'pending', $this->active_filters, true ) ? 'current' : '';
+		$accepted_class = in_array( 'accepted', $this->active_filters, true ) ? 'current' : '';
+		$draft_class    = in_array( 'draft', $this->active_filters, true ) ? 'current' : '';
+		$sent_class     = in_array( 'sent', $this->active_filters, true ) ? 'current' : '';
 		?>
 
 		<h2 class="screen-reader-text">
-			<?php
-			/* translators: accessibility text */
-			esc_html_e( 'Filter invitations list', 'buddypress' );
-			?>
+			<?php esc_html_e( 'Filter invitations list', 'buddypress' ); ?>
 		</h2>
 		<ul class="subsubsub">
 			<li class="all">
-				<a href="<?php echo esc_url( $url_base ); ?>" class="<?php /* phpcs:ignore Generic.ControlStructures.InlineControlStructure.NotAllowed -- Preserve generated attribute whitespace. */ if ( empty( $this->active_filters ) ) echo 'current'; ?>">
+				<a href="<?php echo esc_url( $url_base ); ?>" class="<?php echo esc_attr( $all_class ); ?>">
 					<?php esc_html_e( 'All', 'buddypress' ); ?>
 				</a> |
 			</li>
 			<li class="pending">
-				<a href="<?php echo esc_url( add_query_arg( 'accepted', 'pending', $url_base ) ); ?>" class="<?php /* phpcs:ignore Generic.ControlStructures.InlineControlStructure.NotAllowed -- Preserve generated attribute whitespace. */ if ( in_array( 'pending', $this->active_filters, true ) ) echo 'current'; ?>">
+				<a href="<?php echo esc_url( add_query_arg( 'accepted', 'pending', $url_base ) ); ?>" class="<?php echo esc_attr( $pending_class ); ?>">
 					<?php esc_html_e( 'Pending', 'buddypress' ); ?>
 				</a> |
 			</li>
 			<li class="accepted">
-				<a href="<?php echo esc_url( add_query_arg( 'accepted', 'accepted', $url_base ) ); ?>" class="<?php /* phpcs:ignore Generic.ControlStructures.InlineControlStructure.NotAllowed -- Preserve generated attribute whitespace. */ if ( in_array( 'accepted', $this->active_filters, true ) ) echo 'current'; ?>">
+				<a href="<?php echo esc_url( add_query_arg( 'accepted', 'accepted', $url_base ) ); ?>" class="<?php echo esc_attr( $accepted_class ); ?>">
 					<?php esc_html_e( 'Accepted', 'buddypress' ); ?>
 				</a> |
 			</li>
 			<li class="draft">
-				<a href="<?php echo esc_url( add_query_arg( 'sent', 'draft', $url_base ) ); ?>" class="<?php /* phpcs:ignore Generic.ControlStructures.InlineControlStructure.NotAllowed -- Preserve generated attribute whitespace. */ if ( in_array( 'draft', $this->active_filters, true ) ) echo 'current'; ?>">
+				<a href="<?php echo esc_url( add_query_arg( 'sent', 'draft', $url_base ) ); ?>" class="<?php echo esc_attr( $draft_class ); ?>">
 					<?php esc_html_e( 'Draft (Unsent)', 'buddypress' ); ?>
 				</a> |
 			</li>
 			<li class="sent">
-				<a href="<?php echo esc_url( add_query_arg( 'sent', 'sent', $url_base ) ); ?>" class="<?php /* phpcs:ignore Generic.ControlStructures.InlineControlStructure.NotAllowed -- Preserve generated attribute whitespace. */ if ( in_array( 'sent', $this->active_filters, true ) ) echo 'current'; ?>">
+				<a href="<?php echo esc_url( add_query_arg( 'sent', 'sent', $url_base ) ); ?>" class="<?php echo esc_attr( $sent_class ); ?>">
 					<?php esc_html_e( 'Sent', 'buddypress' ); ?>
 				</a>
 			</li>
@@ -175,8 +178,8 @@ class BP_Members_Invitations_List_Table extends WP_Users_List_Table {
 			 *
 			 * @since 8.0.0
 			 *
-			 * @param string $url_base       Current URL base for view.
-			 * @param array  $active_filters Current filters being requested.
+			 * @param string   $url_base       Current URL base for view.
+			 * @param string[] $active_filters Current filters being requested.
 			 */
 			do_action( 'bp_members_invitations_list_table_get_views', $url_base, $this->active_filters );
 			?>

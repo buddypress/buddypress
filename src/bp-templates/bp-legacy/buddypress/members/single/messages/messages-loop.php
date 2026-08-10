@@ -105,9 +105,12 @@ do_action( 'bp_before_member_messages_loop' ); ?>
 
 			<tbody>
 
-				<?php /* phpcs:ignore Squiz.ControlStructures.ControlSignature.NewlineAfterOpenBrace -- Preserve generated output whitespace. */ while ( bp_message_threads() ) : bp_message_thread(); ?>
+				<?php
+				while ( bp_message_threads() ) :
+					bp_message_thread();
+					?>
 
-					<tr id="m-<?php bp_message_thread_id(); ?>" class="<?php bp_message_css_class(); ?><?php /* phpcs:ignore Squiz.ControlStructures.ControlSignature.NewlineAfterOpenBrace -- Preserve generated output whitespace. */ if ( bp_message_thread_has_unread() ) : ?> unread<?php /* phpcs:ignore Squiz.ControlStructures.ControlSignature.NewlineAfterOpenBrace, Squiz.ControlStructures.ControlSignature.SpaceAfterKeyword, WordPress.WhiteSpace.ControlStructureSpacing.NoSpaceBetweenStructureColon -- Preserve generated output whitespace. */ else: ?> read<?php endif; ?>">
+					<tr id="m-<?php bp_message_thread_id(); ?>" class="<?php bp_message_css_class(); ?><?php $message_status_class = bp_message_thread_has_unread() ? ' unread' : ' read'; ?><?php echo esc_attr( $message_status_class ); ?>">
 						<td class="bulk-select-check">
 							<label for="bp-message-thread-<?php bp_message_thread_id(); ?>"><input type="checkbox" name="message_ids[]" id="bp-message-thread-<?php bp_message_thread_id(); ?>" class="message-check" value="<?php bp_message_thread_id(); ?>" /><span class="bp-screen-reader-text">
 							<?php

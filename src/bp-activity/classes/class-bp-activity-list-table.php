@@ -350,22 +350,21 @@ class BP_Activity_List_Table extends WP_List_Table {
 	 * @since 1.6.0
 	 */
 	function get_views() {
-		$url_base = add_query_arg( array( 'page' => 'bp-activity' ), bp_get_admin_url( 'admin.php' ) );
+		$url_base   = add_query_arg( array( 'page' => 'bp-activity' ), bp_get_admin_url( 'admin.php' ) );
+		$all_class  = 'all' === $this->view ? 'current' : '';
+		$spam_class = 'spam' === $this->view ? 'current' : '';
 		?>
 
 		<h2 class="screen-reader-text">
-			<?php
-				/* translators: accessibility text */
-				esc_html_e( 'Filter activities list', 'buddypress' );
-			?>
+			<?php esc_html_e( 'Filter activities list', 'buddypress' ); ?>
 		</h2>
 
 		<ul class="subsubsub">
 			<li class="all">
-				<a href="<?php echo esc_url( $url_base ); ?>" class="<?php /* phpcs:ignore Generic.ControlStructures.InlineControlStructure.NotAllowed -- Preserve generated attribute whitespace. */ if ( 'all' === $this->view ) echo 'current'; ?>">
+				<a href="<?php echo esc_url( $url_base ); ?>" class="<?php echo esc_attr( $all_class ); ?>">
 				<?php
 				printf(
-						/* translators: %s is the placeholder for the count html tag `<span class="count"/>` */
+					/* translators: %s is the placeholder for the count html tag `<span class="count"/>` */
 					esc_html__( 'All %s', 'buddypress' ),
 					sprintf(
 						'<span class="count">(%s)</span>',
@@ -376,7 +375,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 				</a> |
 			</li>
 			<li class="spam">
-				<a href="<?php echo esc_url( add_query_arg( array( 'activity_status' => 'spam' ), $url_base ) ); ?>" class="<?php /* phpcs:ignore Generic.ControlStructures.InlineControlStructure.NotAllowed -- Preserve generated attribute whitespace. */ if ( 'spam' === $this->view ) echo 'current'; ?>">
+				<a href="<?php echo esc_url( add_query_arg( array( 'activity_status' => 'spam' ), $url_base ) ); ?>" class="<?php echo esc_attr( $spam_class ); ?>">
 					<?php
 					printf(
 						/* translators: %s is the placeholder for the count html tag `<span class="count"/>` */

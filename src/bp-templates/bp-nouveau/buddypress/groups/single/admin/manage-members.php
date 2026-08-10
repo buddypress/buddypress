@@ -8,9 +8,10 @@
  * @version 10.0.0
  */
 
+$screen_title_class = bp_is_group_create() ? 'creation-step-name' : '';
 ?>
 
-<h2 class="bp-screen-title <?php /* phpcs:ignore Squiz.ControlStructures.ControlSignature.NewlineAfterOpenBrace -- Preserve generated output whitespace. */ if ( bp_is_group_create() ) { echo esc_attr( 'creation-step-name' ); } ?>">
+<h2 class="bp-screen-title <?php echo esc_attr( $screen_title_class ); ?>">
 	<?php esc_html_e( 'Manage Group Members', 'buddypress' ); ?>
 </h2>
 
@@ -32,7 +33,10 @@ else :
 		<dd class="admin-listing">
 			<ul id="admins-list" class="item-list single-line">
 
-				<?php /* phpcs:ignore Squiz.ControlStructures.ControlSignature.NewlineAfterOpenBrace -- Preserve generated output whitespace. */ while ( bp_members() ) : bp_the_member(); ?>
+				<?php
+				while ( bp_members() ) :
+					bp_the_member();
+					?>
 				<li class="member-entry clearfix">
 
 					<?php
@@ -74,7 +78,10 @@ else :
 		<?php if ( bp_has_members( '&include=' . bp_group_mod_ids() ) ) : ?>
 			<ul id="mods-list" class="item-list single-line">
 
-				<?php /* phpcs:ignore Squiz.ControlStructures.ControlSignature.NewlineAfterOpenBrace -- Preserve generated output whitespace. */ while ( bp_members() ) : bp_the_member(); ?>
+				<?php
+				while ( bp_members() ) :
+					bp_the_member();
+					?>
 				<li class="members-entry clearfix">
 
 					<?php
@@ -121,7 +128,10 @@ else :
 			<?php endif; ?>
 
 			<ul id="members-list" class="item-list single-line">
-				<?php /* phpcs:ignore Squiz.ControlStructures.ControlSignature.NewlineAfterOpenBrace -- Preserve generated output whitespace. */ while ( bp_group_members() ) : bp_group_the_member(); ?>
+				<?php
+				while ( bp_group_members() ) :
+					bp_group_the_member();
+					?>
 
 					<li class="<?php bp_group_member_css_class(); ?> members-entry clearfix">
 						<?php bp_group_member_avatar_mini(); ?>

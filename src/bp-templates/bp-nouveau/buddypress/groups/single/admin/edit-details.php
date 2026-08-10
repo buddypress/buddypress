@@ -22,10 +22,14 @@
 		<?php esc_html_e( 'Edit Group Name &amp; Description', 'buddypress' ); ?>
 	</h2>
 
-<?php endif; ?>
+<?php
+endif;
+
+$group_name = bp_is_group_create() ? bp_get_new_group_name() : bp_get_group_name();
+?>
 
 <label for="group-name"><?php esc_html_e( 'Group Name (required)', 'buddypress' ); ?></label>
-<input type="text" name="group-name" id="group-name" value="<?php /* phpcs:ignore Squiz.ControlStructures.ControlSignature.NewlineAfterOpenBrace -- Preserve generated output whitespace. */ if ( bp_is_group_create() ) : ?><?php echo esc_attr( bp_get_new_group_name() ); ?><?php else : ?><?php echo esc_attr( bp_get_group_name() ); ?><?php endif; ?>" aria-required="true" />
+<input type="text" name="group-name" id="group-name" value="<?php echo esc_attr( $group_name ); ?>" aria-required="true" />
 
 <label for="group-desc"><?php esc_html_e( 'Group Description (required)', 'buddypress' ); ?></label>
 <textarea name="group-desc" id="group-desc" aria-required="true"><?php bp_is_group_create() ? bp_new_group_description() : bp_group_description_editable(); ?></textarea>
