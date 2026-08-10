@@ -357,7 +357,6 @@ function bp_groups_user_can_filter( $retval, $user_id, $capability, $site_id, $a
 	}
 
 	return $retval;
-
 }
 add_filter( 'bp_user_can', 'bp_groups_user_can_filter', 10, 5 );
 

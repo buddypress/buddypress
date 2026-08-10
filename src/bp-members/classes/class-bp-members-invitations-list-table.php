@@ -274,7 +274,6 @@ class BP_Members_Invitations_List_Table extends WP_Users_List_Table {
 				$link
 			);
 		}
-
 	}
 
 	/**

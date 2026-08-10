@@ -792,7 +792,7 @@ function bp_nouveau_activity_comment_buttons( $args = array() ) {
 	 *
 	 * @return array
 	 */
-	function bp_nouveau_get_activity_comment_buttons($args) {
+	function bp_nouveau_get_activity_comment_buttons( $args ) {
 		$buttons = array();
 
 		if ( ! isset( $GLOBALS['activities_template'] ) ) {

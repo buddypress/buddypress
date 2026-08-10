@@ -117,7 +117,7 @@ class BP_Nouveau extends BP_Theme_Compat {
 		if ( ! $this->is_block_theme ) {
 			add_action(
 				'bp_customize_register',
-				function() {
+				function () {
 					if ( bp_is_root_blog() && current_user_can( 'customize' ) ) {
 						require bp_nouveau()->includes_dir . 'customizer.php';
 					}

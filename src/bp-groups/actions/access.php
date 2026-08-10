@@ -84,6 +84,5 @@ function bp_groups_group_access_protection() {
 	} else {
 		bp_core_no_access( $no_access_args );
 	}
-
 }
 add_action( 'bp_actions', 'bp_groups_group_access_protection' );

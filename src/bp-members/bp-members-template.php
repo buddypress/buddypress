@@ -2182,7 +2182,9 @@ function bp_displayed_user_fullname() {
 	 *
 	 * @since 1.0.0
 	 */
-	function bp_user_fullname() { echo esc_html( bp_get_displayed_user_fullname() ); }
+	function bp_user_fullname() {
+		echo esc_html( bp_get_displayed_user_fullname() );
+	}
 
 
 /**

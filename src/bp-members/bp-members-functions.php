@@ -2405,7 +2405,7 @@ function bp_core_signup_send_validation_email( $user_id, $user_email, $key, $sal
  * @param string                $password The inputted, attempted password.
  * @return WP_User|WP_Error
  */
-function bp_core_signup_disable_inactive( $user = null, $username = '', $password ='' ) {
+function bp_core_signup_disable_inactive( $user = null, $username = '', $password = '' ) {
 	// Login form not used.
 	if ( empty( $username ) && empty( $password ) ) {
 		return $user;

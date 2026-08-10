@@ -397,6 +397,5 @@ class BP_XProfile_User_Admin {
 		</p>
 	<?php
 	}
-
 }
 endif; // End class_exists check.

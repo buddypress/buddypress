@@ -227,7 +227,6 @@ class BP_Members_List_Table extends WP_Users_List_Table {
 				$link
 			);
 		}
-
 	}
 
 	/**

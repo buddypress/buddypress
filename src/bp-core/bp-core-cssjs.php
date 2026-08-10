@@ -211,7 +211,6 @@ function bp_core_confirmation_js() {
 			'are_you_sure' => __( 'Are you sure?', 'buddypress' ),
 		)
 	);
-
 }
 add_action( 'bp_enqueue_community_scripts', 'bp_core_confirmation_js' );
 add_action( 'bp_admin_enqueue_scripts', 'bp_core_confirmation_js' );

@@ -862,7 +862,9 @@ function bp_activity_type_part() {
 	 * @todo Properly deprecate in favor of bp_activity_type() and
 	 *       remove redundant echo
 	 */
-	function bp_activity_action_name() { bp_activity_type(); }
+	function bp_activity_action_name() {
+		bp_activity_type();
+	}
 
 	/**
 	 * Return the activity type.
@@ -876,7 +878,9 @@ function bp_activity_type_part() {
 	 *
 	 * @return string The activity type.
 	 */
-	function bp_get_activity_action_name() { return bp_get_activity_type(); }
+	function bp_get_activity_action_name() {
+		return bp_get_activity_type();
+	}
 
 /**
  * Output the activity user ID.
@@ -4082,7 +4086,9 @@ function bp_member_activity_feed_link() {
 	 *
 	 * @return string The member activity feed link.
 	 */
-	function bp_get_activities_member_rss_link() { return bp_get_member_activity_feed_link(); }
+	function bp_get_activities_member_rss_link() {
+		return bp_get_member_activity_feed_link();
+	}
 
 
 /** Template tags for RSS feed output ****************************************/

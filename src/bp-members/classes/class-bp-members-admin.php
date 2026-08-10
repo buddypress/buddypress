@@ -3587,6 +3587,5 @@ class BP_Members_Admin {
 		<?php
 		endif;
 	}
-
 }
 endif; // End class_exists check.
