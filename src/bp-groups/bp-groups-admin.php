@@ -339,7 +339,7 @@ function bp_groups_admin_load() {
 			$group_description = sanitize_textarea_field( wp_unslash( $_POST['bp-groups-description'] ) );
 		}
 
-		//Slug must not be empty.
+		// Slug must not be empty.
 		$group_slug = '';
 		if ( empty( $_POST['bp-groups-slug'] ) ) {
 			$error['missing'][] = _x( 'slug', 'group admin field', 'buddypress' );

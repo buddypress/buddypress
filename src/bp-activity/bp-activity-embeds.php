@@ -246,7 +246,7 @@ function bp_activity_embed_media() {
 		} elseif ( isset( $oembed->thumbnail_url ) ) {
 			$thumbnail = $oembed->thumbnail_url;
 
-		/* Non-oEmbed standard attributes */
+		// Non-oEmbed standard attributes.
 		// Mixcloud.
 		} elseif ( isset( $oembed->image ) ) {
 			$thumbnail = $oembed->image;

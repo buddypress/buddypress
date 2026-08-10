@@ -2436,6 +2436,7 @@ function bp_core_signup_disable_inactive( $user = null, $username = '', $passwor
 	}
 
 	// Unactivated user account found!
+
 	/*
 	 * Don't allow users to resend their own activation email
 	 * when membership requests are enabled.

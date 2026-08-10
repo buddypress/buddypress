@@ -287,7 +287,7 @@ class BP_Members_Admin {
 	 */
 	private function setup_actions() {
 
-		/** Extended Profile **************************************************/
+		/** Extended Profile */
 
 		// Enqueue all admin JS and CSS.
 		add_action( 'bp_admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );

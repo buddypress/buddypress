@@ -185,7 +185,6 @@ class BP_XProfile_User_Admin {
 			// Now we've checked for required fields, let's save the values.
 			$old_values = $new_values = array();
 			foreach ( (array) $posted_field_ids as $field_id ) {
-
 				/*
 				 * Certain types of fields (checkboxes, multiselects) may come
 				 * through empty. Save them as an empty array so that they don't
@@ -194,6 +193,7 @@ class BP_XProfile_User_Admin {
 				$value = isset( $_POST[ 'field_' . $field_id ] ) ? $_POST[ 'field_' . $field_id ] : '';
 
 				$visibility_level = ! empty( $_POST[ 'field_' . $field_id . '_visibility' ] ) ? $_POST[ 'field_' . $field_id . '_visibility' ] : 'public';
+
 				/*
 				 * Save the old and new values. They will be
 				 * passed to the filter and used to determine

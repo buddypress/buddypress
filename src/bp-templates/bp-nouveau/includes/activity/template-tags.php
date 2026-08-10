@@ -537,7 +537,7 @@ function bp_nouveau_activity_entry_buttons( $args = array() ) {
 					/**
 					 * Sets the activity spam button icon.
 					*
-					 * @todo: use a specific css rule for this *************************************************************/
+					 * @todo: use a specific css rule for this */
 					'<span class="dashicons dashicons-flag" style="color:#a00;vertical-align:baseline;width:18px;height:18px" aria-hidden="true"></span><span class="bp-screen-reader-text">%s</span>',
 					esc_html_x( 'Spam', 'button', 'buddypress' )
 				),

@@ -993,7 +993,7 @@ class BP_Members_Signup_REST_Controller extends WP_REST_Controller {
 	 * @since 15.0.0
 	 *
 	 * @param int|string $identifier Signup identifier.
-	 * @param string $field Signup lookup field ('id', 'email', or 'activation_key').
+	 * @param string     $field Signup lookup field ('id', 'email', or 'activation_key').
 	 * @return BP_Signup|false
 	 */
 	public function get_signup_object_by_field( $identifier, $field ) {

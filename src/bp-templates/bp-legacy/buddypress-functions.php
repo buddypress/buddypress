@@ -12,7 +12,7 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-/** Theme Setup ***************************************************************/
+/** Theme Setup */
 
 if ( ! class_exists( 'BP_Legacy' ) ) :
 
@@ -76,7 +76,7 @@ class BP_Legacy extends BP_Theme_Compat {
 		// Filter BuddyPress template hierarchy and look for page templates.
 		add_filter( 'bp_get_buddypress_template', array( $this, 'theme_compat_page_templates' ), 10, 1 );
 
-		/** Scripts ***********************************************************/
+		/** Scripts */
 
 		add_action( 'bp_enqueue_community_scripts', array( $this, 'enqueue_styles' ) ); // Enqueue theme CSS
 		add_action( 'bp_enqueue_community_scripts', array( $this, 'enqueue_scripts' ) ); // Enqueue theme JS
@@ -85,7 +85,7 @@ class BP_Legacy extends BP_Theme_Compat {
 		// Body no-js class.
 		add_filter( 'body_class', array( $this, 'add_nojs_body_class' ), 20, 1 );
 
-		/** Buttons ***********************************************************/
+		/** Buttons */
 
 		if ( ! is_admin() || ( defined( 'DOING_AJAX' ) && DOING_AJAX ) ) {
 			// Register buttons for the relevant component templates
@@ -120,7 +120,7 @@ class BP_Legacy extends BP_Theme_Compat {
 			}
 		}
 
-		/** Notices ***********************************************************/
+		/** Notices */
 
 		// Only hook the 'sitewide_notices' overlay if the Sitewide
 		// Notices widget is not in use (to avoid duplicate content).
@@ -128,7 +128,7 @@ class BP_Legacy extends BP_Theme_Compat {
 			add_action( 'wp_footer', array( $this, 'sitewide_notices' ), 9999 );
 		}
 
-		/** Ajax **************************************************************/
+		/** Ajax */
 
 		$actions = array(
 
@@ -194,7 +194,7 @@ class BP_Legacy extends BP_Theme_Compat {
 
 		add_filter( 'bp_ajax_querystring', 'bp_legacy_theme_ajax_querystring', 10, 2 );
 
-		/** Override **********************************************************/
+		/** Override */
 
 		/**
 		 * Fires after all of the BuddyPress theme compat actions have been added.

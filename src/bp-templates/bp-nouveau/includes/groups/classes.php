@@ -110,7 +110,7 @@ class BP_Nouveau_Group_Invite_Query extends BP_User_Query {
 			'limit'   => '',
 		);
 
-		/** WHERE clauses *****************************************************/
+		/** WHERE clauses */
 
 		// Group id
 		$sql['where'][] = $wpdb->prepare( 'group_id = %d', $this->query_vars['group_id'] );
@@ -118,11 +118,11 @@ class BP_Nouveau_Group_Invite_Query extends BP_User_Query {
 		// Join the query part
 		$sql['where'] = ! empty( $sql['where'] ) ? 'WHERE ' . implode( ' AND ', $sql['where'] ) : '';
 
-		/** ORDER BY clause ***************************************************/
+		/** ORDER BY clause */
 		$sql['orderby'] = 'ORDER BY date_modified';
 		$sql['order']   = 'DESC';
 
-		/** LIMIT clause ******************************************************/
+		/** LIMIT clause */
 		$this->group_member_ids = $wpdb->get_col( "{$sql['select']} {$sql['where']} {$sql['orderby']} {$sql['order']} {$sql['limit']}" );
 
 		return array_merge( $this->group_member_ids, $pending_invites );
