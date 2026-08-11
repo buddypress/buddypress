@@ -343,7 +343,8 @@ function bp_group_type_list( $group_id = 0, $r = array() ) {
 
 		$retval = '';
 
-		if ( $types = bp_groups_get_group_type( $group_id, false ) ) {
+		$types = bp_groups_get_group_type( $group_id, false );
+		if ( $types ) {
 			// Make sure we can show the type in the list.
 			if ( false === $r['show_all'] ) {
 				$types = array_intersect( bp_groups_get_group_types( array( 'show_in_list' => true ) ), $types );

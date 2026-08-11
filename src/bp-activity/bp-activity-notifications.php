@@ -401,12 +401,14 @@ add_action( 'bp_blogs_comment_sync_activity_comment', 'bp_activity_add_notificat
  */
 function bp_activity_screen_notification_settings() {
 	if ( bp_activity_do_mentions() ) {
-		if ( ! $mention = bp_get_user_meta( bp_displayed_user_id(), 'notification_activity_new_mention', true ) ) {
+		$mention = bp_get_user_meta( bp_displayed_user_id(), 'notification_activity_new_mention', true );
+		if ( ! $mention ) {
 			$mention = 'yes';
 		}
 	}
 
-	if ( ! $reply = bp_get_user_meta( bp_displayed_user_id(), 'notification_activity_new_reply', true ) ) {
+	$reply = bp_get_user_meta( bp_displayed_user_id(), 'notification_activity_new_reply', true );
+	if ( ! $reply ) {
 		$reply = 'yes';
 	}
 	?>

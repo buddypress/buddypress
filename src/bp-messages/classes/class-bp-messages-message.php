@@ -91,7 +91,8 @@ class BP_Messages_Message {
 
 		$bp = buddypress();
 
-		if ( $message = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$bp->messages->table_name_messages} WHERE id = %d", $id ) ) ) {
+		$message = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$bp->messages->table_name_messages} WHERE id = %d", $id ) );
+		if ( $message ) {
 			$this->id        = (int) $message->id;
 			$this->thread_id = (int) $message->thread_id;
 			$this->sender_id = (int) $message->sender_id;
@@ -241,7 +242,8 @@ class BP_Messages_Message {
 			$rec_un_count = count( $recipient_usernames );
 
 			for ( $i = 0, $count = $rec_un_count; $i < $count; ++$i ) {
-				if ( $rid = bp_core_get_userid( trim( $recipient_usernames[ $i ] ) ) ) {
+				$rid = bp_core_get_userid( trim( $recipient_usernames[ $i ] ) );
+				if ( $rid ) {
 					$recipient_ids[] = $rid;
 				}
 			}

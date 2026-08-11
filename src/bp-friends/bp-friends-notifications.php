@@ -257,11 +257,13 @@ add_action( 'friends_remove_data', 'bp_friends_remove_notifications_data', 10, 1
  */
 function friends_screen_notification_settings() {
 
-	if ( ! $send_requests = bp_get_user_meta( bp_displayed_user_id(), 'notification_friends_friendship_request', true ) ) {
+	$send_requests = bp_get_user_meta( bp_displayed_user_id(), 'notification_friends_friendship_request', true );
+	if ( ! $send_requests ) {
 		$send_requests = 'yes';
 	}
 
-	if ( ! $accept_requests = bp_get_user_meta( bp_displayed_user_id(), 'notification_friends_friendship_accepted', true ) ) {
+	$accept_requests = bp_get_user_meta( bp_displayed_user_id(), 'notification_friends_friendship_accepted', true );
+	if ( ! $accept_requests ) {
 		$accept_requests = 'yes';
 	}
 	?>

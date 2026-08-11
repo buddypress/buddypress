@@ -711,7 +711,8 @@ function bp_member_class( $classes = array() ) {
 		}
 
 		// Add current user member types.
-		if ( $member_types = bp_get_member_type( $members_template->member->id, false ) ) {
+		$member_types = bp_get_member_type( $members_template->member->id, false );
+		if ( $member_types ) {
 			foreach ( $member_types as $member_type ) {
 				$classes[] = sprintf( 'member-type-%s', $member_type );
 			}

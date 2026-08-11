@@ -449,7 +449,8 @@ class BP_Groups_Member {
 		$bp  = buddypress();
 		$sql = $wpdb->prepare( "DELETE FROM {$bp->groups->table_name_members} WHERE user_id = %d AND group_id = %d", $this->user_id, $this->group_id );
 
-		if ( ! $result = $wpdb->query( $sql ) ) {
+		$result = $wpdb->query( $sql );
+		if ( ! $result ) {
 			return false;
 		}
 

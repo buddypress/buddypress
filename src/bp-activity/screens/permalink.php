@@ -84,7 +84,9 @@ function bp_activity_action_permalink_router() {
 	 *
 	 * @param array $value Array with url to redirect to and activity related to the redirect.
 	 */
-	if ( ! $redirect = apply_filters_ref_array( 'bp_activity_permalink_redirect_url', array( $redirect, &$activity ) ) ) {
+	$redirect = apply_filters_ref_array( 'bp_activity_permalink_redirect_url', array( $redirect, &$activity ) );
+
+	if ( ! $redirect ) {
 		bp_core_redirect( bp_get_root_url() );
 	}
 

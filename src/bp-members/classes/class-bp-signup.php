@@ -988,7 +988,8 @@ class BP_Signup {
 			)
 		);
 
-		if ( ! $signups = $to_activate['signups'] ) {
+		$signups = $to_activate['signups'];
+		if ( ! $signups ) {
 			return false;
 		}
 
@@ -1075,7 +1076,8 @@ class BP_Signup {
 			)
 		);
 
-		if ( ! $signups = $to_delete['signups'] ) {
+		$signups = $to_delete['signups'];
+		if ( ! $signups ) {
 			return false;
 		}
 

@@ -1252,23 +1252,28 @@ add_action( 'groups_remove_data_for_user', 'bp_groups_remove_data_for_user_notif
  */
 function groups_screen_notification_settings() {
 
-	if ( ! $group_invite = bp_get_user_meta( bp_displayed_user_id(), 'notification_groups_invite', true ) ) {
+	$group_invite = bp_get_user_meta( bp_displayed_user_id(), 'notification_groups_invite', true );
+	if ( ! $group_invite ) {
 		$group_invite = 'yes';
 	}
 
-	if ( ! $group_update = bp_get_user_meta( bp_displayed_user_id(), 'notification_groups_group_updated', true ) ) {
+	$group_update = bp_get_user_meta( bp_displayed_user_id(), 'notification_groups_group_updated', true );
+	if ( ! $group_update ) {
 		$group_update = 'yes';
 	}
 
-	if ( ! $group_promo = bp_get_user_meta( bp_displayed_user_id(), 'notification_groups_admin_promotion', true ) ) {
+	$group_promo = bp_get_user_meta( bp_displayed_user_id(), 'notification_groups_admin_promotion', true );
+	if ( ! $group_promo ) {
 		$group_promo = 'yes';
 	}
 
-	if ( ! $group_request = bp_get_user_meta( bp_displayed_user_id(), 'notification_groups_membership_request', true ) ) {
+	$group_request = bp_get_user_meta( bp_displayed_user_id(), 'notification_groups_membership_request', true );
+	if ( ! $group_request ) {
 		$group_request = 'yes';
 	}
 
-	if ( ! $group_request_completed = bp_get_user_meta( bp_displayed_user_id(), 'notification_membership_request_completed', true ) ) {
+	$group_request_completed = bp_get_user_meta( bp_displayed_user_id(), 'notification_membership_request_completed', true );
+	if ( ! $group_request_completed ) {
 		$group_request_completed = 'yes';
 	}
 	?>

@@ -541,7 +541,8 @@ class BP_Legacy extends BP_Theme_Compat {
 			case 'groups':
 			case 'friends':
 				// Only insert avatar if one exists.
-				if ( $secondary_avatar = bp_get_activity_secondary_avatar() ) {
+				$secondary_avatar = bp_get_activity_secondary_avatar();
+				if ( $secondary_avatar ) {
 					$reverse_content = strrev( $action );
 					$position        = strpos( $reverse_content, 'a<' );
 					$action          = substr_replace( $action, $secondary_avatar, -$position - 2, 0 );

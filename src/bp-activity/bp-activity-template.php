@@ -3159,7 +3159,8 @@ function bp_activity_latest_update( $user_id = 0 ) {
 			return false;
 		}
 
-		if ( ! $update = bp_get_user_meta( $user_id, 'bp_latest_update', true ) ) {
+		$update = bp_get_user_meta( $user_id, 'bp_latest_update', true );
+		if ( ! $update ) {
 			return false;
 		}
 

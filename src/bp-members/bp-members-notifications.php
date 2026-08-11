@@ -263,7 +263,8 @@ function members_screen_notification_settings() {
 
 			<?php
 			if ( bp_get_members_invitations_allowed() ) :
-				if ( ! $allow_acceptance_emails = bp_get_user_meta( bp_displayed_user_id(), 'notification_members_invitation_accepted', true ) ) {
+				$allow_acceptance_emails = bp_get_user_meta( bp_displayed_user_id(), 'notification_members_invitation_accepted', true );
+				if ( ! $allow_acceptance_emails ) {
 					$allow_acceptance_emails = 'yes';
 				}
 				?>
@@ -287,7 +288,8 @@ function members_screen_notification_settings() {
 			endif;
 
 			if ( bp_get_membership_requests_required() && user_can( bp_displayed_user_id(), 'bp_moderate' ) ) :
-				if ( ! $allow_request_emails = bp_get_user_meta( bp_displayed_user_id(), 'notification_members_membership_request', true ) ) {
+				$allow_request_emails = bp_get_user_meta( bp_displayed_user_id(), 'notification_members_membership_request', true );
+				if ( ! $allow_request_emails ) {
 					$allow_request_emails = 'yes';
 				}
 				?>

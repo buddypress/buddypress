@@ -496,7 +496,8 @@ function xprofile_filter_comments( $comments, $post_id = 0 ) {
 	}
 
 	// Pull up the xprofile fullname of each commenter.
-	if ( $fullnames = bp_core_get_user_displaynames( $user_ids ) ) {
+	$fullnames = bp_core_get_user_displaynames( $user_ids );
+	if ( $fullnames ) {
 		foreach ( (array) $fullnames as $user_id => $user_fullname ) {
 			$users[ $user_id ] = trim( stripslashes( $user_fullname ) );
 		}

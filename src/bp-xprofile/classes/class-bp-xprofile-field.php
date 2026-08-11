@@ -1612,7 +1612,8 @@ class BP_XProfile_Field {
 		}
 
 		// Bail when no member types are registered.
-		if ( ! $member_types = bp_get_member_types( array(), 'objects' ) ) {
+		$member_types = bp_get_member_types( array(), 'objects' );
+		if ( ! $member_types ) {
 			return;
 		}
 

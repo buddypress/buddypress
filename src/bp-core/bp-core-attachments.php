@@ -537,7 +537,13 @@ function bp_attachments_get_attachment( $data = 'url', $args = array() ) {
 		$att_dir = opendir( $type_dir );
 		if ( $att_dir ) {
 
-			while ( false !== ( $attachment_file = readdir( $att_dir ) ) ) {
+			while ( true ) {
+				$attachment_file = readdir( $att_dir );
+
+				if ( false === $attachment_file ) {
+					break;
+				}
+
 				// Look for the first file having the type in its name.
 				if ( false !== strpos( $attachment_file, $r['type'] ) && empty( $file ) ) {
 					$file = $attachment_file;
@@ -1356,7 +1362,13 @@ function bp_attachments_cover_image_generate_file( $args = array(), $cover_image
 	$att_dir = opendir( $args['cover_image_dir'] );
 	if ( $att_dir ) {
 
-		while ( false !== ( $attachment_file = readdir( $att_dir ) ) ) {
+		while ( true ) {
+			$attachment_file = readdir( $att_dir );
+
+			if ( false === $attachment_file ) {
+				break;
+			}
+
 			// Skip directories and the new cover image.
 			if ( 2 < strlen( $attachment_file ) && 0 !== strpos( $attachment_file, '.' ) && $cover_basename !== $attachment_file ) {
 				@unlink( $args['cover_image_dir'] . '/' . $attachment_file );

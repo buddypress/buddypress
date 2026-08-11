@@ -427,7 +427,8 @@ function bp_core_get_userlink( $user_id, $no_anchor = false, $just_link = false 
 		return $display_name;
 	}
 
-	if ( ! $url = bp_members_get_user_url( $user_id ) ) {
+	$url = bp_members_get_user_url( $user_id );
+	if ( ! $url ) {
 		return false;
 	}
 
