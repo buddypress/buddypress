@@ -282,7 +282,7 @@ class BP_Legacy extends BP_Theme_Compat {
 		// Enqueue the global JS, if found - AJAX will not work
 		// without it.
 		if ( isset( $asset['location'], $asset['handle'] ) ) {
-			wp_enqueue_script( $asset['handle'], $asset['location'], bp_core_get_js_dependencies(), $this->version );
+			wp_enqueue_script( $asset['handle'], $asset['location'], bp_core_get_js_dependencies(), $this->version, false );
 		}
 
 		/**
@@ -347,7 +347,7 @@ class BP_Legacy extends BP_Theme_Compat {
 			);
 
 			// Enqueue script.
-			wp_enqueue_script( $asset['handle'] . '-password-verify', $asset['location'], $dependencies, $this->version );
+			wp_enqueue_script( $asset['handle'] . '-password-verify', $asset['location'], $dependencies, $this->version, false );
 			wp_localize_script(
 				$asset['handle'] . '-password-verify',
 				'bpPasswordVerify',

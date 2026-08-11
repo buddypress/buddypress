@@ -241,7 +241,7 @@ class BP_Signup {
 		 * an activation link has been resent.
 		 */
 		$sent_at = mysql2date( 'U', $this->date_sent );
-		$now     = current_time( 'timestamp', true );
+		$now     = time();
 		$diff    = $now - $sent_at;
 
 		/**
