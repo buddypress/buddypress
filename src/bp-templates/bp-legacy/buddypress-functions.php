@@ -700,6 +700,7 @@ function bp_legacy_theme_blog_create_nav() {
 
 /**
  * This function looks scarier than it actually is. :)
+ *
  * Each object loop (activity/members/groups/blogs/forums) contains default
  * parameters to show specific information based on the page we are currently
  * looking at.
@@ -724,15 +725,15 @@ function bp_legacy_theme_ajax_querystring( $query_string, $object ) {
 
 	// Set up the cookies passed on this AJAX request. Store a local var to avoid conflicts.
 	if ( ! empty( $_POST['cookie'] ) ) {
-		$_BP_COOKIE = bp_parse_args(
+		$bp_cookie = bp_parse_args(
 			str_replace( '; ', '&', urldecode( $_POST['cookie'] ) )
 		);
 	} elseif ( ! empty( $_POST['data']['bp_heartbeat'] ) ) {
-		$_BP_COOKIE = bp_parse_args(
+		$bp_cookie = bp_parse_args(
 			str_replace( '; ', '&', urldecode( $_POST['data']['bp_heartbeat'] ) )
 		);
 	} else {
-		$_BP_COOKIE = &$_COOKIE;
+		$bp_cookie = &$_COOKIE;
 	}
 
 	$qs = array();
@@ -743,14 +744,14 @@ function bp_legacy_theme_ajax_querystring( $query_string, $object ) {
 	 */
 
 	// Activity stream filtering on action.
-	if ( ! empty( $_BP_COOKIE[ 'bp-' . $object . '-filter' ] ) && '-1' !== $_BP_COOKIE[ 'bp-' . $object . '-filter' ] ) {
-		$qs[] = 'type=' . urlencode( $_BP_COOKIE[ 'bp-' . $object . '-filter' ] );
+	if ( ! empty( $bp_cookie[ 'bp-' . $object . '-filter' ] ) && '-1' !== $bp_cookie[ 'bp-' . $object . '-filter' ] ) {
+		$qs[] = 'type=' . urlencode( $bp_cookie[ 'bp-' . $object . '-filter' ] );
 
 		if ( bp_is_active( 'activity' ) ) {
 			$actions = bp_activity_get_actions_for_context();
 
 			// Handle multiple actions (eg. 'friendship_accepted,friendship_created')
-			$action_filter = explode( ',', $_BP_COOKIE[ 'bp-' . $object . '-filter' ] );
+			$action_filter = explode( ',', $bp_cookie[ 'bp-' . $object . '-filter' ] );
 
 			// See if action filter matches registered actions. If so, add it to qs.
 			if ( ! array_diff( $action_filter, wp_list_pluck( $actions, 'key' ) ) ) {
@@ -759,15 +760,15 @@ function bp_legacy_theme_ajax_querystring( $query_string, $object ) {
 		}
 	}
 
-	if ( ! empty( $_BP_COOKIE[ 'bp-' . $object . '-scope' ] ) ) {
-		if ( 'personal' === $_BP_COOKIE[ 'bp-' . $object . '-scope' ] ) {
-			$user_id = ( bp_displayed_user_id() ) ? bp_displayed_user_id() : bp_loggedin_user_id();
+	if ( ! empty( $bp_cookie[ 'bp-' . $object . '-scope' ] ) ) {
+		if ( 'personal' === $bp_cookie[ 'bp-' . $object . '-scope' ] ) {
+			$user_id = bp_displayed_user_id() ? bp_displayed_user_id() : bp_loggedin_user_id();
 			$qs[]    = 'user_id=' . $user_id;
 		}
 
 		// Activity stream scope only on activity directory.
-		if ( 'all' !== $_BP_COOKIE[ 'bp-' . $object . '-scope' ] && ! bp_displayed_user_id() && ! bp_is_single_item() ) {
-			$qs[] = 'scope=' . urlencode( $_BP_COOKIE[ 'bp-' . $object . '-scope' ] );
+		if ( 'all' !== $bp_cookie[ 'bp-' . $object . '-scope' ] && ! bp_displayed_user_id() && ! bp_is_single_item() ) {
+			$qs[] = 'scope=' . urlencode( $bp_cookie[ 'bp-' . $object . '-scope' ] );
 		}
 	}
 
@@ -792,7 +793,14 @@ function bp_legacy_theme_ajax_querystring( $query_string, $object ) {
 	}
 
 	$object_search_text = bp_get_search_default_text( $object );
-	if ( ! empty( $_POST['search_terms'] ) && is_string( $_POST['search_terms'] ) && $object_search_text !== $_POST['search_terms'] && 'false' !== $_POST['search_terms'] && 'undefined' !== $_POST['search_terms'] ) {
+
+	if (
+		! empty( $_POST['search_terms'] )
+		&& is_string( $_POST['search_terms'] )
+		&& $object_search_text !== $_POST['search_terms']
+		&& 'false' !== $_POST['search_terms']
+		&& 'undefined' !== $_POST['search_terms']
+	) {
 		$qs[] = 'search_terms=' . urlencode( $_POST['search_terms'] );
 	}
 
@@ -800,28 +808,28 @@ function bp_legacy_theme_ajax_querystring( $query_string, $object ) {
 	$query_string = empty( $qs ) ? '' : join( '&', (array) $qs );
 
 	$object_filter = '';
-	if ( isset( $_BP_COOKIE[ 'bp-' . $object . '-filter' ] ) ) {
-		$object_filter = $_BP_COOKIE[ 'bp-' . $object . '-filter' ];
+	if ( isset( $bp_cookie[ 'bp-' . $object . '-filter' ] ) ) {
+		$object_filter = $bp_cookie[ 'bp-' . $object . '-filter' ];
 	}
 
 	$object_scope = '';
-	if ( isset( $_BP_COOKIE[ 'bp-' . $object . '-scope' ] ) ) {
-		$object_scope = $_BP_COOKIE[ 'bp-' . $object . '-scope' ];
+	if ( isset( $bp_cookie[ 'bp-' . $object . '-scope' ] ) ) {
+		$object_scope = $bp_cookie[ 'bp-' . $object . '-scope' ];
 	}
 
 	$object_page = '';
-	if ( isset( $_BP_COOKIE[ 'bp-' . $object . '-page' ] ) ) {
-		$object_page = $_BP_COOKIE[ 'bp-' . $object . '-page' ];
+	if ( isset( $bp_cookie[ 'bp-' . $object . '-page' ] ) ) {
+		$object_page = $bp_cookie[ 'bp-' . $object . '-page' ];
 	}
 
 	$object_search_terms = '';
-	if ( isset( $_BP_COOKIE[ 'bp-' . $object . '-search-terms' ] ) ) {
-		$object_search_terms = $_BP_COOKIE[ 'bp-' . $object . '-search-terms' ];
+	if ( isset( $bp_cookie[ 'bp-' . $object . '-search-terms' ] ) ) {
+		$object_search_terms = $bp_cookie[ 'bp-' . $object . '-search-terms' ];
 	}
 
 	$object_extras = '';
-	if ( isset( $_BP_COOKIE[ 'bp-' . $object . '-extras' ] ) ) {
-		$object_extras = $_BP_COOKIE[ 'bp-' . $object . '-extras' ];
+	if ( isset( $bp_cookie[ 'bp-' . $object . '-extras' ] ) ) {
+		$object_extras = $bp_cookie[ 'bp-' . $object . '-extras' ];
 	}
 
 	/**

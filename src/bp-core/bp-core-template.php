@@ -801,7 +801,7 @@ function bp_create_excerpt( $text, $length = 225, $options = array() ) {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @param string $value Text to append to the end of the excerpt.
+	 * @param string $ending Text to append to the end of the excerpt.
 	 */
 	$ending = apply_filters( 'bp_excerpt_append_text', $r['ending'] );
 
@@ -819,9 +819,9 @@ function bp_create_excerpt( $text, $length = 225, $options = array() ) {
 			return $text;
 		}
 
-		$totalLength = mb_strlen( wp_strip_all_tags( $ending ) );
-		$openTags    = array();
-		$truncate    = '';
+		$total_length = mb_strlen( wp_strip_all_tags( $ending ) );
+		$open_tags    = array();
+		$truncate     = '';
 
 		// Find all the tags and HTML comments and put them in a stack for later use.
 		preg_match_all( '/(<\/?([\w+!]+)[^>]*>)?([^<>]*)/', $text, $tags, PREG_SET_ORDER );
@@ -830,39 +830,40 @@ function bp_create_excerpt( $text, $length = 225, $options = array() ) {
 			// Process tags that need to be closed.
 			if ( ! preg_match( '/img|br|input|hr|area|base|basefont|col|frame|isindex|link|meta|param/s', $tag[2] ) ) {
 				if ( preg_match( '/<[\w]+[^>]*>/s', $tag[0] ) ) {
-					array_unshift( $openTags, $tag[2] );
-				} elseif ( preg_match( '/<\/([\w]+)[^>]*>/s', $tag[0], $closeTag ) ) {
-					$pos = array_search( $closeTag[1], $openTags, true );
+					array_unshift( $open_tags, $tag[2] );
+				} elseif ( preg_match( '/<\/([\w]+)[^>]*>/s', $tag[0], $close_tag ) ) {
+					$pos = array_search( $close_tag[1], $open_tags, true );
 					if ( $pos !== false ) {
-						array_splice( $openTags, $pos, 1 );
+						array_splice( $open_tags, $pos, 1 );
 					}
 				}
 			}
 
-			$truncate     .= $tag[1];
-			$contentLength = mb_strlen( preg_replace( '/&[0-9a-z]{2,8};|&#[0-9]{1,7};|&#x[0-9a-f]{1,6};/i', ' ', $tag[3] ) );
+			$truncate      .= $tag[1];
+			$content_length = mb_strlen( preg_replace( '/&[0-9a-z]{2,8};|&#[0-9]{1,7};|&#x[0-9a-f]{1,6};/i', ' ', $tag[3] ) );
 
-			if ( $contentLength + $totalLength > $length ) {
-				$left           = $length - $totalLength;
-				$entitiesLength = 0;
+			if ( $content_length + $total_length > $length ) {
+				$left            = $length - $total_length;
+				$entities_length = 0;
 				if ( preg_match_all( '/&[0-9a-z]{2,8};|&#[0-9]{1,7};|&#x[0-9a-f]{1,6};/i', $tag[3], $entities, PREG_OFFSET_CAPTURE ) ) {
 					foreach ( $entities[0] as $entity ) {
-						if ( $entity[1] + 1 - $entitiesLength <= $left ) {
+						if ( $entity[1] + 1 - $entities_length <= $left ) {
 							--$left;
-							$entitiesLength += mb_strlen( $entity[0] );
+							$entities_length += mb_strlen( $entity[0] );
 						} else {
 							break;
 						}
 					}
 				}
 
-				$truncate .= mb_substr( $tag[3], 0, $left + $entitiesLength );
+				$truncate .= mb_substr( $tag[3], 0, $left + $entities_length );
 				break;
 			} else {
-				$truncate    .= $tag[3];
-				$totalLength += $contentLength;
+				$truncate     .= $tag[3];
+				$total_length += $content_length;
 			}
-			if ( $totalLength >= $length ) {
+
+			if ( $total_length >= $length ) {
 				break;
 			}
 		}
@@ -949,11 +950,11 @@ function bp_create_excerpt( $text, $length = 225, $options = array() ) {
 
 		if ( $r['html'] ) {
 			$bits = mb_substr( $truncate, $spacepos );
-			preg_match_all( '/<\/([a-z]+)>/', $bits, $droppedTags, PREG_SET_ORDER );
-			if ( ! empty( $droppedTags ) ) {
-				foreach ( $droppedTags as $closingTag ) {
-					if ( ! in_array( $closingTag[1], $openTags, true ) ) {
-						array_unshift( $openTags, $closingTag[1] );
+			preg_match_all( '/<\/([a-z]+)>/', $bits, $dropped_tags, PREG_SET_ORDER );
+			if ( ! empty( $dropped_tags ) ) {
+				foreach ( $dropped_tags as $closing_tag ) {
+					if ( ! in_array( $closing_tag[1], $open_tags, true ) ) {
+						array_unshift( $open_tags, $closing_tag[1] );
 					}
 				}
 			}
@@ -964,7 +965,7 @@ function bp_create_excerpt( $text, $length = 225, $options = array() ) {
 	$truncate .= $ending;
 
 	if ( ! empty( $r['html'] ) ) {
-		foreach ( $openTags as $tag ) {
+		foreach ( $open_tags as $tag ) {
 			$truncate .= '</' . $tag . '>';
 		}
 	}
