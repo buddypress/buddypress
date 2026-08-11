@@ -3144,7 +3144,8 @@ function bp_groups_register_group_type( $group_type, $args = array() ) {
 		$r['show_in_list'] = (bool) $r['show_in_list'];
 	}
 
-	$bp->groups->types[ $group_type ] = $type = (object) $r;
+	$type                             = (object) $r;
+	$bp->groups->types[ $group_type ] = $type;
 
 	/**
 	 * Fires after a group type is registered.

@@ -743,7 +743,12 @@ class BP_Messages_Thread {
 			)
 		);
 
-		$pag_sql        = $type_sql = $search_sql = $user_id_sql = $includes_sql = $sender_sql = '';
+		$sender_sql     = '';
+		$includes_sql   = $sender_sql;
+		$user_id_sql    = $includes_sql;
+		$search_sql     = $user_id_sql;
+		$type_sql       = $search_sql;
+		$pag_sql        = $type_sql;
 		$meta_query_sql = array(
 			'join'  => '',
 			'where' => '',
@@ -1017,7 +1022,8 @@ class BP_Messages_Thread {
 	public static function get_total_threads_for_user( $user_id, $box = 'inbox', $type = 'all' ) {
 		global $wpdb;
 
-		$exclude_sender = $type_sql = '';
+		$type_sql       = '';
+		$exclude_sender = $type_sql;
 		if ( $box !== 'sentbox' ) {
 			$exclude_sender = 'AND sender_only != 1';
 		}

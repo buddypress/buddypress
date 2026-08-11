@@ -2974,7 +2974,8 @@ function bp_register_member_type( $member_type, $args = array() ) {
 	// Show the list of member types on front-end (member header, for now).
 	$r['show_in_list'] = (bool) $r['show_in_list'];
 
-	$bp->members->types[ $member_type ] = $type = (object) $r;
+	$type                               = (object) $r;
+	$bp->members->types[ $member_type ] = $type;
 
 	/**
 	 * Fires after a member type is registered.

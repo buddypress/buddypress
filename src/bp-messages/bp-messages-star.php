@@ -124,7 +124,8 @@ function bp_the_message_star_action_link( $args = array() ) {
 		$path_chunks = array( bp_get_messages_slug() );
 
 		// Define local variables.
-		$retval = $bulk_attr = '';
+		$bulk_attr = '';
+		$retval    = $bulk_attr;
 
 		// Thread ID.
 		if ( (int) $r['thread_id'] > 0 ) {

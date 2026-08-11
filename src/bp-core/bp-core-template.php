@@ -3020,7 +3020,8 @@ function bp_get_title_parts( $seplocation = 'right' ) {
 	if ( ! empty( $displayed_user_name ) && ! is_404() ) {
 
 		// Get the component's ID to try and get its name.
-		$component_id = $component_name = bp_current_component();
+		$component_name = bp_current_component();
+		$component_id   = $component_name;
 
 		// Set empty subnav name.
 		$component_subnav_name = '';
@@ -3628,7 +3629,8 @@ function bp_nav_menu( $args = array() ) {
 	$args = apply_filters( 'bp_nav_menu_args', $args );
 	$args = (object) $args;
 
-	$items          = $nav_menu = '';
+	$nav_menu       = '';
+	$items          = $nav_menu;
 	$show_container = false;
 
 	// Create custom walker if one wasn't set.

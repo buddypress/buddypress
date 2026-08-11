@@ -183,7 +183,8 @@ class BP_XProfile_User_Admin {
 			$errors = false;
 
 			// Now we've checked for required fields, let's save the values.
-			$old_values = $new_values = array();
+			$new_values = array();
+			$old_values = $new_values;
 			foreach ( (array) $posted_field_ids as $field_id ) {
 				/*
 				 * Certain types of fields (checkboxes, multiselects) may come

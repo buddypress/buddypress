@@ -525,7 +525,9 @@ class BP_Groups_Group {
 	public function __set( $key, $value ) {
 		switch ( $key ) {
 			case 'user_has_access':
-				return $this->user_has_access = (bool) $value;
+				$this->user_has_access = (bool) $value;
+
+				return $this->user_has_access;
 
 			default:
 				$this->{$key} = $value;
@@ -596,7 +598,8 @@ class BP_Groups_Group {
 			);
 		}
 
-		$admin_objects = $mod_objects = array();
+		$mod_objects   = array();
+		$admin_objects = $mod_objects;
 		foreach ( $admin_mod_users as $admin_mod_user ) {
 			$obj                = new stdClass();
 			$obj->user_id       = $admin_mod_user->ID;
@@ -1651,7 +1654,8 @@ class BP_Groups_Group {
 	 * }
 	 */
 	protected static function convert_type_to_order_orderby( $type = '' ) {
-		$order = $orderby = '';
+		$orderby = '';
+		$order   = $orderby;
 
 		switch ( $type ) {
 			case 'newest':

@@ -576,7 +576,8 @@ class BP_Akismet {
 	 * @return array $activity_data Activity data, with Akismet data added.
 	 */
 	public function send_akismet_request( $activity_data, $check = 'check', $spam = 'spam' ) {
-		$query_string = $path = '';
+		$path         = '';
+		$query_string = $path;
 
 		$activity_data['blog']         = bp_get_option( 'home' );
 		$activity_data['blog_charset'] = bp_get_option( 'blog_charset' );

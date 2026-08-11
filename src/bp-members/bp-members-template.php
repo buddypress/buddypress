@@ -2440,7 +2440,9 @@ function bp_member_type_list( $user_id = 0, $r = array() ) {
 				}
 			}
 
-			$before = $after = $label = '';
+			$label  = '';
+			$after  = $label;
+			$before = $after;
 			$count  = count( $types );
 
 			if ( 1 === $count ) {

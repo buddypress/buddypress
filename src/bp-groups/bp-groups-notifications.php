@@ -149,12 +149,11 @@ function groups_notification_new_membership_request( $requesting_user_id = 0, $a
 	);
 
 	$request_message = '';
-	$requests        = groups_get_requests(
-		$args        = array(
-			'user_id'    => $requesting_user_id,
-			'item_id'    => $group_id,
-		)
+	$args            = array(
+		'user_id' => $requesting_user_id,
+		'item_id' => $group_id,
 	);
+	$requests        = groups_get_requests( $args );
 
 	if ( $requests ) {
 		$request_message = current( $requests )->content;
@@ -358,13 +357,12 @@ function groups_notification_group_invites( &$group, &$member, $inviter_user_id 
 	);
 
 	$invite_message = '';
-	$invitations    = groups_get_invites(
-		$args       = array(
-			'user_id'    => $invited_user_id,
-			'item_id'    => $group->id,
-			'inviter_id' => $inviter_user_id,
-		)
+	$args           = array(
+		'user_id'    => $invited_user_id,
+		'item_id'    => $group->id,
+		'inviter_id' => $inviter_user_id,
 	);
+	$invitations    = groups_get_invites( $args );
 	if ( $invitations ) {
 		$invite_message = current( $invitations )->content;
 	}
@@ -485,7 +483,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 
 				/* translators: %s: member name */
 				$text              = sprintf( __( '%s requests group membership', 'buddypress' ), $user_fullname );
-				$notification_link = $notification_link = add_query_arg(
+				$notification_link = add_query_arg(
 					array(
 						'n' => 1,
 					),

@@ -352,7 +352,9 @@ function bp_group_type_list( $group_id = 0, $r = array() ) {
 				}
 			}
 
-			$before = $after = $label = '';
+			$label  = '';
+			$after  = $label;
+			$before = $after;
 			$count  = count( $types );
 
 			if ( 1 === $count ) {

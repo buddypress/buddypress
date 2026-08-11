@@ -366,7 +366,9 @@ function bp_activity_admin_load() {
 		}
 
 		// Initialize counters for how many of each type of item we perform an action on.
-		$deleted = $spammed = $unspammed = 0;
+		$unspammed = 0;
+		$spammed   = $unspammed;
+		$deleted   = $spammed;
 
 		// Store any errors that occurs when updating the database items.
 		$errors = array();
@@ -503,7 +505,8 @@ function bp_activity_admin_load() {
 		$error = 0;
 
 		// Activity spam status.
-		$prev_spam_status = $new_spam_status = false;
+		$new_spam_status  = false;
+		$prev_spam_status = $new_spam_status;
 		if ( ! empty( $_POST['activity_status'] ) ) {
 			$prev_spam_status = (bool) $activity->is_spam;
 			$new_spam_status  = ( 'spam' === $_POST['activity_status'] ) ? true : false;

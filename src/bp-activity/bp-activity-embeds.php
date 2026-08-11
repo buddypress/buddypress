@@ -257,7 +257,8 @@ function bp_activity_embed_media() {
 
 		// Display thumb and related oEmbed meta.
 		if ( true === isset( $thumbnail ) ) {
-			$play_icon = $caption = '';
+			$caption   = '';
+			$play_icon = $caption;
 
 			// Add play icon for non-photos.
 			if ( 'photo' !== $oembed->type ) {

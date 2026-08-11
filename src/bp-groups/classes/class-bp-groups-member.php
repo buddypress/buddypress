@@ -604,7 +604,9 @@ class BP_Groups_Member {
 	public static function get_recently_joined( $user_id, $limit = false, $page = false, $filter = false ) {
 		global $wpdb;
 
-		$pag_sql     = $hidden_sql = $filter_sql = '';
+		$filter_sql  = '';
+		$hidden_sql  = $filter_sql;
+		$pag_sql     = $hidden_sql;
 		$user_id_sql = $wpdb->prepare( 'm.user_id = %d', $user_id );
 
 		if ( ! empty( $limit ) && ! empty( $page ) ) {
@@ -653,7 +655,9 @@ class BP_Groups_Member {
 	public static function get_is_admin_of( $user_id, $limit = false, $page = false, $filter = false ) {
 		global $wpdb;
 
-		$pag_sql     = $hidden_sql = $filter_sql = '';
+		$filter_sql  = '';
+		$hidden_sql  = $filter_sql;
+		$pag_sql     = $hidden_sql;
 		$user_id_sql = $wpdb->prepare( 'm.user_id = %d', $user_id );
 
 		if ( ! empty( $limit ) && ! empty( $page ) ) {
@@ -702,7 +706,10 @@ class BP_Groups_Member {
 	public static function get_is_mod_of( $user_id, $limit = false, $page = false, $filter = false ) {
 		global $wpdb;
 
-		$user_id_sql = $pag_sql = $hidden_sql = $filter_sql = '';
+		$filter_sql  = '';
+		$hidden_sql  = $filter_sql;
+		$pag_sql     = $hidden_sql;
+		$user_id_sql = $pag_sql;
 
 		$user_id_sql = $wpdb->prepare( 'm.user_id = %d', $user_id );
 
@@ -754,7 +761,10 @@ class BP_Groups_Member {
 
 		$bp = buddypress();
 
-		$user_id_sql = $pag_sql = $hidden_sql = $filter_sql = '';
+		$filter_sql  = '';
+		$hidden_sql  = $filter_sql;
+		$pag_sql     = $hidden_sql;
+		$user_id_sql = $pag_sql;
 		$user_id_sql = $wpdb->prepare( 'm.user_id = %d', $user_id );
 
 		if ( $limit && $page ) {
@@ -1218,7 +1228,8 @@ class BP_Groups_Member {
 			$uncached_sql     = implode( ',', array_map( 'intval', $uncached ) );
 			$group_admin_mods = $wpdb->get_results( "SELECT user_id, group_id, date_modified, is_admin, is_mod FROM {$bp->groups->table_name_members} WHERE group_id IN ({$uncached_sql}) AND ( is_admin = 1 OR is_mod = 1 ) AND is_banned = 0" );
 
-			$admins = $mods = array();
+			$mods   = array();
+			$admins = $mods;
 			if ( $group_admin_mods ) {
 				foreach ( $group_admin_mods as $group_admin_mod ) {
 					$obj                = new stdClass();

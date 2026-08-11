@@ -605,7 +605,7 @@ class BP_Members_Admin {
 		$hooks = array();
 
 		// Add the faux "Edit Profile" submenu page.
-		$hooks['user'] = $this->user_page = add_submenu_page(
+		$this->user_page = add_submenu_page(
 			'profile.php',
 			__( 'Edit Profile', 'buddypress' ),
 			__( 'Edit Profile', 'buddypress' ),
@@ -613,6 +613,7 @@ class BP_Members_Admin {
 			'bp-profile-edit',
 			array( $this, 'user_admin' )
 		);
+		$hooks['user']   = $this->user_page;
 
 		// Setup the screen ID's.
 		$this->screen_id = array(
@@ -642,7 +643,7 @@ class BP_Members_Admin {
 
 		if ( bp_members_is_community_profile_enabled() ) {
 			// Manage user's profile.
-			$hooks['user'] = $this->user_page = add_submenu_page(
+			$this->user_page = add_submenu_page(
 				$this->user_profile . '.php',
 				__( 'Edit Profile', 'buddypress' ),
 				__( 'Edit Profile', 'buddypress' ),
@@ -662,7 +663,7 @@ class BP_Members_Admin {
 			}
 
 			// Manage signups.
-			$hooks['signups'] = $this->signups_page = add_users_page(
+			$this->signups_page = add_users_page(
 				$signups_menu_label,
 				$signups_menu_label,
 				$this->capability,
@@ -671,7 +672,7 @@ class BP_Members_Admin {
 			);
 		}
 
-		$hooks['members_invitations'] = $this->members_invites_page = add_submenu_page(
+		$this->members_invites_page   = add_submenu_page(
 			$this->tools_parent,
 			__( 'Manage Invitations', 'buddypress' ),
 			__( 'Manage Invitations', 'buddypress' ),
@@ -679,6 +680,9 @@ class BP_Members_Admin {
 			'bp-members-invitations',
 			array( $this, 'invitations_admin' )
 		);
+		$hooks['members_invitations'] = $this->members_invites_page;
+		$hooks['signups']             = $this->signups_page;
+		$hooks['user']                = $this->user_page;
 
 		$edit_page        = 'user-edit';
 		$profile_page     = 'profile';

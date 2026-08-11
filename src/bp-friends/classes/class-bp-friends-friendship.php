@@ -698,7 +698,8 @@ class BP_Friends_Friendship {
 			$initiator_user_id = (int) $friendship->initiator_user_id;
 			$friend_user_id    = (int) $friendship->friend_user_id;
 			if ( 1 === (int) $friendship->is_confirmed ) {
-				$status_initiator = $status_friend = 'is_friend';
+				$status_friend    = 'is_friend';
+				$status_initiator = $status_friend;
 			} else {
 				$status_initiator = 'pending';
 				$status_friend    = 'awaiting_response';

@@ -253,7 +253,8 @@ function bp_locate_template_asset( $filename ) {
 
 	// Set up data array.
 	$data         = array();
-	$data['file'] = $data['uri'] = $located;
+	$data['uri']  = $located;
+	$data['file'] = $data['uri'];
 
 	$find = array(
 		get_theme_root(),

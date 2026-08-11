@@ -1682,7 +1682,9 @@ class BP_Activity_Activity {
 
 				// Prevent debug errors.
 			} else {
-				$fullname_select = $fullname_from = $fullname_where = '';
+				$fullname_where  = '';
+				$fullname_from   = $fullname_where;
+				$fullname_select = $fullname_from;
 			}
 
 			// Don't retrieve activity comments marked as spam.
