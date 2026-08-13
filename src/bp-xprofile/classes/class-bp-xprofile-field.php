@@ -330,11 +330,9 @@ class BP_XProfile_Field {
 		switch ( $key ) {
 			case 'default_visibility':
 				return $this->get_default_visibility();
-				break;
 
 			case 'allow_custom_visibility':
 				return $this->get_allow_custom_visibility();
-				break;
 		}
 	}
 
@@ -352,7 +350,6 @@ class BP_XProfile_Field {
 			case 'allow_custom_visibility':
 			case 'default_visibility':
 				return true;
-				break;
 		}
 	}
 

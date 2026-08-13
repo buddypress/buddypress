@@ -140,9 +140,7 @@ class BP_Members_List_Table extends WP_Users_List_Table {
 	 *
 	 * @param array $which Current table nav item.
 	 */
-	public function extra_tablenav( $which ) {
-		return;
-	}
+	public function extra_tablenav( $which ) {}
 
 	/**
 	 * Specific signups columns.
