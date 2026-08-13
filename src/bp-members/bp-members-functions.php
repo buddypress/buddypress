@@ -1244,8 +1244,17 @@ function bp_core_delete_account( $user_id = 0 ) {
 			return false;
 		}
 
+		$root_blog_id = bp_get_root_blog_id();
+
+		if ( function_exists( 'current_user_can_for_site' ) ) {
+			$can_delete_user = current_user_can_for_site( $root_blog_id, 'delete_user', $user_id );
+		} else {
+			// Backward compatibility with WordPress < 6.7.
+			$can_delete_user = current_user_can_for_blog( $root_blog_id, 'delete_user', $user_id ); // phpcs:ignore WordPress.WP.DeprecatedFunctions.current_user_can_for_blogFound
+		}
+
 		// Bail if current user cannot delete this user.
-		if ( ! current_user_can_for_blog( bp_get_root_blog_id(), 'delete_user', $user_id ) ) {
+		if ( ! $can_delete_user ) {
 			return false;
 		}
 	}
