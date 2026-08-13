@@ -23,6 +23,7 @@ defined( 'ABSPATH' ) || exit;
  *    $user_status = $user->status;
  *    etc.
  */
+#[AllowDynamicProperties]
 class BP_Core_User {
 
 	/**

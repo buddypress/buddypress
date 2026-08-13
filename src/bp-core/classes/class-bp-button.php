@@ -45,6 +45,7 @@ defined( 'ABSPATH' ) || exit;
  *     @type string      $link_title        Deprecated. Use $button_attr and set 'title' as array key.
  * }
  */
+#[AllowDynamicProperties]
 class BP_Button {
 
 	/** Button properties *****************************************************/
