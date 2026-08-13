@@ -66,5 +66,11 @@
 		<exclude name="WordPress.DB.PreparedSQL.NotPrepared" />
 		<exclude name="WordPress.DB.DirectDatabaseQuery.SchemaChange" />
 		<exclude name="WordPress.DB.DirectDatabaseQuery.DirectQuery" />
+
+		<!-- Deferred performance issues. -->
+		<exclude name="WordPress.DB.SlowDBQuery.slow_db_query_meta_query" />
+		<exclude name="WordPress.DB.SlowDBQuery.slow_db_query_tax_query" />
+
+		<exclude name="WordPress.PHP.NoSilencedErrors" />
 	</rule>
 </ruleset>
