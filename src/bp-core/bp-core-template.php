@@ -291,7 +291,7 @@ function bp_site_name() {
  *                                 to return month, day, and time. Default: false.
  * @param bool       $gmt          Optional. True to display in local time, false to
  *                                  leave in GMT. Default: true.
- * @return mixed A string representation of $time, in the format
+ * @return string|false A string representation of $time, in the format
  *               "March 18, 2014 at 2:00 pm" (or whatever your
  *               'date_format' and 'time_format' settings are
  *               on your root blog). False on failure.
