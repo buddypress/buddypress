@@ -23,7 +23,7 @@ class BP_Members_Invitations_List_Table extends WP_Users_List_Table {
 	 * E.g. "All", "Pending", "Sent", "Unsent"...
 	 *
 	 * @since 8.0.0
-	 * @var string
+	 * @var string[]
 	 */
 	public $active_filters = array();
 
@@ -42,12 +42,14 @@ class BP_Members_Invitations_List_Table extends WP_Users_List_Table {
 	 */
 	public function __construct() {
 		// Define singular and plural labels, as well as whether we support AJAX.
-		parent::__construct( array(
-			'ajax'     => false,
-			'plural'   => 'invitations',
-			'singular' => 'invitation',
-			'screen'   => get_current_screen()->id,
-		) );
+		parent::__construct(
+			array(
+				'ajax'     => false,
+				'plural'   => 'invitations',
+				'singular' => 'invitation',
+				'screen'   => get_current_screen()->id,
+			)
+		);
 	}
 
 	/**
@@ -94,10 +96,12 @@ class BP_Members_Invitations_List_Table extends WP_Users_List_Table {
 		$this->items       = $invites_class->get_invitations( $args );
 		$this->total_items = $invites_class->get_invitations_total_count( $args );
 
-		$this->set_pagination_args( array(
-			'total_items' => $this->total_items,
-			'per_page'    => $per_page,
-		) );
+		$this->set_pagination_args(
+			array(
+				'total_items' => $this->total_items,
+				'per_page'    => $per_page,
+			)
+		);
 	}
 
 	/**
@@ -129,37 +133,40 @@ class BP_Members_Invitations_List_Table extends WP_Users_List_Table {
 			),
 			$tools_url
 		);
+
+		$all_class      = empty( $this->active_filters ) ? 'current' : '';
+		$pending_class  = in_array( 'pending', $this->active_filters, true ) ? 'current' : '';
+		$accepted_class = in_array( 'accepted', $this->active_filters, true ) ? 'current' : '';
+		$draft_class    = in_array( 'draft', $this->active_filters, true ) ? 'current' : '';
+		$sent_class     = in_array( 'sent', $this->active_filters, true ) ? 'current' : '';
 		?>
 
 		<h2 class="screen-reader-text">
-			<?php
-			/* translators: accessibility text */
-			esc_html_e( 'Filter invitations list', 'buddypress' );
-			?>
+			<?php esc_html_e( 'Filter invitations list', 'buddypress' ); ?>
 		</h2>
 		<ul class="subsubsub">
 			<li class="all">
-				<a href="<?php echo esc_url( $url_base ); ?>" class="<?php if ( empty( $this->active_filters ) ) echo 'current'; ?>">
+				<a href="<?php echo esc_url( $url_base ); ?>" class="<?php echo esc_attr( $all_class ); ?>">
 					<?php esc_html_e( 'All', 'buddypress' ); ?>
 				</a> |
 			</li>
 			<li class="pending">
-				<a href="<?php echo esc_url( add_query_arg( 'accepted', 'pending', $url_base ) ); ?>" class="<?php if ( in_array( 'pending', $this->active_filters, true ) ) echo 'current'; ?>">
+				<a href="<?php echo esc_url( add_query_arg( 'accepted', 'pending', $url_base ) ); ?>" class="<?php echo esc_attr( $pending_class ); ?>">
 					<?php esc_html_e( 'Pending', 'buddypress' ); ?>
 				</a> |
 			</li>
 			<li class="accepted">
-				<a href="<?php echo esc_url( add_query_arg( 'accepted', 'accepted', $url_base ) ); ?>" class="<?php if ( in_array( 'accepted', $this->active_filters, true ) ) echo 'current'; ?>">
+				<a href="<?php echo esc_url( add_query_arg( 'accepted', 'accepted', $url_base ) ); ?>" class="<?php echo esc_attr( $accepted_class ); ?>">
 					<?php esc_html_e( 'Accepted', 'buddypress' ); ?>
 				</a> |
 			</li>
 			<li class="draft">
-				<a href="<?php echo esc_url( add_query_arg( 'sent', 'draft', $url_base ) ); ?>" class="<?php if ( in_array( 'draft', $this->active_filters, true ) ) echo 'current'; ?>">
+				<a href="<?php echo esc_url( add_query_arg( 'sent', 'draft', $url_base ) ); ?>" class="<?php echo esc_attr( $draft_class ); ?>">
 					<?php esc_html_e( 'Draft (Unsent)', 'buddypress' ); ?>
 				</a> |
 			</li>
 			<li class="sent">
-				<a href="<?php echo esc_url( add_query_arg( 'sent', 'sent', $url_base ) ); ?>" class="<?php if ( in_array( 'sent', $this->active_filters, true ) ) echo 'current'; ?>">
+				<a href="<?php echo esc_url( add_query_arg( 'sent', 'sent', $url_base ) ); ?>" class="<?php echo esc_attr( $sent_class ); ?>">
 					<?php esc_html_e( 'Sent', 'buddypress' ); ?>
 				</a>
 			</li>
@@ -171,10 +178,11 @@ class BP_Members_Invitations_List_Table extends WP_Users_List_Table {
 			 *
 			 * @since 8.0.0
 			 *
-			 * @param string $url_base       Current URL base for view.
-			 * @param array  $active_filters Current filters being requested.
+			 * @param string   $url_base       Current URL base for view.
+			 * @param string[] $active_filters Current filters being requested.
 			 */
-			do_action( 'bp_members_invitations_list_table_get_views', $url_base, $this->active_filters ); ?>
+			do_action( 'bp_members_invitations_list_table_get_views', $url_base, $this->active_filters );
+			?>
 		</ul>
 	<?php
 	}
@@ -189,9 +197,7 @@ class BP_Members_Invitations_List_Table extends WP_Users_List_Table {
 	 *
 	 * @param array $which Current table nav item.
 	 */
-	public function extra_tablenav( $which ) {
-		return;
-	}
+	public function extra_tablenav( $which ) {}
 
 	/**
 	 * Specific signups columns.
@@ -218,7 +224,7 @@ class BP_Members_Invitations_List_Table extends WP_Users_List_Table {
 				'inviter_registered_date'  => __( 'Inviter Registered', 'buddypress' ),
 				'invitation_date_modified' => __( 'Date Modified', 'buddypress' ),
 				'invitation_sent'          => __( 'Email Sent', 'buddypress' ),
-				'invitation_accepted'      => __( 'Accepted', 'buddypress' )
+				'invitation_accepted'      => __( 'Accepted', 'buddypress' ),
 			)
 		);
 	}
@@ -266,7 +272,6 @@ class BP_Members_Invitations_List_Table extends WP_Users_List_Table {
 				$link
 			);
 		}
-
 	}
 
 	/**
@@ -340,7 +345,7 @@ class BP_Members_Invitations_List_Table extends WP_Users_List_Table {
 				printf( esc_html__( 'Select invitation: %s', 'buddypress' ), intval( $invite->id ) );
 			?>
 		</label>
-		<input type="checkbox" id="invitation_<?php echo intval( $invite->id ) ?>" name="invite_ids[]" value="<?php echo esc_attr( $invite->id ) ?>" />
+		<input type="checkbox" id="invitation_<?php echo intval( $invite->id ); ?>" name="invite_ids[]" value="<?php echo esc_attr( $invite->id ); ?>" />
 		<?php
 	}
 
@@ -354,7 +359,7 @@ class BP_Members_Invitations_List_Table extends WP_Users_List_Table {
 	public function column_invitee_email( $invite = null ) {
 		echo esc_html( $invite->invitee_email );
 
-		$actions = array();
+		$actions   = array();
 		$tools_url = bp_get_admin_url( 'tools.php' );
 
 		if ( is_network_admin() ) {
@@ -366,7 +371,7 @@ class BP_Members_Invitations_List_Table extends WP_Users_List_Table {
 			// Resend invitation email link.
 			$email_link = add_query_arg(
 				array(
-					'page'	    => 'bp-members-invitations',
+					'page'      => 'bp-members-invitations',
 					'invite_id' => $invite->id,
 					'action'    => 'resend',
 				),
@@ -453,7 +458,7 @@ class BP_Members_Invitations_List_Table extends WP_Users_List_Table {
 						'class'  => true,
 						'height' => true,
 						'width'  => true,
-					)
+					),
 				)
 			),
 			esc_url( $user_link ),
@@ -495,7 +500,7 @@ class BP_Members_Invitations_List_Table extends WP_Users_List_Table {
 	 * @param BP_Invitation $invite BP_Invitation object.
 	 */
 	public function column_invitation_sent( $invite = null ) {
-		if ( $invite->invite_sent) {
+		if ( $invite->invite_sent ) {
 			esc_html_e( 'Yes', 'buddypress' );
 		} else {
 			esc_html_e( 'No', 'buddypress' );
@@ -526,7 +531,7 @@ class BP_Members_Invitations_List_Table extends WP_Users_List_Table {
 	 * @param string        $column_name The column name.
 	 * @return string
 	 */
-	function column_default( $invite = null, $column_name = '' ) {
+	public function column_default( $invite = null, $column_name = '' ) {
 
 		/**
 		 * Filters the single site custom columns for plugins.

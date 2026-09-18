@@ -113,7 +113,7 @@ class BP_Admin_Types {
 	 * @since 7.0.0
 	 */
 	private function includes() {
-		require plugin_dir_path( dirname( __FILE__ ) ) . 'admin/bp-core-admin-types.php';
+		require plugin_dir_path( __DIR__ ) . 'admin/bp-core-admin-types.php';
 	}
 
 	/**
@@ -300,7 +300,7 @@ class BP_Admin_Types {
 				'bp-admin-types' => array(
 					'file'         => sprintf(
 						'%1$sadmin/js/types-admin%2$s.js',
-						plugin_dir_url( dirname( __FILE__ ) ),
+						plugin_dir_url( __DIR__ ),
 						bp_core_get_minified_asset_suffix()
 					),
 					'dependencies' => array(),
@@ -526,7 +526,7 @@ class BP_Admin_Types {
 	 * @return string|null|int
 	 */
 	public function column_contents( $column_content = '', $column_name = '', $type_id = 0 ) {
-		if ( 'plural_name' !== $column_name && 'counts' !== $column_name || ! $type_id ) {
+		if ( ( 'plural_name' !== $column_name && 'counts' !== $column_name ) || ! $type_id ) {
 			return $column_content;
 		}
 

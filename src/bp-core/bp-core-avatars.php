@@ -531,7 +531,13 @@ function bp_core_fetch_avatar( $args = '' ) {
 
 			// Stash files in an array once to check for one that matches.
 			$avatar_files = array();
-			while ( false !== ( $avatar_file = readdir( $av_dir ) ) ) {
+			while ( true ) {
+				$avatar_file = readdir( $av_dir );
+
+				if ( false === $avatar_file ) {
+					break;
+				}
+
 				// Only add files to the array (skip directories).
 				if ( 2 < strlen( $avatar_file ) ) {
 					$avatar_files[] = $avatar_file;
@@ -860,7 +866,13 @@ function bp_core_delete_existing_avatar( $args = '' ) {
 	$av_dir = opendir( $avatar_folder_dir );
 	if ( $av_dir ) {
 
-		while ( false !== ( $avatar_file = readdir( $av_dir ) ) ) {
+		while ( true ) {
+			$avatar_file = readdir( $av_dir );
+
+			if ( false === $avatar_file ) {
+				break;
+			}
+
 			if ( ( preg_match( '/-bpfull/', $avatar_file ) || preg_match( '/-bpthumb/', $avatar_file ) ) && '.' !== $avatar_file && '..' !== $avatar_file ) {
 				@unlink( $avatar_folder_dir . '/' . $avatar_file );
 			}

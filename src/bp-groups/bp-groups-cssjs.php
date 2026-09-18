@@ -16,15 +16,15 @@ defined( 'ABSPATH' ) || exit;
  * @since 5.0.0
  */
 function bp_groups_register_scripts() {
-    wp_register_script(
-        'bp-group-manage-members',
-        sprintf( '%1$sbp-groups/js/manage-members%2$s.js', buddypress()->plugin_url, bp_core_get_minified_asset_suffix() ),
-        array( 'json2', 'wp-backbone', 'wp-api-request' ),
-        bp_get_version(),
-        true
-    );
+	wp_register_script(
+		'bp-group-manage-members',
+		sprintf( '%1$sbp-groups/js/manage-members%2$s.js', buddypress()->plugin_url, bp_core_get_minified_asset_suffix() ),
+		array( 'json2', 'wp-backbone', 'wp-api-request' ),
+		bp_get_version(),
+		true
+	);
 }
-add_action( 'bp_enqueue_scripts',       'bp_groups_register_scripts', 1 );
+add_action( 'bp_enqueue_scripts', 'bp_groups_register_scripts', 1 );
 add_action( 'bp_admin_enqueue_scripts', 'bp_groups_register_scripts', 1 );
 
 /**
@@ -42,7 +42,8 @@ function bp_groups_get_group_manage_members_script_data( $group_id = 0 ) {
 		$group_id = (int) $group_id;
 	}
 
-	$path = sprintf( '/%1$s/%2$s/%3$s/%4$s/members?exclude_admins=false',
+	$path = sprintf(
+		'/%1$s/%2$s/%3$s/%4$s/members?exclude_admins=false',
 		bp_rest_namespace(),
 		bp_rest_version(),
 		buddypress()->groups->id,
@@ -77,9 +78,9 @@ function bp_groups_register_widget_block_scripts( $scripts = array() ) {
 
 	$asset      = array(
 		'dependencies' => array(),
-		'version'      => ''
+		'version'      => '',
 	);
-	$asset_path = trailingslashit( dirname( __FILE__ ) ) . 'blocks/dynamic-widget/index.asset.php';
+	$asset_path = trailingslashit( __DIR__ ) . 'blocks/dynamic-widget/index.asset.php';
 
 	if ( file_exists( $asset_path ) ) {
 		$asset = require $asset_path;

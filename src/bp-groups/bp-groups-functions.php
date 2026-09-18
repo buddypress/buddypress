@@ -329,7 +329,16 @@ function groups_edit_base_group_details( $args = array() ) {
 
 	// Backward compatibility with old method of passing arguments.
 	if ( ! is_array( $args ) || count( $function_args ) > 1 ) {
-		_deprecated_argument( __METHOD__, '2.9.0', sprintf( esc_html__( 'Arguments passed to %1$s should be in an associative array. See the inline documentation at %2$s for more details.', 'buddypress' ), __METHOD__, __FILE__ ) );
+		_deprecated_argument(
+			__METHOD__,
+			'2.9.0',
+			sprintf(
+				/* translators: 1: the name of the method. 2: the name of the file. */
+				esc_html__( 'Arguments passed to %1$s should be in an associative array. See the inline documentation at %2$s for more details.', 'buddypress' ),
+				__METHOD__,
+				__FILE__
+			)
+		);
 
 		$old_args_keys = array(
 			0 => 'group_id',
@@ -364,7 +373,7 @@ function groups_edit_base_group_details( $args = array() ) {
 	if ( $r['name'] ) {
 		$group->name = $r['name'];
 	}
-	if ( $r['slug'] && $r['slug'] != $group->slug ) {
+	if ( $r['slug'] && $r['slug'] !== $group->slug ) {
 		$group->slug = groups_check_slug( $r['slug'] );
 	}
 	if ( $r['description'] ) {
@@ -376,7 +385,7 @@ function groups_edit_base_group_details( $args = array() ) {
 	}
 
 	// Maybe update the "previous_slug" groupmeta.
-	if ( $group->slug != $old_group->slug ) {
+	if ( $group->slug !== $old_group->slug ) {
 		/*
 		 * If the old slug exists in this group's past, delete that entry.
 		 * Recent previous_slugs are preferred when selecting the current group
@@ -535,17 +544,17 @@ function groups_check_slug( $slug ) {
 	// First, make the proposed slug work in a URL.
 	$slug = sanitize_title( $slug );
 
-	if ( 'wp' == substr( $slug, 0, 2 ) ) {
+	if ( 'wp' === substr( $slug, 0, 2 ) ) {
 		$slug = substr( $slug, 2, strlen( $slug ) - 2 );
 	}
 
-	if ( in_array( $slug, (array) $bp->groups->forbidden_names ) ) {
-		$slug = $slug . '-' . rand();
+	if ( in_array( $slug, (array) $bp->groups->forbidden_names, true ) ) {
+		$slug = $slug . '-' . wp_rand();
 	}
 
 	if ( BP_Groups_Group::check_slug( $slug ) ) {
 		do {
-			$slug = $slug . '-' . rand();
+			$slug = $slug . '-' . wp_rand();
 		} while ( BP_Groups_Group::check_slug( $slug ) );
 	}
 
@@ -1059,23 +1068,23 @@ function groups_get_user_groups( $user_id = 0, $pag_num = 0, $pag_page = 0 ) {
  *
  * @since 2.6.0
  *
- * @param int       $user_id ID of the user.
- * @param array     $args {
+ * @param int   $user_id ID of the user.
+ * @param array $args {
  *     Array of optional args.
- *     @param bool|null $is_confirmed Whether to return only confirmed memberships. Pass `null` to disable this
+ *     @type bool|null $is_confirmed Whether to return only confirmed memberships. Pass `null` to disable this
  *                                    filter. Default: true.
- *     @param bool|null $is_banned    Whether to return only banned memberships. Pass `null` to disable this filter.
+ *     @type bool|null $is_banned    Whether to return only banned memberships. Pass `null` to disable this filter.
  *                                    Default: false.
- *     @param bool|null $is_admin     Whether to return only admin memberships. Pass `null` to disable this filter.
+ *     @type bool|null $is_admin     Whether to return only admin memberships. Pass `null` to disable this filter.
  *                                    Default: false.
- *     @param bool|null $is_mod       Whether to return only mod memberships. Pass `null` to disable this filter.
+ *     @type bool|null $is_mod       Whether to return only mod memberships. Pass `null` to disable this filter.
  *                                    Default: false.
- *     @param bool|null $invite_sent  Whether to return only memberships with 'invite_sent'. Pass `null` to disable
+ *     @type bool|null $invite_sent  Whether to return only memberships with 'invite_sent'. Pass `null` to disable
  *                                    this filter. Default: false.
- *     @param string    $orderby      Field to order by. Accepts 'id' (membership ID), 'group_id', 'date_modified'.
+ *     @type string    $orderby      Field to order by. Accepts 'id' (membership ID), 'group_id', 'date_modified'.
  *                                    Default: 'group_id'.
- *     @param string    $order        Sort order. Accepts 'ASC' or 'DESC'. Default: 'ASC'.
- * }
+ *     @type string    $order        Sort order. Accepts 'ASC' or 'DESC'. Default: 'ASC'.
+ * }.
  * @return array Array of matching group memberships, keyed by group ID.
  */
 function bp_get_user_groups( $user_id, $args = array() ) {
@@ -1185,7 +1194,7 @@ function bp_get_user_groups( $user_id, $args = array() ) {
 		}
 
 		foreach ( $filters as $filter_name => $filter_value ) {
-			if ( ! isset( $membership->{$filter_name} ) || $filter_value != $membership->{$filter_name} ) {
+			if ( ! isset( $membership->{$filter_name} ) || (string) $filter_value !== (string) $membership->{$filter_name} ) {
 				continue 2;
 			}
 		}
@@ -1215,7 +1224,7 @@ function bp_get_user_groups( $user_id, $args = array() ) {
 		}
 
 		foreach ( $filters as $filter_name => $filter_value ) {
-			if ( ! isset( $invitation->{$filter_name} ) || $filter_value != $invitation->{$filter_name} ) {
+			if ( ! isset( $invitation->{$filter_name} ) || (string) $filter_value !== (string) $invitation->{$filter_name} ) {
 				continue 2;
 			}
 		}
@@ -1228,7 +1237,7 @@ function bp_get_user_groups( $user_id, $args = array() ) {
 	// By default, results are ordered by membership id.
 	if ( 'group_id' === $r['orderby'] ) {
 		ksort( $groups );
-	} elseif ( in_array( $r['orderby'], array( 'id', 'date_modified' ) ) ) {
+	} elseif ( in_array( $r['orderby'], array( 'id', 'date_modified' ), true ) ) {
 		$groups = bp_sort_by_key( $groups, $r['orderby'] );
 	}
 
@@ -1857,7 +1866,7 @@ function groups_delete_invite( $user_id, $group_id, $inviter_id = false ) {
  * @since 1.0.0
  * @since 5.0.0 Parameters changed to associative array.
  *
- * @param array $args {
+ * @param array ...$args {
  *     An array of optional arguments.
  *     @type int    $user_id       ID of the invited user.
  *     @type string $invitee_email Email address of the invited user, if not a member of the site.
@@ -1869,7 +1878,16 @@ function groups_delete_invite( $user_id, $group_id, $inviter_id = false ) {
 function groups_send_invites( ...$args ) {
 	// Backward compatibility with old method of passing arguments.
 	if ( ! is_array( $args[0] ) || count( $args ) > 1 ) {
-		_deprecated_argument( __METHOD__, '5.0.0', sprintf( esc_html__( 'Arguments passed to %1$s should be in an associative array. See the inline documentation at %2$s for more details.', 'buddypress' ), __METHOD__, __FILE__ ) );
+		_deprecated_argument(
+			__METHOD__,
+			'5.0.0',
+			sprintf(
+				/* translators: 1: the name of the method. 2: the name of the file. */
+				esc_html__( 'Arguments passed to %1$s should be in an associative array. See the inline documentation at %2$s for more details.', 'buddypress' ),
+				__METHOD__,
+				__FILE__
+			)
+		);
 
 		$old_args_keys = array(
 			0 => 'inviter_id',
@@ -1957,7 +1975,6 @@ function groups_get_invites_for_group( $user_id, $group_id, $sent = null ) {
  *
  * @since 5.0.0
  *
- * @param int   $group_id ID of the group.
  * @param array $args     Invitation arguments.
  *                        See BP_Invitation::get() for list.
  *
@@ -2324,7 +2341,7 @@ function groups_remove_member( $user_id, $group_id, $group_admin_id = 0 ) {
  *
  * @since 1.0.0
  *
- * @param array|string $args {
+ * @param array|string ...$args {
  *     Array of arguments.
  *     @type int    $user_id       ID of the user being invited.
  *     @type int    $group_id      ID of the group to which the user is being invited.
@@ -2337,7 +2354,16 @@ function groups_remove_member( $user_id, $group_id, $group_admin_id = 0 ) {
 function groups_send_membership_request( ...$args ) {
 	// Backward compatibility with old method of passing arguments.
 	if ( ! is_array( $args[0] ) || count( $args ) > 1 ) {
-		_deprecated_argument( __METHOD__, '5.0.0', sprintf( esc_html__( 'Arguments passed to %1$s should be in an associative array. See the inline documentation at %2$s for more details.', 'buddypress' ), __METHOD__, __FILE__ ) );
+		_deprecated_argument(
+			__METHOD__,
+			'5.0.0',
+			sprintf(
+				/* translators: 1: the name of the method. 2: the name of the file. */
+				esc_html__( 'Arguments passed to %1$s should be in an associative array. See the inline documentation at %2$s for more details.', 'buddypress' ),
+				__METHOD__,
+				__FILE__
+			)
+		);
 
 		$old_args_keys = array(
 			0 => 'user_id',
@@ -2506,7 +2532,6 @@ function groups_delete_membership_request( $membership_id, $user_id = 0, $group_
  *
  * @since 5.0.0
  *
- * @param int   $group_id ID of the group.
  * @param array $args     Invitation arguments.
  *                        See BP_Invitation::get() for list.
  *
@@ -3119,7 +3144,8 @@ function bp_groups_register_group_type( $group_type, $args = array() ) {
 		$r['show_in_list'] = (bool) $r['show_in_list'];
 	}
 
-	$bp->groups->types[ $group_type ] = $type = (object) $r;
+	$type                             = (object) $r;
+	$bp->groups->types[ $group_type ] = $type;
 
 	/**
 	 * Fires after a group type is registered.
@@ -3221,6 +3247,8 @@ add_filter( bp_get_group_type_tax_name() . '_registered_by_code', 'bp_get_group_
  *
  * @since 7.0.0
  *
+ * @param array  $metadata Existing group type metadata.
+ * @param string $type     Group type name.
  * @return array The group type metadata.
  */
 function bp_set_registered_by_code_group_type_metadata( $metadata = array(), $type = '' ) {
@@ -3448,7 +3476,7 @@ function bp_groups_has_group_type( $group_id, $group_type ) {
 		return false;
 	}
 
-	return in_array( $group_type, $types );
+	return in_array( $group_type, $types, true );
 }
 
 /**

@@ -212,7 +212,7 @@ function bp_add_friend_button( $potential_friend_id = 0, $friend_status = false 
 	 *
 	 * @since 11.0.0
 	 *
-	 * @param int    $potential_friend_id The user ID of the potential friend.
+	 * @param int $potential_friend_id The user ID of the potential friend.
 	 * @return array The friend button arguments.
 	 */
 	function bp_get_add_friend_button_args( $potential_friend_id = 0 ) {
@@ -425,7 +425,8 @@ function bp_friend_friendship_id() {
 	function bp_get_friend_friendship_id() {
 		global $members_template;
 
-		if ( ! $friendship_id = wp_cache_get( 'friendship_id_' . $members_template->member->id . '_' . bp_loggedin_user_id(), 'bp' ) ) {
+		$friendship_id = wp_cache_get( 'friendship_id_' . $members_template->member->id . '_' . bp_loggedin_user_id(), 'bp' );
+		if ( ! $friendship_id ) {
 			$friendship_id = friends_get_friendship_id( $members_template->member->id, bp_loggedin_user_id() );
 			wp_cache_set( 'friendship_id_' . $members_template->member->id . '_' . bp_loggedin_user_id(), $friendship_id, 'bp' );
 		}
@@ -460,7 +461,8 @@ function bp_friend_accept_request_link() {
 	function bp_get_friend_accept_request_link() {
 		global $members_template;
 
-		if ( ! $friendship_id = wp_cache_get( 'friendship_id_' . $members_template->member->id . '_' . bp_loggedin_user_id(), 'bp' ) ) {
+		$friendship_id = wp_cache_get( 'friendship_id_' . $members_template->member->id . '_' . bp_loggedin_user_id(), 'bp' );
+		if ( ! $friendship_id ) {
 			$friendship_id = friends_get_friendship_id( $members_template->member->id, bp_loggedin_user_id() );
 			wp_cache_set( 'friendship_id_' . $members_template->member->id . '_' . bp_loggedin_user_id(), $friendship_id, 'bp' );
 		}
@@ -502,7 +504,8 @@ function bp_friend_reject_request_link() {
 	function bp_get_friend_reject_request_link() {
 		global $members_template;
 
-		if ( ! $friendship_id = wp_cache_get( 'friendship_id_' . $members_template->member->id . '_' . bp_loggedin_user_id(), 'bp' ) ) {
+		$friendship_id = wp_cache_get( 'friendship_id_' . $members_template->member->id . '_' . bp_loggedin_user_id(), 'bp' );
+		if ( ! $friendship_id ) {
 			$friendship_id = friends_get_friendship_id( $members_template->member->id, bp_loggedin_user_id() );
 			wp_cache_set( 'friendship_id_' . $members_template->member->id . '_' . bp_loggedin_user_id(), $friendship_id, 'bp' );
 		}

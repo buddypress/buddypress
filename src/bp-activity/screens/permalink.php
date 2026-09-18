@@ -26,7 +26,12 @@ function bp_activity_action_permalink_router() {
 	}
 
 	// Get the activity details.
-	$activity = bp_activity_get_specific( array( 'activity_ids' => bp_action_variable( 0 ), 'show_hidden' => true ) );
+	$activity = bp_activity_get_specific(
+		array(
+			'activity_ids' => bp_action_variable( 0 ),
+			'show_hidden' => true,
+		)
+	);
 
 	// 404 if activity does not exist.
 	if ( empty( $activity['activities'][0] ) ) {
@@ -41,20 +46,17 @@ function bp_activity_action_permalink_router() {
 	$path_chunks = bp_members_get_path_chunks( array( bp_get_activity_slug(), $activity->id ) );
 
 	// Redirect based on the type of activity.
-	if ( bp_is_active( 'groups' ) && $activity->component == buddypress()->groups->id ) {
+	if ( bp_is_active( 'groups' ) && $activity->component === buddypress()->groups->id ) {
 
 		// Activity is a user update.
 		if ( ! empty( $activity->user_id ) ) {
 			$redirect = bp_members_get_user_url( $activity->user_id, $path_chunks );
 
 		// Activity is something else.
-		} else {
-
-			// Set redirect to group activity stream.
-			if ( $group = groups_get_group( $activity->item_id ) ) {
-				$path_chunks = bp_groups_get_path_chunks( array( bp_get_activity_slug(), $activity->id ) );
-				$redirect    = bp_get_group_url( $group, $path_chunks );
-			}
+		// Set redirect to group activity stream.
+		} elseif ( $group = groups_get_group( $activity->item_id ) ) {
+			$path_chunks = bp_groups_get_path_chunks( array( bp_get_activity_slug(), $activity->id ) );
+			$redirect    = bp_get_group_url( $group, $path_chunks );
 		}
 
 	// Set redirect to users' activity stream.
@@ -82,7 +84,9 @@ function bp_activity_action_permalink_router() {
 	 *
 	 * @param array $value Array with url to redirect to and activity related to the redirect.
 	 */
-	if ( ! $redirect = apply_filters_ref_array( 'bp_activity_permalink_redirect_url', array( $redirect, &$activity ) ) ) {
+	$redirect = apply_filters_ref_array( 'bp_activity_permalink_redirect_url', array( $redirect, &$activity ) );
+
+	if ( ! $redirect ) {
 		bp_core_redirect( bp_get_root_url() );
 	}
 

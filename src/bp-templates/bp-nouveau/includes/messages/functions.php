@@ -2,6 +2,8 @@
 /**
  * Messages functions
  *
+ * @package BuddyPress
+ * @subpackage bp-nouveau
  * @since 3.0.0
  * @version 12.0.0
  */
@@ -23,13 +25,16 @@ function bp_nouveau_messages_enqueue_styles( $styles = array() ) {
 		return $styles;
 	}
 
-	return array_merge( $styles, array(
-		'bp-nouveau-messages-at' => array(
-			'file'         => buddypress()->plugin_url . 'bp-activity/css/mentions%1$s%2$s.css',
-			'dependencies' => array( 'bp-nouveau' ),
-			'version'      => bp_get_version(),
-		),
-	) );
+	return array_merge(
+		$styles,
+		array(
+			'bp-nouveau-messages-at' => array(
+				'file'         => buddypress()->plugin_url . 'bp-activity/css/mentions%1$s%2$s.css',
+				'dependencies' => array( 'bp-nouveau' ),
+				'version'      => bp_get_version(),
+			),
+		)
+	);
 }
 
 /**
@@ -37,7 +42,7 @@ function bp_nouveau_messages_enqueue_styles( $styles = array() ) {
  *
  * @since 3.0.0
  *
- * @param array $scripts The array of scripts to register
+ * @param array $scripts The array of scripts to register.
  *
  * @return array The same array with the specific messages scripts.
  */
@@ -46,19 +51,22 @@ function bp_nouveau_messages_register_scripts( $scripts = array() ) {
 		return $scripts;
 	}
 
-	return array_merge( $scripts, array(
-		'bp-nouveau-messages-at' => array(
-			'file'         => buddypress()->plugin_url . 'bp-activity/js/mentions%s.js',
-			'dependencies' => array( 'bp-nouveau', 'jquery', 'jquery-atwho' ),
-			'version'      => bp_get_version(),
-			'footer'       => true,
-		),
-		'bp-nouveau-messages' => array(
-			'file'         => 'js/buddypress-messages%s.js',
-			'dependencies' => array( 'bp-nouveau', 'json2', 'wp-backbone', 'bp-nouveau-messages-at' ),
-			'footer'       => true,
-		),
-	) );
+	return array_merge(
+		$scripts,
+		array(
+			'bp-nouveau-messages-at' => array(
+				'file'         => buddypress()->plugin_url . 'bp-activity/js/mentions%s.js',
+				'dependencies' => array( 'bp-nouveau', 'jquery', 'jquery-atwho' ),
+				'version'      => bp_get_version(),
+				'footer'       => true,
+			),
+			'bp-nouveau-messages' => array(
+				'file'         => 'js/buddypress-messages%s.js',
+				'dependencies' => array( 'bp-nouveau', 'json2', 'wp-backbone', 'bp-nouveau-messages-at' ),
+				'footer'       => true,
+			),
+		)
+	);
 }
 
 /**
@@ -82,7 +90,7 @@ function bp_nouveau_messages_enqueue_scripts() {
  *
  * @since 3.0.0
  *
- * @param  array $params Associative array containing the JS Strings needed by scripts
+ * @param  array $params Associative array containing the JS Strings needed by scripts.
  * @return array         The same array with specific strings for the messages UI if needed.
  */
 function bp_nouveau_messages_localize_scripts( $params = array() ) {
@@ -163,25 +171,30 @@ function bp_nouveau_messages_localize_scripts( $params = array() ) {
 
 	// Star private messages.
 	if ( bp_is_active( 'messages', 'star' ) ) {
-		$params['messages'] = array_merge( $params['messages'], array(
-			'strings' => array(
-				'text_unstar'  => __( 'Unstar', 'buddypress' ),
-				'text_star'    => __( 'Star', 'buddypress' ),
-				'title_unstar' => __( 'Starred', 'buddypress' ),
-				'title_star'   => __( 'Not starred', 'buddypress' ),
-				'title_unstar_thread' => __( 'Remove all starred messages in this thread', 'buddypress' ),
-				'title_star_thread'   => __( 'Star the first message in this thread', 'buddypress' ),
-			),
-			'is_single_thread' => (int) bp_is_messages_conversation(),
-			'star_counter'     => 0,
-			'unstar_counter'   => 0
-		) );
+		$params['messages'] = array_merge(
+			$params['messages'],
+			array(
+				'strings' => array(
+					'text_unstar'  => __( 'Unstar', 'buddypress' ),
+					'text_star'    => __( 'Star', 'buddypress' ),
+					'title_unstar' => __( 'Starred', 'buddypress' ),
+					'title_star'   => __( 'Not starred', 'buddypress' ),
+					'title_unstar_thread' => __( 'Remove all starred messages in this thread', 'buddypress' ),
+					'title_star_thread'   => __( 'Star the first message in this thread', 'buddypress' ),
+				),
+				'is_single_thread' => (int) bp_is_messages_conversation(),
+				'star_counter'     => 0,
+				'unstar_counter'   => 0,
+			)
+		);
 	}
 
 	return $params;
 }
 
 /**
+ * Adjusts Messages navigation items.
+ *
  * @since 3.0.0
  */
 function bp_nouveau_messages_adjust_nav() {
@@ -201,9 +214,13 @@ function bp_nouveau_messages_adjust_nav() {
 		if ( 'notices' === $secondary_nav_item->slug ) {
 			bp_core_remove_subnav_item( bp_nouveau_get_component_slug( 'messages' ), $secondary_nav_item->slug, 'members' );
 		} elseif ( 'compose' === $secondary_nav_item->slug ) {
-			$bp->members->nav->edit_nav( array(
-				'user_has_access' => bp_is_my_profile()
-			), $secondary_nav_item->slug, bp_nouveau_get_component_slug( 'messages' ) );
+			$bp->members->nav->edit_nav(
+				array(
+					'user_has_access' => bp_is_my_profile(),
+				),
+				$secondary_nav_item->slug,
+				bp_nouveau_get_component_slug( 'messages' )
+			);
 		}
 	}
 }
@@ -295,13 +312,15 @@ function bp_nouveau_add_notice_notification_for_user( $notifications, $user_id )
  * @since 3.0.0
  * @deprecated 10.0.0
  *
- * @param array $array.
+ * @param array $array Notice notification arguments.
  */
 function bp_nouveau_format_notice_notification_for_user( $array ) {
 	_deprecated_function( __FUNCTION__, '10.0.0' );
 }
 
 /**
+ * Unregisters the notices widget.
+ *
  * @since 3.0.0
  * @deprecated 12.0.0
  */
@@ -337,7 +356,7 @@ function bp_nouveau_push_sitewide_notices() {
 		$bp = buddypress();
 
 		if ( empty( $bp->template_message ) ) {
-			$message = sprintf(
+			$message                   = sprintf(
 				'<strong class="subject">%s</strong>
 				%s',
 				stripslashes( $notice->subject ),
@@ -355,7 +374,6 @@ function bp_nouveau_push_sitewide_notices() {
  * @since 3.0.0
  *
  * @param array $buttons The WP Editor buttons list.
- * @param array          The filtered WP Editor buttons list.
  */
 function bp_nouveau_messages_mce_buttons( $buttons = array() ) {
 	$remove_buttons = array(
@@ -379,7 +397,11 @@ function bp_nouveau_messages_mce_buttons( $buttons = array() ) {
 }
 
 /**
+ * Adds the mentions initialization callback to TinyMCE.
+ *
  * @since 3.0.0
+ * @param array  $settings  TinyMCE initialization settings.
+ * @param string $editor_id TinyMCE editor ID.
  */
 function bp_nouveau_messages_at_on_tinymce_init( $settings, $editor_id ) {
 	// We only apply the mentions init to the visual post editor in the WP dashboard.
@@ -391,7 +413,10 @@ function bp_nouveau_messages_at_on_tinymce_init( $settings, $editor_id ) {
 }
 
 /**
+ * Gets a formatted message date.
+ *
  * @since 3.0.0
+ * @param string $date Message date to format.
  */
 function bp_nouveau_get_message_date( $date ) {
 	$now  = bp_core_current_time( true, 'timestamp' );
@@ -438,6 +463,8 @@ function bp_nouveau_get_message_date( $date ) {
 }
 
 /**
+ * Gets Messages bulk actions.
+ *
  * @since 3.0.0
  */
 function bp_nouveau_messages_get_bulk_actions() {

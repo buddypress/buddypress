@@ -141,7 +141,7 @@ function bp_members_admin_format_xprofile_field_for_display( $value ) {
  *
  * @since 10.0.0
  *
- * @param array $signup_field_labels The Signup field labels.
+ * @param array       $signup_field_labels The Signup field labels.
  * @param object|null $signup_object The signup data object.
  */
 function bp_members_admin_preview_signup_profile_info( $signup_field_labels = array(), $signup_object = null ) {
@@ -150,7 +150,8 @@ function bp_members_admin_preview_signup_profile_info( $signup_field_labels = ar
 	<div id="signup-info-modal-<?php echo esc_attr( $signup_object->id ); ?>" style="display:none;">
 		<h1><?php printf( '%1$s (%2$s)', esc_html( $signup_object->user_name ), esc_html( $signup_object->user_email ) ); ?></h1>
 
-		<?php if ( bp_is_active( 'xprofile' ) && isset( $signup_object->meta ) && $signup_field_labels ) :
+		<?php
+		if ( bp_is_active( 'xprofile' ) && isset( $signup_object->meta ) && $signup_field_labels ) :
 				// Init ids.
 				$profile_field_ids = array();
 
@@ -163,8 +164,11 @@ function bp_members_admin_preview_signup_profile_info( $signup_field_labels = ar
 			<h2><?php esc_html_e( 'Extended Profile Information', 'buddypress' ); ?></h2>
 
 			<table class="signup-profile-data-drawer wp-list-table widefat fixed striped">
-				<?php if ( 1 <= count( $profile_field_ids ) ): foreach ( array_keys( $profile_field_ids ) as $profile_field_id ) :
-					$field_value = isset( $signup_object->meta[ "field_{$profile_field_id}" ] ) ? $signup_object->meta[ "field_{$profile_field_id}" ] : ''; ?>
+				<?php
+				if ( 1 <= count( $profile_field_ids ) ) :
+					foreach ( array_keys( $profile_field_ids ) as $profile_field_id ) :
+					$field_value = isset( $signup_object->meta[ "field_{$profile_field_id}" ] ) ? $signup_object->meta[ "field_{$profile_field_id}" ] : '';
+					?>
 					<tr>
 						<td class="column-fields"><?php echo esc_html( $signup_field_labels[ $profile_field_id ] ); ?></td>
 						<td>
@@ -174,7 +178,7 @@ function bp_members_admin_preview_signup_profile_info( $signup_field_labels = ar
 							?>
 						</td>
 					</tr>
-				<?php endforeach; else: ?>
+				<?php endforeach; else : ?>
 					<tr>
 						<td><?php esc_html_e( 'There is no additional information to display.', 'buddypress' ); ?></td>
 					</tr>

@@ -211,7 +211,7 @@ class BP_XProfile_Query {
 		 * To keep $this->queries unaltered, pass a copy.
 		 */
 		$queries = $this->queries;
-		$sql = $this->get_sql_for_query( $queries );
+		$sql     = $this->get_sql_for_query( $queries );
 
 		if ( ! empty( $sql['where'] ) ) {
 			$sql['where'] = ' AND ' . $sql['where'];
@@ -249,7 +249,7 @@ class BP_XProfile_Query {
 
 		$indent = '';
 		for ( $i = 0; $i < $depth; $i++ ) {
-			$indent .= "  ";
+			$indent .= '  ';
 		}
 
 		foreach ( $query as $key => &$clause ) {
@@ -366,14 +366,29 @@ class BP_XProfile_Query {
 			$clause['compare'] = isset( $clause['value'] ) && is_array( $clause['value'] ) ? 'IN' : '=';
 		}
 
-		if ( ! in_array( $clause['compare'], array(
-			'=', '!=', '>', '>=', '<', '<=',
-			'LIKE', 'NOT LIKE',
-			'IN', 'NOT IN',
-			'BETWEEN', 'NOT BETWEEN',
-			'EXISTS', 'NOT EXISTS',
-			'REGEXP', 'NOT REGEXP', 'RLIKE',
-		) ) ) {
+		if ( ! in_array(
+			$clause['compare'],
+			array(
+				'=',
+				'!=',
+				'>',
+				'>=',
+				'<',
+				'<=',
+				'LIKE',
+				'NOT LIKE',
+				'IN',
+				'NOT IN',
+				'BETWEEN',
+				'NOT BETWEEN',
+				'EXISTS',
+				'NOT EXISTS',
+				'REGEXP',
+				'NOT REGEXP',
+				'RLIKE',
+			),
+			true
+		) ) {
 			$clause['compare'] = '=';
 		}
 
@@ -387,7 +402,7 @@ class BP_XProfile_Query {
 		// We prefer to avoid joins if possible. Look for an existing join compatible with this clause.
 		$alias = $this->find_compatible_table_alias( $clause, $parent_query );
 		if ( false === $alias ) {
-			$i = count( $this->table_aliases );
+			$i     = count( $this->table_aliases );
 			$alias = $i ? 'xpq' . $i : $data_table;
 
 			// JOIN clauses for NOT EXISTS have their own syntax.
@@ -404,7 +419,7 @@ class BP_XProfile_Query {
 			}
 
 			$this->table_aliases[] = $alias;
-			$sql_chunks['join'][] = $join;
+			$sql_chunks['join'][]  = $join;
 		}
 
 		// Save the alias to this clause, for future siblings to find.
@@ -431,9 +446,9 @@ class BP_XProfile_Query {
 		// Value.
 		if ( array_key_exists( 'value', $clause ) ) {
 			$field_value = $clause['value'];
-			$field_type = $this->get_cast_for_type( isset( $clause['type'] ) ? $clause['type'] : '' );
+			$field_type  = $this->get_cast_for_type( isset( $clause['type'] ) ? $clause['type'] : '' );
 
-			if ( in_array( $field_compare, array( 'IN', 'NOT IN', 'BETWEEN', 'NOT BETWEEN' ) ) ) {
+			if ( in_array( $field_compare, array( 'IN', 'NOT IN', 'BETWEEN', 'NOT BETWEEN' ), true ) ) {
 				if ( ! is_array( $field_value ) ) {
 					$field_value = preg_split( '/[,\s]+/', $field_value );
 				}
@@ -442,25 +457,25 @@ class BP_XProfile_Query {
 			}
 
 			switch ( $field_compare ) {
-				case 'IN' :
-				case 'NOT IN' :
+				case 'IN':
+				case 'NOT IN':
 					$field_compare_string = '(' . substr( str_repeat( ',%s', count( $field_value ) ), 1 ) . ')';
-					$where = $wpdb->prepare( $field_compare_string, $field_value );
+					$where                = $wpdb->prepare( $field_compare_string, $field_value );
 					break;
 
-				case 'BETWEEN' :
-				case 'NOT BETWEEN' :
+				case 'BETWEEN':
+				case 'NOT BETWEEN':
 					$field_value = array_slice( $field_value, 0, 2 );
-					$where = $wpdb->prepare( '%s AND %s', $field_value );
+					$where       = $wpdb->prepare( '%s AND %s', $field_value );
 					break;
 
-				case 'LIKE' :
-				case 'NOT LIKE' :
+				case 'LIKE':
+				case 'NOT LIKE':
 					$field_value = '%' . bp_esc_like( $field_value ) . '%';
-					$where = $wpdb->prepare( '%s', $field_value );
+					$where       = $wpdb->prepare( '%s', $field_value );
 					break;
 
-				default :
+				default:
 					$where = $wpdb->prepare( '%s', $field_value );
 					break;
 
@@ -523,7 +538,7 @@ class BP_XProfile_Query {
 
 			$clause_compare  = strtoupper( $clause['compare'] );
 			$sibling_compare = strtoupper( $sibling['compare'] );
-			if ( in_array( $clause_compare, $compatible_compares ) && in_array( $sibling_compare, $compatible_compares ) ) {
+			if ( in_array( $clause_compare, $compatible_compares, true ) && in_array( $sibling_compare, $compatible_compares, true ) ) {
 				$alias = preg_replace( '/\W/', '_', $sibling['alias'] );
 				break;
 			}

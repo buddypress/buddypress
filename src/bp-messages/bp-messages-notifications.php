@@ -196,15 +196,17 @@ function messages_format_notifications( $action, $item_id, $secondary_item_id, $
 function bp_messages_message_sent_add_notification( $message ) {
 	if ( ! empty( $message->recipients ) ) {
 		foreach ( (array) $message->recipients as $recipient ) {
-			bp_notifications_add_notification( array(
-				'user_id'           => $recipient->user_id,
-				'item_id'           => $message->id,
-				'secondary_item_id' => $message->sender_id,
-				'component_name'    => buddypress()->messages->id,
-				'component_action'  => 'new_message',
-				'date_notified'     => bp_core_current_time(),
-				'is_new'            => 1,
-			) );
+			bp_notifications_add_notification(
+				array(
+					'user_id'           => $recipient->user_id,
+					'item_id'           => $message->id,
+					'secondary_item_id' => $message->sender_id,
+					'component_name'    => buddypress()->messages->id,
+					'component_action'  => 'new_message',
+					'date_notified'     => bp_core_current_time(),
+					'is_new'            => 1,
+				)
+			);
 		}
 	}
 }
@@ -229,13 +231,15 @@ function bp_messages_screen_conversation_mark_notifications() {
 	}
 
 	// Get unread PM notifications for the user.
-	$new_pm_notifications = BP_Notifications_Notification::get( array(
-		'user_id'           => bp_loggedin_user_id(),
-		'component_name'    => buddypress()->messages->id,
-		'component_action'  => 'new_message',
-		'is_new'            => 1,
-	) );
-	$unread_message_ids = wp_list_pluck( $new_pm_notifications, 'item_id' );
+	$new_pm_notifications = BP_Notifications_Notification::get(
+		array(
+			'user_id'           => bp_loggedin_user_id(),
+			'component_name'    => buddypress()->messages->id,
+			'component_action'  => 'new_message',
+			'is_new'            => 1,
+		)
+	);
+	$unread_message_ids   = wp_list_pluck( $new_pm_notifications, 'item_id' );
 
 	// No unread PMs, so stop!
 	if ( empty( $unread_message_ids ) ) {
@@ -338,7 +342,8 @@ function messages_screen_notification_settings() {
 		return;
 	}
 
-	if ( !$new_messages = bp_get_user_meta( bp_displayed_user_id(), 'notification_messages_new_message', true ) ) {
+	$new_messages = bp_get_user_meta( bp_displayed_user_id(), 'notification_messages_new_message', true );
+	if ( ! $new_messages ) {
 		$new_messages = 'yes';
 	} ?>
 
@@ -356,14 +361,18 @@ function messages_screen_notification_settings() {
 			<tr id="messages-notification-settings-new-message">
 				<td></td>
 				<td><?php esc_html_e( 'A member sends you a new message', 'buddypress' ); ?></td>
-				<td class="yes"><input type="radio" name="notifications[notification_messages_new_message]" id="notification-messages-new-messages-yes" value="yes" <?php checked( $new_messages, 'yes', true ) ?>/><label for="notification-messages-new-messages-yes" class="bp-screen-reader-text"><?php
+				<td class="yes"><input type="radio" name="notifications[notification_messages_new_message]" id="notification-messages-new-messages-yes" value="yes" <?php checked( $new_messages, 'yes', true ); ?>/><label for="notification-messages-new-messages-yes" class="bp-screen-reader-text">
+				<?php
 					/* translators: accessibility text */
 					esc_html_e( 'Yes, send email', 'buddypress' );
-				?></label></td>
-				<td class="no"><input type="radio" name="notifications[notification_messages_new_message]" id="notification-messages-new-messages-no" value="no" <?php checked( $new_messages, 'no', true ) ?>/><label for="notification-messages-new-messages-no" class="bp-screen-reader-text"><?php
+				?>
+				</label></td>
+				<td class="no"><input type="radio" name="notifications[notification_messages_new_message]" id="notification-messages-new-messages-no" value="no" <?php checked( $new_messages, 'no', true ); ?>/><label for="notification-messages-new-messages-no" class="bp-screen-reader-text">
+				<?php
 					/* translators: accessibility text */
 					esc_html_e( 'No, do not send email', 'buddypress' );
-				?></label></td>
+				?>
+				</label></td>
 			</tr>
 
 			<?php
@@ -373,7 +382,8 @@ function messages_screen_notification_settings() {
 			 *
 			 * @since 1.0.0
 			 */
-			do_action( 'messages_screen_notification_settings' ); ?>
+			do_action( 'messages_screen_notification_settings' );
+			?>
 		</tbody>
 	</table>
 

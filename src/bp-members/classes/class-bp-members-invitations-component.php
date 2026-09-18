@@ -16,6 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * Invitations are actually a deactivable feature of the Members component. To make sure this feature
  * page slugs can be customized using the BP Rewrites API, it was decided to extend the `BP_Component`
  * class to benefit from the improvements added to it during 12.0.0 into the "rewrite" area.
+ *
  * @see `BP_Component::register_nav()`.
  *
  * @since 12.0.0

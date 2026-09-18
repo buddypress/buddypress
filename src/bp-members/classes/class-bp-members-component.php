@@ -438,8 +438,6 @@ class BP_Members_Component extends BP_Component {
 	 *
 	 * @since 6.0.0
 	 * @deprecated 12.0.0
-	 *
-	 * @return array The Avatar and Cover image subnavs.
 	 */
 	public function get_avatar_cover_image_subnavs() {
 		_deprecated_function( __METHOD__, '12.0.0' );

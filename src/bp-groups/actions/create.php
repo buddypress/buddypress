@@ -36,7 +36,7 @@ function groups_action_create_group() {
 
 	// If no current step is set, reset everything so we can start a fresh group creation.
 	$bp->groups->current_create_step = bp_action_variable( 1 );
-	if ( !bp_get_groups_current_create_step() ) {
+	if ( ! bp_get_groups_current_create_step() ) {
 		unset( $bp->groups->current_create_step );
 		unset( $bp->groups->completed_create_steps );
 
@@ -50,14 +50,15 @@ function groups_action_create_group() {
 	}
 
 	// If this is a creation step that is not recognized, just redirect them back to the first screen.
-	if ( bp_get_groups_current_create_step() && empty( $bp->groups->group_creation_steps[bp_get_groups_current_create_step()] ) ) {
-		bp_core_add_message( __('There was an error saving group details. Please try again.', 'buddypress'), 'error' );
+	if ( bp_get_groups_current_create_step() && empty( $bp->groups->group_creation_steps[ bp_get_groups_current_create_step() ] ) ) {
+		bp_core_add_message( __( 'There was an error saving group details. Please try again.', 'buddypress' ), 'error' );
 		bp_core_redirect( $redirect_url );
 	}
 
 	// Fetch the currently completed steps variable.
-	if ( isset( $_COOKIE['bp_completed_create_steps'] ) && !isset( $reset_steps ) )
+	if ( isset( $_COOKIE['bp_completed_create_steps'] ) && ! isset( $reset_steps ) ) {
 		$bp->groups->completed_create_steps = json_decode( base64_decode( stripslashes( $_COOKIE['bp_completed_create_steps'] ) ) );
+	}
 
 	// Set the ID of the new group, if it has already been created in a previous step.
 	if ( bp_get_new_group_id() ) {
@@ -76,34 +77,50 @@ function groups_action_create_group() {
 		// Check the nonce.
 		check_admin_referer( 'groups_create_save_' . bp_get_groups_current_create_step() );
 
-		if ( 'group-details' == bp_get_groups_current_create_step() ) {
-			if ( empty( $_POST['group-name'] ) || empty( $_POST['group-desc'] ) || !strlen( trim( $_POST['group-name'] ) ) || !strlen( trim( $_POST['group-desc'] ) ) ) {
+		if ( 'group-details' === bp_get_groups_current_create_step() ) {
+			if ( empty( $_POST['group-name'] ) || empty( $_POST['group-desc'] ) || ! strlen( trim( $_POST['group-name'] ) ) || ! strlen( trim( $_POST['group-desc'] ) ) ) {
 				bp_core_add_message( __( 'Please fill in all of the required fields', 'buddypress' ), 'error' );
 				bp_core_redirect( bp_groups_get_create_url( array( bp_get_groups_current_create_step() ) ) );
 			}
 
 			$new_group_id = isset( $bp->groups->new_group_id ) ? $bp->groups->new_group_id : 0;
 
-			if ( ! $bp->groups->new_group_id = groups_create_group( array( 'group_id' => $new_group_id, 'name' => $_POST['group-name'], 'description' => $_POST['group-desc'], 'slug' => groups_check_slug( sanitize_title( esc_attr( $_POST['group-name'] ) ) ), 'date_created' => bp_core_current_time(), 'status' => 'public' ) ) ) {
+			if ( ! $bp->groups->new_group_id = groups_create_group(
+				array(
+					'group_id' => $new_group_id,
+					'name' => $_POST['group-name'],
+					'description' => $_POST['group-desc'],
+					'slug' => groups_check_slug( sanitize_title( esc_attr( $_POST['group-name'] ) ) ),
+					'date_created' => bp_core_current_time(),
+					'status' => 'public',
+				)
+			) ) {
 				bp_core_add_message( __( 'There was an error saving group details. Please try again.', 'buddypress' ), 'error' );
 				bp_core_redirect( bp_groups_get_create_url( array( bp_get_groups_current_create_step() ) ) );
 			}
 		}
 
-		if ( 'group-settings' == bp_get_groups_current_create_step() ) {
-			$group_status = 'public';
+		if ( 'group-settings' === bp_get_groups_current_create_step() ) {
+			$group_status       = 'public';
 			$group_enable_forum = 1;
 
-			if ( !isset($_POST['group-show-forum']) ) {
+			if ( ! isset( $_POST['group-show-forum'] ) ) {
 				$group_enable_forum = 0;
 			}
 
-			if ( 'private' == $_POST['group-status'] )
+			if ( 'private' === $_POST['group-status'] ) {
 				$group_status = 'private';
-			elseif ( 'hidden' == $_POST['group-status'] )
+			} elseif ( 'hidden' === $_POST['group-status'] ) {
 				$group_status = 'hidden';
+			}
 
-			if ( ! $bp->groups->new_group_id = groups_create_group( array( 'group_id' => $bp->groups->new_group_id, 'status' => $group_status, 'enable_forum' => $group_enable_forum ) ) ) {
+			if ( ! $bp->groups->new_group_id = groups_create_group(
+				array(
+					'group_id' => $bp->groups->new_group_id,
+					'status' => $group_status,
+					'enable_forum' => $group_enable_forum,
+				)
+			) ) {
 				bp_core_add_message( __( 'There was an error saving group details. Please try again.', 'buddypress' ), 'error' );
 				bp_core_redirect( bp_groups_get_create_url( array( bp_get_groups_current_create_step() ) ) );
 			}
@@ -123,7 +140,7 @@ function groups_action_create_group() {
 			 *                     'mods', and 'admins'.
 			 */
 			$allowed_invite_status = apply_filters( 'groups_allowed_invite_status', array( 'members', 'mods', 'admins' ) );
-			$invite_status	       = !empty( $_POST['group-invite-status'] ) && in_array( $_POST['group-invite-status'], (array) $allowed_invite_status ) ? $_POST['group-invite-status'] : 'members';
+			$invite_status         = ! empty( $_POST['group-invite-status'] ) && in_array( $_POST['group-invite-status'], (array) $allowed_invite_status, true ) ? $_POST['group-invite-status'] : 'members';
 
 			groups_update_groupmeta( $bp->groups->new_group_id, 'invite_status', $invite_status );
 		}
@@ -131,14 +148,16 @@ function groups_action_create_group() {
 		if ( 'group-invites' === bp_get_groups_current_create_step() ) {
 			if ( ! empty( $_POST['friends'] ) ) {
 				foreach ( (array) $_POST['friends'] as $friend ) {
-					groups_invite_user( array(
-						'user_id'  => (int) $friend,
-						'group_id' => $bp->groups->new_group_id,
-					) );
+					groups_invite_user(
+						array(
+							'user_id'  => (int) $friend,
+							'group_id' => $bp->groups->new_group_id,
+						)
+					);
 				}
 			}
 
-			groups_send_invites( array(	'group_id' => $bp->groups->new_group_id ) );
+			groups_send_invites( array( 'group_id' => $bp->groups->new_group_id ) );
 		}
 
 		/**
@@ -166,17 +185,18 @@ function groups_action_create_group() {
 		 * holding the information
 		 */
 		$completed_create_steps = isset( $bp->groups->completed_create_steps ) ? $bp->groups->completed_create_steps : array();
-		if ( !in_array( bp_get_groups_current_create_step(), $completed_create_steps ) )
+		if ( ! in_array( bp_get_groups_current_create_step(), $completed_create_steps, true ) ) {
 			$bp->groups->completed_create_steps[] = bp_get_groups_current_create_step();
+		}
 
 		// Reset cookie info.
-		setcookie( 'bp_new_group_id', $bp->groups->new_group_id, time()+60*60*24, COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
-		setcookie( 'bp_completed_create_steps', base64_encode( json_encode( $bp->groups->completed_create_steps ) ), time()+60*60*24, COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
+		setcookie( 'bp_new_group_id', $bp->groups->new_group_id, time() + 60 * 60 * 24, COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
+		setcookie( 'bp_completed_create_steps', base64_encode( wp_json_encode( $bp->groups->completed_create_steps ) ), time() + 60 * 60 * 24, COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
 
 		// If we have completed all steps and hit done on the final step we
 		// can redirect to the completed group.
 		$keys = array_keys( $bp->groups->group_creation_steps );
-		if ( count( $bp->groups->completed_create_steps ) == count( $keys ) && bp_get_groups_current_create_step() == array_pop( $keys ) ) {
+		if ( count( $bp->groups->completed_create_steps ) === count( $keys ) && bp_get_groups_current_create_step() === array_pop( $keys ) ) {
 			unset( $bp->groups->current_create_step );
 			unset( $bp->groups->completed_create_steps );
 
@@ -185,10 +205,12 @@ function groups_action_create_group() {
 
 			// Once we completed all steps, record the group creation in the activity stream.
 			if ( bp_is_active( 'activity' ) ) {
-				groups_record_activity( array(
-					'type' => 'created_group',
-					'item_id' => $bp->groups->new_group_id
-				) );
+				groups_record_activity(
+					array(
+						'type' => 'created_group',
+						'item_id' => $bp->groups->new_group_id,
+					)
+				);
 			}
 
 			/**
@@ -207,7 +229,7 @@ function groups_action_create_group() {
 			 * we need to loop the step array and fetch the next step that way.
 			 */
 			foreach ( $keys as $key ) {
-				if ( $key == bp_get_groups_current_create_step() ) {
+				if ( $key === bp_get_groups_current_create_step() ) {
 					$next = 1;
 					continue;
 				}
@@ -232,7 +254,7 @@ function groups_action_create_group() {
 		$message = __( 'Invite successfully removed', 'buddypress' );
 		$error   = false;
 
-		if( ! groups_uninvite_user( (int) $_REQUEST['user_id'], $bp->groups->new_group_id ) ) {
+		if ( ! groups_uninvite_user( (int) $_REQUEST['user_id'], $bp->groups->new_group_id ) ) {
 			$message = __( 'There was an error removing the invite', 'buddypress' );
 			$error   = 'error';
 		}
@@ -242,12 +264,12 @@ function groups_action_create_group() {
 	}
 
 	// Group avatar is handled separately.
-	if ( 'group-avatar' == bp_get_groups_current_create_step() && isset( $_POST['upload'] ) ) {
+	if ( 'group-avatar' === bp_get_groups_current_create_step() && isset( $_POST['upload'] ) ) {
 		if ( ! isset( $bp->avatar_admin ) ) {
 			$bp->avatar_admin = new stdClass();
 		}
 
-		if ( !empty( $_FILES ) && isset( $_POST['upload'] ) ) {
+		if ( ! empty( $_FILES ) && isset( $_POST['upload'] ) ) {
 			// Normally we would check a nonce here, but the group save nonce is used instead.
 			// Pass the file to the avatar upload handler.
 			if ( bp_core_avatar_handle_upload( $_FILES, 'groups_avatar_upload_dir' ) ) {
@@ -270,7 +292,7 @@ function groups_action_create_group() {
 				'crop_x'        => $_POST['x'],
 				'crop_y'        => $_POST['y'],
 				'crop_w'        => $_POST['w'],
-				'crop_h'        => $_POST['h']
+				'crop_h'        => $_POST['h'],
 			);
 
 			$cropped_avatar = bp_core_avatar_handle_crop( $args, 'array' );
@@ -327,8 +349,8 @@ function groups_action_sort_creation_steps() {
 	}
 
 	foreach ( (array) $bp->groups->group_creation_steps as $slug => $step ) {
-		while ( ! empty( $temp[$step['position']] ) ) {
-			$step['position']++;
+		while ( ! empty( $temp[ $step['position'] ] ) ) {
+			++$step['position'];
 		}
 
 		$temp[ $step['position'] ] = array(
@@ -347,7 +369,7 @@ function groups_action_sort_creation_steps() {
 			'rewrite_id'   => $step['rewrite_id'],
 			'default_slug' => $step['slug'],
 			'name'         => $step['name'],
-			'position'     => $position
+			'position'     => $position,
 		);
 	}
 

@@ -154,11 +154,13 @@ function bp_core_new_user_activity( $user ) {
 		return false;
 	}
 
-	bp_activity_add( array(
-		'user_id'   => $user_id,
-		'component' => buddypress()->members->id,
-		'type'      => 'new_member'
-	) );
+	bp_activity_add(
+		array(
+			'user_id'   => $user_id,
+			'component' => buddypress()->members->id,
+			'type'      => 'new_member',
+		)
+	);
 }
 add_action( 'bp_core_activated_user', 'bp_core_new_user_activity' );
 
@@ -207,7 +209,7 @@ function bp_members_new_avatar_activity( $user_id = 0, $type = '', $crop_data = 
 				'object'  => $bp->members->id,
 				'user_id' => $user_id,
 				'action'  => 'new_avatar',
-			)
+			),
 		)
 	);
 

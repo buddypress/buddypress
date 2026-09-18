@@ -817,7 +817,7 @@ function bp_setup_nav_menu_item( $menu_item ) {
 			$menu_item->type = 'custom';
 			$menu_item->url  = $menu_item->guid;
 
-			if ( ! in_array( array( 'bp-menu', 'bp-' . $menu_item->post_excerpt . '-nav' ), $menu_item->classes ) ) {
+			if ( ! in_array( array( 'bp-menu', 'bp-' . $menu_item->post_excerpt . '-nav' ), $menu_item->classes, true ) ) {
 				$menu_item->classes[] = 'bp-menu';
 				$menu_item->classes[] = 'bp-' . $menu_item->post_excerpt . '-nav';
 			}

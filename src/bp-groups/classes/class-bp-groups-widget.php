@@ -63,7 +63,6 @@ class BP_Groups_Widget {
 	 *
 	 * @param array $new_instance New instance data.
 	 * @param array $old_instance Original instance data.
-	 * @return array
 	 */
 	public function update( $new_instance, $old_instance ) {
 		_deprecated_function( __METHOD__, '12.0.0' );

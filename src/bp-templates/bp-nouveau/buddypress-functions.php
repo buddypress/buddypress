@@ -117,7 +117,7 @@ class BP_Nouveau extends BP_Theme_Compat {
 		if ( ! $this->is_block_theme ) {
 			add_action(
 				'bp_customize_register',
-				function() {
+				function () {
 					if ( bp_is_root_blog() && current_user_can( 'customize' ) ) {
 						require bp_nouveau()->includes_dir . 'customizer.php';
 					}
@@ -375,7 +375,7 @@ class BP_Nouveau extends BP_Theme_Compat {
 	public function register_scripts() {
 		$min          = bp_core_get_minified_asset_suffix();
 		$dependencies = bp_core_get_js_dependencies();
-		$bp_confirm   = array_search( 'bp-confirm', $dependencies );
+		$bp_confirm   = array_search( 'bp-confirm', $dependencies, true );
 
 		unset( $dependencies[ $bp_confirm ] );
 
@@ -485,7 +485,7 @@ class BP_Nouveau extends BP_Theme_Compat {
 	 */
 	public function add_nojs_body_class( $classes ) {
 		/** This filter is documented in bp-core/bp-core-dependency.php */
-		if ( ! is_buddypress() || apply_filters( 'bp_enqueue_assets_in_bp_pages_only', true ) ) {
+		if ( ! is_buddypress() && apply_filters( 'bp_enqueue_assets_in_bp_pages_only', true ) ) {
 			return $classes;
 		}
 

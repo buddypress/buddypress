@@ -1150,7 +1150,7 @@ function bp_core_admin_debug_information_add_help_tab() {
 			esc_url( 'https://buddypress.org/support/' ),
 			esc_html__( 'BuddyPress Support Forums', 'buddypress' )
 		);
-		$bp_links     =  $bp_docs . $bp_forums;
+		$bp_links     = $bp_docs . $bp_forums;
 
 		$screen->set_help_sidebar( $help_sidebar . $bp_links );
 		wp_add_inline_script(

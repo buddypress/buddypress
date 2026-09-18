@@ -14,7 +14,7 @@
  */
 function groups_screen_group_admin_manage_members() {
 
-	if ( 'manage-members' != bp_get_group_current_admin_tab() ) {
+	if ( 'manage-members' !== bp_get_group_current_admin_tab() ) {
 		return;
 	}
 
@@ -71,7 +71,7 @@ function groups_screen_group_admin_manage_members() {
 
 			// Stop sole admins from abandoning their group.
 			$group_admins = groups_get_group_admins( $bp->groups->current_group->id );
-			if ( 1 == count( $group_admins ) && $group_admins[0]->user_id == $user_id ) {
+			if ( 1 === count( $group_admins ) && (int) $group_admins[0]->user_id === (int) $user_id ) {
 				bp_core_add_message( __( 'This group must have at least one admin', 'buddypress' ), 'error' );
 
 				// Demote a user.

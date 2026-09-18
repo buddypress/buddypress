@@ -36,7 +36,7 @@ function bp_get_options_nav( $parent_slug = '' ) {
 
 	// If we are looking at a member profile, then the we can use the current
 	// component as an index. Otherwise we need to use the component's root_slug.
-	$component_index = !empty( $bp->displayed_user ) ? bp_current_component() : bp_get_root_slug( bp_current_component() );
+	$component_index = ! empty( $bp->displayed_user ) ? bp_current_component() : bp_get_root_slug( bp_current_component() );
 	$selected_item   = bp_current_action();
 
 	// Default to the Members nav.
@@ -54,7 +54,7 @@ function bp_get_options_nav( $parent_slug = '' ) {
 
 	// For a single item, try to use the component's nav.
 	} else {
-		$current_item = bp_current_item();
+		$current_item          = bp_current_item();
 		$single_item_component = bp_current_component();
 
 		// Adjust the selected nav item for the current single item if needed.
@@ -166,8 +166,8 @@ function bp_avatar_admin_step() {
 	 *         if none is found.
 	 */
 	function bp_get_avatar_admin_step() {
-		$bp   = buddypress();
-		$step = isset( $bp->avatar_admin->step )
+		$bp         = buddypress();
+		$step       = isset( $bp->avatar_admin->step )
 			? $step = $bp->avatar_admin->step
 			: 'upload-image';
 
@@ -337,7 +337,12 @@ function bp_format_time( $time = '', $exclude_time = false, $gmt = true ) {
 		$formatted_time = date_i18n( bp_get_option( 'time_format' ), $calculated_time, $gmt );
 
 		// Return string formatted with date and time.
-		$formatted_date = sprintf( esc_html__( '%1$s at %2$s', 'buddypress' ), $formatted_date, $formatted_time );
+		$formatted_date = sprintf(
+			/* translators: 1: activity date, 2: activity time */
+			esc_html__( '%1$s at %2$s', 'buddypress' ),
+			$formatted_date,
+			$formatted_time
+		);
 	}
 
 	/**
@@ -376,8 +381,8 @@ function bp_word_or_name( $youtext, $nametext, $capitalize = true, $echo = true 
 		$youtext = bp_core_ucfirst( $youtext );
 	}
 
-	if ( bp_displayed_user_id() == bp_loggedin_user_id() ) {
-		if ( true == $echo ) {
+	if ( bp_displayed_user_id() === bp_loggedin_user_id() ) {
+		if ( true === $echo ) {
 
 			/**
 			 * Filters the text used based on context of own profile or someone else's profile.
@@ -396,7 +401,7 @@ function bp_word_or_name( $youtext, $nametext, $capitalize = true, $echo = true 
 		$fullname = bp_get_displayed_user_fullname();
 		$fullname = (array) explode( ' ', $fullname );
 		$nametext = sprintf( $nametext, $fullname[0] );
-		if ( true == $echo ) {
+		if ( true === $echo ) {
 
 			/** This filter is documented in bp-core/bp-core-template.php */
 			echo esc_html( apply_filters( 'bp_word_or_name', $nametext ) );
@@ -451,11 +456,11 @@ function bp_search_form_type_select() {
 	}
 
 	if ( bp_is_active( 'groups' ) ) {
-		$options['groups']  = _x( 'Groups', 'search form', 'buddypress' );
+		$options['groups'] = _x( 'Groups', 'search form', 'buddypress' );
 	}
 
 	if ( bp_is_active( 'blogs' ) && is_multisite() ) {
-		$options['blogs']   = _x( 'Blogs', 'search form', 'buddypress' );
+		$options['blogs'] = _x( 'Blogs', 'search form', 'buddypress' );
 	}
 
 	$options['posts'] = _x( 'Posts', 'search form', 'buddypress' );
@@ -584,17 +589,15 @@ function bp_search_default_text( $component = '' ) {
 		$default_text = __( 'Search anything...', 'buddypress' );
 
 		// Most of the time, $component will be the actual component ID.
-		if ( !empty( $component ) ) {
-			if ( !empty( $bp->{$component}->search_string ) ) {
+		if ( ! empty( $component ) ) {
+			if ( ! empty( $bp->{$component}->search_string ) ) {
 				$default_text = $bp->{$component}->search_string;
-			} else {
+			} elseif ( ! empty( $bp->pages->{$component}->slug ) ) {
 				// When the request comes through AJAX, we need to get the component
 				// name out of $bp->pages.
-				if ( !empty( $bp->pages->{$component}->slug ) ) {
-					$key = $bp->pages->{$component}->slug;
-					if ( !empty( $bp->{$key}->search_string ) ) {
-						$default_text = $bp->{$key}->search_string;
-					}
+				$key = $bp->pages->{$component}->slug;
+				if ( ! empty( $bp->{$key}->search_string ) ) {
+					$default_text = $bp->{$key}->search_string;
 				}
 			}
 		}
@@ -645,19 +648,19 @@ function bp_form_field_attributes( $name = '', $attributes = array() ) {
 		$name = strtolower( $name );
 
 		switch ( $name ) {
-			case 'username' :
-			case 'blogname' :
+			case 'username':
+			case 'blogname':
 				$attributes['autocomplete']   = 'off';
 				$attributes['autocapitalize'] = 'none';
 				break;
 
-			case 'email' :
+			case 'email':
 				if ( wp_is_mobile() ) {
 					$attributes['autocapitalize'] = 'none';
 				}
 				break;
 
-			case 'password' :
+			case 'password':
 				$attributes['spellcheck']   = 'false';
 				$attributes['autocomplete'] = 'off';
 
@@ -680,7 +683,7 @@ function bp_form_field_attributes( $name = '', $attributes = array() ) {
 
 		foreach ( $attributes as $attr => $value ) {
 			// Numeric keyed array.
-			if (is_numeric( $attr ) ) {
+			if ( is_numeric( $attr ) ) {
 				$retval .= sprintf( ' %s', esc_attr( $value ) );
 
 			// Associative keyed array.
@@ -791,14 +794,14 @@ function bp_create_excerpt( $text, $length = 225, $options = array() ) {
 	 *
 	 * @param int $length Length of returned string, including ellipsis.
 	 */
-	$length = apply_filters( 'bp_excerpt_length',      $length      );
+	$length = apply_filters( 'bp_excerpt_length', $length );
 
 	/**
 	 * Filters the excerpt appended text value.
 	 *
 	 * @since 1.5.0
 	 *
-	 * @param string $value Text to append to the end of the excerpt.
+	 * @param string $ending Text to append to the end of the excerpt.
 	 */
 	$ending = apply_filters( 'bp_excerpt_append_text', $r['ending'] );
 
@@ -816,50 +819,51 @@ function bp_create_excerpt( $text, $length = 225, $options = array() ) {
 			return $text;
 		}
 
-		$totalLength = mb_strlen( wp_strip_all_tags( $ending ) );
-		$openTags    = array();
-		$truncate    = '';
+		$total_length = mb_strlen( wp_strip_all_tags( $ending ) );
+		$open_tags    = array();
+		$truncate     = '';
 
 		// Find all the tags and HTML comments and put them in a stack for later use.
 		preg_match_all( '/(<\/?([\w+!]+)[^>]*>)?([^<>]*)/', $text, $tags, PREG_SET_ORDER );
 
 		foreach ( $tags as $tag ) {
 			// Process tags that need to be closed.
-			if ( !preg_match( '/img|br|input|hr|area|base|basefont|col|frame|isindex|link|meta|param/s',  $tag[2] ) ) {
+			if ( ! preg_match( '/img|br|input|hr|area|base|basefont|col|frame|isindex|link|meta|param/s', $tag[2] ) ) {
 				if ( preg_match( '/<[\w]+[^>]*>/s', $tag[0] ) ) {
-					array_unshift( $openTags, $tag[2] );
-				} elseif ( preg_match('/<\/([\w]+)[^>]*>/s', $tag[0], $closeTag ) ) {
-					$pos = array_search( $closeTag[1], $openTags );
+					array_unshift( $open_tags, $tag[2] );
+				} elseif ( preg_match( '/<\/([\w]+)[^>]*>/s', $tag[0], $close_tag ) ) {
+					$pos = array_search( $close_tag[1], $open_tags, true );
 					if ( $pos !== false ) {
-						array_splice( $openTags, $pos, 1 );
+						array_splice( $open_tags, $pos, 1 );
 					}
 				}
 			}
 
-			$truncate     .= $tag[1];
-			$contentLength = mb_strlen( preg_replace( '/&[0-9a-z]{2,8};|&#[0-9]{1,7};|&#x[0-9a-f]{1,6};/i', ' ', $tag[3] ) );
+			$truncate      .= $tag[1];
+			$content_length = mb_strlen( preg_replace( '/&[0-9a-z]{2,8};|&#[0-9]{1,7};|&#x[0-9a-f]{1,6};/i', ' ', $tag[3] ) );
 
-			if ( $contentLength + $totalLength > $length ) {
-				$left = $length - $totalLength;
-				$entitiesLength = 0;
+			if ( $content_length + $total_length > $length ) {
+				$left            = $length - $total_length;
+				$entities_length = 0;
 				if ( preg_match_all( '/&[0-9a-z]{2,8};|&#[0-9]{1,7};|&#x[0-9a-f]{1,6};/i', $tag[3], $entities, PREG_OFFSET_CAPTURE ) ) {
 					foreach ( $entities[0] as $entity ) {
-						if ( $entity[1] + 1 - $entitiesLength <= $left ) {
-							$left--;
-							$entitiesLength += mb_strlen( $entity[0] );
+						if ( $entity[1] + 1 - $entities_length <= $left ) {
+							--$left;
+							$entities_length += mb_strlen( $entity[0] );
 						} else {
 							break;
 						}
 					}
 				}
 
-				$truncate .= mb_substr( $tag[3], 0 , $left + $entitiesLength );
+				$truncate .= mb_substr( $tag[3], 0, $left + $entities_length );
 				break;
 			} else {
-				$truncate .= $tag[3];
-				$totalLength += $contentLength;
+				$truncate     .= $tag[3];
+				$total_length += $content_length;
 			}
-			if ( $totalLength >= $length ) {
+
+			if ( $total_length >= $length ) {
 				break;
 			}
 		}
@@ -900,19 +904,19 @@ function bp_create_excerpt( $text, $length = 225, $options = array() ) {
 		$truncate_tags = array();
 		if ( ! empty( $_truncate_tags[0] ) ) {
 			foreach ( $_truncate_tags[0] as $_tt ) {
-				$_tt['start'] = $_tt[1];
-				$_tt['end']   = $_tt[1] + strlen( $_tt[0] );
+				$_tt['start']                 = $_tt[1];
+				$_tt['end']                   = $_tt[1] + strlen( $_tt[0] );
 				$truncate_tags[ $_tt['end'] ] = $_tt;
 			}
 		}
 
 		$truncate_length = mb_strlen( $truncate );
-		$spacepos = $truncate_length + 1;
+		$spacepos        = $truncate_length + 1;
 		for ( $pos = $truncate_length - 1; $pos >= 0; $pos-- ) {
 			// Word boundaries are spaces and the close of HTML tags, when the tag is preceded by a space.
 			$is_word_boundary = ' ' === $truncate[ $pos ];
 			if ( ! $is_word_boundary && isset( $truncate_tags[ $pos - 1 ] ) ) {
-				$preceding_tag    = $truncate_tags[ $pos - 1 ];
+				$preceding_tag = $truncate_tags[ $pos - 1 ];
 				if ( ' ' === $truncate[ $preceding_tag['start'] - 1 ] ) {
 					$is_word_boundary = true;
 					break;
@@ -946,11 +950,11 @@ function bp_create_excerpt( $text, $length = 225, $options = array() ) {
 
 		if ( $r['html'] ) {
 			$bits = mb_substr( $truncate, $spacepos );
-			preg_match_all( '/<\/([a-z]+)>/', $bits, $droppedTags, PREG_SET_ORDER );
-			if ( !empty( $droppedTags ) ) {
-				foreach ( $droppedTags as $closingTag ) {
-					if ( !in_array( $closingTag[1], $openTags ) ) {
-						array_unshift( $openTags, $closingTag[1] );
+			preg_match_all( '/<\/([a-z]+)>/', $bits, $dropped_tags, PREG_SET_ORDER );
+			if ( ! empty( $dropped_tags ) ) {
+				foreach ( $dropped_tags as $closing_tag ) {
+					if ( ! in_array( $closing_tag[1], $open_tags, true ) ) {
+						array_unshift( $open_tags, $closing_tag[1] );
 					}
 				}
 			}
@@ -960,8 +964,8 @@ function bp_create_excerpt( $text, $length = 225, $options = array() ) {
 	}
 	$truncate .= $ending;
 
-	if ( !empty( $r['html'] ) ) {
-		foreach ( $openTags as $tag ) {
+	if ( ! empty( $r['html'] ) ) {
+		foreach ( $open_tags as $tag ) {
 			$truncate .= '</' . $tag . '>';
 		}
 	}
@@ -969,7 +973,7 @@ function bp_create_excerpt( $text, $length = 225, $options = array() ) {
 	/** This filter is documented in /bp-core/bp-core-template.php */
 	return apply_filters( 'bp_create_excerpt', $truncate, $original_text, $length, $options );
 }
-add_filter( 'bp_create_excerpt', 'stripslashes_deep'  );
+add_filter( 'bp_create_excerpt', 'stripslashes_deep' );
 add_filter( 'bp_create_excerpt', 'force_balance_tags' );
 
 /**
@@ -1168,7 +1172,7 @@ function bp_ajax_querystring( $object = false ) {
  */
 function bp_current_component() {
 	$bp                = buddypress();
-	$current_component = !empty( $bp->current_component )
+	$current_component = ! empty( $bp->current_component )
 		? $bp->current_component
 		: false;
 
@@ -1191,7 +1195,7 @@ function bp_current_component() {
  */
 function bp_current_action() {
 	$bp             = buddypress();
-	$current_action = !empty( $bp->current_action )
+	$current_action = ! empty( $bp->current_action )
 		? $bp->current_action
 		: '';
 
@@ -1214,7 +1218,7 @@ function bp_current_action() {
  */
 function bp_current_item() {
 	$bp           = buddypress();
-	$current_item = !empty( $bp->current_item )
+	$current_item = ! empty( $bp->current_item )
 		? $bp->current_item
 		: false;
 
@@ -1238,7 +1242,7 @@ function bp_current_item() {
  */
 function bp_action_variables() {
 	$bp               = buddypress();
-	$action_variables = !empty( $bp->action_variables )
+	$action_variables = ! empty( $bp->action_variables )
 		? $bp->action_variables
 		: false;
 
@@ -1379,9 +1383,9 @@ function bp_root_slug( $component = '' ) {
 
 			// Backward compatibility: in legacy plugins, the canonical component id
 			// was stored as an array value in $bp->active_components.
-			$component_name = ( '1' == $bp->active_components[ $component ] )
+			$component_name = ( '1' === (string) $bp->active_components[ $component ] )
 				? $component
-				: $bp->active_components[$component];
+				: $bp->active_components[ $component ];
 
 			// Component has specific root slug.
 			if ( ! empty( $bp->{$component_name}->root_slug ) ) {
@@ -1428,7 +1432,7 @@ function bp_get_name_from_root_slug( $root_slug = '' ) {
 
 	// Loop through active components and look for a match.
 	foreach ( array_keys( $bp->active_components ) as $component ) {
-		if ( ( ! empty( $bp->{$component}->slug ) && ( $bp->{$component}->slug == $root_slug ) ) || ( ! empty( $bp->{$component}->root_slug ) && ( $bp->{$component}->root_slug === $root_slug ) ) ) {
+		if ( ( ! empty( $bp->{$component}->slug ) && ( $bp->{$component}->slug === $root_slug ) ) || ( ! empty( $bp->{$component}->root_slug ) && ( $bp->{$component}->root_slug === $root_slug ) ) ) {
 			return $bp->{$component}->name;
 		}
 	}
@@ -1460,7 +1464,6 @@ function bp_user_has_access() {
  * Output the search slug.
  *
  * @since 1.5.0
- *
  */
 function bp_search_slug() {
 	echo esc_attr( bp_get_search_slug() );
@@ -1493,7 +1496,7 @@ function bp_search_slug() {
  */
 function bp_displayed_user_id() {
 	$bp = buddypress();
-	$id = !empty( $bp->displayed_user->id )
+	$id = ! empty( $bp->displayed_user->id )
 		? $bp->displayed_user->id
 		: 0;
 
@@ -1516,7 +1519,7 @@ function bp_displayed_user_id() {
  */
 function bp_loggedin_user_id() {
 	$bp = buddypress();
-	$id = !empty( $bp->loggedin_user->id )
+	$id = ! empty( $bp->loggedin_user->id )
 		? $bp->loggedin_user->id
 		: 0;
 
@@ -1568,22 +1571,22 @@ function bp_is_current_component( $component = '' ) {
 
 		// First, check to see whether $component_name and the current
 		// component are a simple match.
-		if ( $bp->current_component == $component ) {
+		if ( $bp->current_component === $component ) {
 			$is_current_component = true;
 
 		// Since the current component is based on the visible URL slug let's
 		// check the component being passed and see if its root_slug matches.
-		} elseif ( isset( $bp->{$component}->root_slug ) && $bp->{$component}->root_slug == $bp->current_component ) {
+		} elseif ( isset( $bp->{$component}->root_slug ) && $bp->{$component}->root_slug === $bp->current_component ) {
 			$is_current_component = true;
 
 		// Because slugs can differ from root_slugs, we should check them too.
-		} elseif ( isset( $bp->{$component}->slug ) && $bp->{$component}->slug == $bp->current_component ) {
+		} elseif ( isset( $bp->{$component}->slug ) && $bp->{$component}->slug === $bp->current_component ) {
 			$is_current_component = true;
 
 		// Next, check to see whether $component is a canonical,
 		// non-translatable component name. If so, we can return its
 		// corresponding slug from $bp->active_components.
-		} elseif ( $key = array_search( $component, $bp->active_components ) ) {
+		} elseif ( $key = array_search( $component, $bp->active_components, true ) ) {
 			if ( strstr( $bp->current_component, $key ) ) {
 				$is_current_component = true;
 			}
@@ -1594,11 +1597,11 @@ function bp_is_current_component( $component = '' ) {
 			foreach ( $bp->active_components as $id ) {
 				// If the $component parameter does not match the current_component,
 				// then move along, these are not the droids you are looking for.
-				if ( empty( $bp->{$id}->root_slug ) || $bp->{$id}->root_slug != $bp->current_component ) {
+				if ( empty( $bp->{$id}->root_slug ) || $bp->{$id}->root_slug !== $bp->current_component ) {
 					continue;
 				}
 
-				if ( $id == $component ) {
+				if ( $id === $component ) {
 					$is_current_component = true;
 					break;
 				}
@@ -1664,15 +1667,15 @@ function bp_is_action_variable( $action_variable = '', $position = false ) {
 	if ( false !== $position ) {
 		// When a $position is specified, check that slot in the action_variables array.
 		if ( $action_variable ) {
-			$is_action_variable = $action_variable == bp_action_variable( $position );
+			$is_action_variable = $action_variable === bp_action_variable( $position );
 		} else {
 			// If no $action_variable is provided, we are essentially checking to see
 			// whether the slot is empty.
-			$is_action_variable = !bp_action_variable( $position );
+			$is_action_variable = ! bp_action_variable( $position );
 		}
 	} else {
 		// When no $position is specified, check the entire array.
-		$is_action_variable = in_array( $action_variable, (array)bp_action_variables() );
+		$is_action_variable = in_array( $action_variable, (array) bp_action_variables(), true );
 	}
 
 	/**
@@ -1900,7 +1903,7 @@ function bp_is_component_front_page( $component = '' ) {
 	 * @param bool   $value     Whether or not the specified component directory is set as front page.
 	 * @param string $component Current component being checked.
 	 */
-	return (bool) apply_filters( 'bp_is_component_front_page', ( $bp->pages->{$component}->id == $page_on_front ), $component );
+	return (bool) apply_filters( 'bp_is_component_front_page', ( (int) $bp->pages->{$component}->id === (int) $page_on_front ), $component );
 }
 
 /**
@@ -2260,7 +2263,7 @@ function bp_is_members_directory() {
  * @return bool True if the current page is part of the profile of the logged-in user.
  */
 function bp_is_my_profile() {
-	if ( is_user_logged_in() && bp_loggedin_user_id() == bp_displayed_user_id() ) {
+	if ( is_user_logged_in() && bp_loggedin_user_id() === bp_displayed_user_id() ) {
 		$my_profile = true;
 	} else {
 		$my_profile = false;
@@ -3017,7 +3020,8 @@ function bp_get_title_parts( $seplocation = 'right' ) {
 	if ( ! empty( $displayed_user_name ) && ! is_404() ) {
 
 		// Get the component's ID to try and get its name.
-		$component_id = $component_name = bp_current_component();
+		$component_name = bp_current_component();
+		$component_id   = $component_name;
 
 		// Set empty subnav name.
 		$component_subnav_name = '';
@@ -3037,10 +3041,13 @@ function bp_get_title_parts( $seplocation = 'right' ) {
 		}
 
 		if ( ! empty( $bp->members->nav ) ) {
-			$secondary_nav_item = $bp->members->nav->get_secondary( array(
-				'parent_slug' => $component_id,
-				'slug'        => bp_current_action()
-			), false );
+			$secondary_nav_item = $bp->members->nav->get_secondary(
+				array(
+					'parent_slug' => $component_id,
+					'slug'        => bp_current_action(),
+				),
+				false
+			);
 
 			if ( $secondary_nav_item ) {
 				$secondary_nav_item = reset( $secondary_nav_item );
@@ -3058,10 +3065,16 @@ function bp_get_title_parts( $seplocation = 'right' ) {
 
 		// Use component name on member pages.
 		} else {
-			$bp_title_parts = array_merge( $bp_title_parts, array_map( 'wp_strip_all_tags', array(
-				$displayed_user_name,
-				$component_name,
-			) ) );
+			$bp_title_parts = array_merge(
+				$bp_title_parts,
+				array_map(
+					'wp_strip_all_tags',
+					array(
+						$displayed_user_name,
+						$component_name,
+					)
+				)
+			);
 
 			// If we have a subnav name, add it separately for localization.
 			if ( ! empty( $component_subnav_name ) ) {
@@ -3074,10 +3087,13 @@ function bp_get_title_parts( $seplocation = 'right' ) {
 		$component_id = bp_current_component();
 
 		if ( ! empty( $bp->{$component_id}->nav ) ) {
-			$secondary_nav_item = $bp->{$component_id}->nav->get_secondary( array(
-				'parent_slug' => bp_current_item(),
-				'slug'        => bp_current_action()
-			), false );
+			$secondary_nav_item = $bp->{$component_id}->nav->get_secondary(
+				array(
+					'parent_slug' => bp_current_item(),
+					'slug'        => bp_current_action(),
+				),
+				false
+			);
 
 			if ( $secondary_nav_item ) {
 				$secondary_nav_item = reset( $secondary_nav_item );
@@ -3183,7 +3199,7 @@ function bp_the_body_class() {
 		/* Components ********************************************************/
 
 		if ( ! bp_is_blog_page() ) {
-			if ( bp_is_user_profile() )  {
+			if ( bp_is_user_profile() ) {
 				$bp_classes[] = 'xprofile';
 			}
 
@@ -3207,7 +3223,7 @@ function bp_the_body_class() {
 				$bp_classes[] = 'groups';
 			}
 
-			if ( bp_is_settings_component()  ) {
+			if ( bp_is_settings_component() ) {
 				$bp_classes[] = 'settings';
 			}
 		}
@@ -3218,7 +3234,8 @@ function bp_the_body_class() {
 			$bp_classes[] = 'bp-user';
 
 			// Add current user member types.
-			if ( $member_types = bp_get_member_type( bp_displayed_user_id(), false ) ) {
+			$member_types = bp_get_member_type( bp_displayed_user_id(), false );
+			if ( is_array( $member_types ) && ! empty( $member_types ) ) {
 				foreach ( $member_types as $member_type ) {
 					$bp_classes[] = sprintf( 'member-type-%s', esc_attr( $member_type ) );
 				}
@@ -3237,10 +3254,8 @@ function bp_the_body_class() {
 			if ( bp_is_user_activity() ) {
 				$bp_classes[] = 'my-activity';
 			}
-		} else {
-			if ( bp_get_current_member_type() || ( bp_is_groups_directory() && bp_get_current_group_directory_type() ) ) {
+		} elseif ( bp_get_current_member_type() || ( bp_is_groups_directory() && bp_get_current_group_directory_type() ) ) {
 				$bp_classes[] = 'type';
-			}
 		}
 
 		if ( bp_is_my_profile() ) {
@@ -3315,7 +3330,8 @@ function bp_the_body_class() {
 			$bp_classes[] = 'group-' . groups_get_current_group()->slug;
 
 			// Add current group types.
-			if ( $group_types = bp_groups_get_group_type( bp_get_current_group_id(), false ) ) {
+			$group_types = bp_groups_get_group_type( bp_get_current_group_id(), false );
+			if ( $group_types ) {
 				foreach ( $group_types as $group_type ) {
 					$bp_classes[] = sprintf( 'group-type-%s', esc_attr( $group_type ) );
 				}
@@ -3463,7 +3479,7 @@ add_filter( 'post_class', 'bp_get_the_post_class' );
  *             equal to, or greater than the second.
  */
 function _bp_nav_menu_sort( $a, $b ) {
-	if ( $a['position'] == $b['position'] ) {
+	if ( (int) $a['position'] === (int) $b['position'] ) {
 		return 0;
 	} elseif ( $a['position'] < $b['position'] ) {
 		return -1;
@@ -3498,7 +3514,7 @@ function bp_get_nav_menu_items( $component = 'members' ) {
 		}
 
 		// Add this menu.
-		$menu         = new stdClass;
+		$menu         = new stdClass();
 		$menu->class  = array( 'menu-parent' );
 		$menu->css_id = $nav_menu->css_id;
 		$menu->link   = $link;
@@ -3509,7 +3525,7 @@ function bp_get_nav_menu_items( $component = 'members' ) {
 			$submenus = array();
 
 			foreach ( $nav_menu->children as $sub_menu ) {
-				$submenu = new stdClass;
+				$submenu         = new stdClass();
 				$submenu->class  = array( 'menu-child' );
 				$submenu->css_id = $sub_menu->css_id;
 				$submenu->link   = $sub_menu->link;
@@ -3615,12 +3631,13 @@ function bp_nav_menu( $args = array() ) {
 	$args = apply_filters( 'bp_nav_menu_args', $args );
 	$args = (object) $args;
 
-	$items = $nav_menu = '';
+	$nav_menu       = '';
+	$items          = $nav_menu;
 	$show_container = false;
 
 	// Create custom walker if one wasn't set.
 	if ( empty( $args->walker ) ) {
-		$args->walker = new BP_Walker_Nav_Menu;
+		$args->walker = new BP_Walker_Nav_Menu();
 	}
 
 	// Sanitize values for class and ID.
@@ -3637,13 +3654,13 @@ function bp_nav_menu( $args = array() ) {
 		 *
 		 * @param array $value Array of allowed tags. Default 'div' and 'nav'.
 		 */
-		$allowed_tags = apply_filters( 'wp_nav_menu_container_allowedtags', array( 'div', 'nav', ) );
+		$allowed_tags = apply_filters( 'wp_nav_menu_container_allowedtags', array( 'div', 'nav' ) );
 
-		if ( in_array( $args->container, $allowed_tags ) ) {
+		if ( in_array( $args->container, $allowed_tags, true ) ) {
 			$show_container = true;
 
 			$class     = $args->container_class ? ' class="' . esc_attr( $args->container_class ) . '"' : ' class="menu-bp-container"';
-			$id        = $args->container_id    ? ' id="' . esc_attr( $args->container_id ) . '"'       : '';
+			$id        = $args->container_id ? ' id="' . esc_attr( $args->container_id ) . '"' : '';
 			$nav_menu .= '<' . $args->container . $id . $class . '>';
 		}
 	}
@@ -3668,9 +3685,9 @@ function bp_nav_menu( $args = array() ) {
 		$wrap_id = 'menu-bp';
 
 		// If a specific ID wasn't requested, and there are multiple menus on the same screen, make sure the autogenerated ID is unique.
-		while ( in_array( $wrap_id, $menu_id_slugs ) ) {
+		while ( in_array( $wrap_id, $menu_id_slugs, true ) ) {
 			if ( preg_match( '#-(\d+)$#', $wrap_id, $matches ) ) {
-				$wrap_id = preg_replace('#-(\d+)$#', '-' . ++$matches[1], $wrap_id );
+				$wrap_id = preg_replace( '#-(\d+)$#', '-' . ( ++$matches[1] ), $wrap_id );
 			} else {
 				$wrap_id = $wrap_id . '-1';
 			}
@@ -3691,8 +3708,8 @@ function bp_nav_menu( $args = array() ) {
 	$items = apply_filters( 'bp_nav_menu_items', $items, $args );
 
 	// Build the output.
-	$wrap_class  = $args->menu_class ? $args->menu_class : '';
-	$nav_menu   .= sprintf( $args->items_wrap, esc_attr( $wrap_id ), esc_attr( $wrap_class ), $items );
+	$wrap_class = $args->menu_class ? $args->menu_class : '';
+	$nav_menu  .= sprintf( $args->items_wrap, esc_attr( $wrap_id ), esc_attr( $wrap_class ), $items );
 	unset( $items );
 
 	// If we've wrapped the ul, close it.
@@ -3740,7 +3757,7 @@ function bp_email_the_salutation( $settings = array() ) {
 	 */
 	function bp_email_get_salutation( $settings = array() ) {
 		$email_type = bp_email_get_type();
-		$salutation  = '';
+		$salutation = '';
 
 		if ( $email_type ) {
 			$types_schema = bp_email_get_type_schema( 'named_salutation' );

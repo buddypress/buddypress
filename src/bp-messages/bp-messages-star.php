@@ -124,13 +124,14 @@ function bp_the_message_star_action_link( $args = array() ) {
 		$path_chunks = array( bp_get_messages_slug() );
 
 		// Define local variables.
-		$retval = $bulk_attr = '';
+		$bulk_attr = '';
+		$retval    = $bulk_attr;
 
 		// Thread ID.
 		if ( (int) $r['thread_id'] > 0 ) {
 
 			// See if we're in the loop.
-			if ( bp_get_message_thread_id() == $r['thread_id'] ) {
+			if ( bp_get_message_thread_id() === (int) $r['thread_id'] ) {
 
 				// Grab all message ids.
 				$mids = wp_list_pluck( $GLOBALS['messages_template']->thread->messages, 'id' );
@@ -178,7 +179,7 @@ function bp_the_message_star_action_link( $args = array() ) {
 				$path_chunks[] = array( $message_id, $nonce );
 			}
 
-			$title = $r["title_{$action}_thread"];
+			$title = $r[ "title_{$action}_thread" ];
 
 		// Message ID.
 		} else {
@@ -194,7 +195,7 @@ function bp_the_message_star_action_link( $args = array() ) {
 
 			$path_chunks[] = $action;
 			$path_chunks[] = array( $message_id, $nonce );
-			$title         = $r["title_{$action}"];
+			$title         = $r[ "title_{$action}" ];
 		}
 
 		$url = bp_members_get_user_url( $user_id, bp_members_get_path_chunks( $path_chunks ) );
@@ -220,7 +221,7 @@ function bp_the_message_star_action_link( $args = array() ) {
 		 * @param string $retval Link for starring / unstarring a message, including markup.
 		 * @param array  $r      Parsed link arguments. See $args in bp_get_the_message_star_action_link().
 		 */
-		return apply_filters( 'bp_get_the_message_star_action_link', '<a data-bp-tooltip="' . esc_attr( $title ) . '" class="bp-tooltip message-action-' . esc_attr( $action ) . '" data-star-status="' . esc_attr( $action ) .'" data-star-nonce="' . esc_attr( $nonce ) . '"' . $bulk_attr . ' data-message-id="' . esc_attr( (int) $message_id ) . '" href="' . $retval . '" role="button" aria-pressed="false"><span class="icon"></span> <span class="bp-screen-reader-text">' . $r['text_' . $action] . '</span></a>', $r );
+		return apply_filters( 'bp_get_the_message_star_action_link', '<a data-bp-tooltip="' . esc_attr( $title ) . '" class="bp-tooltip message-action-' . esc_attr( $action ) . '" data-star-status="' . esc_attr( $action ) . '" data-star-nonce="' . esc_attr( $nonce ) . '"' . $bulk_attr . ' data-message-id="' . esc_attr( (int) $message_id ) . '" href="' . $retval . '" role="button" aria-pressed="false"><span class="icon"></span> <span class="bp-screen-reader-text">' . $r[ 'text_' . $action ] . '</span></a>', $r );
 	}
 
 /**
@@ -263,44 +264,41 @@ function bp_messages_star_set_action( $args = array() ) {
 	}
 
 	// Check if user has access to thread.
-	if( ! messages_check_thread_access( $thread_id, $r['user_id'] ) ) {
+	if ( ! messages_check_thread_access( $thread_id, $r['user_id'] ) ) {
 		return false;
 	}
 
 	$is_starred = bp_messages_is_message_starred( $r['message_id'], $r['user_id'] );
 
 	// Star.
-	if ( 'star' == $r['action'] ) {
+	if ( 'star' === $r['action'] ) {
 		if ( true === $is_starred ) {
 			return true;
 		} else {
 			bp_messages_add_meta( $r['message_id'], 'starred_by_user', $r['user_id'] );
 			return true;
 		}
-	// Unstar.
-	} else {
-		// Unstar one message.
-		if ( false === $r['bulk'] ) {
-			if ( false === $is_starred ) {
-				return true;
-			} else {
-				bp_messages_delete_meta( $r['message_id'], 'starred_by_user', $r['user_id'] );
-				return true;
-			}
-
-		// Unstar all messages in a thread.
+	// Unstar one message.
+	} elseif ( false === $r['bulk'] ) {
+		if ( false === $is_starred ) {
+			return true;
 		} else {
-			$thread = new BP_Messages_Thread( $thread_id );
-			$mids = wp_list_pluck( $thread->messages, 'id' );
-
-			foreach ( $mids as $mid ) {
-				if ( true === bp_messages_is_message_starred( $mid, $r['user_id'] ) ) {
-					bp_messages_delete_meta( $mid, 'starred_by_user', $r['user_id'] );
-				}
-			}
-
+			bp_messages_delete_meta( $r['message_id'], 'starred_by_user', $r['user_id'] );
 			return true;
 		}
+
+	// Unstar all messages in a thread.
+	} else {
+		$thread = new BP_Messages_Thread( $thread_id );
+		$mids   = wp_list_pluck( $thread->messages, 'id' );
+
+		foreach ( $mids as $mid ) {
+			if ( true === bp_messages_is_message_starred( $mid, $r['user_id'] ) ) {
+				bp_messages_delete_meta( $mid, 'starred_by_user', $r['user_id'] );
+			}
+		}
+
+		return true;
 	}
 }
 
@@ -368,11 +366,13 @@ add_filter( 'bp_get_the_thread_message_css_class', 'bp_messages_star_message_css
  * @return array $r Array of starred message threads.
  */
 function bp_messages_filter_starred_message_threads( $r = array() ) {
-	$r['box'] = 'starred';
-	$r['meta_query'] = array( array(
-		'key'   => 'starred_by_user',
-		'value' => $r['user_id']
-	) );
+	$r['box']        = 'starred';
+	$r['meta_query'] = array(
+		array(
+			'key'   => 'starred_by_user',
+			'value' => $r['user_id'],
+		),
+	);
 
 	return $r;
 }

@@ -139,7 +139,7 @@ function bp_remove_caps() {
 function bp_map_meta_caps( $caps, $cap, $user_id, $args ) {
 
 	switch ( $cap ) {
-		case 'bp_view' :
+		case 'bp_view':
 			$caps = array( 'exist' );
 			if ( ! $user_id ) {
 
@@ -151,7 +151,7 @@ function bp_map_meta_caps( $caps, $cap, $user_id, $args ) {
 				}
 			}
 			break;
-		case 'bp_manage_users_and_membership_requests' :
+		case 'bp_manage_users_and_membership_requests':
 			$caps = bp_core_do_network_admin() ? array( 'manage_network_users' ) : array( 'edit_users' );
 			break;
 	}
@@ -205,7 +205,7 @@ function bp_get_caps_for_role( $role = '' ) {
 	switch ( $role ) {
 
 		// Administrator.
-		case 'administrator' :
+		case 'administrator':
 			$caps = array(
 				// Misc.
 				'bp_moderate',
@@ -214,11 +214,11 @@ function bp_get_caps_for_role( $role = '' ) {
 			break;
 
 		// All other default WordPress blog roles.
-		case 'editor'      :
-		case 'author'      :
-		case 'contributor' :
-		case 'subscriber'  :
-		default            :
+		case 'editor':
+		case 'author':
+		case 'contributor':
+		case 'subscriber':
+		default:
 			$caps = array();
 			break;
 	}
@@ -282,8 +282,8 @@ function bp_set_current_user_default_role() {
 function bp_current_user_can( $capability, $args = array() ) {
 	// Backward compatibility for older $blog_id parameter.
 	if ( is_int( $args ) ) {
-		$site_id = $args;
-		$args = array();
+		$site_id         = $args;
+		$args            = array();
 		$args['site_id'] = $site_id;
 
 	// New format for second parameter.

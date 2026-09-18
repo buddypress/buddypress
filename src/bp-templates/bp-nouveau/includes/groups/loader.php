@@ -2,6 +2,8 @@
 /**
  * BP Nouveau Groups
  *
+ * @package BuddyPress
+ * @subpackage bp-nouveau
  * @since 3.0.0
  * @version 12.0.0
  */
@@ -34,7 +36,7 @@ class BP_Nouveau_Groups {
 	 * @since 3.0.0
 	 */
 	protected function setup_globals() {
-		$this->dir                   = trailingslashit( dirname( __FILE__ ) );
+		$this->dir                   = trailingslashit( __DIR__ );
 		$this->is_group_home_sidebar = false;
 	}
 
@@ -54,11 +56,14 @@ class BP_Nouveau_Groups {
 
 		// Load AJAX code only on AJAX requests.
 		} else {
-			add_action( 'admin_init', function () {
+			add_action(
+				'admin_init',
+				function () {
 				if ( defined( 'DOING_AJAX' ) && true === DOING_AJAX && 0 === strpos( $_REQUEST['action'], 'groups_' ) ) {
 					require bp_nouveau()->groups->dir . 'ajax.php';
 				}
-			} );
+				}
+			);
 		}
 	}
 
@@ -186,6 +191,7 @@ class BP_Nouveau_Groups {
  * Launch the Groups loader class.
  *
  * @since 3.0.0
+ * @param BP_Nouveau|null $bp_nouveau Nouveau instance.
  */
 function bp_nouveau_groups( $bp_nouveau = null ) {
 	if ( is_null( $bp_nouveau ) ) {

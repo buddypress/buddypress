@@ -731,6 +731,30 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group bp_get_root_slug
+	 */
+	public function test_bp_get_root_slug_with_legacy_component_sentinels() {
+		$bp                      = buddypress();
+		$active_components       = $bp->active_components;
+		$had_foo_component       = isset( $bp->foo );
+		$previous_foo_component  = $had_foo_component ? $bp->foo : null;
+		$bp->foo                 = new stdClass();
+		$bp->foo->root_slug      = 'foo-root';
+
+		foreach ( array( 1, '1' ) as $sentinel ) {
+			$bp->active_components['foo'] = $sentinel;
+			$this->assertSame( 'foo-root', bp_get_root_slug( 'foo' ) );
+		}
+
+		$bp->active_components = $active_components;
+		if ( $had_foo_component ) {
+			$bp->foo = $previous_foo_component;
+		} else {
+			unset( $bp->foo );
+		}
+	}
+
+	/**
 	 * @group bp_is_active
 	 */
 	public function test_bp_is_active_feature() {

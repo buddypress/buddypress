@@ -17,7 +17,6 @@ defined( 'ABSPATH' ) || exit;
  * Register the activity actions for the Extended Profile component.
  *
  * @since 1.0.0
- *
  */
 function xprofile_register_activity_actions() {
 
@@ -217,14 +216,16 @@ function bp_xprofile_updated_profile_activity( $user_id, $field_ids = array(), $
 	}
 
 	// Throttle to one activity of this type per 2 hours.
-	$existing = bp_activity_get( array(
-		'max'    => 1,
-		'filter' => array(
-			'user_id' => $user_id,
-			'object'  => buddypress()->profile->id,
-			'action'  => 'updated_profile',
-		),
-	) );
+	$existing = bp_activity_get(
+		array(
+			'max'    => 1,
+			'filter' => array(
+				'user_id' => $user_id,
+				'object'  => buddypress()->profile->id,
+				'action'  => 'updated_profile',
+			),
+		)
+	);
 
 	// Default throttle time is 2 hours. Filter to change (in seconds).
 	if ( ! empty( $existing['activities'] ) ) {
@@ -252,12 +253,14 @@ function bp_xprofile_updated_profile_activity( $user_id, $field_ids = array(), $
 		bp_members_get_path_chunks( array( bp_get_profile_slug() ) )
 	);
 
-	return (bool) xprofile_record_activity( array(
-		'user_id'      => $user_id,
-		'primary_link' => $profile_link,
-		'component'    => buddypress()->profile->id,
-		'type'         => 'updated_profile',
-	) );
+	return (bool) xprofile_record_activity(
+		array(
+			'user_id'      => $user_id,
+			'primary_link' => $profile_link,
+			'component'    => buddypress()->profile->id,
+			'type'         => 'updated_profile',
+		)
+	);
 }
 add_action( 'xprofile_updated_profile', 'bp_xprofile_updated_profile_activity', 10, 5 );
 
@@ -270,7 +273,7 @@ add_action( 'xprofile_updated_profile', 'bp_xprofile_updated_profile_activity', 
 function xprofile_activity_filter_options() {
 	?>
 
-	<option value="updated_profile"><?php esc_html_e( 'Profile Updates', 'buddypress' ) ?></option>
+	<option value="updated_profile"><?php esc_html_e( 'Profile Updates', 'buddypress' ); ?></option>
 
 	<?php
 }

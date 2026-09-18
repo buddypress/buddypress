@@ -91,7 +91,8 @@ class BP_Messages_Message {
 
 		$bp = buddypress();
 
-		if ( $message = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$bp->messages->table_name_messages} WHERE id = %d", $id ) ) ) {
+		$message = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$bp->messages->table_name_messages} WHERE id = %d", $id ) );
+		if ( $message ) {
 			$this->id        = (int) $message->id;
 			$this->thread_id = (int) $message->thread_id;
 			$this->sender_id = (int) $message->sender_id;
@@ -142,8 +143,8 @@ class BP_Messages_Message {
 			$new_thread           = true;
 			$insert_message_query = $wpdb->prepare(
 				"INSERT INTO {$bp->messages->table_name_messages} "
-				. "( thread_id, sender_id, subject, message, date_sent ) "
-				. "VALUES ( " . "( SELECT IFNULL(MAX(m.thread_id), 0) FROM {$bp->messages->table_name_messages} m ) + 1, " . "%d, %s, %s, %s )",
+				. '( thread_id, sender_id, subject, message, date_sent ) '
+				. 'VALUES ( ' . "( SELECT IFNULL(MAX(m.thread_id), 0) FROM {$bp->messages->table_name_messages} m ) + 1, " . '%d, %s, %s, %s )',
 				$this->sender_id,
 				$this->subject,
 				$this->message,
@@ -152,8 +153,8 @@ class BP_Messages_Message {
 		} else { // Add a new message to an existing thread.
 			$insert_message_query = $wpdb->prepare(
 				"INSERT INTO {$bp->messages->table_name_messages} "
-				. "( thread_id, sender_id, subject, message, date_sent ) "
-				. "VALUES ( %d, %d, %s, %s, %s )",
+				. '( thread_id, sender_id, subject, message, date_sent ) '
+				. 'VALUES ( %d, %d, %s, %s, %s )',
 				$this->thread_id,
 				$this->sender_id,
 				$this->subject,
@@ -180,11 +181,11 @@ class BP_Messages_Message {
 			// Add an recipient entry for all recipients.
 			foreach ( (array) $this->recipients as $recipient ) {
 				$wpdb->query( $wpdb->prepare( "INSERT INTO {$bp->messages->table_name_recipients} ( user_id, thread_id, unread_count ) VALUES ( %d, %d, 1 )", $recipient->user_id, $this->thread_id ) );
-				$recipient_ids[] = $recipient->user_id;
+				$recipient_ids[] = (int) $recipient->user_id;
 			}
 
 			// Add a sender recipient entry if the sender is not in the list of recipients.
-			if ( ! in_array( $this->sender_id, $recipient_ids ) ) {
+			if ( ! in_array( (int) $this->sender_id, $recipient_ids, true ) ) {
 				$wpdb->query( $wpdb->prepare( "INSERT INTO {$bp->messages->table_name_recipients} ( user_id, thread_id, sender_only ) VALUES ( %d, %d, 1 )", $this->sender_id, $this->thread_id ) );
 			}
 		} else {
@@ -240,8 +241,9 @@ class BP_Messages_Message {
 		if ( is_array( $recipient_usernames ) ) {
 			$rec_un_count = count( $recipient_usernames );
 
-			for ( $i = 0, $count = $rec_un_count; $i < $count; ++ $i ) {
-				if ( $rid = bp_core_get_userid( trim( $recipient_usernames[ $i ] ) ) ) {
+			for ( $i = 0, $count = $rec_un_count; $i < $count; ++$i ) {
+				$rid = bp_core_get_userid( trim( $recipient_usernames[ $i ] ) );
+				if ( $rid ) {
 					$recipient_ids[] = $rid;
 				}
 			}

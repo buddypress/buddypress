@@ -2,6 +2,8 @@
 /**
  * Common functions only loaded on AJAX requests.
  *
+ * @package BuddyPress
+ * @subpackage bp-nouveau
  * @since 3.0.0
  * @version 12.0.0
  */
@@ -13,12 +15,17 @@ defined( 'ABSPATH' ) || exit;
  * Load the template loop for the current object.
  *
  * @since 3.0.0
- *
- * @return string Template loop for the specified object
  */
 function bp_nouveau_ajax_object_template_loader() {
+	$response = array(
+		'feedback' => sprintf(
+			'<div class="bp-feedback bp-messages error">%s</div>',
+			esc_html__( 'There was a problem displaying the content. Please try again.', 'buddypress' )
+		),
+	);
+
 	if ( ! bp_is_post_request() ) {
-		wp_send_json_error();
+		wp_send_json_error( $response );
 	}
 
 	$post_vars = bp_parse_args(
@@ -37,12 +44,16 @@ function bp_nouveau_ajax_object_template_loader() {
 
 	// Bail if object is not an active component to prevent arbitrary file inclusion.
 	if ( ! bp_is_active( $object ) ) {
-		wp_send_json_error();
+		wp_send_json_error( $response );
+	}
+
+	if ( ! bp_current_user_can( 'bp_view', array( 'bp_component' => $object ) ) ) {
+		wp_send_json_error( $response );
 	}
 
 	// Nonce check!
 	if ( ! $post_vars['nonce'] || ! wp_verify_nonce( $post_vars['nonce'], 'bp_nouveau_' . $object ) ) {
-		wp_send_json_error();
+		wp_send_json_error( $response );
 	}
 
 	$result = array();
@@ -105,6 +116,24 @@ function bp_nouveau_ajax_object_template_loader() {
 		bp_update_is_directory( true, bp_current_component() );
 	}
 
+	if ( 'activity' === $object && (int) bp_current_action() ) {
+		$activity_array = bp_activity_get_specific(
+			array(
+				'activity_ids'     => bp_current_action(),
+				'display_comments' => 'stream',
+			)
+		);
+
+		if ( ! empty( $activity_array['activities'][0] ) ) {
+			$activity = $activity_array['activities'][0];
+
+			// Ensure that the user is allowed to read the activity item.
+			if ( ! bp_activity_user_can_read( $activity ) ) {
+				wp_send_json_error( $response );
+			}
+		}
+	}
+
 	// Get the template path based on the 'template' variable via the AJAX request.
 	$template = '';
 	if ( $post_vars['template'] ) {
@@ -112,26 +141,26 @@ function bp_nouveau_ajax_object_template_loader() {
 	}
 
 	switch ( $template ) {
-		case 'group_members' :
-		case 'groups/single/members' :
+		case 'group_members':
+		case 'groups/single/members':
 			$template_part = 'groups/single/members-loop.php';
-		break;
+			break;
 
-		case 'group_requests' :
+		case 'group_requests':
 			$template_part = 'groups/single/requests-loop.php';
-		break;
+			break;
 
-		case 'friend_requests' :
+		case 'friend_requests':
 			$template_part = 'members/single/friends/requests-loop.php';
-		break;
+			break;
 
-		case 'member_notifications' :
+		case 'member_notifications':
 			$template_part = 'members/single/notifications/notifications-loop.php';
-		break;
+			break;
 
-		default :
+		default:
 			$template_part = $object . '/' . $object . '-loop.php';
-		break;
+			break;
 	}
 
 	ob_start();

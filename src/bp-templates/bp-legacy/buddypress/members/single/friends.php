@@ -11,9 +11,13 @@
 
 <div class="item-list-tabs no-ajax" id="subnav" aria-label="<?php esc_attr_e( 'Member secondary navigation', 'buddypress' ); ?>" role="navigation">
 	<ul>
-		<?php if ( bp_is_my_profile() ) bp_get_options_nav(); ?>
+		<?php
+		if ( bp_is_my_profile() ) {
+			bp_get_options_nav();
+		}
+		?>
 
-		<?php if ( !bp_is_current_action( 'requests' ) ) : ?>
+		<?php if ( ! bp_is_current_action( 'requests' ) ) : ?>
 
 			<li id="members-order-select" class="last filter">
 
@@ -30,7 +34,8 @@
 					 *
 					 * @since 2.0.0
 					 */
-					do_action( 'bp_member_friends_order_options' ); ?>
+					do_action( 'bp_member_friends_order_options' );
+					?>
 
 				</select>
 			</li>
@@ -44,16 +49,16 @@
 switch ( bp_current_action() ) :
 
 	// Home/My Friends
-	case 'my-friends' :
-
+	case 'my-friends':
 		/**
 		 * Fires before the display of member friends content.
 		 *
 		 * @since 1.2.0
 		 */
-		do_action( 'bp_before_member_friends_content' ); ?>
+		do_action( 'bp_before_member_friends_content' );
+		?>
 
-		<?php if (is_user_logged_in() ) : ?>
+		<?php if ( is_user_logged_in() ) : ?>
 			<h2 class="bp-screen-reader-text">
 				<?php
 					/* translators: accessibility text */
@@ -71,7 +76,7 @@ switch ( bp_current_action() ) :
 
 		<div class="members friends">
 
-			<?php bp_get_template_part( 'members/members-loop' ) ?>
+			<?php bp_get_template_part( 'members/members-loop' ); ?>
 
 		</div><!-- .members.friends -->
 
@@ -85,12 +90,12 @@ switch ( bp_current_action() ) :
 		do_action( 'bp_after_member_friends_content' );
 		break;
 
-	case 'requests' :
+	case 'requests':
 		bp_get_template_part( 'members/single/friends/requests' );
 		break;
 
 	// Any other
-	default :
+	default:
 		bp_get_template_part( 'members/single/plugins' );
 		break;
 endswitch;

@@ -4,9 +4,12 @@
  *
  * This template is only used to display the `created_group` activity type content.
  *
+ * @package BuddyPress
+ * @subpackage bp-legacy
  * @since 10.0.0
  * @version 12.0.0
  */
+
 ?>
 <div class="bp-group-activity-preview">
 
@@ -32,7 +35,7 @@
 		</p>
 
 		<div class="bp-profile-button">
-			<a href="<?php bp_activity_generated_content_part( 'group_url' ); ?>" class="button large primary button-primary" role="button"><?php esc_html_e( 'View group', 'buddypress'); ?></a>
+			<a href="<?php bp_activity_generated_content_part( 'group_url' ); ?>" class="button large primary button-primary" role="button"><?php esc_html_e( 'View group', 'buddypress' ); ?></a>
 		</div>
 	</div>
 </div>

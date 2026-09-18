@@ -669,9 +669,13 @@ function bp_message_thread_total_count( $thread_id = false ) {
 			$thread_id = bp_get_message_thread_id();
 		}
 
-		$thread_template = new BP_Messages_Thread_Template( $thread_id, 'ASC', array(
-			'update_meta_cache' => false
-		) );
+		$thread_template = new BP_Messages_Thread_Template(
+			$thread_id,
+			'ASC',
+			array(
+				'update_meta_cache' => false,
+			)
+		);
 
 		$count = 0;
 		if ( ! empty( $thread_template->message_count ) ) {
@@ -924,7 +928,7 @@ function bp_messages_pagination_count() {
 	$to_num    = bp_core_number_format( ( $start_num + ( $messages_template->pag_num - 1 ) > $messages_template->total_thread_count ) ? $messages_template->total_thread_count : $start_num + ( $messages_template->pag_num - 1 ) );
 	$total     = bp_core_number_format( $messages_template->total_thread_count );
 
-	if ( 1 == $messages_template->total_thread_count ) {
+	if ( 1 === $messages_template->total_thread_count ) {
 		$message = __( 'Viewing 1 message', 'buddypress' );
 	} else {
 		/* translators: 1: message from number. 2: message to number. 3: total messages. */
@@ -946,9 +950,9 @@ function bp_message_search_form() {
 	$default_search_value = bp_get_search_default_text( 'messages' );
 
 	// Setup a few values based on what's being searched for.
-	$search_submitted     = ! empty( $_REQUEST['s'] ) ? stripslashes( $_REQUEST['s'] ) : $default_search_value;
-	$search_placeholder   = ( $search_submitted === $default_search_value ) ? ' placeholder="' .  esc_attr( $search_submitted ) . '"' : '';
-	$search_value         = ( $search_submitted !== $default_search_value ) ? ' value="'       .  esc_attr( $search_submitted ) . '"' : '';
+	$search_submitted   = ! empty( $_REQUEST['s'] ) ? stripslashes( $_REQUEST['s'] ) : $default_search_value;
+	$search_placeholder = ( $search_submitted === $default_search_value ) ? ' placeholder="' . esc_attr( $search_submitted ) . '"' : '';
+	$search_value       = ( $search_submitted !== $default_search_value ) ? ' value="' . esc_attr( $search_submitted ) . '"' : '';
 
 	// phpcs:disable WordPress.Security.EscapeOutput
 
@@ -957,10 +961,12 @@ function bp_message_search_form() {
 	?>
 
 	<form action="" method="get" id="search-message-form">
-		<label for="messages_search" class="bp-screen-reader-text"><?php
+		<label for="messages_search" class="bp-screen-reader-text">
+		<?php
 			/* translators: accessibility text */
 			esc_html_e( 'Search Messages', 'buddypress' );
-		?></label>
+		?>
+		</label>
 		<input type="text" name="s" id="messages_search"<?php echo $search_placeholder . $search_value; ?> />
 		<input type="submit" class="button" id="messages_search_submit" name="messages_search_submit" value="<?php esc_html_e( 'Search', 'buddypress' ); ?>" />
 	</form>
@@ -1003,7 +1009,7 @@ function bp_messages_form_action() {
 		 *
 		 * @param string $url The form action.
 		 */
-		return apply_filters( 'bp_get_messages_form_action',$url );
+		return apply_filters( 'bp_get_messages_form_action', $url );
 	}
 
 /**
@@ -1031,7 +1037,7 @@ function bp_messages_username_value() {
 			 * @param string $value Default user name.
 			 */
 			return apply_filters( 'bp_get_messages_username_value', $_COOKIE['bp_messages_send_to'] );
-		} elseif ( isset( $_GET['r'] ) && !isset( $_COOKIE['bp_messages_send_to'] ) ) {
+		} elseif ( isset( $_GET['r'] ) && ! isset( $_COOKIE['bp_messages_send_to'] ) ) {
 			/** This filter is documented in bp-messages-template.php */
 			return apply_filters( 'bp_get_messages_username_value', $_GET['r'] );
 		}
@@ -1111,21 +1117,23 @@ function bp_messages_content_value() {
 function bp_messages_options() {
 ?>
 
-	<label for="message-type-select" class="bp-screen-reader-text"><?php
+	<label for="message-type-select" class="bp-screen-reader-text">
+	<?php
 		/* translators: accessibility text */
 		esc_html_e( 'Select:', 'buddypress' );
-	?></label>
+	?>
+	</label>
 	<select name="message-type-select" id="message-type-select">
 		<option value=""><?php esc_html_e( 'Select', 'buddypress' ); ?></option>
-		<option value="read"><?php echo esc_html_x('Read', 'Message dropdown filter', 'buddypress') ?></option>
-		<option value="unread"><?php echo esc_html_x('Unread', 'Message dropdown filter', 'buddypress') ?></option>
-		<option value="all"><?php echo esc_html_x('All', 'Message dropdown filter', 'buddypress') ?></option>
+		<option value="read"><?php echo esc_html_x( 'Read', 'Message dropdown filter', 'buddypress' ); ?></option>
+		<option value="unread"><?php echo esc_html_x( 'Unread', 'Message dropdown filter', 'buddypress' ); ?></option>
+		<option value="all"><?php echo esc_html_x( 'All', 'Message dropdown filter', 'buddypress' ); ?></option>
 	</select> &nbsp;
 
 	<?php if ( ! bp_is_current_action( 'sentbox' ) && ! bp_is_current_action( 'notices' ) ) : ?>
 
-		<a href="#" id="mark_as_read"><?php echo esc_html_x('Mark as Read', 'Message management markup', 'buddypress') ?></a> &nbsp;
-		<a href="#" id="mark_as_unread"><?php echo esc_html_x('Mark as Unread', 'Message management markup', 'buddypress') ?></a> &nbsp;
+		<a href="#" id="mark_as_read"><?php echo esc_html_x( 'Mark as Read', 'Message management markup', 'buddypress' ); ?></a> &nbsp;
+		<a href="#" id="mark_as_unread"><?php echo esc_html_x( 'Mark as Unread', 'Message management markup', 'buddypress' ); ?></a> &nbsp;
 
 		<?php wp_nonce_field( 'bp_messages_mark_messages_read', 'mark-messages-read-nonce', false ); ?>
 		<?php wp_nonce_field( 'bp_messages_mark_messages_unread', 'mark-messages-unread-nonce', false ); ?>
@@ -1144,9 +1152,11 @@ function bp_messages_options() {
  */
 function bp_messages_bulk_management_dropdown() {
 	?>
-	<label class="bp-screen-reader-text" for="messages-select"><?php
+	<label class="bp-screen-reader-text" for="messages-select">
+	<?php
 		esc_html_e( 'Select Bulk Action', 'buddypress' );
-	?></label>
+	?>
+	</label>
 	<select name="messages_bulk_action" id="messages-select">
 		<option value="" selected="selected"><?php esc_html_e( 'Bulk Actions', 'buddypress' ); ?></option>
 		<option value="read"><?php esc_html_e( 'Mark read', 'buddypress' ); ?></option>
@@ -1436,10 +1446,10 @@ function bp_message_activate_deactivate_text() {
 	function bp_get_message_activate_deactivate_text() {
 		global $messages_template;
 
-		if ( 1 === (int) $messages_template->thread->is_active  ) {
-			$text = __('Deactivate', 'buddypress');
+		if ( 1 === (int) $messages_template->thread->is_active ) {
+			$text = __( 'Deactivate', 'buddypress' );
 		} else {
-			$text = __('Activate', 'buddypress');
+			$text = __( 'Activate', 'buddypress' );
 		}
 
 		/**
@@ -1486,7 +1496,6 @@ function bp_message_notice_dismiss_link() {
  * Output the messages component slug.
  *
  * @since 1.5.0
- *
  */
 function bp_messages_slug() {
 	echo esc_attr( bp_get_messages_slug() );
@@ -1531,7 +1540,7 @@ function bp_message_get_notices() {
 			?>
 			<div id="message" class="info notice" rel="n-<?php echo esc_attr( $notice->id ); ?>">
 				<strong><?php bp_message_notice_subject( $notice ); ?></strong>
-				<a href="<?php bp_message_notice_dismiss_link(); ?>" id="close-notice" class="bp-tooltip button" data-bp-tooltip="<?php esc_attr_e( 'Dismiss this notice', 'buddypress' ) ?>"><span class="bp-screen-reader-text"><?php esc_html_e( 'Dismiss this notice', 'buddypress' ) ?></span> <span aria-hidden="true">&Chi;</span></a>
+				<a href="<?php bp_message_notice_dismiss_link(); ?>" id="close-notice" class="bp-tooltip button" data-bp-tooltip="<?php esc_attr_e( 'Dismiss this notice', 'buddypress' ); ?>"><span class="bp-screen-reader-text"><?php esc_html_e( 'Dismiss this notice', 'buddypress' ); ?></span> <span aria-hidden="true">&Chi;</span></a>
 				<?php bp_message_notice_text( $notice ); ?>
 				<?php wp_nonce_field( 'bp_messages_close_notice', 'close-notice-nonce' ); ?>
 			</div>
@@ -1581,7 +1590,6 @@ function bp_send_private_message_link() {
  * Explicitly named function to avoid confusion with public messages.
  *
  * @since 1.2.6
- *
  */
 function bp_send_private_message_button() {
 	// Escaping is done in `BP_Core_HTML_Element()`.
@@ -1717,7 +1725,8 @@ function bp_message_get_recipient_tabs() {
 			? bp_core_get_userid( $recipient )
 			: bp_core_get_userid_from_nicename( $recipient );
 
-		if ( ! empty( $user_id ) ) : ?>
+		if ( ! empty( $user_id ) ) :
+		?>
 
 			<li id="un-<?php echo esc_attr( $recipient ); ?>" class="friend-tab">
 				<span>
@@ -1728,7 +1737,7 @@ function bp_message_get_recipient_tabs() {
 								'item_id' => $user_id,
 								'type'    => 'thumb',
 								'width'   => 15,
-								'height'  => 15
+								'height'  => 15,
 							)
 						);
 
@@ -1738,7 +1747,8 @@ function bp_message_get_recipient_tabs() {
 				</span>
 			</li>
 
-		<?php endif;
+		<?php
+		endif;
 	}
 }
 
@@ -2233,7 +2243,7 @@ function bp_the_thread_message_sender_avatar( $args = '' ) {
 					'type'    => $r['type'],
 					'width'   => $r['width'],
 					'height'  => $r['height'],
-					'alt'     => bp_core_get_user_displayname( $thread_template->message->sender_id )
+					'alt'     => bp_core_get_user_displayname( $thread_template->message->sender_id ),
 				)
 			),
 			$r

@@ -241,7 +241,7 @@ class BP_Signup {
 		 * an activation link has been resent.
 		 */
 		$sent_at = mysql2date( 'U', $this->date_sent );
-		$now     = current_time( 'timestamp', true );
+		$now     = time();
 		$diff    = $now - $sent_at;
 
 		/**
@@ -567,7 +567,7 @@ class BP_Signup {
 				'user_login'   => $user_login,
 				'user_pass'    => $user_password,
 				'display_name' => sanitize_title( $user_login ),
-				'user_email'   => $user_email
+				'user_email'   => $user_email,
 			)
 		);
 
@@ -583,7 +583,7 @@ class BP_Signup {
 		// wp_insert_user(), but we delete them so that inactive
 		// signups don't appear in various user counts.
 		delete_user_option( $user_id, 'capabilities' );
-		delete_user_option( $user_id, 'user_level'   );
+		delete_user_option( $user_id, 'user_level' );
 
 		// Set any profile data.
 		if ( bp_is_active( 'xprofile' ) ) {
@@ -591,11 +591,11 @@ class BP_Signup {
 				$profile_field_ids = explode( ',', $usermeta['profile_field_ids'] );
 
 				foreach ( (array) $profile_field_ids as $field_id ) {
-					if ( empty( $usermeta["field_{$field_id}"] ) ) {
+					if ( empty( $usermeta[ "field_{$field_id}" ] ) ) {
 						continue;
 					}
 
-					$current_field = $usermeta["field_{$field_id}"];
+					$current_field = $usermeta[ "field_{$field_id}" ];
 					xprofile_set_field_data( $field_id, $user_id, $current_field );
 
 					/*
@@ -642,7 +642,7 @@ class BP_Signup {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param  int      $user_id ID of the user being checked.
+	 * @param  int $user_id ID of the user being checked.
 	 * @return int|bool          The status if found, otherwise false.
 	 */
 	public static function check_user_status( $user_id = 0 ) {
@@ -988,7 +988,8 @@ class BP_Signup {
 			)
 		);
 
-		if ( ! $signups = $to_activate['signups'] ) {
+		$signups = $to_activate['signups'];
+		if ( ! $signups ) {
 			return false;
 		}
 
@@ -1027,7 +1028,6 @@ class BP_Signup {
 				} else {
 					$result['errors'][ $signup->signup_id ] = array( $signup->user_login, $user->get_error_message() );
 				}
-
 			} else {
 				$result['activated'][] = $user;
 			}
@@ -1076,7 +1076,8 @@ class BP_Signup {
 			)
 		);
 
-		if ( ! $signups = $to_delete['signups'] ) {
+		$signups = $to_delete['signups'];
+		if ( ! $signups ) {
 			return false;
 		}
 
@@ -1096,7 +1097,7 @@ class BP_Signup {
 
 			if ( ! empty( $user_id ) && $signup->activation_key === bp_get_user_meta( $user_id, 'activation_key', true ) ) {
 
-				if ( 2 != self::check_user_status( $user_id ) ) {
+				if ( 2 !== (int) self::check_user_status( $user_id ) ) {
 
 					// Status is not 2, so user's account has been activated.
 					$result['errors'][ $signup->signup_id ] = array( $signup->user_login, esc_html__( 'the sign-up has already been activated.', 'buddypress' ) );
@@ -1115,9 +1116,9 @@ class BP_Signup {
 					// Signups table.
 					buddypress()->members->table_name_signups,
 					// Where.
-					array( 'signup_id' => $signup->signup_id, ),
+					array( 'signup_id' => $signup->signup_id ),
 					// WHERE sanitization format.
-					array( '%d', )
+					array( '%d' )
 				);
 
 				$result['deleted'][] = $signup->signup_id;

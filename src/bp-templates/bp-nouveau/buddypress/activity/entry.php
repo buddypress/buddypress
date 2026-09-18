@@ -5,6 +5,8 @@
  * This template is used by activity-loop.php and AJAX functions to show
  * each activity.
  *
+ * @package BuddyPress
+ * @subpackage bp-nouveau
  * @since 3.0.0
  * @version 14.0.0
  */
@@ -37,7 +39,7 @@ bp_nouveau_activity_hook( 'before', 'entry' ); ?>
 
 			<div class="activity-inner">
 
-				<?php bp_get_template_part( 'activity/type-parts/content',  bp_activity_type_part() ); ?>
+				<?php bp_get_template_part( 'activity/type-parts/content', bp_activity_type_part() ); ?>
 
 			</div>
 

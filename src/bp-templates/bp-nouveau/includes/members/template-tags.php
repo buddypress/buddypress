@@ -2,6 +2,8 @@
 /**
  * Members template tags
  *
+ * @package BuddyPress
+ * @subpackage bp-nouveau
  * @since 3.0.0
  * @version 12.0.0
  */
@@ -79,8 +81,8 @@ function bp_nouveau_after_members_directory_content() {
  *
  * @since 3.0.0
  *
- * @param string $when   'before' or 'after'
- * @param string $suffix Use it to add terms at the end of the hook name
+ * @param string $when   'before' or 'after'.
+ * @param string $suffix Use it to add terms at the end of the hook name.
  */
 function bp_nouveau_member_hook( $when = '', $suffix = '' ) {
 	$hook = array( 'bp' );
@@ -210,11 +212,12 @@ function bp_nouveau_members_loop_buttons( $args = array() ) {
 	 *
 	 * @since 3.0.0
 	 *
+	 * @param array $args Arguments used to build the buttons.
 	 * @return array
 	 */
 	function bp_nouveau_get_members_buttons( $args ) {
 		$buttons = array();
-		$type = ( ! empty( $args['type'] ) ) ? $args['type'] : '';
+		$type    = ( ! empty( $args['type'] ) ) ? $args['type'] : '';
 
 		// @todo Not really sure why BP Legacy needed to do this...
 		if ( 'profile' === $type && is_admin() && ! ( defined( 'DOING_AJAX' ) && DOING_AJAX ) ) {
@@ -241,14 +244,14 @@ function bp_nouveau_members_loop_buttons( $args = array() ) {
 		 */
 		$parent_element = false;
 
-		if ( ! empty( $args['container'] ) && 'ul' === $args['container']  ) {
+		if ( ! empty( $args['container'] ) && 'ul' === $args['container'] ) {
 			$parent_element = 'li';
 		} elseif ( ! empty( $args['parent_element'] ) ) {
 			$parent_element = $args['parent_element'];
 		}
 
 		if ( ! empty( $args['button_element'] ) ) {
-			$button_element = $args['button_element'] ;
+			$button_element = $args['button_element'];
 		} else {
 			$button_element = 'button';
 		}
@@ -272,14 +275,15 @@ function bp_nouveau_members_loop_buttons( $args = array() ) {
 						'link_text'         => _x( 'Accept', 'button', 'buddypress' ),
 						'parent_attr'       => array(
 							'id'    => '',
-							'class' => $parent_class ,
+							'class' => $parent_class,
 						),
 						'button_element'    => $button_element,
 						'button_attr'       => array(
 							'class'           => 'button accept',
 							'rel'             => '',
 						),
-					), 'reject_friendship' => array(
+					),
+					'reject_friendship' => array(
 						'id'                => 'reject_friendship',
 						'position'          => 15,
 						'component'         => 'friends',
@@ -291,7 +295,7 @@ function bp_nouveau_members_loop_buttons( $args = array() ) {
 							'class' => $parent_class,
 						),
 						'button_element'    => $button_element,
-						'button_attr'       => array (
+						'button_attr'       => array(
 							'class'           => 'button reject',
 							'rel'             => '',
 						),
@@ -338,7 +342,7 @@ function bp_nouveau_members_loop_buttons( $args = array() ) {
 					if ( 'button' === $button_element && 'awaiting_response' !== $button_args['id'] ) {
 						$buttons['member_friendship']['button_attr']['data-bp-nonce'] = $button_args['link_href'];
 					} else {
-						$buttons['member_friendship']['button_element'] = 'a';
+						$buttons['member_friendship']['button_element']      = 'a';
 						$buttons['member_friendship']['button_attr']['href'] = $button_args['link_href'];
 					}
 				}
@@ -430,7 +434,7 @@ function bp_nouveau_members_loop_buttons( $args = array() ) {
 
 		// It's the first entry of the loop, so build the Group and sort it
 		if ( ! isset( bp_nouveau()->members->member_buttons ) || ! is_a( bp_nouveau()->members->member_buttons, 'BP_Buttons_Group' ) ) {
-			$sort = true;
+			$sort                                 = true;
 			bp_nouveau()->members->member_buttons = new BP_Buttons_Group( $buttons_group );
 
 		// It's not the first entry, the order is set, we simply need to update the Buttons Group
@@ -474,8 +478,6 @@ function bp_nouveau_member_has_meta() {
  * Display the member meta.
  *
  * @since 3.0.0
- *
- * @return string HTML Output.
  */
 function bp_nouveau_member_meta() {
 	// Escaping is made in `bp_nouveau_get_member_meta()`.
@@ -635,8 +637,6 @@ function bp_nouveau_member_template_part() {
  * Use the appropriate Member header and enjoy a template hierarchy
  *
  * @since 3.0.0
- *
- * @return string HTML Output
  */
 function bp_nouveau_member_header_template_part() {
 	$template = 'member-header';
@@ -707,8 +707,6 @@ function bp_nouveau_members_get_customizer_widgets_link() {
  * @since 3.0.0
  *
  * @param int $user_id Optional.
- *
- * @return string HTML output.
  */
 function bp_nouveau_member_description( $user_id = 0 ) {
 	if ( ! $user_id ) {
@@ -743,8 +741,6 @@ function bp_nouveau_member_description( $user_id = 0 ) {
  * @since 3.0.0
  *
  * @todo replace with Ajax feature
- *
- * @return string HTML Output
  */
 function bp_nouveau_member_description_edit_link() {
 	// Escaping is made in `bp_nouveau_member_get_description_edit_link()`.
@@ -754,6 +750,7 @@ function bp_nouveau_member_description_edit_link() {
 
 	/**
 	 * Get the Edit profile link (temporary)
+	 *
 	 * @todo  replace with Ajax featur
 	 *
 	 * @since 3.0.0
@@ -783,6 +780,7 @@ function bp_nouveau_member_description_edit_link() {
  * before and after the WP User's Profile.
  *
  * @since 3.0.0
+ * @param string $type Whether to fire hooks before or after the profile loop.
  */
 function bp_nouveau_wp_profile_hooks( $type = 'before' ) {
 	if ( 'before' === $type ) {

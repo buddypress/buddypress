@@ -24,7 +24,7 @@ class BP_XProfile_Field_Type_Checkbox_Acceptance extends BP_XProfile_Field_Type 
 	 *
 	 * @since 8.0.0
 	 *
-	 * @return string The Checkbox Acceptance field's visibility setting.
+	 * @var string The Checkbox Acceptance field's visibility setting.
 	 */
 	public $visibility = 'adminsonly';
 
@@ -120,7 +120,8 @@ class BP_XProfile_Field_Type_Checkbox_Acceptance extends BP_XProfile_Field_Type 
 
 		<?php if ( bp_get_the_profile_field_description() ) : ?>
 			<p class="description" tabindex="0"><?php bp_the_profile_field_description(); ?></p>
-		<?php endif;
+		<?php
+		endif;
 	}
 
 	/**
@@ -161,7 +162,8 @@ class BP_XProfile_Field_Type_Checkbox_Acceptance extends BP_XProfile_Field_Type 
 				);
 				?>
 			</label>
-		<?php endif;
+		<?php
+		endif;
 	}
 
 	/**
@@ -173,13 +175,13 @@ class BP_XProfile_Field_Type_Checkbox_Acceptance extends BP_XProfile_Field_Type 
 	 * @param string            $control_type  Control type.
 	 */
 	public function admin_new_field_html( BP_XProfile_Field $current_field, $control_type = '' ) {
-		$type = array_search( get_class( $this ), bp_xprofile_get_field_types() );
+		$type = array_search( get_class( $this ), bp_xprofile_get_field_types(), true );
 
 		if ( false === $type ) {
 			return;
 		}
 
-		$class   = $current_field->type != $type ? 'display: none;' : '';
+		$class   = $current_field->type !== $type ? 'display: none;' : '';
 		$page_id = bp_xprofile_get_meta( $current_field->id, 'field', 'bp_xprofile_checkbox_acceptance_page', true );
 		?>
 
@@ -343,7 +345,7 @@ class BP_XProfile_Field_Type_Checkbox_Acceptance extends BP_XProfile_Field_Type 
 	 *
 	 * @since 8.0.0
 	 *
-	 * @param string|int $values value.
+	 * @param string|int $value Value to validate.
 	 * @return bool
 	 */
 	public function is_valid( $value ) {

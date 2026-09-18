@@ -288,7 +288,7 @@ class BP_Messages_Box_Template {
 	 * @return BP_Messages_Thread The next member to iterate over.
 	 */
 	public function next_thread() {
-		$this->current_thread++;
+		++$this->current_thread;
 		$this->thread = $this->threads[ $this->current_thread ];
 
 		return $this->thread;

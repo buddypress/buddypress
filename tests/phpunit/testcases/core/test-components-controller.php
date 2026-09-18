@@ -346,6 +346,34 @@ class BP_Tests_Components_REST_Controller extends BP_Test_REST_Controller_Testca
 	}
 
 	/**
+	 * @group update_item
+	 */
+	public function test_update_item_site_admin_only() {
+		$u = static::factory()->user->create(
+			array(
+				'role' => 'author',
+			)
+		);
+
+		$this->bp::set_current_user( $u );
+
+		// Snapshot so we can prove no component was toggled.
+		$before = bp_get_option( 'bp-active-components' );
+
+		$request = new WP_REST_Request( 'PUT', $this->endpoint_url );
+		$request->set_query_params( array(
+			'name'   => 'friends',
+			'action' => 'deactivate',
+		) );
+		$response = $this->server->dispatch( $request );
+
+		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, 403 );
+
+		// The component toggle must not have executed.
+		$this->assertSame( $before, bp_get_option( 'bp-active-components' ) );
+	}
+
+	/**
 	 * @group delete_item
 	 */
 	public function test_delete_item() {

@@ -24,7 +24,7 @@ defined( 'ABSPATH' ) || exit;
  */
 function bp_xprofile_map_meta_caps( $caps, $cap, $user_id, $args ) {
 	switch ( $cap ) {
-		case 'bp_xprofile_change_field_visibility' :
+		case 'bp_xprofile_change_field_visibility':
 			$caps = array( 'exist' );
 
 			// You may pass args manually: $field_id, $profile_user_id.
@@ -38,19 +38,19 @@ function bp_xprofile_map_meta_caps( $caps, $cap, $user_id, $args ) {
 			}
 
 			// Visibility on the fullname field is not editable.
-			if ( 1 == $field_id ) {
+			if ( 1 === $field_id ) {
 				$caps[] = 'do_not_allow';
 				break;
 			}
 
 			// Has the admin disabled visibility modification for this field?
-			if ( 'disabled' == bp_xprofile_get_meta( $field_id, 'field', 'allow_custom_visibility' ) ) {
+			if ( 'disabled' === bp_xprofile_get_meta( $field_id, 'field', 'allow_custom_visibility' ) ) {
 				$caps[] = 'do_not_allow';
 				break;
 			}
 
 			// Friends don't let friends edit each other's visibility.
-			if ( $profile_user_id != bp_displayed_user_id() && ! bp_current_user_can( 'bp_moderate' ) ) {
+			if ( $profile_user_id !== bp_displayed_user_id() && ! bp_current_user_can( 'bp_moderate' ) ) {
 				$caps[] = 'do_not_allow';
 				break;
 			}
@@ -77,9 +77,9 @@ add_filter( 'bp_map_meta_caps', 'bp_xprofile_map_meta_caps', 10, 4 );
  *
  * @since 2.7.1
  *
- * @param bool   $user_can
- * @param int    $user_id
- * @param string $capability
+ * @param bool   $user_can    Whether the user can perform the action.
+ * @param int    $user_id     ID of the user being checked.
+ * @param string $capability  Capability being checked.
  * @return bool
  */
 function bp_xprofile_grant_bp_xprofile_change_field_visibility_for_logged_out_users( $user_can, $user_id, $capability ) {

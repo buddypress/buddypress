@@ -10,7 +10,7 @@
 /** This action is documented in bp-templates/bp-legacy/buddypress/members/single/settings/profile.php */
 do_action( 'bp_before_member_settings_template' ); ?>
 
-<h2><?php esc_html_e( 'Data Export', 'buddypress' );?></h2>
+<h2><?php esc_html_e( 'Data Export', 'buddypress' ); ?></h2>
 
 <?php $request = bp_settings_get_personal_data_request(); ?>
 
@@ -84,7 +84,7 @@ do_action( 'bp_before_member_settings_template' ); ?>
 				esc_html__( 'You may delete your account by visiting the %s page.', 'buddypress' ),
 				sprintf(
 					'<a href="%1$s">%2$s</a>',
-					esc_url( bp_displayed_user_url( bp_members_get_path_chunks( array( bp_get_settings_slug(), 'delete-account'  ) ) ) ),
+					esc_url( bp_displayed_user_url( bp_members_get_path_chunks( array( bp_get_settings_slug(), 'delete-account' ) ) ) ),
 					esc_html__( 'Delete Account', 'buddypress' )
 				)
 			);

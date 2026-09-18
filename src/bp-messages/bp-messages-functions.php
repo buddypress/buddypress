@@ -56,6 +56,8 @@ function messages_new_message( $args = '' ) {
 		'messages_new_message'
 	);
 
+	$r['sender_id'] = (int) $r['sender_id'];
+
 	// Check if the message content is empty.
 	$content       = $r['content'];
 	$empty_content = false;
@@ -83,7 +85,7 @@ function messages_new_message( $args = '' ) {
 	}
 
 	// Create a new message object.
-	$message            = new BP_Messages_Message;
+	$message            = new BP_Messages_Message();
 	$message->thread_id = $r['thread_id'];
 	$message->sender_id = $r['sender_id'];
 	$message->subject   = $r['subject'];
@@ -166,7 +168,7 @@ function messages_new_message( $args = '' ) {
 
 		// Strip the sender from the recipient list, and unset them if they are
 		// not alone. If they are alone, let them talk to themselves.
-		$self_send = array_search( $r['sender_id'], $recipient_ids );
+		$self_send = array_search( $r['sender_id'], $recipient_ids, true );
 		if ( ! empty( $self_send ) && ( count( $recipient_ids ) > 1 ) ) {
 			unset( $recipient_ids[ $self_send ] );
 		}
@@ -183,7 +185,7 @@ function messages_new_message( $args = '' ) {
 
 		// Format this to match existing recipients.
 		foreach ( (array) $recipient_ids as $i => $recipient_id ) {
-			$message->recipients[ $i ]          = new stdClass;
+			$message->recipients[ $i ]          = new stdClass();
 			$message->recipients[ $i ]->user_id = $recipient_id;
 		}
 	}
@@ -230,7 +232,7 @@ function messages_send_notice( $subject, $message ) {
 		return false;
 	}
 
-	$notice            = new BP_Messages_Notice;
+	$notice            = new BP_Messages_Notice();
 	$notice->subject   = $subject;
 	$notice->message   = $message;
 	$notice->date_sent = bp_core_current_time();
@@ -378,8 +380,8 @@ function messages_mark_thread_unread( $thread_id, $user_id = 0 ) {
  */
 function messages_add_callback_values( $recipients, $subject, $content ) {
 	@setcookie( 'bp_messages_send_to', $recipients, time() + 60 * 60 * 24, COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
-	@setcookie( 'bp_messages_subject', $subject,    time() + 60 * 60 * 24, COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
-	@setcookie( 'bp_messages_content', $content,    time() + 60 * 60 * 24, COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
+	@setcookie( 'bp_messages_subject', $subject, time() + 60 * 60 * 24, COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
+	@setcookie( 'bp_messages_content', $content, time() + 60 * 60 * 24, COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
 }
 
 /**
@@ -601,6 +603,8 @@ function messages_notification_new_message( $raw_args = array() ) {
 	// Barf.
 	extract( $args );
 
+	$sender_id = (int) $sender_id;
+
 	if ( empty( $recipients ) ) {
 		return;
 	}
@@ -615,7 +619,7 @@ function messages_notification_new_message( $raw_args = array() ) {
 
 	// Send an email to each recipient.
 	foreach ( $recipients as $recipient ) {
-		if ( $sender_id == $recipient->user_id || 'no' == bp_get_user_meta( $recipient->user_id, 'notification_messages_new_message', true ) ) {
+		if ( $sender_id === $recipient->user_id || 'no' === bp_get_user_meta( $recipient->user_id, 'notification_messages_new_message', true ) ) {
 			continue;
 		}
 
@@ -630,20 +634,24 @@ function messages_notification_new_message( $raw_args = array() ) {
 			'notification_type' => 'messages-unread',
 		);
 
-		bp_send_email( 'messages-unread', $ud, array(
-			'tokens' => array(
-				'usermessage' => wp_strip_all_tags( stripslashes( $message ) ),
-				'message.url' => esc_url(
-					bp_members_get_user_url(
-						$recipient->user_id,
-						bp_members_get_path_chunks( array( bp_get_messages_slug(), 'view', array( $thread_id ) ) )
-					)
+		bp_send_email(
+			'messages-unread',
+			$ud,
+			array(
+				'tokens' => array(
+					'usermessage' => wp_strip_all_tags( stripslashes( $message ) ),
+					'message.url' => esc_url(
+						bp_members_get_user_url(
+							$recipient->user_id,
+							bp_members_get_path_chunks( array( bp_get_messages_slug(), 'view', array( $thread_id ) ) )
+						)
+					),
+					'sender.name' => $sender_name,
+					'usersubject' => sanitize_text_field( stripslashes( $subject ) ),
+					'unsubscribe' => esc_url( bp_email_get_unsubscribe_link( $unsubscribe_args ) ),
 				),
-				'sender.name' => $sender_name,
-				'usersubject' => sanitize_text_field( stripslashes( $subject ) ),
-				'unsubscribe' => esc_url( bp_email_get_unsubscribe_link( $unsubscribe_args ) ),
-			),
-		) );
+			)
+		);
 	}
 
 	/**
@@ -687,13 +695,15 @@ function bp_messages_personal_data_exporter( $email_address, $page ) {
 		);
 	}
 
-	$user_threads = BP_Messages_Thread::get_current_threads_for_user( array(
-		'user_id' => $user->ID,
-		'box'     => 'sentbox',
-		'type'    => null,
-		'limit'   => $number,
-		'page'    => $page,
-	) );
+	$user_threads = BP_Messages_Thread::get_current_threads_for_user(
+		array(
+			'user_id' => $user->ID,
+			'box'     => 'sentbox',
+			'type'    => null,
+			'limit'   => $number,
+			'page'    => $page,
+		)
+	);
 
 	if ( empty( $user_threads ) ) {
 		return array(

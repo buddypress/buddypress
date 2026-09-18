@@ -42,12 +42,14 @@ class BP_Members_List_Table extends WP_Users_List_Table {
 	 */
 	public function __construct() {
 		// Define singular and plural labels, as well as whether we support AJAX.
-		parent::__construct( array(
-			'ajax'     => false,
-			'plural'   => 'signups',
-			'singular' => 'signup',
-			'screen'   => get_current_screen()->id,
-		) );
+		parent::__construct(
+			array(
+				'ajax'     => false,
+				'plural'   => 'signups',
+				'singular' => 'signup',
+				'screen'   => get_current_screen()->id,
+			)
+		);
 	}
 
 	/**
@@ -72,7 +74,7 @@ class BP_Members_List_Table extends WP_Users_List_Table {
 			'number'     => $signups_per_page,
 			'usersearch' => $usersearch,
 			'orderby'    => 'signup_id',
-			'order'      => 'DESC'
+			'order'      => 'DESC',
 		);
 
 		if ( isset( $_REQUEST['orderby'] ) ) {
@@ -85,13 +87,15 @@ class BP_Members_List_Table extends WP_Users_List_Table {
 
 		$signups = BP_Signup::get( $args );
 
-		$this->items = $signups['signups'];
+		$this->items         = $signups['signups'];
 		$this->signup_counts = $signups['total'];
 
-		$this->set_pagination_args( array(
-			'total_items' => $this->signup_counts,
-			'per_page'    => $signups_per_page,
-		) );
+		$this->set_pagination_args(
+			array(
+				'total_items' => $this->signup_counts,
+				'per_page'    => $signups_per_page,
+			)
+		);
 	}
 
 	/**
@@ -136,9 +140,7 @@ class BP_Members_List_Table extends WP_Users_List_Table {
 	 *
 	 * @param array $which Current table nav item.
 	 */
-	public function extra_tablenav( $which ) {
-		return;
-	}
+	public function extra_tablenav( $which ) {}
 
 	/**
 	 * Specific signups columns.
@@ -151,12 +153,12 @@ class BP_Members_List_Table extends WP_Users_List_Table {
 
 		$columns = array(
 			'cb'         => '<input type="checkbox" />',
-			'username'   => __( 'Username',    'buddypress' ),
-			'name'       => __( 'Name',        'buddypress' ),
-			'email'      => __( 'Email',       'buddypress' ),
-			'registered' => __( 'Registered',  'buddypress' ),
-			'date_sent'  => __( 'Last Sent',   'buddypress' ),
-			'count_sent' => __( 'Emails Sent', 'buddypress' )
+			'username'   => __( 'Username', 'buddypress' ),
+			'name'       => __( 'Name', 'buddypress' ),
+			'email'      => __( 'Email', 'buddypress' ),
+			'registered' => __( 'Registered', 'buddypress' ),
+			'date_sent'  => __( 'Last Sent', 'buddypress' ),
+			'count_sent' => __( 'Emails Sent', 'buddypress' ),
 		);
 
 		/**
@@ -177,7 +179,7 @@ class BP_Members_List_Table extends WP_Users_List_Table {
 	public function get_bulk_actions() {
 		$actions = array(
 			'activate' => _x( 'Activate', 'Pending signup action', 'buddypress' ),
-			'resend'   => _x( 'Email',    'Pending signup action', 'buddypress' ),
+			'resend'   => _x( 'Email', 'Pending signup action', 'buddypress' ),
 		);
 
 		if ( current_user_can( 'delete_users' ) ) {
@@ -209,8 +211,8 @@ class BP_Members_List_Table extends WP_Users_List_Table {
 			$link = false;
 
 			// Specific case when BuddyPress is not network activated.
-			if ( is_multisite() && current_user_can( 'manage_network_users') ) {
-				$link = sprintf( '<a href="%1$s">%2$s</a>', esc_url( network_admin_url( 'settings.php'       ) ), esc_html__( 'Edit settings', 'buddypress' ) );
+			if ( is_multisite() && current_user_can( 'manage_network_users' ) ) {
+				$link = sprintf( '<a href="%1$s">%2$s</a>', esc_url( network_admin_url( 'settings.php' ) ), esc_html__( 'Edit settings', 'buddypress' ) );
 			} elseif ( current_user_can( 'manage_options' ) ) {
 				$link = sprintf( '<a href="%1$s">%2$s</a>', esc_url( bp_get_admin_url( 'options-general.php' ) ), esc_html__( 'Edit settings', 'buddypress' ) );
 			}
@@ -223,7 +225,6 @@ class BP_Members_List_Table extends WP_Users_List_Table {
 				$link
 			);
 		}
-
 	}
 
 	/**
@@ -304,7 +305,7 @@ class BP_Members_List_Table extends WP_Users_List_Table {
 			);
 			?>
 		</label>
-		<input type="checkbox" id="signup_<?php echo intval( $signup_object->id ) ?>" name="allsignups[]" value="<?php echo esc_attr( $signup_object->id ) ?>" />
+		<input type="checkbox" id="signup_<?php echo intval( $signup_object->id ); ?>" name="allsignups[]" value="<?php echo esc_attr( $signup_object->id ); ?>" />
 		<?php
 	}
 
@@ -316,12 +317,12 @@ class BP_Members_List_Table extends WP_Users_List_Table {
 	 * @param object|null $signup_object The signup data object.
 	 */
 	public function column_username( $signup_object = null ) {
-		$avatar	= get_avatar( $signup_object->user_email, 32 );
+		$avatar = get_avatar( $signup_object->user_email, 32 );
 
 		// Activation email link.
 		$email_link = add_query_arg(
 			array(
-				'page'	    => 'bp-signups',
+				'page'      => 'bp-signups',
 				'signup_id' => $signup_object->id,
 				'action'    => 'resend',
 			),
@@ -358,7 +359,7 @@ class BP_Members_List_Table extends WP_Users_List_Table {
 					'class'  => true,
 					'height' => true,
 					'width'  => true,
-				)
+				),
 			)
 		);
 		printf( '<strong><a href="%1$s" class="edit">%2$s</a></strong><br/>', esc_url( $activate_link ), esc_html( $signup_object->user_login ) );
@@ -491,7 +492,7 @@ class BP_Members_List_Table extends WP_Users_List_Table {
 	 * @param string      $column_name   The column name.
 	 * @return string
 	 */
-	function column_default( $signup_object = null, $column_name = '' ) {
+	public function column_default( $signup_object = null, $column_name = '' ) {
 
 		/**
 		 * Filters the single site custom columns for plugins.

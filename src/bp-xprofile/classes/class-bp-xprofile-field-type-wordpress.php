@@ -40,7 +40,7 @@ abstract class BP_XProfile_Field_Type_WordPress extends BP_XProfile_Field_Type {
 	 *
 	 * @since 8.0.0
 	 *
-	 * @return string The WordPress field's visibility setting.
+	 * @var string The WordPress field's visibility setting.
 	 */
 	public $visibility = 'public';
 
@@ -97,7 +97,7 @@ abstract class BP_XProfile_Field_Type_WordPress extends BP_XProfile_Field_Type {
 	 *
 	 * @since 8.0.0
 	 *
-	 * @param string $value The user field value.
+	 * @param string  $value The user field value.
 	 * @param integer $user_id The user ID.
 	 */
 	abstract public function sanitize_for_output( $value, $user_id = 0 );
@@ -109,8 +109,8 @@ abstract class BP_XProfile_Field_Type_WordPress extends BP_XProfile_Field_Type {
 	 *
 	 * @param boolean $retval Whether to shortcircuit the $bp->profile->table_name_data table.
 	 *                        Default `false`.
-	 * @param array $field_args {
-	 *     An array of arguments.
+	 * @param array   $field_args {
+	 *       An array of arguments.
 	 *
 	 *     @type object            $field_type_obj Field type object.
 	 *     @type BP_XProfile_Field $field          Field object.
@@ -174,7 +174,7 @@ abstract class BP_XProfile_Field_Type_WordPress extends BP_XProfile_Field_Type {
 			if ( bp_displayed_user_id() ) {
 				$wp_field['value'] = bp_get_displayed_user()->userdata->{$this->wp_user_key};
 			} elseif ( $user_id ) {
-				$user = get_user_by( 'id', $user_id );
+				$user              = get_user_by( 'id', $user_id );
 				$wp_field['value'] = $user->{$this->wp_user_key};
 			}
 
@@ -211,10 +211,16 @@ abstract class BP_XProfile_Field_Type_WordPress extends BP_XProfile_Field_Type {
 									}
 
 									foreach ( $meta_values as $meta_value ) {
-										$meta_object = wp_list_filter( $metas, array( 'meta_key' => $meta_key, 'meta_value' => $meta_value ) );
+										$meta_object = wp_list_filter(
+											$metas,
+											array(
+												'meta_key' => $meta_key,
+												'meta_value' => $meta_value,
+											)
+										);
 
 										if ( 1 === count( $meta_object ) ) {
-											$meta_object = reset( $meta_object );
+											$meta_object                                     = reset( $meta_object );
 											$user_mid[ $meta_key ][ $meta_object->umeta_id ] = $meta_value;
 
 											// Set the meta_id for the requested field.

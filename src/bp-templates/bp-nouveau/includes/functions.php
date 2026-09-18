@@ -2,6 +2,8 @@
 /**
  * Common functions
  *
+ * @package BuddyPress
+ * @subpackage bp-nouveau
  * @since 3.0.0
  * @version 14.0.0
  */
@@ -102,7 +104,7 @@ function bp_nouveau_ajax_querystring( $query_string, $object ) {
 	}
 
 	// If page have been passed via the AJAX post request, use those.
-	if ( '-1' != $post_query['page'] ) {
+	if ( '-1' !== $post_query['page'] ) {
 		$qs[] = 'page=' . absint( $post_query['page'] );
 	}
 
@@ -122,7 +124,7 @@ function bp_nouveau_ajax_querystring( $query_string, $object ) {
 	}
 
 	$object_search_text = bp_get_search_default_text( $object );
-	if ( ! empty( $post_query['search_terms'] ) && $object_search_text != $post_query['search_terms'] && 'false' != $post_query['search_terms'] && 'undefined' != $post_query['search_terms'] ) {
+	if ( ! empty( $post_query['search_terms'] ) && $object_search_text !== $post_query['search_terms'] && 'false' !== $post_query['search_terms'] && 'undefined' !== $post_query['search_terms'] ) {
 		$qs[] = 'search_terms=' . urlencode( $_POST['search_terms'] );
 	}
 
@@ -165,8 +167,15 @@ function bp_nouveau_ajax_querystring( $query_string, $object ) {
 }
 
 /**
+ * Builds a BuddyPress Nouveau AJAX button.
+ *
  * @since 3.0.0
  *
+ * @param string      $output Existing button output.
+ * @param object|null $button Button data object.
+ * @param string      $before Markup to prepend to the button.
+ * @param string      $after  Markup to append to the button.
+ * @param array       $r      Button arguments.
  * @return string
  */
 function bp_nouveau_ajax_button( $output = '', $button = null, $before = '', $after = '', $r = array() ) {
@@ -182,22 +191,25 @@ function bp_nouveau_ajax_button( $output = '', $button = null, $before = '', $af
 		'group_membership'  => true,
 	);
 
-	if ( ! empty( $reset_ids[ $button->id ] ) )  {
+	if ( ! empty( $reset_ids[ $button->id ] ) ) {
 		$parse_class = array_map( 'sanitize_html_class', explode( ' ', $r['button_attr']['class'] ) );
 		if ( false === $parse_class ) {
 			return $output;
 		}
 
-		$find_id = array_intersect( $parse_class, array(
-			'pending_friend',
-			'is_friend',
-			'not_friends',
-			'leave-group',
-			'join-group',
-			'accept-invite',
-			'membership-requested',
-			'request-membership',
-		) );
+		$find_id = array_intersect(
+			$parse_class,
+			array(
+				'pending_friend',
+				'is_friend',
+				'not_friends',
+				'leave-group',
+				'join-group',
+				'accept-invite',
+				'membership-requested',
+				'request-membership',
+			)
+		);
 
 		if ( 1 !== count( $find_id ) ) {
 			return $output;
@@ -214,11 +226,13 @@ function bp_nouveau_ajax_button( $output = '', $button = null, $before = '', $af
 	}
 
 	// Re-render the button with our custom data attribute.
-	$output = new BP_Core_HTML_Element( array(
-		'element'    => $r['button_element'],
-		'attr'       => $r['button_attr'],
-		'inner_html' => ! empty( $r['link_text'] ) ? $r['link_text'] : ''
-	) );
+	$output = new BP_Core_HTML_Element(
+		array(
+			'element'    => $r['button_element'],
+			'attr'       => $r['button_attr'],
+			'inner_html' => ! empty( $r['link_text'] ) ? $r['link_text'] : '',
+		)
+	);
 	$output = $output->contents();
 
 	// Add span bp-screen-reader-text class
@@ -374,6 +388,8 @@ function bp_nouveau_register_sidebars() {
 }
 
 /**
+ * Checks whether object navigation is in the sidebar.
+ *
  * @since 3.0.0
  *
  * @return bool
@@ -383,8 +399,11 @@ function bp_nouveau_is_object_nav_in_sidebar() {
 }
 
 /**
+ * Checks whether the current user can perform a BuddyPress Nouveau action.
+ *
  * @since 3.0.0
  *
+ * @param string $capability Capability to check.
  * @return bool
  */
 function bp_nouveau_current_user_can( $capability = '' ) {
@@ -440,7 +459,13 @@ function bp_nouveau_parse_hooked_dir_nav( $hook = '', $component = '', $position
 		return $extra_nav_items;
 	}
 
-	$extra_nav_items = array_fill_keys( $lis[1], array( 'component' => $component, 'position' => $position ) );
+	$extra_nav_items = array_fill_keys(
+		$lis[1],
+		array(
+			'component' => $component,
+			'position' => $position,
+		)
+	);
 	preg_match_all( '/<a\s[^>]*>(.*)<\/a>/siU', $output, $as );
 
 	if ( ! empty( $as[0] ) ) {
@@ -483,8 +508,8 @@ function bp_nouveau_parse_hooked_dir_nav( $hook = '', $component = '', $position
  *
  * @since 3.0.0
  *
- * @param string $hook
- * @param array  $filters
+ * @param string $hook    Hook name to run.
+ * @param array  $filters Existing filter options.
  *
  * @return array
  */
@@ -634,8 +659,6 @@ function bp_nouveau_get_temporary_setting( $option = '', $retval = false ) {
  * @since 3.0.0
  *
  * @param string $option Leave empty to get all settings, specify a value for a specific one.
- * @param mixed          An array of settings, the value of the requested setting.
- *
  * @return array|false|mixed
  */
 function bp_nouveau_get_appearance_settings( $option = '' ) {
@@ -723,16 +746,32 @@ function bp_nouveau_get_appearance_settings( $option = '' ) {
  *
  * @since 3.0.0
  *
- * @param string $type 'option' to get the labels, 'classes' to get the classes
+ * @param string $type 'option' to get the labels, 'classes' to get the classes.
  *
  * @return array The list of labels or classes preserving keys.
  */
 function bp_nouveau_customizer_grid_choices( $type = 'option' ) {
 	$columns = array(
-		array( 'key' => '1', 'label' => __( 'One column', 'buddypress'    ), 'class' => ''      ),
-		array( 'key' => '2', 'label' => __( 'Two columns', 'buddypress'   ), 'class' => 'two'   ),
-		array( 'key' => '3', 'label' => __( 'Three columns', 'buddypress' ), 'class' => 'three' ),
-		array( 'key' => '4', 'label' => __( 'Four columns', 'buddypress'  ), 'class' => 'four'  ),
+		array(
+			'key' => '1',
+			'label' => __( 'One column', 'buddypress' ),
+			'class' => '',
+		),
+		array(
+			'key' => '2',
+			'label' => __( 'Two columns', 'buddypress' ),
+			'class' => 'two',
+		),
+		array(
+			'key' => '3',
+			'label' => __( 'Three columns', 'buddypress' ),
+			'class' => 'three',
+		),
+		array(
+			'key' => '4',
+			'label' => __( 'Four columns', 'buddypress' ),
+			'class' => 'four',
+		),
 	);
 
 	if ( 'option' === $type ) {
@@ -784,7 +823,7 @@ function bp_nouveau_theme_cover_image( $params = array() ) {
 		$top_offset -= 40;
 	}
 
-	$cover_image = isset( $params['cover_image'] ) ? 'background-image: url( ' . $params['cover_image'] . ' );' : '';
+	$cover_image       = isset( $params['cover_image'] ) ? 'background-image: url( ' . $params['cover_image'] . ' );' : '';
 	$hide_avatar_style = '';
 
 	// Adjust the cover image header, in case avatars are completely disabled.
@@ -976,7 +1015,7 @@ function bp_nouveau_get_user_feedback( $feedback_id = '' ) {
 				'type'    => 'info',
 				'message' => __( 'Member registration is currently not allowed.', 'buddypress' ),
 				'before'  => 'bp_before_registration_disabled',
-				'after'   => 'bp_after_registration_disabled'
+				'after'   => 'bp_after_registration_disabled',
 			),
 			'request-details'                   => array(
 				'type'    => 'info',
@@ -1211,62 +1250,65 @@ function bp_nouveau_get_signup_fields( $section = '' ) {
 	 *
 	 * @param array $value The list of fields organized into sections.
 	 */
-	$fields = apply_filters( 'bp_nouveau_get_signup_fields', array(
-		'account_details' => array(
-			'signup_username' => array(
-				'label'          => __( 'Username', 'buddypress' ),
-				'required'       => true,
-				'value'          => 'bp_get_signup_username_value',
-				'attribute_type' => 'username',
-				'type'           => 'text',
-				'class'          => '',
+	$fields = apply_filters(
+		'bp_nouveau_get_signup_fields',
+		array(
+			'account_details' => array(
+				'signup_username' => array(
+					'label'          => __( 'Username', 'buddypress' ),
+					'required'       => true,
+					'value'          => 'bp_get_signup_username_value',
+					'attribute_type' => 'username',
+					'type'           => 'text',
+					'class'          => '',
+				),
+				'signup_email' => array(
+					'label'          => __( 'Email Address', 'buddypress' ),
+					'required'       => true,
+					'value'          => 'bp_get_signup_email_value',
+					'attribute_type' => 'email',
+					'type'           => 'email',
+					'class'          => '',
+				),
+				'signup_password' => array(),
+				'signup_password_confirm' => array(),
 			),
-			'signup_email' => array(
-				'label'          => __( 'Email Address', 'buddypress' ),
-				'required'       => true,
-				'value'          => 'bp_get_signup_email_value',
-				'attribute_type' => 'email',
-				'type'           => 'email',
-				'class'          => '',
+			'blog_details' => array(
+				'signup_blog_url' => array(
+					'label'          => __( 'Site URL', 'buddypress' ),
+					'required'       => true,
+					'value'          => 'bp_get_signup_blog_url_value',
+					'attribute_type' => 'slug',
+					'type'           => 'text',
+					'class'          => '',
+				),
+				'signup_blog_title' => array(
+					'label'          => __( 'Site Title', 'buddypress' ),
+					'required'       => true,
+					'value'          => 'bp_get_signup_blog_title_value',
+					'attribute_type' => 'title',
+					'type'           => 'text',
+					'class'          => '',
+				),
+				'signup_blog_privacy_public' => array(
+					'label'          => __( 'Yes', 'buddypress' ),
+					'required'       => false,
+					'value'          => 'public',
+					'attribute_type' => '',
+					'type'           => 'radio',
+					'class'          => '',
+				),
+				'signup_blog_privacy_private' => array(
+					'label'          => __( 'No', 'buddypress' ),
+					'required'       => false,
+					'value'          => 'private',
+					'attribute_type' => '',
+					'type'           => 'radio',
+					'class'          => '',
+				),
 			),
-			'signup_password' => array(),
-			'signup_password_confirm' => array(),
-		),
-		'blog_details' => array(
-			'signup_blog_url' => array(
-				'label'          => __( 'Site URL', 'buddypress' ),
-				'required'       => true,
-				'value'          => 'bp_get_signup_blog_url_value',
-				'attribute_type' => 'slug',
-				'type'           => 'text',
-				'class'          => '',
-			),
-			'signup_blog_title' => array(
-				'label'          => __( 'Site Title', 'buddypress' ),
-				'required'       => true,
-				'value'          => 'bp_get_signup_blog_title_value',
-				'attribute_type' => 'title',
-				'type'           => 'text',
-				'class'          => '',
-			),
-			'signup_blog_privacy_public' => array(
-				'label'          => __( 'Yes', 'buddypress' ),
-				'required'       => false,
-				'value'          => 'public',
-				'attribute_type' => '',
-				'type'           => 'radio',
-				'class'          => '',
-			),
-			'signup_blog_privacy_private' => array(
-				'label'          => __( 'No', 'buddypress' ),
-				'required'       => false,
-				'value'          => 'private',
-				'attribute_type' => '',
-				'type'           => 'radio',
-				'class'          => '',
-			),
-		),
-	) );
+		)
+	);
 
 	if ( ! bp_get_blog_signup_allowed() ) {
 		unset( $fields['blog_details'] );
@@ -1426,9 +1468,9 @@ function bp_nouveau_get_submit_button( $action = '' ) {
  *
  * @since 3.0.0
  *
- * @param object $nav         The BuddyPress Item Nav object to reorder
- * @param array  $order       A list of slugs ordered (eg: array( 'profile', 'activity', etc..) )
- * @param string $parent_slug A parent slug if it's a secondary nav we are reordering (case of the Groups single item)
+ * @param object $nav         The BuddyPress Item Nav object to reorder.
+ * @param array  $order       A list of slugs ordered (eg: array( 'profile', 'activity', etc..) ).
+ * @param string $parent_slug A parent slug if it's a secondary nav we are reordering (case of the Groups single item).
  *
  * @return bool False otherwise.
  */

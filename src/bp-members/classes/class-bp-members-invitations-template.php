@@ -157,7 +157,7 @@ class BP_Members_Invitations_Template {
 	 * @param array $args {
 	 *     An array of arguments. See {@link bp_has_members_invitations()}
 	 *     for more details.
-	 * }
+	 * }.
 	 */
 	public function __construct( $args = array() ) {
 
@@ -261,7 +261,7 @@ class BP_Members_Invitations_Template {
 	 */
 	public function next_invitation() {
 
-		$this->current_invitation++;
+		++$this->current_invitation;
 
 		$this->invitation = $this->invitations[ $this->current_invitation ];
 

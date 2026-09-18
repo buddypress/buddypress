@@ -23,7 +23,8 @@ do_action( 'bp_before_create_group_page' ); ?>
 	 *
 	 * @since 1.6.0
 	 */
-	do_action( 'bp_before_create_group_content_template' ); ?>
+	do_action( 'bp_before_create_group_content_template' );
+	?>
 
 	<form action="<?php bp_group_creation_form_action(); ?>" method="post" id="create-group-form" class="standard-form" enctype="multipart/form-data">
 
@@ -34,7 +35,8 @@ do_action( 'bp_before_create_group_page' ); ?>
 		 *
 		 * @since 1.2.0
 		 */
-		do_action( 'bp_before_create_group' ); ?>
+		do_action( 'bp_before_create_group' );
+		?>
 
 		<div class="item-list-tabs no-ajax" id="group-create-tabs">
 			<ul>
@@ -48,7 +50,8 @@ do_action( 'bp_before_create_group_page' ); ?>
 			<?php
 
 			/** This action is documented in bp-templates/bp-legacy/buddypress/activity/index.php */
-			do_action( 'template_notices' ); ?>
+			do_action( 'template_notices' );
+			?>
 
 		</div>
 
@@ -71,7 +74,8 @@ do_action( 'bp_before_create_group_page' ); ?>
 				 *
 				 * @since 1.1.0
 				 */
-				do_action( 'bp_before_group_details_creation_step' ); ?>
+				do_action( 'bp_before_group_details_creation_step' );
+				?>
 
 				<div>
 					<label for="group-name"><?php esc_html_e( 'Group Name (required)', 'buddypress' ); ?></label>
@@ -93,7 +97,8 @@ do_action( 'bp_before_create_group_page' ); ?>
 				do_action( 'bp_after_group_details_creation_step' );
 				do_action( 'groups_custom_group_fields_editable' ); // @Deprecated
 
-				wp_nonce_field( 'groups_create_save_group-details' ); ?>
+				wp_nonce_field( 'groups_create_save_group-details' );
+				?>
 
 			<?php endif; ?>
 
@@ -114,7 +119,12 @@ do_action( 'bp_before_create_group_page' ); ?>
 				 *
 				 * @since 1.1.0
 				 */
-				do_action( 'bp_before_group_settings_creation_step' ); ?>
+				do_action( 'bp_before_group_settings_creation_step' );
+
+				$public_checked  = 'public' === bp_get_new_group_status() || ! bp_get_new_group_status();
+				$private_checked = 'private' === bp_get_new_group_status();
+				$hidden_checked  = 'hidden' === bp_get_new_group_status();
+				?>
 
 				<fieldset class="group-create-privacy">
 
@@ -122,7 +132,7 @@ do_action( 'bp_before_create_group_page' ); ?>
 
 					<div class="radio">
 
-						<label for="group-status-public"><input type="radio" name="group-status" id="group-status-public" value="public"<?php if ( 'public' == bp_get_new_group_status() || ! bp_get_new_group_status() ) { ?> checked="checked"<?php } ?> aria-describedby="public-group-description" /> <?php esc_html_e( 'This is a public group', 'buddypress' ); ?></label>
+						<label for="group-status-public"><input type="radio" name="group-status" id="group-status-public" value="public"<?php echo $public_checked ? ' checked="checked"' : ''; ?> aria-describedby="public-group-description" /> <?php esc_html_e( 'This is a public group', 'buddypress' ); ?></label>
 
 						<ul id="public-group-description">
 							<li><?php esc_html_e( 'Any site member can join this group.', 'buddypress' ); ?></li>
@@ -130,7 +140,7 @@ do_action( 'bp_before_create_group_page' ); ?>
 							<li><?php esc_html_e( 'Group content and activity will be visible to any site member.', 'buddypress' ); ?></li>
 						</ul>
 
-						<label for="group-status-private"><input type="radio" name="group-status" id="group-status-private" value="private"<?php if ( 'private' == bp_get_new_group_status() ) { ?> checked="checked"<?php } ?> aria-describedby="private-group-description" /> <?php esc_html_e( 'This is a private group', 'buddypress' ); ?></label>
+						<label for="group-status-private"><input type="radio" name="group-status" id="group-status-private" value="private"<?php echo $private_checked ? ' checked="checked"' : ''; ?> aria-describedby="private-group-description" /> <?php esc_html_e( 'This is a private group', 'buddypress' ); ?></label>
 
 						<ul id="private-group-description">
 							<li><?php esc_html_e( 'Only users who request membership and are accepted can join the group.', 'buddypress' ); ?></li>
@@ -138,7 +148,7 @@ do_action( 'bp_before_create_group_page' ); ?>
 							<li><?php esc_html_e( 'Group content and activity will only be visible to members of the group.', 'buddypress' ); ?></li>
 						</ul>
 
-						<label for="group-status-hidden"><input type="radio" name="group-status" id="group-status-hidden" value="hidden"<?php if ( 'hidden' == bp_get_new_group_status() ) { ?> checked="checked"<?php } ?> aria-describedby="hidden-group-description" /> <?php esc_html_e('This is a hidden group', 'buddypress' ); ?></label>
+						<label for="group-status-hidden"><input type="radio" name="group-status" id="group-status-hidden" value="hidden"<?php echo $hidden_checked ? ' checked="checked"' : ''; ?> aria-describedby="hidden-group-description" /> <?php esc_html_e( 'This is a hidden group', 'buddypress' ); ?></label>
 
 						<ul id="hidden-group-description">
 							<li><?php esc_html_e( 'Only users who are invited can join the group.', 'buddypress' ); ?></li>
@@ -151,7 +161,7 @@ do_action( 'bp_before_create_group_page' ); ?>
 				</fieldset>
 
 				<?php // Group type selection ?>
-				<?php if ( $group_types = bp_groups_get_group_types( array( 'show_in_create_screen' => true ), 'objects' ) ): ?>
+				<?php if ( $group_types = bp_groups_get_group_types( array( 'show_in_create_screen' => true ), 'objects' ) ) : ?>
 
 					<fieldset class="group-create-types">
 						<legend><?php esc_html_e( 'Group Types', 'buddypress' ); ?></legend>
@@ -176,7 +186,7 @@ do_action( 'bp_before_create_group_page' ); ?>
 
 				<?php endif; ?>
 
-				<?php if ( bp_is_active( 'groups', 'invitations' ) ): ?>
+				<?php if ( bp_is_active( 'groups', 'invitations' ) ) : ?>
 
 					<fieldset class="group-create-invitations">
 
@@ -205,7 +215,8 @@ do_action( 'bp_before_create_group_page' ); ?>
 				 *
 				 * @since 1.1.0
 				 */
-				do_action( 'bp_after_group_settings_creation_step' ); ?>
+				do_action( 'bp_after_group_settings_creation_step' );
+				?>
 
 				<?php wp_nonce_field( 'groups_create_save_group-settings' ); ?>
 
@@ -228,9 +239,10 @@ do_action( 'bp_before_create_group_page' ); ?>
 				 *
 				 * @since 1.1.0
 				 */
-				do_action( 'bp_before_group_avatar_creation_step' ); ?>
+				do_action( 'bp_before_group_avatar_creation_step' );
+				?>
 
-				<?php if ( 'upload-image' == bp_get_avatar_admin_step() ) : ?>
+				<?php if ( 'upload-image' === bp_get_avatar_admin_step() ) : ?>
 
 					<div class="left-menu">
 
@@ -239,7 +251,7 @@ do_action( 'bp_before_create_group_page' ); ?>
 					</div><!-- .left-menu -->
 
 					<div class="main-column">
-						<p><?php esc_html_e( "Upload an image to use as a profile photo for this group. The image will be shown on the main group page, and in search results.", 'buddypress' ); ?></p>
+						<p><?php esc_html_e( 'Upload an image to use as a profile photo for this group. The image will be shown on the main group page, and in search results.', 'buddypress' ); ?></p>
 
 						<p>
 							<label for="file" class="bp-screen-reader-text">
@@ -262,11 +274,12 @@ do_action( 'bp_before_create_group_page' ); ?>
 					 *
 					 * @since 2.3.0
 					 */
-					bp_avatar_get_templates(); ?>
+					bp_avatar_get_templates();
+					?>
 
 				<?php endif; ?>
 
-				<?php if ( 'crop-image' == bp_get_avatar_admin_step() ) : ?>
+				<?php if ( 'crop-image' === bp_get_avatar_admin_step() ) : ?>
 
 					<h4><?php esc_html_e( 'Crop Group Profile Photo', 'buddypress' ); ?></h4>
 
@@ -294,7 +307,8 @@ do_action( 'bp_before_create_group_page' ); ?>
 				 *
 				 * @since 1.1.0
 				 */
-				do_action( 'bp_after_group_avatar_creation_step' ); ?>
+				do_action( 'bp_after_group_avatar_creation_step' );
+				?>
 
 				<?php wp_nonce_field( 'groups_create_save_group-avatar' ); ?>
 
@@ -317,7 +331,8 @@ do_action( 'bp_before_create_group_page' ); ?>
 				 *
 				 * @since 2.4.0
 				 */
-				do_action( 'bp_before_group_cover_image_creation_step' ); ?>
+				do_action( 'bp_before_group_cover_image_creation_step' );
+				?>
 
 				<div id="header-cover-image"></div>
 
@@ -332,7 +347,8 @@ do_action( 'bp_before_create_group_page' ); ?>
 				 *
 				 * @since 2.4.0
 				 */
-				do_action( 'bp_after_group_cover_image_creation_step' ); ?>
+				do_action( 'bp_after_group_cover_image_creation_step' );
+				?>
 
 				<?php wp_nonce_field( 'groups_create_save_group-cover-image' ); ?>
 
@@ -355,7 +371,8 @@ do_action( 'bp_before_create_group_page' ); ?>
 				 *
 				 * @since 1.1.0
 				 */
-				do_action( 'bp_before_group_invites_creation_step' ); ?>
+				do_action( 'bp_before_group_invites_creation_step' );
+				?>
 
 				<?php if ( bp_is_active( 'friends' ) && bp_get_total_friend_count( bp_loggedin_user_id() ) ) : ?>
 
@@ -374,7 +391,7 @@ do_action( 'bp_before_create_group_page' ); ?>
 					<div class="main-column">
 
 						<div id="message" class="info">
-							<p><?php esc_html_e('Select people to invite from your friends list.', 'buddypress' ); ?></p>
+							<p><?php esc_html_e( 'Select people to invite from your friends list.', 'buddypress' ); ?></p>
 						</div>
 
 						<?php /* The ID 'friend-list' is important for AJAX support. */ ?>
@@ -382,7 +399,10 @@ do_action( 'bp_before_create_group_page' ); ?>
 
 						<?php if ( bp_group_has_invites() ) : ?>
 
-							<?php while ( bp_group_invites() ) : bp_group_the_invite(); ?>
+							<?php
+							while ( bp_group_invites() ) :
+								bp_group_the_invite();
+								?>
 
 								<li id="<?php bp_group_invite_item_id(); ?>">
 
@@ -423,7 +443,8 @@ do_action( 'bp_before_create_group_page' ); ?>
 				 *
 				 * @since 1.1.0
 				 */
-				do_action( 'bp_after_group_invites_creation_step' ); ?>
+				do_action( 'bp_after_group_invites_creation_step' );
+				?>
 
 			<?php endif; ?>
 
@@ -436,7 +457,8 @@ do_action( 'bp_before_create_group_page' ); ?>
 			 *
 			 * @since 1.1.0
 			 */
-			do_action( 'groups_custom_create_steps' ); ?>
+			do_action( 'groups_custom_create_steps' );
+			?>
 
 			<?php
 
@@ -445,25 +467,26 @@ do_action( 'bp_before_create_group_page' ); ?>
 			 *
 			 * @since 1.1.0
 			 */
-			do_action( 'bp_before_group_creation_step_buttons' ); ?>
+			do_action( 'bp_before_group_creation_step_buttons' );
+			?>
 
-			<?php if ( 'crop-image' != bp_get_avatar_admin_step() ) : ?>
+			<?php if ( 'crop-image' !== bp_get_avatar_admin_step() ) : ?>
 
 				<div class="submit" id="previous-next">
 
 					<?php /* Previous Button */ ?>
-					<?php if ( !bp_is_first_group_creation_step() ) : ?>
+					<?php if ( ! bp_is_first_group_creation_step() ) : ?>
 
 						<input type="button" value="<?php esc_attr_e( 'Back to Previous Step', 'buddypress' ); ?>" id="group-creation-previous" name="previous" onclick="location.href='<?php bp_group_creation_previous_link(); ?>'" />
 
 					<?php endif; ?>
 
 					<?php /* Next Button */ ?>
-					<?php if ( !bp_is_last_group_creation_step() && !bp_is_first_group_creation_step() ) : ?>
+					<?php if ( ! bp_is_last_group_creation_step() && ! bp_is_first_group_creation_step() ) : ?>
 
 						<input type="submit" value="<?php esc_attr_e( 'Next Step', 'buddypress' ); ?>" id="group-creation-next" name="save" />
 
-					<?php endif;?>
+					<?php endif; ?>
 
 					<?php /* Create Button */ ?>
 					<?php if ( bp_is_first_group_creation_step() ) : ?>
@@ -480,7 +503,7 @@ do_action( 'bp_before_create_group_page' ); ?>
 					<?php endif; ?>
 				</div>
 
-			<?php endif;?>
+			<?php endif; ?>
 
 			<?php
 
@@ -489,7 +512,8 @@ do_action( 'bp_before_create_group_page' ); ?>
 			 *
 			 * @since 1.1.0
 			 */
-			do_action( 'bp_after_group_creation_step_buttons' ); ?>
+			do_action( 'bp_after_group_creation_step_buttons' );
+			?>
 
 			<?php /* Don't leave out this hidden field */ ?>
 			<input type="hidden" name="group_id" id="group_id" value="<?php bp_new_group_id(); ?>" />
@@ -501,7 +525,8 @@ do_action( 'bp_before_create_group_page' ); ?>
 			 *
 			 * @since 1.1.0
 			 */
-			do_action( 'bp_directory_groups_content' ); ?>
+			do_action( 'bp_directory_groups_content' );
+			?>
 
 		</div><!-- .item-body -->
 
@@ -512,7 +537,8 @@ do_action( 'bp_before_create_group_page' ); ?>
 		 *
 		 * @since 1.2.0
 		 */
-		do_action( 'bp_after_create_group' ); ?>
+		do_action( 'bp_after_create_group' );
+		?>
 
 	</form>
 
@@ -523,7 +549,8 @@ do_action( 'bp_before_create_group_page' ); ?>
 	 *
 	 * @since 1.6.0
 	 */
-	do_action( 'bp_after_create_group_content_template' ); ?>
+	do_action( 'bp_after_create_group_content_template' );
+	?>
 
 </div>
 

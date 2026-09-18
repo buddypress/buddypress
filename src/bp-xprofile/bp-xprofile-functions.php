@@ -198,9 +198,9 @@ function bp_xprofile_create_field_type( $type ) {
 	 * To handle (missing) field types, fallback to a placeholder field object if a type is unknown.
 	 */
 	if ( $class && class_exists( $class ) ) {
-		return new $class;
+		return new $class();
 	} else {
-		return new BP_XProfile_Field_Type_Placeholder;
+		return new BP_XProfile_Field_Type_Placeholder();
 	}
 }
 
@@ -258,7 +258,7 @@ function xprofile_insert_field( $args = '' ) {
 	}
 
 	// Check this is a non-empty, valid field type.
-	if ( ! in_array( $r['type'], (array) buddypress()->profile->field_types ) ) {
+	if ( ! in_array( $r['type'], (array) buddypress()->profile->field_types, true ) ) {
 		return false;
 	}
 
@@ -266,7 +266,7 @@ function xprofile_insert_field( $args = '' ) {
 	if ( ! empty( $r['field_id'] ) ) {
 		$field = xprofile_get_field( $r['field_id'], null, false );
 	} else {
-		$field = new BP_XProfile_Field;
+		$field = new BP_XProfile_Field();
 	}
 
 	$field->group_id = $r['field_group_id'];
@@ -407,7 +407,7 @@ function xprofile_get_field_data( $field, $user_id = 0, $multi_format = 'array' 
 			$data[] = apply_filters( 'xprofile_get_field_data', $value, $field_id, $user_id );
 		}
 
-		if ( 'comma' == $multi_format ) {
+		if ( 'comma' === $multi_format ) {
 			$data = implode( ', ', $data );
 		}
 	} else {
@@ -460,7 +460,7 @@ function xprofile_set_field_data( $field, $user_id, $value, $is_required = false
 	$value = apply_filters( 'bp_xprofile_set_field_data_pre_validate', $value, $field, $field_type_obj );
 
 	// Special-case support for integer 0 for the number field type.
-	if ( $is_required && ! is_integer( $value ) && $value !== '0' && ( empty( $value ) || ! is_array( $value ) && ! strlen( trim( $value ) ) ) ) {
+	if ( $is_required && ! is_integer( $value ) && $value !== '0' && ( empty( $value ) || ( ! is_array( $value ) && ! strlen( trim( $value ) ) ) ) ) {
 		return false;
 	}
 
@@ -521,7 +521,7 @@ function xprofile_set_field_data( $field, $user_id, $value, $is_required = false
 		$field->user_id  = $user_id;
 
 		// Gets un/reserialized via xprofile_sanitize_data_value_before_save().
-		$field->value    = maybe_serialize( $value );
+		$field->value = maybe_serialize( $value );
 
 		$retval = $field->save();
 	}
@@ -707,8 +707,8 @@ function xprofile_format_profile_field( $field_type, $field_value ) {
 
 	$field_value = bp_unserialize_profile_field( $field_value );
 
-	if ( 'datebox' != $field_type ) {
-		$content = $field_value;
+	if ( 'datebox' !== $field_type ) {
+		$content     = $field_value;
 		$field_value = str_replace( ']]>', ']]&gt;', $content );
 	}
 
@@ -789,15 +789,17 @@ function bp_xprofile_bp_user_query_search( $sql, BP_User_Query $query ) {
 
 	// Combine the core search (against wp_users) into a single OR clause
 	// with the xprofile_data search.
-	$matched_user_ids = $wpdb->get_col( $wpdb->prepare(
-		"SELECT user_id FROM {$bp->profile->table_name_data} WHERE value LIKE %s OR value LIKE %s",
-		$search_terms_nospace,
-		$search_terms_space
-	) );
+	$matched_user_ids = $wpdb->get_col(
+		$wpdb->prepare(
+			"SELECT user_id FROM {$bp->profile->table_name_data} WHERE value LIKE %s OR value LIKE %s",
+			$search_terms_nospace,
+			$search_terms_space
+		)
+	);
 
 	if ( ! empty( $matched_user_ids ) ) {
-		$search_core     = $sql['where']['search'];
-		$search_combined = " ( u.{$query->uid_name} IN (" . implode(',', $matched_user_ids) . ") OR {$search_core} )";
+		$search_core            = $sql['where']['search'];
+		$search_combined        = " ( u.{$query->uid_name} IN (" . implode( ',', $matched_user_ids ) . ") OR {$search_core} )";
 		$sql['where']['search'] = $search_combined;
 	}
 
@@ -812,7 +814,7 @@ add_action( 'bp_user_query_uid_clauses', 'bp_xprofile_bp_user_query_search', 10,
  * @since 9.2.0 Adds the $args arguments to catch hook's additional arguments.
  *
  * @param int   $user_id ID of the user to sync.
- * @param array $args    Hook's additional arguments.
+ * @param array ...$args Hook's additional arguments.
  * @return bool
  */
 function xprofile_sync_wp_profile( $user_id = 0, ...$args ) {
@@ -875,11 +877,16 @@ function xprofile_sync_wp_profile( $user_id = 0, ...$args ) {
 		}
 	}
 
-	bp_update_user_meta( $user_id, 'nickname',   $fullname  );
+	bp_update_user_meta( $user_id, 'nickname', $fullname );
 	bp_update_user_meta( $user_id, 'first_name', $userdata['first_name'] );
-	bp_update_user_meta( $user_id, 'last_name',  $userdata['last_name']  );
+	bp_update_user_meta( $user_id, 'last_name', $userdata['last_name'] );
 
-	wp_update_user( array( 'ID' => $user_id, 'display_name' => $fullname ) );
+	wp_update_user(
+		array(
+			'ID' => $user_id,
+			'display_name' => $fullname,
+		)
+	);
 }
 add_action( 'bp_core_signup_user', 'xprofile_sync_wp_profile', 10, 5 );
 add_action( 'bp_core_activated_user', 'xprofile_sync_wp_profile', 10, 3 );
@@ -933,7 +940,7 @@ add_action( 'xprofile_data_after_save', 'xprofile_sync_wp_profile_on_single_fiel
 function xprofile_remove_data( $user_id ) {
 	BP_XProfile_ProfileData::delete_data_for_user( $user_id );
 }
-add_action( 'wpmu_delete_user',  'xprofile_remove_data' );
+add_action( 'wpmu_delete_user', 'xprofile_remove_data' );
 add_action( 'bp_make_spam_user', 'xprofile_remove_data' );
 
 /**
@@ -977,7 +984,7 @@ function bp_xprofile_delete_meta( $object_id, $object_type, $meta_key = false, $
 	global $wpdb;
 
 	// Sanitize object type.
-	if ( ! in_array( $object_type, array( 'group', 'field', 'data' ) ) ) {
+	if ( ! in_array( $object_type, array( 'group', 'field', 'data' ), true ) ) {
 		return false;
 	}
 
@@ -985,7 +992,7 @@ function bp_xprofile_delete_meta( $object_id, $object_type, $meta_key = false, $
 	if ( empty( $meta_key ) ) {
 		$table_key  = 'xprofile_' . $object_type . 'meta';
 		$table_name = $wpdb->{$table_key};
-		$keys = $wpdb->get_col( $wpdb->prepare( "SELECT meta_key FROM {$table_name} WHERE object_type = %s AND object_id = %d", $object_type, $object_id ) );
+		$keys       = $wpdb->get_col( $wpdb->prepare( "SELECT meta_key FROM {$table_name} WHERE object_type = %s AND object_id = %d", $object_type, $object_id ) );
 
 		// Force delete_all to false if deleting all for object.
 		$delete_all = false;
@@ -1031,7 +1038,7 @@ function bp_xprofile_delete_meta( $object_id, $object_type, $meta_key = false, $
  */
 function bp_xprofile_get_meta( $object_id, $object_type, $meta_key = '', $single = true ) {
 	// Sanitize object type.
-	if ( ! in_array( $object_type, array( 'group', 'field', 'data' ) ) ) {
+	if ( ! in_array( $object_type, array( 'group', 'field', 'data' ), true ) ) {
 		return false;
 	}
 
@@ -1088,7 +1095,7 @@ function bp_xprofile_update_meta( $object_id, $object_type, $meta_key, $meta_val
 function bp_xprofile_add_meta( $object_id, $object_type, $meta_key, $meta_value, $unique = false ) {
 	add_filter( 'query', 'bp_filter_metaid_column_name' );
 	add_filter( 'query', 'bp_xprofile_filter_meta_query' );
-	$retval = add_metadata( 'xprofile_' . $object_type , $object_id, $meta_key, $meta_value, $unique );
+	$retval = add_metadata( 'xprofile_' . $object_type, $object_id, $meta_key, $meta_value, $unique );
 	remove_filter( 'query', 'bp_filter_metaid_column_name' );
 	remove_filter( 'query', 'bp_xprofile_filter_meta_query' );
 
@@ -1302,7 +1309,7 @@ function bp_xprofile_get_hidden_field_types_for_user( $displayed_user_id = 0, $c
 
 		// Nothing's private when viewing your own profile, or when the
 		// current user is an admin.
-		if ( $displayed_user_id == $current_user_id || bp_current_user_can( 'bp_moderate' ) ) {
+		if ( $displayed_user_id === $current_user_id || bp_current_user_can( 'bp_moderate' ) ) {
 			$hidden_levels = array();
 
 		// If the current user and displayed user are friends, show all.
@@ -1345,7 +1352,7 @@ function bp_xprofile_get_hidden_field_types_for_user( $displayed_user_id = 0, $c
  */
 function bp_xprofile_get_fields_by_visibility_levels( $user_id, $levels = array() ) {
 	if ( ! is_array( $levels ) ) {
-		$levels = (array)$levels;
+		$levels = (array) $levels;
 	}
 
 	$user_visibility_levels = (array) bp_get_user_meta( $user_id, 'bp_xprofile_visibility_levels', true );
@@ -1357,21 +1364,21 @@ function bp_xprofile_get_fields_by_visibility_levels( $user_id, $levels = array(
 	foreach ( (array) $default_visibility_levels as $d_field_id => $defaults ) {
 		// If the admin has forbidden custom visibility levels for this field, replace
 		// the user-provided setting with the default specified by the admin.
-		if ( isset( $defaults['allow_custom'] ) && isset( $defaults['default'] ) && 'disabled' == $defaults['allow_custom'] ) {
+		if ( isset( $defaults['allow_custom'] ) && isset( $defaults['default'] ) && 'disabled' === $defaults['allow_custom'] ) {
 			$user_visibility_levels[ $d_field_id ] = $defaults['default'];
 		}
 	}
 
 	$field_ids = array();
 	foreach ( $user_visibility_levels as $field_id => $field_visibility ) {
-		if ( in_array( $field_visibility, $levels ) ) {
+		if ( in_array( $field_visibility, $levels, true ) ) {
 			$field_ids[] = $field_id;
 		}
 	}
 
 	// Never allow the fullname field to be excluded.
-	if ( in_array( 1, $field_ids ) ) {
-		$key = array_search( 1, $field_ids );
+	if ( in_array( 1, $field_ids, true ) ) {
+		$key = array_search( 1, $field_ids, true );
 		unset( $field_ids[ $key ] );
 	}
 
@@ -1395,7 +1402,8 @@ function bp_xprofile_maybe_format_datebox_post_data( $field_id ) {
 			$date_value = $_POST[ 'field_' . $field_id . '_day' ] . ' ' . $_POST[ 'field_' . $field_id . '_month' ] . ' ' . $_POST[ 'field_' . $field_id . '_year' ];
 
 			// Check that the concatenated value can be turned into a timestamp.
-			if ( $timestamp = strtotime( $date_value ) ) {
+			$timestamp = strtotime( $date_value );
+			if ( $timestamp ) {
 				// Add the timestamp to the global $_POST that should contain the datebox data.
 				$_POST[ 'field_' . $field_id ] = date( 'Y-m-d H:i:s', $timestamp );
 			}
@@ -1435,7 +1443,7 @@ function bp_xprofile_personal_data_exporter( $email_address ) {
 		}
 
 		// Re-pull the data so that BuddyPress formats and sanitizes properly.
-		$value = xprofile_get_field_data( $field['field_id'], $user->ID, 'comma' );
+		$value                 = xprofile_get_field_data( $field['field_id'], $user->ID, 'comma' );
 		$user_data_to_export[] = array(
 			'name'  => $field_name,
 			'value' => $value,

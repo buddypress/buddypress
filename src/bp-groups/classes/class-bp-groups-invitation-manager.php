@@ -24,7 +24,7 @@ class BP_Groups_Invitation_Manager extends BP_Invitation_Manager {
 	 *
 	 * @since 5.0.0
 	 *
-	 * @param array|string $args.
+	 * @param array|string $args Arguments for the invitation.
 	 */
 	public function __construct( $args = '' ) {
 		parent::__construct();
@@ -63,7 +63,7 @@ class BP_Groups_Invitation_Manager extends BP_Invitation_Manager {
 	 *
 	 * @since 5.0.0
 	 *
-	 * @param string $type Are we accepting an invitation or request?
+	 * @param string $type Whether an invitation or request is being accepted.
 	 * @param array  $r    Parameters that describe the invitation being accepted.
 	 * @return bool
 	 */
@@ -104,7 +104,7 @@ class BP_Groups_Invitation_Manager extends BP_Invitation_Manager {
 			do_action( 'groups_membership_accepted', $r['user_id'], $r['item_id'], true );
 		} else {
 			// Get an inviter_id from the invitation.
-			$invites = groups_get_invites( $r );
+			$invites    = groups_get_invites( $r );
 			$inviter_id = 0;
 			if ( $invites ) {
 				$inviter_id = current( $invites )->inviter_id;
@@ -138,15 +138,17 @@ class BP_Groups_Invitation_Manager extends BP_Invitation_Manager {
 	 * @see BP_Invitation::mark_accepted_by_data()
 	 *      for a description of arguments.
 	 *
-	 * @param array $args.
+	 * @param array $args Arguments for the invitation.
 	 */
 	public function mark_accepted( $args ) {
 		// Delete all existing invitations/requests to this group for this user.
-		$this->delete( array(
-			'user_id' => $args['user_id'],
-			'item_id' => $args['item_id'],
-			'type'    => 'all'
-		) );
+		$this->delete(
+			array(
+				'user_id' => $args['user_id'],
+				'item_id' => $args['item_id'],
+				'type'    => 'all',
+			)
+		);
 	}
 
 	/**
@@ -181,7 +183,7 @@ class BP_Groups_Invitation_Manager extends BP_Invitation_Manager {
 	 *
 	 * @since 5.0.0
 	 *
-	 * @param array $args.
+	 * @param array $args Arguments for the membership request.
 	 * @return bool.
 	 */
 	public function allow_request( $args ) {

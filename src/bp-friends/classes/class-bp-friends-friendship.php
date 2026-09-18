@@ -206,7 +206,7 @@ class BP_Friends_Friendship {
 
 		// Save.
 		} else {
-			$result = $wpdb->query( $wpdb->prepare( "INSERT INTO {$bp->friends->table_name} ( initiator_user_id, friend_user_id, is_confirmed, is_limited, date_created ) VALUES ( %d, %d, %d, %d, %s )", $this->initiator_user_id, $this->friend_user_id, $this->is_confirmed, $this->is_limited, $this->date_created ) );
+			$result   = $wpdb->query( $wpdb->prepare( "INSERT INTO {$bp->friends->table_name} ( initiator_user_id, friend_user_id, is_confirmed, is_limited, date_created ) VALUES ( %d, %d, %d, %d, %s )", $this->initiator_user_id, $this->friend_user_id, $this->is_confirmed, $this->is_limited, $this->date_created ) );
 			$this->id = $wpdb->insert_id;
 		}
 
@@ -348,15 +348,14 @@ class BP_Friends_Friendship {
 
 				foreach ( $filters as $filter_name => $filter_value ) {
 					if ( isset( $friendship->{$filter_name} ) && $filter_value === $friendship->{$filter_name} ) {
-						$matched++;
+						++$matched;
 					}
 				}
 
 				if ( ( 'OR' === $operator && $matched > 0 )
-				  || ( 'NOT' === $operator && 0 === $matched ) ) {
+					|| ( 'NOT' === $operator && 0 === $matched ) ) {
 					$friendships[ $friendship->id ] = $friendship;
 				}
-
 			} else {
 				/*
 				 * This is the more typical 'AND' style of filter.
@@ -369,11 +368,10 @@ class BP_Friends_Friendship {
 				}
 				$friendships[ $friendship->id ] = $friendship;
 			}
-
 		}
 
 		// Sort the results on a column name.
-		if ( in_array( $r['order_by'], array( 'id', 'initiator_user_id', 'friend_user_id' ) ) ) {
+		if ( in_array( $r['order_by'], array( 'id', 'initiator_user_id', 'friend_user_id' ), true ) ) {
 			$friendships = bp_sort_by_key( $friendships, $r['order_by'], 'num', true );
 		}
 
@@ -588,7 +586,7 @@ class BP_Friends_Friendship {
 
 		$pag_sql = '';
 		if ( ! empty( $limit ) && ! empty( $page ) ) {
-			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
+			$pag_sql = $wpdb->prepare( ' LIMIT %d, %d', intval( ( $page - 1 ) * $limit ), intval( $limit ) );
 		}
 
 		$friend_ids = self::get_friend_user_ids( $user_id );
@@ -691,8 +689,8 @@ class BP_Friends_Friendship {
 		}
 
 		$friend_ids_sql = implode( ',', array_unique( $fetch ) );
-		$sql = $wpdb->prepare( "SELECT initiator_user_id, friend_user_id, is_confirmed FROM {$bp->friends->table_name} WHERE (initiator_user_id = %d AND friend_user_id IN ({$friend_ids_sql}) ) OR (initiator_user_id IN ({$friend_ids_sql}) AND friend_user_id = %d )", $user_id, $user_id );
-		$friendships = $wpdb->get_results( $sql );
+		$sql            = $wpdb->prepare( "SELECT initiator_user_id, friend_user_id, is_confirmed FROM {$bp->friends->table_name} WHERE (initiator_user_id = %d AND friend_user_id IN ({$friend_ids_sql}) ) OR (initiator_user_id IN ({$friend_ids_sql}) AND friend_user_id = %d )", $user_id, $user_id );
+		$friendships    = $wpdb->get_results( $sql );
 
 		// Use $handled to keep track of all of the $possible_friend_ids we've matched.
 		$handled = array();
@@ -700,7 +698,8 @@ class BP_Friends_Friendship {
 			$initiator_user_id = (int) $friendship->initiator_user_id;
 			$friend_user_id    = (int) $friendship->friend_user_id;
 			if ( 1 === (int) $friendship->is_confirmed ) {
-				$status_initiator = $status_friend = 'is_friend';
+				$status_friend    = 'is_friend';
+				$status_initiator = $status_friend;
 			} else {
 				$status_initiator = 'pending';
 				$status_friend    = 'awaiting_response';
@@ -735,13 +734,16 @@ class BP_Friends_Friendship {
 		$last_activities = BP_Core_User::get_last_activity( $user_ids );
 
 		// Sort and structure as expected in legacy function.
-		usort( $last_activities, function ( $a, $b ) {
+		usort(
+			$last_activities,
+			function ( $a, $b ) {
 			if ( $a['date_recorded'] === $b['date_recorded'] ) {
 				return 0;
 			}
 
 			return ( strtotime( $a['date_recorded'] ) < strtotime( $b['date_recorded'] ) ) ? 1 : -1;
-		} );
+			}
+		);
 
 		$retval = array();
 		foreach ( $last_activities as $last_activity ) {
@@ -837,7 +839,7 @@ class BP_Friends_Friendship {
 
 		$pag_sql = '';
 		if ( ! empty( $limit ) && ! empty( $page ) ) {
-			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * intval( $limit ) ), intval( $limit ) );
+			$pag_sql = $wpdb->prepare( ' LIMIT %d, %d', intval( ( $page - 1 ) * intval( $limit ) ), intval( $limit ) );
 		}
 
 		$bp = buddypress();
@@ -1011,7 +1013,7 @@ class BP_Friends_Friendship {
 				continue;
 			}
 
-			$invitable_count++;
+			++$invitable_count;
 		}
 
 		return $invitable_count;

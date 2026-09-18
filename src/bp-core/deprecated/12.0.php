@@ -621,14 +621,22 @@ function bp_nouveau_group_creation_tabs() {
  */
 function bp_groups_header_tabs() {
 	_deprecated_function( __FUNCTION__, '12.0.0' );
-	$user_groups = bp_displayed_user_url() . bp_get_groups_slug(); ?>
 
-	<li<?php if ( !bp_action_variable( 0 ) || bp_is_action_variable( 'recently-active', 0 ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo esc_url( trailingslashit( $user_groups . '/my-groups/recently-active' ) ); ?>"><?php esc_html_e( 'Recently Active', 'buddypress' ); ?></a></li>
-	<li<?php if ( bp_is_action_variable( 'recently-joined', 0 ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo esc_url( trailingslashit( $user_groups . '/my-groups/recently-joined' ) ); ?>"><?php esc_html_e( 'Recently Joined',  'buddypress' ); ?></a></li>
-	<li<?php if ( bp_is_action_variable( 'most-popular',    0 ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo esc_url( trailingslashit( $user_groups . '/my-groups/most-popular'    ) ); ?>"><?php esc_html_e( 'Most Popular',     'buddypress' ); ?></a></li>
-	<li<?php if ( bp_is_action_variable( 'admin-of',        0 ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo esc_url( trailingslashit( $user_groups . '/my-groups/admin-of'        ) ); ?>"><?php esc_html_e( 'Administrator Of', 'buddypress' ); ?></a></li>
-	<li<?php if ( bp_is_action_variable( 'mod-of',          0 ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo esc_url( trailingslashit( $user_groups . '/my-groups/mod-of'          ) ); ?>"><?php esc_html_e( 'Moderator Of',     'buddypress' ); ?></a></li>
-	<li<?php if ( bp_is_action_variable( 'alphabetically'     ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo esc_url( trailingslashit( $user_groups . '/my-groups/alphabetically'  ) ); ?>"><?php esc_html_e( 'Alphabetically',   'buddypress' ); ?></a></li>
+	$user_groups     = bp_displayed_user_url() . bp_get_groups_slug();
+	$recently_active = ! bp_action_variable( 0 ) || bp_is_action_variable( 'recently-active', 0 );
+	$recently_joined = bp_is_action_variable( 'recently-joined', 0 );
+	$most_popular    = bp_is_action_variable( 'most-popular', 0 );
+	$admin_of        = bp_is_action_variable( 'admin-of', 0 );
+	$mod_of          = bp_is_action_variable( 'mod-of', 0 );
+	$alphabetical    = bp_is_action_variable( 'alphabetically' );
+	?>
+
+	<li<?php echo $recently_active ? ' class="current"' : ''; ?>><a href="<?php echo esc_url( trailingslashit( $user_groups . '/my-groups/recently-active' ) ); ?>"><?php esc_html_e( 'Recently Active', 'buddypress' ); ?></a></li>
+	<li<?php echo $recently_joined ? ' class="current"' : ''; ?>><a href="<?php echo esc_url( trailingslashit( $user_groups . '/my-groups/recently-joined' ) ); ?>"><?php esc_html_e( 'Recently Joined',  'buddypress' ); ?></a></li>
+	<li<?php echo $most_popular ? ' class="current"' : ''; ?>><a href="<?php echo esc_url( trailingslashit( $user_groups . '/my-groups/most-popular'    ) ); ?>"><?php esc_html_e( 'Most Popular',     'buddypress' ); ?></a></li>
+	<li<?php echo $admin_of ? ' class="current"' : ''; ?>><a href="<?php echo esc_url( trailingslashit( $user_groups . '/my-groups/admin-of'        ) ); ?>"><?php esc_html_e( 'Administrator Of', 'buddypress' ); ?></a></li>
+	<li<?php echo $mod_of ? ' class="current"' : ''; ?>><a href="<?php echo esc_url( trailingslashit( $user_groups . '/my-groups/mod-of'          ) ); ?>"><?php esc_html_e( 'Moderator Of',     'buddypress' ); ?></a></li>
+	<li<?php echo $alphabetical ? ' class="current"' : ''; ?>><a href="<?php echo esc_url( trailingslashit( $user_groups . '/my-groups/alphabetically'  ) ); ?>"><?php esc_html_e( 'Alphabetically',   'buddypress' ); ?></a></li>
 
 <?php
 	/**
@@ -654,10 +662,15 @@ function bp_blogs_blog_tabs() {
 	// Don't show these tabs on a user's own profile.
 	if ( bp_is_my_profile() ) {
 		return false;
-	} ?>
+	}
+
+	$my_blogs        = bp_is_current_action( 'my-blogs' ) || ! bp_current_action();
+	$recent_posts    = bp_is_current_action( 'recent-posts' );
+	$recent_comments = bp_is_current_action( 'recent-comments' );
+	?>
 
 	<ul class="content-header-nav">
-		<li<?php if ( bp_is_current_action( 'my-blogs' ) || !bp_current_action() ) : ?> class="current"<?php endif; ?>>
+		<li<?php echo $my_blogs ? ' class="current"' : ''; ?>>
 			<a href="<?php bp_displayed_user_link( array( bp_get_blogs_slug(), 'my-blogs' ) ); ?>">
 				<?php
 				/* translators: %s: the User Display Name */
@@ -665,7 +678,7 @@ function bp_blogs_blog_tabs() {
 				?>
 			</a>
 		</li>
-		<li<?php if ( bp_is_current_action( 'recent-posts' ) ) : ?> class="current"<?php endif; ?>>
+		<li<?php echo $recent_posts ? ' class="current"' : ''; ?>>
 			<a href="<?php bp_displayed_user_link( array( bp_get_blogs_slug(), 'recent-posts' ) ); ?>">
 				<?php
 				/* translators: %s: the User Display Name */
@@ -673,7 +686,7 @@ function bp_blogs_blog_tabs() {
 				?>
 			</a>
 		</li>
-		<li<?php if ( bp_is_current_action( 'recent-comments' ) ) : ?> class="current"<?php endif; ?>>
+		<li<?php echo $recent_comments ? ' class="current"' : ''; ?>>
 			<a href="<?php bp_displayed_user_link( array( bp_get_blogs_slug(), 'recent-comments' ) ); ?>">
 				<?php
 				/* translators: %s: the User Display Name */
@@ -963,9 +976,11 @@ function bp_group_mod_memberlist( $admin_list = false, $group = false ) {
 		$group =& $groups_template->group;
 	}
 
-	if ( $group_mods = groups_get_group_mods( $group->id ) ) { ?>
+	if ( $group_mods = groups_get_group_mods( $group->id ) ) {
+		$single_line_class = $admin_list ? ' single-line' : '';
+		?>
 
-		<ul id="mods-list" class="item-list<?php if ( $admin_list ) { ?> single-line<?php } ?>">
+		<ul id="mods-list" class="item-list<?php echo esc_attr( $single_line_class ); ?>">
 
 		<?php foreach ( (array) $group_mods as $mod ) { ?>
 
@@ -1586,10 +1601,9 @@ function bp_group_is_activity_permalink() {
  */
 function bp_groups_filter_title() {
 	_deprecated_function( __FUNCTION__, '12.0.0' );
-	$current_filter = bp_action_variable( 0 );
 
-	switch ( $current_filter ) {
-		case 'recently-active': default:
+	switch ( bp_action_variable( 0 ) ) {
+		case 'recently-active':
 			esc_html_e( 'Recently Active', 'buddypress' );
 			break;
 		case 'recently-joined':
@@ -1606,7 +1620,9 @@ function bp_groups_filter_title() {
 			break;
 		case 'alphabetically':
 			esc_html_e( 'Alphabetically', 'buddypress' );
-		break;
+			break;
+		default:
+			esc_html_e( 'Recently Active', 'buddypress' );
 	}
 
 	do_action_deprecated( 'bp_groups_filter_title', array(), '12.0.0' );

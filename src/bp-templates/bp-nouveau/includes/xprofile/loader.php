@@ -2,6 +2,8 @@
 /**
  * BP Nouveau xProfile
  *
+ * @package BuddyPress
+ * @subpackage bp-nouveau
  * @since 3.0.0
  * @version 3.0.0
  */
@@ -10,7 +12,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * xProfile Loader class
+ * Loader class for xProfile.
  *
  * @since 3.0.0
  */
@@ -34,7 +36,7 @@ class BP_Nouveau_xProfile {
 	 * @since 3.0.0
 	 */
 	protected function setup_globals() {
-		$this->dir = dirname( __FILE__ );
+		$this->dir = __DIR__;
 	}
 
 	/**
@@ -43,8 +45,8 @@ class BP_Nouveau_xProfile {
 	 * @since 3.0.0
 	 */
 	protected function includes() {
-		require( trailingslashit( $this->dir ) . 'functions.php' );
-		require( trailingslashit( $this->dir ) . 'template-tags.php' );
+		require trailingslashit( $this->dir ) . 'functions.php';
+		require trailingslashit( $this->dir ) . 'template-tags.php';
 	}
 
 	/**
@@ -70,6 +72,7 @@ class BP_Nouveau_xProfile {
  * Launch the xProfile loader class.
  *
  * @since 3.0.0
+ * @param BP_Nouveau|null $bp_nouveau Nouveau instance.
  */
 function bp_nouveau_xprofile( $bp_nouveau = null ) {
 	if ( is_null( $bp_nouveau ) ) {

@@ -2,6 +2,8 @@
 /**
  * BP Nouveau Friends
  *
+ * @package BuddyPress
+ * @subpackage bp-nouveau
  * @since 3.0.0
  * @version 12.0.0
  */
@@ -34,7 +36,7 @@ class BP_Nouveau_Friends {
 	 * @since 3.0.0
 	 */
 	protected function setup_globals() {
-		$this->dir = trailingslashit( dirname( __FILE__ ) );
+		$this->dir = trailingslashit( __DIR__ );
 	}
 
 	/**
@@ -49,11 +51,14 @@ class BP_Nouveau_Friends {
 
 		// Load AJAX code only on AJAX requests.
 		} else {
-			add_action( 'admin_init', function () {
+			add_action(
+				'admin_init',
+				function () {
 				if ( defined( 'DOING_AJAX' ) && true === DOING_AJAX && 0 === strpos( $_REQUEST['action'], 'friends_' ) ) {
 					require bp_nouveau()->friends->dir . 'ajax.php';
 				}
-			} );
+				}
+			);
 		}
 	}
 
@@ -93,7 +98,7 @@ class BP_Nouveau_Friends {
 
 		// The number formatting is done into the `bp_nouveau_nav_count()` template tag.
 		remove_filter( 'friends_get_total_friend_count', 'bp_core_number_format' );
-		remove_filter( 'bp_get_total_friend_count',      'bp_core_number_format' );
+		remove_filter( 'bp_get_total_friend_count', 'bp_core_number_format' );
 	}
 
 	/**
@@ -122,7 +127,7 @@ class BP_Nouveau_Friends {
 
 	/**
 	 * Register Friends Ajax actions.
- 	 *
+	 *
 	 * @since 12.0.0
 	 */
 	public function register_ajax_actions() {
@@ -138,6 +143,7 @@ class BP_Nouveau_Friends {
  * Launch the Friends loader class.
  *
  * @since 3.0.0
+ * @param BP_Nouveau|null $bp_nouveau Nouveau instance.
  */
 function bp_nouveau_friends( $bp_nouveau = null ) {
 	if ( is_null( $bp_nouveau ) ) {

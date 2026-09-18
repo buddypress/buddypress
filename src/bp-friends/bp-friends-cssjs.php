@@ -26,9 +26,9 @@ function bp_friends_register_scripts( $scripts = array() ) {
 
 	$asset      = array(
 		'dependencies' => array(),
-		'version'      => ''
+		'version'      => '',
 	);
-	$asset_path = trailingslashit( dirname( __FILE__ ) ) . 'blocks/dynamic-widget/index.asset.php';
+	$asset_path = trailingslashit( __DIR__ ) . 'blocks/dynamic-widget/index.asset.php';
 
 	if ( file_exists( $asset_path ) ) {
 		$asset = require $asset_path;

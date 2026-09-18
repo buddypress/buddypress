@@ -76,9 +76,11 @@ class BP_XProfile_Field_Type_Radiobutton extends BP_XProfile_Field_Type {
 			<?php
 
 			/** This action is documented in bp-xprofile/bp-xprofile-classes */
-			do_action( bp_get_the_profile_field_errors_action() ); ?>
+			do_action( bp_get_the_profile_field_errors_action() );
+			?>
 
-			<?php bp_the_profile_field_options( array( 'user_id' => $user_id ) );
+			<?php
+			bp_the_profile_field_options( array( 'user_id' => $user_id ) );
 
 			if ( ! bp_get_the_profile_field_is_required() ) :
 
@@ -96,7 +98,8 @@ class BP_XProfile_Field_Type_Radiobutton extends BP_XProfile_Field_Type {
 					<?php esc_html_e( 'Clear', 'buddypress' ); ?>
 				</a>
 
-			<?php endif;
+			<?php
+			endif;
 			// phpcs:enable
 	}
 
@@ -125,7 +128,7 @@ class BP_XProfile_Field_Type_Radiobutton extends BP_XProfile_Field_Type {
 
 			// Check for updated posted values, but errors preventing them from
 			// being saved first time.
-			if ( isset( $_POST[ 'field_' . $this->field_obj->id ] ) && $option_value != $_POST[ 'field_' . $this->field_obj->id ] ) {
+			if ( isset( $_POST[ 'field_' . $this->field_obj->id ] ) && $option_value !== $_POST[ 'field_' . $this->field_obj->id ] ) {
 				if ( ! empty( $_POST[ 'field_' . $this->field_obj->id ] ) ) {
 					$option_value = sanitize_text_field( $_POST[ 'field_' . $this->field_obj->id ] );
 				}
@@ -140,7 +143,8 @@ class BP_XProfile_Field_Type_Radiobutton extends BP_XProfile_Field_Type {
 				$selected = ' checked="checked"';
 			}
 
-			$new_html = sprintf( '<label for="%3$s" class="option-label"><input %1$s type="radio" name="%2$s" id="%3$s" value="%4$s">%5$s</label>',
+			$new_html = sprintf(
+				'<label for="%3$s" class="option-label"><input %1$s type="radio" name="%2$s" id="%3$s" value="%4$s">%5$s</label>',
 				$selected,
 				esc_attr( bp_get_the_profile_field_input_name() ),
 				esc_attr( "option_{$options[$k]->id}" ),
@@ -184,7 +188,8 @@ class BP_XProfile_Field_Type_Radiobutton extends BP_XProfile_Field_Type {
 
 		if ( bp_get_the_profile_field_is_required() ) {
 			return;
-		} ?>
+		}
+		?>
 
 		<a class="clear-value" href="javascript:clear( '<?php echo esc_js( bp_get_the_profile_field_input_name() ); ?>' );">
 			<?php esc_html_e( 'Clear', 'buddypress' ); ?>

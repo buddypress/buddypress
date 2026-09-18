@@ -429,7 +429,7 @@ function bp_has_members( $args = '' ) {
 	}
 
 	$search_terms_default = null;
-	$search_query_arg = bp_core_get_component_search_query_arg( 'members' );
+	$search_query_arg     = bp_core_get_component_search_query_arg( 'members' );
 	if ( ! empty( $_REQUEST[ $search_query_arg ] ) ) {
 		$search_terms_default = stripslashes( $_REQUEST[ $search_query_arg ] );
 	}
@@ -467,7 +467,7 @@ function bp_has_members( $args = '' ) {
 
 	// Pass a filter if ?s= is set.
 	if ( is_null( $r['search_terms'] ) ) {
-		if ( !empty( $_REQUEST['s'] ) ) {
+		if ( ! empty( $_REQUEST['s'] ) ) {
 			$r['search_terms'] = $_REQUEST['s'];
 		} else {
 			$r['search_terms'] = false;
@@ -475,7 +475,7 @@ function bp_has_members( $args = '' ) {
 	}
 
 	// Set per_page to max if max is larger than per_page.
-	if ( !empty( $r['max'] ) && ( $r['per_page'] > $r['max'] ) ) {
+	if ( ! empty( $r['max'] ) && ( $r['per_page'] > $r['max'] ) ) {
 		$r['per_page'] = $r['max'];
 	}
 
@@ -552,34 +552,32 @@ function bp_members_pagination_count() {
 		$to_num    = bp_core_number_format( ( $start_num + ( $members_template->pag_num - 1 ) > $members_template->total_member_count ) ? $members_template->total_member_count : $start_num + ( $members_template->pag_num - 1 ) );
 		$total     = bp_core_number_format( $members_template->total_member_count );
 
-		if ( 'active' == $members_template->type ) {
-			if ( 1 == $members_template->total_member_count ) {
+		if ( 'active' === $members_template->type ) {
+			if ( 1 === $members_template->total_member_count ) {
 				$pag = __( 'Viewing 1 active member', 'buddypress' );
 			} else {
 				/* translators: 1: active member from number. 2: active member to number. 3: total active members. */
 				$pag = sprintf( _n( 'Viewing %1$s - %2$s of %3$s active member', 'Viewing %1$s - %2$s of %3$s active members', $members_template->total_member_count, 'buddypress' ), $from_num, $to_num, $total );
 			}
-		} elseif ( 'popular' == $members_template->type ) {
-			if ( 1 == $members_template->total_member_count ) {
+		} elseif ( 'popular' === $members_template->type ) {
+			if ( 1 === $members_template->total_member_count ) {
 				$pag = __( 'Viewing 1 member with friends', 'buddypress' );
 			} else {
 				/* translators: 1: member with friends from number. 2: member with friends to number. 3: total members with friends. */
 				$pag = sprintf( _n( 'Viewing %1$s - %2$s of %3$s member with friends', 'Viewing %1$s - %2$s of %3$s members with friends', $members_template->total_member_count, 'buddypress' ), $from_num, $to_num, $total );
 			}
-		} elseif ( 'online' == $members_template->type ) {
-			if ( 1 == $members_template->total_member_count ) {
+		} elseif ( 'online' === $members_template->type ) {
+			if ( 1 === $members_template->total_member_count ) {
 				$pag = __( 'Viewing 1 online member', 'buddypress' );
 			} else {
 				/* translators: 1: online member from number. 2: online member to number. 3: total online members. */
 				$pag = sprintf( _n( 'Viewing %1$s - %2$s of %3$s online member', 'Viewing %1$s - %2$s of %3$s online members', $members_template->total_member_count, 'buddypress' ), $from_num, $to_num, $total );
 			}
-		} else {
-			if ( 1 == $members_template->total_member_count ) {
+		} elseif ( 1 === $members_template->total_member_count ) {
 				$pag = __( 'Viewing 1 member', 'buddypress' );
 			} else {
 				/* translators: 1: member from number. 2: member to number. 3: total members. */
 				$pag = sprintf( _n( 'Viewing %1$s - %2$s of %3$s member', 'Viewing %1$s - %2$s of %3$s members', $members_template->total_member_count, 'buddypress' ), $from_num, $to_num, $total );
-			}
 		}
 
 		/**
@@ -713,7 +711,8 @@ function bp_member_class( $classes = array() ) {
 		}
 
 		// Add current user member types.
-		if ( $member_types = bp_get_member_type( $members_template->member->id, false ) ) {
+		$member_types = bp_get_member_type( $members_template->member->id, false );
+		if ( $member_types ) {
 			foreach ( $member_types as $member_type ) {
 				$classes[] = sprintf( 'member-type-%s', $member_type );
 			}
@@ -1029,7 +1028,7 @@ function bp_member_name() {
 			$name_stack = array(
 				'display_name',
 				'user_nicename',
-				'user_login'
+				'user_login',
 			);
 
 			foreach ( $name_stack as $source ) {
@@ -1051,9 +1050,9 @@ function bp_member_name() {
 		return apply_filters( 'bp_get_member_name', $members_template->member->fullname );
 	}
 	add_filter( 'bp_get_member_name', 'wp_filter_kses' );
-	add_filter( 'bp_get_member_name', 'stripslashes'   );
+	add_filter( 'bp_get_member_name', 'stripslashes' );
 	add_filter( 'bp_get_member_name', 'wp_strip_all_tags' );
-	add_filter( 'bp_get_member_name', 'esc_html'       );
+	add_filter( 'bp_get_member_name', 'esc_html' );
 
 /**
  * Output the current member's last active time.
@@ -1196,7 +1195,7 @@ function bp_member_latest_update( $args = '' ) {
 		}
 
 		if ( isset( $update['id'] ) ) {
-			$activity_id = (int) $update['id'];
+			$activity_id         = (int) $update['id'];
 			$update['permalink'] = bp_activity_get_permalink( $activity_id );
 		}
 
@@ -1221,7 +1220,7 @@ function bp_member_latest_update( $args = '' ) {
 			* from the original text (ie it's been truncated), add the "View" link.
 			*/
 			if ( $view_link && $update['permalink'] && ( strlen( $excerpt ) < strlen( $update['content'] ) ) ) {
-				$update_content      = sprintf(
+				$update_content = sprintf(
 					'%1$s<span class="activity-read-more"><a href="%2$s" rel="nofollow">%3$s</a></span>',
 					$update_content . "\n",
 					esc_url( $update['permalink'] ),
@@ -1421,8 +1420,8 @@ function bp_member_random_profile_data() {
 		$random_data = xprofile_get_random_profile_data( bp_get_member_user_id(), true );
 		// phpcs:disable WordPress.Security.EscapeOutput
 		?>
-			<strong><?php echo wp_filter_kses( $random_data[0]->name ) ?></strong>
-			<?php echo wp_filter_kses( $random_data[0]->value ) ?>
+			<strong><?php echo wp_filter_kses( $random_data[0]->name ); ?></strong>
+			<?php echo wp_filter_kses( $random_data[0]->value ); ?>
 		<?php
 		// phpcs:enable
 	}
@@ -1465,7 +1464,7 @@ function bp_directory_members_search_form() {
 	}
 
 	$search_form_html = '<form action="" method="get" id="search-members-form">
-		<label for="members_search"><input type="text" name="' . esc_attr( $query_arg ) . '" id="members_search" placeholder="'. esc_attr( $search_value ) .'" /></label>
+		<label for="members_search"><input type="text" name="' . esc_attr( $query_arg ) . '" id="members_search" placeholder="' . esc_attr( $search_value ) . '" /></label>
 		<input type="submit" id="members_search_submit" name="members_search_submit" value="' . esc_html__( 'Search', 'buddypress' ) . '" />
 	</form>';
 
@@ -1538,7 +1537,7 @@ function bp_get_loggedin_user_nav() {
 		$selected = '';
 
 		// If the current component matches the nav item id, then add a highlight CSS class.
-		if ( ! bp_is_directory() && ! empty( $bp->active_components[ bp_current_component() ] ) && $bp->active_components[ bp_current_component() ] == $nav_item->css_id ) {
+		if ( ! bp_is_directory() && ! empty( $bp->active_components[ bp_current_component() ] ) && $bp->active_components[ bp_current_component() ] === $nav_item->css_id ) {
 			$selected = ' class="current selected"';
 		}
 
@@ -1546,11 +1545,11 @@ function bp_get_loggedin_user_nav() {
 		// loggedin_user->id then check to see if the two users are friends.
 		// if they are, add a highlight CSS class to the friends nav item
 		// if it exists.
-		if ( !bp_is_my_profile() && bp_displayed_user_id() ) {
+		if ( ! bp_is_my_profile() && bp_displayed_user_id() ) {
 			$selected = '';
 
 			if ( bp_is_active( 'friends' ) ) {
-				if ( $nav_item->css_id == $bp->friends->id ) {
+				if ( $nav_item->css_id === $bp->friends->id ) {
 					if ( friends_check_friendship( bp_loggedin_user_id(), bp_displayed_user_id() ) ) {
 						$selected = ' class="current selected"';
 					}
@@ -1563,7 +1562,7 @@ function bp_get_loggedin_user_nav() {
 	}
 
 	// Always add a log out list item to the end of the navigation.
-	$logout_link = '<li><a id="wp-logout" href="' .  esc_url( wp_logout_url( bp_get_root_url() ) ) . '">' . esc_html__( 'Log Out', 'buddypress' ) . '</a></li>';
+	$logout_link = '<li><a id="wp-logout" href="' . esc_url( wp_logout_url( bp_get_root_url() ) ) . '">' . esc_html__( 'Log Out', 'buddypress' ) . '</a></li>';
 
 	// phpcs:ignore WordPress.Security.EscapeOutput
 	echo apply_filters( 'bp_logout_nav_link', $logout_link );
@@ -1703,7 +1702,7 @@ function bp_get_displayed_user_nav() {
 			'bp_get_displayed_user_nav_' . $user_nav_item->css_id,
 			array(
 				'<li id="' . esc_attr( $user_nav_item->css_id ) . '-personal-li" ' . $selected . '><a id="user-' . esc_attr( $user_nav_item->css_id ) . '" href="' . esc_url( $link ) . '">' . wp_kses( $user_nav_item->name, array( 'span' => array( 'class' => true ) ) ) . '</a></li>',
-				&$user_nav_item
+				&$user_nav_item,
 			)
 		);
 	}
@@ -1769,7 +1768,7 @@ function bp_loggedin_user_avatar( $args = '' ) {
 				'height'  => false,
 				'html'    => true,
 				/* translators: %s: member name */
-				'alt'     => sprintf( __( 'Profile picture of %s', 'buddypress' ), bp_get_loggedin_user_fullname() )
+				'alt'     => sprintf( __( 'Profile picture of %s', 'buddypress' ), bp_get_loggedin_user_fullname() ),
 			)
 		);
 
@@ -1829,7 +1828,7 @@ function bp_displayed_user_avatar( $args = '' ) {
 				'height'  => false,
 				'html'    => true,
 				/* translators: %s: member name */
-				'alt'     => sprintf( __( 'Profile picture of %s', 'buddypress' ), bp_get_displayed_user_fullname() )
+				'alt'     => sprintf( __( 'Profile picture of %s', 'buddypress' ), bp_get_displayed_user_fullname() ),
 			)
 		);
 
@@ -1907,7 +1906,7 @@ function bp_last_activity( $user_id = 0 ) {
 		}
 
 		/* translators: %s: last activity timestamp (e.g. "Active 1 hour ago") */
-		$last_activity = bp_core_get_last_activity( bp_get_user_last_activity( $user_id ), __( 'Active %s', 'buddypress') );
+		$last_activity = bp_core_get_last_activity( bp_get_user_last_activity( $user_id ), __( 'Active %s', 'buddypress' ) );
 
 		/**
 		 * Filters the 'active [x days ago]' string for a user.
@@ -1981,7 +1980,7 @@ function bp_current_user_id() {
  * @since 1.2.4
  * @since 12.0.0 Introduced the `$chunk` argument.
  *
- * @param array $chunk A list of slugs to append to the URL.
+ * @param array $chunks A list of slugs to append to the URL.
  */
 function bp_displayed_user_link( $chunks = array() ) {
 	$path_chunks = array();
@@ -2068,7 +2067,7 @@ function bp_displayed_user_domain() {
  * @since 1.2.4
  * @since 12.0.0 Introduced the `$chunk` argument.
  *
- * @param array $chunk A list of slugs to append to the URL.
+ * @param array $chunks A list of slugs to append to the URL.
  */
 function bp_loggedin_user_link( $chunks = array() ) {
 	$path_chunks = array();
@@ -2182,7 +2181,9 @@ function bp_displayed_user_fullname() {
 	 *
 	 * @since 1.0.0
 	 */
-	function bp_user_fullname() { echo esc_html( bp_get_displayed_user_fullname() ); }
+	function bp_user_fullname() {
+		echo esc_html( bp_get_displayed_user_fullname() );
+	}
 
 
 /**
@@ -2440,7 +2441,9 @@ function bp_member_type_list( $user_id = 0, $r = array() ) {
 				}
 			}
 
-			$before = $after = $label = '';
+			$label  = '';
+			$after  = $label;
+			$before = $after;
 			$count  = count( $types );
 
 			if ( 1 === $count ) {
@@ -2451,10 +2454,12 @@ function bp_member_type_list( $user_id = 0, $r = array() ) {
 
 			// Render parent element.
 			if ( ! empty( $r['parent_element'] ) ) {
-				$parent_elem = new BP_Core_HTML_Element( array(
-					'element' => $r['parent_element'],
-					'attr'    => $r['parent_attr'],
-				) );
+				$parent_elem = new BP_Core_HTML_Element(
+					array(
+						'element' => $r['parent_element'],
+						'attr'    => $r['parent_attr'],
+					)
+				);
 
 				// Set before and after.
 				$before = $parent_elem->get( 'open_tag' );
@@ -2463,11 +2468,13 @@ function bp_member_type_list( $user_id = 0, $r = array() ) {
 
 			// Render label element.
 			if ( ! empty( $r['label_element'] ) ) {
-				$label = new BP_Core_HTML_Element( array(
-					'element'    => $r['label_element'],
-					'attr'       => $r['label_attr'],
-					'inner_html' => esc_html( $label_text ),
-				) );
+				$label = new BP_Core_HTML_Element(
+					array(
+						'element'    => $r['label_element'],
+						'attr'       => $r['label_attr'],
+						'inner_html' => esc_html( $label_text ),
+					)
+				);
 				$label = $label->contents() . ' ';
 
 			// No element, just the label.
@@ -2480,11 +2487,13 @@ function bp_member_type_list( $user_id = 0, $r = array() ) {
 
 			// Render the list of types element.
 			if ( ! empty( $r['list_element'] ) ) {
-				$list_element = new BP_Core_HTML_Element( array(
-					'element'    => $r['list_element'],
-					'attr'       => $r['list_element_attr'],
-					'inner_html' => $list,
-				) );
+				$list_element = new BP_Core_HTML_Element(
+					array(
+						'element'    => $r['list_element'],
+						'attr'       => $r['list_element_attr'],
+						'inner_html' => $list,
+					)
+				);
 
 				$list = $list_element->contents();
 			}
@@ -2658,8 +2667,9 @@ function bp_signup_username_value() {
 	 */
 	function bp_get_signup_username_value() {
 		$value = '';
-		if ( isset( $_POST['signup_username'] ) )
+		if ( isset( $_POST['signup_username'] ) ) {
 			$value = $_POST['signup_username'];
+		}
 
 		/**
 		 * Filters the username submitted during signup.
@@ -2692,7 +2702,7 @@ function bp_signup_email_value() {
 		$value = '';
 		if ( isset( $_POST['signup_email'] ) ) {
 			$value = $_POST['signup_email'];
-		} else if ( bp_get_members_invitations_allowed() ) {
+		} elseif ( bp_get_members_invitations_allowed() ) {
 			$invite = bp_get_members_invitation_from_request();
 			if ( $invite ) {
 				$value = $invite->invitee_email;
@@ -2726,8 +2736,9 @@ function bp_signup_with_blog_value() {
 	 */
 	function bp_get_signup_with_blog_value() {
 		$value = '';
-		if ( isset( $_POST['signup_with_blog'] ) )
+		if ( isset( $_POST['signup_with_blog'] ) ) {
 			$value = $_POST['signup_with_blog'];
+		}
 
 		/**
 		 * Filters the 'signup_with_blog' value submitted during signup.
@@ -2758,8 +2769,9 @@ function bp_signup_blog_url_value() {
 	 */
 	function bp_get_signup_blog_url_value() {
 		$value = '';
-		if ( isset( $_POST['signup_blog_url'] ) )
+		if ( isset( $_POST['signup_blog_url'] ) ) {
 			$value = $_POST['signup_blog_url'];
+		}
 
 		/**
 		 * Filters the 'signup_blog_url' value submitted during signup.
@@ -2826,8 +2838,9 @@ function bp_signup_blog_title_value() {
 	 */
 	function bp_get_signup_blog_title_value() {
 		$value = '';
-		if ( isset( $_POST['signup_blog_title'] ) )
+		if ( isset( $_POST['signup_blog_title'] ) ) {
 			$value = $_POST['signup_blog_title'];
+		}
 
 		/**
 		 * Filters the 'signup_blog_title' value submitted during signup.
@@ -2858,8 +2871,9 @@ function bp_signup_blog_privacy_value() {
 	 */
 	function bp_get_signup_blog_privacy_value() {
 		$value = '';
-		if ( isset( $_POST['signup_blog_privacy'] ) )
+		if ( isset( $_POST['signup_blog_privacy'] ) ) {
 			$value = $_POST['signup_blog_privacy'];
+		}
 
 		/**
 		 * Filters the 'signup_blog_privacy' value submitted during signup.
@@ -2998,16 +3012,18 @@ function bp_signup_avatar( $args = '' ) {
 
 		// Avatar DIR is found.
 		if ( $signup_avatar_dir ) {
-			$gravatar_img = bp_core_fetch_avatar( array(
-				'item_id'    => $signup_avatar_dir,
-				'object'     => 'signup',
-				'avatar_dir' => 'avatars/signups',
-				'type'       => 'full',
-				'width'      => $r['size'],
-				'height'     => $r['size'],
-				'alt'        => $r['alt'],
-				'class'      => $r['class'],
-			) );
+			$gravatar_img = bp_core_fetch_avatar(
+				array(
+					'item_id'    => $signup_avatar_dir,
+					'object'     => 'signup',
+					'avatar_dir' => 'avatars/signups',
+					'type'       => 'full',
+					'width'      => $r['size'],
+					'height'     => $r['size'],
+					'alt'        => $r['alt'],
+					'class'      => $r['class'],
+				)
+			);
 
 			// No avatar DIR was found.
 		} else {
@@ -3144,7 +3160,7 @@ function bp_members_activity_feed() {
 	}
 	// phpcs:disable WordPress.Security.EscapeOutput
 	?>
-	<link rel="alternate" type="application/rss+xml" title="<?php bloginfo( 'name' ) ?> | <?php bp_displayed_user_fullname() ?> | <?php esc_attr_e( 'Activity RSS Feed', 'buddypress' ) ?>" href="<?php bp_member_activity_feed_link() ?>" />
+	<link rel="alternate" type="application/rss+xml" title="<?php bloginfo( 'name' ); ?> | <?php bp_displayed_user_fullname(); ?> | <?php esc_attr_e( 'Activity RSS Feed', 'buddypress' ); ?>" href="<?php bp_member_activity_feed_link(); ?>" />
 	<?php
 	// phpcs:enable
 }
@@ -3276,7 +3292,7 @@ function bp_avatar_delete_link() {
  *     passed as an associative array, or as a URL query string.
  *
  *     See {@link BP_Invitations_Invitation::get()} for detailed
- *     information on the arguments.  In addition, also supports:
+ *     information on the arguments. It also supports the following arguments.
  *
  *     @type int    $max      Optional. Max items to display. Default: false.
  *     @type string $page_arg URL argument to use for pagination.
@@ -3389,7 +3405,7 @@ function bp_members_invitations_pagination_count() {
 		$to_num     = bp_core_number_format( ( $start_num + ( $query_loop->pag_num - 1 ) > $query_loop->total_invitation_count ) ? $query_loop->total_invitation_count : $start_num + ( $query_loop->pag_num - 1 ) );
 		$total      = bp_core_number_format( $query_loop->total_invitation_count );
 
-		if ( 1 == $query_loop->total_invitation_count ) {
+		if ( 1 === $query_loop->total_invitation_count ) {
 			$pag = __( 'Viewing 1 invitation', 'buddypress' );
 		} else {
 			/* translators: 1: Invitations from number. 2: Invitations to number. 3: Total invitations. */
@@ -3471,6 +3487,7 @@ function bp_the_members_invitation_property( $property = '', $context = 'html' )
 	 *
 	 * @since 8.0.0
 	 *
+	 * @param string $property Invitation property to return.
 	 * @return int ID of the current network invitation.
 	 */
 	function bp_get_the_members_invitation_property( $property = 'id' ) {
@@ -3493,7 +3510,7 @@ function bp_the_members_invitation_property( $property = '', $context = 'html' )
 			default:
 				// A known property has not been specified.
 				$property = null;
-				$value = '';
+				$value    = '';
 				break;
 		}
 
@@ -3528,6 +3545,7 @@ function bp_the_members_invitation_action_links( $args = '' ) {
 	 * @since 8.0.0
 	 *
 	 * @param array|string $args {
+	 *     Arguments.
 	 *     @type string $before  HTML before the links.
 	 *     @type string $after   HTML after the links.
 	 *     @type string $sep     HTML between the links.
@@ -3549,8 +3567,8 @@ function bp_the_members_invitation_action_links( $args = '' ) {
 				'sep'    => ' | ',
 				'links'  => array(
 					bp_get_the_members_invitation_resend_link( $inviter_id ),
-					bp_get_the_members_invitation_delete_link( $inviter_id )
-				)
+					bp_get_the_members_invitation_delete_link( $inviter_id ),
+				),
 			)
 		);
 
@@ -3632,7 +3650,7 @@ function bp_the_members_invitations_resend_url( $user_id = 0 ) {
 	function bp_get_the_members_invitations_resend_url( $user_id = 0 ) {
 		// Set default user ID to use.
 		$user_id = 0 === $user_id ? bp_displayed_user_id() : $user_id;
-		$link = bp_get_members_invitations_list_invites_permalink( $user_id );
+		$link    = bp_get_members_invitations_list_invites_permalink( $user_id );
 
 		// Get the ID.
 		$id = bp_get_the_members_invitation_property( 'id' );
@@ -3640,7 +3658,7 @@ function bp_the_members_invitations_resend_url( $user_id = 0 ) {
 		// Get the args to add to the URL.
 		$args = array(
 			'action'        => 'resend',
-			'invitation_id' => $id
+			'invitation_id' => $id,
 		);
 
 		// Add the args.
@@ -3730,7 +3748,7 @@ function bp_the_members_invitations_delete_url( $user_id = 0 ) {
 	function bp_get_the_members_invitations_delete_url( $user_id = 0 ) {
 		// Set default user ID to use.
 		$user_id = 0 === $user_id ? bp_displayed_user_id() : $user_id;
-		$link = bp_get_members_invitations_list_invites_permalink( $user_id );
+		$link    = bp_get_members_invitations_list_invites_permalink( $user_id );
 
 		// Get the ID.
 		$id = bp_get_the_members_invitation_property( 'id' );
@@ -3738,7 +3756,7 @@ function bp_the_members_invitations_delete_url( $user_id = 0 ) {
 		// Get the args to add to the URL.
 		$args = array(
 			'action'        => 'cancel',
-			'invitation_id' => $id
+			'invitation_id' => $id,
 		);
 
 		// Add the args.
@@ -3773,6 +3791,7 @@ function bp_members_invitations_list_invites_permalink( $user_id = 0 ) {
 	 *
 	 * @since 8.0.0
 	 *
+	 * @param int $user_id ID of the user.
 	 * @return string Members invitations list permalink for a user.
 	 */
 	function bp_get_members_invitations_list_invites_permalink( $user_id = 0 ) {

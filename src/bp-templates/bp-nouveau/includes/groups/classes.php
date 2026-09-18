@@ -2,6 +2,8 @@
 /**
  * Groups classes
  *
+ * @package BuddyPress
+ * @subpackage bp-nouveau
  * @since 3.0.0
  * @version 12.0.0
  */
@@ -82,11 +84,13 @@ class BP_Nouveau_Group_Invite_Query extends BP_User_Query {
 		}
 
 		// Fetch **all** invited users.
-		$pending_invites = groups_get_invites( array(
-			'item_id'     => $this->query_vars['group_id'],
-			'invite_sent' => 'sent',
-			'fields'      => 'user_ids'
-		) );
+		$pending_invites = groups_get_invites(
+			array(
+				'item_id'     => $this->query_vars['group_id'],
+				'invite_sent' => 'sent',
+				'fields'      => 'user_ids',
+			)
+		);
 
 		// This is a clue that we only want the invitations.
 		if ( false === $this->query_vars['is_confirmed'] ) {
@@ -106,7 +110,7 @@ class BP_Nouveau_Group_Invite_Query extends BP_User_Query {
 			'limit'   => '',
 		);
 
-		/** WHERE clauses *****************************************************/
+		/** WHERE clauses */
 
 		// Group id
 		$sql['where'][] = $wpdb->prepare( 'group_id = %d', $this->query_vars['group_id'] );
@@ -114,11 +118,11 @@ class BP_Nouveau_Group_Invite_Query extends BP_User_Query {
 		// Join the query part
 		$sql['where'] = ! empty( $sql['where'] ) ? 'WHERE ' . implode( ' AND ', $sql['where'] ) : '';
 
-		/** ORDER BY clause ***************************************************/
+		/** ORDER BY clause */
 		$sql['orderby'] = 'ORDER BY date_modified';
 		$sql['order']   = 'DESC';
 
-		/** LIMIT clause ******************************************************/
+		/** LIMIT clause */
 		$this->group_member_ids = $wpdb->get_col( "{$sql['select']} {$sql['where']} {$sql['orderby']} {$sql['order']} {$sql['limit']}" );
 
 		return array_merge( $this->group_member_ids, $pending_invites );
@@ -252,7 +256,7 @@ class BP_Nouveau_Customizer_Group_Nav extends BP_Core_Nav {
 	 *
 	 * @param string $key The property.
 	 *
-	 * @param mixed $value The value of the property.
+	 * @param mixed  $value The value of the property.
 	 */
 	public function __set( $key, $value ) {
 		$this->{$key} = $value;
@@ -342,7 +346,7 @@ class BP_Nouveau_Customizer_Group_Nav extends BP_Core_Nav {
 		// Now find nav items plugins are creating within their Group extensions!
 		foreach ( get_declared_classes() as $class ) {
 			if ( is_subclass_of( $class, 'BP_Group_Extension' ) ) {
-				$extension = new $class;
+				$extension = new $class();
 
 				if ( ! empty( $extension->params ) && ! array_diff_key( $required_params, $extension->params ) ) {
 					$nav_items[ $extension->params['slug'] ] = array(
@@ -371,10 +375,13 @@ class BP_Nouveau_Customizer_Group_Nav extends BP_Core_Nav {
 	 * @return array The list of "global" group front templates.
 	 */
 	public function all_groups_fronts( $templates = array() ) {
-		return array_intersect( array(
-			'groups/single/front.php',
-			'groups/single/default-front.php',
-		), $templates );
+		return array_intersect(
+			array(
+				'groups/single/front.php',
+				'groups/single/default-front.php',
+			),
+			$templates
+		);
 	}
 
 	/**
@@ -425,15 +432,20 @@ class BP_Nouveau_Group_Meta {
 	 *
 	 * @since 7.0.0
 	 *
-	 * @param string $key
+	 * @param string $key Deprecated object property name.
 	 * @return string
 	 */
 	public function __get( $key = '' ) {
 		/* translators: %s is the name of the function to use instead of the deprecated one */
-		_doing_it_wrong( 'bp_nouveau_group_meta', sprintf( esc_html__( 'Please use %s instead', 'buddypress' ), 'bp_nouveau_the_group_meta( array( \'keys\' => \'' . esc_html( $key ) . '\' ) )' ) , '7.0.0' );
+		_doing_it_wrong( 'bp_nouveau_group_meta', sprintf( esc_html__( 'Please use %s instead', 'buddypress' ), 'bp_nouveau_the_group_meta( array( \'keys\' => \'' . esc_html( $key ) . '\' ) )' ), '7.0.0' );
 
 		// Backwards compatibility.
-		return bp_nouveau_the_group_meta( array( 'keys' => $key, 'echo' => false ) );
+		return bp_nouveau_the_group_meta(
+			array(
+				'keys' => $key,
+				'echo' => false,
+			)
+		);
 	}
 
 	/**

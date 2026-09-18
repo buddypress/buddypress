@@ -25,7 +25,6 @@
 function xprofile_format_notifications( $action, $item_id, $secondary_item_id, $total_items, $format = 'string' ) {
 	switch ( $action ) {
 		default:
-
 			/**
 			 * Allows plugins to filter extended profile-related custom notifications.
 			 * Notifications must have a 'component_name' of 'xprofile' to be routed

@@ -46,8 +46,17 @@ class BP_Activity_Query extends BP_Recursive_Query {
 	 * @var array
 	 */
 	public $db_columns = array(
-		'id', 'user_id', 'component', 'type', 'action', 'content', 'primary_link',
-		'item_id', 'secondary_item_id', 'hide_sitewide', 'is_spam',
+		'id',
+		'user_id',
+		'component',
+		'type',
+		'action',
+		'content',
+		'primary_link',
+		'item_id',
+		'secondary_item_id',
+		'hide_sitewide',
+		'is_spam',
 	);
 
 	/**
@@ -126,7 +135,7 @@ class BP_Activity_Query extends BP_Recursive_Query {
 		);
 
 		$column = isset( $clause['column'] ) ? $this->validate_column( $clause['column'] ) : '';
-		$value  = isset( $clause['value'] )  ? $clause['value'] : '';
+		$value  = isset( $clause['value'] ) ? $clause['value'] : '';
 		if ( empty( $column ) || ! isset( $clause['value'] ) ) {
 			return $sql_chunks;
 		}
@@ -138,13 +147,29 @@ class BP_Activity_Query extends BP_Recursive_Query {
 		}
 
 		// Default 'compare' to '=' if no valid operator is found.
-		if ( ! in_array( $clause['compare'], array(
-			'=', '!=', '>', '>=', '<', '<=',
-			'LIKE', 'NOT LIKE',
-			'IN', 'NOT IN',
-			'BETWEEN', 'NOT BETWEEN',
-			'REGEXP', 'NOT REGEXP', 'RLIKE'
-		) ) ) {
+		if (
+			! in_array(
+				$clause['compare'],
+				array(
+					'=',
+					'!=',
+					'>',
+					'>=',
+					'<',
+					'<=',
+					'LIKE',
+					'NOT LIKE',
+					'IN',
+					'NOT IN',
+					'BETWEEN',
+					'NOT BETWEEN',
+					'REGEXP',
+					'NOT REGEXP',
+					'RLIKE',
+				),
+				true
+			)
+		) {
 			$clause['compare'] = '=';
 		}
 
@@ -157,21 +182,21 @@ class BP_Activity_Query extends BP_Recursive_Query {
 
 		// Value.
 		if ( isset( $clause['value'] ) ) {
-			if ( in_array( $compare, array( 'IN', 'NOT IN', 'BETWEEN', 'NOT BETWEEN' ) ) ) {
+			if ( in_array( $compare, array( 'IN', 'NOT IN', 'BETWEEN', 'NOT BETWEEN' ), true ) ) {
 				if ( ! is_array( $value ) ) {
 					$value = preg_split( '/[,\s]+/', $value );
 				}
 			}
 
 			// Tinyint.
-			if ( ! empty( $column ) && true === in_array( $column, array( 'hide_sitewide', 'is_spam' ) ) && is_int( $value ) ) {
+			if ( ! empty( $column ) && true === in_array( $column, array( 'hide_sitewide', 'is_spam' ), true ) && is_int( $value ) ) {
 				$sql_chunks['where'][] = $wpdb->prepare( "{$alias}{$column} = %d", $value );
 
 			} else {
 				switch ( $compare ) {
 					// IN uses different syntax.
-					case 'IN' :
-					case 'NOT IN' :
+					case 'IN':
+					case 'NOT IN':
 						$in_sql = BP_Activity_Activity::get_in_operator_sql( "{$alias}{$column}", $value );
 
 						// 'NOT IN' operator is as easy as a string replace!
@@ -182,19 +207,19 @@ class BP_Activity_Query extends BP_Recursive_Query {
 						$sql_chunks['where'][] = $in_sql;
 						break;
 
-					case 'BETWEEN' :
-					case 'NOT BETWEEN' :
+					case 'BETWEEN':
+					case 'NOT BETWEEN':
 						$value = array_slice( $value, 0, 2 );
 						$where = $wpdb->prepare( '%s AND %s', $value );
 						break;
 
-					case 'LIKE' :
-					case 'NOT LIKE' :
+					case 'LIKE':
+					case 'NOT LIKE':
 						$value = '%' . bp_esc_like( $value ) . '%';
 						$where = $wpdb->prepare( '%s', $value );
 						break;
 
-					default :
+					default:
 						$where = $wpdb->prepare( '%s', $value );
 						break;
 
@@ -240,7 +265,7 @@ class BP_Activity_Query extends BP_Recursive_Query {
 	 * @return string A validated column name value.
 	 */
 	public function validate_column( $column = '' ) {
-		if ( in_array( $column, $this->db_columns ) ) {
+		if ( in_array( $column, $this->db_columns, true ) ) {
 			return $column;
 		} else {
 			return '';

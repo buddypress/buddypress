@@ -743,7 +743,12 @@ class BP_Messages_Thread {
 			)
 		);
 
-		$pag_sql        = $type_sql = $search_sql = $user_id_sql = $includes_sql = $sender_sql = '';
+		$sender_sql     = '';
+		$includes_sql   = $sender_sql;
+		$user_id_sql    = $includes_sql;
+		$search_sql     = $user_id_sql;
+		$type_sql       = $search_sql;
+		$pag_sql        = $type_sql;
 		$meta_query_sql = array(
 			'join'  => '',
 			'where' => '',
@@ -753,9 +758,9 @@ class BP_Messages_Thread {
 			$pag_sql = $wpdb->prepare( ' LIMIT %d, %d', intval( ( $r['page'] - 1 ) * $r['limit'] ), intval( $r['limit'] ) );
 		}
 
-		if ( $r['type'] == 'unread' ) {
+		if ( $r['type'] === 'unread' ) {
 			$type_sql = ' AND r.unread_count != 0 ';
-		} elseif ( $r['type'] == 'read' ) {
+		} elseif ( $r['type'] === 'read' ) {
 			$type_sql = ' AND r.unread_count = 0 ';
 		}
 
@@ -1017,7 +1022,8 @@ class BP_Messages_Thread {
 	public static function get_total_threads_for_user( $user_id, $box = 'inbox', $type = 'all' ) {
 		global $wpdb;
 
-		$exclude_sender = $type_sql = '';
+		$type_sql       = '';
+		$exclude_sender = $type_sql;
 		if ( $box !== 'sentbox' ) {
 			$exclude_sender = 'AND sender_only != 1';
 		}
@@ -1109,7 +1115,8 @@ class BP_Messages_Thread {
 
 		$bp = buddypress();
 
-		if ( ! $sender_id = $wpdb->get_var( $wpdb->prepare( "SELECT sender_id FROM {$bp->messages->table_name_messages} WHERE thread_id = %d GROUP BY sender_id ORDER BY date_sent LIMIT 1", $thread_id ) ) ) {
+		$sender_id = $wpdb->get_var( $wpdb->prepare( "SELECT sender_id FROM {$bp->messages->table_name_messages} WHERE thread_id = %d GROUP BY sender_id ORDER BY date_sent LIMIT 1", $thread_id ) );
+		if ( ! $sender_id ) {
 			return false;
 		}
 

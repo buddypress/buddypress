@@ -395,7 +395,7 @@ function bp_do_activation_redirect() {
 
 	$query_args = array(
 		'page'  => 'bp-components',
-		'hello' => 'buddypress'
+		'hello' => 'buddypress',
 	);
 
 	if ( get_transient( '_bp_is_new_install' ) ) {
@@ -1773,7 +1773,7 @@ add_filter( 'set_screen_option_tools_page_bp_members_invitations_network_per_pag
  *
  * @since 15.0.0
  *
- * @param false|object|array $result The result object or array. Default false.
+ * @param false|object|array $addons Plugin API response containing add-ons.
  * @param string             $action The type of information being requested from the Plugin Installation API.
  * @param object             $args   Plugin API arguments.
  */

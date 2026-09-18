@@ -163,7 +163,7 @@ class BP_Notifications_Template {
 	 * @param array $args {
 	 *     An array of arguments. See {@link bp_has_notifications()}
 	 *     for more details.
-	 * }
+	 * }.
 	 */
 	public function __construct( $args = array() ) {
 
@@ -229,8 +229,7 @@ class BP_Notifications_Template {
 			$this->notification_count       = 0;
 			$this->total_notification_count = 0;
 
-		} else {
-			if ( ! empty( $r['max'] ) ) {
+		} elseif ( ! empty( $r['max'] ) ) {
 				if ( $r['max'] >= count( $this->notifications ) ) {
 					$this->notification_count = count( $this->notifications );
 				} else {
@@ -238,7 +237,6 @@ class BP_Notifications_Template {
 				}
 			} else {
 				$this->notification_count = count( $this->notifications );
-			}
 		}
 
 		if ( (int) $this->total_notification_count && (int) $this->pag_num ) {
@@ -246,16 +244,18 @@ class BP_Notifications_Template {
 				'sort_order' => $this->sort_order,
 			);
 
-			$this->pag_links = paginate_links( array(
-				'base'      => add_query_arg( $this->pag_arg, '%#%' ),
-				'format'    => '',
-				'total'     => ceil( (int) $this->total_notification_count / (int) $this->pag_num ),
-				'current'   => $this->pag_page,
-				'prev_text' => _x( '&larr;', 'Notifications pagination previous text', 'buddypress' ),
-				'next_text' => _x( '&rarr;', 'Notifications pagination next text', 'buddypress' ),
-				'mid_size'  => 1,
-				'add_args'  => $add_args,
-			) );
+			$this->pag_links = paginate_links(
+				array(
+					'base'      => add_query_arg( $this->pag_arg, '%#%' ),
+					'format'    => '',
+					'total'     => ceil( (int) $this->total_notification_count / (int) $this->pag_num ),
+					'current'   => $this->pag_page,
+					'prev_text' => _x( '&larr;', 'Notifications pagination previous text', 'buddypress' ),
+					'next_text' => _x( '&rarr;', 'Notifications pagination next text', 'buddypress' ),
+					'mid_size'  => 1,
+					'add_args'  => $add_args,
+				)
+			);
 		}
 	}
 
@@ -281,7 +281,7 @@ class BP_Notifications_Template {
 	 */
 	public function next_notification() {
 
-		$this->current_notification++;
+		++$this->current_notification;
 
 		$this->notification = $this->notifications[ $this->current_notification ];
 
