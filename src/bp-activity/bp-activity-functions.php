@@ -3549,7 +3549,7 @@ function bp_activity_create_summary( $content, $activity ) {
 	$media = $extractor->extract( $content, BP_Media_Extractor::ALL, $args );
 
 	// If we converted $content to an object earlier, flip it back to a string.
-	if ( is_a( $content, 'WP_Post' ) ) {
+	if ( $content instanceof WP_Post ) {
 		$content = $content->post_content;
 	}
 
