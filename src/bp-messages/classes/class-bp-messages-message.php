@@ -212,7 +212,7 @@ class BP_Messages_Message {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @return object $value List of recipients for a message.
+	 * @return object List of recipients for a message.
 	 */
 	public function get_recipients() {
 		global $wpdb;
@@ -229,7 +229,7 @@ class BP_Messages_Message {
 	 *
 	 * @param array $recipient_usernames Usernames of recipients.
 	 *
-	 * @return bool|array $recipient_ids Array of Recepient IDs.
+	 * @return bool|array Array of Recepient IDs.
 	 */
 	public static function get_recipient_ids( $recipient_usernames ) {
 		$recipient_ids = false;

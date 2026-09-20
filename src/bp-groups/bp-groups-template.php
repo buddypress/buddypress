@@ -5415,7 +5415,7 @@ function bp_groups_current_create_step() {
 	 *
 	 * @since 1.6.0
 	 *
-	 * @return string $current_create_step
+	 * @return string
 	 */
 	function bp_get_groups_current_create_step() {
 		$bp = buddypress();
@@ -5693,7 +5693,7 @@ function bp_group_current_admin_tab() {
 	 *
 	 * @since 1.6.0
 	 *
-	 * @return string $tab The current tab's slug.
+	 * @return string The current tab's slug.
 	 */
 	function bp_get_group_current_admin_tab() {
 		if ( bp_is_groups_component() && bp_is_current_action( 'admin' ) ) {
@@ -5731,7 +5731,7 @@ function bp_group_current_avatar( $type = 'thumb' ) {
 	 * @since 2.0.0
 	 *
 	 * @param string $type Thumb or full.
-	 * @return string $tab The current tab's slug.
+	 * @return string The current tab's slug.
 	 */
 	function bp_get_group_current_avatar( $type = 'thumb' ) {
 
@@ -6561,7 +6561,7 @@ function bp_current_group_id() {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @return int $current_group_id The id of the current group, if there is one.
+	 * @return int The id of the current group, if there is one.
 	 */
 	function bp_get_current_group_id() {
 		$current_group    = groups_get_current_group();
@@ -6591,7 +6591,7 @@ function bp_current_group_slug() {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @return string $current_group_slug The slug of the current group, if there is one.
+	 * @return string The slug of the current group, if there is one.
 	 */
 	function bp_get_current_group_slug() {
 		$current_group      = groups_get_current_group();

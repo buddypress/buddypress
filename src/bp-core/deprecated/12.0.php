@@ -1173,7 +1173,7 @@ function bp_get_options_title() {
  *
  * @deprecated 12.0.0
  *
- * @return bool $value Returns true if an options avatar has been set, otherwise false.
+ * @return bool Returns true if an options avatar has been set, otherwise false.
  */
 function bp_has_options_avatar() {
 	_deprecated_function( __FUNCTION__, '12.0.0' );

@@ -259,7 +259,7 @@ class BP_Friends_Friendship {
 	 * }
 	 * @param string $operator Optional. Operator to use in `wp_list_filter()`.
 	 *
-	 * @return array $friendships Array of friendship objects.
+	 * @return array Array of friendship objects.
 	 */
 	public static function get_friendships( $user_id, $args = array(), $operator = 'AND' ) {
 
@@ -421,7 +421,7 @@ class BP_Friends_Friendship {
 	 * @param bool $assoc_arr            Optional. True to receive an array of arrays
 	 *                                   keyed as 'user_id' => $user_id; false to get a one-dimensional
 	 *                                   array of user IDs. Default: false.
-	 * @return array $fids IDs of friends for provided user.
+	 * @return array IDs of friends for provided user.
 	 */
 	public static function get_friend_user_ids( $user_id, $friend_requests_only = false, $assoc_arr = false ) {
 
@@ -637,7 +637,7 @@ class BP_Friends_Friendship {
 	 *                                    of the potential friendship/request.
 	 * @param int $possible_friend_userid The ID of the user who is the
 	 *                                    recipient of the potential friendship/request.
-	 * @return string|false $value The friendship status, from among 'not_friends',
+	 * @return string|false The friendship status, from among 'not_friends',
 	 *                             'is_friend', 'pending', and 'awaiting_response'.
 	 */
 	public static function check_is_friend( $initiator_userid, $possible_friend_userid ) {
@@ -728,7 +728,7 @@ class BP_Friends_Friendship {
 	 *
 	 * @param array $user_ids IDs of users whose last_active meta is
 	 *                        being queried.
-	 * @return array $retval Array of last_active values + user_ids.
+	 * @return array Array of last_active values + user_ids.
 	 */
 	public static function get_bulk_last_active( $user_ids ) {
 		$last_activities = BP_Core_User::get_last_activity( $user_ids );
@@ -825,7 +825,7 @@ class BP_Friends_Friendship {
 	 * @param int|null $limit   Optional. Max number of records to return.
 	 * @param int|null $page    Optional. Number of the page to return. Default:
 	 *                          false (no pagination - return all results).
-	 * @return array $filtered_ids IDs of users who match the query.
+	 * @return array IDs of users who match the query.
 	 */
 	public static function search_users( $filter, $user_id, $limit = null, $page = null ) {
 		global $wpdb;

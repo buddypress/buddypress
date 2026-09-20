@@ -481,7 +481,7 @@ function friends_get_alphabetically( $user_id, $per_page = 0, $page = 0, $filter
 	 *
 	 * @since 1.2.0
 	 *
-	 * @return array $friends {
+	 * @return array {
 	 *     @type int   $total_users Total number of users matched by query params.
 	 *     @type array $paged_users The current page of users matched by query params.
 	 * }

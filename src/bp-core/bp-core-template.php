@@ -1239,7 +1239,7 @@ function bp_current_item() {
  *
  * @since 1.0.0
  *
- * @return array|bool $action_variables The action variables array, or false
+ * @return array|bool The action variables array, or false
  *                                      if the array is empty.
  */
 function bp_action_variables() {
@@ -1264,7 +1264,7 @@ function bp_action_variables() {
  * @since 1.5.0
  *
  * @param int $position The key of the action_variables array that you want.
- * @return string|bool $action_variable The value of that position in the
+ * @return string|bool The value of that position in the
  *                                      array, or false if not found.
  */
 function bp_action_variable( $position = 0 ) {
@@ -1369,7 +1369,7 @@ function bp_root_slug( $component = '' ) {
 	 * @since 1.5.0
 	 *
 	 * @param string $component Optional. Defaults to the current component.
-	 * @return string $root_slug The root slug.
+	 * @return string The root slug.
 	 */
 	function bp_get_root_slug( $component = '' ) {
 		$bp        = buddypress();
@@ -1494,7 +1494,7 @@ function bp_search_slug() {
  *
  * @since 1.0.0
  *
- * @return int $id ID of the currently displayed user.
+ * @return int ID of the currently displayed user.
  */
 function bp_displayed_user_id() {
 	$bp = buddypress();
@@ -3189,7 +3189,7 @@ function bp_the_body_class() {
 	 *
 	 * @param array      $wp_classes     The body classes coming from WP.
 	 * @param array|bool $custom_classes Classes that were passed to get_body_class().
-	 * @return array $classes The BP-adjusted body classes.
+	 * @return array The BP-adjusted body classes.
 	 */
 	function bp_get_the_body_class( $wp_classes = array(), $custom_classes = false ) {
 

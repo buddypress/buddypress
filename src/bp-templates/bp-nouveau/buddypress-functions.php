@@ -749,7 +749,7 @@ class BP_Nouveau extends BP_Theme_Compat {
 	 *
 	 * @param array $messages The list of feedback messages.
 	 *
-	 * @return array $messages
+	 * @return array
 	 */
 	public function filter_registration_messages( $messages ) {
 		// Change the "registration is disabled" message.

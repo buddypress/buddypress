@@ -305,7 +305,7 @@ add_filter( 'nav_menu_css_class', 'bp_core_menu_highlight_nav_menu_item', 10, 2 
  * @since 1.2.0
  *
  * @param array $comments The array of comments supplied to the comments template.
- * @return array $comments The modified comment array.
+ * @return array The modified comment array.
  */
 function bp_core_filter_comments( $comments ) {
 	global $wpdb;
@@ -416,7 +416,7 @@ add_filter( 'bp_login_redirect', 'bp_core_login_redirect', 10, 3 );
  * @param string $retval    Current email content.
  * @param string $prop      Email property to check against.
  * @param string $transform Either 'raw' or 'replace-tokens'.
- * @return string|null $retval Modified email content.
+ * @return string|null Modified email content.
  */
 function bp_email_plaintext_entity_decode( $retval, $prop, $transform ) {
 	switch ( $prop ) {
@@ -945,7 +945,7 @@ add_filter( 'customize_nav_menu_available_items', 'bp_customizer_nav_menus_get_i
  * @since 2.3.3
  *
  * @param  array $item_types An associative array structured for the customizer.
- * @return array $item_types An associative array structured for the customizer.
+ * @return array An associative array structured for the customizer.
  */
 function bp_customizer_nav_menus_set_item_types( $item_types = array() ) {
 	$item_types = array_merge(

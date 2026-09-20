@@ -497,7 +497,7 @@ class BP_XProfile_ProfileData {
 	 *
 	 * @param int $field_id Field ID being queried for.
 	 * @param int $user_id  User ID associated with field.
-	 * @return int $fielddata_id
+	 * @return int
 	 */
 	public static function get_fielddataid_byid( $field_id, $user_id ) {
 		global $wpdb;

@@ -670,7 +670,7 @@ function bp_theme_compat_reset_post( $args = array() ) {
  * @since 1.7.0
  *
  * @param string $template Template name.
- * @return string $template Template name.
+ * @return string Template name.
  */
 function bp_template_include_theme_compat( $template = '' ) {
 	// If embed template, bail.
@@ -747,7 +747,7 @@ function bp_template_include_theme_compat( $template = '' ) {
  * @since 1.7.0
  *
  * @param string $content Original post content.
- * @return string $content Post content, potentially modified.
+ * @return string Post content, potentially modified.
  */
 function bp_replace_the_content( $content = '' ) {
 

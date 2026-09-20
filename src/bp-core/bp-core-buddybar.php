@@ -803,7 +803,7 @@ function bp_core_maybe_hook_new_subnav_screen_function( $subnav_item, $component
  * @param string $nav_item  The slug of the top-level nav item whose subnav items you're checking.
  *                          Default: the current component slug.
  * @param string $component The component the navigation is attached to. Defaults to 'members'.
- * @return bool $has_subnav True if the nav item is found and has subnav items; false otherwise.
+ * @return bool True if the nav item is found and has subnav items; false otherwise.
  */
 function bp_nav_item_has_subnav( $nav_item = '', $component = 'members' ) {
 	$bp = buddypress();

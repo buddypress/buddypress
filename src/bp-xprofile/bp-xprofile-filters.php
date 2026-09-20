@@ -122,7 +122,7 @@ function bp_xprofile_sanitize_field_default( $field_default = '' ) {
  * @param string                       $content  Content to filter.
  * @param BP_XProfile_ProfileData|null $data_obj Optional. The BP_XProfile_ProfileData object.
  * @param int|null                     $field_id Optional. The ID of the profile field.
- * @return string $content
+ * @return string
  */
 function xprofile_filter_kses( $content, $data_obj = null, $field_id = null ) {
 	global $allowedtags;
@@ -270,7 +270,7 @@ function xprofile_sanitize_data_value_before_save( $field_value, $field_id = 0, 
  *
  * @param string $field_value XProfile field_value to be filtered.
  * @param string $field_type  XProfile field_type to be filtered.
- * @return false|string $field_value Filtered XProfile field_value. False on failure.
+ * @return false|string Filtered XProfile field_value. False on failure.
  */
 function xprofile_filter_format_field_value( $field_value, $field_type = '' ) {
 

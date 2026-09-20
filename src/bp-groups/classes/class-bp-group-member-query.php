@@ -190,7 +190,7 @@ class BP_Group_Member_Query extends BP_User_Query {
 	 *
 	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
-	 * @return array $ids User IDs of relevant group member ids.
+	 * @return array User IDs of relevant group member ids.
 	 */
 	protected function get_group_member_ids() {
 		global $wpdb;

@@ -63,7 +63,7 @@ class BP_Registration_Theme_Compat {
 	 * @since 1.8.0
 	 *
 	 * @param string $templates The templates from bp_get_theme_compat_templates().
-	 * @return array $templates Array of custom templates to look for.
+	 * @return array Array of custom templates to look for.
 	 */
 	public function template_hierarchy( $templates ) {
 		$component = sanitize_file_name( bp_current_component() );

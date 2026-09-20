@@ -825,7 +825,7 @@ function bp_the_profile_field_options( $args = array() ) {
 	 *                                used when rendering options. Default: displayed user.
 	 * }
 	 *
-	 * @return string $vaue Field options markup.
+	 * @return string Field options markup.
 	 */
 	function bp_get_the_profile_field_options( $args = array() ) {
 		global $field;
@@ -1062,7 +1062,7 @@ function bp_profile_field_data( $args = '' ) {
  *
  * @since 2.1.0
  *
- * @return array $groups
+ * @return array
  */
 function bp_profile_get_field_groups() {
 
@@ -1348,7 +1348,7 @@ function bp_profile_visibility_radio_buttons( $args = '' ) {
 	 *    @type string $after_radio  Markup to render after the radio button.
 	 *    @type string $class        Class to apply to the field markup.
 	 * }
-	 * @return string $retval
+	 * @return string
 	 */
 	function bp_profile_get_visibility_radio_buttons( $args = '' ) {
 
@@ -1450,7 +1450,7 @@ function bp_profile_settings_visibility_select( $args = '' ) {
 	 *    @type string $notoggle_tag Markup element to use for notoggle tag.
 	 *    @type string $notoggle_class Class to apply to the notoggle element.
 	 * }
-	 * @return string $retval
+	 * @return string
 	 */
 	function bp_profile_get_settings_visibility_select( $args = '' ) {
 

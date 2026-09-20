@@ -154,7 +154,7 @@ abstract class BP_Attachment {
 	 * @since 2.3.0
 	 *
 	 * @param array $param A list of error messages to add to BuddyPress core ones.
-	 * @return array $upload_errors The list of upload errors.
+	 * @return array The list of upload errors.
 	 */
 	public function set_upload_error_strings( $param = array() ) {
 		/**

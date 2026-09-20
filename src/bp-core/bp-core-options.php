@@ -347,7 +347,7 @@ function bp_core_activate_site_options( $keys = array() ) {
  *
  * @global wpdb $wpdb WordPress database object.
  *
- * @return array $root_blog_options_meta List of options.
+ * @return array List of options.
  */
 function bp_core_get_root_options() {
 	global $wpdb;

@@ -1486,7 +1486,7 @@ function bp_admin_wp_nav_menu_restrict_items() {
  *
  * @param string[] $actions User row action links.
  * @param WP_User  $user_object WP_User object for the currently listed user.
- * @return array $actions User row action links.
+ * @return array User row action links.
  */
 function bp_core_admin_user_row_actions( $actions, $user_object ) {
 

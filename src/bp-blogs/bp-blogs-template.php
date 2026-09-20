@@ -759,7 +759,7 @@ function bp_blog_latest_post( $args = array() ) {
 	 *                               If false, formatted "[link to post]".
 	 *                               Default: true.
 	 * }
-	 * @return string $retval String of the form 'Latest Post: [link to post]'.
+	 * @return string String of the form 'Latest Post: [link to post]'.
 	 */
 	function bp_get_blog_latest_post( $args = array() ) {
 		global $blogs_template;

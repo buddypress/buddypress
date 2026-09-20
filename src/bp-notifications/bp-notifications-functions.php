@@ -138,7 +138,7 @@ function bp_notifications_mark_notification( $id, $is_new = false ) {
  * @since 2.1.0
  *
  * @param int $user_id ID of the user whose notifications are being fetched.
- * @return array $notifications Array of notifications for user.
+ * @return array Array of notifications for user.
  */
 function bp_notifications_get_all_notifications_for_user( $user_id = 0 ) {
 
@@ -179,7 +179,7 @@ function bp_notifications_get_all_notifications_for_user( $user_id = 0 ) {
  * @since 3.0.0
  *
  * @param int $user_id ID of the user whose notifications are being fetched.
- * @return array $notifications
+ * @return array
  */
 function bp_notifications_get_grouped_notifications_for_user( $user_id = 0 ) {
 	if ( empty( $user_id ) ) {
@@ -791,7 +791,7 @@ function bp_notifications_get_unread_notification_count( $user_id = 0 ) {
  *
  * @see http://buddypress.trac.wordpress.org/ticket/5300
  *
- * @return array $component_names Array of registered components.
+ * @return array Array of registered components.
  */
 function bp_notifications_get_registered_components() {
 

@@ -949,7 +949,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 	 * @since 2.5.0 Include Post type activities types
 	 *
 	 * @param array $item An array version of the BP_Activity_Activity object.
-	 * @return bool $can_comment
+	 * @return bool
 	 */
 	protected function can_comment( $item ) {
 		$can_comment = bp_activity_type_supports( $item['type'], 'comment-reply' );

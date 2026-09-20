@@ -2892,7 +2892,7 @@ class BP_Members_Admin {
 	 *
 	 * @param array $columns Users table columns.
 	 *
-	 * @return array $columns
+	 * @return array
 	 */
 	public function users_table_add_type_column( $columns = array() ) {
 		$columns[ bp_get_member_type_tax_name() ] = _x( 'Member Type', 'Label for the WP users table member type column', 'buddypress' );

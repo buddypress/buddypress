@@ -67,7 +67,7 @@ add_action( 'bp_loaded', 'bp_members_signup_sanitization' );
  * @since 2.1.0
  *
  * @param array $illegal_names Array of illiegal names.
- * @return array $illegal_names
+ * @return array
  */
 function bp_members_signup_with_subdirectory_blog( $illegal_names = array() ) {
 	if ( ! bp_core_enable_root_profiles() ) {
@@ -311,7 +311,7 @@ add_filter( 'bp_user_can', 'bp_members_user_can_filter', 10, 5 );
  * @param array  $attributes The field attributes.
  * @param string $name       The field name.
  *
- * @return array $attributes The field attributes.
+ * @return array The field attributes.
  */
 function bp_members_invitations_make_registration_email_input_readonly_if_invite( $attributes, $name ) {
 	if ( 'email' === $name && bp_get_members_invitations_allowed() ) {
@@ -330,7 +330,7 @@ add_filter( 'bp_get_form_field_attributes', 'bp_members_invitations_make_registr
  *
  * @since 8.0.0
  *
- * @return string $message The message text.
+ * @return string The message text.
  */
 function bp_members_invitations_get_registration_welcome_message() {
 	$message = '';
@@ -396,7 +396,7 @@ function bp_members_invitations_get_registration_welcome_message() {
  *
  * @since 8.0.0
  *
- * @return string $message The message text.
+ * @return string The message text.
  */
 function bp_members_invitations_get_modified_registration_disabled_message() {
 	$message = '';

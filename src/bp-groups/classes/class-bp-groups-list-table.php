@@ -836,7 +836,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 	 *
 	 * @param array $columns Groups table columns.
 	 *
-	 * @return array $columns
+	 * @return array
 	 */
 	public function add_type_column( $columns = array() ) {
 		$columns['bp_group_type'] = _x( 'Group Type', 'Label for the WP groups table group type column', 'buddypress' );

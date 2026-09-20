@@ -1842,7 +1842,7 @@ function bp_get_user_has_avatar( $user_id = 0 ) {
  *                       or 'full'. Default: 'thumb'.
  * @param string $h_or_w Which dimension is being fetched. 'height' or 'width'.
  *                       Default: 'height'.
- * @return int|bool $dim The dimension.
+ * @return int|bool The dimension.
  */
 function bp_core_avatar_dimension( $type = 'thumb', $h_or_w = 'height' ) {
 	$bp  = buddypress();

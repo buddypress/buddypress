@@ -21,7 +21,7 @@ defined( 'ABSPATH' ) || exit;
  * @param int    $total_items       The total number of notifications to format.
  * @param string $format            'string' for notification HTML link or 'array' for separate link and text.
  * @param int    $id                Optional. The notification ID.
- * @return string $return Formatted @mention notification.
+ * @return string Formatted @mention notification.
  */
 function bp_activity_format_notifications( $action, $item_id, $secondary_item_id, $total_items, $format = 'string', $id = 0 ) {
 	$action_filter = $action;

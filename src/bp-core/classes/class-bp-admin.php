@@ -1406,7 +1406,7 @@ class BP_Admin {
 	 * @since 2.4.0
 	 *
 	 * @param array $custom_menus The list of top-level BP menu items.
-	 * @return array $custom_menus List of top-level BP menu items, with Emails added.
+	 * @return array List of top-level BP menu items, with Emails added.
 	 */
 	public function emails_admin_menu_order( $custom_menus = array() ) {
 		array_push( $custom_menus, 'edit.php?post_type=' . bp_get_email_post_type() );

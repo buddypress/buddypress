@@ -409,7 +409,7 @@ function bp_activity_load_more_link() {
 	 *
 	 * @global BP_Activity_Template $activities_template The Activity template loop.
 	 *
-	 * @return string $link
+	 * @return string
 	 */
 	function bp_get_activity_load_more_link() {
 		global $activities_template;
@@ -521,7 +521,7 @@ function bp_activity_pagination_links() {
  *
  * @global BP_Activity_Template $activities_template The main activity template loop class.
  *
- * @return bool $has_more_items True if more items, false if not.
+ * @return bool True if more items, false if not.
  */
 function bp_activity_has_more_items() {
 	global $activities_template;
@@ -929,7 +929,7 @@ function bp_activity_user_link() {
 	 *
 	 * @global BP_Activity_Template $activities_template The main activity template loop class.
 	 *
-	 * @return string $link The activity user link.
+	 * @return string The activity user link.
 	 */
 	function bp_get_activity_user_link() {
 		global $activities_template;
@@ -2198,7 +2198,7 @@ function bp_activity_comments( $deprecated = '' ) {
  *
  * @global BP_Activity_Template $activities_template The main activity template loop class.
  *
- * @return object|bool $current_comment The activity comment currently being
+ * @return object|bool The activity comment currently being
  *                                      displayed. False on failure.
  */
 function bp_activity_current_comment() {
@@ -2235,7 +2235,7 @@ function bp_activity_comment_id() {
 	 *
 	 * @global BP_Activity_Template $activities_template The main activity template loop class.
 	 *
-	 * @return int|bool $comment_id The ID of the activity comment currently
+	 * @return int|bool The ID of the activity comment currently
 	 *                              being displayed, false if none is found.
 	 */
 	function bp_get_activity_comment_id() {
@@ -2269,7 +2269,7 @@ function bp_activity_comment_user_id() {
 	 *
 	 * @global BP_Activity_Template $activities_template The main activity template loop class.
 	 *
-	 * @return int|bool $user_id The user_id of the author of the displayed
+	 * @return int|bool The user_id of the author of the displayed
 	 *                           activity comment. False on failure.
 	 */
 	function bp_get_activity_comment_user_id() {
@@ -2301,7 +2301,7 @@ function bp_activity_comment_user_link() {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @return string $user_link The URL of the activity comment author's profile.
+	 * @return string The URL of the activity comment author's profile.
 	 */
 	function bp_get_activity_comment_user_link() {
 		$user_link = bp_members_get_user_url( bp_get_activity_comment_user_id() );
@@ -2335,7 +2335,7 @@ function bp_activity_comment_name() {
 	 *
 	 * @global BP_Activity_Template $activities_template The main activity template loop class.
 	 *
-	 * @return string $name The full name of the activity comment author.
+	 * @return string The full name of the activity comment author.
 	 */
 	function bp_get_activity_comment_name() {
 		global $activities_template;
@@ -2371,7 +2371,7 @@ function bp_activity_comment_date_recorded() {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @return string|bool $date_recorded Time since the activity was recorded,
+	 * @return string|bool Time since the activity was recorded,
 	 *                                    in the form "%s ago". False on failure.
 	 */
 	function bp_get_activity_comment_date_recorded() {
@@ -2402,7 +2402,7 @@ function bp_activity_comment_date_recorded_raw() {
 	 *
 	 * @global BP_Activity_Template $activities_template The main activity template loop class.
 	 *
-	 * @return string|bool $date_recorded Time since the activity was recorded,
+	 * @return string|bool Time since the activity was recorded,
 	 *                                    in the form "%s ago". False on failure.
 	 */
 	function bp_get_activity_comment_date_recorded_raw() {
@@ -2432,7 +2432,7 @@ function bp_activity_comment_delete_link() {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @return string $link The nonced URL for deleting the current
+	 * @return string The nonced URL for deleting the current
 	 *                      activity comment.
 	 */
 	function bp_get_activity_comment_delete_link() {
@@ -2478,7 +2478,7 @@ function bp_activity_comment_content() {
 	 *
 	 * @global BP_Activity_Template $activities_template The main activity template loop class.
 	 *
-	 * @return string $content The content of the current activity comment.
+	 * @return string The content of the current activity comment.
 	 */
 	function bp_get_activity_comment_content() {
 		global $activities_template;
@@ -2515,7 +2515,7 @@ function bp_activity_comment_count() {
 	 * @global BP_Activity_Template $activities_template The main activity template loop class.
 	 *
 	 * @param array|null $deprecated Deprecated.
-	 * @return int $count The activity comment count.
+	 * @return int The activity comment count.
 	 */
 	function bp_activity_get_comment_count( $deprecated = null ) {
 		global $activities_template;
@@ -2559,7 +2559,7 @@ function bp_activity_comment_count() {
 		 *
 		 * @param object $comment Activity comment object.
 		 * @param int    $count The current iteration count.
-		 * @return int $count The activity comment count.
+		 * @return int The activity comment count.
 		 */
 		function bp_activity_recurse_comment_count( $comment, $count = 0 ) {
 
@@ -2842,7 +2842,7 @@ function bp_activity_thread_permalink() {
 	 *
 	 * @global BP_Activity_Template $activities_template The Activity template loop.
 	 *
-	 * @return string $link The activity thread permalink.
+	 * @return string The activity thread permalink.
 	 */
 	function bp_get_activity_thread_permalink() {
 		global $activities_template;
@@ -2872,7 +2872,7 @@ function bp_activity_comment_permalink() {
 	 *
 	 * @since 1.8.0
 	 *
-	 * @return string $link The activity comment permalink.
+	 * @return string The activity comment permalink.
 	 */
 	function bp_get_activity_comment_permalink() {
 		global $activities_template;
@@ -3054,7 +3054,7 @@ function bp_activity_delete_link() {
 	 *
 	 * @global BP_Activity_Template $activities_template The main activity template loop class.
 	 *
-	 * @return string $link Activity delete link. Contains $redirect_to arg
+	 * @return string Activity delete link. Contains $redirect_to arg
 	 *                      if on single activity page.
 	 */
 	function bp_get_activity_delete_link() {
@@ -3096,7 +3096,7 @@ function bp_activity_delete_url() {
 	 *
 	 * @global BP_Activity_Template $activities_template The main activity template loop class.
 	 *
-	 * @return string $link Activity delete link. Contains $redirect_to arg
+	 * @return string Activity delete link. Contains $redirect_to arg
 	 *                      if on single activity page.
 	 */
 	function bp_get_activity_delete_url() {
@@ -3155,7 +3155,7 @@ function bp_activity_latest_update( $user_id = 0 ) {
 	 * @since 1.2.0
 	 *
 	 * @param int $user_id If empty, will fall back on displayed user.
-	 * @return string|bool $latest_update The activity latest update link.
+	 * @return string|bool The activity latest update link.
 	 *                                    False on failure.
 	 */
 	function bp_get_activity_latest_update( $user_id = 0 ) {
@@ -3227,7 +3227,7 @@ function bp_activity_filter_links( $args = false ) {
 	 *     @type string $style The type of markup to use for the links.
 	 *                         'list', 'paragraph', or 'span'. Default: 'list'.
 	 * }
-	 * @return string|bool $component_links The activity filter links.
+	 * @return string|bool The activity filter links.
 	 *         False on failure.
 	 */
 	function bp_get_activity_filter_links( $args = false ) {
@@ -3323,7 +3323,7 @@ function bp_activity_filter_links( $args = false ) {
  *
  * @global BP_Activity_Template $activities_template The main activity template loop class.
  *
- * @return bool $can_comment True if item can receive comments.
+ * @return bool True if item can receive comments.
  */
 function bp_activity_can_comment() {
 	global $activities_template;
@@ -3357,7 +3357,7 @@ function bp_activity_can_comment() {
  * @since 1.5.0
  *
  * @param  bool|object $comment     Activity comment.
- * @return bool        $can_comment True if comment can receive comments,
+ * @return bool True if comment can receive comments,
  *                                  otherwise false.
  */
 function bp_activity_can_comment_reply( $comment = false ) {
@@ -4036,7 +4036,7 @@ function bp_member_activity_feed_link() {
 	 *
 	 * @since 1.2.0
 	 *
-	 * @return string $link The member activity feed link.
+	 * @return string The member activity feed link.
 	 */
 	function bp_get_member_activity_feed_link() {
 		$activity_slug = bp_get_activity_slug();
@@ -4151,7 +4151,7 @@ function bp_activity_feed_item_title() {
 	 *
 	 * @global BP_Activity_Template $activities_template The main activity template loop class.
 	 *
-	 * @return string $title The activity feed item title.
+	 * @return string The activity feed item title.
 	 */
 	function bp_get_activity_feed_item_title() {
 		global $activities_template;

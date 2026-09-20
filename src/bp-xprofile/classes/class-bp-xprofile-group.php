@@ -771,7 +771,7 @@ class BP_XProfile_Group {
 	 *
 	 * @param int   $user_id The profile owner's user_id.
 	 * @param array $fields  The database results returned by the get() query.
-	 * @return array $fields The database results, with field_visibility added
+	 * @return array The database results, with field_visibility added
 	 */
 	public static function fetch_visibility_level( $user_id = 0, $fields = array() ) {
 
@@ -817,10 +817,8 @@ class BP_XProfile_Group {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @return array $default_visibility_levels An array, keyed by field_id, of default
-	 *                                          visibility level + allow_custom
-	 *                                          (whether the admin allows this
-	 *                                          field to be set by user)
+	 * @return array An array, keyed by field_id, of default visibility level + allow_custom
+	 *               (whether the admin allows this field to be set by user)
 	 */
 	public static function fetch_default_visibility_levels() {
 		global $wpdb;

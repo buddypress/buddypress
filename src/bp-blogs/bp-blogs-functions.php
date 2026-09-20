@@ -1170,7 +1170,7 @@ function bp_blogs_remove_associated_blog_comments( $activity_ids = array(), $for
 /**
  * Get the total number of blogs being tracked by BuddyPress.
  *
- * @return int $count Total blog count.
+ * @return int Total blog count.
  */
 function bp_blogs_total_blogs() {
 	$count = wp_cache_get( 'bp_total_blogs', 'bp' );
@@ -1190,7 +1190,7 @@ function bp_blogs_total_blogs() {
  *
  * @param int $user_id ID of the user being queried. Default: on a user page,
  *                     the displayed user. Otherwise, the logged-in user.
- * @return int $count Total blog count for the user.
+ * @return int Total blog count for the user.
  */
 function bp_blogs_total_blogs_for_user( $user_id = 0 ) {
 	if ( empty( $user_id ) ) {

@@ -363,7 +363,7 @@ add_filter( 'bp_get_the_thread_message_css_class', 'bp_messages_star_message_css
  * @since 2.3.0
  *
  * @param  array $r Current message thread arguments.
- * @return array $r Array of starred message threads.
+ * @return array Array of starred message threads.
  */
 function bp_messages_filter_starred_message_threads( $r = array() ) {
 	$r['box']        = 'starred';

@@ -1413,7 +1413,7 @@ class BP_Group_Extension {
 	 *
 	 * @param string $screen The screen markup, captured in the output
 	 *                       buffer.
-	 * @return string $screen The same markup, with a submit button added.
+	 * @return string The same markup, with a submit button added.
 	 */
 	protected function maybe_add_submit_button( $screen = '' ) {
 		if ( $this->has_submit_button( $screen ) ) {

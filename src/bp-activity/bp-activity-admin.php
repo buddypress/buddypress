@@ -50,7 +50,7 @@ add_action( bp_core_admin_hook(), 'bp_activity_add_admin_menu' );
  * @since 1.7.0
  *
  * @param array $custom_menus The list of top-level BP menu items.
- * @return array $custom_menus List of top-level BP menu items, with Activity added.
+ * @return array List of top-level BP menu items, with Activity added.
  */
 function bp_activity_admin_menu_order( $custom_menus = array() ) {
 	array_push( $custom_menus, 'bp-activity' );
@@ -1017,7 +1017,7 @@ function bp_activity_admin_edit_metabox_userid( $item ) {
  *
  * @since 2.0.0
  *
- * @return array $actions
+ * @return array
  */
 function bp_activity_admin_get_activity_actions() {
 	$actions = array();

@@ -224,7 +224,7 @@ function bp_core_get_table_prefix() {
  *                                  for numeric. Default: 'alpha'.
  * @param bool       $preserve_keys Whether to keep the keys or not.
  *
- * @return array $items The sorted array.
+ * @return array The sorted array.
  */
 function bp_sort_by_key( $items, $key, $type = 'alpha', $preserve_keys = false ) {
 	$callback = function ( $a, $b ) use ( $key, $type ) {
@@ -280,7 +280,7 @@ function bp_sort_by_key( $items, $key, $type = 'alpha', $preserve_keys = false )
  *
  * @param array      $items The items to be sorted. Its constituent items can be either associative arrays or objects.
  * @param string|int $key   The array index or property name to sort by.
- * @return array $items The sorted array.
+ * @return array The sorted array.
  */
 function bp_alpha_sort_by_key( $items, $key ) {
 	return bp_sort_by_key( $items, $key, 'alpha' );
@@ -348,7 +348,7 @@ function bp_core_number_format( $number = 0, $decimals = false ) {
  *
  * @param array $old_args_keys Old argument indexes, keyed to their positions.
  * @param array $func_args     The parameters passed to the originating function.
- * @return array $new_args The parsed arguments.
+ * @return array The parsed arguments.
  */
 function bp_core_parse_args_array( $old_args_keys, $func_args ) {
 	$new_args = array();
@@ -1816,7 +1816,7 @@ add_action( 'wp_head', 'bp_core_record_activity' );
  *
  * @param int|string $last_activity_date The date of last activity.
  * @param string     $format             A sprintf()-able statement of the form 'Active %s'.
- * @return string $last_active A string of the form '3 years ago'.
+ * @return string A string of the form '3 years ago'.
  */
 function bp_core_get_last_activity( $last_activity_date = '', $format = '' ) {
 
@@ -1863,7 +1863,7 @@ function bp_core_get_last_activity( $last_activity_date = '', $format = '' ) {
  * @since 1.5.0
  *
  * @param string|bool $key The usermeta meta_key.
- * @return string $key The usermeta meta_key.
+ * @return string The usermeta meta_key.
  */
 function bp_get_user_meta_key( $key = false ) {
 
@@ -2133,7 +2133,7 @@ function bp_core_do_network_admin() {
  *
  * @since 1.5.0
  *
- * @return string $hook The proper hook ('network_admin_menu' or 'admin_menu').
+ * @return string The proper hook ('network_admin_menu' or 'admin_menu').
  */
 function bp_core_admin_hook() {
 	$hook = bp_core_do_network_admin() ? 'network_admin_menu' : 'admin_menu';
@@ -2156,7 +2156,7 @@ function bp_core_admin_hook() {
  * @since 1.5.0
  *
  * @param int $blog_id Optional. Default: the ID of the current blog.
- * @return bool $is_root_blog Returns true if this is bp_get_root_blog_id().
+ * @return bool Returns true if this is bp_get_root_blog_id().
  */
 function bp_is_root_blog( $blog_id = 0 ) {
 
@@ -3093,7 +3093,7 @@ function bp_nav_menu_get_loggedout_pages() {
  *
  * @param string $slug The slug of the nav item: login, register, or one of the
  *                     slugs from the members navigation.
- * @return string $nav_item_url The URL generated for the current user.
+ * @return string The URL generated for the current user.
  */
 function bp_nav_menu_get_item_url( $slug ) {
 	$nav_item_url   = '';
@@ -5169,7 +5169,7 @@ function bp_get_component_navigations( $component = '' ) {
  * @param string $component Whether we want the visibility for a single component
  *                          or for all components.
  *
- * @return arrary|string $retval The calculated visbility settings for the site.
+ * @return array|string The calculated visbility settings for the site.
  */
 function bp_get_community_visibility( $component = 'global' ) {
 	$retval = ( 'all' === $component ) ? array( 'global' => 'anyone' ) : 'anyone';

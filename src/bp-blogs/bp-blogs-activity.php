@@ -1055,7 +1055,7 @@ add_action( 'trashed_post_comments', 'bp_blogs_remove_activity_meta_for_trashed_
  * @global wpdb $wpdb WordPress database object.
  *
  * @param array $args Arguments passed from bp_parse_args() in bp_has_activities().
- * @return array $args
+ * @return array
  */
 function bp_blogs_new_blog_comment_query_backpat( $args ) {
 	global $wpdb;

@@ -89,7 +89,7 @@ class BP_Members_Theme_Compat {
 	 * @since 1.8.0
 	 *
 	 * @param array $templates The templates from bp_get_theme_compat_templates().
-	 * @return array $templates Array of custom templates to look for.
+	 * @return array Array of custom templates to look for.
 	 */
 	public function directory_template_hierarchy( $templates = array() ) {
 
@@ -158,7 +158,7 @@ class BP_Members_Theme_Compat {
 	 *
 	 * @param string $templates The templates from
 	 *                          bp_get_theme_compat_templates().
-	 * @return array $templates Array of custom templates to look for.
+	 * @return array Array of custom templates to look for.
 	 */
 	public function single_template_hierarchy( $templates ) {
 		// Setup some variables we're going to reference in our custom templates.

@@ -40,7 +40,7 @@ function bp_groups_has_directory() {
  *              instead of an array containing the group ID.
  *
  * @param int $group_id ID of the group.
- * @return BP_Groups_Group $group The group object.
+ * @return BP_Groups_Group The group object.
  */
 function groups_get_group( $group_id ) {
 	/*
@@ -536,7 +536,7 @@ function groups_is_valid_status( $status ) {
  * @since 1.0.0
  *
  * @param string $slug Group slug to check.
- * @return string $slug A unique and sanitized slug.
+ * @return string A unique and sanitized slug.
  */
 function groups_check_slug( $slug ) {
 	$bp = buddypress();
@@ -1978,7 +1978,7 @@ function groups_get_invites_for_group( $user_id, $group_id, $sent = null ) {
  * @param array $args     Invitation arguments.
  *                        See BP_Invitation::get() for list.
  *
- * @return array $invites     Matching BP_Invitation objects.
+ * @return array     Matching BP_Invitation objects.
  */
 function groups_get_invites( $args = array() ) {
 	$invites_class = new BP_Groups_Invitation_Manager();
@@ -2535,7 +2535,7 @@ function groups_delete_membership_request( $membership_id, $user_id = 0, $group_
  * @param array $args     Invitation arguments.
  *                        See BP_Invitation::get() for list.
  *
- * @return array $requests Matching BP_Invitation objects.
+ * @return array Matching BP_Invitation objects.
  */
 function groups_get_requests( $args = array() ) {
 	$invites_class = new BP_Groups_Invitation_Manager();
@@ -2705,7 +2705,7 @@ function groups_delete_groupmeta( $group_id, $meta_key = false, $meta_value = fa
  * @param bool   $single   Optional. If true, return only the first value of the
  *                         specified meta_key. This parameter has no effect if
  *                         meta_key is empty.
- * @return mixed Metadata value.
+ * @return mixed
  */
 function groups_get_groupmeta( $group_id, $meta_key = '', $single = true ) {
 	add_filter( 'query', 'bp_filter_metaid_column_name' );
@@ -2726,9 +2726,9 @@ function groups_get_groupmeta( $group_id, $meta_key = '', $single = true ) {
  * @param mixed  $prev_value Optional. If specified, only update existing
  *                           metadata entries with the specified value.
  *                           Otherwise, update all entries.
- * @return bool|int $retval Returns false on failure. On successful update of existing
- *                          metadata, returns true. On successful creation of new metadata,
- *                          returns the integer ID of the new metadata row.
+ * @return bool|int Returns false on failure. On successful update of existing
+ *                  metadata, returns true. On successful creation of new metadata,
+ *                  returns the integer ID of the new metadata row.
  */
 function groups_update_groupmeta( $group_id, $meta_key, $meta_value, $prev_value = '' ) {
 	add_filter( 'query', 'bp_filter_metaid_column_name' );
@@ -3174,7 +3174,7 @@ function bp_groups_register_group_type( $group_type, $args = array() ) {
  * @param string       $operator Optional. The logical operation to perform. 'or' means only one
  *                               element from the array needs to match; 'and' means all elements
  *                               must match. Accepts 'or' or 'and'. Default 'and'.
- * @return array       $types    A list of groups type names or objects.
+ * @return array    A list of groups type names or objects.
  */
 function bp_groups_get_group_types( $args = array(), $output = 'names', $operator = 'and' ) {
 	$types = buddypress()->groups->types;
@@ -3309,7 +3309,7 @@ add_action( bp_get_group_type_tax_name() . '_add_form', 'bp_insert_group_types_r
  * @param string|array $group_type Group type or array of group types to set.
  * @param bool         $append     Optional. True to append this to existing types for group,
  *                                 false to replace. Default: false.
- * @return false|array $retval See bp_set_object_terms().
+ * @return false|array See bp_set_object_terms().
  */
 function bp_groups_set_group_type( $group_id, $group_type, $append = false ) {
 	// Pass an empty group type to remove group's type.
@@ -3417,7 +3417,7 @@ function bp_groups_get_group_type( $group_id, $single = true, $use_db = true ) {
  *
  * @param int    $group_id   ID of the user.
  * @param string $group_type Group type.
- * @return bool|WP_Error $deleted    True on success. False or WP_Error on failure.
+ * @return bool|WP_Error
  */
 function bp_groups_remove_group_type( $group_id, $group_type ) {
 	if ( empty( $group_type ) || ! bp_groups_get_group_type_object( $group_type ) ) {

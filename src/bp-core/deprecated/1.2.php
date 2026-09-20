@@ -16,7 +16,7 @@
  *
  * @param string|array $args
  *
- * @return object $activity The activity/activities object
+ * @return object The activity/activities object
  */
 function bp_activity_get_sitewide( $args = '' ) {
 	_deprecated_function( __FUNCTION__, '1.2', 'bp_activity_get()' );

@@ -74,7 +74,7 @@ class BP_Nouveau_Group_Invite_Query extends BP_User_Query {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @return array $ids User IDs of relevant group member ids
+	 * @return array User IDs of relevant group member ids
 	 */
 	protected function get_group_member_ids() {
 		global $wpdb;

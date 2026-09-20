@@ -55,7 +55,7 @@ class BP_Attachment_Cover_Image extends BP_Attachment {
 	 * @since 2.4.0
 	 *
 	 * @param array $allowed_types Array of allowed cover image types.
-	 * @return string $value Comma-separated list of allowed cover image types.
+	 * @return string Comma-separated list of allowed cover image types.
 	 */
 	public static function get_cover_image_types( $allowed_types = array() ) {
 		$types = array_map( 'strtoupper', $allowed_types );
@@ -72,7 +72,7 @@ class BP_Attachment_Cover_Image extends BP_Attachment {
 	 * @since 2.4.0
 	 *
 	 * @param array $file The temporary file attributes (before it has been moved).
-	 * @return array $file The file with extra errors if needed.
+	 * @return array The file with extra errors if needed.
 	 */
 	public function validate_upload( $file = array() ) {
 		// Bail if already an error.
@@ -99,7 +99,7 @@ class BP_Attachment_Cover_Image extends BP_Attachment {
 	 * @since 2.4.0
 	 *
 	 * @param array $upload_dir The original Uploads dir.
-	 * @return array $value Upload data (path, url, basedir...).
+	 * @return array Upload data (path, url, basedir...).
 	 */
 	public function upload_dir_filter( $upload_dir = array() ) {
 		return bp_attachments_cover_image_upload_dir();

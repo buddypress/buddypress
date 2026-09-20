@@ -470,7 +470,7 @@ class BP_Notifications_Notification {
 	 *
 	 * @param array $args See {@link BP_Notifications_Notification::get()}
 	 *                    for more details.
-	 * @return string $retval LIMIT clause.
+	 * @return string LIMIT clause.
 	 */
 	protected static function get_paged_sql( $args = array() ) {
 		global $wpdb;
@@ -835,7 +835,7 @@ class BP_Notifications_Notification {
 	 *
 	 * @param  array $meta_query An array of meta_query filters. See the
 	 *                           documentation for WP_Meta_Query for details.
-	 * @return array $sql_array 'join' and 'where' clauses.
+	 * @return array 'join' and 'where' clauses.
 	 */
 	public static function get_meta_query_sql( $meta_query = array() ) {
 		global $wpdb;

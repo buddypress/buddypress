@@ -25,7 +25,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 2.1.0
  *
  * @param array $args See {@link BP_XProfile_Group::get()} for description of arguments.
- * @return array $groups
+ * @return array
  */
 function bp_xprofile_get_groups( $args = array() ) {
 
@@ -186,8 +186,8 @@ function bp_xprofile_get_field_types() {
  * @since 2.0.0
  *
  * @param string $type Type of profile field to create. See {@link bp_xprofile_get_field_types()} for default core values.
- * @return object $value If field type unknown, returns BP_XProfile_Field_Type_Textarea.
- *                       Otherwise returns an instance of the relevant child class of BP_XProfile_Field_Type.
+ * @return object If field type unknown, returns BP_XProfile_Field_Type_Textarea.
+ *                Otherwise returns an instance of the relevant child class of BP_XProfile_Field_Type.
  */
 function bp_xprofile_create_field_type( $type ) {
 
@@ -651,7 +651,7 @@ function xprofile_check_is_required_field( $field_id ) {
  * @since 1.0.0
  *
  * @param string $field_name The name of the field to get the ID for.
- * @return int|null $field_id on success, false on failure.
+ * @return int|null Field ID on success, false on failure.
  */
 function xprofile_get_field_id_from_name( $field_name ) {
 	return BP_XProfile_Field::get_id_from_name( $field_name );
@@ -1348,7 +1348,7 @@ function bp_xprofile_get_hidden_field_types_for_user( $displayed_user_id = 0, $c
  * @param int   $user_id The id of the profile owner.
  * @param array $levels  An array of visibility levels ('public', 'friends', 'loggedin', 'adminsonly' etc) to be
  *                       checked against.
- * @return array $field_ids The fields that match the requested visibility levels for the given user.
+ * @return array The fields that match the requested visibility levels for the given user.
  */
 function bp_xprofile_get_fields_by_visibility_levels( $user_id, $levels = array() ) {
 	if ( ! is_array( $levels ) ) {

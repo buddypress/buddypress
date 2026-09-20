@@ -52,7 +52,7 @@ add_action( 'bp_register_activity_actions', 'bp_members_register_activity_action
  *
  * @param string $action   Static activity action.
  * @param object $activity Activity object.
- * @return string $action
+ * @return string
  */
 function bp_members_format_activity_action_new_member( $action, $activity ) {
 	$userlink         = bp_core_get_userlink( $activity->user_id );

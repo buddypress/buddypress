@@ -128,7 +128,7 @@ add_action( 'bp_activity_before_save', 'bp_activity_check_disallowed_keys', 2, 1
  *
  * @since 1.6.0
  *
- * @return array $types List of the activity types to moderate.
+ * @return array List of the activity types to moderate.
  */
 function bp_activity_get_moderated_activity_types() {
 	$types = array(
@@ -202,7 +202,7 @@ function bp_activity_check_disallowed_keys( $activity ) {
  * @since 1.1.0
  *
  * @param string $content The activity content.
- * @return string $content Filtered activity content.
+ * @return string Filtered activity content.
  */
 function bp_activity_filter_kses( $content ) {
 	$activity_allowedtags = bp_get_allowedtags();
@@ -373,7 +373,7 @@ function bp_activity_at_name_send_emails( $activity ) {
  * @since 1.2.0
  *
  * @param string $text Activity text.
- * @return string $text Text with rel=nofollow added to any links.
+ * @return string Text with rel=nofollow added to any links.
  */
 function bp_activity_make_nofollow_filter( $text ) {
 	return preg_replace_callback( '|<a (.+?)>|i', 'bp_activity_make_nofollow_filter_callback', $text );
@@ -386,7 +386,7 @@ function bp_activity_make_nofollow_filter( $text ) {
 	 * @since 7.0.0 Adds the ugc rel attribute.
 	 *
 	 * @param array $matches Items matched by preg_replace_callback() in bp_activity_make_nofollow_filter().
-	 * @return string $text Link with rel=nofollow added.
+	 * @return string Link with rel=nofollow added.
 	 */
 	function bp_activity_make_nofollow_filter_callback( $matches ) {
 		$text = $matches[1];
@@ -411,7 +411,7 @@ function bp_activity_make_nofollow_filter( $text ) {
  *     Optional parameters. See $options argument of {@link bp_create_excerpt()}
  *     for all available parameters.
  * }.
- * @return string $excerpt The truncated text.
+ * @return string The truncated text.
  */
 function bp_activity_truncate_entry( $text, $args = array() ) {
 	global $activities_template;
@@ -483,7 +483,7 @@ function bp_activity_truncate_entry( $text, $args = array() ) {
  * @since 2.0.0
  *
  * @param array $js_handles The original dependencies.
- * @return array $js_handles The new dependencies.
+ * @return array The new dependencies.
  */
 function bp_activity_get_js_dependencies( $js_handles = array() ) {
 	if ( bp_activity_do_heartbeat() ) {
@@ -503,7 +503,7 @@ add_filter( 'bp_core_get_js_dependencies', 'bp_activity_get_js_dependencies', 10
  * @since 2.0.0
  *
  * @param string $classes Array of classes for most recent activity item.
- * @return string $classes
+ * @return string
  */
 function bp_activity_newest_class( $classes = '' ) {
 	$bp = buddypress();
@@ -522,7 +522,7 @@ function bp_activity_newest_class( $classes = '' ) {
  * @since 2.0.0
  *
  * @param string $classes Array of classes for timestamp.
- * @return string $classes
+ * @return string
  */
 function bp_activity_timestamp_class( $classes = '' ) {
 
@@ -549,7 +549,7 @@ add_filter( 'bp_get_activity_css_class', 'bp_activity_timestamp_class', 9, 1 );
  *
  * @param array $response Array containing Heartbeat API response.
  * @param array $data     Array containing data for Heartbeat API response.
- * @return array $response
+ * @return array
  */
 function bp_activity_heartbeat_last_recorded( $response = array(), $data = array() ) {
 	if ( empty( $data['bp_activity_last_recorded'] ) ) {
@@ -610,7 +610,7 @@ add_filter( 'heartbeat_nopriv_received', 'bp_activity_heartbeat_last_recorded', 
  * @since 2.0.0
  *
  * @param array $strings Localized strings.
- * @return array $strings
+ * @return array
  */
 function bp_activity_heartbeat_strings( $strings = array() ) {
 
@@ -675,7 +675,7 @@ add_filter( 'bp_core_get_js_strings', 'bp_activity_heartbeat_strings', 10, 1 );
  *
  * @param array $retval Empty array by default.
  * @param array $filter Current activity arguments.
- * @return array $retval
+ * @return array
  */
 function bp_activity_filter_just_me_scope( $retval = array(), $filter = array() ) {
 
@@ -724,7 +724,7 @@ add_filter( 'bp_activity_set_just-me_scope_args', 'bp_activity_filter_just_me_sc
  *
  * @param array $retval Empty array by default.
  * @param array $filter Current activity arguments.
- * @return array $retval
+ * @return array
  */
 function bp_activity_filter_favorites_scope( $retval = array(), $filter = array() ) {
 
@@ -781,7 +781,7 @@ add_filter( 'bp_activity_set_favorites_scope_args', 'bp_activity_filter_favorite
  *
  * @param array $retval Empty array by default.
  * @param array $filter Current activity arguments.
- * @return array $retval
+ * @return array
  */
 function bp_activity_filter_mentions_scope( $retval = array(), $filter = array() ) {
 

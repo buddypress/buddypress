@@ -766,7 +766,7 @@ class BP_Groups_Membership_Request_REST_Controller extends WP_REST_Controller {
 	 * @since 15.0.0
 	 *
 	 * @param int $request_id The ID of the request you wish to fetch.
-	 * @return BP_Invitation|bool $group_request Membership request if found, false otherwise.
+	 * @return BP_Invitation|bool Membership request if found, false otherwise.
 	 */
 	public function fetch_single_membership_request( $request_id = 0 ) {
 		$group_requests = groups_get_requests( array( 'id' => $request_id ) );

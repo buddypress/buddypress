@@ -3150,7 +3150,7 @@ add_action( bp_get_member_type_tax_name() . '_add_form', 'bp_insert_member_types
  * @param string|array $member_type The member type name or an array of member type names.
  * @param bool         $append      Optional. True to append this to existing types for user,
  *                                  false to replace. Default: false.
- * @return bool|array $retval See {@see bp_set_object_terms()}.
+ * @return bool|array See {@see bp_set_object_terms()}.
  */
 function bp_set_member_type( $user_id, $member_type, $append = false ) {
 	// Pass an empty $member_type to remove a user's type.
@@ -3325,7 +3325,7 @@ function bp_has_member_type( $user_id, $member_type ) {
  * @since 2.2.0
  *
  * @param int $user_id ID of the user.
- * @return bool|array $value See {@see bp_set_member_type()}.
+ * @return bool|array See {@see bp_set_member_type()}.
  */
 function bp_remove_member_type_on_user_delete( $user_id ) {
 	return bp_set_member_type( $user_id, '' );
@@ -3457,7 +3457,7 @@ add_action( 'bp_core_activated_user', 'bp_send_welcome_email', 10, 1 );
  * @since 8.0.0
  *
  * @param array $args Invitation arguments. See BP_Invitation::get() for list.
- * @return array $invites Matching BP_Invitation objects.
+ * @return array Matching BP_Invitation objects.
  */
 function bp_members_invitations_get_invites( $args = array() ) {
 	$invites_class = new BP_Members_Invitation_Manager();
@@ -3472,7 +3472,7 @@ function bp_members_invitations_get_invites( $args = array() ) {
  * @param int $user_id ID of user to check for invitations sent by.
  *                     Defaults to the current user's ID.
  *
- * @return bool $invites True if user has sent invites.
+ * @return bool True if user has sent invites.
  */
 function bp_members_invitations_user_has_sent_invites( $user_id = 0 ) {
 	if ( 0 === $user_id ) {
@@ -3692,7 +3692,7 @@ function bp_members_invitations_delete_invites( $args = array() ) {
  *
  * @param BP_Invitation $invitation Invitation to create hash from.
  *
- * @return string $hash Calculated sha1 hash.
+ * @return string Calculated sha1 hash.
  */
 function bp_members_invitations_get_hash( $invitation ) {
 	$hash = false;
@@ -3729,7 +3729,7 @@ function bp_members_invitations_get_hash( $invitation ) {
  *
  * @since 8.0.0
  *
- * @return BP_Invitation $invite Invitation specified by the $_GET parameters.
+ * @return BP_Invitation Invitation specified by the $_GET parameters.
  */
 function bp_get_members_invitation_from_request() {
 	$invites_class = new BP_Members_Invitation_Manager();
@@ -3763,8 +3763,7 @@ function bp_get_members_invitation_from_request() {
  * @param string $field Which fields to search by. Possible values are
  *                      activation_key, user_email, id.
  * @param string $value Value to search by.
- * @return bool|BP_Signup $signup Found signup, returns first found
- *                                if more than one is found.
+ * @return bool|BP_Signup Found signup, returns first found if more than one is found.
  */
 function bp_members_get_signup_by( $field = 'activation_key', $value = '' ) {
 	switch ( $field ) {

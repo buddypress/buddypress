@@ -1032,7 +1032,7 @@ class BP_Activity_Activity {
 	 * @since 2.0.0
 	 *
 	 * @param array $activities Array of activities.
-	 * @return array $activities Array of activities.
+	 * @return array Array of activities.
 	 */
 	protected static function prefetch_object_data( $activities ) {
 
@@ -1087,7 +1087,7 @@ class BP_Activity_Activity {
 	 *
 	 * @param array $meta_query An array of meta_query filters. See the
 	 *                          documentation for WP_Meta_Query for details.
-	 * @return array $sql_array 'join' and 'where' clauses.
+	 * @return array 'join' and 'where' clauses.
 	 */
 	public static function get_meta_query_sql( $meta_query = array() ) {
 		global $wpdb;
@@ -1898,7 +1898,7 @@ class BP_Activity_Activity {
 	 * @since 1.0.0
 	 *
 	 * @param int $limit Optional. Number of items to fetch. Default: 35.
-	 * @return array $activity_feed List of activity items, with RSS data added.
+	 * @return array List of activity items, with RSS data added.
 	 */
 	public static function get_sitewide_items_for_feed( $limit = 35 ) {
 		$activities    = bp_activity_get_sitewide( array( 'max' => $limit ) );
@@ -2070,7 +2070,7 @@ class BP_Activity_Activity {
 	 * @since 1.2.0
 	 *
 	 * @param int $user_id The ID of the user whose favorites you're counting.
-	 * @return int $value A count of the user's favorites.
+	 * @return int A count of the user's favorites.
 	 */
 	public static function total_favorite_count( $user_id ) {
 

@@ -872,7 +872,7 @@ function bp_total_unread_messages_count( $user_id = 0 ) {
 	 *
 	 * @param int $user_id The user ID.
 	 *
-	 * @return int $unread_count Total inbox unread count for user.
+	 * @return int Total inbox unread count for user.
 	 */
 	function bp_get_total_unread_messages_count( $user_id = 0 ) {
 
@@ -1924,7 +1924,7 @@ function bp_the_thread_subject() {
 		 *
 		 * @since 1.1.0
 		 *
-		 * @return string $last_message_subject Subject of the thread currently being iterated over.
+		 * @return string Subject of the thread currently being iterated over.
 		 */
 		return apply_filters( 'bp_get_the_thread_subject', $thread_template->thread->last_message_subject );
 	}

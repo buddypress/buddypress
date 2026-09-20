@@ -40,7 +40,7 @@ function bp_activity_has_directory() {
  *
  * @since 1.8.0
  *
- * @return bool $retval True to enable mentions, false to disable.
+ * @return bool True to enable mentions, false to disable.
  */
 function bp_activity_do_mentions() {
 
@@ -250,7 +250,7 @@ function bp_activity_update_mention_count_for_user( $user_id, $activity_id, $act
  * @since 1.9.0
  *
  * @param int|string $user_id ID of the user to get @-mention name for.
- * @return string $mentionname User name appropriate for @-mentions.
+ * @return string User name appropriate for @-mentions.
  */
 function bp_activity_get_user_mentionname( $user_id ) {
 	$mentionname = '';
@@ -1707,7 +1707,7 @@ function bp_activity_generate_action_string( $activity ) {
  *
  * @param string $action   Static activity action.
  * @param object $activity Activity data object.
- * @return string $action
+ * @return string
  */
 function bp_activity_format_activity_action_activity_update( $action, $activity ) {
 	$action = sprintf(
@@ -1734,7 +1734,7 @@ function bp_activity_format_activity_action_activity_update( $action, $activity 
  *
  * @param string $action   Static activity action.
  * @param object $activity Activity data object.
- * @return string $action
+ * @return string
  */
 function bp_activity_format_activity_action_activity_comment( $action, $activity ) {
 	$action = sprintf(
@@ -1761,7 +1761,7 @@ function bp_activity_format_activity_action_activity_comment( $action, $activity
  *
  * @param string $action   Static activity action.
  * @param object $activity Activity data object.
- * @return string $action
+ * @return string
  */
 function bp_activity_format_activity_action_custom_post_type_post( $action, $activity ) {
 	$bp = buddypress();
@@ -1889,7 +1889,7 @@ function bp_activity_format_activity_action_custom_post_type_comment( $action, $
  *      and the format of the returned value.
  *
  * @param array|string $args See BP_Activity_Activity::get() for description.
- * @return array $activity See BP_Activity_Activity::get() for description.
+ * @return array See BP_Activity_Activity::get() for description.
  */
 function bp_activity_get( $args = '' ) {
 
@@ -2166,7 +2166,7 @@ function bp_activity_add( $args = '' ) {
  *     @type string $error_type Optional. Error type to return. Either 'bool' or 'wp_error'. Defaults to
  *                              'bool' for boolean. 'wp_error' will return a WP_Error object.
  * }
- * @return int|bool|WP_Error $activity_id The activity id on success. On failure, either boolean false or WP_Error
+ * @return int|bool|WP_Error The activity id on success. On failure, either boolean false or WP_Error
  *                                        object depending on the 'error_type' $args parameter.
  */
 function bp_activity_post_update( $args = '' ) {
@@ -2982,7 +2982,7 @@ function bp_activity_new_comment( $args = '' ) {
  * @see BP_Activity_Activity::get() For more information on accepted arguments.
  *
  * @param array|string $args See BP_Activity_Activity::get() for description.
- * @return int $activity_id The ID of the activity item found.
+ * @return int The ID of the activity item found.
  */
 function bp_activity_get_activity_id( $args = '' ) {
 
@@ -3232,7 +3232,7 @@ function bp_activity_delete_comment( $activity_id, $comment_id ) {
  *
  * @param int         $activity_id  The unique id of the activity object.
  * @param object|bool $activity_obj Optional. The activity object.
- * @return string $link Permalink for the activity item.
+ * @return string Permalink for the activity item.
  */
 function bp_activity_get_permalink( $activity_id, $activity_obj = false ) {
 	$bp = buddypress();
@@ -3387,7 +3387,7 @@ function bp_activity_hide_user_activity( $user_id ) {
  *                             to. If absent, the image will not be a link.
  * @param array|bool  $args    Optional. The args passed to the activity
  *                             creation function (eg bp_blogs_record_activity()).
- * @return string $content The content with images stripped and replaced with a
+ * @return string The content with images stripped and replaced with a
  *                         single thumb.
  */
 function bp_activity_thumbnail_content_images( $content, $link = false, $args = false ) {
@@ -3477,7 +3477,7 @@ function bp_activity_get_excerpt_length() {
  * @param string $content  The content of the activity item.
  * @param array  $activity The data passed to bp_activity_add() or the values
  *                         from an Activity obj.
- * @return string $summary
+ * @return string
  */
 function bp_activity_create_summary( $content, $activity ) {
 	$args = array(

@@ -254,7 +254,7 @@ function bp_core_catch_profile_uri() {
  * @since 2.6.0
  *
  * @param string $member_slug The current member slug.
- * @return string $member_slug The current member slug.
+ * @return string The current member slug.
  */
 function bp_core_members_shortlink_redirector( $member_slug ) {
 
