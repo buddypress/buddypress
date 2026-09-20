@@ -686,8 +686,9 @@ class BP_XProfile_ProfileData {
 		$new_values = array();
 
 		if ( is_array( $fields ) ) {
+			$fields_count = count( $fields );
 			for ( $i = 0, $count = count( $values ); $i < $count; ++$i ) {
-				for ( $j = 0; $j < count( $fields ); $j++ ) {
+				for ( $j = 0; $j < $fields_count; $j++ ) {
 					if ( $values[ $i ]->name === $fields[ $j ] ) {
 						$new_values[ $fields[ $j ] ] = $values[ $i ]->value;
 					} elseif ( ! array_key_exists( $fields[ $j ], $new_values ) ) {

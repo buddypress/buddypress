@@ -196,15 +196,13 @@ class BP_Nouveau_Customizer_Group_Nav extends BP_Core_Nav {
 	 * @param int $object_id Optional. The random group ID used to generate the nav.
 	 */
 	public function __construct( $object_id = 0 ) {
-		$error = new WP_Error( 'missing_parameter' );
-
 		if ( empty( $object_id ) || ! bp_current_user_can( 'bp_moderate' ) || ! did_action( 'admin_init' ) ) {
-			return $error;
+			return;
 		}
 
 		$group = groups_get_group( array( 'group_id' => $object_id ) );
 		if ( empty( $group->id ) ) {
-			return $error;
+			return;
 		}
 
 		$this->group = $group;

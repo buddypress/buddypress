@@ -168,7 +168,7 @@ class BP_Activity_Feed {
 			// Check if id is valid.
 			if ( empty( $this->id ) ) {
 				_doing_it_wrong( 'BP_Activity_Feed', esc_html__( "RSS feed 'id' must be defined", 'buddypress' ), 'BP 1.8' );
-				return false;
+				return;
 			}
 
 			/**

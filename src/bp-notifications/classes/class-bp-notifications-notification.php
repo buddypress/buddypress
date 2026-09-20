@@ -987,7 +987,9 @@ class BP_Notifications_Notification {
 		/** This action is documented in bp-notifications/classes/class-bp-notifications-notification.php */
 		do_action( 'bp_notification_before_update', $update_args, $where_args );
 
-		return $wpdb->query( $wpdb->prepare( "UPDATE {$bp->notifications->table_name} SET {$fields} WHERE {$conditions}", $values ) );
+		$sql = "UPDATE {$bp->notifications->table_name} SET {$fields} WHERE {$conditions}";
+
+		return $wpdb->query( $wpdb->prepare( $sql, $values ) );
 	}
 
 	/**
@@ -1076,7 +1078,9 @@ class BP_Notifications_Notification {
 			return $wpdb->query( "DELETE FROM {$bp->notifications->table_name} WHERE {$conditions}" );
 		}
 
-		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->notifications->table_name} WHERE {$conditions}", $values ) );
+		$sql = "DELETE FROM {$bp->notifications->table_name} WHERE {$conditions}";
+
+		return $wpdb->query( $wpdb->prepare( $sql, $values ) );
 	}
 
 	/** Convenience methods ***************************************************/
