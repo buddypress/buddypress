@@ -460,7 +460,7 @@ function xprofile_set_field_data( $field, $user_id, $value, $is_required = false
 	$value = apply_filters( 'bp_xprofile_set_field_data_pre_validate', $value, $field, $field_type_obj );
 
 	// Special-case support for integer 0 for the number field type.
-	if ( $is_required && ! is_integer( $value ) && $value !== '0' && ( empty( $value ) || ( ! is_array( $value ) && ! strlen( trim( $value ) ) ) ) ) {
+	if ( $is_required && ! is_int( $value ) && $value !== '0' && ( empty( $value ) || ( ! is_array( $value ) && ! strlen( trim( $value ) ) ) ) ) {
 		return false;
 	}
 
@@ -470,13 +470,13 @@ function xprofile_set_field_data( $field, $user_id, $value, $is_required = false
 	 *
 	 * Special-case support for integer 0 for the number field type
 	 */
-	if ( empty( $value ) && ! is_integer( $value ) && $value !== '0' && $field_type_obj->accepts_null_value ) {
+	if ( empty( $value ) && ! is_int( $value ) && $value !== '0' && $field_type_obj->accepts_null_value ) {
 		$value = array();
 	}
 
 	// If the value is empty, then delete any field data that exists, unless the field is of a type
 	// where null values are semantically meaningful.
-	if ( empty( $value ) && ! is_integer( $value ) && $value !== '0' && ! $field_type_obj->accepts_null_value ) {
+	if ( empty( $value ) && ! is_int( $value ) && $value !== '0' && ! $field_type_obj->accepts_null_value ) {
 		xprofile_delete_field_data( $field_id, $user_id );
 		return true;
 	}
