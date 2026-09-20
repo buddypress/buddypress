@@ -28,13 +28,18 @@ function groups_screen_group_invite() {
 
 		if ( ! empty( $_POST['friends'] ) ) {
 			foreach ( (array) $_POST['friends'] as $friend ) {
-				groups_invite_user( array( 'user_id' => $friend, 'group_id' => $bp->groups->current_group->id ) );
+				groups_invite_user(
+					array(
+						'user_id' => $friend,
+						'group_id' => $bp->groups->current_group->id,
+					)
+				);
 			}
 		}
 
 		// Send the invites.
 		groups_send_invites( array( 'group_id' => $bp->groups->current_group->id ) );
-		bp_core_add_message( __('Group invites sent.', 'buddypress') );
+		bp_core_add_message( __( 'Group invites sent.', 'buddypress' ) );
 
 		/**
 		 * Fires after the sending of a group invite inside the group's Send Invites page.
@@ -96,13 +101,13 @@ function groups_remove_group_invite() {
 
 	if ( ! bp_groups_user_can_send_invites( $group_id ) ) {
 		$message = __( 'You are not allowed to send or remove invites', 'buddypress' );
-		$error = 'error';
+		$error   = 'error';
 	} elseif ( groups_check_for_membership_request( $friend_id, $group_id ) ) {
 		$message = __( 'The member requested to join the group', 'buddypress' );
-		$error = 'error';
+		$error   = 'error';
 	} elseif ( ! groups_uninvite_user( $friend_id, $group_id ) ) {
 		$message = __( 'There was an error removing the invite', 'buddypress' );
-		$error = 'error';
+		$error   = 'error';
 	}
 
 	bp_core_add_message( $message, $error );

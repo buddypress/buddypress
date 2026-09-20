@@ -9,15 +9,15 @@
 
 /** Display Filters **********************************************************/
 
-add_filter( 'bp_get_blog_latest_post_title', 'wptexturize'   );
+add_filter( 'bp_get_blog_latest_post_title', 'wptexturize' );
 add_filter( 'bp_get_blog_latest_post_title', 'convert_chars' );
-add_filter( 'bp_get_blog_latest_post_title', 'trim'          );
+add_filter( 'bp_get_blog_latest_post_title', 'trim' );
 
-add_filter( 'bp_blog_latest_post_content', 'wptexturize'        );
-add_filter( 'bp_blog_latest_post_content', 'convert_smilies'    );
-add_filter( 'bp_blog_latest_post_content', 'convert_chars'      );
-add_filter( 'bp_blog_latest_post_content', 'wpautop'            );
-add_filter( 'bp_blog_latest_post_content', 'shortcode_unautop'  );
+add_filter( 'bp_blog_latest_post_content', 'wptexturize' );
+add_filter( 'bp_blog_latest_post_content', 'convert_smilies' );
+add_filter( 'bp_blog_latest_post_content', 'convert_chars' );
+add_filter( 'bp_blog_latest_post_content', 'wpautop' );
+add_filter( 'bp_blog_latest_post_content', 'shortcode_unautop' );
 add_filter( 'bp_blog_latest_post_content', 'prepend_attachment' );
 
 /**
@@ -70,13 +70,13 @@ function bp_blogs_comments_clauses_select_by_id( $retval ) {
  *
  * @since 2.2.0
  *
- * @param bool $return  Whether the post should be published.
- * @param int  $blog_id ID of the blog.
- * @param int  $post_id ID of the post.
- * @param int  $user_id ID of the post author.
+ * @param bool $should_publish Optional. Whether the post should be published.
+ * @param int  $blog_id        Optional. ID of the blog.
+ * @param int  $post_id        Optional. ID of the post.
+ * @param int  $user_id        Optional. ID of the post author.
  * @return bool True to authorize the post to be published, otherwise false.
  */
-function bp_blogs_post_pre_publish( $return = true, $blog_id = 0, $post_id = 0, $user_id = 0 ) {
+function bp_blogs_post_pre_publish( $should_publish = true, $blog_id = 0, $post_id = 0, $user_id = 0 ) {
 
 	// If blog is not trackable, do not record the activity.
 	if ( ! bp_blogs_is_blog_trackable( $blog_id, $user_id ) ) {
@@ -120,7 +120,7 @@ function bp_blogs_post_pre_publish( $return = true, $blog_id = 0, $post_id = 0, 
 		return false;
 	}
 
-	return $return;
+	return $should_publish;
 }
 add_filter( 'bp_activity_post_pre_publish', 'bp_blogs_post_pre_publish', 10, 4 );
 add_filter( 'bp_activity_post_pre_comment', 'bp_blogs_post_pre_publish', 10, 4 );
@@ -161,7 +161,7 @@ function bp_blogs_default_avatar( $avatar, $params ) {
 
 	return $avatar;
 }
-add_filter( 'bp_core_default_avatar',       'bp_blogs_default_avatar', 10, 2 );
+add_filter( 'bp_core_default_avatar', 'bp_blogs_default_avatar', 10, 2 );
 add_filter( 'bp_core_avatar_default_thumb', 'bp_blogs_default_avatar', 10, 2 );
 
 /**
@@ -179,7 +179,7 @@ add_filter( 'bp_core_avatar_default_thumb', 'bp_blogs_default_avatar', 10, 2 );
  * @see bp_blogs_update_blogmeta()
  * @see bp_blogs_add_blogmeta()
  *
- * @param string $retval
+ * @param string $retval Metadata column name.
  *
  * @return string
  */

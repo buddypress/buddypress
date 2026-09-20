@@ -2,9 +2,12 @@
 /**
  * BuddyPress Single Members item Sub Navigation
  *
+ * @package BuddyPress
+ * @subpackage bp-nouveau
  * @since 3.0.0
  * @version 3.0.0
  */
+
 ?>
 
 <?php if ( bp_nouveau_has_nav( array( 'type' => 'secondary' ) ) ) : ?>

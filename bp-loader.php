@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The BuddyPress Plugin
  *

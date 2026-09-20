@@ -159,11 +159,11 @@ class BP_Signup {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param int $signup_id The ID for the signup being queried.
+	 * @param int $signup_id Optional. The ID for the signup being queried.
 	 */
 	public function __construct( $signup_id = 0 ) {
 		if ( ! empty( $signup_id ) ) {
-			$this->id = $signup_id;
+			$this->id = (int) $signup_id;
 			$this->populate();
 		}
 	}
@@ -241,7 +241,7 @@ class BP_Signup {
 		 * an activation link has been resent.
 		 */
 		$sent_at = mysql2date( 'U', $this->date_sent );
-		$now     = current_time( 'timestamp', true );
+		$now     = time();
 		$diff    = $now - $sent_at;
 
 		/**
@@ -263,7 +263,7 @@ class BP_Signup {
 	 * @global wpdb $wpdb The WordPress database object.
 	 *
 	 * @param array $args {
-	 *     The argument to retrieve desired signups.
+	 *     Optional. The argument to retrieve desired signups.
 	 *     @type int         $offset         Offset amount. Default 0.
 	 *     @type int         $number         How many to fetch. Pass -1 to fetch all. Default 1.
 	 *     @type bool|string $usersearch     Whether to search for a username. Default false.
@@ -463,7 +463,7 @@ class BP_Signup {
 	 * @global wpdb $wpdb The WordPress database object.
 	 *
 	 * @param array $args {
-	 *     Array of arguments for signup addition.
+	 *     Optional. Array of arguments for signup addition.
 	 *     @type string     $domain         New user's domain.
 	 *     @type string     $path           New user's path.
 	 *     @type string     $title          New user's title.
@@ -551,10 +551,10 @@ class BP_Signup {
 	 *
 	 * @global wpdb $wpdb The WordPress database object.
 	 *
-	 * @param string $user_login    User login string.
-	 * @param string $user_password User password.
-	 * @param string $user_email    User email address.
-	 * @param array  $usermeta      Metadata associated with the signup.
+	 * @param string $user_login    Optional. User login string.
+	 * @param string $user_password Optional. User password.
+	 * @param string $user_email    Optional. User email address.
+	 * @param array  $usermeta      Optional. Metadata associated with the signup.
 	 * @return int User id.
 	 */
 	public static function add_backcompat( $user_login = '', $user_password = '', $user_email = '', $usermeta = array() ) {
@@ -567,7 +567,7 @@ class BP_Signup {
 				'user_login'   => $user_login,
 				'user_pass'    => $user_password,
 				'display_name' => sanitize_title( $user_login ),
-				'user_email'   => $user_email
+				'user_email'   => $user_email,
 			)
 		);
 
@@ -583,7 +583,7 @@ class BP_Signup {
 		// wp_insert_user(), but we delete them so that inactive
 		// signups don't appear in various user counts.
 		delete_user_option( $user_id, 'capabilities' );
-		delete_user_option( $user_id, 'user_level'   );
+		delete_user_option( $user_id, 'user_level' );
 
 		// Set any profile data.
 		if ( bp_is_active( 'xprofile' ) ) {
@@ -591,11 +591,11 @@ class BP_Signup {
 				$profile_field_ids = explode( ',', $usermeta['profile_field_ids'] );
 
 				foreach ( (array) $profile_field_ids as $field_id ) {
-					if ( empty( $usermeta["field_{$field_id}"] ) ) {
+					if ( empty( $usermeta[ "field_{$field_id}" ] ) ) {
 						continue;
 					}
 
-					$current_field = $usermeta["field_{$field_id}"];
+					$current_field = $usermeta[ "field_{$field_id}" ];
 					xprofile_set_field_data( $field_id, $user_id, $current_field );
 
 					/*
@@ -642,7 +642,7 @@ class BP_Signup {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param  int      $user_id ID of the user being checked.
+	 * @param  int $user_id Optional. ID of the user being checked.
 	 * @return int|bool          The status if found, otherwise false.
 	 */
 	public static function check_user_status( $user_id = 0 ) {
@@ -670,7 +670,7 @@ class BP_Signup {
 	 *
 	 * @global wpdb $wpdb The WordPress database object.
 	 *
-	 * @param string $key Activation key.
+	 * @param string $key Optional. Activation key.
 	 * @return bool
 	 */
 	public static function validate( $key = '' ) {
@@ -747,7 +747,7 @@ class BP_Signup {
 	 * @global wpdb $wpdb The WordPress database object.
 	 *
 	 * @param array $args {
-	 *     Array of arguments for the signup update.
+	 *     Optional. Array of arguments for the signup update.
 	 *     @type int $signup_id User signup ID.
 	 *     @type array $meta Meta to update.
 	 * }
@@ -783,6 +783,7 @@ class BP_Signup {
 			buddypress()->members->table_name_signups,
 			// Data to update.
 			array(
+				// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_serialize -- Signup metadata uses the established serialized storage format.
 				'meta' => serialize( $blended_meta ),
 			),
 			// WHERE.
@@ -827,7 +828,7 @@ class BP_Signup {
 	 * @since 2.0.0
 	 * @since 15.0.0 Added the ability to resend to a single ID.
 	 *
-	 * @param array|int $signup_ids Single ID or list of IDs to resend.
+	 * @param array|int $signup_ids Optional. Single ID or list of IDs to resend.
 	 * @return array
 	 */
 	public static function resend( $signup_ids = array() ) {
@@ -974,7 +975,7 @@ class BP_Signup {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param array $signup_ids Single ID or list of IDs to activate.
+	 * @param array $signup_ids Optional. Single ID or list of IDs to activate.
 	 * @return array
 	 */
 	public static function activate( $signup_ids = array() ) {
@@ -988,7 +989,8 @@ class BP_Signup {
 			)
 		);
 
-		if ( ! $signups = $to_activate['signups'] ) {
+		$signups = $to_activate['signups'];
+		if ( ! $signups ) {
 			return false;
 		}
 
@@ -1027,7 +1029,6 @@ class BP_Signup {
 				} else {
 					$result['errors'][ $signup->signup_id ] = array( $signup->user_login, $user->get_error_message() );
 				}
-
 			} else {
 				$result['activated'][] = $user;
 			}
@@ -1060,7 +1061,7 @@ class BP_Signup {
 	 *
 	 * @global wpdb $wpdb The WordPress database object.
 	 *
-	 * @param array $signup_ids Single ID or list of IDs to delete.
+	 * @param array $signup_ids Optional. Single ID or list of IDs to delete.
 	 * @return array
 	 */
 	public static function delete( $signup_ids = array() ) {
@@ -1076,7 +1077,8 @@ class BP_Signup {
 			)
 		);
 
-		if ( ! $signups = $to_delete['signups'] ) {
+		$signups = $to_delete['signups'];
+		if ( ! $signups ) {
 			return false;
 		}
 
@@ -1096,7 +1098,7 @@ class BP_Signup {
 
 			if ( ! empty( $user_id ) && $signup->activation_key === bp_get_user_meta( $user_id, 'activation_key', true ) ) {
 
-				if ( 2 != self::check_user_status( $user_id ) ) {
+				if ( 2 !== (int) self::check_user_status( $user_id ) ) {
 
 					// Status is not 2, so user's account has been activated.
 					$result['errors'][ $signup->signup_id ] = array( $signup->user_login, esc_html__( 'the sign-up has already been activated.', 'buddypress' ) );
@@ -1115,9 +1117,9 @@ class BP_Signup {
 					// Signups table.
 					buddypress()->members->table_name_signups,
 					// Where.
-					array( 'signup_id' => $signup->signup_id, ),
+					array( 'signup_id' => $signup->signup_id ),
 					// WHERE sanitization format.
-					array( '%d', )
+					array( '%d' )
 				);
 
 				$result['deleted'][] = $signup->signup_id;

@@ -44,7 +44,7 @@ class BP_Tests_Avatars extends BP_UnitTestCase {
 		$this->go_to( get_blog_option( $blog_id, 'siteurl' ) );
 
 		// test to see if the upload dir is correct
-		$this->assertEquals( $upload_dir['baseurl'], bp_core_avatar_url() );
+		$this->assertSame( $upload_dir['baseurl'], bp_core_avatar_url() );
 
 		// reset globals
 		$this->go_to( '/' );
@@ -171,7 +171,7 @@ class BP_Tests_Avatars extends BP_UnitTestCase {
 
 		$expected_html = '<img loading="lazy" src="' . $avatar_url . '" id="' . $this->params['css_id'] . '" class="' . $this->params['class'] . ' ' . $this->params['object'] . '-' . $this->params['item_id'] . '-avatar avatar-' . $this->params['width'] . ' photo" width="' . $this->params['width'] . '" height="' . $this->params['height'] . '" alt="' . $this->params['alt'] . '" title="' . $this->params['title'] . '" ' . $this->params['extra_attr'] . ' />';
 
-		$this->assertEquals( $html, $expected_html );
+		$this->assertSame( $html, $expected_html );
 	}
 
 	/**
@@ -261,20 +261,20 @@ class BP_Tests_Avatars extends BP_UnitTestCase {
 		$allowed_image_types = $this->allowed_image_types;
 		add_filter( 'bp_core_get_allowed_avatar_types', array( $this, 'avatar_types_filter_add_type' ) );
 
-		$this->assertEquals( $allowed_image_types, bp_core_get_allowed_avatar_types() );
+		$this->assertSame( $allowed_image_types, bp_core_get_allowed_avatar_types() );
 
 		remove_filter( 'bp_core_get_allowed_avatar_types', array( $this, 'avatar_types_filter_add_type' ) );
 
 		add_filter( 'bp_core_get_allowed_avatar_types', array( $this, 'avatar_types_filter_remove_type' ) );
 		array_shift( $allowed_image_types );
 
-		$this->assertEquals( $allowed_image_types, bp_core_get_allowed_avatar_types() );
+		$this->assertSame( $allowed_image_types, bp_core_get_allowed_avatar_types() );
 
 		remove_filter( 'bp_core_get_allowed_avatar_types', array( $this, 'avatar_types_filter_remove_type' ) );
 
 		add_filter( 'bp_core_get_allowed_avatar_types', '__return_empty_array' );
 
-		$this->assertEquals( $this->allowed_image_types, bp_core_get_allowed_avatar_types() );
+		$this->assertSame( $this->allowed_image_types, bp_core_get_allowed_avatar_types() );
 
 		remove_filter( 'bp_core_get_allowed_avatar_types', '__return_empty_array' );
 	}
@@ -441,6 +441,6 @@ class BP_Tests_Avatars extends BP_UnitTestCase {
 
 		$expected = '/avatars/' . $u . '/webcam-capture-' . $u . '.png';
 
-		$this->assertEquals( $expected, $this->capture['original_file'] );
+		$this->assertSame( $expected, $this->capture['original_file'] );
 	}
 }

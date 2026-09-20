@@ -105,7 +105,7 @@ add_action( 'bp_setup_globals', 'bp_core_set_avatar_globals' );
  *
  * @since 8.0.0
  *
- * @param string $d The name of the default gravatar.
+ * @param string $d Optional. The name of the default gravatar.
  * @return bool True if it's a default gravatar. False otherwise.
  */
 function bp_core_is_default_gravatar( $d = '' ) {
@@ -428,22 +428,22 @@ function bp_core_fetch_avatar( $args = '' ) {
 	}
 
 	// Set image width.
-	if ( false !== $params['width'] ) {
-		// Width has been specified. No modification necessary.
-	} elseif ( 'thumb' === $params['type'] ) {
-		$params['width'] = bp_core_avatar_thumb_width();
-	} else {
-		$params['width'] = bp_core_avatar_full_width();
+	if ( false === $params['width'] ) {
+		if ( 'thumb' === $params['type'] ) {
+			$params['width'] = bp_core_avatar_thumb_width();
+		} else {
+			$params['width'] = bp_core_avatar_full_width();
+		}
 	}
 	$html_width = ' width="' . $params['width'] . '"';
 
 	// Set image height.
-	if ( false !== $params['height'] ) {
-		// Height has been specified. No modification necessary.
-	} elseif ( 'thumb' === $params['type'] ) {
-		$params['height'] = bp_core_avatar_thumb_height();
-	} else {
-		$params['height'] = bp_core_avatar_full_height();
+	if ( false === $params['height'] ) {
+		if ( 'thumb' === $params['type'] ) {
+			$params['height'] = bp_core_avatar_thumb_height();
+		} else {
+			$params['height'] = bp_core_avatar_full_height();
+		}
 	}
 	$html_height = ' height="' . $params['height'] . '"';
 
@@ -531,7 +531,13 @@ function bp_core_fetch_avatar( $args = '' ) {
 
 			// Stash files in an array once to check for one that matches.
 			$avatar_files = array();
-			while ( false !== ( $avatar_file = readdir( $av_dir ) ) ) {
+			while ( true ) {
+				$avatar_file = readdir( $av_dir );
+
+				if ( false === $avatar_file ) {
+					break;
+				}
+
 				// Only add files to the array (skip directories).
 				if ( 2 < strlen( $avatar_file ) ) {
 					$avatar_files[] = $avatar_file;
@@ -734,7 +740,13 @@ function bp_core_fetch_avatar( $args = '' ) {
 		/**
 		 * Filters the avatar default when Gravatar is not used.
 		 *
-		 * This is a variable filter dependent on the avatar type being requested.
+		 * The dynamic portion of the hook name, `$params['object']`, refers to the avatar object type.
+		 *
+		 * Possible hook names include:
+		 *
+		 *  - `bp_core_default_avatar_user`
+		 *  - `bp_core_default_avatar_group`
+		 *  - `bp_core_default_avatar_blog`
 		 *
 		 * @since 1.5.0
 		 *
@@ -761,7 +773,7 @@ function bp_core_fetch_avatar( $args = '' ) {
  * @since 1.1.0
  *
  * @param array|string $args {
- *     Array of function parameters.
+ *     Optional. Array of function parameters.
  *     @type bool|int    $item_id    ID of the item whose avatar you're deleting.
  *                                   Defaults to the current item of type $object.
  *     @type string      $object     Object type of the item whose avatar you're
@@ -860,8 +872,15 @@ function bp_core_delete_existing_avatar( $args = '' ) {
 	$av_dir = opendir( $avatar_folder_dir );
 	if ( $av_dir ) {
 
-		while ( false !== ( $avatar_file = readdir( $av_dir ) ) ) {
+		while ( true ) {
+			$avatar_file = readdir( $av_dir );
+
+			if ( false === $avatar_file ) {
+				break;
+			}
+
 			if ( ( preg_match( '/-bpfull/', $avatar_file ) || preg_match( '/-bpthumb/', $avatar_file ) ) && '.' !== $avatar_file && '..' !== $avatar_file ) {
+				// phpcs:ignore WordPress.WP.AlternativeFunctions.unlink_unlink
 				@unlink( $avatar_folder_dir . '/' . $avatar_file );
 			}
 		}
@@ -870,6 +889,7 @@ function bp_core_delete_existing_avatar( $args = '' ) {
 		closedir( $av_dir );
 	}
 
+	// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_rmdir -- This path requires a direct filesystem operation.
 	@rmdir( $avatar_folder_dir );
 
 	/**
@@ -1016,6 +1036,7 @@ function bp_core_avatar_handle_upload( $file, $upload_dir_filter ) {
 	} else {
 		$bp->avatar_admin->image->file = $bp->avatar_admin->resized['path'];
 		$bp->avatar_admin->image->dir  = str_replace( $upload_path, '', $bp->avatar_admin->resized['path'] );
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.unlink_unlink
 		@unlink( $bp->avatar_admin->original['file'] );
 	}
 
@@ -1273,6 +1294,7 @@ function bp_avatar_handle_capture( $data = '', $item_id = 0, $retval = 'boolean'
 
 	$original_file = $avatar_folder_dir . '/webcam-capture-' . $item_id . '.png';
 
+	// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents -- This path requires a direct filesystem operation.
 	if ( file_put_contents( $original_file, $data ) ) {
 		$avatar_to_crop = str_replace( bp_core_avatar_upload_path(), '', $original_file );
 
@@ -1301,7 +1323,7 @@ function bp_avatar_handle_capture( $data = '', $item_id = 0, $retval = 'boolean'
  * @since 10.0.0 Adds the `$return` param to eventually return the crop result.
  *
  * @param array|string $args {
- *     Array of function parameters.
+ *     Optional. Array of function parameters.
  *
  *     @type string      $object        Object type of the item whose avatar you're
  *                                      handling. 'user', 'group', 'blog', or custom.
@@ -1407,6 +1429,7 @@ function bp_avatar_ajax_set() {
 
 		if ( ! empty( $avatar_data['original_file'] ) ) {
 			$webcam_avatar = str_replace( array( 'data:image/png;base64,', ' ' ), array( '', '+' ), $avatar_data['original_file'] );
+			// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_decode
 			$webcam_avatar = base64_decode( $webcam_avatar );
 		}
 
@@ -1668,7 +1691,7 @@ function bp_core_check_avatar_type( $file ) {
  *
  * @since 1.8.0
  *
- * @param string $type The variable we want to return from the $bp->avatars object.
+ * @param string $type Optional. The variable we want to return from the $bp->avatars object.
  *                     Only 'upload_path' and 'url' are supported. Default: 'upload_path'.
  * @return string The avatar upload directory path.
  */
@@ -1778,7 +1801,7 @@ function bp_core_avatar_url() {
  *
  * @since 1.0.0
  *
- * @param int $user_id ID of the user whose avatar is being checked.
+ * @param int $user_id Optional. ID of the user whose avatar is being checked.
  * @return bool True if the user has uploaded a local avatar. Otherwise, false.
  */
 function bp_get_user_has_avatar( $user_id = 0 ) {
@@ -1815,11 +1838,11 @@ function bp_get_user_has_avatar( $user_id = 0 ) {
  *
  * @since 1.5.0
  *
- * @param string $type   Dimension type you're fetching dimensions for. 'thumb'
+ * @param string $type   Optional. Dimension type you're fetching dimensions for. 'thumb'
  *                       or 'full'. Default: 'thumb'.
- * @param string $h_or_w Which dimension is being fetched. 'height' or 'width'.
+ * @param string $h_or_w Optional. Which dimension is being fetched. 'height' or 'width'.
  *                       Default: 'height'.
- * @return int|bool $dim The dimension.
+ * @return int|bool The dimension.
  */
 function bp_core_avatar_dimension( $type = 'thumb', $h_or_w = 'height' ) {
 	$bp  = buddypress();
@@ -1957,10 +1980,10 @@ function bp_core_avatar_original_max_filesize() {
  * @since 1.5.0
  * @since 2.6.0 Introduced `$params` and `$object_type` parameters.
  *
- * @param string $type   'local' if the fallback should be the locally-hosted version
+ * @param string $type   Optional. 'local' if the fallback should be the locally-hosted version
  *                       of the mystery person, 'gravatar' if the fallback should be
  *                       Gravatar's version. Default: 'gravatar'.
- * @param array  $params Parameters passed to bp_core_fetch_avatar().
+ * @param array  $params Optional. The parameters passed to bp_core_fetch_avatar().
  * @return string The URL of the default avatar.
  */
 function bp_core_avatar_default( $type = 'gravatar', $params = array() ) {
@@ -2026,10 +2049,10 @@ function bp_core_avatar_default( $type = 'gravatar', $params = array() ) {
  * @since 1.5.0
  * @since 2.6.0 Introduced `$object_type` parameter.
  *
- * @param string $type   'local' if the fallback should be the locally-hosted version
+ * @param string $type   Optional. 'local' if the fallback should be the locally-hosted version
  *                       of the mystery person, 'gravatar' if the fallback should be
  *                       Gravatar's version. Default: 'gravatar'.
- * @param array  $params Parameters passed to bp_core_fetch_avatar().
+ * @param array  $params Optional. The parameters passed to bp_core_fetch_avatar().
  * @return string The URL of the default avatar thumb.
  */
 function bp_core_avatar_default_thumb( $type = 'gravatar', $params = array() ) {
@@ -2067,7 +2090,7 @@ function bp_core_avatar_default_thumb( $type = 'gravatar', $params = array() ) {
  *
  * @since 2.2.0
  *
- * @param WP_Query|null $posts_query The main query object.
+ * @param WP_Query|null $posts_query Optional. The main query object.
  */
 function bp_core_avatar_reset_query( $posts_query = null ) {
 	// Group's avatar edit screen.
@@ -2227,14 +2250,15 @@ function bp_avatar_history_is_disabled() {
  * Get a specific version of an avatar from its history.
  *
  * @since 10.0.0
+ * @since 15.0.0 The `$object` parameter was renamed to `$item_type`.
  *
- * @param int        $item_id   The item ID we need the avatar version for.
- * @param string     $object    The object the item ID relates to.
- * @param int|string $timestamp An integer Unix timestamp or a date string of the format 'Y-m-d h:i:s'.
- * @param string     $type      The type of avatar we need. Possible values are `thumb` and `full`.
+ * @param int        $item_id   Optional. The item ID we need the avatar version for.
+ * @param string     $item_type Optional. The object the item ID relates to.
+ * @param int|string $timestamp Optional. An integer Unix timestamp or a date string of the format 'Y-m-d h:i:s'.
+ * @param string     $type      Optional. The type of avatar we need. Possible values are `thumb` and `full`.
  * @return array                A list of matching results, an empty array if no avatars were found.
  */
-function bp_avatar_get_version( $item_id = 0, $object = 'user', $timestamp = '', $type = 'full' ) {
+function bp_avatar_get_version( $item_id = 0, $item_type = 'user', $timestamp = '', $type = 'full' ) {
 	if ( ! $item_id || ! $timestamp ) {
 		return array();
 	}
@@ -2249,8 +2273,8 @@ function bp_avatar_get_version( $item_id = 0, $object = 'user', $timestamp = '',
 	}
 
 	$avatar_dir = 'avatars';
-	if ( 'user' !== $object ) {
-		$avatar_dir = sanitize_key( $object ) . '-avatars';
+	if ( 'user' !== $item_type ) {
+		$avatar_dir = sanitize_key( $item_type ) . '-avatars';
 	}
 
 	// The object avatar directory we are looking into to get the avatar url.
@@ -2263,13 +2287,14 @@ function bp_avatar_get_version( $item_id = 0, $object = 'user', $timestamp = '',
  * Get the list of previous avatars in history
  *
  * @since 10.0.0
+ * @since 15.0.0 The `$object` parameter was renamed to `$item_type`.
  *
- * @param int    $item_id The item ID we need the avatar version for.
- * @param string $object  The object the item ID relates to.
- * @param string $type    Get the `full`, `thumb` or `both` versions.
+ * @param int    $item_id   Optional. The item ID we need the avatar version for.
+ * @param string $item_type Optional. The object the item ID relates to.
+ * @param string $type      Optional. Get the `full`, `thumb` or `both` versions.
  * @return array          The list of previous uploaded avatars.
  */
-function bp_avatar_get_avatars_history( $item_id = 0, $object = 'user', $type = 'full' ) {
+function bp_avatar_get_avatars_history( $item_id = 0, $item_type = 'user', $type = 'full' ) {
 	/**
 	 * Filter to short-circuit the avatars history retrieval process.
 	 *
@@ -2279,10 +2304,10 @@ function bp_avatar_get_avatars_history( $item_id = 0, $object = 'user', $type = 
 	 *
 	 * @param null|array $pre_filter Null to proceed with the default handling, or an array of avatars to override it.
 	 * @param int        $item_id    The item ID we need the avatar version for.
-	 * @param string     $object     The object the item ID relates to.
+	 * @param string     $item_type  The object the item ID relates to.
 	 * @param string     $type       Get the `full`, `thumb` or `both` versions.
 	 */
-	$pre_filter = apply_filters( 'bp_pre_avatar_get_avatars_history', null, $item_id, $object, $type );
+	$pre_filter = apply_filters( 'bp_pre_avatar_get_avatars_history', null, $item_id, $item_type, $type );
 
 	if ( null !== $pre_filter ) {
 		return $pre_filter;
@@ -2293,8 +2318,8 @@ function bp_avatar_get_avatars_history( $item_id = 0, $object = 'user', $type = 
 	}
 
 	$avatar_dir = 'avatars';
-	if ( 'user' !== $object ) {
-		$avatar_dir = sanitize_key( $object ) . '-avatars';
+	if ( 'user' !== $item_type ) {
+		$avatar_dir = sanitize_key( $item_type ) . '-avatars';
 	}
 
 	// The user avatar directory we are looking into to get the avatar url.
@@ -2442,6 +2467,7 @@ function bp_avatar_ajax_recycle_previous_avatar() {
 			$full_avatar_path = $avatar_dir_path . '/' . str_replace( 'bpfull', 'original-file', wp_basename( $avatar->path ) );
 
 			// Move the full version back to avatar dir.
+			// phpcs:ignore WordPress.WP.AlternativeFunctions.rename_rename
 			rename( $avatar->path, $full_avatar_path );
 
 			$avatar_types = $avatar_attachment->crop(
@@ -2458,6 +2484,7 @@ function bp_avatar_ajax_recycle_previous_avatar() {
 				$timestamp = str_replace( array( '-bpthumb', '-bpfull' ), '', $avatar_object->id );
 
 				if ( ! is_numeric( $timestamp ) && false !== strpos( $avatar_object->id, '-bpthumb' ) ) {
+					// phpcs:ignore WordPress.WP.AlternativeFunctions.unlink_unlink
 					@unlink( $avatar_object->path );
 				}
 			}
@@ -2467,6 +2494,7 @@ function bp_avatar_ajax_recycle_previous_avatar() {
 				$avatar_id    = pathinfo( $filename, PATHINFO_FILENAME );
 				$recycle_path = $avatar_dir_path . '/' . str_replace( $avatar_id, $recycle_timestamp . '-bp' . $type_key, $filename );
 
+				// phpcs:ignore WordPress.WP.AlternativeFunctions.rename_rename
 				if ( ! rename( $avatar_path, $recycle_path ) ) {
 					$recycle_errors[] = __( 'An unexpected error occured while recycling the previous profile photo.', 'buddypress' );
 				} else {
@@ -2639,6 +2667,7 @@ function bp_avatar_ajax_delete_previous_avatar() {
 			continue;
 		}
 
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.unlink_unlink
 		@unlink( $avatar_path );
 	}
 
@@ -2649,6 +2678,9 @@ function bp_avatar_ajax_delete_previous_avatar() {
 
 	/**
 	 * Hook here to run custom code once the previous avatar has been deleted.
+	 *
+	 * The dynamic portion of the hook name, `$object`, refers to the avatar object received in the Ajax
+	 * request.
 	 *
 	 * @since 10.0.0
 	 *

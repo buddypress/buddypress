@@ -30,7 +30,19 @@
 
 		 $this->assertNotSame( $queries_before, $queries_after, 'Assert that queries are run' );
 		 $this->assertSame( 3, $queries_after, 'Assert that the uncached query was run' );
-		 $this->assertEquals( $first_query, $second_query, 'Results of the query are expected to match.' );
+
+		 $first_query  = wp_list_sort( $first_query, 'id', 'ASC' );
+		 $second_query = wp_list_sort( $second_query, 'id', 'ASC' );
+
+		 foreach ( array_merge( $first_query, $second_query ) as $optout ) {
+			 $this->assertInstanceOf( 'BP_Optout', $optout );
+		 }
+
+		 $this->assertSame(
+			 array_map( 'get_object_vars', $first_query ),
+			 array_map( 'get_object_vars', $second_query ),
+			 'Results of the query are expected to match.'
+		 );
 	 }
 
 	public function test_bp_optouts_add_optout_vanilla() {
@@ -74,7 +86,7 @@
 		$i1 = bp_add_optout( $args );
 		// Attempt to create a duplicate. Should return existing optout id.
 		$i2 = bp_add_optout( $args );
-		$this->assertEquals( $i1, $i2 );
+		$this->assertSame( $i1, $i2 );
 
 		wp_set_current_user( $old_current_user );
 	}

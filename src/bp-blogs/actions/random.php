@@ -15,8 +15,9 @@
 function bp_blogs_redirect_to_random_blog() {
 
 	// Bail if not looking for a random blog.
-	if ( ! bp_is_blogs_component() || ! isset( $_GET['random-blog'] ) )
+	if ( ! bp_is_blogs_component() || ! isset( $_GET['random-blog'] ) ) {
 		return;
+	}
 
 	// Multisite is active so find a random blog.
 	if ( is_multisite() ) {

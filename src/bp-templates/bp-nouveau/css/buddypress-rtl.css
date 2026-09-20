@@ -3825,7 +3825,6 @@ body.no-js .buddypress #messages-bulk-management #select-all-messages {
 }
 
 .buddypress-wrap .select-wrap select {
-	-webkit-appearance: none;
 	-o-appearance: none;
 	appearance: none;
 	border: 0;

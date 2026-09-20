@@ -44,7 +44,7 @@ class BP_Tests_Member_Avatar_REST_Controller extends BP_Test_REST_Controller_Tes
 		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$all_data = $response->get_data();
 		$this->assertNotEmpty( $all_data );
@@ -73,7 +73,7 @@ class BP_Tests_Member_Avatar_REST_Controller extends BP_Test_REST_Controller_Tes
 		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$all_data = $response->get_data();
 		$this->assertNotEmpty( $all_data );
@@ -272,7 +272,7 @@ class BP_Tests_Member_Avatar_REST_Controller extends BP_Test_REST_Controller_Tes
 		$data       = $response->get_data();
 		$properties = $data['schema']['properties'];
 
-		$this->assertEquals( 2, count( $properties ) );
+		$this->assertCount( 2, $properties );
 		$this->assertArrayHasKey( 'full', $properties );
 		$this->assertArrayHasKey( 'thumb', $properties );
 	}
@@ -282,7 +282,7 @@ class BP_Tests_Member_Avatar_REST_Controller extends BP_Test_REST_Controller_Tes
 		$request  = new WP_REST_Request( 'OPTIONS', sprintf( $this->endpoint_url . '/%d/avatar', $this->user ) );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$data = $response->get_data();
 

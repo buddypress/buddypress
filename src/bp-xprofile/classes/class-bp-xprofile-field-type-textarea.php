@@ -25,8 +25,8 @@ class BP_XProfile_Field_Type_Textarea extends BP_XProfile_Field_Type {
 	public function __construct() {
 		parent::__construct();
 
-		$this->category = _x( 'Single Fields', 'xprofile field type category', 'buddypress' );
-		$this->name     = _x( 'Multi-line Text Area', 'xprofile field type', 'buddypress' );
+		$this->category          = _x( 'Single Fields', 'xprofile field type category', 'buddypress' );
+		$this->name              = _x( 'Multi-line Text Area', 'xprofile field type', 'buddypress' );
 		$this->supports_richtext = true;
 
 		$this->set_format( '/^.*$/m', 'replace' );
@@ -105,12 +105,16 @@ class BP_XProfile_Field_Type_Textarea extends BP_XProfile_Field_Type {
 			 *                        profile edit screen, 'admin' when intended for the Profile Fields
 			 *                        Dashboard panel.
 			 */
-			$editor_args = apply_filters( 'bp_xprofile_field_type_textarea_editor_args', array(
-				'teeny'         => true,
-				'media_buttons' => false,
-				'quicktags'     => true,
-				'textarea_rows' => 10,
-			), 'edit' );
+			$editor_args = apply_filters(
+				'bp_xprofile_field_type_textarea_editor_args',
+				array(
+					'teeny'         => true,
+					'media_buttons' => false,
+					'quicktags'     => true,
+					'textarea_rows' => 10,
+				),
+				'edit'
+			);
 
 			wp_editor(
 				bp_get_the_profile_field_edit_value(),
@@ -119,9 +123,11 @@ class BP_XProfile_Field_Type_Textarea extends BP_XProfile_Field_Type {
 			);
 		}
 
-		if ( bp_get_the_profile_field_description() ) : ?>
+		if ( bp_get_the_profile_field_description() ) :
+		?>
 			<p class="description" id="<?php bp_the_profile_field_input_name(); ?>-3"><?php bp_the_profile_field_description(); ?></p>
-		<?php endif;
+		<?php
+		endif;
 	}
 
 	/**
@@ -153,12 +159,16 @@ class BP_XProfile_Field_Type_Textarea extends BP_XProfile_Field_Type {
 		} else {
 
 			/** This filter is documented in bp-xprofile/classes/class-bp-xprofile-field-type-textarea.php */
-			$editor_args = apply_filters( 'bp_xprofile_field_type_textarea_editor_args', array(
-				'teeny'         => true,
-				'media_buttons' => false,
-				'quicktags'     => true,
-				'textarea_rows' => 1,
-			), 'admin' );
+			$editor_args = apply_filters(
+				'bp_xprofile_field_type_textarea_editor_args',
+				array(
+					'teeny'         => true,
+					'media_buttons' => false,
+					'quicktags'     => true,
+					'textarea_rows' => 1,
+				),
+				'admin'
+			);
 
 			wp_editor(
 				'',

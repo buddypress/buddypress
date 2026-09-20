@@ -79,6 +79,7 @@ if ( !function_exists( 'is_site_admin' ) ) {
  * @deprecated Use add_menu_page().
  * @since 1.1.0
  *
+ * @param array|string $args Optional. Menu page arguments.
  * @return string
  */
 function bp_core_add_admin_menu_page( $args = '' ) {
@@ -108,13 +109,15 @@ function bp_core_add_admin_menu_page( $args = '' ) {
 
 	$admin_page_hooks[$file] = sanitize_title( $menu_title );
 
-	if ( !empty( $function ) && !empty ( $hookname ) )
+	if ( ! empty( $function ) && ! empty( $hookname ) ) {
 		add_action( $hookname, $function );
+	}
 
-	if ( empty( $icon_url ) )
+	if ( empty( $icon_url ) ) {
 		$icon_url = 'images/generic.png';
-	elseif ( is_ssl() && 0 === strpos( $icon_url, 'http://' ) )
+	} elseif ( is_ssl() && 0 === strpos( $icon_url, 'http://' ) ) {
 		$icon_url = 'https://' . substr( $icon_url, 7 );
+	}
 
 	do {
 		$position++;
@@ -339,18 +342,23 @@ function groups_at_message_notification( $content, $poster_user_id, $group_id, $
 	preg_match_all( $pattern, $content, $usernames );
 
 	/* Make sure there's only one instance of each username */
-	if ( !$usernames = array_unique( $usernames[1] ) )
+	if ( ! $usernames = array_unique( $usernames[1] ) ) {
 		return false;
+	}
 
 	$group = new BP_Groups_Group( $group_id );
 
 	foreach ( (array) $usernames as $username ) {
-		if ( !$receiver_user_id = bp_core_get_userid( $username ) )
+		$receiver_user_id = bp_core_get_userid( $username );
+
+		if ( ! $receiver_user_id ) {
 			continue;
+		}
 
 		/* Check the user is a member of the group before sending the update. */
-		if ( !groups_is_user_member( $receiver_user_id, $group_id ) )
+		if ( !groups_is_user_member( $receiver_user_id, $group_id ) ) {
 			continue;
+		}
 
 		// Now email the user with the contents of the message (if they have enabled email notifications).
 		if ( 'no' != bp_get_user_meta( $receiver_user_id, 'notification_activity_new_mention', true ) ) {
@@ -366,6 +374,7 @@ function groups_at_message_notification( $content, $poster_user_id, $group_id, $
 			// Set up and send the message.
 			$ud = bp_core_get_core_userdata( $receiver_user_id );
 			$to = $ud->user_email;
+
 			$subject = bp_get_email_subject(
 				array(
 					'text' => sprintf(
@@ -412,6 +421,7 @@ function bp_core_delete_notifications_for_user_by_type( $user_id, $component_nam
 }
 
 /**
+ * @param false|int $secondary_item_id Optional. Secondary item ID.
  * @return mixed
  */
 function bp_core_delete_notifications_for_user_by_item_id( $user_id, $item_id, $component_name, $component_action, $secondary_item_id = false ) {
@@ -522,8 +532,9 @@ function bp_dtheme_deprecated() {
 	 */
 	function bp_dtheme_page_on_front_update( $oldvalue, $newvalue ) {
 		_deprecated_function( __FUNCTION__, '1.5', "No longer required." );
-		if ( !is_admin() || !bp_current_user_can( 'bp_moderate' ) )
+		if ( !is_admin() || !bp_current_user_can( 'bp_moderate' ) ) {
 			return false;
+		}
 
 		return $oldvalue;
 	}
@@ -588,8 +599,9 @@ function bp_dtheme_deprecated() {
 	 */
 	function bp_dtheme_add_blog_comments_js() {
 		_deprecated_function( __FUNCTION__, '1.5', "Enqueue the comment-reply script in your theme's header.php." );
-		if ( is_singular() && bp_is_blog_page() && get_option( 'thread_comments' ) )
+		if ( is_singular() && bp_is_blog_page() && get_option( 'thread_comments' ) ) {
 			wp_enqueue_script( 'comment-reply' );
+		}
 	}
 	endif;
 }
@@ -733,8 +745,8 @@ function bp_core_screen_delete_account_content() {
  * @since 1.0.0
  * @todo Remove in 1.4
  *
- * @param bool $admin_list
- * @param bool $group
+ * @param bool $admin_list Optional.
+ * @param bool $group Optional.
  */
 function bp_group_admin_memberlist( $admin_list = false, $group = false ) {
 	global $groups_template;
@@ -746,9 +758,11 @@ function bp_group_admin_memberlist( $admin_list = false, $group = false ) {
 	}
 
 
-	if ( $admins = groups_get_group_admins( $group->id ) ) : ?>
+	if ( $admins = groups_get_group_admins( $group->id ) ) :
+		$single_line_class = ! empty( $admin_list ) ? ' single-line' : '';
+		?>
 
-		<ul id="admins-list" class="item-list<?php if ( !empty( $admin_list ) ) : ?> single-line<?php endif; ?>">
+		<ul id="admins-list" class="item-list<?php echo esc_attr( $single_line_class ); ?>">
 
 		<?php foreach ( (array) $admins as $admin ) { ?>
 

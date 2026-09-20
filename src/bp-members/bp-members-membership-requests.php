@@ -18,10 +18,10 @@ defined( 'ABSPATH' ) || exit;
  * @since 10.0.0
  *
  * @param bool   $send           Whether or not to send the activation key.
- * @param int    $user_id        User ID to send activation key to.
- * @param string $user_email     User email to send activation key to.
- * @param string $activation_key Activation key to be sent.
- * @param array  $usermeta       Miscellaneous metadata about the user (blog-specific
+ * @param int    $user_id        Optional. User ID to send activation key to.
+ * @param string $user_email     Optional. User email to send activation key to.
+ * @param string $activation_key Optional. Activation key to be sent.
+ * @param array  $usermeta       Optional. Miscellaneous metadata about the user (blog-specific
  *                               signup data, xprofile data, etc).
  * @return bool Whether or not to send the activation key.
  */
@@ -53,7 +53,7 @@ function bp_members_membership_requests_cancel_activation_email( $send, $user_id
 	$invites = bp_members_invitations_get_invites(
 		array(
 			'invitee_email' => $user_email,
-			'invite_sent'   => 'sent'
+			'invite_sent'   => 'sent',
 		)
 	);
 
@@ -83,11 +83,11 @@ add_filter( 'bp_core_signup_send_activation_key', 'bp_members_membership_request
  *
  * @since 10.0.0
  *
- * @param bool   $send             Whether or not to send the activation key.
- * @param string $user_login       User login name.
- * @param string $user_email       User email address.
- * @param string $activation_key   Activation key created in wpmu_signup_user().
- * @param bool   $is_signup_resend Is the site admin sending this email?
+ * @param bool   $send             Optional. Whether or not to send the activation key.
+ * @param string $user_login       Optional. User login name.
+ * @param string $user_email       Optional. User email address.
+ * @param string $activation_key   Optional. Activation key created in wpmu_signup_user().
+ * @param bool   $is_signup_resend Optional. Whether the site admin is sending this email.
  * @return bool Whether or not to send the activation key.
  */
 function bp_members_membership_requests_cancel_activation_email_multisite( $send = true, $user_login = '', $user_email = '', $activation_key = '', $is_signup_resend = false ) {
@@ -202,7 +202,7 @@ function bp_members_membership_requests_notify_site_admins( $signup ) {
 			bp_get_admin_url( 'users.php' )
 		);
 
-		$args  = array(
+		$args = array(
 			'tokens' => array(
 				'admin.id'                   => $admin_id,
 				'manage.url'                 => esc_url_raw( $manage_url ),
@@ -267,9 +267,9 @@ function bp_members_membership_requests_delete_notifications_on_change( $signup_
 		}
 	}
 }
-add_action( 'bp_core_signup_after_resend',   'bp_members_membership_requests_delete_notifications_on_change' );
+add_action( 'bp_core_signup_after_resend', 'bp_members_membership_requests_delete_notifications_on_change' );
 add_action( 'bp_core_signup_after_activate', 'bp_members_membership_requests_delete_notifications_on_change' );
-add_action( 'bp_core_signup_after_delete',   'bp_members_membership_requests_delete_notifications_on_change' );
+add_action( 'bp_core_signup_after_delete', 'bp_members_membership_requests_delete_notifications_on_change' );
 
 /**
  * In the Nouveau template pack, when membership requests are required,
@@ -277,7 +277,8 @@ add_action( 'bp_core_signup_after_delete',   'bp_members_membership_requests_del
  *
  * @since 10.0.0
  *
- * @return string $retval the HTML for the request membership link.
+ * @param array $buttons Registration form buttons.
+ * @return array Registration form buttons.
  */
 function bp_members_membership_requests_filter_complete_signup_button( $buttons ) {
 
@@ -304,7 +305,7 @@ function bp_members_membership_requests_filter_signup_row_actions( $actions, $si
 	// Rename the "email" resend option when membership requests are active.
 	$email_link = add_query_arg(
 		array(
-			'page'	    => 'bp-signups',
+			'page'      => 'bp-signups',
 			'signup_id' => $signup_object->id,
 			'action'    => 'resend',
 		),
@@ -319,7 +320,7 @@ function bp_members_membership_requests_filter_signup_row_actions( $actions, $si
 	if ( bp_is_active( 'xprofile' ) || bp_members_site_requests_enabled() ) {
 		$profile_link = add_query_arg(
 			array(
-				'page'	   => 'bp-signups#TB_inline',
+				'page'     => 'bp-signups#TB_inline',
 				'inlineId' => 'signup-info-modal-' . $signup_object->id,
 			),
 			bp_get_admin_url( 'users.php' )
@@ -393,8 +394,6 @@ add_filter( 'bp_members_ms_signup_date_sent_unsent_message', 'bp_members_members
  * Add "Request Membership" link to Block Widget login form.
  *
  * @since 10.0.0
- *
- * @return string $retval the HTML for the request membership link.
  */
 function bp_members_membership_requests_add_link_to_widget_login_form() {
 	?>

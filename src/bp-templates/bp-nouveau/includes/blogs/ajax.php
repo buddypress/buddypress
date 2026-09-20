@@ -2,6 +2,8 @@
 /**
  * Blogs Ajax functions
  *
+ * @package BuddyPress
+ * @subpackage bp-nouveau
  * @since 3.0.0
  * @version 3.0.0
  */
@@ -9,7 +11,9 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-add_action( 'admin_init', function () {
+add_action(
+	'admin_init',
+	function () {
 	$ajax_actions = array(
 		array(
 			'blogs_filter' => array(
@@ -28,4 +32,6 @@ add_action( 'admin_init', function () {
 			add_action( 'wp_ajax_nopriv_' . $action, $ajax_action[ $action ]['function'] );
 		}
 	}
-}, 12 );
+	},
+	12
+);

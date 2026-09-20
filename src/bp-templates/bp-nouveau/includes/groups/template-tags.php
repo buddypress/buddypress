@@ -2,6 +2,8 @@
 /**
  * Groups Template tags
  *
+ * @package BuddyPress
+ * @subpackage bp-nouveau
  * @since 3.0.0
  * @version 12.0.0
  */
@@ -200,8 +202,6 @@ function bp_nouveau_group_print_invites_placeholders() {
  * Load the Group Invites UI.
  *
  * @since 3.0.0
- *
- * @return string HTML Output.
  */
 function bp_nouveau_group_invites_interface() {
 	/**
@@ -241,7 +241,7 @@ function bp_nouveau_group_invites_interface() {
  * @since 3.0.0
  * @since 4.4.0
  *
- * @param  int $user_id The user ID to check group invites preference for.
+ * @param  int $user_id Optional. The user ID to check group invites preference for.
  * @return int          Returns 1 if user chose to restrict to friends, 0 otherwise.
  */
 function bp_nouveau_groups_get_group_invites_setting( $user_id = 0 ) {
@@ -266,7 +266,6 @@ function bp_nouveau_group_creation_screen() {
  *
  * @since 3.0.0
  */
-
 function bp_nouveau_group_manage_screen() {
 	$action          = bp_action_variable( 0 );
 	$is_group_create = bp_is_group_create();
@@ -325,6 +324,16 @@ function bp_nouveau_group_manage_screen() {
 			/**
 			 * Fires before the display of group delete admin.
 			 *
+			 * The dynamic portion of the hook name, `$core_screen['hook']`, refers to the current core group
+			 * screen's hook name.
+			 *
+			 * Possible hook names include:
+			 *
+			 *  - `bp_before_group_details_creation_step`
+			 *  - `bp_before_group_settings_creation_step`
+			 *  - `bp_before_group_avatar_creation_step`
+			 *  - `bp_before_group_cover_image_creation_step`
+			 *
 			 * @since 1.1.0 For most hooks.
 			 * @since 2.4.0 For the cover image hook.
 			 */
@@ -353,6 +362,16 @@ function bp_nouveau_group_manage_screen() {
 
 			/**
 			 * Fires before the display of group delete admin.
+			 *
+			 * The dynamic portion of the hook name, `$core_screen['hook']`, refers to the current core group
+			 * screen's hook name.
+			 *
+			 * Possible hook names include:
+			 *
+			 *  - `bp_after_group_details_creation_step`
+			 *  - `bp_after_group_settings_creation_step`
+			 *  - `bp_after_group_avatar_creation_step`
+			 *  - `bp_after_group_cover_image_creation_step`
 			 *
 			 * @since 1.1.0 For most hooks.
 			 * @since 2.4.0 For the cover image hook.
@@ -680,7 +699,7 @@ function bp_nouveau_groups_manage_members_buttons( $args = array() ) {
 		 * If the 'container' is set to 'ul' set $parent_element to li,
 		 * otherwise simply pass any value found in $args or set var false.
 		 */
-		if ( ! empty( $args['container'] ) && 'ul' === $args['container']  ) {
+		if ( ! empty( $args['container'] ) && 'ul' === $args['container'] ) {
 			$parent_element = 'li';
 		} elseif ( ! empty( $args['parent_element'] ) ) {
 			$parent_element = $args['parent_element'];
@@ -689,7 +708,7 @@ function bp_nouveau_groups_manage_members_buttons( $args = array() ) {
 		}
 
 		if ( ! empty( $args['button_element'] ) ) {
-			$button_element = $args['button_element'] ;
+			$button_element = $args['button_element'];
 		} else {
 			$button_element = 'a';
 		}
@@ -708,7 +727,7 @@ function bp_nouveau_groups_manage_members_buttons( $args = array() ) {
 			}
 
 			// Setup Accept button attributes
-			$buttons['accept_invite'] =  array(
+			$buttons['accept_invite'] = array(
 				'id'                => 'accept_invite',
 				'position'          => 5,
 				'component'         => 'groups',
@@ -718,7 +737,7 @@ function bp_nouveau_groups_manage_members_buttons( $args = array() ) {
 				'button_element'    => $button_element,
 				'parent_attr'       => array(
 					'id'    => '',
-					'class' => $parent_class . ' ' . 'accept',
+					'class' => $parent_class . ' accept',
 				),
 				'button_attr'       => array(
 					'id'    => '',
@@ -744,7 +763,7 @@ function bp_nouveau_groups_manage_members_buttons( $args = array() ) {
 				'link_text'         => __( 'Reject', 'buddypress' ),
 				'parent_attr'       => array(
 					'id'    => '',
-					'class' => $parent_class . ' ' . 'reject',
+					'class' => $parent_class . ' reject',
 				),
 				'button_element'    => $button_element,
 				'button_attr'       => array(
@@ -764,7 +783,7 @@ function bp_nouveau_groups_manage_members_buttons( $args = array() ) {
 		// Request button for the group's manage screen
 		} elseif ( 'request' === $type ) {
 			// Setup Accept button attributes
-			$buttons['group_membership_accept'] =  array(
+			$buttons['group_membership_accept'] = array(
 				'id'                => 'group_membership_accept',
 				'position'          => 5,
 				'component'         => 'groups',
@@ -924,15 +943,15 @@ function bp_nouveau_groups_manage_members_buttons( $args = array() ) {
 
 			// If 'button' element is set add the nonce link to data-attr attr, else add it to the href.
 			if ( 'button' === $button_element ) {
-				$buttons['unban_member']['button_attr']['data-bp-nonce'] = bp_get_group_member_unban_link( $user_id );
-				$buttons['ban_member']['button_attr']['data-bp-nonce'] = bp_get_group_member_ban_link( $user_id );
-				$buttons['promote_mod']['button_attr']['data-bp-nonce'] = bp_get_group_member_promote_mod_link();
+				$buttons['unban_member']['button_attr']['data-bp-nonce']  = bp_get_group_member_unban_link( $user_id );
+				$buttons['ban_member']['button_attr']['data-bp-nonce']    = bp_get_group_member_ban_link( $user_id );
+				$buttons['promote_mod']['button_attr']['data-bp-nonce']   = bp_get_group_member_promote_mod_link();
 				$buttons['promote_admin']['button_attr']['data-bp-nonce'] = bp_get_group_member_promote_admin_link();
 				$buttons['remove_member']['button_attr']['data-bp-nonce'] = bp_get_group_member_remove_link( $user_id );
 			} else {
-				$buttons['unban_member']['button_attr']['href'] = bp_get_group_member_unban_link( $user_id );
-				$buttons['ban_member']['button_attr']['href'] = bp_get_group_member_ban_link( $user_id );
-				$buttons['promote_mod']['button_attr']['href'] = bp_get_group_member_promote_mod_link();
+				$buttons['unban_member']['button_attr']['href']  = bp_get_group_member_unban_link( $user_id );
+				$buttons['ban_member']['button_attr']['href']    = bp_get_group_member_ban_link( $user_id );
+				$buttons['promote_mod']['button_attr']['href']   = bp_get_group_member_promote_mod_link();
 				$buttons['promote_admin']['button_attr']['href'] = bp_get_group_member_promote_admin_link();
 				$buttons['remove_member']['button_attr']['href'] = bp_get_group_member_remove_link( $user_id );
 			}
@@ -964,8 +983,8 @@ function bp_nouveau_groups_manage_members_buttons( $args = array() ) {
 					'link_text'         => $button_args['link_text'],
 					'link_title'        => $button_args['link_title'],
 					'parent_attr'       => array(
-							'id'    => $button_args['wrapper_id'],
-							'class' => $parent_class,
+						'id'    => $button_args['wrapper_id'],
+						'class' => $parent_class,
 					),
 					'button_attr'       => array(
 						'id'    => ! empty( $button_args['link_id'] ) ? $button_args['link_id'] : '',
@@ -1003,7 +1022,7 @@ function bp_nouveau_groups_manage_members_buttons( $args = array() ) {
 
 		// It's the first entry of the loop, so build the Group and sort it
 		if ( ! isset( bp_nouveau()->groups->group_buttons ) || ! is_a( bp_nouveau()->groups->group_buttons, 'BP_Buttons_Group' ) ) {
-			$sort = true;
+			$sort                               = true;
 			bp_nouveau()->groups->group_buttons = new BP_Buttons_Group( $buttons_group );
 
 		// It's not the first entry, the order is set, we simply need to update the Buttons Group
@@ -1047,7 +1066,7 @@ function bp_nouveau_groups_manage_members_buttons( $args = array() ) {
  * @since 3.0.0
  * @since 3.2.0 Adds the $meta_key argument.
  *
- * @param  string $meta_key The key of the meta to check the value for.
+ * @param  string $meta_key Optional. The key of the meta to check the value for.
  * @return bool             True if the group has meta. False otherwise.
  */
 function bp_nouveau_group_has_meta( $meta_key = '' ) {
@@ -1149,7 +1168,7 @@ function bp_nouveau_the_group_meta( $args = array() ) {
 	 * @since 3.0.0
 	 * @since 7.0.0 Adds the `$keys` parameter.
 	 *
-	 * @param array $keys One or more template meta keys to populate with their values.
+	 * @param array $keys Optional. One or more template meta keys to populate with their values.
 	 *                    Possible keys are `status`, `count`, `group_type_list`, `description`, `extra`.
 	 * @return array      The corresponding group template meta values.
 	 */
@@ -1175,23 +1194,23 @@ function bp_nouveau_the_group_meta( $args = array() ) {
 
 		foreach ( $keys as $key ) {
 			switch ( $key ) {
-				case 'status' :
+				case 'status':
 					$group_meta['status'] = bp_get_group_type( $group );
 					break;
 
-				case 'count' :
+				case 'count':
 					$group_meta['count'] = bp_get_group_member_count( $group );
 					break;
 
-				case 'group_type_list' :
+				case 'group_type_list':
 					$group_meta['group_type_list'] = bp_get_group_type_list( $group->id );
 					break;
 
-				case 'description' :
+				case 'description':
 					$group_meta['description'] = bp_get_group_description( $group );
 					break;
 
-				case 'extra' :
+				case 'extra':
 					$group_meta['extra'] = '';
 
 					if ( $is_group ) {
@@ -1365,7 +1384,7 @@ function bp_nouveau_groups_get_customizer_widgets_link() {
  *
  * @param object $group Optional. The group being referenced.
  *                      Defaults to the group currently being iterated on in the groups loop.
- * @param int $length   Optional. Length of returned string, including ellipsis. Default: 100.
+ * @param int    $length   Optional. Length of returned string, including ellipsis. Default: 100.
  */
 function bp_nouveau_group_description_excerpt( $group = null, $length = null ) {
 	$group = bp_get_group( $group );
@@ -1389,7 +1408,7 @@ function bp_nouveau_group_description_excerpt( $group = null, $length = null ) {
  *
  * @param object $group Optional. The group being referenced. Defaults to the group currently being
  *                      iterated on in the groups loop.
- * @param int $length   Optional. Length of returned string, including ellipsis. Default: 100.
+ * @param int    $length   Optional. Length of returned string, including ellipsis. Default: 100.
  *
  * @return string Excerpt.
  */
@@ -1435,7 +1454,7 @@ function bp_nouveau_get_group_description_excerpt( $group = null, $length = null
  *
  * @since 3.2.0
  *
- * @param object $type Group type object. See bp_groups_get_group_type_object().
+ * @param object $type Optional. Group type object. See bp_groups_get_group_type_object().
  */
 function bp_nouveau_group_type_checked( $type = null ) {
 	if ( ! is_object( $type ) ) {
@@ -1458,10 +1477,13 @@ function bp_nouveau_group_type_checked( $type = null ) {
  * @since 4.0.0
  */
 function bp_nouveau_add_notify_group_members_checkbox() {
-	printf( '<p class="bp-controls-wrap">
+	printf(
+		'<p class="bp-controls-wrap">
 		<label for="group-notify-members" class="bp-label-text">
 			<input type="checkbox" name="group-notify-members" id="group-notify-members" value="1" /> %s
 		</label>
-	</p>', esc_html__( 'Notify group members of these changes via email', 'buddypress' ) );
+	</p>',
+		esc_html__( 'Notify group members of these changes via email', 'buddypress' )
+	);
 }
 add_action( 'groups_custom_group_fields_editable', 'bp_nouveau_add_notify_group_members_checkbox', 20 );

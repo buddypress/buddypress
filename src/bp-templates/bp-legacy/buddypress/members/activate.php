@@ -18,7 +18,8 @@
 	 *
 	 * @since 1.1.0
 	 */
-	do_action( 'bp_before_activation_page' ); ?>
+	do_action( 'bp_before_activation_page' );
+	?>
 
 	<div class="page" id="activate-page">
 
@@ -26,7 +27,8 @@
 			<?php
 
 			/** This action is documented in bp-templates/bp-legacy/buddypress/activity/index.php */
-			do_action( 'template_notices' ); ?>
+			do_action( 'template_notices' );
+			?>
 
 		</div>
 
@@ -37,7 +39,8 @@
 		 *
 		 * @since 1.1.0
 		 */
-		do_action( 'bp_before_activate_content' ); ?>
+		do_action( 'bp_before_activate_content' );
+		?>
 
 		<?php if ( bp_account_was_activated() ) : ?>
 
@@ -49,7 +52,7 @@
 					printf(
 						/* translators: %s: login url */
 						esc_html__( 'Your account was activated successfully! You can now %s with the username and password you provided when you signed up.', 'buddypress' ),
-						'<a href="'. esc_url( wp_login_url( bp_get_root_url() ) ) . '">' . esc_html__( 'log in', 'buddypress' ) . '</a>'
+						'<a href="' . esc_url( wp_login_url( bp_get_root_url() ) ) . '">' . esc_html__( 'log in', 'buddypress' ) . '</a>'
 					);
 					?>
 				</p>
@@ -79,7 +82,8 @@
 		 *
 		 * @since 1.1.0
 		 */
-		do_action( 'bp_after_activate_content' ); ?>
+		do_action( 'bp_after_activate_content' );
+		?>
 
 	</div><!-- .page -->
 
@@ -90,6 +94,7 @@
 	 *
 	 * @since 1.1.0
 	 */
-	do_action( 'bp_after_activation_page' ); ?>
+	do_action( 'bp_after_activation_page' );
+	?>
 
 </div><!-- #buddypress -->

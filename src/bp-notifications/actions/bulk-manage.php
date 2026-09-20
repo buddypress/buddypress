@@ -20,9 +20,9 @@ function bp_notifications_action_bulk_manage() {
 	}
 
 	// Get the action.
-	$action = !empty( $_POST['notification_bulk_action'] ) ? $_POST['notification_bulk_action'] : '';
-	$nonce  = !empty( $_POST['notifications_bulk_nonce'] ) ? $_POST['notifications_bulk_nonce'] : '';
-	$notifications = !empty( $_POST['notifications'] ) ? $_POST['notifications'] : '';
+	$action        = ! empty( $_POST['notification_bulk_action'] ) ? $_POST['notification_bulk_action'] : '';
+	$nonce         = ! empty( $_POST['notifications_bulk_nonce'] ) ? $_POST['notifications_bulk_nonce'] : '';
+	$notifications = ! empty( $_POST['notifications'] ) ? $_POST['notifications'] : '';
 
 	// Bail if no action or no IDs.
 	if ( ( ! in_array( $action, array( 'delete', 'read', 'unread' ), true ) ) || empty( $notifications ) || empty( $nonce ) ) {
@@ -38,19 +38,19 @@ function bp_notifications_action_bulk_manage() {
 	$notifications = wp_parse_id_list( $notifications );
 
 	// Delete, mark as read or unread depending on the user 'action'.
+	$result = bp_notifications_bulk_manage_notifications( $action, $notifications );
+
+	// Set message depending on the user 'action'.
 	switch ( $action ) {
 		case 'delete':
-			bp_notifications_delete_notifications_by_ids( $notifications );
 			bp_core_add_message( __( 'Notifications deleted.', 'buddypress' ) );
 			break;
 
 		case 'read':
-			bp_notifications_mark_notifications_by_ids( $notifications, false );
 			bp_core_add_message( __( 'Notifications marked as read', 'buddypress' ) );
 			break;
 
 		case 'unread':
-			bp_notifications_mark_notifications_by_ids( $notifications, true );
 			bp_core_add_message( __( 'Notifications marked as unread.', 'buddypress' ) );
 			break;
 	}

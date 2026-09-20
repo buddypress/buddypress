@@ -62,7 +62,7 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 
 		// get request count for user 1 and assert
 		$requests = friends_get_friendship_request_user_ids( $u1 );
-		$this->assertEquals( array( $u3, $u2 ), $requests );
+		$this->assertSame( array( $u3, $u2 ), $requests );
 
 		// accept friendship
 		$old_user = get_current_user_id();
@@ -71,7 +71,7 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 
 		// refetch request count for user 1 and assert
 		$requests = friends_get_friendship_request_user_ids( $u1 );
-		$this->assertEquals( array( $u3 ), $requests );
+		$this->assertSame( array( $u3 ), $requests );
 
 		wp_set_current_user( $old_user );
 	}
@@ -95,14 +95,14 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 
 		// get request count for user 1 and assert
 		$requests = friends_get_friendship_request_user_ids( $u1 );
-		$this->assertEquals( array( $u2 ), $requests );
+		$this->assertSame( array( $u2 ), $requests );
 
 		// request another friendship
 		friends_add_friend( $u3, $u1 );
 
 		// refetch request count for user 1 and assert
 		$requests = friends_get_friendship_request_user_ids( $u1 );
-		$this->assertEquals( array( $u3, $u2 ), $requests );
+		$this->assertSame( array( $u3, $u2 ), $requests );
 	}
 
 	/**
@@ -119,7 +119,7 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 
 		// get request count for user 1 and assert
 		$requests = friends_get_friendship_request_user_ids( $u1 );
-		$this->assertEquals( array( $u2 ), $requests );
+		$this->assertSame( array( $u2 ), $requests );
 
 		// user 2 withdraws friendship
 		$old_user = get_current_user_id();
@@ -128,7 +128,7 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 
 		// refetch request count for user 1 and assert
 		$requests = friends_get_friendship_request_user_ids( $u1 );
-		$this->assertEquals( array(), $requests );
+		$this->assertSame( array(), $requests );
 
 		wp_set_current_user( $old_user );
 	}
@@ -147,7 +147,7 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 
 		// get request count for user 1 and assert
 		$requests = friends_get_friendship_request_user_ids( $u1 );
-		$this->assertEquals( array( $u2 ), $requests );
+		$this->assertSame( array( $u2 ), $requests );
 
 		// user 1 rejects friendship
 		$old_user = get_current_user_id();
@@ -156,7 +156,7 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 
 		// refetch request count for user 1 and assert
 		$requests = friends_get_friendship_request_user_ids( $u1 );
-		$this->assertEquals( array(), $requests );
+		$this->assertSame( array(), $requests );
 
 		wp_set_current_user( $old_user );
 	}
@@ -322,7 +322,7 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 		friends_remove_friend( $u1, $u2 );
 
 		// Assert that users are no longer friends.
-		$this->assertEquals( 'not_friends', BP_Friends_Friendship::check_is_friend( $u1, $u2 ) );
+		$this->assertSame( 'not_friends', BP_Friends_Friendship::check_is_friend( $u1, $u2 ) );
 
 		wp_set_current_user( $old_user );
 	}
@@ -346,7 +346,7 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 		 */
 		friends_check_friendship_status( $u2, $u1 );
 
-		$this->assertEquals( $first_query_count, $wpdb->num_queries );
+		$this->assertSame( $first_query_count, $wpdb->num_queries );
 	}
 
 	public function test_friends_get_recently_active() {
@@ -366,9 +366,9 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 
 		$recent = friends_get_recently_active( $u1 );
 
-		$this->assertEquals( $recent['users'][0]->id, $u2 );
-		$this->assertEquals( $recent['users'][1]->id, $u4 );
-		$this->assertEquals( $recent['users'][2]->id, $u3 );
+		$this->assertSame( $recent['users'][0]->id, $u2 );
+		$this->assertSame( $recent['users'][1]->id, $u4 );
+		$this->assertSame( $recent['users'][2]->id, $u3 );
 	}
 
 	public function test_friends_get_alphabetically() {
@@ -388,8 +388,8 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 
 		$alpha = friends_get_alphabetically( $u1 );
 
-		$this->assertEquals( $alpha['users'][0]->id, $u3 );
-		$this->assertEquals( $alpha['users'][1]->id, $u2 );
+		$this->assertSame( $alpha['users'][0]->id, $u3 );
+		$this->assertSame( $alpha['users'][1]->id, $u2 );
 	}
 
 	public function test_friends_get_newest() {
@@ -409,9 +409,9 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 
 		$newest = friends_get_newest( $u1 );
 
-		$this->assertEquals( $newest['users'][0]->id, $u4 );
-		$this->assertEquals( $newest['users'][1]->id, $u3 );
-		$this->assertEquals( $newest['users'][2]->id, $u2 );
+		$this->assertSame( $newest['users'][0]->id, $u4 );
+		$this->assertSame( $newest['users'][1]->id, $u3 );
+		$this->assertSame( $newest['users'][2]->id, $u2 );
 	}
 
 	/**
@@ -497,11 +497,11 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 
 		friends_add_friend( $u1, $u2, true );
 
-		$this->assertEquals( 'is_friend', BP_Friends_Friendship::check_is_friend( $u1, $u2 ) );
+		$this->assertSame( 'is_friend', BP_Friends_Friendship::check_is_friend( $u1, $u2 ) );
 
 		wp_delete_user( $u1 );
 
-		$this->assertEquals( 'not_friends', BP_Friends_Friendship::check_is_friend( $u1, $u2 ) );
+		$this->assertSame( 'not_friends', BP_Friends_Friendship::check_is_friend( $u1, $u2 ) );
 	}
 
 	/**
@@ -517,11 +517,11 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 
 		friends_add_friend( $u1, $u2, true );
 
-		$this->assertEquals( 'is_friend', BP_Friends_Friendship::check_is_friend( $u1, $u2 ) );
+		$this->assertSame( 'is_friend', BP_Friends_Friendship::check_is_friend( $u1, $u2 ) );
 
 		wpmu_delete_user( $u1 );
 
-		$this->assertEquals( 'not_friends', BP_Friends_Friendship::check_is_friend( $u1, $u2 ) );
+		$this->assertSame( 'not_friends', BP_Friends_Friendship::check_is_friend( $u1, $u2 ) );
 	}
 
 	/**
@@ -537,10 +537,10 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 
 		friends_add_friend( $u1, $u2, true );
 
-		$this->assertEquals( 'is_friend', BP_Friends_Friendship::check_is_friend( $u1, $u2 ) );
+		$this->assertSame( 'is_friend', BP_Friends_Friendship::check_is_friend( $u1, $u2 ) );
 
 		wp_delete_user( $u1 );
 
-		$this->assertEquals( 'is_friend', BP_Friends_Friendship::check_is_friend( $u1, $u2 ) );
+		$this->assertSame( 'is_friend', BP_Friends_Friendship::check_is_friend( $u1, $u2 ) );
 	}
 }

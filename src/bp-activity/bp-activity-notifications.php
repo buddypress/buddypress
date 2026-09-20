@@ -19,9 +19,9 @@ defined( 'ABSPATH' ) || exit;
  * @param int    $item_id           The activity ID.
  * @param int    $secondary_item_id In the case of at-mentions, this is the mentioner's ID.
  * @param int    $total_items       The total number of notifications to format.
- * @param string $format            'string' for notification HTML link or 'array' for separate link and text.
+ * @param string $format            Optional. 'string' for notification HTML link or 'array' for separate link and text.
  * @param int    $id                Optional. The notification ID.
- * @return string $return Formatted @mention notification.
+ * @return string Formatted @mention notification.
  */
 function bp_activity_format_notifications( $action, $item_id, $secondary_item_id, $total_items, $format = 'string', $id = 0 ) {
 	$action_filter = $action;
@@ -48,7 +48,7 @@ function bp_activity_format_notifications( $action, $item_id, $secondary_item_id
 				/* translators: 1: the user display name */
 				$text = sprintf( __( '%1$s mentioned you', 'buddypress' ), $user_fullname );
 			}
-		break;
+			break;
 
 		case 'update_reply':
 			$link   = bp_get_notifications_permalink();
@@ -67,7 +67,7 @@ function bp_activity_format_notifications( $action, $item_id, $secondary_item_id
 				/* translators: 1: the user display name */
 				$text = sprintf( __( '%1$s commented on one of your updates', 'buddypress' ), $user_fullname );
 			}
-		break;
+			break;
 
 		case 'comment_reply':
 			$link   = bp_get_notifications_permalink();
@@ -86,10 +86,10 @@ function bp_activity_format_notifications( $action, $item_id, $secondary_item_id
 				/* translators: 1: the user display name */
 				$text = sprintf( __( '%1$s replied to one of your activity comments', 'buddypress' ), $user_fullname );
 			}
-		break;
+			break;
 	}
 
-	if ( 'string' == $format ) {
+	if ( 'string' === $format ) {
 
 		/**
 		 * Filters the activity notification for the string format.
@@ -126,10 +126,17 @@ function bp_activity_format_notifications( $action, $item_id, $secondary_item_id
 		 * @param int    $activity_id     ID of the activity item being formatted.
 		 * @param int    $user_id         ID of the user who inited the interaction.
 		 */
-		$return = apply_filters( 'bp_activity_' . $amount . '_' . $action_filter . '_notification', array(
-			'text' => $text,
-			'link' => $link
-		), $link, (int) $total_items, $activity_id, $user_id );
+		$return = apply_filters(
+			'bp_activity_' . $amount . '_' . $action_filter . '_notification',
+			array(
+				'text' => $text,
+				'link' => $link,
+			),
+			$link,
+			(int) $total_items,
+			$activity_id,
+			$user_id
+		);
 	}
 
 	/**
@@ -164,7 +171,8 @@ function bp_activity_format_notifications( $action, $item_id, $secondary_item_id
  * @param int    $receiver_user_id   ID of user receiving notification.
  */
 function bp_activity_at_mention_add_notification( $activity, $subject, $message, $content, $receiver_user_id ) {
-	bp_notifications_add_notification( array(
+	bp_notifications_add_notification(
+		array(
 			'user_id'           => $receiver_user_id,
 			'item_id'           => $activity->id,
 			'secondary_item_id' => $activity->user_id,
@@ -172,7 +180,8 @@ function bp_activity_at_mention_add_notification( $activity, $subject, $message,
 			'component_action'  => 'new_at_mention',
 			'date_notified'     => bp_core_current_time(),
 			'is_new'            => 1,
-	) );
+		)
+	);
 }
 add_action( 'bp_activity_sent_mention_email', 'bp_activity_at_mention_add_notification', 10, 5 );
 
@@ -186,15 +195,17 @@ add_action( 'bp_activity_sent_mention_email', 'bp_activity_at_mention_add_notifi
  * @param int                  $commenter_id ID of the user who made the comment.
  */
 function bp_activity_update_reply_add_notification( $activity, $comment_id, $commenter_id ) {
-	bp_notifications_add_notification( array(
-		'user_id'           => $activity->user_id,
-		'item_id'           => $comment_id,
-		'secondary_item_id' => $commenter_id,
-		'component_name'    => buddypress()->activity->id,
-		'component_action'  => 'update_reply',
-		'date_notified'     => bp_core_current_time(),
-		'is_new'            => 1,
-	) );
+	bp_notifications_add_notification(
+		array(
+			'user_id'           => $activity->user_id,
+			'item_id'           => $comment_id,
+			'secondary_item_id' => $commenter_id,
+			'component_name'    => buddypress()->activity->id,
+			'component_action'  => 'update_reply',
+			'date_notified'     => bp_core_current_time(),
+			'is_new'            => 1,
+		)
+	);
 }
 add_action( 'bp_activity_sent_reply_to_update_notification', 'bp_activity_update_reply_add_notification', 10, 3 );
 
@@ -208,15 +219,17 @@ add_action( 'bp_activity_sent_reply_to_update_notification', 'bp_activity_update
  * @param int                  $commenter_id     ID of the user who made the comment.
  */
 function bp_activity_comment_reply_add_notification( $activity_comment, $comment_id, $commenter_id ) {
-	bp_notifications_add_notification( array(
-		'user_id'           => $activity_comment->user_id,
-		'item_id'           => $comment_id,
-		'secondary_item_id' => $commenter_id,
-		'component_name'    => buddypress()->activity->id,
-		'component_action'  => 'comment_reply',
-		'date_notified'     => bp_core_current_time(),
-		'is_new'            => 1,
-	) );
+	bp_notifications_add_notification(
+		array(
+			'user_id'           => $activity_comment->user_id,
+			'item_id'           => $comment_id,
+			'secondary_item_id' => $commenter_id,
+			'component_name'    => buddypress()->activity->id,
+			'component_action'  => 'comment_reply',
+			'date_notified'     => bp_core_current_time(),
+			'is_new'            => 1,
+		)
+	);
 }
 add_action( 'bp_activity_sent_reply_to_reply_notification', 'bp_activity_comment_reply_add_notification', 10, 3 );
 
@@ -226,7 +239,7 @@ add_action( 'bp_activity_sent_reply_to_reply_notification', 'bp_activity_comment
  * @since 1.5.0
  * @since 2.5.0 Add the $user_id parameter
  *
- * @param int $user_id The id of the user whose notifications are marked as read.
+ * @param int $user_id Optional. The id of the user whose notifications are marked as read.
  */
 function bp_activity_remove_screen_notifications( $user_id = 0 ) {
 	// Only mark read if the current user is looking at his own mentions.
@@ -268,11 +281,11 @@ function bp_activity_remove_screen_notifications_single_activity_permalink( $act
 	if ( ! empty( $comment_id ) ) {
 		BP_Notifications_Notification::update(
 			array(
-				'is_new' => false
+				'is_new' => false,
 			),
 			array(
 				'user_id' => bp_loggedin_user_id(),
-				'id'      => $comment_id
+				'id'      => $comment_id,
 			)
 		);
 	}
@@ -295,11 +308,11 @@ function bp_activity_remove_screen_notifications_for_non_mentions() {
 	// Mark notification as read.
 	BP_Notifications_Notification::update(
 		array(
-			'is_new'  => false
+			'is_new'  => false,
 		),
 		array(
 			'user_id' => bp_loggedin_user_id(),
-			'id'      => (int) $_GET['nid']
+			'id'      => (int) $_GET['nid'],
 		)
 	);
 }
@@ -310,7 +323,7 @@ add_action( 'bp_screens', 'bp_activity_remove_screen_notifications_for_non_menti
  *
  * @since 2.0.0
  *
- * @param array $activity_ids_deleted IDs of deleted activity items.
+ * @param array $activity_ids_deleted Optional. IDs of deleted activity items.
  */
 function bp_activity_at_mention_delete_notification( $activity_ids_deleted = array() ) {
 	// Let's delete all without checking if content contains any mentions
@@ -329,13 +342,13 @@ add_action( 'bp_activity_deleted_activities', 'bp_activity_at_mention_delete_not
  * Requires "activity stream commenting on posts and comments" to be enabled.
  *
  * @since 2.6.0
+ * @since 15.0.0 The `$activity_post_object` parameter was removed since it was unused.
  *
- * @param int        $activity_id          The activity comment ID.
- * @param WP_Comment $post_type_comment    WP Comment object.
- * @param array      $activity_args        Activity comment arguments.
- * @param object     $activity_post_object The post type tracking args object.
+ * @param int        $activity_id       The activity comment ID.
+ * @param WP_Comment $post_type_comment WP Comment object.
+ * @param array      $activity_args     Activity comment arguments.
  */
-function bp_activity_add_notification_for_synced_blog_comment( $activity_id, $post_type_comment, $activity_args, $activity_post_object ) {
+function bp_activity_add_notification_for_synced_blog_comment( $activity_id, $post_type_comment, $activity_args ) {
 	// If activity comments are disabled for WP posts, stop now!
 	if ( bp_disable_blogforum_comments() || empty( $activity_id ) ) {
 		return;
@@ -346,15 +359,17 @@ function bp_activity_add_notification_for_synced_blog_comment( $activity_id, $po
 		// Only add a notification if comment author is a registered user.
 		// @todo Should we remove this restriction?
 		if ( ! empty( $post_type_comment->user_id ) ) {
-			bp_notifications_add_notification( array(
-				'user_id'           => $post_type_comment->post->post_author,
-				'item_id'           => $activity_id,
-				'secondary_item_id' => $post_type_comment->user_id,
-				'component_name'    => buddypress()->activity->id,
-				'component_action'  => 'update_reply',
-				'date_notified'     => $post_type_comment->comment_date_gmt,
-				'is_new'            => 1,
-			) );
+			bp_notifications_add_notification(
+				array(
+					'user_id'           => $post_type_comment->post->post_author,
+					'item_id'           => $activity_id,
+					'secondary_item_id' => $post_type_comment->user_id,
+					'component_name'    => buddypress()->activity->id,
+					'component_action'  => 'update_reply',
+					'date_notified'     => $post_type_comment->comment_date_gmt,
+					'is_new'            => 1,
+				)
+			);
 		}
 	}
 
@@ -363,15 +378,17 @@ function bp_activity_add_notification_for_synced_blog_comment( $activity_id, $po
 		$parent_comment = get_comment( $post_type_comment->comment_parent );
 
 		if ( ! empty( $parent_comment->user_id ) && (int) $parent_comment->user_id !== (int) $activity_args['user_id'] ) {
-			bp_notifications_add_notification( array(
-				'user_id'           => $parent_comment->user_id,
-				'item_id'           => $activity_id,
-				'secondary_item_id' => $post_type_comment->user_id,
-				'component_name'    => buddypress()->activity->id,
-				'component_action'  => 'comment_reply',
-				'date_notified'     => $post_type_comment->comment_date_gmt,
-				'is_new'            => 1,
-			) );
+			bp_notifications_add_notification(
+				array(
+					'user_id'           => $parent_comment->user_id,
+					'item_id'           => $activity_id,
+					'secondary_item_id' => $post_type_comment->user_id,
+					'component_name'    => buddypress()->activity->id,
+					'component_action'  => 'comment_reply',
+					'date_notified'     => $post_type_comment->comment_date_gmt,
+					'is_new'            => 1,
+				)
+			);
 		}
 	}
 }
@@ -384,12 +401,14 @@ add_action( 'bp_blogs_comment_sync_activity_comment', 'bp_activity_add_notificat
  */
 function bp_activity_screen_notification_settings() {
 	if ( bp_activity_do_mentions() ) {
-		if ( ! $mention = bp_get_user_meta( bp_displayed_user_id(), 'notification_activity_new_mention', true ) ) {
+		$mention = bp_get_user_meta( bp_displayed_user_id(), 'notification_activity_new_mention', true );
+		if ( ! $mention ) {
 			$mention = 'yes';
 		}
 	}
 
-	if ( ! $reply = bp_get_user_meta( bp_displayed_user_id(), 'notification_activity_new_reply', true ) ) {
+	$reply = bp_get_user_meta( bp_displayed_user_id(), 'notification_activity_new_reply', true );
+	if ( ! $reply ) {
 		$reply = 'yes';
 	}
 	?>
@@ -398,9 +417,9 @@ function bp_activity_screen_notification_settings() {
 		<thead>
 			<tr>
 				<th class="icon">&nbsp;</th>
-				<th class="title"><?php esc_html_e( 'Activity', 'buddypress' ) ?></th>
-				<th class="yes"><?php esc_html_e( 'Yes', 'buddypress' ) ?></th>
-				<th class="no"><?php esc_html_e( 'No', 'buddypress' )?></th>
+				<th class="title"><?php esc_html_e( 'Activity', 'buddypress' ); ?></th>
+				<th class="yes"><?php esc_html_e( 'Yes', 'buddypress' ); ?></th>
+				<th class="no"><?php esc_html_e( 'No', 'buddypress' ); ?></th>
 			</tr>
 		</thead>
 
@@ -415,7 +434,7 @@ function bp_activity_screen_notification_settings() {
 						?>
 					</td>
 					<td class="yes">
-						<input type="radio" name="notifications[notification_activity_new_mention]" id="notification-activity-new-mention-yes" value="yes" <?php checked( $mention, 'yes', true ) ?>/>
+						<input type="radio" name="notifications[notification_activity_new_mention]" id="notification-activity-new-mention-yes" value="yes" <?php checked( $mention, 'yes', true ); ?>/>
 						<label for="notification-activity-new-mention-yes" class="bp-screen-reader-text">
 							<?php
 								/* translators: accessibility text */
@@ -423,7 +442,7 @@ function bp_activity_screen_notification_settings() {
 							?>
 						</label>
 					</td>
-					<td class="no"><input type="radio" name="notifications[notification_activity_new_mention]" id="notification-activity-new-mention-no" value="no" <?php checked( $mention, 'no', true ) ?>/>
+					<td class="no"><input type="radio" name="notifications[notification_activity_new_mention]" id="notification-activity-new-mention-no" value="no" <?php checked( $mention, 'no', true ); ?>/>
 						<label for="notification-activity-new-mention-no" class="bp-screen-reader-text">
 							<?php
 								/* translators: accessibility text */
@@ -436,9 +455,9 @@ function bp_activity_screen_notification_settings() {
 
 			<tr id="activity-notification-settings-replies">
 				<td>&nbsp;</td>
-				<td><?php esc_html_e( "A member replies to an update or comment you've posted", 'buddypress' ) ?></td>
+				<td><?php esc_html_e( "A member replies to an update or comment you've posted", 'buddypress' ); ?></td>
 				<td class="yes">
-					<input type="radio" name="notifications[notification_activity_new_reply]" id="notification-activity-new-reply-yes" value="yes" <?php checked( $reply, 'yes', true ) ?>/>
+					<input type="radio" name="notifications[notification_activity_new_reply]" id="notification-activity-new-reply-yes" value="yes" <?php checked( $reply, 'yes', true ); ?>/>
 					<label for="notification-activity-new-reply-yes" class="bp-screen-reader-text">
 						<?php
 							/* translators: accessibility text */
@@ -446,7 +465,7 @@ function bp_activity_screen_notification_settings() {
 						?>
 					</label>
 				</td>
-				<td class="no"><input type="radio" name="notifications[notification_activity_new_reply]" id="notification-activity-new-reply-no" value="no" <?php checked( $reply, 'no', true ) ?>/>
+				<td class="no"><input type="radio" name="notifications[notification_activity_new_reply]" id="notification-activity-new-reply-no" value="no" <?php checked( $reply, 'no', true ); ?>/>
 					<label for="notification-activity-new-reply-no" class="bp-screen-reader-text">
 						<?php
 							/* translators: accessibility text */
@@ -463,7 +482,8 @@ function bp_activity_screen_notification_settings() {
 			 *
 			 * @since 1.2.0
 			 */
-			do_action( 'bp_activity_screen_notification_settings' ) ?>
+			do_action( 'bp_activity_screen_notification_settings' )
+			?>
 		</tbody>
 	</table>
 

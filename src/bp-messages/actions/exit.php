@@ -31,9 +31,9 @@ function bp_messages_action_exit_thread() {
 
 		// Exit message.
 		if ( ! bp_messages_exit_thread( $thread_id ) ) {
-			bp_core_add_message( __('There was an error exiting the conversation.', 'buddypress'), 'error' );
+			bp_core_add_message( __( 'There was an error exiting the conversation.', 'buddypress' ), 'error' );
 		} else {
-			bp_core_add_message( __('You have left the message thread.', 'buddypress') );
+			bp_core_add_message( __( 'You have left the message thread.', 'buddypress' ) );
 		}
 
 		bp_core_redirect( $redirect );

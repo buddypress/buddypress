@@ -158,7 +158,7 @@ class BP_User_Query {
 	 *
 	 * @since 1.7.0
 	 *
-	 * @param string|array|null $query See {@link BP_User_Query}.
+	 * @param string|array|null $query Optional. See {@link BP_User_Query}.
 	 */
 	public function __construct( $query = null ) {
 
@@ -550,7 +550,7 @@ class BP_User_Query {
 		}
 
 		// Get the specific user ids.
-		$this->user_ids = $wpdb->get_col( "{$this->uid_clauses['select']} {$this->uid_clauses['where']} {$this->uid_clauses['orderby']} {$this->uid_clauses['order']} {$this->uid_clauses['limit']}" );
+		$this->user_ids = wp_parse_id_list( $wpdb->get_col( "{$this->uid_clauses['select']} {$this->uid_clauses['where']} {$this->uid_clauses['orderby']} {$this->uid_clauses['order']} {$this->uid_clauses['limit']}" ) );
 
 		// Get the total user count.
 		if ( 'sql_calc_found_rows' === $this->query_vars['count_total'] ) {
@@ -660,7 +660,7 @@ class BP_User_Query {
 	 *
 	 * @since 1.8.0
 	 *
-	 * @param array $include_ids Sanitized array of user IDs, as passed to the 'include'
+	 * @param array $include_ids Optional. Sanitized array of user IDs, as passed to the 'include'
 	 *                           parameter of the class constructor.
 	 * @return array The list of users to which the main query should be
 	 *               limited.

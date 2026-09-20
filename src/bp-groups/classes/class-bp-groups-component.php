@@ -134,7 +134,7 @@ class BP_Groups_Component extends BP_Component {
 	 *
 	 * @see BP_Component::includes() for a description of arguments.
 	 *
-	 * @param array $includes See BP_Component::includes() for a description.
+	 * @param array $includes Optional. See BP_Component::includes() for a description.
 	 */
 	public function includes( $includes = array() ) {
 		$includes = array(
@@ -234,8 +234,8 @@ class BP_Groups_Component extends BP_Component {
 	 *
 	 * @since 12.0.0
 	 *
-	 * @param string $group_slug The current action which is possibly a group slug.
-	 * @return BP_Groups_Group|Object|integer A group's object or 0 if no groups were found.
+	 * @param string $group_slug Optional. The current action which is possibly a group slug.
+	 * @return BP_Groups_Group|Object|int A group's object or 0 if no groups were found.
 	 */
 	public function setup_current_group( $group_slug = '' ) {
 		if ( ! bp_is_groups_component() || ! $group_slug ) {
@@ -268,7 +268,7 @@ class BP_Groups_Component extends BP_Component {
 		 */
 		$current_group_class = apply_filters( 'bp_groups_current_group_class', 'BP_Groups_Group' );
 
-		if ( $current_group_class == 'BP_Groups_Group' ) {
+		if ( $current_group_class === 'BP_Groups_Group' ) {
 			$current_group = groups_get_group( $group_id );
 
 		} else {
@@ -469,7 +469,7 @@ class BP_Groups_Component extends BP_Component {
 	 *
 	 * @see BP_Component::setup_globals() for a description of arguments.
 	 *
-	 * @param array $args See BP_Component::setup_globals() for a description.
+	 * @param array $args Optional. See BP_Component::setup_globals() for a description.
 	 */
 	public function setup_globals( $args = array() ) {
 		$bp           = buddypress();
@@ -839,7 +839,7 @@ class BP_Groups_Component extends BP_Component {
 	 * @see BP_Component::setup_nav() for a description of the $wp_admin_nav
 	 *      parameter array.
 	 *
-	 * @param array $wp_admin_nav See BP_Component::setup_admin_bar() for a description.
+	 * @param array $wp_admin_nav Optional. See BP_Component::setup_admin_bar() for a description.
 	 */
 	public function setup_admin_bar( $wp_admin_nav = array() ) {
 
@@ -990,18 +990,6 @@ class BP_Groups_Component extends BP_Component {
 		);
 
 		parent::setup_cache_groups();
-	}
-
-	/**
-	 * Set up taxonomies.
-	 *
-	 * @since 2.6.0
-	 * @since 7.0.0 The Group Type taxonomy is registered using the `bp_groups_register_group_type_taxonomy()` function.
-	 */
-	public function register_taxonomies() {
-
-		// Just let BP Component fire 'bp_groups_register_taxonomies'.
-		return parent::register_taxonomies();
 	}
 
 	/**

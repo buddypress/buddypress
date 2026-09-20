@@ -262,7 +262,7 @@ class BP_Tests_Group_Cover_REST_Controller extends BP_Test_REST_Controller_Testc
 		$data       = $response->get_data();
 		$properties = $data['schema']['properties'];
 
-		$this->assertEquals( 1, count( $properties ) );
+		$this->assertCount( 1, $properties );
 		$this->assertArrayHasKey( 'image', $properties );
 	}
 

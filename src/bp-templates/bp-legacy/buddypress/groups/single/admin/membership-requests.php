@@ -18,7 +18,8 @@
  *
  * @since 1.1.0
  */
-do_action( 'bp_before_group_membership_requests_admin' ); ?>
+do_action( 'bp_before_group_membership_requests_admin' );
+?>
 
 	<div class="requests">
 

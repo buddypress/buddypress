@@ -22,16 +22,16 @@
 <?php
 switch ( bp_current_action() ) :
 
-	case 'unread' :
+	case 'unread':
 		bp_get_template_part( 'members/single/notifications/unread' );
 		break;
 
-	case 'read' :
+	case 'read':
 		bp_get_template_part( 'members/single/notifications/read' );
 		break;
 
 	// Any other actions.
-	default :
+	default:
 		bp_get_template_part( 'members/single/plugins' );
 		break;
 endswitch;

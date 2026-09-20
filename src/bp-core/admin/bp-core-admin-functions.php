@@ -190,7 +190,7 @@ add_action( 'network_admin_notices', 'bp_core_print_admin_notices' );
  *
  * @since 1.5.0
  *
- * @param string $notice The notice you are adding to the queue.
+ * @param string $notice Optional. The notice you are adding to the queue.
  * @param string $type   The notice type; optional. Usually either "updated" or "error".
  */
 function bp_core_add_admin_notice( $notice = '', $type = 'updated' ) {
@@ -395,7 +395,7 @@ function bp_do_activation_redirect() {
 
 	$query_args = array(
 		'page'  => 'bp-components',
-		'hello' => 'buddypress'
+		'hello' => 'buddypress',
 	);
 
 	if ( get_transient( '_bp_is_new_install' ) ) {
@@ -414,9 +414,9 @@ function bp_do_activation_redirect() {
  *
  * @since 10.0.0
  *
- * @param string $title      The title of the Admin page.
- * @param string $active_tab The current displayed tab.
- * @param string $context    The context of use for the tabs. Defaults to 'settings'.
+ * @param string $title      Optional. The title of the Admin page.
+ * @param string $active_tab Optional. The current displayed tab.
+ * @param string $context    Optional. The context of use for the tabs. Defaults to 'settings'.
  *                           Possible values are 'settings' & 'tools'.
  */
 function bp_core_admin_tabbed_screen_header( $title = '', $active_tab = '', $context = 'settings' ) {
@@ -525,7 +525,7 @@ function bp_core_admin_tabs( $active_tab = '', $context = 'settings', $echo_tabs
  *
  * @since 10.0.0
  *
- * @param bool $apply_filters Whether to apply filters or not.
+ * @param bool $apply_filters Optional. Whether to apply filters or not.
  * @return array The BP Admin settings tabs.
  */
 function bp_core_get_admin_settings_tabs( $apply_filters = true ) {
@@ -587,7 +587,7 @@ function bp_core_get_admin_settings_tabs( $apply_filters = true ) {
  *
  * @since 10.0.0
  *
- * @param bool $apply_filters Whether to apply filters or not.
+ * @param bool $apply_filters Optional. Whether to apply filters or not.
  * @return array The BP Admin tools tabs.
  */
 function bp_core_get_admin_tools_tabs( $apply_filters = true ) {
@@ -640,7 +640,7 @@ function bp_core_get_admin_tools_tabs( $apply_filters = true ) {
  * @since 8.0.0 Adds the `$context` parameter.
  *
  * @param string $active_tab Name of the tab that is active. Optional.
- * @param string $context    The context of use for the tabs. Defaults to 'settings'.
+ * @param string $context    Optional. The context of use for the tabs. Defaults to 'settings'.
  *                           Possible values are 'settings' & 'tools'.
  * @return string
  */
@@ -671,8 +671,8 @@ function bp_core_get_admin_tabs( $active_tab = '', $context = 'settings' ) {
  *
  * @since 10.0.0
  *
- * @param string $context    The context of use for the tabs.
- * @param string $active_tab The active tab.
+ * @param string $context    Optional. The context of use for the tabs.
+ * @param string $active_tab Optional. The active tab.
  */
 function bp_backcompat_admin_tabs( $context = '', $active_tab = '' ) {
 	$bp = buddypress();
@@ -710,7 +710,7 @@ add_action( 'bp_admin_tabs', 'bp_backcompat_admin_tabs', 1, 2 );
  * @since 1.7.0
  * @todo Make this part of the BP_Component class and split into each component.
  *
- * @param string $screen Current screen.
+ * @param string $screen Optional. Current screen.
  */
 function bp_core_add_contextual_help( $screen = '' ) {
 
@@ -909,7 +909,7 @@ add_action( 'admin_head-tools_page_bp-tools', 'bp_core_add_contextual_help' );
  *
  * @since 1.7.0
  *
- * @param string $tab Current help content tab.
+ * @param string $tab Optional. Current help content tab.
  * @return string
  */
 function bp_core_add_contextual_help_content( $tab = '' ) {
@@ -1065,7 +1065,7 @@ function bp_admin_custom_menu_order( $menu_order = false ) {
  *
  * @since 1.7.0
  *
- * @param array $menu_order Menu Order.
+ * @param array $menu_order Optional. Menu Order.
  * @return array Modified menu order.
  */
 function bp_admin_menu_order( $menu_order = array() ) {
@@ -1192,8 +1192,8 @@ function bp_admin_get_wp_nav_menu_items( $nil, $wp_query ) {
  *
  * @global int|string $nav_menu_selected_id
  *
- * @param WP_Post $post The current post object.
- * @param array   $box     The meta box arguments.
+ * @param WP_Post $post Optional. The current post object.
+ * @param array   $box     Optional. The meta box arguments.
  */
 function bp_admin_do_wp_nav_menu_meta_box( $post = '', $box = array() ) {
 	global $nav_menu_selected_id;
@@ -1486,7 +1486,7 @@ function bp_admin_wp_nav_menu_restrict_items() {
  *
  * @param string[] $actions User row action links.
  * @param WP_User  $user_object WP_User object for the currently listed user.
- * @return array $actions User row action links.
+ * @return array User row action links.
  */
 function bp_core_admin_user_row_actions( $actions, $user_object ) {
 
@@ -1677,8 +1677,8 @@ add_filter( 'admin_body_class', 'bp_core_admin_body_classes' );
  *
  * @todo deprecate.
  *
- * @param array               $categories Array of block categories.
- * @param string|WP_Post|null $editor_name_or_post Post being loaded.
+ * @param array               $categories Optional. Array of block categories.
+ * @param string|WP_Post|null $editor_name_or_post Optional. Post being loaded.
  */
 function bp_block_category( $categories = array(), $editor_name_or_post = null ) {
 	if ( $editor_name_or_post instanceof WP_Post ) {
@@ -1709,7 +1709,7 @@ add_filter( 'block_categories_all', 'bp_block_category', 1, 2 );
  *
  * @since 11.4.0
  *
- * @param object|null $notification An Admin Notification object.
+ * @param object|null $notification Optional. An Admin Notification object.
  */
 function bp_core_admin_format_notifications( $notification = null ) {
 	if ( ! isset( $notification->id ) ) {
@@ -1773,7 +1773,7 @@ add_filter( 'set_screen_option_tools_page_bp_members_invitations_network_per_pag
  *
  * @since 15.0.0
  *
- * @param false|object|array $result The result object or array. Default false.
+ * @param false|object|array $addons Plugin API response containing add-ons.
  * @param string             $action The type of information being requested from the Plugin Installation API.
  * @param object             $args   Plugin API arguments.
  */

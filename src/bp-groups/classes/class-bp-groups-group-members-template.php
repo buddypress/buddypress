@@ -17,48 +17,64 @@ defined( 'ABSPATH' ) || exit;
 class BP_Groups_Group_Members_Template {
 
 	/**
+	 * Current member position in the loop.
+	 *
 	 * @since 1.0.0
 	 * @var int
 	 */
 	public $current_member = -1;
 
 	/**
+	 * Number of members in the loop.
+	 *
 	 * @since 1.0.0
 	 * @var int
 	 */
 	public $member_count;
 
 	/**
+	 * Group members in the loop.
+	 *
 	 * @since 1.0.0
 	 * @var array
 	 */
 	public $members;
 
 	/**
+	 * Current group member in the loop.
+	 *
 	 * @since 1.0.0
 	 * @var object
 	 */
 	public $member;
 
 	/**
+	 * Whether the loop is active.
+	 *
 	 * @since 1.0.0
 	 * @var bool
 	 */
 	public $in_the_loop;
 
 	/**
+	 * Current pagination page.
+	 *
 	 * @since 1.0.0
 	 * @var int
 	 */
 	public $pag_page;
 
 	/**
+	 * Number of members per pagination page.
+	 *
 	 * @since 1.0.0
 	 * @var int
 	 */
 	public $pag_num;
 
 	/**
+	 * Pagination links.
+	 *
 	 * @since 1.0.0
 	 * @var array|string|null
 	 */
@@ -88,6 +104,8 @@ class BP_Groups_Group_Members_Template {
 	public $total_member_count;
 
 	/**
+	 * Total number of groups.
+	 *
 	 * @since 1.0.0
 	 * @var int
 	 */
@@ -155,8 +173,8 @@ class BP_Groups_Group_Members_Template {
 		);
 
 		$this->pag_arg  = sanitize_key( $r['page_arg'] );
-		$this->pag_page = bp_sanitize_pagination_arg( $this->pag_arg, $r['page']     );
-		$this->pag_num  = bp_sanitize_pagination_arg( 'num',          $r['per_page'] );
+		$this->pag_page = bp_sanitize_pagination_arg( $this->pag_arg, $r['page'] );
+		$this->pag_num  = bp_sanitize_pagination_arg( 'num', $r['per_page'] );
 
 		/**
 		 * Check the current group is the same as the supplied group ID.
@@ -201,16 +219,18 @@ class BP_Groups_Group_Members_Template {
 			$this->member_count = (int) $r['max'];
 		}
 
-		$this->pag_links = paginate_links( array(
-			'base'      => add_query_arg( array( $this->pag_arg => '%#%' ), $base_url ),
-			'format'    => '',
-			'total'     => ! empty( $this->pag_num ) ? ceil( $this->total_member_count / $this->pag_num ) : $this->total_member_count,
-			'current'   => $this->pag_page,
-			'prev_text' => '&larr;',
-			'next_text' => '&rarr;',
-			'mid_size'  => 1,
-			'add_args'  => array(),
-		) );
+		$this->pag_links = paginate_links(
+			array(
+				'base'      => add_query_arg( array( $this->pag_arg => '%#%' ), $base_url ),
+				'format'    => '',
+				'total'     => ! empty( $this->pag_num ) ? ceil( $this->total_member_count / $this->pag_num ) : $this->total_member_count,
+				'current'   => $this->pag_page,
+				'prev_text' => '&larr;',
+				'next_text' => '&rarr;',
+				'mid_size'  => 1,
+				'add_args'  => array(),
+			)
+		);
 	}
 
 	/**
@@ -236,7 +256,7 @@ class BP_Groups_Group_Members_Template {
 	 * @return object
 	 */
 	public function next_member() {
-		$this->current_member++;
+		++$this->current_member;
 		$this->member = $this->members[ $this->current_member ];
 
 		return $this->member;
@@ -265,7 +285,7 @@ class BP_Groups_Group_Members_Template {
 		$tick = intval( $this->current_member + 1 );
 		if ( $tick < $this->member_count ) {
 			return true;
-		} elseif ( $tick == $this->member_count ) {
+		} elseif ( $tick === $this->member_count ) {
 
 			/**
 			 * Fires right before the rewinding of members list.
@@ -296,7 +316,7 @@ class BP_Groups_Group_Members_Template {
 		$this->member      = $this->next_member();
 
 		// Loop has just started.
-		if ( 0 == $this->current_member ) {
+		if ( 0 === $this->current_member ) {
 
 			/**
 			 * Fires if the current member item is the first in the members list.

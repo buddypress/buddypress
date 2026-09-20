@@ -254,7 +254,7 @@ function bp_core_catch_profile_uri() {
  * @since 2.6.0
  *
  * @param string $member_slug The current member slug.
- * @return string $member_slug The current member slug.
+ * @return string The current member slug.
  */
 function bp_core_members_shortlink_redirector( $member_slug ) {
 
@@ -398,7 +398,7 @@ function bp_core_no_access( $args = '' ) {
 		default:
 			$url = $root;
 			if ( ! empty( $redirect ) ) {
-				$url = add_query_arg( 'redirect_to', urlencode( $redirect ), $root );
+				$url = add_query_arg( 'redirect_to', rawurlencode( $redirect ), $root );
 			}
 
 			if ( ! empty( $message ) ) {
@@ -559,10 +559,8 @@ function bp_redirect_canonical() {
  * @since 1.6.0
  */
 function bp_rel_canonical() {
-	$canonical_url = bp_get_canonical_url();
-
 	// Output rel=canonical tag.
-	echo "<link rel='canonical' href='" . esc_attr( $canonical_url ) . "' />\n";
+	echo "<link rel='canonical' href='" . esc_attr( bp_get_canonical_url() ) . "' />\n";
 }
 
 /**
@@ -571,7 +569,7 @@ function bp_rel_canonical() {
  * @since 1.6.0
  *
  * @param array $args {
- *     Optional array of arguments.
+ *     Optional. Optional array of arguments.
  *     @type bool $include_query_args Whether to include current URL arguments
  *                                    in the canonical URL returned from the function.
  * }
@@ -587,7 +585,7 @@ function bp_get_canonical_url( $args = array() ) {
 	$bp = buddypress();
 
 	$defaults = array(
-		'include_query_args' => false, // Include URL arguments, eg ?foo=bar&foo2=bar2.
+		'include_query_args' => false, // Include URL arguments, e.g.: ?foo=bar&foo2=bar2.
 	);
 
 	$r = bp_parse_args(
@@ -595,35 +593,46 @@ function bp_get_canonical_url( $args = array() ) {
 		$defaults
 	);
 
-	// Special case: when a BuddyPress directory (eg example.com/members)
-	// is set to be the front page, ensure that the current canonical URL
-	// is the home page URL.
-	if ( 'page' === get_option( 'show_on_front' ) && $page_on_front = (int) get_option( 'page_on_front' ) ) {
-		$front_page_component = array_search( $page_on_front, bp_core_get_directory_page_ids(), true );
+	/*
+	 * Special case: when a BuddyPress directory (e.g.: example.com/members)
+	 * is set to be the front page, ensure that the current canonical URL
+	 * is the home page URL.
+	 */
+	if ( 'page' === get_option( 'show_on_front' ) ) {
+		$page_on_front = (int) get_option( 'page_on_front' );
 
-		/*
-		 * If requesting the front page component directory, canonical
-		 * URL is the front page. We detect whether we're detecting a
-		 * component *directory* by checking that bp_current_action()
-		 * is empty - ie, this not a single item, a feed, or an item
-		 * type directory.
-		 */
-		if ( false !== $front_page_component && bp_is_current_component( $front_page_component ) && ! bp_current_action() && ! bp_get_current_member_type() ) {
-			$bp->canonical_stack['canonical_url'] = trailingslashit( bp_get_root_url() );
+		if ( $page_on_front ) {
+			$front_page_component = array_search( $page_on_front, bp_core_get_directory_page_ids(), true );
 
-			// Except when the front page is set to the registration page
-			// and the current user is logged in. In this case we send to
-			// the members directory to avoid redirect loops.
-		} elseif ( bp_is_register_page() && 'register' === $front_page_component && is_user_logged_in() ) {
-
-			/**
-			 * Filters the logged in register page redirect URL.
-			 *
-			 * @since 1.5.1
-			 *
-			 * @param string $value URL to redirect logged in members to.
+			/*
+			 * If requesting the front page component directory, canonical
+			 * URL is the front page. We detect whether we're detecting a
+			 * component *directory* by checking that bp_current_action()
+			 * is empty - ie, this not a single item, a feed, or an item
+			 * type directory.
 			 */
-			$bp->canonical_stack['canonical_url'] = apply_filters( 'bp_loggedin_register_page_redirect_to', bp_get_members_directory_permalink() );
+			if (
+				false !== $front_page_component
+				&& bp_is_current_component( $front_page_component )
+				&& ! bp_current_action()
+				&& ! bp_get_current_member_type()
+			) {
+				$bp->canonical_stack['canonical_url'] = trailingslashit( bp_get_root_url() );
+
+				// Except when the front page is set to the registration page
+				// and the current user is logged in. In this case we send to
+				// the members directory to avoid redirect loops.
+			} elseif ( bp_is_register_page() && 'register' === $front_page_component && is_user_logged_in() ) {
+
+				/**
+				 * Filters the logged in register page redirect URL.
+				 *
+				 * @since 1.5.1
+				 *
+				 * @param string $permalink URL to redirect logged in members to.
+				 */
+				$bp->canonical_stack['canonical_url'] = apply_filters( 'bp_loggedin_register_page_redirect_to', bp_get_members_directory_permalink() );
+			}
 		}
 	}
 

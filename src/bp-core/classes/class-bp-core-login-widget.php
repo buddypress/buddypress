@@ -69,7 +69,7 @@ class BP_Core_Login_Widget {
 	 * @since 1.9.0
 	 * @deprecated 12.0.0
 	 *
-	 * @param array $instance Settings for this widget.
+	 * @param array $instance Optional. Settings for this widget.
 	 */
 	public function form( $instance = array() ) {
 		_deprecated_function( __METHOD__, '12.0.0' );

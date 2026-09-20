@@ -158,8 +158,8 @@ abstract class BP_Invitation_Manager {
 	 *
 	 * @since 5.0.0
 	 *
-	 * @param int   $invitation_id ID of invitation to send.
-	 * @param array $args          See BP_Invitation::mark_sent().
+	 * @param int   $invitation_id Optional. ID of invitation to send.
+	 * @param array $args          Optional. See BP_Invitation::mark_sent().
 	 * @return bool
 	 */
 	public function send_invitation_by_id( $invitation_id = 0, $args = array() ) {
@@ -174,7 +174,7 @@ abstract class BP_Invitation_Manager {
 		 *
 		 * @since 5.0.0
 		 *
-		 * @param BP_Invitation object $invitation Invitation about to be sent.
+		 * @param BP_Invitation $invitation Invitation about to be sent.
 		 */
 		do_action( 'bp_invitations_send_invitation_by_id_before_send', $invitation );
 
@@ -311,8 +311,8 @@ abstract class BP_Invitation_Manager {
 	 *
 	 * @since 5.0.0
 	 *
-	 * @param int   $request_id ID of request to send.
-	 * @param array $args       See BP_Invitation::mark_sent().
+	 * @param int   $request_id Optional. ID of request to send.
+	 * @param array $args       Optional. See BP_Invitation::mark_sent().
 	 * @return bool
 	 */
 	public function send_request_notification_by_id( $request_id = 0, $args = array() ) {
@@ -360,7 +360,7 @@ abstract class BP_Invitation_Manager {
 	 *
 	 * @since 5.0.0
 	 *
-	 * @param int $id ID of the invitation.
+	 * @param int $id Optional. ID of the invitation.
 	 * @return BP_Invitation object
 	 */
 	public function get_by_id( $id = 0 ) {
@@ -373,6 +373,7 @@ abstract class BP_Invitation_Manager {
 	 * @since 5.0.0
 	 *
 	 * @param array $args {@see BP_Invitation::get()}.
+	 *     Optional.
 	 * @return array Located invitations.
 	 */
 	public function get_invitations( $args = array() ) {
@@ -392,6 +393,7 @@ abstract class BP_Invitation_Manager {
 	 * @since 8.0.0
 	 *
 	 * @param array $args {@see BP_Invitation::get_total_count()}.
+	 *     Optional.
 	 * @return int Total number of invitations.
 	 */
 	public function get_invitations_total_count( $args = array() ) {
@@ -411,6 +413,7 @@ abstract class BP_Invitation_Manager {
 	 * @since 5.0.0
 	 *
 	 * @param array $args {@see BP_Invitation::get()}.
+	 *     Optional.
 	 * @return array Located invitations.
 	 */
 	public function get_requests( $args = array() ) {
@@ -431,6 +434,7 @@ abstract class BP_Invitation_Manager {
 	 * @since 5.0.0
 	 *
 	 * @param array $args {@see BP_Invitation::get()}.
+	 *     Optional.
 	 * @return int|bool ID of first found invitation or false if none found.
 	 */
 	public function invitation_exists( $args = array() ) {
@@ -450,6 +454,7 @@ abstract class BP_Invitation_Manager {
 	 * @since 5.0.0
 	 *
 	 * @param array $args {@see BP_Invitation::get()}.
+	 *     Optional.
 	 * @return int|bool ID of existing request or false if none found.
 	 */
 	public function request_exists( $args = array() ) {
@@ -471,6 +476,7 @@ abstract class BP_Invitation_Manager {
 	 * @since 5.0.0
 	 *
 	 * @param array $args {BP_Invitation::get()}.
+	 *     Optional.
 	 * @return int|bool Number of rows updated on success, false on failure.
 	 */
 	public function accept_invitation( $args = array() ) {
@@ -515,6 +521,7 @@ abstract class BP_Invitation_Manager {
 	 * @since 5.0.0
 	 *
 	 * @param array $args {BP_Invitation::get()}.
+	 *     Optional.
 	 * @return bool Number of rows updated on success, false on failure.
 	 */
 	public function accept_request( $args = array() ) {
@@ -558,10 +565,10 @@ abstract class BP_Invitation_Manager {
 	 * @see BP_Invitation::update() for a description of
 	 *      accepted update/where arguments.
 	 *
-	 * @param array $update_args Associative array of fields to update,
+	 * @param array $update_args Optional. Associative array of fields to update,
 	 *              and the values to update them to. Of the format
 	 *              array( 'user_id' => 4 ).
-	 * @param array $where_args Associative array of columns/values, to
+	 * @param array $where_args Optional. Associative array of columns/values, to
 	 *              determine which invitations should be updated. Formatted as
 	 *              array( 'item_id' => 7 ).
 	 * @return int|bool Number of rows updated on success, false on failure.

@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 6.0.0
  *
- * @param array $attributes The block attributes.
+ * @param array $attributes Optional. The block attributes.
  * @return string           HTML output.
  */
 function bp_groups_render_group_block( $attributes = array() ) {
@@ -182,7 +182,7 @@ function bp_groups_render_group_block( $attributes = array() ) {
  *
  * @since 7.0.0
  *
- * @param array $attributes The block attributes.
+ * @param array $attributes Optional. The block attributes.
  * @return string           HTML output.
  */
 function bp_groups_render_groups_block( $attributes = array() ) {
@@ -362,7 +362,7 @@ function bp_groups_blocks_add_script_data() {
  *
  * @since 9.0.0
  *
- * @param array $attributes The block attributes.
+ * @param array $attributes Optional. The block attributes.
  * @return string           HTML output.
  */
 function bp_groups_render_dynamic_groups_block( $attributes = array() ) {

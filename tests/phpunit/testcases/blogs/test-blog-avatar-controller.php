@@ -227,7 +227,7 @@ class BP_Tests_Blog_Avatar_REST_Controller extends BP_Test_REST_Controller_Testc
 		$data       = $response->get_data();
 		$properties = $data['schema']['properties'];
 
-		$this->assertEquals( 2, count( $properties ) );
+		$this->assertCount( 2, $properties );
 		$this->assertArrayHasKey( 'full', $properties );
 		$this->assertArrayHasKey( 'thumb', $properties );
 	}

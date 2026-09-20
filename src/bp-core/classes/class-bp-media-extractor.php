@@ -126,7 +126,7 @@ class BP_Media_Extractor {
 		$media = array();
 
 		// Support passing a WordPress Post for the $richtext parameter.
-		if ( is_a( $richtext, 'WP_Post' ) ) {
+		if ( $richtext instanceof WP_Post ) {
 			$extra_args['post'] = $richtext;
 			$richtext           = $extra_args['post']->post_content;
 		}
@@ -257,7 +257,7 @@ class BP_Media_Extractor {
 	 *
 	 * @param string $richtext   Content to parse.
 	 * @param string $plaintext  Sanitized version of the content.
-	 * @param array  $extra_args Bespoke data for a particular extractor.
+	 * @param array  $extra_args Optional. Bespoke data for a particular extractor.
 	 * @return array {
 	 *     @type array $has Extracted media counts. {
 	 *         @type int $mentions

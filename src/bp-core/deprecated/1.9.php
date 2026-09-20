@@ -23,9 +23,9 @@ defined( 'ABSPATH' ) || exit;
  * @param int          $user_id
  * @param string       $component_name
  * @param string       $component_action
- * @param int          $secondary_item_id
- * @param false|string $date_notified
- * @param int          $is_new
+ * @param int          $secondary_item_id Optional.
+ * @param false|string $date_notified Optional.
+ * @param int          $is_new Optional.
  * @return int|bool True on success, false on failure.
  */
 function bp_core_add_notification( $item_id, $user_id, $component_name, $component_action, $secondary_item_id = 0, $date_notified = false, $is_new = 1 ) {
@@ -64,7 +64,7 @@ function bp_core_add_notification( $item_id, $user_id, $component_name, $compone
  * @since 1.0.0
  *
  * @param int $id ID of notification.
- * @return false|integer True on success, false on failure.
+ * @return false|int True on success, false on failure.
  */
 function bp_core_delete_notification( $id ) {
 
@@ -110,7 +110,7 @@ function bp_core_get_notification( $id ) {
  *
  * @since 1.0.0
  * @param int $user_id ID of user.
- * @param string $format
+ * @param string $format Optional.
  * @return bool Object or array on success, false on failure.
  */
 function bp_core_get_notifications_for_user( $user_id, $format = 'string' ) {
@@ -167,9 +167,10 @@ function bp_core_delete_notifications_by_type( $user_id, $component_name, $compo
  *
  * @since 1.0.0
  *
- * @param int $user_id
- * @param string $component_name
- * @param string $component_action
+ * @param int       $user_id
+ * @param string    $component_name
+ * @param string    $component_action
+ * @param false|int $secondary_item_id Optional. Secondary item ID.
  * @return false|int True on success, false on failure.
  */
 function bp_core_delete_notifications_by_item_id( $user_id, $item_id, $component_name, $component_action, $secondary_item_id = false ) {
@@ -195,7 +196,8 @@ function bp_core_delete_notifications_by_item_id( $user_id, $item_id, $component
  *
  * @param int          $user_id
  * @param string       $component_name
- * @param false|string $component_action
+ * @param false|string $component_action  Optional.
+ * @param false|int    $secondary_item_id Optional. Secondary item ID.
  * @return bool
  */
 function bp_core_delete_all_notifications_by_type( $item_id, $component_name, $component_action = false, $secondary_item_id = false ) {

@@ -2,9 +2,12 @@
 /**
  * BP Nouveau Group's delete group template.
  *
+ * @package BuddyPress
+ * @subpackage bp-nouveau
  * @since 3.0.0
  * @version 3.1.0
  */
+
 ?>
 
 <h2 class="bp-screen-title warn">

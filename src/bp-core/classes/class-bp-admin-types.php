@@ -113,7 +113,7 @@ class BP_Admin_Types {
 	 * @since 7.0.0
 	 */
 	private function includes() {
-		require plugin_dir_path( dirname( __FILE__ ) ) . 'admin/bp-core-admin-types.php';
+		require plugin_dir_path( __DIR__ ) . 'admin/bp-core-admin-types.php';
 	}
 
 	/**
@@ -138,6 +138,13 @@ class BP_Admin_Types {
 
 		/**
 		 * Fires when a Types Admin Screen is loading.
+		 *
+		 * The dynamic portion of the hook name, `$this->taxonomy`, refers to the current type taxonomy.
+		 *
+		 * Possible hook names include:
+		 *
+		 *  - `bp_admin_load_bp_member_type`
+		 *  - `bp_admin_load_bp_group_type`
 		 *
 		 * @since 14.0.0
 		 */
@@ -280,7 +287,7 @@ class BP_Admin_Types {
 	 *
 	 * @since 7.0.0
 	 *
-	 * @param array $scripts The registered scripts.
+	 * @param array $scripts Optional. The registered scripts.
 	 */
 	public function register_scripts( $scripts = array() ) {
 		// Neutralize WordPress Taxonomy scripts.
@@ -300,7 +307,7 @@ class BP_Admin_Types {
 				'bp-admin-types' => array(
 					'file'         => sprintf(
 						'%1$sadmin/js/types-admin%2$s.js',
-						plugin_dir_url( dirname( __FILE__ ) ),
+						plugin_dir_url( __DIR__ ),
 						bp_core_get_minified_asset_suffix()
 					),
 					'dependencies' => array(),
@@ -324,8 +331,8 @@ class BP_Admin_Types {
 	 *
 	 * @since 7.0.0
 	 *
-	 * @param string      $taxonomy The type taxonomy name.
-	 * @param null|object $type     The type object, `null` if not passed to the method.
+	 * @param string      $taxonomy Optional. The type taxonomy name.
+	 * @param null|object $type     Optional. The type object, `null` if not passed to the method.
 	 */
 	public function add_form_fields( $taxonomy = '', $type = null ) {
 		$taxonomy_object = get_taxonomy( $taxonomy );
@@ -467,8 +474,8 @@ class BP_Admin_Types {
 	 *
 	 * @since 7.0.0
 	 *
-	 * @param WP_Term|null $term     The term object for the BP Type.
-	 * @param string       $taxonomy The type taxonomy name.
+	 * @param WP_Term|null $term     Optional. The term object for the BP Type.
+	 * @param string       $taxonomy Optional. The type taxonomy name.
 	 */
 	public function edit_form_fields( $term = null, $taxonomy = '' ) {
 		if ( ! isset( $term->name ) || ! $term->name || ! $taxonomy ) {
@@ -499,7 +506,7 @@ class BP_Admin_Types {
 	 *
 	 * @since 7.0.0
 	 *
-	 * @param array $column_headers The column header labels keyed by column ID.
+	 * @param array $column_headers Optional. The column header labels keyed by column ID.
 	 * @return arrayThe column header labels keyed by column ID.
 	 */
 	public function column_headers( $column_headers = array() ) {
@@ -520,13 +527,13 @@ class BP_Admin_Types {
 	 *
 	 * @since 7.0.0
 	 *
-	 * @param string $column_content The column content.
-	 * @param string $column_name    Name of the column.
-	 * @param int    $type_id        The type's term ID.
+	 * @param string $column_content Optional. The column content.
+	 * @param string $column_name    Optional. Name of the column.
+	 * @param int    $type_id        Optional. The type's term ID.
 	 * @return string|null|int
 	 */
 	public function column_contents( $column_content = '', $column_name = '', $type_id = 0 ) {
-		if ( 'plural_name' !== $column_name && 'counts' !== $column_name || ! $type_id ) {
+		if ( ( 'plural_name' !== $column_name && 'counts' !== $column_name ) || ! $type_id ) {
 			return $column_content;
 		}
 
@@ -542,6 +549,13 @@ class BP_Admin_Types {
 				 * Filter here to set missing term meta for registered by code types.
 				 *
 				 * @see bp_set_registered_by_code_member_type_metadata() for an example of use.
+				 *
+				 * The dynamic portion of the hook name, `$this->taxonomy`, refers to the current type taxonomy.
+				 *
+				 * Possible hook names include:
+				 *
+				 *  - `bp_member_type_set_registered_by_code_metada`
+				 *  - `bp_group_type_set_registered_by_code_metada`
 				 *
 				 * @since 7.0.0
 				 *
@@ -590,8 +604,8 @@ class BP_Admin_Types {
 	 *
 	 * @since 7.0.0
 	 *
-	 * @param array        $actions The table row actions.
-	 * @param WP_Term|null $type    The current BP Type for the row.
+	 * @param array        $actions Optional. The table row actions.
+	 * @param WP_Term|null $type    Optional. The current BP Type for the row.
 	 * @return array The table row actions for the current BP type.
 	 */
 	public function row_actions( $actions = array(), $type = null ) {
@@ -603,6 +617,13 @@ class BP_Admin_Types {
 		 * Filter here to set the types "registered by code".
 		 *
 		 * @see bp_get_member_types_registered_by_code() for an example of use.
+		 *
+		 * The dynamic portion of the hook name, `$type->taxonomy`, refers to the term's type taxonomy.
+		 *
+		 * Possible hook names include:
+		 *
+		 *  - `bp_member_type_registered_by_code`
+		 *  - `bp_group_type_registered_by_code`
 		 *
 		 * @since 7.0.0
 		 *

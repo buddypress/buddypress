@@ -54,7 +54,7 @@ class BP_Group_Member_Query extends BP_User_Query {
 	 *
 	 * @since 10.3.0
 	 *
-	 * @param string|array|null $query See {@link BP_User_Query}.
+	 * @param string|array|null $query Optional. See {@link BP_User_Query}.
 	 */
 	public function __construct( $query = null ) {
 		$qv = bp_parse_args(
@@ -145,7 +145,7 @@ class BP_Group_Member_Query extends BP_User_Query {
 	 *
 	 * @since 1.8.0
 	 *
-	 * @param array $include_ids Existing group IDs in the `$include_ids` parameter,
+	 * @param array $include_ids Optional. Existing group IDs in the `$include_ids` parameter,
 	 *                           as calculated in BP_User_Query.
 	 * @return array
 	 */
@@ -190,7 +190,7 @@ class BP_Group_Member_Query extends BP_User_Query {
 	 *
 	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
-	 * @return array $ids User IDs of relevant group member ids.
+	 * @return array User IDs of relevant group member ids.
 	 */
 	protected function get_group_member_ids() {
 		global $wpdb;
@@ -258,7 +258,7 @@ class BP_Group_Member_Query extends BP_User_Query {
 		// Sanitize: Only 'admin', 'mod', 'member', and 'banned' are valid.
 		$allowed_roles = array( 'admin', 'mod', 'member', 'banned' );
 		foreach ( $roles as $role_key => $role_value ) {
-			if ( ! in_array( $role_value, $allowed_roles ) ) {
+			if ( ! in_array( $role_value, $allowed_roles, true ) ) {
 				unset( $roles[ $role_key ] );
 			}
 		}
@@ -269,7 +269,7 @@ class BP_Group_Member_Query extends BP_User_Query {
 		// which there is no dedicated is_ column), figure out a list
 		// of columns *not* to match.
 		$roles_sql = '';
-		if ( in_array( 'member', $roles ) ) {
+		if ( in_array( 'member', $roles, true ) ) {
 			$role_columns = array();
 			foreach ( array_diff( $allowed_roles, $roles ) as $excluded_role ) {
 				$role_columns[] = 'is_' . $excluded_role . ' = 0';
@@ -298,15 +298,15 @@ class BP_Group_Member_Query extends BP_User_Query {
 
 		$sql['where'] = ! empty( $sql['where'] ) ? 'WHERE ' . implode( ' AND ', $sql['where'] ) : '';
 
-		// We fetch group members in order of last_joined, regardless
-		// of 'type'. If the 'type' value is not 'last_joined' or
-		// 'first_joined', the order will be overridden in
-		// BP_Group_Member_Query::set_orderby().
-		$sql['orderby'] = 'ORDER BY date_modified';
-		$sql['order']   = 'first_joined' === $this->query_vars['type'] ? 'ASC' : 'DESC';
-
-		$group_member_ids = $wpdb->get_col( "{$sql['select']} {$sql['where']} {$sql['orderby']} {$sql['order']}" );
-
+		/**
+		 * We fetch group members in order of last_joined, regardless of 'type'.
+		 * If the 'type' value is not 'last_joined' or 'first_joined', the order will be overridden in BP_Group_Member_Query::set_orderby().
+		 *
+		 * Membership dates have second-level precision, so use the membership ID to keep matching dates stable.
+		 */
+		$sql['order']       = 'first_joined' === $this->query_vars['type'] ? 'ASC' : 'DESC';
+		$sql['orderby']     = "ORDER BY date_modified {$sql['order']}, id ASC";
+		$group_member_ids   = $wpdb->get_col( "{$sql['select']} {$sql['where']} {$sql['orderby']}" );
 		$invited_member_ids = array();
 
 		// If appropriate, fetch invitations and add them to the results.
@@ -364,8 +364,7 @@ class BP_Group_Member_Query extends BP_User_Query {
 		/**
 		 * Filters the member IDs for the current group member query.
 		 *
-		 * Use this filter to build a custom query (such as when you've
-		 * defined a custom 'type').
+		 * Use this filter to build a custom query (such as when you've defined a custom 'type').
 		 *
 		 * @since 2.0.0
 		 *
@@ -401,10 +400,10 @@ class BP_Group_Member_Query extends BP_User_Query {
 		// results from  BP_Group_Member_Query::get_group_members().
 		// In all other cases, we fall through and let BP_User_Query
 		// do its own (non-group-specific) ordering.
-		if ( in_array( $query->query_vars['type'], array( 'last_joined', 'first_joined', 'group_activity' ) ) ) {
+		if ( in_array( $query->query_vars['type'], array( 'last_joined', 'first_joined', 'group_activity' ), true ) ) {
 
 			// Group Activity DESC.
-			if ( 'group_activity' == $query->query_vars['type'] ) {
+			if ( 'group_activity' === $query->query_vars['type'] ) {
 				$gm_ids = $this->get_gm_ids_ordered_by_activity( $query, $gm_ids );
 			}
 
@@ -513,7 +512,7 @@ class BP_Group_Member_Query extends BP_User_Query {
 	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
 	 * @param BP_User_Query $query  BP_User_Query object.
-	 * @param array         $gm_ids array of group member ids.
+	 * @param array         $gm_ids Optional. Array of group member IDs.
 	 * @return array
 	 */
 	public function get_gm_ids_ordered_by_activity( $query, $gm_ids = array() ) {

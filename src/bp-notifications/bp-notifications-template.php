@@ -43,7 +43,7 @@ function bp_notifications_slug() {
  * @since 1.9.0
  * @since 2.6.0 Added $user_id as a parameter.
  *
- * @param int $user_id The user ID.
+ * @param int $user_id Optional. The user ID.
  */
 function bp_notifications_permalink( $user_id = 0 ) {
 	echo esc_url( bp_get_notifications_permalink( $user_id ) );
@@ -54,7 +54,7 @@ function bp_notifications_permalink( $user_id = 0 ) {
 	 * @since 1.9.0
 	 * @since 2.6.0 Added $user_id as a parameter.
 	 *
-	 * @param int $user_id The user ID.
+	 * @param int $user_id Optional. The user ID.
 	 * @return string Notifications permalink.
 	 */
 	function bp_get_notifications_permalink( $user_id = 0 ) {
@@ -85,7 +85,7 @@ function bp_notifications_permalink( $user_id = 0 ) {
  * @since 1.9.0
  * @since 2.6.0 Added $user_id as a parameter.
  *
- * @param int $user_id The user ID.
+ * @param int $user_id Optional. The user ID.
  */
 function bp_notifications_unread_permalink( $user_id = 0 ) {
 	echo esc_url( bp_get_notifications_unread_permalink( $user_id ) );
@@ -95,7 +95,7 @@ function bp_notifications_unread_permalink( $user_id = 0 ) {
 	 *
 	 * @since 2.6.0 Added $user_id as a parameter.
 	 *
-	 * @param int $user_id The user ID.
+	 * @param int $user_id Optional. The user ID.
 	 * @return string Unread notifications permalink.
 	 */
 	function bp_get_notifications_unread_permalink( $user_id = 0 ) {
@@ -126,7 +126,7 @@ function bp_notifications_unread_permalink( $user_id = 0 ) {
  * @since 1.9.0
  * @since 2.6.0 Added $user_id as a parameter.
  *
- * @param int $user_id The user ID.
+ * @param int $user_id Optional. The user ID.
  */
 function bp_notifications_read_permalink( $user_id = 0 ) {
 	echo esc_url( bp_get_notifications_read_permalink( $user_id ) );
@@ -136,6 +136,7 @@ function bp_notifications_read_permalink( $user_id = 0 ) {
 	 *
 	 * @since 1.9.0
 	 *
+	 * @param int $user_id Optional. ID of the user.
 	 * @return string Read notifications permalink.
 	 */
 	function bp_get_notifications_read_permalink( $user_id = 0 ) {
@@ -172,11 +173,11 @@ function bp_notifications_read_permalink( $user_id = 0 ) {
  * @since 1.9.0
  *
  * @param array|string $args {
- *     Arguments for limiting the contents of the notifications loop. Can be
+ *     Optional. Arguments for limiting the contents of the notifications loop. Can be
  *     passed as an associative array, or as a URL query string.
  *
  *     See {@link BP_Notifications_Notification::get()} for detailed
- *     information on the arguments.  In addition, also supports:
+ *     information on the arguments. It also supports the following arguments.
  *
  *     @type int    $max      Optional. Max items to display. Default: false.
  *     @type string $page_arg URL argument to use for pagination.
@@ -548,7 +549,7 @@ function bp_the_notification_description() {
  * @since 1.9.0
  * @since 2.6.0 Added $user_id as a parameter.
  *
- * @param int $user_id The user ID.
+ * @param int $user_id Optional. The user ID.
  */
 function bp_the_notification_mark_read_link( $user_id = 0 ) {
 	// Escaping is made in `bp_get_the_notification_mark_read_link()`.
@@ -561,7 +562,7 @@ function bp_the_notification_mark_read_link( $user_id = 0 ) {
 	 * @since 1.9.0
 	 * @since 2.6.0 Added $user_id as a parameter.
 	 *
-	 * @param int $user_id The user ID.
+	 * @param int $user_id Optional. The user ID.
 	 * @return string
 	 */
 	function bp_get_the_notification_mark_read_link( $user_id = 0 ) {
@@ -590,7 +591,7 @@ function bp_the_notification_mark_read_link( $user_id = 0 ) {
  * @since 2.1.0
  * @since 2.6.0 Added $user_id as a parameter.
  *
- * @param int $user_id The user ID.
+ * @param int $user_id Optional. The user ID.
  */
 function bp_the_notification_mark_read_url( $user_id = 0 ) {
 	echo esc_url( bp_get_the_notification_mark_read_url( $user_id ) );
@@ -601,7 +602,7 @@ function bp_the_notification_mark_read_url( $user_id = 0 ) {
 	 * @since 2.1.0
 	 * @since 2.6.0 Added $user_id as a parameter.
 	 *
-	 * @param int $user_id The user ID.
+	 * @param int $user_id Optional. The user ID.
 	 * @return string
 	 */
 	function bp_get_the_notification_mark_read_url( $user_id = 0 ) {
@@ -642,7 +643,7 @@ function bp_the_notification_mark_read_url( $user_id = 0 ) {
  * @since 1.9.0
  * @since 2.6.0 Added $user_id as a parameter.
  *
- * @param int $user_id The user ID.
+ * @param int $user_id Optional. The user ID.
  */
 function bp_the_notification_mark_unread_link( $user_id = 0 ) {
 	// Escaping is done in `bp_get_the_notification_mark_unread_link()`.
@@ -655,7 +656,7 @@ function bp_the_notification_mark_unread_link( $user_id = 0 ) {
 	 * @since 1.9.0
 	 * @since 2.6.0 Added $user_id as a parameter.
 	 *
-	 * @param int $user_id The user ID.
+	 * @param int $user_id Optional. The user ID.
 	 * @return string
 	 */
 	function bp_get_the_notification_mark_unread_link( $user_id = 0 ) {
@@ -684,7 +685,7 @@ function bp_the_notification_mark_unread_link( $user_id = 0 ) {
  * @since 2.1.0
  * @since 2.6.0 Added $user_id as a parameter.
  *
- * @param int $user_id The user ID.
+ * @param int $user_id Optional. The user ID.
  */
 function bp_the_notification_mark_unread_url( $user_id = 0 ) {
 	echo esc_url( bp_get_the_notification_mark_unread_url( $user_id ) );
@@ -695,13 +696,13 @@ function bp_the_notification_mark_unread_url( $user_id = 0 ) {
 	 * @since 2.1.0
 	 * @since 2.6.0 Added $user_id as a parameter.
 	 *
-	 * @param int $user_id The user ID.
+	 * @param int $user_id Optional. The user ID.
 	 * @return string
 	 */
 	function bp_get_the_notification_mark_unread_url( $user_id = 0 ) {
 
 		// Get the notification ID.
-		$id   = bp_get_the_notification_id();
+		$id = bp_get_the_notification_id();
 
 		// Get the args to add to the URL.
 		$args = array(
@@ -736,7 +737,7 @@ function bp_the_notification_mark_unread_url( $user_id = 0 ) {
  * @since 1.9.0
  * @since 2.6.0 Added $user_id as a parameter.
  *
- * @param int $user_id The user ID.
+ * @param int $user_id Optional. The user ID.
  */
 function bp_the_notification_mark_link( $user_id = 0 ) {
 	// Escaping is made in `bp_get_the_notification_mark_read_link()` & `bp_get_the_notification_mark_unread_link()`.
@@ -749,7 +750,7 @@ function bp_the_notification_mark_link( $user_id = 0 ) {
 	 * @since 1.9.0
 	 * @since 2.6.0 Added $user_id as a parameter.
 	 *
-	 * @param int $user_id The user ID.
+	 * @param int $user_id Optional. The user ID.
 	 * @return string
 	 */
 	function bp_get_the_notification_mark_link( $user_id = 0 ) {
@@ -780,7 +781,7 @@ function bp_the_notification_mark_link( $user_id = 0 ) {
  * @since 1.9.0
  * @since 2.6.0 Added $user_id as a parameter.
  *
- * @param int $user_id The user ID.
+ * @param int $user_id Optional. The user ID.
  */
 function bp_the_notification_delete_link( $user_id = 0 ) {
 	// Escaping is made in `bp_get_the_notification_delete_link()`.
@@ -793,7 +794,7 @@ function bp_the_notification_delete_link( $user_id = 0 ) {
 	 * @since 1.9.0
 	 * @since 2.6.0 Added $user_id as a parameter.
 	 *
-	 * @param int $user_id The user ID.
+	 * @param int $user_id Optional. The user ID.
 	 * @return string
 	 */
 	function bp_get_the_notification_delete_link( $user_id = 0 ) {
@@ -822,7 +823,7 @@ function bp_the_notification_delete_link( $user_id = 0 ) {
  * @since 2.1.0
  * @since 2.6.0 Added $user_id as a parameter.
  *
- * @param int $user_id The user ID.
+ * @param int $user_id Optional. The user ID.
  */
 function bp_the_notification_delete_url( $user_id = 0 ) {
 	echo esc_url( bp_get_the_notification_delete_url( $user_id ) );
@@ -833,7 +834,7 @@ function bp_the_notification_delete_url( $user_id = 0 ) {
 	 * @since 2.1.0
 	 * @since 2.6.0 Added $user_id as a parameter.
 	 *
-	 * @param int $user_id The user ID.
+	 * @param int $user_id Optional. The user ID.
 	 * @return string
 	 */
 	function bp_get_the_notification_delete_url( $user_id = 0 ) {
@@ -880,7 +881,7 @@ function bp_the_notification_delete_url( $user_id = 0 ) {
  * @since 1.9.0
  * @since 2.6.0 Added $user_id as a parameter to $args.
  *
- * @param array|string $args Array of arguments.
+ * @param array|string $args Optional. Array of arguments.
  */
 function bp_the_notification_action_links( $args = '' ) {
 	// phpcs:ignore WordPress.Security.EscapeOutput
@@ -893,6 +894,7 @@ function bp_the_notification_action_links( $args = '' ) {
 	 * @since 2.6.0 Added $user_id as a parameter to $args.
 	 *
 	 * @param array|string $args {
+	 *     Optional. Arguments.
 	 *     @type string $before  HTML before the links.
 	 *     @type string $after   HTML after the links.
 	 *     @type string $sep     HTML between the links.
@@ -956,7 +958,7 @@ function bp_notifications_pagination_count() {
 		$to_num     = bp_core_number_format( ( $start_num + ( $query_loop->pag_num - 1 ) > $query_loop->total_notification_count ) ? $query_loop->total_notification_count : $start_num + ( $query_loop->pag_num - 1 ) );
 		$total      = bp_core_number_format( $query_loop->total_notification_count );
 
-		if ( 1 == $query_loop->total_notification_count ) {
+		if ( 1 === $query_loop->total_notification_count ) {
 			$pag = __( 'Viewing 1 notification', 'buddypress' );
 		} else {
 			/* translators: 1: notification from number. 2: notification to number. 3: total notifications. */
@@ -1027,7 +1029,7 @@ function bp_notifications_sort_order_form() {
 
 		<select id="notifications-sort-order-list" name="sort_order" onchange="this.form.submit();">
 			<option value="DESC" <?php selected( $selected, 'DESC' ); ?>><?php esc_html_e( 'Newest First', 'buddypress' ); ?></option>
-			<option value="ASC"  <?php selected( $selected, 'ASC'  ); ?>><?php esc_html_e( 'Oldest First', 'buddypress' ); ?></option>
+			<option value="ASC"  <?php selected( $selected, 'ASC' ); ?>><?php esc_html_e( 'Oldest First', 'buddypress' ); ?></option>
 		</select>
 
 		<noscript>
@@ -1045,10 +1047,12 @@ function bp_notifications_sort_order_form() {
  */
 function bp_notifications_bulk_management_dropdown() {
 	?>
-	<label class="bp-screen-reader-text" for="notification-select"><?php
+	<label class="bp-screen-reader-text" for="notification-select">
+	<?php
 		/* translators: accessibility text */
 		esc_html_e( 'Select Bulk Action', 'buddypress' );
-	?></label>
+	?>
+	</label>
 	<select name="notification_bulk_action" id="notification-select">
 		<option value="" selected="selected"><?php esc_html_e( 'Bulk Actions', 'buddypress' ); ?></option>
 

@@ -126,7 +126,7 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 		) );
 
 		$this->assertFalse( is_wp_error( $suggestions ) );
-		$this->assertEquals( 3, count( $suggestions ) );  // aardvark, smith, zoom.
+		$this->assertCount( 3, $suggestions );  // aardvark, smith, zoom.
 	}
 
 	public function test_suggestions_with_type_members_and_limit() {
@@ -137,7 +137,7 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 		) );
 
 		$this->assertFalse( is_wp_error( $suggestions ) );
-		$this->assertEquals( 2, count( $suggestions ) );  // two of: aardvark, smith, zoom.
+		$this->assertCount( 2, $suggestions );  // two of: aardvark, smith, zoom.
 	}
 
 	public function test_suggestions_with_type_members_and_only_friends() {
@@ -147,7 +147,7 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 			'term'         => 'smith',
 		) );
 		$this->assertFalse( is_wp_error( $suggestions ) );
-		$this->assertEquals( 1, count( $suggestions ) );  // aardvark.
+		$this->assertCount( 1, $suggestions );  // aardvark.
 
 		$suggestions = bp_core_get_suggestions( array(
 			'only_friends' => true,
@@ -155,7 +155,7 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 			'term'         => 'cat',
 		) );
 		$this->assertFalse( is_wp_error( $suggestions ) );
-		$this->assertEquals( 2, count( $suggestions ) );  // cat, caterpillar.
+		$this->assertCount( 2, $suggestions );  // cat, caterpillar.
 	}
 
 	public function test_suggestions_with_type_members_and_term_as_displayname() {
@@ -165,7 +165,7 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 		) );
 
 		$this->assertFalse( is_wp_error( $suggestions ) );
-		$this->assertEquals( 1, count( $suggestions ) );  // aardvark.
+		$this->assertCount( 1, $suggestions );  // aardvark.
 	}
 
 	public function test_suggestions_with_type_members_and_term_as_usernicename() {
@@ -175,7 +175,7 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 		) );
 
 		$this->assertFalse( is_wp_error( $suggestions ) );
-		$this->assertEquals( 1, count( $suggestions ) );  // snake.
+		$this->assertCount( 1, $suggestions );  // snake.
 	}
 
 	public function test_suggestions_with_term_as_current_user() {
@@ -185,7 +185,7 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 		) );
 
 		$this->assertFalse( is_wp_error( $suggestions ) );
-		$this->assertEquals( 1, count( $suggestions ) );
+		$this->assertCount( 1, $suggestions );
 		$this->assertSame( 'katie', $suggestions[0]->ID );
 	}
 
@@ -198,7 +198,7 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 		) );
 
 		$this->assertFalse( is_wp_error( $suggestions ) );
-		$this->assertEquals( 2, count( $suggestions ) );  // aardvark, smith.
+		$this->assertCount( 2, $suggestions );  // aardvark, smith.
 	}
 
 	public function test_suggestions_with_type_groupmembers_public_and_limit() {
@@ -210,7 +210,7 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 		) );
 
 		$this->assertFalse( is_wp_error( $suggestions ) );
-		$this->assertEquals( 1, count( $suggestions ) );  // one of: aardvark, smith.
+		$this->assertCount( 1, $suggestions );  // one of: aardvark, smith.
 	}
 
 	public function test_suggestions_with_type_groupmembers_public_and_only_friends() {
@@ -222,7 +222,7 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 		) );
 
 		$this->assertFalse( is_wp_error( $suggestions ) );
-		$this->assertEquals( 1, count( $suggestions ) );  // aardvark.
+		$this->assertCount( 1, $suggestions );  // aardvark.
 	}
 
 	public function test_suggestions_with_type_groupmembers_public_and_term_as_displayname() {
@@ -233,7 +233,7 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 		) );
 
 		$this->assertFalse( is_wp_error( $suggestions ) );
-		$this->assertEquals( 1, count( $suggestions ) );  // aardvark.
+		$this->assertCount( 1, $suggestions );  // aardvark.
 	}
 
 	public function test_suggestions_with_type_groupmembers_public_and_term_as_usernicename() {
@@ -244,7 +244,7 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 		) );
 
 		$this->assertFalse( is_wp_error( $suggestions ) );
-		$this->assertEquals( 1, count( $suggestions ) );  // smith.
+		$this->assertCount( 1, $suggestions );  // smith.
 	}
 
 	public function test_suggestions_with_type_groupmembers_public_as_id() {
@@ -255,7 +255,7 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 		) );
 
 		$this->assertFalse( is_wp_error( $suggestions ) );
-		$this->assertEquals( 2, count( $suggestions ) );  // aardvark, smith.
+		$this->assertCount( 2, $suggestions );  // aardvark, smith.
 	}
 
 	public function test_suggestions_with_type_groupmembers_hidden() {
@@ -275,7 +275,7 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 			'term'     => 'pig',
 		) );
 		$this->assertFalse( is_wp_error( $suggestions ) );
-		$this->assertEquals( 1, count( $suggestions ) );  // pig
+		$this->assertCount( 1, $suggestions );  // pig
 	}
 
 	public function test_suggestions_with_type_groupmembers_private() {
@@ -295,7 +295,7 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 			'term'     => 'cat',
 		) );
 		$this->assertFalse( is_wp_error( $suggestions ) );
-		$this->assertEquals( 2, count( $suggestions ) );  // cat, caterpillar
+		$this->assertCount( 2, $suggestions );  // cat, caterpillar
 	}
 
 
@@ -306,7 +306,7 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 			'term'     => 'smith',
 		) );
 		$this->assertFalse( is_wp_error( $suggestions ) );
-		$this->assertEquals( 2, count( $suggestions ) );  // aardvark, smith.
+		$this->assertCount( 2, $suggestions );  // aardvark, smith.
 
 		$suggestions = bp_core_get_suggestions( array(
 			'group_id' => -self::$group_ids['public'],
@@ -314,7 +314,7 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 			'term'     => 'smith',
 		) );
 		$this->assertFalse( is_wp_error( $suggestions ) );
-		$this->assertEquals( 1, count( $suggestions ) );  // zoom
+		$this->assertCount( 1, $suggestions );  // zoom
 	}
 
 	public function test_suggestions_with_type_groupmembers_private_and_exclude_group_from_results() {
@@ -345,7 +345,7 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 			'term'     => 'zoo',
 		) );
 		$this->assertFalse( is_wp_error( $suggestions ) );
-		$this->assertEquals( 1, count( $suggestions ) );  // zoo
+		$this->assertCount( 1, $suggestions );  // zoo
 	}
 
 	public function test_suggestions_with_type_groupmembers_hidden_and_exclude_group_from_results() {
@@ -376,7 +376,7 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 			'term'     => 'zoo',
 		) );
 		$this->assertFalse( is_wp_error( $suggestions ) );
-		$this->assertEquals( 1, count( $suggestions ) );  // zoo
+		$this->assertCount( 1, $suggestions );  // zoo
 	}
 
 
@@ -437,14 +437,14 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 			'type' => 'members',
 		) );
 		$this->assertFalse( is_wp_error( $lowercase ) );
-		$this->assertEquals( 1, count( $lowercase ) );
+		$this->assertCount( 1, $lowercase );
 
 		$uppercase = bp_core_get_suggestions( array(
 			'term' => 'LISA',
 			'type' => 'members',
 		) );
 		$this->assertFalse( is_wp_error( $uppercase ) );
-		$this->assertEquals( 1, count( $uppercase ) );
+		$this->assertCount( 1, $uppercase );
 
 		$this->assertSame( $lowercase[0]->ID, $uppercase[0]->ID );
 		$this->assertSame( 'zoom', $lowercase[0]->ID );
