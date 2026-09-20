@@ -290,8 +290,12 @@ class BP_XProfile_Meta_Query extends WP_Meta_Query {
 
 				case 'BETWEEN':
 				case 'NOT BETWEEN':
-					$meta_value = array_slice( $meta_value, 0, 2 );
-					$where      = $wpdb->prepare( '%s AND %s', $meta_value );
+					$meta_value = array_values( array_slice( $meta_value, 0, 2 ) );
+					$where      = '';
+
+					if ( 2 === count( $meta_value ) ) {
+						$where = $wpdb->prepare( '%s AND %s', $meta_value[0], $meta_value[1] );
+					}
 					break;
 
 				case 'LIKE':

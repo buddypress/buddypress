@@ -484,7 +484,7 @@ function bp_nouveau_pagination( $position ) {
 		 * @since 3.0.0
 		 */
 		do_action( $bottom_hook );
-	};
+	}
 	?>
 
 	<div class="<?php echo esc_attr( 'bp-pagination ' . sanitize_html_class( $position ) ); ?>" data-bp-pagination="<?php echo esc_attr( $page_arg ); ?>">
@@ -519,7 +519,7 @@ function bp_nouveau_pagination( $position ) {
 		 * @since 3.0.0
 		 */
 		do_action( $top_hook );
-	};
+	}
 }
 
 /**
@@ -1359,7 +1359,7 @@ function bp_nouveau_directory_type_navs_class() {
 		// If component is 'blogs' we need to access options as 'Sites'.
 		if ( 'blogs' === $component ) {
 			$component = 'sites';
-		};
+		}
 
 		$customizer_option = sprintf( '%s_dir_tabs', $component );
 		$nav_style         = bp_nouveau_get_temporary_setting( $customizer_option, bp_nouveau_get_appearance_settings( $customizer_option ) );

@@ -277,7 +277,7 @@ class BP_XProfile_Field_Type_WordPress_Textbox extends BP_XProfile_Field_Type_Wo
 		$style = 'margin-top: 15px;';
 		if ( $current_field->type !== $type ) {
 			$style .= ' display: none;';
-		};
+		}
 
 		$setting = self::get_field_settings( $current_field->id );
 

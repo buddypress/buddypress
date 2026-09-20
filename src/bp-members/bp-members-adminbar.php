@@ -195,7 +195,7 @@ function bp_members_admin_bar_notifications_dropdown( $notifications = array(), 
 		if ( 'admin' === $type ) {
 			$count = '!';
 		}
-	};
+	}
 
 	$alert_class[] = $type . '-type';
 	$menu_title    = sprintf(

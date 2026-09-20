@@ -1687,9 +1687,8 @@ class BP_Members_Admin {
 		 * If an invalid member type is passed, someone's doing something
 		 * fishy with the POST request, so we can fail silently.
 		 */
-		if ( bp_set_member_type( $user_id, $member_type ) ) {
-			// @todo Success messages can't be posted because other stuff happens on the page load.
-		}
+		// @todo Success messages can't be posted because other stuff happens on the page load.
+		bp_set_member_type( $user_id, $member_type );
 	}
 
 	/**

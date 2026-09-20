@@ -428,22 +428,22 @@ function bp_core_fetch_avatar( $args = '' ) {
 	}
 
 	// Set image width.
-	if ( false !== $params['width'] ) {
-		// Width has been specified. No modification necessary.
-	} elseif ( 'thumb' === $params['type'] ) {
-		$params['width'] = bp_core_avatar_thumb_width();
-	} else {
-		$params['width'] = bp_core_avatar_full_width();
+	if ( false === $params['width'] ) {
+		if ( 'thumb' === $params['type'] ) {
+			$params['width'] = bp_core_avatar_thumb_width();
+		} else {
+			$params['width'] = bp_core_avatar_full_width();
+		}
 	}
 	$html_width = ' width="' . $params['width'] . '"';
 
 	// Set image height.
-	if ( false !== $params['height'] ) {
-		// Height has been specified. No modification necessary.
-	} elseif ( 'thumb' === $params['type'] ) {
-		$params['height'] = bp_core_avatar_thumb_height();
-	} else {
-		$params['height'] = bp_core_avatar_full_height();
+	if ( false === $params['height'] ) {
+		if ( 'thumb' === $params['type'] ) {
+			$params['height'] = bp_core_avatar_thumb_height();
+		} else {
+			$params['height'] = bp_core_avatar_full_height();
+		}
 	}
 	$html_height = ' height="' . $params['height'] . '"';
 

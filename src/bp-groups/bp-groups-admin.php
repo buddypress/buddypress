@@ -383,7 +383,7 @@ function bp_groups_admin_load() {
 		$enable_forum = 0;
 		if ( isset( $_POST['group-show-forum'] ) ) {
 			$enable_forum = 1;
-		};
+		}
 
 		/**
 		 * Filters the allowed status values for the group.
@@ -1414,9 +1414,8 @@ function bp_groups_process_group_type_update( $group_id ) {
 	 * If an invalid group type is passed, someone's doing something
 	 * fishy with the POST request, so we can fail silently.
 	 */
-	if ( bp_groups_set_group_type( $group_id, $group_types ) ) {
-		// @todo Success messages can't be posted because other stuff happens on the page load.
-	}
+	// @todo Success messages can't be posted because other stuff happens on the page load.
+	bp_groups_set_group_type( $group_id, $group_types );
 }
 add_action( 'bp_group_admin_edit_after', 'bp_groups_process_group_type_update' );
 
