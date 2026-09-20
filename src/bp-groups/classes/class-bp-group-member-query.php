@@ -298,15 +298,15 @@ class BP_Group_Member_Query extends BP_User_Query {
 
 		$sql['where'] = ! empty( $sql['where'] ) ? 'WHERE ' . implode( ' AND ', $sql['where'] ) : '';
 
-		// We fetch group members in order of last_joined, regardless
-		// of 'type'. If the 'type' value is not 'last_joined' or
-		// 'first_joined', the order will be overridden in
-		// BP_Group_Member_Query::set_orderby().
-		$sql['orderby'] = 'ORDER BY date_modified';
-		$sql['order']   = 'first_joined' === $this->query_vars['type'] ? 'ASC' : 'DESC';
-
-		$group_member_ids = $wpdb->get_col( "{$sql['select']} {$sql['where']} {$sql['orderby']} {$sql['order']}" );
-
+		/**
+		 * We fetch group members in order of last_joined, regardless of 'type'.
+		 * If the 'type' value is not 'last_joined' or 'first_joined', the order will be overridden in BP_Group_Member_Query::set_orderby().
+		 *
+		 * Membership dates have second-level precision, so use the membership ID to keep matching dates stable.
+		 */
+		$sql['order']       = 'first_joined' === $this->query_vars['type'] ? 'ASC' : 'DESC';
+		$sql['orderby']     = "ORDER BY date_modified {$sql['order']}, id ASC";
+		$group_member_ids   = $wpdb->get_col( "{$sql['select']} {$sql['where']} {$sql['orderby']}" );
 		$invited_member_ids = array();
 
 		// If appropriate, fetch invitations and add them to the results.
@@ -364,8 +364,7 @@ class BP_Group_Member_Query extends BP_User_Query {
 		/**
 		 * Filters the member IDs for the current group member query.
 		 *
-		 * Use this filter to build a custom query (such as when you've
-		 * defined a custom 'type').
+		 * Use this filter to build a custom query (such as when you've defined a custom 'type').
 		 *
 		 * @since 2.0.0
 		 *
