@@ -857,7 +857,7 @@ class BP_Friends_Friendship {
 			return false;
 		}
 
-		return $filtered_fids;
+		return wp_parse_id_list( $filtered_fids );
 	}
 
 	/**
@@ -897,7 +897,7 @@ class BP_Friends_Friendship {
 			return false;
 		}
 
-		return $user_count[0];
+		return (int) $user_count[0];
 	}
 
 	/**

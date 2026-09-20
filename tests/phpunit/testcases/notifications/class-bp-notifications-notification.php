@@ -32,7 +32,7 @@ class BP_Tests_BP_Notifications_Notification_TestCases extends BP_UnitTestCase {
 		// Check that the correct items are pulled up
 		$expected = array( $n1 );
 		$actual = wp_list_pluck( $n, 'id' );
-		$this->assertEquals( $expected, $actual );
+		$this->assertSame( $expected, $actual );
 
 		// reset component toggles.
 		if ( $groups_toggle ) {
@@ -74,7 +74,7 @@ class BP_Tests_BP_Notifications_Notification_TestCases extends BP_UnitTestCase {
 		) );
 
 		// Check that the correct items are pulled up
-		$this->assertEquals( 1, $n );
+		$this->assertSame( 1, $n );
 
 		// reset component toggles.
 		if ( $groups_toggle ) {
@@ -114,7 +114,7 @@ class BP_Tests_BP_Notifications_Notification_TestCases extends BP_UnitTestCase {
 			'component_name' => array( 'messages' ),
 		) );
 
-		$this->assertEquals( 1, $n );
+		$this->assertSame( 1, $n );
 	}
 
 	/**
@@ -149,7 +149,7 @@ class BP_Tests_BP_Notifications_Notification_TestCases extends BP_UnitTestCase {
 		// Check that the correct items are pulled up
 		$expected = array( $n2, $n1, $n3 );
 		$actual = wp_list_pluck( $n, 'id' );
-		$this->assertEquals( $expected, $actual );
+		$this->assertSame( $expected, $actual );
 	}
 
 	/**
@@ -181,7 +181,9 @@ class BP_Tests_BP_Notifications_Notification_TestCases extends BP_UnitTestCase {
 		// Check that the correct items are pulled up
 		$expected = array( $n2, $n3 );
 		$actual = wp_list_pluck( $n, 'id' );
-		$this->assertEquals( $expected, $actual );
+		sort( $expected );
+		sort( $actual );
+		$this->assertSame( $expected, $actual );
 	}
 
 	/**
@@ -213,7 +215,7 @@ class BP_Tests_BP_Notifications_Notification_TestCases extends BP_UnitTestCase {
 		// Check that the correct items are pulled up
 		$expected = array( $n1 );
 		$actual = wp_list_pluck( $n, 'id' );
-		$this->assertEquals( $expected, $actual );
+		$this->assertSame( $expected, $actual );
 	}
 
 	/**
@@ -245,7 +247,9 @@ class BP_Tests_BP_Notifications_Notification_TestCases extends BP_UnitTestCase {
 		// Check that the correct items are pulled up
 		$expected = array( $n1, $n2, $n3 );
 		$actual = wp_list_pluck( $n, 'id' );
-		$this->assertEquals( $expected, $actual );
+		sort( $expected );
+		sort( $actual );
+		$this->assertSame( $expected, $actual );
 	}
 
 	/**
@@ -276,7 +280,7 @@ class BP_Tests_BP_Notifications_Notification_TestCases extends BP_UnitTestCase {
 		) );
 
 		// Check that the correct items are pulled up
-		$this->assertEquals( [ $n2 ], wp_list_pluck( $n, 'id' ) );
+		$this->assertSame( [ $n2 ], wp_list_pluck( $n, 'id' ) );
 	}
 
 	/**
@@ -306,7 +310,7 @@ class BP_Tests_BP_Notifications_Notification_TestCases extends BP_UnitTestCase {
 		) );
 
 		// Check that the correct number of items are pulled up
-		$this->assertEquals(
+		$this->assertSame(
 			[ $notifications[2], $notifications[3] ],
 			wp_list_pluck( $found, 'id' )
 		);
@@ -343,7 +347,7 @@ class BP_Tests_BP_Notifications_Notification_TestCases extends BP_UnitTestCase {
 			]
 		);
 
-		$this->assertEquals( [ $n1 ], wp_list_pluck( $found_1, 'id' ) );
+		$this->assertSame( [ $n1 ], wp_list_pluck( $found_1, 'id' ) );
 
 		$found_2 = BP_Notifications_Notification::get(
 			[
@@ -357,7 +361,7 @@ class BP_Tests_BP_Notifications_Notification_TestCases extends BP_UnitTestCase {
 			]
 		);
 
-		$this->assertEquals( [ $n2 ], wp_list_pluck( $found_2, 'id' ) );
+		$this->assertSame( [ $n2 ], wp_list_pluck( $found_2, 'id' ) );
 	}
 
 	/**
@@ -395,7 +399,7 @@ class BP_Tests_BP_Notifications_Notification_TestCases extends BP_UnitTestCase {
 			]
 		);
 
-		$this->assertEquals( [ $n2, $n1 ], wp_list_pluck( $found_1, 'id' ) );
+		$this->assertSame( [ $n2, $n1 ], wp_list_pluck( $found_1, 'id' ) );
 
 		$found_2 = BP_Notifications_Notification::get(
 			[
@@ -411,7 +415,7 @@ class BP_Tests_BP_Notifications_Notification_TestCases extends BP_UnitTestCase {
 			]
 		);
 
-		$this->assertEquals( [ $n1, $n2 ], wp_list_pluck( $found_2, 'id' ) );
+		$this->assertSame( [ $n1, $n2 ], wp_list_pluck( $found_2, 'id' ) );
 
 		$found_3 = BP_Notifications_Notification::get(
 			[
@@ -427,7 +431,7 @@ class BP_Tests_BP_Notifications_Notification_TestCases extends BP_UnitTestCase {
 			]
 		);
 
-		$this->assertEquals( [ $n4, $n3 ], wp_list_pluck( $found_3, 'id' ) );
+		$this->assertSame( [ $n4, $n3 ], wp_list_pluck( $found_3, 'id' ) );
 
 		$found_4 = BP_Notifications_Notification::get(
 			[
@@ -443,6 +447,6 @@ class BP_Tests_BP_Notifications_Notification_TestCases extends BP_UnitTestCase {
 			]
 		);
 
-		$this->assertEquals( [ $n3, $n4 ], wp_list_pluck( $found_4, 'id' ) );
+		$this->assertSame( [ $n3, $n4 ], wp_list_pluck( $found_4, 'id' ) );
 	}
 }

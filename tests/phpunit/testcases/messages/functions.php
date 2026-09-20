@@ -23,7 +23,7 @@ class BP_Tests_Messages_Functions extends BP_UnitTestCase {
 
 		// get unread count for $u2
 		wp_set_current_user( $u2 );
-		$this->assertEquals( 1, messages_get_unread_count( $u2 ) );
+		$this->assertSame( 1, messages_get_unread_count( $u2 ) );
 
 		// send another message and get recheck unread count
 		messages_new_message( array(
@@ -32,13 +32,13 @@ class BP_Tests_Messages_Functions extends BP_UnitTestCase {
 			'subject'    => 'A new message',
 			'content'    => 'Hey there!',
 		) );
-		$this->assertEquals( 2, messages_get_unread_count( $u2 ) );
+		$this->assertSame( 2, messages_get_unread_count( $u2 ) );
 
 		// mark one message as read
 		messages_mark_thread_read( $t1 );
 
 		// recheck unread count
-		$this->assertEquals( 1, messages_get_unread_count( $u2 ) );
+		$this->assertSame( 1, messages_get_unread_count( $u2 ) );
 	}
 
 	/**
@@ -239,7 +239,7 @@ class BP_Tests_Messages_Functions extends BP_UnitTestCase {
 		$this->assertTrue( $actual['done'] );
 
 		// Number of exported messages.
-		$this->assertSame( 3, count( $actual['data'] ) );
+		$this->assertCount( 3, $actual['data'] );
 	}
 
 	/**
@@ -297,6 +297,8 @@ class BP_Tests_Messages_Functions extends BP_UnitTestCase {
 		}
 
 		// Only messages sent by u1 should be exported.
-		$this->assertEquals( $expected, $actual );
+		sort( $expected );
+		sort( $actual );
+		$this->assertSame( $expected, $actual );
 	}
 }

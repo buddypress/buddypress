@@ -414,6 +414,10 @@ class BP_Core_User {
 		$paged_users_sql = apply_filters( 'bp_core_get_paged_users_sql', join( ' ', (array) $sql ), $sql );
 		$paged_users     = $wpdb->get_results( $paged_users_sql );
 
+		foreach ( $paged_users as $user ) {
+			$user->id = (int) $user->id;
+		}
+
 		// Re-jig the SQL so we can get the total user count.
 		unset( $sql['select_main'] );
 
@@ -463,7 +467,7 @@ class BP_Core_User {
 
 		return array(
 			'users' => $paged_users,
-			'total' => $total_users,
+			'total' => (int) $total_users,
 		);
 	}
 
@@ -540,7 +544,8 @@ class BP_Core_User {
 		 */
 		$user_ids = array();
 		foreach ( (array) $paged_users as $user ) {
-			$user_ids[] = (int) $user->id;
+			$user->id   = (int) $user->id;
+			$user_ids[] = $user->id;
 		}
 
 		// Add additional data to the returned results.
@@ -550,7 +555,7 @@ class BP_Core_User {
 
 		return array(
 			'users' => $paged_users,
-			'total' => $total_users,
+			'total' => (int) $total_users,
 		);
 	}
 
@@ -636,6 +641,10 @@ class BP_Core_User {
 		$total_users = $wpdb->get_var( $total_users_sql );
 		$paged_users = $wpdb->get_results( $paged_users_sql );
 
+		foreach ( $paged_users as $user ) {
+			$user->id = (int) $user->id;
+		}
+
 		/**
 		 * Lets fetch some other useful data in a separate queries, this will be
 		 * faster than querying the data for every user in a list. We can't add
@@ -651,7 +660,7 @@ class BP_Core_User {
 
 		return array(
 			'users' => $paged_users,
-			'total' => $total_users,
+			'total' => (int) $total_users,
 		);
 	}
 
@@ -699,6 +708,10 @@ class BP_Core_User {
 		$total_users = $wpdb->get_var( $total_users_sql );
 		$paged_users = $wpdb->get_results( $paged_users_sql );
 
+		foreach ( $paged_users as $user ) {
+			$user->id = (int) $user->id;
+		}
+
 		/**
 		 * Lets fetch some other useful data in a separate queries, this will be faster than querying the data for every user in a list.
 		 * We can't add these to the main query above since only users who have this information will be returned (since the much of the data is in usermeta and won't support any type of directional join)
@@ -714,7 +727,7 @@ class BP_Core_User {
 
 		return array(
 			'users' => $paged_users,
-			'total' => $total_users,
+			'total' => (int) $total_users,
 		);
 	}
 
@@ -747,6 +760,8 @@ class BP_Core_User {
 			$names = $wpdb->get_results( $wpdb->prepare( "SELECT pd.user_id as id, pd.value as fullname FROM {$bp->profile->table_name_fields} pf, {$bp->profile->table_name_data} pd WHERE pf.id = pd.field_id AND pf.name = %s AND pd.user_id IN ( {$user_ids} )", bp_xprofile_fullname_field_name() ) );
 			for ( $i = 0, $count = count( $paged_users ); $i < $count; ++$i ) {
 				foreach ( (array) $names as $name ) {
+					$name->id = (int) $name->id;
+
 					if ( $name->id === $paged_users[ $i ]->id ) {
 						$paged_users[ $i ]->fullname = $name->fullname;
 					}
@@ -759,6 +774,8 @@ class BP_Core_User {
 			$friend_count = $wpdb->get_results( $wpdb->prepare( "SELECT user_id as id, meta_value as total_friend_count FROM {$wpdb->usermeta} WHERE meta_key = %s AND user_id IN ( {$user_ids} )", bp_get_user_meta_key( 'total_friend_count' ) ) );
 			for ( $i = 0, $count = count( $paged_users ); $i < $count; ++$i ) {
 				foreach ( (array) $friend_count as $fcount ) {
+					$fcount->id = (int) $fcount->id;
+
 					if ( $fcount->id === $paged_users[ $i ]->id ) {
 						$paged_users[ $i ]->total_friend_count = (int) $fcount->total_friend_count;
 					}
@@ -771,8 +788,11 @@ class BP_Core_User {
 			$friend_status = $wpdb->get_results( $wpdb->prepare( "SELECT initiator_user_id, friend_user_id, is_confirmed FROM {$bp->friends->table_name} WHERE (initiator_user_id = %d AND friend_user_id IN ( {$user_ids} ) ) OR (initiator_user_id IN ( {$user_ids} ) AND friend_user_id = %d )", bp_loggedin_user_id(), bp_loggedin_user_id() ) );
 			for ( $i = 0, $count = count( $paged_users ); $i < $count; ++$i ) {
 				foreach ( (array) $friend_status as $status ) {
+					$status->initiator_user_id = (int) $status->initiator_user_id;
+					$status->friend_user_id    = (int) $status->friend_user_id;
+
 					if ( $status->initiator_user_id === $paged_users[ $i ]->id || $status->friend_user_id === $paged_users[ $i ]->id ) {
-						$paged_users[ $i ]->is_friend = $status->is_confirmed;
+						$paged_users[ $i ]->is_friend = (int) $status->is_confirmed;
 					}
 				}
 			}
@@ -794,6 +814,8 @@ class BP_Core_User {
 		$user_update = $wpdb->get_results( $wpdb->prepare( "SELECT user_id as id, meta_value as latest_update FROM {$wpdb->usermeta} WHERE meta_key = %s AND user_id IN ( {$user_ids} )", bp_get_user_meta_key( 'bp_latest_update' ) ) );
 		for ( $i = 0, $count = count( $paged_users ); $i < $count; ++$i ) {
 			foreach ( (array) $user_update as $update ) {
+				$update->id = (int) $update->id;
+
 				if ( $update->id === $paged_users[ $i ]->id ) {
 					$paged_users[ $i ]->latest_update = $update->latest_update;
 				}
@@ -846,9 +868,9 @@ class BP_Core_User {
 				wp_cache_set(
 					$last_activity->user_id,
 					array(
-						'user_id'       => $last_activity->user_id,
+						'user_id'       => (int) $last_activity->user_id,
 						'date_recorded' => $last_activity->date_recorded,
-						'activity_id'   => $last_activity->id,
+						'activity_id'   => (int) $last_activity->id,
 					),
 					'bp_last_activity'
 				);
@@ -860,10 +882,10 @@ class BP_Core_User {
 		foreach ( $user_ids as $user_id ) {
 			$retval[ $user_id ] = wp_cache_get( $user_id, 'bp_last_activity' );
 
-			if ( isset( $retval['user_id'] ) ) {
+			if ( isset( $retval[ $user_id ]['user_id'] ) ) {
 				$retval[ $user_id ]['user_id'] = (int) $retval[ $user_id ]['user_id'];
 			}
-			if ( isset( $retval['activity_id'] ) ) {
+			if ( isset( $retval[ $user_id ]['activity_id'] ) ) {
 				$retval[ $user_id ]['activity_id'] = (int) $retval[ $user_id ]['activity_id'];
 			}
 		}

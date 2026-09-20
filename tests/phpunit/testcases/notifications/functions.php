@@ -69,7 +69,7 @@ class BP_Tests_Notifications_Functions extends BP_UnitTestCase {
 		$n = bp_notifications_get_unread_notification_count( $u2 );
 
 		// assert
-		$this->assertEquals( 0, $n );
+		$this->assertSame( 0, $n );
 	}
 
 	/**
@@ -114,7 +114,7 @@ class BP_Tests_Notifications_Functions extends BP_UnitTestCase {
 		) );
 
 		// assert
-		$this->assertEquals( 2, buddypress()->notifications->query_loop->total_notification_count );
+		$this->assertSame( 2, buddypress()->notifications->query_loop->total_notification_count );
 	}
 
 	/**
@@ -199,23 +199,22 @@ class BP_Tests_Notifications_Functions extends BP_UnitTestCase {
 		bp_notifications_get_notifications_for_user( $u, 'string' );
 
 		// Assert!
-		// @todo When we cast all numeric strings as integers, this needs to be changed.
 		$expected = array(
 			'action'            => 'new_at_mention',
-			'item_id'           => '99',
-			'secondary_item_id' => '0',
+			'item_id'           => 99,
+			'secondary_item_id' => 0,
 			'total_items'       => 1,
-			'id'                => (string) $n,
+			'id'                => $n,
 			'format'            => 'string'
 		);
-		$this->assertEquals( $expected, $this->n_args );
+		$this->assertSame( $expected, $this->n_args );
 
 		// Fetch notifications with object format this time.
 		bp_notifications_get_notifications_for_user( $u, 'object' );
 
 		// Assert!
 		$expected['format'] = 'array';
-		$this->assertEquals( $expected, $this->n_args );
+		$this->assertSame( $expected, $this->n_args );
 
 		// Reset!
 		buddypress()->activity->notification_callback = 'bp_activity_format_notifications';
@@ -245,7 +244,11 @@ class BP_Tests_Notifications_Functions extends BP_UnitTestCase {
 
 		// Prime cache.
 		$found = bp_notifications_get_grouped_notifications_for_user( $u );
-		$this->assertEquals( 1, $found[0]->total_count );
+		$this->assertSame( $n1, $found[0]->id );
+		$this->assertSame( $u, $found[0]->user_id );
+		$this->assertSame( 99, $found[0]->item_id );
+		$this->assertSame( 0, $found[0]->secondary_item_id );
+		$this->assertSame( 1, $found[0]->total_count );
 
 		$n2 = self::factory()->notification->create( array(
 			'component_name'    => 'activity',
@@ -255,7 +258,7 @@ class BP_Tests_Notifications_Functions extends BP_UnitTestCase {
 		) );
 
 		$found = bp_notifications_get_grouped_notifications_for_user( $u );
-		$this->assertEquals( 2, $found[0]->total_count );
+		$this->assertSame( 2, $found[0]->total_count );
 	}
 
 	/**
@@ -286,7 +289,7 @@ class BP_Tests_Notifications_Functions extends BP_UnitTestCase {
 		$this->assertTrue( $actual['done'] );
 
 		// Number of exported notification items.
-		$this->assertSame( 2, count( $actual['data'] ) );
+		$this->assertCount( 2, $actual['data'] );
 	}
 
 	/**
@@ -429,8 +432,10 @@ class BP_Tests_Notifications_Functions extends BP_UnitTestCase {
 
 		$n_obj = reset( $n_get );
 
-		$this->assertEquals( $unread, $read );
-		$this->assertEquals( $n, $n_obj->id );
+		sort( $unread );
+		sort( $read );
+		$this->assertSame( $unread, $read );
+		$this->assertSame( $n, $n_obj->id );
 		$this->assertTrue( 1 === (int) $n_obj->is_new );
 	}
 
@@ -498,7 +503,7 @@ class BP_Tests_Notifications_Functions extends BP_UnitTestCase {
 		$n_obj = reset( $n_get );
 
 		$this->assertEmpty( $deleted );
-		$this->assertEquals( $n, $n_obj->id );
+		$this->assertSame( $n, $n_obj->id );
 		$this->assertTrue( 1 === (int) $n_obj->is_new );
 	}
 

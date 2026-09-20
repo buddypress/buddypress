@@ -3478,7 +3478,7 @@ function bp_total_mention_count_for_user( $user_id = 0 ) {
 	 * @since 1.2.0
 	 *
 	 * @param int $user_id ID of user being queried. Default: displayed user ID.
-	 * @return int The total mention count for the specified user.
+	 * @return string|bool Formatted mention count for the specified user. False if no user is found.
 	 */
 	function bp_get_total_mention_count_for_user( $user_id = 0 ) {
 
@@ -3489,7 +3489,7 @@ function bp_total_mention_count_for_user( $user_id = 0 ) {
 
 		// Get user meta if user ID exists.
 		$retval = ! empty( $user_id )
-			? bp_get_user_meta( $user_id, 'bp_new_mention_count', true )
+			? bp_core_number_format( (int) bp_get_user_meta( $user_id, 'bp_new_mention_count', true ) )
 			: false;
 
 		/**
@@ -3498,8 +3498,8 @@ function bp_total_mention_count_for_user( $user_id = 0 ) {
 		 * @since 1.2.0
 		 * @since 2.6.0 Added the `$user_id` parameter.
 		 *
-		 * @param int|bool $retval  Total mention count for a user. False on no mentions.
-		 * @param int      $user_id ID of the queried user.
+		 * @param string|bool $retval  Formatted mention count for a user. False if no user is found.
+		 * @param int         $user_id ID of the queried user.
 		 */
 		return apply_filters( 'bp_get_total_mention_count_for_user', $retval, $user_id );
 	}

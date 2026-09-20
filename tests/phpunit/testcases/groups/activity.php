@@ -304,7 +304,10 @@ class BP_Tests_Groups_Activity extends BP_UnitTestCase {
 		$expected = array_merge( $activity_args, array( 'item_id' => $g ) );
 		unset( $expected['group_id'] );
 
-		$this->assertEquals( $expected, $this->groups_post_update_args );
+		ksort( $expected );
+		ksort( $this->groups_post_update_args );
+
+		$this->assertSame( $expected, $this->groups_post_update_args );
 	}
 
 	/**

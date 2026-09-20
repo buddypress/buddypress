@@ -550,7 +550,7 @@ class BP_User_Query {
 		}
 
 		// Get the specific user ids.
-		$this->user_ids = $wpdb->get_col( "{$this->uid_clauses['select']} {$this->uid_clauses['where']} {$this->uid_clauses['orderby']} {$this->uid_clauses['order']} {$this->uid_clauses['limit']}" );
+		$this->user_ids = wp_parse_id_list( $wpdb->get_col( "{$this->uid_clauses['select']} {$this->uid_clauses['where']} {$this->uid_clauses['orderby']} {$this->uid_clauses['order']} {$this->uid_clauses['limit']}" ) );
 
 		// Get the total user count.
 		if ( 'sql_calc_found_rows' === $this->query_vars['count_total'] ) {

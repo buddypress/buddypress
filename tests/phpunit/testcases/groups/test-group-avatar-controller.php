@@ -52,7 +52,7 @@ class BP_Tests_Group_Avatar_REST_Controller extends BP_Test_REST_Controller_Test
 		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$all_data = $response->get_data();
 		$this->assertNotEmpty( $all_data );
@@ -295,7 +295,7 @@ class BP_Tests_Group_Avatar_REST_Controller extends BP_Test_REST_Controller_Test
 		$data       = $response->get_data();
 		$properties = $data['schema']['properties'];
 
-		$this->assertEquals( 2, count( $properties ) );
+		$this->assertCount( 2, $properties );
 		$this->assertArrayHasKey( 'full', $properties );
 		$this->assertArrayHasKey( 'thumb', $properties );
 	}
@@ -305,7 +305,7 @@ class BP_Tests_Group_Avatar_REST_Controller extends BP_Test_REST_Controller_Test
 		$request  = new WP_REST_Request( 'OPTIONS', sprintf( $this->endpoint_url . '/%d/avatar', $this->group_id ) );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$data = $response->get_data();
 

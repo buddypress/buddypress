@@ -31,6 +31,17 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		array_map( 'groups_delete_group', self::$group_ids );
 	}
 
+	public function test_get_group_ids_should_return_integers() {
+		$group_id = self::factory()->group->create();
+		$user_id  = self::factory()->user->create();
+		self::add_user_to_group( $user_id, $group_id );
+
+		$found = BP_Groups_Member::get_group_ids( $user_id );
+
+		$this->assertSame( array( $group_id ), $found['groups'] );
+		$this->assertSame( 1, $found['total'] );
+	}
+
 	public function test_get_recently_joined_with_filter() {
 		$g1 = self::factory()->group->create( array(
 			'name' => 'Tab',
@@ -46,7 +57,7 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$groups = BP_Groups_Member::get_recently_joined( $u, false, false, 'Rite' );
 
 		$ids = wp_list_pluck( $groups['groups'], 'id' );
-		$this->assertEquals( $ids, array( $g2 ) );
+		$this->assertSame( array( $g2 ), $ids );
 	}
 
 	public function test_get_is_admin_of_with_filter() {
@@ -69,7 +80,7 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$groups = BP_Groups_Member::get_is_admin_of( $u, false, false, 'eps' );
 
 		$ids = wp_list_pluck( $groups['groups'], 'id' );
-		$this->assertEquals( $ids, array( $g2 ) );
+		$this->assertSame( array( $g2 ), $ids );
 	}
 
 	public function test_get_is_mod_of_with_filter() {
@@ -92,7 +103,7 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$groups = BP_Groups_Member::get_is_mod_of( $u, false, false, 'eps' );
 
 		$ids = wp_list_pluck( $groups['groups'], 'id' );
-		$this->assertEquals( $ids, array( $g2 ) );
+		$this->assertSame( array( $g2 ), $ids );
 	}
 
 	public function test_get_is_banned_of_with_filter() {
@@ -115,7 +126,7 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$groups = BP_Groups_Member::get_is_banned_of( $u, false, false, 'eps' );
 
 		$ids = wp_list_pluck( $groups['groups'], 'id' );
-		$this->assertEquals( $ids, array( $g2 ) );
+		$this->assertSame( array( $g2 ), $ids );
 	}
 
 	public function test_get_invites_with_exclude() {
@@ -146,7 +157,7 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$groups = BP_Groups_Member::get_invites( $u2, false, false, array( 'awesome', $g1 ) );
 
 		$ids = wp_list_pluck( $groups['groups'], 'id' );
-		$this->assertEquals( $ids, array( $g2 ) );
+		$this->assertSame( array( $g2 ), $ids );
 	}
 
 	/**
@@ -164,7 +175,7 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 
 		$mm = (array) $members['members'];
 		$ids = wp_list_pluck( $mm, 'user_id' );
-		$this->assertEquals( array( $u2 ), $ids );
+		$this->assertSame( array( $u2 ), $ids );
 	}
 
 	/**
@@ -285,7 +296,7 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 
 		groups_reject_membership_request( null, $u1, $g );
 		$u1_has_request = groups_check_for_membership_request( $u1, $g );
-		$this->assertEquals( 0, $u1_has_request );
+		$this->assertFalse( $u1_has_request );
 	}
 
 	/**
@@ -354,7 +365,7 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		) );
 		groups_delete_membership_request( null, $u1, $g );
 		$u1_has_request = groups_check_for_membership_request( $u1, $g );
-		$this->assertEquals( 0, $u1_has_request );
+		$this->assertFalse( $u1_has_request );
 	}
 
 	/**
@@ -433,7 +444,7 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 
 		groups_reject_invite( $u2, $g );
 		$u2_has_invite = groups_check_user_has_invite( $u2, $g, 'all' );
-		$this->assertEquals( 0, $u2_has_invite );
+		$this->assertFalse( $u2_has_invite );
 	}
 
 	/**
@@ -506,7 +517,7 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 
 		groups_delete_invite( $u2, $g );
 		$u2_has_invite = groups_check_user_has_invite( $u2, $g, 'all' );
-		$this->assertEquals( 0, $u2_has_invite );
+		$this->assertFalse( $u2_has_invite );
 	}
 
 	/**
@@ -540,7 +551,7 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		// The invitation should be removed.
 		groups_delete_invite( $u2, $g );
 		$u2_has_invite = groups_check_user_has_invite( $u2, $g, 'all' );
-		$this->assertEquals( 0, $u2_has_invite );
+		$this->assertFalse( $u2_has_invite );
 	}
 
 	/**
@@ -611,7 +622,7 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		) );
 		groups_uninvite_user( $u2, $g );
 		$u2_has_invite = groups_check_user_has_invite( $u2, $g, 'all' );
-		$this->assertEquals( 0, $u2_has_invite );
+		$this->assertFalse( $u2_has_invite );
 	}
 
 	/**
@@ -720,7 +731,7 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		) );
 		groups_join_group( $g, $u2 );
 		// Upon joining the group, outstanding invitations should be cleaned up.
-		$this->assertEquals( null, groups_check_user_has_invite( $u2, $g, 'any' ) );
+		$this->assertFalse( groups_check_user_has_invite( $u2, $g, 'any' ) );
 	}
 
 	/**
@@ -738,7 +749,7 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 
 		groups_join_group( $g, $u1 );
 		// Upon joining the group, outstanding requests should be cleaned up.
-		$this->assertEquals( null, groups_check_for_membership_request( $u1, $g ) );
+		$this->assertFalse( groups_check_for_membership_request( $u1, $g ) );
 	}
 
 	/**
@@ -757,7 +768,7 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		groups_leave_group( $g, $u2 );
 		$after = groups_get_total_member_count( $g );
 
-		$this->assertEquals( $before - 1, $after );
+		$this->assertSame( $before - 1, $after );
 		wp_set_current_user( $old_current_user );
 	}
 
@@ -777,7 +788,7 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		groups_leave_group( $g );
 		$after = groups_get_total_member_count( $g );
 
-		$this->assertEquals( $before - 1, $after );
+		$this->assertSame( $before - 1, $after );
 		wp_set_current_user( $old_current_user );
 	}
 
@@ -797,7 +808,7 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		groups_leave_group( $g, $u2 );
 		$after = groups_get_total_member_count( $g );
 
-		$this->assertEquals( $before - 1, $after );
+		$this->assertSame( $before - 1, $after );
 		wp_set_current_user( $old_current_user );
 	}
 
@@ -819,7 +830,7 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		groups_leave_group( $g, $u2 );
 		$after = groups_get_total_member_count( $g );
 
-		$this->assertEquals( $before - 1, $after );
+		$this->assertSame( $before - 1, $after );
 		wp_set_current_user( $old_current_user );
 	}
 
@@ -839,7 +850,7 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		groups_leave_group( $g, $u1 );
 		$after = groups_get_total_member_count( $g );
 
-		$this->assertEquals( $before, $after );
+		$this->assertSame( $before, $after );
 		wp_set_current_user( $old_current_user );
 	}
 
@@ -861,7 +872,7 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		groups_leave_group( $g, $u1 );
 		$after = groups_get_total_member_count( $g );
 
-		$this->assertEquals( $before - 1, $after );
+		$this->assertSame( $before - 1, $after );
 		wp_set_current_user( $old_current_user );
 	}
 
@@ -898,7 +909,7 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$groups = groups_get_invites_for_user( $u2 );
 
 		$this->assertEqualSets( array( $g1, $g2, $g3 ), wp_list_pluck( $groups['groups'], 'id' ) );
-		$this->assertEquals( 3, $groups['total'] );
+		$this->assertSame( 3, $groups['total'] );
 	}
 
 	/**
@@ -974,7 +985,7 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 
 		$groups = groups_get_invites_for_user( $u2, false, false, array( $g2 ) );
 		$this->assertEqualSets( array( $g1, $g3 ), wp_list_pluck( $groups['groups'], 'id' ) );
-		$this->assertEquals( 2, $groups['total'] );
+		$this->assertSame( 2, $groups['total'] );
 	}
 
 	/**
@@ -1008,7 +1019,7 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 			'send_invite' => 1,
 		) );
 
-		$this->assertEquals( 3, groups_get_invite_count_for_user( $u2 ) );
+		$this->assertSame( 3, groups_get_invite_count_for_user( $u2 ) );
 	}
 
 	/**
@@ -1031,7 +1042,7 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		) );
 
 		// groups_get_invite_count_for_user should ignore draft invitations.
-		$this->assertEquals( 0, groups_get_invite_count_for_user( $u2 ) );
+		$this->assertSame( 0, groups_get_invite_count_for_user( $u2 ) );
 	}
 
 	/**
@@ -1523,8 +1534,8 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 
 		$found = BP_Groups_Member::get_memberships_by_id( $m0 );
 
-		$this->assertSame( 1, count( $found ) );
-		$this->assertEquals( $m0, $found[0]->id );
+		$this->assertCount( 1, $found );
+		$this->assertSame( $m0, $found[0]->id );
 	}
 
 	/**
@@ -1539,8 +1550,14 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 
 		$found = BP_Groups_Member::get_memberships_by_id( array( $m0, $m1 ) );
 
-		$this->assertSame( 2, count( $found ) );
-		$this->assertEqualSets( array( $m0, $m1 ), wp_list_pluck( $found, 'id' ) );
+		$expected_ids = array( $m0, $m1 );
+		$found_ids    = wp_list_pluck( $found, 'id' );
+
+		sort( $expected_ids );
+		sort( $found_ids );
+
+		$this->assertCount( 2, $found );
+		$this->assertSame( $expected_ids, $found_ids );
 	}
 
 	/**
@@ -1557,7 +1574,7 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$user_obj = $membership->user;
 
 		$this->assertInstanceOf( 'BP_Core_User', $user_obj );
-		$this->assertEquals( $user, $user_obj->id );
+		$this->assertSame( $user, $user_obj->id );
 	}
 
 	/**

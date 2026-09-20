@@ -36,6 +36,6 @@ class BP_Tests_Notifications_BPNotificationsTemplate extends BP_UnitTestCase {
 
 		// Check that the correct number of items are pulled up
 		$expected = array( $notifications[3], $notifications[2] );
-		$this->assertEquals( $expected, wp_list_pluck( $template->notifications, 'id' ) );
+		$this->assertSame( $expected, wp_list_pluck( $template->notifications, 'id' ) );
 	}
 }

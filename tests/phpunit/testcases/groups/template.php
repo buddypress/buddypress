@@ -44,7 +44,7 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 		) );
 
 		$ids = wp_list_pluck( $groups_template->groups, 'id' );
-		$this->assertEquals( $ids, array( $g1, ) );
+		$this->assertSame( $ids, array( $g1, ) );
 	}
 
 	/**
@@ -77,8 +77,8 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 			'orderby' => 'name',
 		) );
 
-		$ids = wp_parse_id_list( wp_list_pluck( $groups_template->groups, 'id' ) );
-		$this->assertEquals( array( $g1, $g2, $g3, ), $ids );
+		$ids = wp_list_pluck( $groups_template->groups, 'id' );
+		$this->assertSame( array( $g1, $g2, $g3, ), $ids );
 	}
 
 	/**
@@ -107,8 +107,8 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 		global $groups_template;
 		bp_has_groups();
 
-		$ids = wp_parse_id_list( wp_list_pluck( $groups_template->groups, 'id' ) );
-		$this->assertEquals( array( $g1, $g3, $g2, ), $ids );
+		$ids = wp_list_pluck( $groups_template->groups, 'id' );
+		$this->assertSame( array( $g1, $g3, $g2, ), $ids );
 	}
 
 	/**
@@ -132,10 +132,10 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 			'slug' => 'test-group',
 		) );
 
-		$ids = wp_parse_id_list( wp_list_pluck( $groups_template->groups, 'id' ) );
-		$this->assertEquals( array( $g1 ), $ids );
+		$ids = wp_list_pluck( $groups_template->groups, 'id' );
+		$this->assertSame( array( $g1 ), $ids );
 
-		$this->assertEquals( 1, $groups_template->group_count );
+		$this->assertSame( 1, $groups_template->group_count );
 	}
 
 	/**
@@ -159,10 +159,10 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 			'status' => 'private',
 		) );
 
-		$ids = wp_parse_id_list( wp_list_pluck( $groups_template->groups, 'id' ) );
+		$ids = wp_list_pluck( $groups_template->groups, 'id' );
 		$this->assertEqualSets( array( $g2 ), $ids );
 
-		$this->assertEquals( 1, $groups_template->group_count );
+		$this->assertSame( 1, $groups_template->group_count );
 	}
 
 	/**
@@ -183,8 +183,8 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 			'parent_id' => $g1,
 		) );
 
-		$ids = wp_parse_id_list( wp_list_pluck( $groups_template->groups, 'id' ) );
-		$this->assertEquals( array( $g2 ), $ids );
+		$ids = wp_list_pluck( $groups_template->groups, 'id' );
+		$this->assertSame( array( $g2 ), $ids );
 	}
 
 	/**
@@ -205,7 +205,7 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 			'parent_id' => array( $g1, $g2 ),
 		) );
 
-		$ids = wp_parse_id_list( wp_list_pluck( $groups_template->groups, 'id' ) );
+		$ids = wp_list_pluck( $groups_template->groups, 'id' );
 		$this->assertEqualSets( array( $g2, $g3 ), $ids );
 	}
 
@@ -227,7 +227,7 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 			'parent_id' => "{$g1},{$g2}",
 		) );
 
-		$ids = wp_parse_id_list( wp_list_pluck( $groups_template->groups, 'id' ) );
+		$ids = wp_list_pluck( $groups_template->groups, 'id' );
 		$this->assertEqualSets( array( $g2, $g3 ), $ids );
 	}
 
@@ -249,7 +249,7 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 			'parent_id' => null,
 		) );
 
-		$ids = wp_parse_id_list( wp_list_pluck( $groups_template->groups, 'id' ) );
+		$ids = wp_list_pluck( $groups_template->groups, 'id' );
 		$this->assertEqualSets( array( $g1, $g2, $g3, $g4 ), $ids );
 	}
 
@@ -271,7 +271,7 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 			'parent_id' => 0,
 		) );
 
-		$ids = wp_parse_id_list( wp_list_pluck( $groups_template->groups, 'id' ) );
+		$ids = wp_list_pluck( $groups_template->groups, 'id' );
 		$this->assertEqualSets( array( $g1, $g4 ), $ids );
 	}
 
@@ -293,7 +293,7 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 			'parent_id' => false,
 		) );
 
-		$ids = wp_parse_id_list( wp_list_pluck( $groups_template->groups, 'id' ) );
+		$ids = wp_list_pluck( $groups_template->groups, 'id' );
 		$this->assertEqualSets( array( $g1, $g4 ), $ids );
 	}
 
@@ -315,8 +315,8 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 			'exclude_admins_mods' => false,
 		) );
 
-		$ids = wp_parse_id_list( wp_list_pluck( $members_template->members, 'user_id' ) );
-		$this->assertEquals( array( $u1, ), $ids );
+		$ids = wp_list_pluck( $members_template->members, 'user_id' );
+		$this->assertSame( array( $u1, ), $ids );
 	}
 
 	/**
@@ -353,8 +353,8 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 		$expected->user_email = $u1_object->user_email;
 		$expected->display_name = $u1_object->display_name;
 
-		// In order to use assertEquals, we need to discard the
-		// irrelevant properties of the found object. Hack alert
+		// Discard the irrelevant properties before strict comparison.
+		// Hack alert.
 		$found = new stdClass;
 		foreach ( array( 'user_id', 'date_modified', 'is_banned', 'user_login', 'user_nicename', 'user_email', 'display_name' ) as $key ) {
 			if ( isset( $members_template->members[0]->{$key} ) ) {
@@ -362,7 +362,7 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 			}
 		}
 
-		$this->assertEquals( $expected, $found );
+		$this->assertSame( get_object_vars( $expected ), get_object_vars( $found ) );
 	}
 
 	/**
@@ -394,8 +394,8 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 			'per_page' => 2,
 		) );
 
-		$ids = wp_parse_id_list( wp_list_pluck( $members_template->members, 'user_id' ) );
-		$this->assertEquals( $expected, $ids );
+		$ids = wp_list_pluck( $members_template->members, 'user_id' );
+		$this->assertSame( $expected, $ids );
 	}
 
 	/**
@@ -426,7 +426,7 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 			'max' => 1,
 		) );
 
-		$this->assertEquals( 1, $members_template->member_count );
+		$this->assertSame( 1, $members_template->member_count );
 	}
 
 	/**
@@ -446,8 +446,8 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 			'exclude' => $u1,
 		) );
 
-		$ids = wp_parse_id_list( wp_list_pluck( $members_template->members, 'user_id' ) );
-		$this->assertEquals( array( $u2 ), $ids );
+		$ids = wp_list_pluck( $members_template->members, 'user_id' );
+		$this->assertSame( array( $u2 ), $ids );
 	}
 
 	/**
@@ -474,8 +474,8 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 			'exclude_admins_mods' => 1,
 		) );
 
-		$ids = wp_parse_id_list( wp_list_pluck( $members_template->members, 'user_id' ) );
-		$this->assertEquals( array( $u3 ), $ids );
+		$ids = wp_list_pluck( $members_template->members, 'user_id' );
+		$this->assertSame( array( $u3 ), $ids );
 	}
 
 	/**
@@ -508,8 +508,8 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 			'exclude_admins_mods' => 0,
 		) );
 
-		$ids = wp_parse_id_list( wp_list_pluck( $members_template->members, 'user_id' ) );
-		$this->assertEquals( array( $u1, $u2, $u3 ), $ids );
+		$ids = wp_list_pluck( $members_template->members, 'user_id' );
+		$this->assertSame( array( $u1, $u2, $u3 ), $ids );
 	}
 
 	/**
@@ -532,8 +532,8 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 			'exclude_banned' => 1,
 		) );
 
-		$ids = wp_parse_id_list( wp_list_pluck( $members_template->members, 'user_id' ) );
-		$this->assertEquals( array( $u2, ), $ids );
+		$ids = wp_list_pluck( $members_template->members, 'user_id' );
+		$this->assertSame( array( $u2, ), $ids );
 	}
 
 	/**
@@ -566,8 +566,8 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 			'exclude_admins_mods' => false,
 		) );
 
-		$ids = wp_parse_id_list( wp_list_pluck( $members_template->members, 'user_id' ) );
-		$this->assertEquals( array( $u1, $u3, $u2 ), $ids );
+		$ids = wp_list_pluck( $members_template->members, 'user_id' );
+		$this->assertSame( array( $u1, $u3, $u2 ), $ids );
 	}
 
 	/**
@@ -607,8 +607,8 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 			'exclude_admins_mods' => false,
 		) );
 
-		$ids = wp_parse_id_list( wp_list_pluck( $members_template->members, 'user_id' ) );
-		$this->assertEquals( array( $u1, $u3, $u2, ), $ids );
+		$ids = wp_list_pluck( $members_template->members, 'user_id' );
+		$this->assertSame( array( $u1, $u3, $u2, ), $ids );
 	}
 
 	/**
@@ -670,12 +670,12 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 		);
 
 		// Invites array
-		$this->assertEquals( $found_users, $invites_template->invites );
+		$this->assertSame( $found_users, $invites_template->invites );
 
 		// Make sure user is set when loop starts
 		$counter = 0;
 		while ( bp_group_invites() ) : bp_group_the_invite();
-			$this->assertEquals( $g, $invites_template->invite->group_id );
+			$this->assertSame( $g, $invites_template->invite->group_id );
 
 			$this_user = new BP_Core_User( $found_users[ $counter ] );
 			foreach ( get_object_vars( $this_user ) as $k => $v ) {
@@ -686,7 +686,7 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 					continue;
 				}
 
-				$this->assertEquals( $v, $invites_template->invite->user->{$k} );
+				$this->assertSame( $v, $invites_template->invite->user->{$k} );
 			}
 			$counter++;
 		endwhile;
@@ -731,7 +731,7 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 
 		global $invites_template;
 
-		$this->assertEquals( array( $users[ 3 ], $users[ 2 ] ), $invites_template->invites );
+		$this->assertSame( array( $users[ 3 ], $users[ 2 ] ), $invites_template->invites );
 	}
 
 	/**
@@ -789,12 +789,12 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 		$expected_user_ids = array();
 		$expected_mem_ids = array();
 		for ( $j = 1; $j <= 3; $j++ ) {
-			$expected_user_ids[] = (string) $users[ $j ];
-			$expected_mem_ids[] = (string) $memberships[ $j ];
+			$expected_user_ids[] = $users[ $j ];
+			$expected_mem_ids[]  = $memberships[ $j ];
 		}
 
-		$this->assertEquals( $expected_user_ids, wp_list_pluck( $requests_template->requests, 'user_id' ) );
-		$this->assertEquals( $expected_mem_ids, wp_list_pluck( $requests_template->requests, 'invitation_id' ) );
+		$this->assertSame( $expected_user_ids, wp_list_pluck( $requests_template->requests, 'user_id' ) );
+		$this->assertSame( $expected_mem_ids, wp_list_pluck( $requests_template->requests, 'invitation_id' ) );
 	}
 
 	/**
@@ -851,20 +851,20 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 		$expected->invitation_id = $membership;
 		$expected->group_id = $g;
 		$expected->user_id = $user;
-		$expected->inviter_id = '0';
-		$expected->is_admin = '0';
-		$expected->is_mod = '0';
+		$expected->inviter_id = 0;
+		$expected->is_admin = 0;
+		$expected->is_mod = 0;
 		$expected->user_title = '';
 		$expected->date_modified = gmdate( 'Y-m-d H:i:s', $time );
 		$expected->comments = '';
-		$expected->is_confirmed = '0';
-		$expected->is_banned = '0';
-		$expected->invite_sent = '1';
+		$expected->is_confirmed = 0;
+		$expected->is_banned = 0;
+		$expected->invite_sent = 1;
 
 		// Check each expected value. If there are more in the results,
 		// that's OK
 		foreach ( get_object_vars( $expected ) as $k => $v ) {
-			$this->assertEquals( $v, $requests_template->requests[0]->{$k} );
+			$this->assertSame( $v, $requests_template->requests[0]->{$k} );
 		}
 	}
 
@@ -914,7 +914,7 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 
 		// Assert
 		$expected = array( false, true );
-		$this->assertEquals( $expected, $found );
+		$this->assertSame( $expected, $found );
 
 		// Clean up
 		$GLOBALS['groups_template'] = null;
@@ -962,7 +962,7 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 
 		// Assert
 		$expected = array( false, true );
-		$this->assertEquals( $expected, $found );
+		$this->assertSame( $expected, $found );
 
 		// Clean up
 		wp_set_current_user( $old_user );
@@ -1096,7 +1096,7 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 			'page' => 8,
 		) );
 
-		$this->assertEquals( 5, $at->pag_page );
+		$this->assertSame( 5, $at->pag_page );
 
 		$_REQUEST = $request;
 	}
@@ -1113,7 +1113,7 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 			'page' => 8,
 		) );
 
-		$this->assertEquals( 8, $at->pag_page );
+		$this->assertSame( 8, $at->pag_page );
 
 		$_REQUEST = $request;
 	}
@@ -1130,7 +1130,7 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 			'per_page' => 13,
 		) );
 
-		$this->assertEquals( 14, $at->pag_num );
+		$this->assertSame( 14, $at->pag_num );
 
 		$_REQUEST = $request;
 	}
@@ -1147,7 +1147,7 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 			'per_page' => 13,
 		) );
 
-		$this->assertEquals( 13, $at->pag_num );
+		$this->assertSame( 13, $at->pag_num );
 
 		$_REQUEST = $request;
 	}
@@ -1164,7 +1164,7 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 			'page' => 8,
 		) );
 
-		$this->assertEquals( 5, $at->pag_page );
+		$this->assertSame( 5, $at->pag_page );
 
 		$_REQUEST = $request;
 	}
@@ -1181,7 +1181,7 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 			'page' => 8,
 		) );
 
-		$this->assertEquals( 8, $at->pag_page );
+		$this->assertSame( 8, $at->pag_page );
 
 		$_REQUEST = $request;
 	}
@@ -1198,7 +1198,7 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 			'per_page' => 13,
 		) );
 
-		$this->assertEquals( 14, $at->pag_num );
+		$this->assertSame( 14, $at->pag_num );
 
 		$_REQUEST = $request;
 	}
@@ -1215,7 +1215,7 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 			'per_page' => 13,
 		) );
 
-		$this->assertEquals( 13, $at->pag_num );
+		$this->assertSame( 13, $at->pag_num );
 
 		$_REQUEST = $request;
 	}
@@ -1232,7 +1232,7 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 			'page' => 8,
 		) );
 
-		$this->assertEquals( 5, $at->pag_page );
+		$this->assertSame( 5, $at->pag_page );
 
 		$_REQUEST = $request;
 	}
@@ -1249,7 +1249,7 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 			'page' => 8,
 		) );
 
-		$this->assertEquals( 8, $at->pag_page );
+		$this->assertSame( 8, $at->pag_page );
 
 		$_REQUEST = $request;
 	}
@@ -1266,7 +1266,7 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 			'per_page' => 13,
 		) );
 
-		$this->assertEquals( 14, $at->pag_num );
+		$this->assertSame( 14, $at->pag_num );
 
 		$_REQUEST = $request;
 	}
@@ -1283,7 +1283,7 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 			'per_page' => 13,
 		) );
 
-		$this->assertEquals( 13, $at->pag_num );
+		$this->assertSame( 13, $at->pag_num );
 
 		$_REQUEST = $request;
 	}
@@ -1300,7 +1300,7 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 			'page' => 8,
 		) );
 
-		$this->assertEquals( 5, $at->pag_page );
+		$this->assertSame( 5, $at->pag_page );
 
 		$_REQUEST = $request;
 	}
@@ -1317,7 +1317,7 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 			'page' => 8,
 		) );
 
-		$this->assertEquals( 8, $at->pag_page );
+		$this->assertSame( 8, $at->pag_page );
 
 		$_REQUEST = $request;
 	}
@@ -1334,7 +1334,7 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 			'per_page' => 13,
 		) );
 
-		$this->assertEquals( 14, $at->pag_num );
+		$this->assertSame( 14, $at->pag_num );
 
 		$_REQUEST = $request;
 	}
@@ -1351,7 +1351,7 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 			'per_page' => 13,
 		) );
 
-		$this->assertEquals( 13, $at->pag_num );
+		$this->assertSame( 13, $at->pag_num );
 
 		$_REQUEST = $request;
 	}

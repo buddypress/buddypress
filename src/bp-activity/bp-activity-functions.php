@@ -310,6 +310,10 @@ function bp_activity_get_userid_from_mentionname( $mentionname ) {
 		$user_id = bp_core_get_userid_from_nicename( $mentionname );
 	}
 
+	if ( $user_id ) {
+		$user_id = (int) $user_id;
+	}
+
 	return $user_id;
 }
 

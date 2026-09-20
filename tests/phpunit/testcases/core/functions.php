@@ -11,35 +11,35 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 	 * @group bp_esc_sql_order
 	 */
 	public function test_bp_esc_sql_order_ASC() {
-		$this->assertEquals( 'ASC', bp_esc_sql_order( 'ASC' ) );
+		$this->assertSame( 'ASC', bp_esc_sql_order( 'ASC' ) );
 	}
 
 	/**
 	 * @group bp_esc_sql_order
 	 */
 	public function test_bp_esc_sql_order_DESC() {
-		$this->assertEquals( 'DESC', bp_esc_sql_order( 'DESC' ) );
+		$this->assertSame( 'DESC', bp_esc_sql_order( 'DESC' ) );
 	}
 
 	/**
 	 * @group bp_esc_sql_order
 	 */
 	public function test_bp_esc_sql_order_desc_lowercase() {
-		$this->assertEquals( 'DESC', bp_esc_sql_order( 'desc' ) );
+		$this->assertSame( 'DESC', bp_esc_sql_order( 'desc' ) );
 	}
 
 	/**
 	 * @group bp_esc_sql_order
 	 */
 	public function test_bp_esc_sql_order_desc_whitespace() {
-		$this->assertEquals( 'DESC', bp_esc_sql_order( ' desc ' ) );
+		$this->assertSame( 'DESC', bp_esc_sql_order( ' desc ' ) );
 	}
 
 	/**
 	 * @group bp_esc_sql_order
 	 */
 	public function test_bp_esc_sql_order_invalid() {
-		$this->assertEquals( 'ASC', bp_esc_sql_order( 'In ur base killin ur d00dz' ) );
+		$this->assertSame( 'ASC', bp_esc_sql_order( 'In ur base killin ur d00dz' ) );
 	}
 
 	/**
@@ -48,7 +48,7 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 	public function test_bp_core_time_since_years_months() {
 		$now = time();
 		$then = $now - ( 3 * YEAR_IN_SECONDS ) - ( 3 * 30 * DAY_IN_SECONDS );
-		$this->assertEquals( '3 years, 3 months ago', bp_core_time_since( $then, $now ) );
+		$this->assertSame( '3 years, 3 months ago', bp_core_time_since( $then, $now ) );
 	}
 
 	/**
@@ -57,7 +57,7 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 	public function test_bp_core_time_since_years_nomonths() {
 		$now = time();
 		$then = $now - ( 3 * YEAR_IN_SECONDS );
-		$this->assertEquals( '3 years ago', bp_core_time_since( $then, $now ) );
+		$this->assertSame( '3 years ago', bp_core_time_since( $then, $now ) );
 	}
 
 	/**
@@ -66,7 +66,7 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 	public function test_bp_core_time_since_months_weeks() {
 		$now = time();
 		$then = $now - ( 3 * 30 * DAY_IN_SECONDS ) - ( 3 * WEEK_IN_SECONDS );
-		$this->assertEquals( '3 months, 3 weeks ago', bp_core_time_since( $then, $now ) );
+		$this->assertSame( '3 months, 3 weeks ago', bp_core_time_since( $then, $now ) );
 	}
 
 	/**
@@ -75,7 +75,7 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 	public function test_bp_core_time_since_months_noweeks() {
 		$now = time();
 		$then = $now - ( 3 * 30 * DAY_IN_SECONDS );
-		$this->assertEquals( '3 months ago', bp_core_time_since( $then, $now ) );
+		$this->assertSame( '3 months ago', bp_core_time_since( $then, $now ) );
 	}
 
 	/**
@@ -84,7 +84,7 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 	public function test_bp_core_time_since_weeks_days() {
 		$now = time();
 		$then = $now - ( 3 * WEEK_IN_SECONDS ) - ( 3 * DAY_IN_SECONDS );
-		$this->assertEquals( '3 weeks, 3 days ago', bp_core_time_since( $then, $now ) );
+		$this->assertSame( '3 weeks, 3 days ago', bp_core_time_since( $then, $now ) );
 	}
 
 	/**
@@ -93,7 +93,7 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 	public function test_bp_core_time_since_weeks_nodays() {
 		$now = time();
 		$then = $now - ( 3 * WEEK_IN_SECONDS );
-		$this->assertEquals( '3 weeks ago', bp_core_time_since( $then, $now ) );
+		$this->assertSame( '3 weeks ago', bp_core_time_since( $then, $now ) );
 	}
 
 	/**
@@ -102,7 +102,7 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 	public function test_bp_core_time_since_days_hours() {
 		$now = time();
 		$then = $now - ( 3 * DAY_IN_SECONDS ) - ( 3 * HOUR_IN_SECONDS );
-		$this->assertEquals( '3 days, 3 hours ago', bp_core_time_since( $then, $now ) );
+		$this->assertSame( '3 days, 3 hours ago', bp_core_time_since( $then, $now ) );
 	}
 
 	/**
@@ -111,7 +111,7 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 	public function test_bp_core_time_since_days_nohours() {
 		$now = time();
 		$then = $now - ( 3 * DAY_IN_SECONDS );
-		$this->assertEquals( '3 days ago', bp_core_time_since( $then, $now ) );
+		$this->assertSame( '3 days ago', bp_core_time_since( $then, $now ) );
 	}
 
 	/**
@@ -120,7 +120,7 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 	public function test_bp_core_time_since_hours_minutes() {
 		$now = time();
 		$then = $now - ( 3 * HOUR_IN_SECONDS ) - ( 3 * MINUTE_IN_SECONDS );
-		$this->assertEquals( '3 hours, 3 minutes ago', bp_core_time_since( $then, $now ) );
+		$this->assertSame( '3 hours, 3 minutes ago', bp_core_time_since( $then, $now ) );
 	}
 
 	/**
@@ -129,7 +129,7 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 	public function test_bp_core_time_since_hours_nominutes() {
 		$now = time();
 		$then = $now - ( 3 * HOUR_IN_SECONDS );
-		$this->assertEquals( '3 hours ago', bp_core_time_since( $then, $now ) );
+		$this->assertSame( '3 hours ago', bp_core_time_since( $then, $now ) );
 	}
 
 	/**
@@ -139,7 +139,7 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 	public function test_bp_core_time_since_minutes_seconds() {
 		$now = time();
 		$then = $now - ( 3 * MINUTE_IN_SECONDS ) - 3;
-		$this->assertEquals( '3 minutes ago', bp_core_time_since( $then, $now ) );
+		$this->assertSame( '3 minutes ago', bp_core_time_since( $then, $now ) );
 	}
 
 	/**
@@ -148,7 +148,7 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 	public function test_bp_core_time_since_minutes_noseconds() {
 		$now = time();
 		$then = $now - ( 3 * MINUTE_IN_SECONDS );
-		$this->assertEquals( '3 minutes ago', bp_core_time_since( $then, $now ) );
+		$this->assertSame( '3 minutes ago', bp_core_time_since( $then, $now ) );
 	}
 
 	/**
@@ -157,7 +157,7 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 	public function test_bp_core_time_since_seconds() {
 		$now = time();
 		$then = $now - 3;
-		$this->assertEquals( '3 seconds ago', bp_core_time_since( $then, $now ) );
+		$this->assertSame( '3 seconds ago', bp_core_time_since( $then, $now ) );
 	}
 
 	/**
@@ -168,7 +168,7 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 	public function test_bp_core_time_since_year() {
 		$now = time();
 		$then = $now - YEAR_IN_SECONDS;
-		$this->assertEquals( '1 year ago', bp_core_time_since( $then, $now ) );
+		$this->assertSame( '1 year ago', bp_core_time_since( $then, $now ) );
 	}
 
 	/**
@@ -177,7 +177,7 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 	public function test_bp_core_time_since_rightnow() {
 		$now = time();
 		$then = $now;
-		$this->assertEquals( 'right now', bp_core_time_since( $then, $now ) );
+		$this->assertSame( 'right now', bp_core_time_since( $then, $now ) );
 	}
 
 	/**
@@ -186,7 +186,7 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 	public function test_bp_core_time_since_future() {
 		$now = time();
 		$then = $now + 100;
-		$this->assertEquals( 'sometime ago', bp_core_time_since( $then, $now ) );
+		$this->assertSame( 'sometime ago', bp_core_time_since( $then, $now ) );
 	}
 
 	/**
@@ -203,7 +203,7 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 		update_option( 'gmt_offset', $gmt_offset );
 		update_option( 'timezone_string', '' );
 
-		$this->assertEquals( 'March 18, 2014 at 1:00 pm', bp_format_time( $time, $just_date, $localize_time ) );
+		$this->assertSame( 'March 18, 2014 at 1:00 pm', bp_format_time( $time, $just_date, $localize_time ) );
 	}
 
 	/**
@@ -220,7 +220,7 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 		update_option( 'timezone_string', $timzone_string );
 		update_option( 'gmt_offset', '0' );
 
-		$this->assertEquals( 'March 18, 2014 at 2:00 pm', bp_format_time( $time, $just_date, $localize_time ) );
+		$this->assertSame( 'March 18, 2014 at 2:00 pm', bp_format_time( $time, $just_date, $localize_time ) );
 	}
 
 	/**
@@ -237,7 +237,7 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 		update_option( 'gmt_offset', $gmt_offset );
 		update_option( 'timezone_string', '' );
 
-		$this->assertEquals( 'March 18, 2014 at 7:00 pm', bp_format_time( $time, $just_date, $localize_time ) );
+		$this->assertSame( 'March 18, 2014 at 7:00 pm', bp_format_time( $time, $just_date, $localize_time ) );
 	}
 
 	/**
@@ -254,14 +254,14 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 		update_option( 'timezone_string', $timzone_string );
 		update_option( 'gmt_offset', '0' );
 
-		$this->assertEquals( 'March 18, 2014 at 7:00 pm', bp_format_time( $time, $just_date, $localize_time ) );
+		$this->assertSame( 'March 18, 2014 at 7:00 pm', bp_format_time( $time, $just_date, $localize_time ) );
 	}
 
 	/**
 	 * @group bp_core_get_iso8601_date
 	 */
 	public function test_bp_core_get_iso8601_date_invalid_date() {
-		$this->assertEquals( '', bp_core_get_iso8601_date( 'Not a date' ) );
+		$this->assertSame( '', bp_core_get_iso8601_date( 'Not a date' ) );
 	}
 
 	/**
@@ -298,7 +298,7 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 			),
 		);
 
-		$this->assertEquals( $expected, bp_sort_by_key( $items, 'value', 'num' ) );
+		$this->assertSame( $expected, bp_sort_by_key( $items, 'value', 'num' ) );
 	}
 
 	/**
@@ -329,7 +329,16 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 		$expected[2]->foo = 'bar';
 		$expected[2]->value = 10;
 
-		$this->assertEquals( $expected, bp_sort_by_key( $items, 'value', 'num' ) );
+		$actual = bp_sort_by_key( $items, 'value', 'num' );
+
+		foreach ( $actual as $item ) {
+			$this->assertInstanceOf( 'stdClass', $item );
+		}
+
+		$this->assertSame(
+			array_map( 'get_object_vars', $expected ),
+			array_map( 'get_object_vars', $actual )
+		);
 	}
 
 	/**
@@ -366,7 +375,7 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 			),
 		);
 
-		$this->assertEquals( $expected, bp_sort_by_key( $items, 'value', 'num' ) );
+		$this->assertSame( $expected, bp_sort_by_key( $items, 'value', 'num' ) );
 	}
 
 	/**
@@ -403,7 +412,7 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 			),
 		);
 
-		$this->assertEquals( $expected, bp_alpha_sort_by_key( $items, 'name' ) );
+		$this->assertSame( $expected, bp_alpha_sort_by_key( $items, 'name' ) );
 	}
 
 	/**
@@ -434,7 +443,16 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 		$expected[2]->foo = 'bar';
 		$expected[2]->name = 'charlie';
 
-		$this->assertEquals( $expected, bp_alpha_sort_by_key( $items, 'name' ) );
+		$actual = bp_alpha_sort_by_key( $items, 'name' );
+
+		foreach ( $actual as $item ) {
+			$this->assertInstanceOf( 'stdClass', $item );
+		}
+
+		$this->assertSame(
+			array_map( 'get_object_vars', $expected ),
+			array_map( 'get_object_vars', $actual )
+		);
 	}
 
 	/**
@@ -471,7 +489,7 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 			),
 		);
 
-		$this->assertEquals( $expected, bp_sort_by_key( $items, 'value', 'num', true ) );
+		$this->assertSame( $expected, bp_sort_by_key( $items, 'value', 'num', true ) );
 	}
 
 	/**
@@ -508,7 +526,7 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 			),
 		);
 
-		$this->assertEquals( $expected, bp_sort_by_key( $items, 'value', 'num', true ) );
+		$this->assertSame( $expected, bp_sort_by_key( $items, 'value', 'num', true ) );
 	}
 
 	/**
@@ -522,7 +540,7 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 		$_REQUEST[ $arg ] = '0';
 		$value            = bp_sanitize_pagination_arg( $arg, $page );
 
-		$this->assertEquals( $value, $page );
+		$this->assertSame( $value, $page );
 
 		$_REQUEST = $request;
 	}
@@ -538,7 +556,7 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 		$_REQUEST[ $arg ] = '-25';
 		$value            = bp_sanitize_pagination_arg( $arg, $page );
 
-		$this->assertEquals( $value, $page );
+		$this->assertSame( $value, $page );
 
 		$_REQUEST = $request;
 	}
@@ -842,7 +860,7 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 		$bp_pages = array_keys( bp_get_option( 'bp-pages' ) );
 		sort( $bp_pages );
 
-		$this->assertEquals( $expected, $bp_pages );
+		$this->assertSame( $expected, $bp_pages );
 
 		$bp->pages = $reset_bp_pages;
 	}

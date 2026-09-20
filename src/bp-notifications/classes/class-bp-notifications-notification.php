@@ -1383,7 +1383,17 @@ class BP_Notifications_Notification {
 		// Concatenate query parts.
 		$sql = "{$select_sql} {$from_sql} {$where_sql} {$group_sql} {$order_sql}";
 
-		// Return the queried results.
-		return $wpdb->get_results( $sql );
+		$notifications = $wpdb->get_results( $sql );
+
+		foreach ( $notifications as $notification ) {
+			$notification->id                = (int) $notification->id;
+			$notification->user_id           = (int) $notification->user_id;
+			$notification->item_id           = (int) $notification->item_id;
+			$notification->secondary_item_id = (int) $notification->secondary_item_id;
+			$notification->is_new            = (int) $notification->is_new;
+			$notification->total_count       = (int) $notification->total_count;
+		}
+
+		return $notifications;
 	}
 }

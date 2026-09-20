@@ -39,7 +39,7 @@ class BP_Tests_Notifications_REST_Controller extends BP_Test_REST_Controller_Tes
 		$request->set_query_params( array( 'user_id' => $this->user ) );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$all_data = $response->get_data();
 
@@ -66,7 +66,7 @@ class BP_Tests_Notifications_REST_Controller extends BP_Test_REST_Controller_Tes
 		$request->set_query_params( array( 'user_ids' => array( $u1, $u2 ) ) );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$all_data = $response->get_data();
 		$this->assertNotEmpty( $all_data );
@@ -130,13 +130,13 @@ class BP_Tests_Notifications_REST_Controller extends BP_Test_REST_Controller_Tes
 		wp_set_current_user( $this->user );
 
 		$notification = $this->endpoint->get_notification_object( $this->notification_id );
-		$this->assertEquals( $this->notification_id, $notification->id );
+		$this->assertSame( $this->notification_id, $notification->id );
 
 		$request = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '/%d', $notification->id ) );
 		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$all_data = $response->get_data();
 		$this->assertNotEmpty( $all_data );
@@ -157,7 +157,7 @@ class BP_Tests_Notifications_REST_Controller extends BP_Test_REST_Controller_Tes
 		$request->set_query_params( array( '_embed' => 'user' ) );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$data = $this->server->response_to_data( $response, true );
 
@@ -191,7 +191,7 @@ class BP_Tests_Notifications_REST_Controller extends BP_Test_REST_Controller_Tes
 		$request->set_query_params( array( '_embed' => 'group' ) );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$data = $this->server->response_to_data( $response, true );
 
@@ -225,7 +225,7 @@ class BP_Tests_Notifications_REST_Controller extends BP_Test_REST_Controller_Tes
 		$request->set_query_params( array( '_embed' => 'activity' ) );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$data = $this->server->response_to_data( $response, true );
 
@@ -268,7 +268,7 @@ class BP_Tests_Notifications_REST_Controller extends BP_Test_REST_Controller_Tes
 		$request->set_query_params( array( '_embed' => 'blog' ) );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$data = $this->server->response_to_data( $response, true );
 
@@ -394,14 +394,14 @@ class BP_Tests_Notifications_REST_Controller extends BP_Test_REST_Controller_Tes
 		$request->set_body( wp_json_encode( $params ) );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$new_data = $response->get_data();
 
 		$this->assertNotEmpty( $new_data );
 
 		$n = $this->endpoint->get_notification_object( $new_data['id'] );
-		$this->assertEquals( $params['is_new'], $n->is_new );
+		$this->assertSame( $params['is_new'], $n->is_new );
 	}
 
 	/**
@@ -474,7 +474,7 @@ class BP_Tests_Notifications_REST_Controller extends BP_Test_REST_Controller_Tes
 		$notification_id = $this->bp::factory()->notification->create( $this->set_notification_data() );
 		$notification    = $this->endpoint->get_notification_object( $notification_id );
 
-		$this->assertEquals( $notification_id, $notification->id );
+		$this->assertSame( $notification_id, $notification->id );
 		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'DELETE', sprintf( $this->endpoint_url . '/%d', $notification_id ) );
@@ -482,7 +482,7 @@ class BP_Tests_Notifications_REST_Controller extends BP_Test_REST_Controller_Tes
 		$response = $this->server->dispatch( $request );
 		$this->assertNotInstanceOf( 'WP_Error', $response );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$all_data = $response->get_data();
 		$this->assertNotEmpty( $all_data );
@@ -542,7 +542,7 @@ class BP_Tests_Notifications_REST_Controller extends BP_Test_REST_Controller_Tes
 		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$all_data = $response->get_data();
 		$this->assertNotEmpty( $all_data );
@@ -551,18 +551,18 @@ class BP_Tests_Notifications_REST_Controller extends BP_Test_REST_Controller_Tes
 	}
 
 	protected function check_notification_data( $notification, $data ) {
-		$this->assertEquals( $notification->id, $data['id'] );
-		$this->assertEquals( $notification->user_id, $data['user_id'] );
-		$this->assertEquals( $notification->item_id, $data['item_id'] );
-		$this->assertEquals( $notification->secondary_item_id, $data['secondary_item_id'] );
-		$this->assertEquals( $notification->component_name, $data['component'] );
-		$this->assertEquals( $notification->component_action, $data['action'] );
-		$this->assertEquals(
+		$this->assertSame( $notification->id, $data['id'] );
+		$this->assertSame( $notification->user_id, $data['user_id'] );
+		$this->assertSame( $notification->item_id, $data['item_id'] );
+		$this->assertSame( $notification->secondary_item_id, $data['secondary_item_id'] );
+		$this->assertSame( $notification->component_name, $data['component'] );
+		$this->assertSame( $notification->component_action, $data['action'] );
+		$this->assertSame(
 			bp_rest_prepare_date_response( $notification->date_notified, get_date_from_gmt( $notification->date_notified ) ),
 			$data['date']
 		);
-		$this->assertEquals( bp_rest_prepare_date_response( $notification->date_notified ), $data['date_gmt'] );
-		$this->assertEquals( $notification->is_new, $data['is_new'] );
+		$this->assertSame( bp_rest_prepare_date_response( $notification->date_notified ), $data['date_gmt'] );
+		$this->assertSame( $notification->is_new, $data['is_new'] );
 	}
 
 	protected function set_notification_data( $args = array() ) {
@@ -579,7 +579,7 @@ class BP_Tests_Notifications_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertNotInstanceOf( 'WP_Error', $response );
 		$response = rest_ensure_response( $response );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$headers = $response->get_headers();
 		$this->assertArrayNotHasKey( 'Location', $headers );
@@ -596,7 +596,7 @@ class BP_Tests_Notifications_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertNotInstanceOf( 'WP_Error', $response );
 		$response = rest_ensure_response( $response );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$data = $response->get_data();
 
@@ -612,7 +612,7 @@ class BP_Tests_Notifications_REST_Controller extends BP_Test_REST_Controller_Tes
 		$data       = $response->get_data();
 		$properties = $data['schema']['properties'];
 
-		$this->assertEquals( 9, count( $properties ) );
+		$this->assertCount( 9, $properties );
 		$this->assertArrayHasKey( 'id', $properties );
 		$this->assertArrayHasKey( 'item_id', $properties );
 		$this->assertArrayHasKey( 'secondary_item_id', $properties );
@@ -631,16 +631,16 @@ class BP_Tests_Notifications_REST_Controller extends BP_Test_REST_Controller_Tes
 		$response = $this->server->dispatch( $request );
 		$data     = $response->get_data();
 
-		$this->assertEquals( 'view', $data['endpoints'][0]['args']['context']['default'] );
-		$this->assertEquals( array( 'view', 'edit' ), $data['endpoints'][0]['args']['context']['enum'] );
+		$this->assertSame( 'view', $data['endpoints'][0]['args']['context']['default'] );
+		$this->assertSame( array( 'view', 'edit' ), $data['endpoints'][0]['args']['context']['enum'] );
 
 		// Single.
 		$request  = new WP_REST_Request( 'OPTIONS', sprintf( $this->endpoint_url . '/%d', $this->notification_id ) );
 		$response = $this->server->dispatch( $request );
 		$data     = $response->get_data();
 
-		$this->assertEquals( 'view', $data['endpoints'][0]['args']['context']['default'] );
-		$this->assertEquals( array( 'view', 'edit' ), $data['endpoints'][0]['args']['context']['enum'] );
+		$this->assertSame( 'view', $data['endpoints'][0]['args']['context']['default'] );
+		$this->assertSame( array( 'view', 'edit' ), $data['endpoints'][0]['args']['context']['enum'] );
 	}
 
 	public function update_additional_field( $value, $data, $attribute ) {

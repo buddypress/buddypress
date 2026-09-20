@@ -552,7 +552,7 @@ class BP_Groups_Member {
 	 * @param int|bool $page    Optional. Page offset of results to return.
 	 *                          Default: false (no limit).
 	 * @return array {
-	 *     @type array $groups Array of groups returned by paginated query.
+	 *     @type int[] $groups Array of groups returned by paginated query.
 	 *     @type int   $total  Count of groups matching query.
 	 * }
 	 */
@@ -575,12 +575,29 @@ class BP_Groups_Member {
 			$total_groups = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(DISTINCT group_id) FROM {$bp->groups->table_name_members} WHERE user_id = %d AND is_confirmed = 1 AND is_banned = 0", $user_id ) );
 		}
 
-		$groups = $wpdb->get_col( $group_sql );
+		$group_ids = wp_parse_id_list( $wpdb->get_col( $group_sql ) );
 
 		return array(
-			'groups' => $groups,
+			'groups' => $group_ids,
 			'total'  => (int) $total_groups,
 		);
+	}
+
+	/**
+	 * Cast numeric properties on group query results.
+	 *
+	 * @param array $groups Group query results.
+	 * @return array Group query results with normalized numeric properties.
+	 */
+	private static function cast_group_query_results( $groups ) {
+		foreach ( $groups as $group ) {
+			$group->id           = (int) $group->id;
+			$group->creator_id   = (int) $group->creator_id;
+			$group->enable_forum = (int) $group->enable_forum;
+			$group->parent_id    = (int) $group->parent_id;
+		}
+
+		return $groups;
 	}
 
 	/**
@@ -628,9 +645,11 @@ class BP_Groups_Member {
 		$paged_groups = $wpdb->get_results( "SELECT g.*, gm1.meta_value as total_member_count, gm2.meta_value as last_activity FROM {$bp->groups->table_name_groupmeta} gm1, {$bp->groups->table_name_groupmeta} gm2, {$bp->groups->table_name_members} m, {$bp->groups->table_name} g WHERE g.id = m.group_id AND g.id = gm1.group_id AND g.id = gm2.group_id AND gm2.meta_key = 'last_activity' AND gm1.meta_key = 'total_member_count'{$hidden_sql}{$filter_sql} AND {$user_id_sql} AND m.is_confirmed = 1 AND m.is_banned = 0 ORDER BY m.date_modified DESC {$pag_sql}" );
 		$total_groups = $wpdb->get_var( "SELECT COUNT(DISTINCT m.group_id) FROM {$bp->groups->table_name_members} m, {$bp->groups->table_name} g WHERE m.group_id = g.id{$hidden_sql}{$filter_sql} AND {$user_id_sql} AND m.is_banned = 0 AND m.is_confirmed = 1 ORDER BY m.date_modified DESC" );
 
+		$paged_groups = self::cast_group_query_results( $paged_groups );
+
 		return array(
 			'groups' => $paged_groups,
-			'total'  => $total_groups,
+			'total'  => (int) $total_groups,
 		);
 	}
 
@@ -679,9 +698,11 @@ class BP_Groups_Member {
 		$paged_groups = $wpdb->get_results( "SELECT g.*, gm1.meta_value as total_member_count, gm2.meta_value as last_activity FROM {$bp->groups->table_name_groupmeta} gm1, {$bp->groups->table_name_groupmeta} gm2, {$bp->groups->table_name_members} m, {$bp->groups->table_name} g WHERE g.id = m.group_id AND g.id = gm1.group_id AND g.id = gm2.group_id AND gm2.meta_key = 'last_activity' AND gm1.meta_key = 'total_member_count'{$hidden_sql}{$filter_sql} AND {$user_id_sql} AND m.is_confirmed = 1 AND m.is_banned = 0 AND m.is_admin = 1 ORDER BY m.date_modified ASC {$pag_sql}" );
 		$total_groups = $wpdb->get_var( "SELECT COUNT(DISTINCT m.group_id) FROM {$bp->groups->table_name_members} m, {$bp->groups->table_name} g WHERE m.group_id = g.id{$hidden_sql}{$filter_sql} AND {$user_id_sql} AND m.is_confirmed = 1 AND m.is_banned = 0 AND m.is_admin = 1 ORDER BY date_modified ASC" );
 
+		$paged_groups = self::cast_group_query_results( $paged_groups );
+
 		return array(
 			'groups' => $paged_groups,
-			'total'  => $total_groups,
+			'total'  => (int) $total_groups,
 		);
 	}
 
@@ -732,9 +753,11 @@ class BP_Groups_Member {
 		$paged_groups = $wpdb->get_results( "SELECT g.*, gm1.meta_value as total_member_count, gm2.meta_value as last_activity FROM {$bp->groups->table_name_groupmeta} gm1, {$bp->groups->table_name_groupmeta} gm2, {$bp->groups->table_name_members} m, {$bp->groups->table_name} g WHERE g.id = m.group_id AND g.id = gm1.group_id AND g.id = gm2.group_id AND gm2.meta_key = 'last_activity' AND gm1.meta_key = 'total_member_count'{$hidden_sql}{$filter_sql} AND {$user_id_sql} AND m.is_confirmed = 1 AND m.is_banned = 0 AND m.is_mod = 1 ORDER BY m.date_modified ASC {$pag_sql}" );
 		$total_groups = $wpdb->get_var( "SELECT COUNT(DISTINCT m.group_id) FROM {$bp->groups->table_name_members} m, {$bp->groups->table_name} g WHERE m.group_id = g.id{$hidden_sql}{$filter_sql} AND {$user_id_sql} AND m.is_confirmed = 1 AND m.is_banned = 0 AND m.is_mod = 1 ORDER BY date_modified ASC" );
 
+		$paged_groups = self::cast_group_query_results( $paged_groups );
+
 		return array(
 			'groups' => $paged_groups,
-			'total'  => $total_groups,
+			'total'  => (int) $total_groups,
 		);
 	}
 
@@ -784,9 +807,11 @@ class BP_Groups_Member {
 		$paged_groups = $wpdb->get_results( "SELECT g.*, gm1.meta_value as total_member_count, gm2.meta_value as last_activity FROM {$bp->groups->table_name_groupmeta} gm1, {$bp->groups->table_name_groupmeta} gm2, {$bp->groups->table_name_members} m, {$bp->groups->table_name} g WHERE g.id = m.group_id AND g.id = gm1.group_id AND g.id = gm2.group_id AND gm2.meta_key = 'last_activity' AND gm1.meta_key = 'total_member_count'{$hidden_sql}{$filter_sql} AND {$user_id_sql} AND m.is_banned = 1  ORDER BY m.date_modified ASC {$pag_sql}" );
 		$total_groups = $wpdb->get_var( "SELECT COUNT(DISTINCT m.group_id) FROM {$bp->groups->table_name_members} m, {$bp->groups->table_name} g WHERE m.group_id = g.id{$hidden_sql}{$filter_sql} AND {$user_id_sql} AND m.is_banned = 1 ORDER BY date_modified ASC" );
 
+		$paged_groups = self::cast_group_query_results( $paged_groups );
+
 		return array(
 			'groups' => $paged_groups,
-			'total'  => $total_groups,
+			'total'  => (int) $total_groups,
 		);
 	}
 
@@ -1307,7 +1332,21 @@ class BP_Groups_Member {
 
 		$membership_ids = implode( ',', wp_parse_id_list( $membership_ids ) );
 
-		return $wpdb->get_results( "SELECT * FROM {$bp->groups->table_name_members} WHERE id IN ({$membership_ids})" );
+		$memberships = $wpdb->get_results( "SELECT * FROM {$bp->groups->table_name_members} WHERE id IN ({$membership_ids})" );
+
+		foreach ( $memberships as $membership ) {
+			$membership->id           = (int) $membership->id;
+			$membership->group_id     = (int) $membership->group_id;
+			$membership->user_id      = (int) $membership->user_id;
+			$membership->inviter_id   = (int) $membership->inviter_id;
+			$membership->is_admin     = (int) $membership->is_admin;
+			$membership->is_mod       = (int) $membership->is_mod;
+			$membership->is_banned    = (int) $membership->is_banned;
+			$membership->is_confirmed = (int) $membership->is_confirmed;
+			$membership->invite_sent  = (int) $membership->invite_sent;
+		}
+
+		return $memberships;
 	}
 
 	/**
@@ -1417,9 +1456,18 @@ class BP_Groups_Member {
 			}
 		}
 
+		foreach ( $members as $member ) {
+			$member->user_id   = (int) $member->user_id;
+			$member->is_banned = (int) $member->is_banned;
+
+			if ( isset( $member->is_friend ) ) {
+				$member->is_friend = (int) $member->is_friend;
+			}
+		}
+
 		return array(
 			'members' => $members,
-			'count'   => $total_member_count,
+			'count'   => (int) $total_member_count,
 		);
 	}
 

@@ -75,7 +75,20 @@ class BP_Tests_Message_Cache extends BP_UnitTestCase {
 			$m2 => wp_cache_get( $m2, 'message_meta' ),
 		);
 
-		$this->assertEquals( $expected, $found );
+		ksort( $expected );
+		ksort( $found );
+
+		foreach ( $expected as &$expected_meta ) {
+			ksort( $expected_meta );
+		}
+		unset( $expected_meta );
+
+		foreach ( $found as &$found_meta ) {
+			ksort( $found_meta );
+		}
+		unset( $found_meta );
+
+		$this->assertSame( $expected, $found );
 	}
 
 	/**

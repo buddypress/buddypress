@@ -20,7 +20,7 @@ class BP_Tests_Core_Functions_BpCoreGetDirectoryPageIds extends BP_UnitTestCase 
 
 		$new_page_ids = bp_core_get_directory_page_ids();
 
-		$this->assertEquals( $old_page_ids, $new_page_ids );
+		$this->assertSame( $old_page_ids, $new_page_ids );
 	}
 
 	public function test_bp_core_get_directory_page_ids_on_directory_page_delete() {
@@ -38,7 +38,7 @@ class BP_Tests_Core_Functions_BpCoreGetDirectoryPageIds extends BP_UnitTestCase 
 
 		$new_page_ids = bp_core_get_directory_page_ids();
 
-		$this->assertEquals( $old_page_ids, $new_page_ids );
+		$this->assertSame( $old_page_ids, $new_page_ids );
 	}
 
 	public function test_bp_core_get_directory_page_ids_on_non_directory_page_delete() {
@@ -54,7 +54,7 @@ class BP_Tests_Core_Functions_BpCoreGetDirectoryPageIds extends BP_UnitTestCase 
 
 		$new_page_ids = bp_core_get_directory_page_ids();
 
-		$this->assertEquals( $old_page_ids, $new_page_ids );
+		$this->assertSame( $old_page_ids, $new_page_ids );
 	}
 
 	public function test_bp_core_get_directory_page_ids_non_active_component() {
@@ -77,7 +77,7 @@ class BP_Tests_Core_Functions_BpCoreGetDirectoryPageIds extends BP_UnitTestCase 
 		// Restore components.
 		$bp->active_components[ $c ] = 1;
 
-		$this->assertEquals( $old_page_ids, $new_page_ids );
+		$this->assertSame( $old_page_ids, $new_page_ids );
 	}
 
 	/**
@@ -92,7 +92,7 @@ class BP_Tests_Core_Functions_BpCoreGetDirectoryPageIds extends BP_UnitTestCase 
 		bp_core_update_directory_page_ids( $page_ids );
 		$found = bp_core_get_directory_page_ids( 'all' );
 
-		$this->assertEquals( 12345, $found['foo'] );
+		$this->assertSame( 12345, $found['foo'] );
 	}
 
 	/**

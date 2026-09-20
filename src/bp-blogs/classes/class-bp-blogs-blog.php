@@ -349,7 +349,7 @@ class BP_Blogs_Blog {
 
 		return array(
 			'blogs' => $paged_blogs,
-			'total' => $total_blogs,
+			'total' => (int) $total_blogs,
 		);
 	}
 

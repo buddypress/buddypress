@@ -163,7 +163,7 @@ class BP_Signup {
 	 */
 	public function __construct( $signup_id = 0 ) {
 		if ( ! empty( $signup_id ) ) {
-			$this->id = $signup_id;
+			$this->id = (int) $signup_id;
 			$this->populate();
 		}
 	}

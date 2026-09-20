@@ -51,13 +51,13 @@ class BP_Tests_Friends_REST_Controller extends BP_Test_REST_Controller_Testcase 
 		);
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$headers = $response->get_headers();
 		$this->assertNotEmpty( $headers );
 
-		$this->assertEquals( 2, $headers['X-WP-Total'] );
-		$this->assertEquals( 1, $headers['X-WP-TotalPages'] );
+		$this->assertSame( 2, $headers['X-WP-Total'] );
+		$this->assertSame( 1, $headers['X-WP-TotalPages'] );
 	}
 
 	/**
@@ -81,7 +81,7 @@ class BP_Tests_Friends_REST_Controller extends BP_Test_REST_Controller_Testcase 
 		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$signup = $response->get_data();
 		$this->assertNotEmpty( $signup );
@@ -129,7 +129,7 @@ class BP_Tests_Friends_REST_Controller extends BP_Test_REST_Controller_Testcase 
 		$request->set_body_params( $params );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$friendship = $response->get_data();
 
@@ -248,7 +248,7 @@ class BP_Tests_Friends_REST_Controller extends BP_Test_REST_Controller_Testcase 
 		$request->set_body_params( $params );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$friendship = $response->get_data();
 
@@ -269,7 +269,7 @@ class BP_Tests_Friends_REST_Controller extends BP_Test_REST_Controller_Testcase 
 		$request->set_body_params( $params );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$friendship = $response->get_data();
 
@@ -295,7 +295,7 @@ class BP_Tests_Friends_REST_Controller extends BP_Test_REST_Controller_Testcase 
 		$request->set_body_params( $params );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$friendship = $response->get_data();
 
@@ -339,7 +339,7 @@ class BP_Tests_Friends_REST_Controller extends BP_Test_REST_Controller_Testcase 
 		$request  = new WP_REST_Request( 'PUT', sprintf( $this->endpoint_url . '/%d', $this->user ) );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$friendship = $response->get_data();
 
@@ -393,7 +393,7 @@ class BP_Tests_Friends_REST_Controller extends BP_Test_REST_Controller_Testcase 
 		$request  = new WP_REST_Request( 'DELETE', sprintf( $this->endpoint_url . '/%d', $this->user ) );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$deleted = $response->get_data();
 
@@ -411,7 +411,7 @@ class BP_Tests_Friends_REST_Controller extends BP_Test_REST_Controller_Testcase 
 		$request  = new WP_REST_Request( 'DELETE', sprintf( $this->endpoint_url . '/%d', $this->friend ) );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$deleted = $response->get_data();
 
@@ -430,7 +430,7 @@ class BP_Tests_Friends_REST_Controller extends BP_Test_REST_Controller_Testcase 
 		$request->set_body_params( array( 'force' => true ) );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$deleted = $response->get_data();
 
@@ -449,7 +449,7 @@ class BP_Tests_Friends_REST_Controller extends BP_Test_REST_Controller_Testcase 
 		$request->set_body_params( array( 'force' => true ) );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$deleted = $response->get_data();
 
@@ -468,7 +468,7 @@ class BP_Tests_Friends_REST_Controller extends BP_Test_REST_Controller_Testcase 
 		$request->set_body_params( array( 'force' => 'true' ) );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$deleted = $response->get_data();
 
@@ -486,7 +486,7 @@ class BP_Tests_Friends_REST_Controller extends BP_Test_REST_Controller_Testcase 
 		$request  = new WP_REST_Request( 'DELETE', sprintf( $this->endpoint_url . '/%d', $this->user ) );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$deleted = $response->get_data();
 
@@ -526,7 +526,7 @@ class BP_Tests_Friends_REST_Controller extends BP_Test_REST_Controller_Testcase 
 		$request  = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '/%d', $this->friend ) );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$friendship = $response->get_data();
 
@@ -543,7 +543,7 @@ class BP_Tests_Friends_REST_Controller extends BP_Test_REST_Controller_Testcase 
 		$data       = $response->get_data();
 		$properties = $data['schema']['properties'];
 
-		$this->assertEquals( 6, count( $properties ) );
+		$this->assertCount( 6, $properties );
 		$this->assertArrayHasKey( 'id', $properties );
 		$this->assertArrayHasKey( 'initiator_id', $properties );
 		$this->assertArrayHasKey( 'friend_id', $properties );
@@ -558,16 +558,16 @@ class BP_Tests_Friends_REST_Controller extends BP_Test_REST_Controller_Testcase 
 		$response = $this->server->dispatch( $request );
 		$data     = $response->get_data();
 
-		$this->assertEquals( 'view', $data['endpoints'][0]['args']['context']['default'] );
-		$this->assertEquals( array( 'view', 'edit' ), $data['endpoints'][0]['args']['context']['enum'] );
+		$this->assertSame( 'view', $data['endpoints'][0]['args']['context']['default'] );
+		$this->assertSame( array( 'view', 'edit' ), $data['endpoints'][0]['args']['context']['enum'] );
 
 		// Single.
 		$request  = new WP_REST_Request( 'OPTIONS', sprintf( $this->endpoint_url . '/%d', $this->friend ) );
 		$response = $this->server->dispatch( $request );
 		$data     = $response->get_data();
 
-		$this->assertEquals( 'view', $data['endpoints'][0]['args']['context']['default'] );
-		$this->assertEquals( array( 'view', 'edit' ), $data['endpoints'][0]['args']['context']['enum'] );
+		$this->assertSame( 'view', $data['endpoints'][0]['args']['context']['default'] );
+		$this->assertSame( array( 'view', 'edit' ), $data['endpoints'][0]['args']['context']['enum'] );
 	}
 
 	protected function set_friendship_data( $args = array() ) {
@@ -597,14 +597,14 @@ class BP_Tests_Friends_REST_Controller extends BP_Test_REST_Controller_Testcase 
 	}
 
 	protected function check_friendship_data( $friend, $data ) {
-		$this->assertEquals( $friend->id, $data['id'] );
-		$this->assertEquals( $friend->initiator_user_id, $data['initiator_id'] );
-		$this->assertEquals( $friend->friend_user_id, $data['friend_id'] );
-		$this->assertEquals( $friend->is_confirmed, $data['is_confirmed'] );
-		$this->assertEquals(
+		$this->assertSame( $friend->id, $data['id'] );
+		$this->assertSame( $friend->initiator_user_id, $data['initiator_id'] );
+		$this->assertSame( $friend->friend_user_id, $data['friend_id'] );
+		$this->assertSame( (bool) $friend->is_confirmed, $data['is_confirmed'] );
+		$this->assertSame(
 			bp_rest_prepare_date_response( $friend->date_created, get_date_from_gmt( $friend->date_created ) ),
 			$data['date_created']
 		);
-		$this->assertEquals( bp_rest_prepare_date_response( $friend->date_created ), $data['date_created_gmt'] );
+		$this->assertSame( bp_rest_prepare_date_response( $friend->date_created ), $data['date_created_gmt'] );
 	}
 }

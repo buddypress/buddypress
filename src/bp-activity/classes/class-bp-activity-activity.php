@@ -871,7 +871,7 @@ class BP_Activity_Activity {
 				$total_activities = $r['max'];
 			}
 
-			$retval['total'] = $total_activities;
+			$retval['total'] = (int) $total_activities;
 		}
 
 		return $retval;

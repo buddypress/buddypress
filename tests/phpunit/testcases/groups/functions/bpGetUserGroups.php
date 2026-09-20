@@ -234,7 +234,10 @@ class BP_Tests_Groups_Functions_BpGetUserGroups extends BP_UnitTestCase {
 			'orderby' => 'group_id',
 		) );
 
-		$this->assertEquals( $expected, $found );
+		$this->assertSame(
+			array_map( 'get_object_vars', $expected ),
+			array_map( 'get_object_vars', $found )
+		);
 	}
 
 	public function test_orderby_group_id() {
@@ -304,7 +307,10 @@ class BP_Tests_Groups_Functions_BpGetUserGroups extends BP_UnitTestCase {
 		$g2 = bp_get_user_groups( self::$user );
 
 		$this->assertSame( $num_queries, $wpdb->num_queries );
-		$this->assertEquals( $g1, $g2 );
+		$this->assertSame(
+			array_map( 'get_object_vars', $g1 ),
+			array_map( 'get_object_vars', $g2 )
+		);
 	}
 
 	/**
