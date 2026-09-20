@@ -633,6 +633,14 @@ class BP_Blogs_REST_Controller extends WP_REST_Controller {
 		/**
 		 * Filters the method query arguments.
 		 *
+		 * The dynamic portion of the hook name, `$key`, refers to the REST API operation whose query arguments
+		 * are being filtered.
+		 *
+		 * Possible hook names include:
+		 *
+		 *  - `bp_rest_blogs_get_item_query_arguments`
+		 *  - `bp_rest_blogs_create_item_query_arguments`
+		 *
 		 * @since 15.0.0
 		 *
 		 * @param array  $args   Query arguments.

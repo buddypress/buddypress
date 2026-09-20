@@ -535,6 +535,13 @@ function bp_enqueue_context_scripts( $context = 'embed' ) {
 	/**
 	 * Enqueue CSS and JS files for a specific BuddyPress context.
 	 *
+	 * The dynamic portion of the hook name, `$context`, refers to the script context.
+	 *
+	 * Possible hook names include:
+	 *
+	 *  - `bp_enqueue_embed_scripts`
+	 *  - `bp_enqueue_community_scripts`
+	 *
 	 * @since 11.0.0
 	 */
 	do_action( "bp_enqueue_{$context}_scripts" );

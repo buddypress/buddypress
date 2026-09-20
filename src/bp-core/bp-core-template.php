@@ -2038,8 +2038,15 @@ function bp_is_active( $component = '', $feature = '' ) {
 			/**
 			 * Filters whether or not a given feature for a component is active.
 			 *
-			 * This is a variable filter that is based on the component and feature
-			 * that you are checking of active status of.
+			 * The dynamic portions of the hook name, `$component` and `$feature`, refer to the component and
+			 * feature being checked.
+			 *
+			 * Possible hook names include:
+			 *
+			 *  - `bp_is_groups_cover_image_active`
+			 *  - `bp_is_members_cover_image_active`
+			 *  - `bp_is_activity_embeds_active`
+			 *  - `bp_is_blogs_site-icon_active`
 			 *
 			 * @since 2.3.0
 			 *

@@ -740,7 +740,13 @@ function bp_core_fetch_avatar( $args = '' ) {
 		/**
 		 * Filters the avatar default when Gravatar is not used.
 		 *
-		 * This is a variable filter dependent on the avatar type being requested.
+		 * The dynamic portion of the hook name, `$params['object']`, refers to the avatar object type.
+		 *
+		 * Possible hook names include:
+		 *
+		 *  - `bp_core_default_avatar_user`
+		 *  - `bp_core_default_avatar_group`
+		 *  - `bp_core_default_avatar_blog`
 		 *
 		 * @since 1.5.0
 		 *
@@ -2665,6 +2671,9 @@ function bp_avatar_ajax_delete_previous_avatar() {
 
 	/**
 	 * Hook here to run custom code once the previous avatar has been deleted.
+	 *
+	 * The dynamic portion of the hook name, `$object`, refers to the avatar object received in the Ajax
+	 * request.
 	 *
 	 * @since 10.0.0
 	 *

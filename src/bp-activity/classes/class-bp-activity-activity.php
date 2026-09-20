@@ -1178,13 +1178,12 @@ class BP_Activity_Activity {
 			/**
 			 * Plugins can hook here to set their activity arguments for custom scopes.
 			 *
-			 * This is a dynamic filter based on the activity scope. eg:
-			 *   - 'bp_activity_set_groups_scope_args'
-			 *   - 'bp_activity_set_friends_scope_args'
-			 *
 			 * To see how this filter is used, plugin devs should check out:
-			 *   - bp_groups_filter_activity_scope() - used for 'groups' scope
-			 *   - bp_friends_filter_activity_scope() - used for 'friends' scope
+			 *
+			 *  - bp_groups_filter_activity_scope() - used for 'groups' scope
+			 *  - bp_friends_filter_activity_scope() - used for 'friends' scope
+			 *
+			 * The dynamic portion of the hook name, `$scope`, refers to the requested activity query scope.
 			 *
 			 * @since 2.2.0
 			 *

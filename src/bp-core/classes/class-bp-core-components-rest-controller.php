@@ -493,7 +493,14 @@ class BP_Core_Components_REST_Controller extends WP_REST_Controller {
 			/**
 			 * Filter here to edit component's features.
 			 *
-			 * The dynamic portion of the filter is filled with the component's ID.
+			 * The dynamic portion of the hook name, `$component`, refers to the component ID.
+			 *
+			 * Possible hook names include:
+			 *
+			 *  - `bp_rest_activity_component_features`
+			 *  - `bp_rest_groups_component_features`
+			 *  - `bp_rest_members_component_features`
+			 *  - `bp_rest_messages_component_features`
 			 *
 			 * @since 15.0.0
 			 *

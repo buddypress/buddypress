@@ -687,9 +687,8 @@ function _bp_activity_get_types_by_support( $feature = 'generated-content' ) {
 	/**
 	 * Use this filter to add/remove activity types supporting the requested feature.
 	 *
-	 * The dynamic portion of the filter is the name of the requested feature where hyphens are
-	 * replaced by underscores. Eg. use `bp_activity_get_types_supporting_generated_content` to
-	 * edit the list of activities supporting the `generated-content` feature.
+	 * The dynamic portion of the hook name, `$filter_key`, refers to the activity feature key, with
+	 * hyphens replaced by underscores.
 	 *
 	 * @since 10.0.0
 	 *
@@ -2322,8 +2321,7 @@ function bp_activity_post_type_publish( $post_id = 0, $post = null, $user_id = 0
 	/**
 	 * Filters whether or not to post the activity.
 	 *
-	 * This is a variable filter, dependent on the post type,
-	 * that lets components or plugins bail early if needed.
+	 * The dynamic portion of the hook name, `$post->post_type`, refers to the tracked WordPress post type.
 	 *
 	 * @since 2.2.0
 	 *
@@ -2618,8 +2616,8 @@ function bp_activity_post_type_comment( $comment_id = 0, $is_approved = true, $a
 	/**
 	 * Filters whether or not to post the activity about the comment.
 	 *
-	 * This is a variable filter, dependent on the post type,
-	 * that lets components or plugins bail early if needed.
+	 * The dynamic portion of the hook name, `$post_type`, refers to the commented post's WordPress post
+	 * type.
 	 *
 	 * @since 2.5.0
 	 *
@@ -4207,8 +4205,8 @@ function bp_activity_catch_transition_post_type_status( $new_status, $old_status
 			/**
 			 * Fires when editing the post and the new status is not 'publish'.
 			 *
-			 * This is a variable filter that is dependent on the post type
-			 * being untrashed.
+			 * The dynamic portion of the hook name, `$post->post_type`, refers to the transitioned WordPress post
+			 * type.
 			 *
 			 * @since 2.5.0
 			 *
@@ -4230,8 +4228,8 @@ function bp_activity_catch_transition_post_type_status( $new_status, $old_status
 			/**
 			 * Fires if untrashing post in a post type.
 			 *
-			 * This is a variable filter that is dependent on the post type
-			 * being untrashed.
+			 * The dynamic portion of the hook name, `$post->post_type`, refers to the transitioned WordPress post
+			 * type.
 			 *
 			 * @since 2.2.0
 			 *
@@ -4253,8 +4251,8 @@ function bp_activity_catch_transition_post_type_status( $new_status, $old_status
 		/**
 		 * Fires when the old and the new post status are not 'publish'.
 		 *
-		 * This is a variable filter that is dependent on the post type
-		 * being untrashed.
+		 * The dynamic portion of the hook name, `$post->post_type`, refers to the transitioned WordPress post
+		 * type.
 		 *
 		 * @since 2.5.0
 		 *

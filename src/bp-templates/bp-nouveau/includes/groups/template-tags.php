@@ -324,6 +324,16 @@ function bp_nouveau_group_manage_screen() {
 			/**
 			 * Fires before the display of group delete admin.
 			 *
+			 * The dynamic portion of the hook name, `$core_screen['hook']`, refers to the current core group
+			 * screen's hook name.
+			 *
+			 * Possible hook names include:
+			 *
+			 *  - `bp_before_group_details_creation_step`
+			 *  - `bp_before_group_settings_creation_step`
+			 *  - `bp_before_group_avatar_creation_step`
+			 *  - `bp_before_group_cover_image_creation_step`
+			 *
 			 * @since 1.1.0 For most hooks.
 			 * @since 2.4.0 For the cover image hook.
 			 */
@@ -352,6 +362,16 @@ function bp_nouveau_group_manage_screen() {
 
 			/**
 			 * Fires before the display of group delete admin.
+			 *
+			 * The dynamic portion of the hook name, `$core_screen['hook']`, refers to the current core group
+			 * screen's hook name.
+			 *
+			 * Possible hook names include:
+			 *
+			 *  - `bp_after_group_details_creation_step`
+			 *  - `bp_after_group_settings_creation_step`
+			 *  - `bp_after_group_avatar_creation_step`
+			 *  - `bp_after_group_cover_image_creation_step`
 			 *
 			 * @since 1.1.0 For most hooks.
 			 * @since 2.4.0 For the cover image hook.

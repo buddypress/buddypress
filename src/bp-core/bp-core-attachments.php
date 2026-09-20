@@ -1598,10 +1598,13 @@ function bp_attachments_cover_image_ajax_upload() {
 	/**
 	 * Fires if the new cover image was successfully uploaded.
 	 *
-	 * The dynamic portion of the hook will be members in case of a user's
-	 * cover image, groups in case of a group's cover image. For instance:
-	 * Use add_action( 'members_cover_image_uploaded' ) to run your specific
-	 * code once the user has set his cover image.
+	 * The dynamic portion of the hook name, `$component`, refers to the component that owns the cover
+	 * image.
+	 *
+	 * Possible hook names include:
+	 *
+	 *  - `members_cover_image_uploaded`
+	 *  - `groups_cover_image_uploaded`
 	 *
 	 * @since 2.4.0
 	 * @since 3.0.0 Added $cover_url, $name, $feedback_code arguments.
@@ -1698,10 +1701,13 @@ function bp_attachments_cover_image_ajax_delete() {
 		/**
 		 * Fires if the cover image was successfully deleted.
 		 *
-		 * The dynamic portion of the hook will be members in case of a user's
-		 * cover image, groups in case of a group's cover image. For instance:
-		 * Use add_action( 'members_cover_image_deleted' ) to run your specific
-		 * code once the user has deleted his cover image.
+		 * The dynamic portion of the hook name, `$component`, refers to the component that owns the cover
+		 * image.
+		 *
+		 * Possible hook names include:
+		 *
+		 *  - `members_cover_image_deleted`
+		 *  - `groups_cover_image_deleted`
 		 *
 		 * @since 2.8.0
 		 *

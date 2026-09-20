@@ -1160,6 +1160,16 @@ class BP_Members_Signup_REST_Controller extends WP_REST_Controller {
 		/**
 		 * Filters the method query arguments.
 		 *
+		 * The dynamic portion of the hook name, `$key`, refers to the REST API operation whose query arguments
+		 * are being filtered.
+		 *
+		 * Possible hook names include:
+		 *
+		 *  - `bp_rest_signup_get_item_query_arguments`
+		 *  - `bp_rest_signup_create_item_query_arguments`
+		 *  - `bp_rest_signup_update_item_query_arguments`
+		 *  - `bp_rest_signup_delete_item_query_arguments`
+		 *
 		 * @since 15.0.0
 		 *
 		 * @param array  $args   Query arguments.

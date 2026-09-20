@@ -451,8 +451,8 @@ function bp_get_query_template( $type, $templates = array() ) {
 	/**
 	 * Filters possible file paths to check for for a template.
 	 *
-	 * This is a variable filter based on the type passed into
-	 * bp_get_query_template.
+	 * The dynamic portion of the hook name, `$type`, refers to the sanitized template type passed to
+	 * `bp_get_query_template()`.
 	 *
 	 * @since 1.7.0
 	 *
@@ -480,8 +480,8 @@ function bp_get_query_template( $type, $templates = array() ) {
 	/**
 	 * Filters the path to a template file.
 	 *
-	 * This is a variable filter based on the type passed into
-	 * bp_get_query_template.
+	 * The dynamic portion of the hook name, `$type`, refers to the sanitized template type passed to
+	 * `bp_get_query_template()`.
 	 *
 	 * @since 1.7.0
 	 *

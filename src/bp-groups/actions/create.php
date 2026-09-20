@@ -163,8 +163,15 @@ function groups_action_create_group() {
 		/**
 		 * Fires before finalization of group creation and cookies are set.
 		 *
-		 * This hook is a variable hook dependent on the current step
-		 * in the creation process.
+		 * The dynamic portion of the hook name, `bp_get_groups_current_create_step()`, refers to the current
+		 * registered group creation step.
+		 *
+		 * Possible hook names include:
+		 *
+		 *  - `groups_create_group_step_save_group-details`
+		 *  - `groups_create_group_step_save_group-settings`
+		 *  - `groups_create_group_step_save_group-avatar`
+		 *  - `groups_create_group_step_save_group-cover-image`
 		 *
 		 * @since 1.1.0
 		 */

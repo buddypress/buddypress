@@ -348,7 +348,14 @@ function bp_nouveau_before_loop() {
 	/**
 	 * Fires before the start of the component loop.
 	 *
-	 * This is a variable hook that is dependent on the current component.
+	 * The dynamic portion of the hook name, `$component`, refers to the current component, or to the
+	 * current action on a group screen.
+	 *
+	 * Possible hook names include:
+	 *
+	 *  - `bp_before_activity_loop`
+	 *  - `bp_before_groups_loop`
+	 *  - `bp_before_members_loop`
 	 *
 	 * @since 1.2.0
 	 */
@@ -370,7 +377,14 @@ function bp_nouveau_after_loop() {
 	/**
 	 * Fires after the finish of the component loop.
 	 *
-	 * This is a variable hook that is dependent on the current component.
+	 * The dynamic portion of the hook name, `$component`, refers to the current component, or to the
+	 * current action on a group screen.
+	 *
+	 * Possible hook names include:
+	 *
+	 *  - `bp_after_activity_loop`
+	 *  - `bp_after_groups_loop`
+	 *  - `bp_after_members_loop`
 	 *
 	 * @since 1.2.0
 	 */
@@ -699,6 +713,15 @@ function bp_nouveau_after_directory_page() {
 
 	/**
 	 * Fires at the bottom of the activity, members, groups and blogs directory template file.
+	 *
+	 * The dynamic portion of the hook name, `$component`, refers to the current directory component.
+	 *
+	 * Possible hook names include:
+	 *
+	 *  - `bp_after_directory_activity_page`
+	 *  - `bp_after_directory_blogs_page`
+	 *  - `bp_after_directory_groups_page`
+	 *  - `bp_after_directory_members_page`
 	 *
 	 * @since 1.5.0 Added to the members, groups directory template file.
 	 * @since 2.3.0 Added to the blogs directory template file.
@@ -1971,9 +1994,16 @@ function bp_nouveau_search_form() {
 		 * Filter here to edit the HTML output of the directory search form.
 		 *
 		 * NB: This will take in charge the following BP Core Components filters
-		 *     - bp_directory_members_search_form
-		 *     - bp_directory_blogs_search_form
-		 *     - bp_directory_groups_search_form
+		 *
+		 * The dynamic portion of the hook name, `$objects['secondary']`, refers to the active directory
+		 * component.
+		 *
+		 * Possible hook names include:
+		 *
+		 *  - `bp_directory_activity_search_form`
+		 *  - `bp_directory_blogs_search_form`
+		 *  - `bp_directory_groups_search_form`
+		 *  - `bp_directory_members_search_form`
 		 *
 		 * @since 1.9.0
 		 *
@@ -2017,6 +2047,8 @@ function bp_nouveau_search_form() {
 		if ( 'members' !== $objects['secondary'] ) {
 			/**
 			 * Filter here to edit the HTML output of the displayed group search form.
+			 *
+			 * The dynamic portion of the hook name, `$objects['secondary']`, refers to the current group action.
 			 *
 			 * @since 3.2.0
 			 *
@@ -2624,7 +2656,13 @@ function bp_nouveau_signup_form( $section = 'account_details' ) {
 	/**
 	 * Fires and displays any extra member registration details fields.
 	 *
-	 * This is a variable hook that depends on the current section.
+	 * The dynamic portion of the hook name, `$section`, refers to the registration form section.
+	 *
+	 * Possible hook names include:
+	 *
+	 *  - `bp_account_details_fields`
+	 *  - `bp_signup_profile_fields`
+	 *  - `bp_blog_details_fields`
 	 *
 	 * @since 1.9.0
 	 */

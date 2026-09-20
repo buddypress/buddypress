@@ -4017,6 +4017,14 @@ function bp_get_group_extension_screens( $context = 'read' ) {
 /**
  * Returns all potential Group screens.
  *
+ * The dynamic portion of the hook name, `$context`, refers to the group screen context.
+ *
+ * Possible hook names include:
+ *
+ *  - `bp_get_group_custom_read_screens`
+ *  - `bp_get_group_custom_manage_screens`
+ *  - `bp_get_group_custom_create_screens`
+ *
  * @since 12.0.0
  *
  * @param string $context  The display context. Required. Defaults to `read`.

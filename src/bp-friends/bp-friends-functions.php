@@ -72,8 +72,13 @@ function friends_add_friend( $initiator_userid, $friend_userid, $force_accept = 
 	/**
 	 * Fires at the end of initiating a new friendship connection.
 	 *
-	 * This is a variable hook, depending on context.
-	 * The two potential hooks are: friends_friendship_requested, friends_friendship_accepted.
+	 * The dynamic portion of the hook name, `$action`, refers to whether the friendship was requested or
+	 * accepted.
+	 *
+	 * Possible hook names include:
+	 *
+	 *  - `friends_friendship_requested`
+	 *  - `friends_friendship_accepted`
 	 *
 	 * @since 1.0.0
 	 *

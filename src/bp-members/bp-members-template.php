@@ -1339,7 +1339,8 @@ function bp_member_profile_data( $args = '' ) {
 		/**
 		 * Filters the resulting piece of member profile data by field type.
 		 *
-		 * This is a dynamic filter based on field type of the current field requested.
+		 * The dynamic portion of the hook name, `$profile_data[ $r['field'] ]['field_type']`, refers to the
+		 * requested profile field type.
 		 *
 		 * @since 2.7.0
 		 *
@@ -1523,6 +1524,9 @@ function bp_total_site_member_count() {
  * The function will also analyze the current component the user is in, to
  * determine whether or not to highlight a particular nav item.
  *
+ * The dynamic portion of the hook name, `$nav_item->css_id`, refers to the registered navigation
+ * item's CSS ID.
+ *
  * @since 1.1.0
  *
  * @todo Move to a back-compat file?
@@ -1691,7 +1695,8 @@ function bp_get_displayed_user_nav() {
 			/**
 			 * Filters the navigation markup for the displayed user.
 			 *
-			 * This is a dynamic filter that is dependent on the navigation tab component being rendered.
+			 * The dynamic portion of the hook name, `$user_nav_item->css_id`, refers to the registered navigation
+			 * item's CSS ID.
 			 *
 			 * @since 1.1.0
 			 *

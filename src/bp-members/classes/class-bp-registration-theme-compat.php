@@ -71,8 +71,13 @@ class BP_Registration_Theme_Compat {
 		/**
 		 * Filters the template hierarchy for theme compat and registration/activation pages.
 		 *
-		 * This filter is a variable filter that depends on the current component
-		 * being used.
+		 * The dynamic portion of the hook name, `$component`, refers to the registration or activation
+		 * component.
+		 *
+		 * Possible hook names include:
+		 *
+		 *  - `bp_template_hierarchy_register`
+		 *  - `bp_template_hierarchy_activate`
 		 *
 		 * @since 1.8.0
 		 *

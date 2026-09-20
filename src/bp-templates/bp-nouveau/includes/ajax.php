@@ -183,6 +183,8 @@ function bp_nouveau_ajax_object_template_loader() {
 	/**
 	 * Add additional info to the Ajax response.
 	 *
+	 * The dynamic portion of the hook name, `$object`, refers to the object supplied by the Ajax request.
+	 *
 	 * @since 10.0.0
 	 *
 	 * @param array $value     An associative array with additional information to include in the Ajax response.

@@ -99,6 +99,13 @@ function bp_core_admin_insert_type( $args = array() ) {
 	/**
 	 * Filter here to check for an already existing type.
 	 *
+	 * The dynamic portion of the hook name, `$type_taxonomy`, refers to the type taxonomy being checked.
+	 *
+	 * Possible hook names include:
+	 *
+	 *  - `bp_member_type_check_existing_type`
+	 *  - `bp_group_type_check_existing_type`
+	 *
 	 * @since 7.0.0
 	 *
 	 * @param bool   $existing_type True if the type exists. False otherwise.

@@ -1041,9 +1041,14 @@ function bp_activity_avatar( $args = '' ) {
 		/**
 		 * Filters the activity avatar object based on current activity item component.
 		 *
-		 * This is a variable filter dependent on the component used.
-		 * Possible hooks are bp_get_activity_avatar_object_blog,
-		 * bp_get_activity_avatar_object_group, and bp_get_activity_avatar_object_user.
+		 * The dynamic portion of the hook name, `$current_activity_item->component`, refers to the current
+		 * activity item's component.
+		 *
+		 * Possible hook names include:
+		 *
+		 *  - `bp_get_activity_avatar_object_blogs`
+		 *  - `bp_get_activity_avatar_object_groups`
+		 *  - `bp_get_activity_avatar_object_friends`
 		 *
 		 * @since 1.1.0
 		 *
@@ -1213,9 +1218,14 @@ function bp_activity_secondary_avatar( $args = '' ) {
 		/**
 		 * Filters the activity secondary avatar object based on current activity item component.
 		 *
-		 * This is a variable filter dependent on the component used. Possible hooks are
-		 * bp_get_activity_secondary_avatar_object_blog, bp_get_activity_secondary_avatar_object_group,
-		 * and bp_get_activity_secondary_avatar_object_user.
+		 * The dynamic portion of the hook name, `$activities_template->activity->component`, refers to the
+		 * current activity item's component.
+		 *
+		 * Possible hook names include:
+		 *
+		 *  - `bp_get_activity_secondary_avatar_object_blogs`
+		 *  - `bp_get_activity_secondary_avatar_object_groups`
+		 *  - `bp_get_activity_secondary_avatar_object_friends`
 		 *
 		 * @since 1.2.10
 		 *

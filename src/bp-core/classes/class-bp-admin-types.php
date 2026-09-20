@@ -139,6 +139,13 @@ class BP_Admin_Types {
 		/**
 		 * Fires when a Types Admin Screen is loading.
 		 *
+		 * The dynamic portion of the hook name, `$this->taxonomy`, refers to the current type taxonomy.
+		 *
+		 * Possible hook names include:
+		 *
+		 *  - `bp_admin_load_bp_member_type`
+		 *  - `bp_admin_load_bp_group_type`
+		 *
 		 * @since 14.0.0
 		 */
 		do_action( 'bp_admin_load_' . $this->taxonomy );
@@ -543,6 +550,13 @@ class BP_Admin_Types {
 				 *
 				 * @see bp_set_registered_by_code_member_type_metadata() for an example of use.
 				 *
+				 * The dynamic portion of the hook name, `$this->taxonomy`, refers to the current type taxonomy.
+				 *
+				 * Possible hook names include:
+				 *
+				 *  - `bp_member_type_set_registered_by_code_metada`
+				 *  - `bp_group_type_set_registered_by_code_metada`
+				 *
 				 * @since 7.0.0
 				 *
 				 * @param string $meta_data Metadata for the BP Type.
@@ -603,6 +617,13 @@ class BP_Admin_Types {
 		 * Filter here to set the types "registered by code".
 		 *
 		 * @see bp_get_member_types_registered_by_code() for an example of use.
+		 *
+		 * The dynamic portion of the hook name, `$type->taxonomy`, refers to the term's type taxonomy.
+		 *
+		 * Possible hook names include:
+		 *
+		 *  - `bp_member_type_registered_by_code`
+		 *  - `bp_group_type_registered_by_code`
 		 *
 		 * @since 7.0.0
 		 *
