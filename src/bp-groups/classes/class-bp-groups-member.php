@@ -141,7 +141,7 @@ class BP_Groups_Member {
 	 * @param int      $group_id Optional. Along with $user_id, can be used to
 	 *                           look up a membership.
 	 * @param int|bool $id       Optional. The unique ID of the membership object.
-	 * @param bool     $populate Whether to populate the properties of the
+	 * @param bool     $populate Optional. Whether to populate the properties of the
 	 *                           located membership. Default: true.
 	 */
 	public function __construct( $user_id = 0, $group_id = 0, $id = false, $populate = true ) {
@@ -335,7 +335,7 @@ class BP_Groups_Member {
 	 *
 	 * @since 1.6.0
 	 *
-	 * @param string $status The new status. 'mod' or 'admin'.
+	 * @param string $status Optional. The new status. 'mod' or 'admin'.
 	 * @return bool
 	 */
 	public function promote( $status = 'mod' ) {
@@ -867,7 +867,7 @@ class BP_Groups_Member {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param int $user_id The user ID.
+	 * @param int $user_id Optional. The user ID.
 	 * @return int
 	 */
 	public static function get_invite_count_for_user( $user_id = 0 ) {
@@ -976,7 +976,7 @@ class BP_Groups_Member {
 	 *
 	 * @param int    $user_id  ID of the potential invitee.
 	 * @param int    $group_id ID of the group.
-	 * @param string $type     If 'sent', results are limited to those invitations
+	 * @param string $type     Optional. If 'sent', results are limited to those invitations
 	 *                         that have actually been sent (non-draft). Default: 'sent'.
 	 * @return int|null The ID of the invitation if found; null if not found.
 	 */
@@ -993,7 +993,7 @@ class BP_Groups_Member {
 	 *
 	 * @param  int $user_id    ID of the user.
 	 * @param  int $group_id   ID of the group.
-	 * @param  int $inviter_id ID of the inviter. Specify if you want to delete
+	 * @param  int $inviter_id Optional. ID of the inviter. Specify if you want to delete
 	 *                         a specific invite. Leave false if you want to
 	 *                         delete all invites to this group.
 	 * @return int Number of records deleted.
@@ -1167,8 +1167,8 @@ class BP_Groups_Member {
 	 *
 	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
-	 * @param int $user_id      ID of the user.
-	 * @param int $total_groups Max number of group IDs to return. Default: 5.
+	 * @param int $user_id      Optional. ID of the user.
+	 * @param int $total_groups Optional. Max number of group IDs to return. Default: 5.
 	 * @return array Group IDs.
 	 */
 	public static function get_random_groups( $user_id = 0, $total_groups = 5 ) {
@@ -1369,11 +1369,11 @@ class BP_Groups_Member {
 	 * @deprecated 1.6.0
 	 *
 	 * @param int        $group_id            ID of the group being queried for.
-	 * @param bool|int   $limit               Max amount to return.
-	 * @param bool|int   $page                Pagination value.
-	 * @param bool       $exclude_admins_mods Whether or not to exclude admins and moderators.
-	 * @param bool       $exclude_banned      Whether or not to exclude banned members.
-	 * @param bool|array $exclude             Array of user IDs to exclude.
+	 * @param bool|int   $limit               Optional. Max amount to return.
+	 * @param bool|int   $page                Optional. Pagination value.
+	 * @param bool       $exclude_admins_mods Optional. Whether or not to exclude admins and moderators.
+	 * @param bool       $exclude_banned      Optional. Whether or not to exclude banned members.
+	 * @param bool|array $exclude             Optional. Array of user IDs to exclude.
 	 * @return false|array
 	 */
 	public static function get_all_for_group( $group_id, $limit = false, $page = false, $exclude_admins_mods = true, $exclude_banned = true, $exclude = false ) {

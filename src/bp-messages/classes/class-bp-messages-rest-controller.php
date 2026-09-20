@@ -1107,7 +1107,7 @@ class BP_Messages_REST_Controller extends WP_REST_Controller {
 	 * @since 15.0.0
 	 *
 	 * @param int $thread_id Thread ID.
-	 * @param int $user_id   User ID.
+	 * @param int $user_id   Optional. User ID.
 	 * @return BP_Messages_Thread|string
 	 */
 	public function get_thread_object( $thread_id, $user_id = 0 ) {

@@ -215,7 +215,7 @@ function bp_nouveau_get_hooked_member_meta() {
  *
  * @since 3.0.0
  *
- * @param array $templates The list of templates for the front.php template part.
+ * @param array $templates Optional. The list of templates for the front.php template part.
  *
  * @return array The same list with the default front template if needed.
  */
@@ -246,7 +246,7 @@ function bp_nouveau_member_reset_front_template( $templates = array() ) {
  *
  * @since 3.0.0
  *
- * @param array $templates The User's front template hierarchy.
+ * @param array $templates Optional. The User's front template hierarchy.
  *
  * @return array Only the global front templates.
  */
@@ -265,7 +265,7 @@ function bp_nouveau_member_restrict_user_front_templates( $templates = array() )
  *
  * @since 3.0.0
  *
- * @param string $template The template part to get (eg: activity, groups...).
+ * @param string $template Optional. The template part to get (eg: activity, groups...).
  *
  * @return string The located template.
  */
@@ -325,7 +325,7 @@ function bp_nouveau_member_locate_template_part( $template = '' ) {
  *
  * @since 3.0.0
  *
- * @param string $template The template part to get (eg: activity, groups...).
+ * @param string $template Optional. The template part to get (eg: activity, groups...).
  *
  * @return string HTML output.
  */
@@ -381,7 +381,7 @@ function bp_nouveau_member_is_home_widgets() {
  *
  * @since 3.0.0
  *
- * @param array $args The Activities Template arguments.
+ * @param array $args Optional. The Activities Template arguments.
  *
  * @return array The Activities Template arguments.
  */
@@ -399,7 +399,7 @@ function bp_nouveau_member_activity_widget_overrides( $args = array() ) {
  *
  * @since 3.0.0
  *
- * @param array $args The Groups Template arguments.
+ * @param array $args Optional. The Groups Template arguments.
  *
  * @return array The Groups Template arguments.
  */
@@ -417,7 +417,7 @@ function bp_nouveau_member_groups_widget_overrides( $args = array() ) {
  *
  * @since 3.0.0
  *
- * @param array $args The Members Template arguments.
+ * @param array $args Optional. The Members Template arguments.
  *
  * @return array The Members Template arguments.
  */
@@ -546,8 +546,8 @@ function bp_nouveau_member_customizer_nav() {
  *
  * @since 10.0.0
  *
- * @param array $additional_info An associative array with additional information to include in the Ajax response.
- * @param array $args            The Ajax query arguments.
+ * @param array $additional_info Optional. An associative array with additional information to include in the Ajax response.
+ * @param array $args            Optional. The Ajax query arguments.
  * @return array                 Additional information about the members loop.
  */
 function bp_nouveau_members_loop_additional_info( $additional_info = array(), $args = array() ) {

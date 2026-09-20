@@ -577,7 +577,7 @@ class BP_Nouveau extends BP_Theme_Compat {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param array $templates Array of templates.
+	 * @param array $templates Optional. Array of templates.
 	 *
 	 * @return array
 	 */

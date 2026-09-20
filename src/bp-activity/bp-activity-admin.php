@@ -49,7 +49,7 @@ add_action( bp_core_admin_hook(), 'bp_activity_add_admin_menu' );
  *
  * @since 1.7.0
  *
- * @param array $custom_menus The list of top-level BP menu items.
+ * @param array $custom_menus Optional. The list of top-level BP menu items.
  * @return array List of top-level BP menu items, with Activity added.
  */
 function bp_activity_admin_menu_order( $custom_menus = array() ) {

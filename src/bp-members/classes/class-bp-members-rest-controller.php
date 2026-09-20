@@ -532,7 +532,7 @@ class BP_Members_REST_Controller extends WP_REST_Users_Controller {
 	 * @since 15.0.0
 	 *
 	 * @param WP_User $user      User object.
-	 * @param array   $user_data User data.
+	 * @param array   $user_data Optional. User data.
 	 * @return array
 	 */
 	protected function prepare_links( $user, $user_data = array() ) {
@@ -862,7 +862,7 @@ class BP_Members_REST_Controller extends WP_REST_Users_Controller {
 	 * @since 15.0.0
 	 *
 	 * @param WP_User $user User object.
-	 * @param string  $action The action to perform (update or delete).
+	 * @param string  $action Optional. The action to perform (update or delete).
 	 * @return bool
 	 */
 	protected function can_manage_member( $user, $action = 'delete' ) {

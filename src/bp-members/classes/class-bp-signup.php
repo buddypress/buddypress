@@ -159,7 +159,7 @@ class BP_Signup {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param int $signup_id The ID for the signup being queried.
+	 * @param int $signup_id Optional. The ID for the signup being queried.
 	 */
 	public function __construct( $signup_id = 0 ) {
 		if ( ! empty( $signup_id ) ) {
@@ -263,7 +263,7 @@ class BP_Signup {
 	 * @global wpdb $wpdb The WordPress database object.
 	 *
 	 * @param array $args {
-	 *     The argument to retrieve desired signups.
+	 *     Optional. The argument to retrieve desired signups.
 	 *     @type int         $offset         Offset amount. Default 0.
 	 *     @type int         $number         How many to fetch. Pass -1 to fetch all. Default 1.
 	 *     @type bool|string $usersearch     Whether to search for a username. Default false.
@@ -463,7 +463,7 @@ class BP_Signup {
 	 * @global wpdb $wpdb The WordPress database object.
 	 *
 	 * @param array $args {
-	 *     Array of arguments for signup addition.
+	 *     Optional. Array of arguments for signup addition.
 	 *     @type string     $domain         New user's domain.
 	 *     @type string     $path           New user's path.
 	 *     @type string     $title          New user's title.
@@ -551,10 +551,10 @@ class BP_Signup {
 	 *
 	 * @global wpdb $wpdb The WordPress database object.
 	 *
-	 * @param string $user_login    User login string.
-	 * @param string $user_password User password.
-	 * @param string $user_email    User email address.
-	 * @param array  $usermeta      Metadata associated with the signup.
+	 * @param string $user_login    Optional. User login string.
+	 * @param string $user_password Optional. User password.
+	 * @param string $user_email    Optional. User email address.
+	 * @param array  $usermeta      Optional. Metadata associated with the signup.
 	 * @return int User id.
 	 */
 	public static function add_backcompat( $user_login = '', $user_password = '', $user_email = '', $usermeta = array() ) {
@@ -642,7 +642,7 @@ class BP_Signup {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param  int $user_id ID of the user being checked.
+	 * @param  int $user_id Optional. ID of the user being checked.
 	 * @return int|bool          The status if found, otherwise false.
 	 */
 	public static function check_user_status( $user_id = 0 ) {
@@ -670,7 +670,7 @@ class BP_Signup {
 	 *
 	 * @global wpdb $wpdb The WordPress database object.
 	 *
-	 * @param string $key Activation key.
+	 * @param string $key Optional. Activation key.
 	 * @return bool
 	 */
 	public static function validate( $key = '' ) {
@@ -747,7 +747,7 @@ class BP_Signup {
 	 * @global wpdb $wpdb The WordPress database object.
 	 *
 	 * @param array $args {
-	 *     Array of arguments for the signup update.
+	 *     Optional. Array of arguments for the signup update.
 	 *     @type int $signup_id User signup ID.
 	 *     @type array $meta Meta to update.
 	 * }
@@ -828,7 +828,7 @@ class BP_Signup {
 	 * @since 2.0.0
 	 * @since 15.0.0 Added the ability to resend to a single ID.
 	 *
-	 * @param array|int $signup_ids Single ID or list of IDs to resend.
+	 * @param array|int $signup_ids Optional. Single ID or list of IDs to resend.
 	 * @return array
 	 */
 	public static function resend( $signup_ids = array() ) {
@@ -975,7 +975,7 @@ class BP_Signup {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param array $signup_ids Single ID or list of IDs to activate.
+	 * @param array $signup_ids Optional. Single ID or list of IDs to activate.
 	 * @return array
 	 */
 	public static function activate( $signup_ids = array() ) {
@@ -1061,7 +1061,7 @@ class BP_Signup {
 	 *
 	 * @global wpdb $wpdb The WordPress database object.
 	 *
-	 * @param array $signup_ids Single ID or list of IDs to delete.
+	 * @param array $signup_ids Optional. Single ID or list of IDs to delete.
 	 * @return array
 	 */
 	public static function delete( $signup_ids = array() ) {

@@ -79,7 +79,7 @@ function bp_get_template_part( $slug, $name = null, $args = array() ) {
  * @see bp_get_template_part() for full documentation.
  *
  * @param string      $slug Template slug.
- * @param string|null $name Template name.
+ * @param string|null $name Optional. Template name.
  * @param array       $args Optional. Extra args to pass to locate_template().
  * @return false|string
  */
@@ -282,7 +282,7 @@ function bp_locate_template_asset( $filename ) {
  *
  * @since 1.7.0
  *
- * @param string $location_callback Callback function that returns the stack location.
+ * @param string $location_callback Optional. Callback function that returns the stack location.
  * @param int    $priority          Optional. The priority parameter as passed to
  *                                  add_filter(). Default: 10.
  * @return bool See {@link add_filter()}.
@@ -305,7 +305,7 @@ function bp_register_template_stack( $location_callback = '', $priority = 10 ) {
  *
  * @see bp_register_template_stack()
  *
- * @param string $location_callback Callback function that returns the stack location.
+ * @param string $location_callback Optional. Callback function that returns the stack location.
  * @param int    $priority          Optional. The priority parameter passed to
  *                                  {@link bp_register_template_stack()}. Default: 10.
  * @return bool See {@link remove_filter()}.
@@ -398,10 +398,10 @@ function bp_get_template_stack() {
  * @see bp_get_template_part() for a description of $slug, $name and $args params.
  *
  * @param string      $slug See {@link bp_get_template_part()}.
- * @param string|null $name See {@link bp_get_template_part()}.
- * @param bool        $ret  If true, template content will be echoed. If false,
+ * @param string|null $name Optional. See {@link bp_get_template_part()}.
+ * @param bool        $ret  Optional. If true, template content will be echoed. If false,
  *                          returned. Default: true.
- * @param array       $args See {@link bp_get_template_part()}.
+ * @param array       $args Optional. See {@link bp_get_template_part()}.
  * @return string|null If $echo, returns the template content.
  */
 function bp_buffer_template_part( $slug, $name = null, $ret = true, $args = array() ) {
@@ -495,7 +495,7 @@ function bp_get_query_template( $type, $templates = array() ) {
  *
  * @since 1.7.0
  *
- * @param array $templates Templates we are looking for.
+ * @param array $templates Optional. Templates we are looking for.
  * @return array Possible subfolders to look in.
  */
 function bp_get_template_locations( $templates = array() ) {
@@ -521,7 +521,7 @@ function bp_get_template_locations( $templates = array() ) {
  *
  * @since 1.7.0
  *
- * @param array $stacks Array of template locations.
+ * @param array $stacks Optional. Array of template locations.
  * @return array Array of all template locations registered so far.
  */
 function bp_add_template_stack_locations( $stacks = array() ) {
@@ -658,8 +658,8 @@ function bp_parse_ajax_referer_query( $referer_query ) {
  *
  * @global WP $wp WordPress main instance.
  *
- * @param string   $bp_request A specific BuddyPress request.
- * @param WP_Query $query The WordPress query object.
+ * @param string   $bp_request Optional. A specific BuddyPress request.
+ * @param WP_Query $query Optional. The WordPress query object.
  * @return true
  */
 function bp_reset_query( $bp_request = '', $query = null ) {
@@ -736,7 +736,7 @@ function bp_reset_query( $bp_request = '', $query = null ) {
  *
  * @since 1.7.0
  *
- * @param string $template The path to the template file that is being used.
+ * @param string $template Optional. The path to the template file that is being used.
  * @return string The path to the template file that is being used.
  */
 function bp_template_include_theme_supports( $template = '' ) {
@@ -772,7 +772,7 @@ function bp_template_include_theme_supports( $template = '' ) {
  *
  * @since 1.8.0
  *
- * @param mixed $template Default: false.
+ * @param mixed $template Optional. Default: false.
  * @return mixed False if empty. Template name if template included.
  */
 function bp_set_template_included( $template = false ) {

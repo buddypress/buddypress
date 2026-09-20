@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  *
- * @param array|bool $active_components Components to install.
+ * @param array|bool $active_components Optional. Components to install.
  */
 function bp_core_install( $active_components = false ) {
 	bp_pre_schema_upgrade();

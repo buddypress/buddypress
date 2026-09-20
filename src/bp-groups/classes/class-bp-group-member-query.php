@@ -54,7 +54,7 @@ class BP_Group_Member_Query extends BP_User_Query {
 	 *
 	 * @since 10.3.0
 	 *
-	 * @param string|array|null $query See {@link BP_User_Query}.
+	 * @param string|array|null $query Optional. See {@link BP_User_Query}.
 	 */
 	public function __construct( $query = null ) {
 		$qv = bp_parse_args(
@@ -145,7 +145,7 @@ class BP_Group_Member_Query extends BP_User_Query {
 	 *
 	 * @since 1.8.0
 	 *
-	 * @param array $include_ids Existing group IDs in the `$include_ids` parameter,
+	 * @param array $include_ids Optional. Existing group IDs in the `$include_ids` parameter,
 	 *                           as calculated in BP_User_Query.
 	 * @return array
 	 */
@@ -512,7 +512,7 @@ class BP_Group_Member_Query extends BP_User_Query {
 	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
 	 * @param BP_User_Query $query  BP_User_Query object.
-	 * @param array         $gm_ids array of group member ids.
+	 * @param array         $gm_ids Optional. Array of group member IDs.
 	 * @return array
 	 */
 	public function get_gm_ids_ordered_by_activity( $query, $gm_ids = array() ) {

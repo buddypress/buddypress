@@ -15,8 +15,8 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 2.2.0
  *
- * @param int   $user_id   User ID to check.
- * @param array $field_ids XProfile field IDs.
+ * @param int   $user_id   Optional. User ID to check.
+ * @param array $field_ids Optional. XProfile field IDs.
  * @return array
  */
 function bp_xprofile_get_non_cached_field_ids( $user_id = 0, $field_ids = array() ) {
@@ -49,7 +49,7 @@ function bp_xprofile_get_non_cached_field_ids( $user_id = 0, $field_ids = array(
  *
  * @global wpdb $wpdb WordPress database object.
  *
- * @param array $object_ids Multi-dimensional array of object_ids, keyed by
+ * @param array $object_ids Optional. Multi-dimensional array of object_ids, keyed by
  *                          object type ('group', 'field', 'data').
  */
 function bp_xprofile_update_meta_cache( $object_ids = array() ) {

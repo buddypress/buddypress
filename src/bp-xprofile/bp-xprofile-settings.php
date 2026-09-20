@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 2.0.0
  *
- * @param array|string $args Array of args for the settings fields.
+ * @param array|string $args Optional. Array of args for the settings fields.
  * @return bool
  */
 function bp_xprofile_get_settings_fields( $args = '' ) {

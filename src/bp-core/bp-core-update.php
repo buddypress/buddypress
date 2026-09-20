@@ -52,7 +52,7 @@ function bp_is_update() {
  *
  * @since 1.6.0
  *
- * @param string $basename BuddyPress basename.
+ * @param string $basename Optional. BuddyPress basename.
  * @return bool True if activating BuddyPress, false if not.
  */
 function bp_is_activation( $basename = '' ) {
@@ -96,7 +96,7 @@ function bp_is_activation( $basename = '' ) {
  *
  * @since 1.6.0
  *
- * @param string $basename BuddyPress basename.
+ * @param string $basename Optional. BuddyPress basename.
  * @return bool True if deactivating BuddyPress, false if not.
  */
 function bp_is_deactivation( $basename = '' ) {

@@ -52,7 +52,7 @@ abstract class BP_Attachment {
 	 * @since 2.4.0 Add the $upload_dir_filter_args argument to the $arguments array
 	 *
 	 * @param array|string $args {
-	 *     Array of upload parameters.
+	 *     Optional. Array of upload parameters.
 	 *
 	 *     @type int    $original_max_filesize  Maximum file size in kilobytes. Defaults to php.ini settings.
 	 *     @type array  $allowed_mime_types     List of allowed file extensions (eg: array( 'jpg', 'gif', 'png' ) ).
@@ -153,7 +153,7 @@ abstract class BP_Attachment {
 	 *
 	 * @since 2.3.0
 	 *
-	 * @param array $param A list of error messages to add to BuddyPress core ones.
+	 * @param array $param Optional. A list of error messages to add to BuddyPress core ones.
 	 * @return array The list of upload errors.
 	 */
 	public function set_upload_error_strings( $param = array() ) {
@@ -359,7 +359,7 @@ abstract class BP_Attachment {
 	 *
 	 * @since 2.3.0
 	 *
-	 * @param array $file The temporary file attributes (before it has been moved).
+	 * @param array $file Optional. The temporary file attributes (before it has been moved).
 	 * @return array The file.
 	 */
 	public function validate_upload( $file = array() ) {
@@ -384,7 +384,7 @@ abstract class BP_Attachment {
 	 *
 	 *       regarding to context
 	 *
-	 * @param array $upload_dir The original Uploads dir.
+	 * @param array $upload_dir Optional. The original Uploads dir.
 	 * @return array The upload directory data.
 	 */
 	public function upload_dir_filter( $upload_dir = array() ) {
@@ -447,7 +447,7 @@ abstract class BP_Attachment {
 	 * @since 2.3.0
 	 *
 	 * @param array $args {
-	 *     Array of arguments for the crop method.
+	 *     Optional. Array of arguments for the crop method.
 	 *
 	 *     @type string $original_file The source file (absolute path) for the Attachment.
 	 *     @type int    $crop_x        The start x position to crop from.

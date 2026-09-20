@@ -569,7 +569,7 @@ function bp_rel_canonical() {
  * @since 1.6.0
  *
  * @param array $args {
- *     Optional array of arguments.
+ *     Optional. Optional array of arguments.
  *     @type bool $include_query_args Whether to include current URL arguments
  *                                    in the canonical URL returned from the function.
  * }

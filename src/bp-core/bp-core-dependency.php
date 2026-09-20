@@ -508,7 +508,7 @@ function bp_enqueue_scripts() {
  *
  * @since 11.0.0
  *
- * @param string $context The specific BuddyPress context. Supported values are `embed` and `community`.
+ * @param string $context Optional. The specific BuddyPress context. Supported values are `embed` and `community`.
  *                        Default: `embed`.
  */
 function bp_enqueue_context_scripts( $context = 'embed' ) {
@@ -659,7 +659,7 @@ function bp_after_setup_theme() {
  *
  * @see WP::parse_request() for a description of parameters.
  *
- * @param array $query_vars See {@link WP::parse_request()}.
+ * @param array $query_vars Optional. See {@link WP::parse_request()}.
  * @return array See {@link WP::parse_request()}.
  */
 function bp_request( $query_vars = array() ) {
@@ -679,9 +679,9 @@ function bp_request( $query_vars = array() ) {
  *
  * @since 1.7.0
  *
- * @param string $redirect_to     See 'login_redirect'.
- * @param string $redirect_to_raw See 'login_redirect'.
- * @param bool   $user            See 'login_redirect'.
+ * @param string $redirect_to     Optional. See 'login_redirect'.
+ * @param string $redirect_to_raw Optional. See 'login_redirect'.
+ * @param bool   $user            Optional. See 'login_redirect'.
  * @return string
  */
 function bp_login_redirect( $redirect_to = '', $redirect_to_raw = '', $user = false ) {
@@ -705,7 +705,7 @@ function bp_login_redirect( $redirect_to = '', $redirect_to_raw = '', $user = fa
  *
  * @since 1.6.0
  *
- * @param string $template See 'template_include'.
+ * @param string $template Optional. See 'template_include'.
  * @return string Template file to use.
  */
 function bp_template_include( $template = '' ) {

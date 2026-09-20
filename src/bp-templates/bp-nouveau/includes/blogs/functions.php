@@ -87,7 +87,7 @@ function bp_nouveau_get_blogs_directory_nav_items() {
  *
  * @since 3.0.0
  *
- * @param string $context 'directory' or 'user'.
+ * @param string $context Optional. 'directory' or 'user'.
  *
  * @return array the filters
  */
@@ -134,7 +134,7 @@ function bp_nouveau_get_blogs_filters( $context = '' ) {
  *
  * @since 3.0.0
  *
- * @param array $settings the settings to add.
+ * @param array $settings Optional. The settings to add.
  *
  * @return array the settings to add.
  */
@@ -158,7 +158,7 @@ function bp_nouveau_blogs_customizer_settings( $settings = array() ) {
  *
  * @since 3.0.0
  *
- * @param array $controls the controls to add.
+ * @param array $controls Optional. The controls to add.
  *
  * @return array the controls to add.
  */

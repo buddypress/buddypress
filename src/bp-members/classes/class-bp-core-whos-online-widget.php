@@ -79,7 +79,7 @@ class BP_Core_Whos_Online_Widget extends WP_Widget {
 	 * @since 2.3.0
 	 * @deprecated 12.0.0
 	 *
-	 * @param array $instance Widget instance settings.
+	 * @param array $instance Optional. Widget instance settings.
 	 */
 	public function parse_settings( $instance = array() ) {
 		_deprecated_function( __METHOD__, '12.0.0' );

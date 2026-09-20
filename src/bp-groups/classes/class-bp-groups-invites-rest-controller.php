@@ -868,7 +868,7 @@ class BP_Groups_Invites_REST_Controller extends WP_REST_Controller {
 	 *
 	 * @since 15.0.0
 	 *
-	 * @param int $invite_id The ID of the invitation you wish to fetch.
+	 * @param int $invite_id Optional. The ID of the invitation you wish to fetch.
 	 * @return BP_Invitation|bool Invitation if found, false otherwise.
 	 */
 	public function fetch_single_invite( $invite_id = 0 ) {

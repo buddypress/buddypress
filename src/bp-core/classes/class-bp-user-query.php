@@ -158,7 +158,7 @@ class BP_User_Query {
 	 *
 	 * @since 1.7.0
 	 *
-	 * @param string|array|null $query See {@link BP_User_Query}.
+	 * @param string|array|null $query Optional. See {@link BP_User_Query}.
 	 */
 	public function __construct( $query = null ) {
 
@@ -660,7 +660,7 @@ class BP_User_Query {
 	 *
 	 * @since 1.8.0
 	 *
-	 * @param array $include_ids Sanitized array of user IDs, as passed to the 'include'
+	 * @param array $include_ids Optional. Sanitized array of user IDs, as passed to the 'include'
 	 *                           parameter of the class constructor.
 	 * @return array The list of users to which the main query should be
 	 *               limited.

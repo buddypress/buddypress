@@ -118,7 +118,7 @@ function bp_notifications_delete_notification( $id ) {
  * @since 1.9.0
  *
  * @param int      $id     ID of the notification.
- * @param int|bool $is_new 0 for read, 1 for unread.
+ * @param int|bool $is_new Optional. 0 for read, 1 for unread.
  * @return false|int Number of rows updated on success, false on failure.
  */
 function bp_notifications_mark_notification( $id, $is_new = false ) {
@@ -137,7 +137,7 @@ function bp_notifications_mark_notification( $id, $is_new = false ) {
  *
  * @since 2.1.0
  *
- * @param int $user_id ID of the user whose notifications are being fetched.
+ * @param int $user_id Optional. ID of the user whose notifications are being fetched.
  * @return array Array of notifications for user.
  */
 function bp_notifications_get_all_notifications_for_user( $user_id = 0 ) {
@@ -178,7 +178,7 @@ function bp_notifications_get_all_notifications_for_user( $user_id = 0 ) {
  *
  * @since 3.0.0
  *
- * @param int $user_id ID of the user whose notifications are being fetched.
+ * @param int $user_id Optional. ID of the user whose notifications are being fetched.
  * @return array
  */
 function bp_notifications_get_grouped_notifications_for_user( $user_id = 0 ) {
@@ -201,7 +201,7 @@ function bp_notifications_get_grouped_notifications_for_user( $user_id = 0 ) {
  * @since 1.9.0
  *
  * @param int    $user_id ID of the user whose notifications are being fetched.
- * @param string $format  Format of the returned values. 'string' returns HTML,
+ * @param string $format  Optional. Format of the returned values. 'string' returns HTML,
  *                        while 'object' returns a structured object for parsing.
  * @return mixed Object or array on success, false on failure.
  */
@@ -377,7 +377,7 @@ function bp_notifications_delete_notifications_by_type( $user_id, $component_nam
  * @param int      $item_id           ID of the associated item.
  * @param string   $component_name    Name of the associated component.
  * @param string   $component_action  Name of the associated action.
- * @param int|bool $secondary_item_id ID of the secondary associated item.
+ * @param int|bool $secondary_item_id Optional. ID of the secondary associated item.
  * @return int|false True on success, false on failure.
  */
 function bp_notifications_delete_notifications_by_item_id( $user_id, $item_id, $component_name, $component_action, $secondary_item_id = false ) {
@@ -528,7 +528,7 @@ add_action( 'delete_user', 'bp_notifications_delete_notifications_on_delete_user
  * @param int      $user_id          ID of the user whose notifications are being deleted.
  * @param string   $component_name   Name of the associated component.
  * @param string   $component_action Name of the associated action.
- * @param int|bool $is_new           0 for read, 1 for unread.
+ * @param int|bool $is_new           Optional. 0 for read, 1 for unread.
  * @return int|false True on success, false on failure.
  */
 function bp_notifications_mark_notifications_by_type( $user_id, $component_name, $component_action, $is_new = false ) {
@@ -556,8 +556,8 @@ function bp_notifications_mark_notifications_by_type( $user_id, $component_name,
  * @param int      $item_id           ID of the associated item.
  * @param string   $component_name    Name of the associated component.
  * @param string   $component_action  Name of the associated action.
- * @param int|bool $secondary_item_id ID of the secondary associated item.
- * @param int|bool $is_new            0 for read, 1 for unread.
+ * @param int|bool $secondary_item_id Optional. ID of the secondary associated item.
+ * @param int|bool $is_new            Optional. 0 for read, 1 for unread.
  * @return int|false True on success, false on failure.
  */
 function bp_notifications_mark_notifications_by_item_id( $user_id, $item_id, $component_name, $component_action, $secondary_item_id = false, $is_new = false ) {
@@ -586,7 +586,7 @@ function bp_notifications_mark_notifications_by_item_id( $user_id, $item_id, $co
  * @param string      $component_name    Name of the associated component.
  * @param string|bool $component_action  Optional. Name of the associated action.
  * @param int|bool    $secondary_item_id Optional. ID of the secondary associated item.
- * @param int|bool    $is_new            0 for read, 1 for unread.
+ * @param int|bool    $is_new            Optional. 0 for read, 1 for unread.
  * @return int|false True on success, false on failure.
  */
 function bp_notifications_mark_all_notifications_by_type( $item_id, $component_name, $component_action = false, $secondary_item_id = false, $is_new = false ) {
@@ -617,7 +617,7 @@ function bp_notifications_mark_all_notifications_by_type( $item_id, $component_n
  * @param int      $user_id          ID of the user whose associated items are being deleted.
  * @param string   $component_name   Name of the associated component.
  * @param string   $component_action Name of the associated action.
- * @param int|bool $is_new           0 for read, 1 for unread.
+ * @param int|bool $is_new           Optional. 0 for read, 1 for unread.
  * @return int|false True on success, false on failure.
  */
 function bp_notifications_mark_notifications_from_user( $user_id, $component_name, $component_action, $is_new = false ) {
@@ -642,7 +642,7 @@ function bp_notifications_mark_notifications_from_user( $user_id, $component_nam
  * @param  int[]     $item_ids         IDs of the associated items.
  * @param  string    $component_name   Name of the associated component.
  * @param  string    $component_action Name of the associated action.
- * @param  int|false $is_new           0 for read, 1 for unread.
+ * @param  int|false $is_new           Optional. 0 for read, 1 for unread.
  * @return int|false                   The number of rows updated. False on error.
  */
 function bp_notifications_mark_notifications_by_item_ids( $user_id, $item_ids, $component_name, $component_action, $is_new = false ) {
@@ -666,7 +666,7 @@ function bp_notifications_mark_notifications_by_item_ids( $user_id, $item_ids, $
  * @since 10.0.0
  *
  * @param  int[]     $ids     IDs of the associated notification items.
- * @param  int|false $is_new  0 for read, 1 for unread.
+ * @param  int|false $is_new  Optional. 0 for read, 1 for unread.
  * @return int|false          The number of rows updated. False on error.
  */
 function bp_notifications_mark_notifications_by_ids( $ids, $is_new = false ) {
@@ -687,7 +687,7 @@ function bp_notifications_mark_notifications_by_ids( $ids, $is_new = false ) {
  * @since 14.3.4
  *
  * @param string $action           Action to run on notifications.
- * @param array  $notification_ids IDs of the notifications to change.
+ * @param array  $notification_ids Optional. IDs of the notifications to change.
  * @return bool True if the action run returned true.
  */
 function bp_notifications_bulk_manage_notifications( $action, $notification_ids = array() ) {
@@ -751,7 +751,7 @@ function bp_notifications_check_notification_access( $user_id, $notification_id 
  *
  * @since 1.9.0
  *
- * @param int $user_id ID of the user whose unread notifications are being
+ * @param int $user_id Optional. ID of the user whose unread notifications are being
  *                     counted.
  * @return int Unread notification count.
  */
@@ -886,7 +886,7 @@ function bp_notifications_delete_meta( $notification_id, $meta_key = '', $meta_v
  *
  * @since 2.3.0
  *
- * @param int    $notification_id ID of the notification item whose metadata is being requested.
+ * @param int    $notification_id Optional. ID of the notification item whose metadata is being requested.
  * @param string $meta_key        Optional. If present, only the metadata matching
  *                                that meta key will be returned. Otherwise, all metadata for the
  *                                notification item will be fetched.

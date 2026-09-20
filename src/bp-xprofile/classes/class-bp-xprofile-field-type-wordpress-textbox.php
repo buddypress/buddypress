@@ -71,7 +71,7 @@ class BP_XProfile_Field_Type_WordPress_Textbox extends BP_XProfile_Field_Type_Wo
 	 * @since 8.0.0
 	 *
 	 * @param int $user_id  The user ID.
-	 * @param int $field_id The xProfile field ID.
+	 * @param int $field_id Optional. The xProfile field ID.
 	 * @return array An array containing the metadata `id`, `value` and `table_name`.
 	 */
 	public function get_field_value( $user_id, $field_id = 0 ) {
@@ -108,7 +108,7 @@ class BP_XProfile_Field_Type_WordPress_Textbox extends BP_XProfile_Field_Type_Wo
 	 * @since 8.0.0
 	 *
 	 * @param string $value The user field value.
-	 * @param int    $user_id ID of the user whose field is being sanitized.
+	 * @param int    $user_id Optional. ID of the user whose field is being sanitized.
 	 * @return string The sanitized field value.
 	 */
 	public function sanitize_for_output( $value, $user_id = 0 ) {

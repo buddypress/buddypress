@@ -80,7 +80,7 @@ add_filter( 'wp_privacy_personal_data_exporters', 'bp_groups_register_personal_d
  *
  * @since 1.1.0
  *
- * @param string $content Content to filter.
+ * @param string $content Optional. Content to filter.
  * @return string
  */
 function bp_groups_filter_kses( $content = '' ) {

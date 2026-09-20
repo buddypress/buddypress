@@ -101,7 +101,7 @@ class BP_Friends_Friendship {
 	 * @since 10.0.0 Updated to add deprecated notice for `$is_request`.
 	 *
 	 * @param int|null $id                      Optional. The ID of an existing friendship.
-	 * @param bool     $is_request              Deprecated.
+	 * @param bool     $is_request              Optional. Deprecated.
 	 * @param bool     $populate_friend_details Optional. True if friend details should be queried.
 	 */
 	public function __construct( $id = null, $is_request = false, $populate_friend_details = true ) {

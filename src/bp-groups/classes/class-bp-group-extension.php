@@ -465,7 +465,7 @@ class BP_Group_Extension {
 	 * @since 12.0.0 Set the Group Extension screens.
 	 *
 	 * @param array $args {
-	 *     Array of initialization arguments.
+	 *     Optional. Array of initialization arguments.
 	 *     @type string       $slug              Unique, URL-safe identifier for your extension.
 	 *     @type string       $name              Translatable name for your extension. Used to populate
 	 *                                           navigation items.
@@ -955,7 +955,7 @@ class BP_Group_Extension {
 	 *
 	 * @since 12.0.0
 	 *
-	 * @param string $context One of these contexts: 'create', 'manage', 'read'.
+	 * @param string $context Optional. One of these contexts: 'create', 'manage', 'read'.
 	 * @return string         The found Rewrite ID, an empty string otherwise.
 	 */
 	protected function get_rewrite_id_for( $context = '' ) {
@@ -1411,7 +1411,7 @@ class BP_Group_Extension {
 	 *
 	 * @since 1.8.0
 	 *
-	 * @param string $screen The screen markup, captured in the output
+	 * @param string $screen Optional. The screen markup, captured in the output
 	 *                       buffer.
 	 * @return string The same markup, with a submit button added.
 	 */
@@ -1433,7 +1433,7 @@ class BP_Group_Extension {
 	 *
 	 * @since 1.8.0
 	 *
-	 * @param string $screen The markup to check.
+	 * @param string $screen Optional. The markup to check.
 	 * @return bool True if a Submit button is found, otherwise false.
 	 */
 	public static function has_submit_button( $screen = '' ) {
@@ -1447,7 +1447,7 @@ class BP_Group_Extension {
 	 *
 	 * @since 2.1.0
 	 *
-	 * @param string $redirect Redirect string.
+	 * @param string $redirect Optional. Redirect string.
 	 * @return string
 	 */
 	public function detect_post_save_redirect( $redirect = '' ) {
@@ -1544,7 +1544,7 @@ class BP_Group_Extension {
 	 *
 	 * @since 1.8.0
 	 *
-	 * @param string $context Screen context. 'create', 'edit', or 'admin'.
+	 * @param string $context Optional. Screen context. 'create', 'edit', or 'admin'.
 	 */
 	public function nonce_field( $context = '' ) {
 		wp_nonce_field( 'bp_group_extension_' . $this->slug . '_' . $context, '_bp_group_' . $context . '_nonce_' . $this->slug );
@@ -1555,7 +1555,7 @@ class BP_Group_Extension {
 	 *
 	 * @since 1.8.0
 	 *
-	 * @param string $context Screen context. 'create', 'edit', or 'admin'.
+	 * @param string $context Optional. Screen context. 'create', 'edit', or 'admin'.
 	 */
 	public function check_nonce( $context = '' ) {
 		check_admin_referer( 'bp_group_extension_' . $this->slug . '_' . $context, '_bp_group_' . $context . '_nonce_' . $this->slug );
@@ -1570,7 +1570,7 @@ class BP_Group_Extension {
 	 *
 	 * @since 1.8.0
 	 *
-	 * @param string $context Screen context. 'create', 'edit', or 'admin'.
+	 * @param string $context Optional. Screen context. 'create', 'edit', or 'admin'.
 	 * @return bool True if the screen is enabled, otherwise false.
 	 */
 	public function is_screen_enabled( $context = '' ) {
@@ -1617,8 +1617,8 @@ class BP_Group_Extension {
 	 *
 	 * @since 1.8.0
 	 *
-	 * @param string $context Screen context. 'create', 'edit', or 'admin'.
-	 * @param string $type    Screen type. 'screen' or 'screen_save'. Default:
+	 * @param string $context Optional. Screen context. 'create', 'edit', or 'admin'.
+	 * @param string $type    Optional. Screen type. 'screen' or 'screen_save'. Default:
 	 *                        'screen'.
 	 * @return callable A callable function handle.
 	 */

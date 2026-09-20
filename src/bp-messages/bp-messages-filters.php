@@ -95,7 +95,7 @@ add_filter( 'wp_privacy_personal_data_exporters', 'bp_messages_register_personal
  *
  * @see bp_has_message_threads() for description of parameters
  *
- * @param array|string $args See {@link bp_has_message_threads()}.
+ * @param array|string $args Optional. See {@link bp_has_message_threads()}.
  * @return array|string
  */
 function bp_messages_enforce_current_user( $args = array() ) {

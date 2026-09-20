@@ -23,7 +23,7 @@ defined( 'ABSPATH' ) || exit;
  * @param int    $secondary_item_id The secondary item ID.
  * @param int    $total_items       The total number of messaging-related notifications
  *                                  waiting for the user.
- * @param string $format            'string' for BuddyBar-compatible notifications;
+ * @param string $format            Optional. 'string' for BuddyBar-compatible notifications;
  *                                  'array' for WP Toolbar. Default: 'string'.
  * @return array|string
  */
@@ -243,7 +243,7 @@ add_action( 'friends_friendship_withdrawn', 'bp_friends_mark_friendship_withdraw
  *
  * @since 1.9.0
  *
- * @param int $user_id ID of the user whose notifications are removed.
+ * @param int $user_id Optional. ID of the user whose notifications are removed.
  */
 function bp_friends_remove_notifications_data( $user_id = 0 ) {
 	bp_notifications_delete_notifications_from_user( $user_id, buddypress()->friends->id, 'friendship_request' );

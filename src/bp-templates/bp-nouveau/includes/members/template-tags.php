@@ -81,8 +81,8 @@ function bp_nouveau_after_members_directory_content() {
  *
  * @since 3.0.0
  *
- * @param string $when   'before' or 'after'.
- * @param string $suffix Use it to add terms at the end of the hook name.
+ * @param string $when   Optional. 'before' or 'after'.
+ * @param string $suffix Optional. Use it to add terms at the end of the hook name.
  */
 function bp_nouveau_member_hook( $when = '', $suffix = '' ) {
 	$hook = array( 'bp' );
@@ -120,7 +120,7 @@ function bp_nouveau_member_email_notice_settings() {
  *
  * @since 3.0.0
  *
- * @param array $args See bp_nouveau_wrapper() for the description of parameters.
+ * @param array $args Optional. See bp_nouveau_wrapper() for the description of parameters.
  */
 function bp_nouveau_member_header_buttons( $args = array() ) {
 	$bp_nouveau = bp_nouveau();
@@ -169,7 +169,7 @@ function bp_nouveau_member_header_buttons( $args = array() ) {
  *
  * @since 3.0.0
  *
- * @param array $args See bp_nouveau_wrapper() for the description of parameters.
+ * @param array $args Optional. See bp_nouveau_wrapper() for the description of parameters.
  */
 function bp_nouveau_members_loop_buttons( $args = array() ) {
 	if ( empty( $GLOBALS['members_template'] ) ) {
@@ -780,7 +780,7 @@ function bp_nouveau_member_description_edit_link() {
  * before and after the WP User's Profile.
  *
  * @since 3.0.0
- * @param string $type Whether to fire hooks before or after the profile loop.
+ * @param string $type Optional. Whether to fire hooks before or after the profile loop.
  */
 function bp_nouveau_wp_profile_hooks( $type = 'before' ) {
 	if ( 'before' === $type ) {
@@ -1028,9 +1028,9 @@ function bp_nouveau_invitations_bulk_management_dropdown() {
  *
  * @since 12.0.0
  *
- * @param string $activity_content Formatted latest update for current member.
- * @param array  $args             Array of parsed arguments.
- * @param array  $latest_update    Array of the latest activity data.
+ * @param string $activity_content Optional. Formatted latest update for current member.
+ * @param array  $args             Optional. Array of parsed arguments.
+ * @param array  $latest_update    Optional. Array of the latest activity data.
  * @return string The formatted latest update for current member.
  */
 function bp_nouveau_get_member_latest_update( $activity_content = '', $args = array(), $latest_update = array() ) {

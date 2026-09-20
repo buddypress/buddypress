@@ -20,7 +20,7 @@ defined( 'ABSPATH' ) || exit;
  * @param int    $secondary_item_id The secondary item id.
  * @param int    $total_items       The total number of messaging-related notifications
  *                                  waiting for the user.
- * @param string $format            'string' for notification HTML link or 'array' for separate link and text.
+ * @param string $format            Optional. 'string' for notification HTML link or 'array' for separate link and text.
  * @return string|array Formatted notifications.
  */
 function messages_format_notifications( $action, $item_id, $secondary_item_id, $total_items, $format = 'string' ) {
@@ -262,8 +262,8 @@ add_action( 'thread_loop_start', 'bp_messages_screen_conversation_mark_notificat
  * @since 3.0.0
  *
  * @param int $thread_id ID of the thread being marked as read.
- * @param int $user_id   ID of the user who read the thread.
- * @param int $num_rows  The number of affected rows by the "mark read" update query.
+ * @param int $user_id   Optional. ID of the user who read the thread.
+ * @param int $num_rows  Optional. The number of affected rows by the "mark read" update query.
  * @return bool False otherwise.
  */
 function bp_messages_mark_notification_on_mark_thread( $thread_id, $user_id = 0, $num_rows = 0 ) {

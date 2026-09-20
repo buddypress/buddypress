@@ -248,7 +248,7 @@ function bp_is_theme_compat_active() {
  *
  * @since 1.7.0
  *
- * @param bool $set True to set the flag to true, false to set it to false.
+ * @param bool $set Optional. True to set the flag to true, false to set it to false.
  * @return bool
  */
 function bp_set_theme_compat_active( $set = true ) {
@@ -265,7 +265,7 @@ function bp_set_theme_compat_active( $set = true ) {
  *
  * @since 1.7.0
  *
- * @param array $templates The template stack.
+ * @param array $templates Optional. The template stack.
  * @return array The template stack (value of $templates).
  */
 function bp_set_theme_compat_templates( $templates = array() ) {
@@ -282,7 +282,7 @@ function bp_set_theme_compat_templates( $templates = array() ) {
  *
  * @since 1.7.0
  *
- * @param string $template The template currently in use.
+ * @param string $template Optional. The template currently in use.
  * @return string The template currently in use (value of $template).
  */
 function bp_set_theme_compat_template( $template = '' ) {
@@ -299,7 +299,7 @@ function bp_set_theme_compat_template( $template = '' ) {
  *
  * @since 1.7.0
  *
- * @param string $template The template originally selected by WP.
+ * @param string $template Optional. The template originally selected by WP.
  * @return string The template originally selected by WP (value of $template).
  */
 function bp_set_theme_compat_original_template( $template = '' ) {
@@ -314,7 +314,7 @@ function bp_set_theme_compat_original_template( $template = '' ) {
  * @since 2.4.0
  *
  * @param string $theme_id The theme id (eg: legacy).
- * @param array  $feature  An associative array (eg: array( name => 'feature_name', 'settings' => array() )).
+ * @param array  $feature  Optional. An associative array (eg: array( name => 'feature_name', 'settings' => array() )).
  */
 function bp_set_theme_compat_feature( $theme_id, $feature = array() ) {
 	if ( empty( $theme_id ) || empty( $feature['name'] ) ) {
@@ -373,7 +373,7 @@ function bp_set_theme_compat_feature( $theme_id, $feature = array() ) {
  *
  * @since 2.4.0
  *
- * @param string $feature The feature (eg: cover_image).
+ * @param string $feature Optional. The feature (eg: cover_image).
  * @return false|object The feature settings or false if the feature is not found.
  */
 function bp_get_theme_compat_feature( $feature = '' ) {
@@ -481,7 +481,7 @@ function bp_register_theme_compat_default_features() {
  *
  * @since 1.7.0
  *
- * @param string $template The template name to check.
+ * @param string $template Optional. The template name to check.
  * @return bool True if the value of $template is the same as the
  *              "original_template" originally selected by WP. Otherwise, false.
  */
@@ -505,8 +505,8 @@ function bp_is_theme_compat_original_template( $template = '' ) {
  *
  * @see BP_Theme_Compat for a description of the $theme parameter arguments.
  *
- * @param array $theme    See {@link BP_Theme_Compat}.
- * @param bool  $override If true, overrides whatever package is currently set.
+ * @param array $theme    Optional. See {@link BP_Theme_Compat}.
+ * @param bool  $override Optional. If true, overrides whatever package is currently set.
  *                        Default: true.
  */
 function bp_register_theme_package( $theme = array(), $override = true ) {
@@ -669,7 +669,7 @@ function bp_theme_compat_reset_post( $args = array() ) {
  *
  * @since 1.7.0
  *
- * @param string $template Template name.
+ * @param string $template Optional. Template name.
  * @return string Template name.
  */
 function bp_template_include_theme_compat( $template = '' ) {
@@ -746,7 +746,7 @@ function bp_template_include_theme_compat( $template = '' ) {
  *
  * @since 1.7.0
  *
- * @param string $content Original post content.
+ * @param string $content Optional. Original post content.
  * @return string Post content, potentially modified.
  */
 function bp_replace_the_content( $content = '' ) {
@@ -919,7 +919,7 @@ function bp_restore_all_filters( $tag, $priority = false ) {
  * @since 1.7.0
  *
  * @param bool $open    True if open, false if closed.
- * @param int  $post_id ID of the post to check.
+ * @param int  $post_id Optional. ID of the post to check.
  * @return bool True if open, false if closed.
  */
 function bp_comments_open( $open, $post_id = 0 ) {
@@ -981,7 +981,7 @@ function bp_comments_pre_query( $comment_data, $wp_comment_query ) {
  *
  * @global WP_Query $wp_query WordPress database query object.
  *
- * @param  string $retval The current post content.
+ * @param  string $retval Optional. The current post content.
  * @return string
  */
 function bp_theme_compat_toggle_is_page( $retval = '' ) {
@@ -1088,9 +1088,9 @@ add_action( 'bp_init', 'bp_register_buddypress_theme_feature' );
  * @since 14.0.0
  * @access private
  *
- * @param bool  $supports Whether the active theme supports the given feature. Default false.
- * @param array $args     Array of arguments for the feature.
- * @param mixed $feature  The theme feature.
+ * @param bool  $supports Optional. Whether the active theme supports the given feature. Default false.
+ * @param array $args     Optional. Array of arguments for the feature.
+ * @param mixed $feature  Optional. The theme feature.
  * @return bool True if the feature is supported. False otherwise.
  */
 function _bp_filter_current_theme_supports( $supports = false, $args = array(), $feature = null ) {
@@ -1122,7 +1122,7 @@ add_filter( 'current_theme_supports-buddypress', '_bp_filter_current_theme_suppo
  *
  * @since 14.0.0
  *
- * @param array $args An associative array containing **ONE** feature & keyed by the BP Component ID.
+ * @param array $args Optional. An associative array containing **ONE** feature & keyed by the BP Component ID.
  * @return bool True if the theme supports the BP feature. False otherwise.
  */
 function bp_current_theme_supports( $args = array() ) {

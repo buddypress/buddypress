@@ -70,8 +70,8 @@ add_action( 'bp_admin_menu', 'bp_members_type_admin_menu' );
  *
  * @since 7.0.0
  *
- * @param  bool   $exists  True if the member type already exists. False otherwise.
- * @param  string $type_id The member type identifier.
+ * @param  bool   $exists  Optional. True if the member type already exists. False otherwise.
+ * @param  string $type_id Optional. The member type identifier.
  * @return bool True if the member type already exists. False otherwise.
  */
 function bp_members_type_admin_type_exists( $exists = false, $type_id = '' ) {
@@ -88,7 +88,7 @@ add_filter( bp_get_member_type_tax_name() . '_check_existing_type', 'bp_members_
  *
  * @since 7.0.0
  *
- * @param array $messages The feedback messages.
+ * @param array $messages Optional. The feedback messages.
  * @return array The feedback messages including the ones for the Member Types Admin actions.
  */
 function bp_members_type_admin_updated_messages( $messages = array() ) {
@@ -141,8 +141,8 @@ function bp_members_admin_format_xprofile_field_for_display( $value ) {
  *
  * @since 10.0.0
  *
- * @param array       $signup_field_labels The Signup field labels.
- * @param object|null $signup_object The signup data object.
+ * @param array       $signup_field_labels Optional. The Signup field labels.
+ * @param object|null $signup_object Optional. The signup data object.
  */
 function bp_members_admin_preview_signup_profile_info( $signup_field_labels = array(), $signup_object = null ) {
 

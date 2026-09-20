@@ -43,7 +43,7 @@ function bp_notifications_slug() {
  * @since 1.9.0
  * @since 2.6.0 Added $user_id as a parameter.
  *
- * @param int $user_id The user ID.
+ * @param int $user_id Optional. The user ID.
  */
 function bp_notifications_permalink( $user_id = 0 ) {
 	echo esc_url( bp_get_notifications_permalink( $user_id ) );
@@ -54,7 +54,7 @@ function bp_notifications_permalink( $user_id = 0 ) {
 	 * @since 1.9.0
 	 * @since 2.6.0 Added $user_id as a parameter.
 	 *
-	 * @param int $user_id The user ID.
+	 * @param int $user_id Optional. The user ID.
 	 * @return string Notifications permalink.
 	 */
 	function bp_get_notifications_permalink( $user_id = 0 ) {
@@ -85,7 +85,7 @@ function bp_notifications_permalink( $user_id = 0 ) {
  * @since 1.9.0
  * @since 2.6.0 Added $user_id as a parameter.
  *
- * @param int $user_id The user ID.
+ * @param int $user_id Optional. The user ID.
  */
 function bp_notifications_unread_permalink( $user_id = 0 ) {
 	echo esc_url( bp_get_notifications_unread_permalink( $user_id ) );
@@ -95,7 +95,7 @@ function bp_notifications_unread_permalink( $user_id = 0 ) {
 	 *
 	 * @since 2.6.0 Added $user_id as a parameter.
 	 *
-	 * @param int $user_id The user ID.
+	 * @param int $user_id Optional. The user ID.
 	 * @return string Unread notifications permalink.
 	 */
 	function bp_get_notifications_unread_permalink( $user_id = 0 ) {
@@ -126,7 +126,7 @@ function bp_notifications_unread_permalink( $user_id = 0 ) {
  * @since 1.9.0
  * @since 2.6.0 Added $user_id as a parameter.
  *
- * @param int $user_id The user ID.
+ * @param int $user_id Optional. The user ID.
  */
 function bp_notifications_read_permalink( $user_id = 0 ) {
 	echo esc_url( bp_get_notifications_read_permalink( $user_id ) );
@@ -136,7 +136,7 @@ function bp_notifications_read_permalink( $user_id = 0 ) {
 	 *
 	 * @since 1.9.0
 	 *
-	 * @param int $user_id ID of the user.
+	 * @param int $user_id Optional. ID of the user.
 	 * @return string Read notifications permalink.
 	 */
 	function bp_get_notifications_read_permalink( $user_id = 0 ) {
@@ -173,7 +173,7 @@ function bp_notifications_read_permalink( $user_id = 0 ) {
  * @since 1.9.0
  *
  * @param array|string $args {
- *     Arguments for limiting the contents of the notifications loop. Can be
+ *     Optional. Arguments for limiting the contents of the notifications loop. Can be
  *     passed as an associative array, or as a URL query string.
  *
  *     See {@link BP_Notifications_Notification::get()} for detailed
@@ -549,7 +549,7 @@ function bp_the_notification_description() {
  * @since 1.9.0
  * @since 2.6.0 Added $user_id as a parameter.
  *
- * @param int $user_id The user ID.
+ * @param int $user_id Optional. The user ID.
  */
 function bp_the_notification_mark_read_link( $user_id = 0 ) {
 	// Escaping is made in `bp_get_the_notification_mark_read_link()`.
@@ -562,7 +562,7 @@ function bp_the_notification_mark_read_link( $user_id = 0 ) {
 	 * @since 1.9.0
 	 * @since 2.6.0 Added $user_id as a parameter.
 	 *
-	 * @param int $user_id The user ID.
+	 * @param int $user_id Optional. The user ID.
 	 * @return string
 	 */
 	function bp_get_the_notification_mark_read_link( $user_id = 0 ) {
@@ -591,7 +591,7 @@ function bp_the_notification_mark_read_link( $user_id = 0 ) {
  * @since 2.1.0
  * @since 2.6.0 Added $user_id as a parameter.
  *
- * @param int $user_id The user ID.
+ * @param int $user_id Optional. The user ID.
  */
 function bp_the_notification_mark_read_url( $user_id = 0 ) {
 	echo esc_url( bp_get_the_notification_mark_read_url( $user_id ) );
@@ -602,7 +602,7 @@ function bp_the_notification_mark_read_url( $user_id = 0 ) {
 	 * @since 2.1.0
 	 * @since 2.6.0 Added $user_id as a parameter.
 	 *
-	 * @param int $user_id The user ID.
+	 * @param int $user_id Optional. The user ID.
 	 * @return string
 	 */
 	function bp_get_the_notification_mark_read_url( $user_id = 0 ) {
@@ -643,7 +643,7 @@ function bp_the_notification_mark_read_url( $user_id = 0 ) {
  * @since 1.9.0
  * @since 2.6.0 Added $user_id as a parameter.
  *
- * @param int $user_id The user ID.
+ * @param int $user_id Optional. The user ID.
  */
 function bp_the_notification_mark_unread_link( $user_id = 0 ) {
 	// Escaping is done in `bp_get_the_notification_mark_unread_link()`.
@@ -656,7 +656,7 @@ function bp_the_notification_mark_unread_link( $user_id = 0 ) {
 	 * @since 1.9.0
 	 * @since 2.6.0 Added $user_id as a parameter.
 	 *
-	 * @param int $user_id The user ID.
+	 * @param int $user_id Optional. The user ID.
 	 * @return string
 	 */
 	function bp_get_the_notification_mark_unread_link( $user_id = 0 ) {
@@ -685,7 +685,7 @@ function bp_the_notification_mark_unread_link( $user_id = 0 ) {
  * @since 2.1.0
  * @since 2.6.0 Added $user_id as a parameter.
  *
- * @param int $user_id The user ID.
+ * @param int $user_id Optional. The user ID.
  */
 function bp_the_notification_mark_unread_url( $user_id = 0 ) {
 	echo esc_url( bp_get_the_notification_mark_unread_url( $user_id ) );
@@ -696,7 +696,7 @@ function bp_the_notification_mark_unread_url( $user_id = 0 ) {
 	 * @since 2.1.0
 	 * @since 2.6.0 Added $user_id as a parameter.
 	 *
-	 * @param int $user_id The user ID.
+	 * @param int $user_id Optional. The user ID.
 	 * @return string
 	 */
 	function bp_get_the_notification_mark_unread_url( $user_id = 0 ) {
@@ -737,7 +737,7 @@ function bp_the_notification_mark_unread_url( $user_id = 0 ) {
  * @since 1.9.0
  * @since 2.6.0 Added $user_id as a parameter.
  *
- * @param int $user_id The user ID.
+ * @param int $user_id Optional. The user ID.
  */
 function bp_the_notification_mark_link( $user_id = 0 ) {
 	// Escaping is made in `bp_get_the_notification_mark_read_link()` & `bp_get_the_notification_mark_unread_link()`.
@@ -750,7 +750,7 @@ function bp_the_notification_mark_link( $user_id = 0 ) {
 	 * @since 1.9.0
 	 * @since 2.6.0 Added $user_id as a parameter.
 	 *
-	 * @param int $user_id The user ID.
+	 * @param int $user_id Optional. The user ID.
 	 * @return string
 	 */
 	function bp_get_the_notification_mark_link( $user_id = 0 ) {
@@ -781,7 +781,7 @@ function bp_the_notification_mark_link( $user_id = 0 ) {
  * @since 1.9.0
  * @since 2.6.0 Added $user_id as a parameter.
  *
- * @param int $user_id The user ID.
+ * @param int $user_id Optional. The user ID.
  */
 function bp_the_notification_delete_link( $user_id = 0 ) {
 	// Escaping is made in `bp_get_the_notification_delete_link()`.
@@ -794,7 +794,7 @@ function bp_the_notification_delete_link( $user_id = 0 ) {
 	 * @since 1.9.0
 	 * @since 2.6.0 Added $user_id as a parameter.
 	 *
-	 * @param int $user_id The user ID.
+	 * @param int $user_id Optional. The user ID.
 	 * @return string
 	 */
 	function bp_get_the_notification_delete_link( $user_id = 0 ) {
@@ -823,7 +823,7 @@ function bp_the_notification_delete_link( $user_id = 0 ) {
  * @since 2.1.0
  * @since 2.6.0 Added $user_id as a parameter.
  *
- * @param int $user_id The user ID.
+ * @param int $user_id Optional. The user ID.
  */
 function bp_the_notification_delete_url( $user_id = 0 ) {
 	echo esc_url( bp_get_the_notification_delete_url( $user_id ) );
@@ -834,7 +834,7 @@ function bp_the_notification_delete_url( $user_id = 0 ) {
 	 * @since 2.1.0
 	 * @since 2.6.0 Added $user_id as a parameter.
 	 *
-	 * @param int $user_id The user ID.
+	 * @param int $user_id Optional. The user ID.
 	 * @return string
 	 */
 	function bp_get_the_notification_delete_url( $user_id = 0 ) {
@@ -881,7 +881,7 @@ function bp_the_notification_delete_url( $user_id = 0 ) {
  * @since 1.9.0
  * @since 2.6.0 Added $user_id as a parameter to $args.
  *
- * @param array|string $args Array of arguments.
+ * @param array|string $args Optional. Array of arguments.
  */
 function bp_the_notification_action_links( $args = '' ) {
 	// phpcs:ignore WordPress.Security.EscapeOutput
@@ -894,7 +894,7 @@ function bp_the_notification_action_links( $args = '' ) {
 	 * @since 2.6.0 Added $user_id as a parameter to $args.
 	 *
 	 * @param array|string $args {
-	 *     Arguments.
+	 *     Optional. Arguments.
 	 *     @type string $before  HTML before the links.
 	 *     @type string $after   HTML after the links.
 	 *     @type string $sep     HTML between the links.

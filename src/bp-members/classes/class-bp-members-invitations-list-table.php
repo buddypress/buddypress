@@ -312,10 +312,10 @@ class BP_Members_Invitations_List_Table extends WP_Users_List_Table {
 	 *
 	 * @see WP_List_Table::single_row() for explanation of params.
 	 *
-	 * @param BP_Invitation $invite   BP_Invitation object.
-	 * @param string        $style    Styles for the row.
-	 * @param string        $role     Role to be assigned to user.
-	 * @param int           $numposts Number of posts.
+	 * @param BP_Invitation $invite   Optional. BP_Invitation object.
+	 * @param string        $style    Optional. Styles for the row.
+	 * @param string        $role     Optional. Role to be assigned to user.
+	 * @param int           $numposts Optional. Number of posts.
 	 */
 	public function single_row( $invite = null, $style = '', $role = '', $numposts = 0 ) {
 		if ( '' === $style ) {
@@ -335,7 +335,7 @@ class BP_Members_Invitations_List_Table extends WP_Users_List_Table {
 	 *
 	 * @since 8.0.0
 	 *
-	 * @param BP_Invitation $invite BP_Invitation object.
+	 * @param BP_Invitation $invite Optional. BP_Invitation object.
 	 */
 	public function column_cb( $invite = null ) {
 		?>
@@ -354,7 +354,7 @@ class BP_Members_Invitations_List_Table extends WP_Users_List_Table {
 	 *
 	 * @since 8.0.0
 	 *
-	 * @param BP_Invitation $invite BP_Invitation object.
+	 * @param BP_Invitation $invite Optional. BP_Invitation object.
 	 */
 	public function column_invitee_email( $invite = null ) {
 		echo esc_html( $invite->invitee_email );
@@ -424,7 +424,7 @@ class BP_Members_Invitations_List_Table extends WP_Users_List_Table {
 	 *
 	 * @since 8.0.0
 	 *
-	 * @param BP_Invitation $invite BP_Invitation object.
+	 * @param BP_Invitation $invite Optional. BP_Invitation object.
 	 */
 	public function column_email( $invite = null ) {
 		printf( '<a href="mailto:%1$s">%2$s</a>', esc_attr( $invite->user_email ), esc_html( $invite->user_email ) );
@@ -435,7 +435,7 @@ class BP_Members_Invitations_List_Table extends WP_Users_List_Table {
 	 *
 	 * @since 8.0.0
 	 *
-	 * @param BP_Invitation $invite BP_Invitation object.
+	 * @param BP_Invitation $invite Optional. BP_Invitation object.
 	 */
 	public function column_username( $invite = null ) {
 		$avatar  = get_avatar( $invite->inviter_id, 32 );
@@ -471,7 +471,7 @@ class BP_Members_Invitations_List_Table extends WP_Users_List_Table {
 	 *
 	 * @since 8.0.0
 	 *
-	 * @param BP_Invitation $invite BP_Invitation object.
+	 * @param BP_Invitation $invite Optional. BP_Invitation object.
 	 */
 	public function column_inviter_registered_date( $invite = null ) {
 		$inviter = get_user_by( 'id', $invite->inviter_id );
@@ -486,7 +486,7 @@ class BP_Members_Invitations_List_Table extends WP_Users_List_Table {
 	 *
 	 * @since 8.0.0
 	 *
-	 * @param BP_Invitation $invite BP_Invitation object.
+	 * @param BP_Invitation $invite Optional. BP_Invitation object.
 	 */
 	public function column_invitation_date_modified( $invite = null ) {
 		echo esc_html( $invite->date_modified );
@@ -497,7 +497,7 @@ class BP_Members_Invitations_List_Table extends WP_Users_List_Table {
 	 *
 	 * @since 8.0.0
 	 *
-	 * @param BP_Invitation $invite BP_Invitation object.
+	 * @param BP_Invitation $invite Optional. BP_Invitation object.
 	 */
 	public function column_invitation_sent( $invite = null ) {
 		if ( $invite->invite_sent ) {
@@ -512,7 +512,7 @@ class BP_Members_Invitations_List_Table extends WP_Users_List_Table {
 	 *
 	 * @since 8.0.0
 	 *
-	 * @param BP_Invitation $invite BP_Invitation object.
+	 * @param BP_Invitation $invite Optional. BP_Invitation object.
 	 */
 	public function column_invitation_accepted( $invite = null ) {
 		if ( $invite->accepted ) {
@@ -527,8 +527,8 @@ class BP_Members_Invitations_List_Table extends WP_Users_List_Table {
 	 *
 	 * @since 8.0.0
 	 *
-	 * @param BP_Invitation $invite      BP_Invitation object.
-	 * @param string        $column_name The column name.
+	 * @param BP_Invitation $invite      Optional. BP_Invitation object.
+	 * @param string        $column_name Optional. The column name.
 	 * @return string
 	 */
 	public function column_default( $invite = null, $column_name = '' ) {

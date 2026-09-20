@@ -889,7 +889,7 @@ class BP_Activity_Activity {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @param array $activity_ids Array of activity IDs.
+	 * @param array $activity_ids Optional. Array of activity IDs.
 	 * @param bool  $cache_results Optional. Whether to cache activity information. Default true.
 	 * @return array
 	 */
@@ -1085,7 +1085,7 @@ class BP_Activity_Activity {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @param array $meta_query An array of meta_query filters. See the
+	 * @param array $meta_query Optional. An array of meta_query filters. See the
 	 *                          documentation for WP_Meta_Query for details.
 	 * @return array 'join' and 'where' clauses.
 	 */
@@ -1126,7 +1126,7 @@ class BP_Activity_Activity {
 	 *
 	 * @since 2.1.0
 	 *
-	 * @param array $date_query An array of date_query parameters. See the
+	 * @param array $date_query Optional. An array of date_query parameters. See the
 	 *                          documentation for the first parameter of WP_Date_Query.
 	 * @return string
 	 */
@@ -1144,8 +1144,8 @@ class BP_Activity_Activity {
 	 *
 	 * @since 2.2.0
 	 *
-	 * @param  mixed $scope  The activity scope. Accepts string or array of scopes.
-	 * @param  array $r      Current activity arguments. Same as those of BP_Activity_Activity::get(),
+	 * @param  mixed $scope  Optional. The activity scope. Accepts string or array of scopes.
+	 * @param  array $r      Optional. Current activity arguments. Same as those of BP_Activity_Activity::get(),
 	 *                       but merged with defaults.
 	 * @return false|array 'sql' WHERE SQL string and 'override' activity args.
 	 */
@@ -1388,7 +1388,7 @@ class BP_Activity_Activity {
 	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param array $args {
-	 *     An array of activity item deletion arguments.
+	 *     Optional. An array of activity item deletion arguments.
 	 *     @int    $id                Optional. The ID of a specific item to delete.
 	 *     @string $action            Optional. The action to filter by.
 	 *     @string $content           Optional. The content to filter by.
@@ -1571,8 +1571,8 @@ class BP_Activity_Activity {
 	 *
 	 * @deprecated 2.3.0
 	 *
-	 * @param array $activity_ids Activity IDs whose comments should be deleted.
-	 * @param bool  $delete_meta  Should we delete the activity meta items for these comments.
+	 * @param array $activity_ids Optional. Activity IDs whose comments should be deleted.
+	 * @param bool  $delete_meta  Optional. Should we delete the activity meta items for these comments.
 	 * @return bool
 	 */
 	public static function delete_activity_item_comments( $activity_ids = array(), $delete_meta = true ) {
@@ -1600,7 +1600,7 @@ class BP_Activity_Activity {
 	 *
 	 * @since 1.2.0
 	 *
-	 * @param array $activity_ids Activity IDs whose meta should be deleted.
+	 * @param array $activity_ids Optional. Activity IDs whose meta should be deleted.
 	 * @return bool
 	 */
 	public static function delete_activity_meta_entries( $activity_ids = array() ) {
@@ -1814,7 +1814,7 @@ class BP_Activity_Activity {
 	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param int $parent_id ID of an activity or activity comment.
-	 * @param int $left      Node boundary start for activity or activity comment.
+	 * @param int $left      Optional. Node boundary start for activity or activity comment.
 	 * @return int Right Node boundary of activity or activity comment.
 	 */
 	public static function rebuild_activity_comment_tree( $parent_id, $left = 1 ) {
@@ -1871,7 +1871,7 @@ class BP_Activity_Activity {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @param bool $skip_last_activity If true, components will not be
+	 * @param bool $skip_last_activity Optional. If true, components will not be
 	 *                                 included if the only activity type associated with them is
 	 *                                 'last_activity'. (Since 2.0.0, 'last_activity' is stored in
 	 *                                 the activity table, but these items are not full-fledged

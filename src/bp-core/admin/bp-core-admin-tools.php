@@ -535,7 +535,7 @@ function bp_admin_invitations_table() {
  * @since 2.0.0
  *
  * @param string      $message    Feedback message.
- * @param string|bool $html_class Unused. Defaults to false.
+ * @param string|bool $html_class Optional. Unused. Defaults to false.
  * @return false|Closure
  */
 function bp_admin_tools_feedback( $message, $html_class = false ) {
@@ -773,7 +773,7 @@ add_action( 'network_admin_notices', 'bp_core_admin_notice_repopulate_blogs_resu
  *
  * @since 5.0.0
  *
- * @param  array $debug_info The Site's debug info.
+ * @param  array $debug_info Optional. The Site's debug info.
  * @return array             The Site's debug info, including the BuddyPress specific ones.
  */
 function bp_core_admin_debug_information( $debug_info = array() ) {

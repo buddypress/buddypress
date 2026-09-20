@@ -1083,7 +1083,7 @@ class BP_Members_Signup_REST_Controller extends WP_REST_Controller {
 	 *
 	 * @since 15.0.0
 	 *
-	 * @param string $method HTTP method of the request. Default is WP_REST_Server::CREATABLE.
+	 * @param string $method Optional. HTTP method of the request. Default is WP_REST_Server::CREATABLE.
 	 * @return array Endpoint arguments.
 	 */
 	public function get_endpoint_args_for_item_schema( $method = WP_REST_Server::CREATABLE ) {

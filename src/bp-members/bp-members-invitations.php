@@ -16,8 +16,8 @@ defined( 'ABSPATH' ) || exit;
  * @since 8.0.0
  *
  * @param bool   $send       Whether or not to send the activation key.
- * @param int    $user_id    User ID to send activation key to.
- * @param string $user_email User email to send activation key to.
+ * @param int    $user_id    Optional. User ID to send activation key to.
+ * @param string $user_email Optional. User email to send activation key to.
  *
  * @return bool Whether or not to send the activation key.
  */

@@ -196,7 +196,7 @@ function bp_get_community_caps() {
  *
  * @since 1.6.0
  *
- * @param string $role The role for which you're loading caps.
+ * @param string $role Optional. The role for which you're loading caps.
  * @return array Capabilities for $role.
  */
 function bp_get_caps_for_role( $role = '' ) {
@@ -272,7 +272,7 @@ function bp_set_current_user_default_role() {
  *
  * @param string    $capability Capability or role name.
  * @param array|int $args {
- *     Array of extra arguments applicable to the capability check.
+ *     Optional. Array of extra arguments applicable to the capability check.
  *     @type int   $site_id Optional. Blog ID. Defaults to the BP root blog.
  *     @type int   $blog_id Deprecated. Use $site_id instead.
  *     @type mixed $a,...   Optional. Extra arguments applicable to the capability check.
@@ -341,7 +341,7 @@ function bp_current_user_can_moderate() {
  * @param int       $user_id    User ID.
  * @param string    $capability Capability or role name.
  * @param array|int $args {
- *     Array of extra arguments applicable to the capability check.
+ *     Optional. Array of extra arguments applicable to the capability check.
  *
  *     @type int   $site_id Optional. Site ID. Defaults to the BP root blog.
  *     @type mixed $a,...   Optional. Extra arguments applicable to the capability check.

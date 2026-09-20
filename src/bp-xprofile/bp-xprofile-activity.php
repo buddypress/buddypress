@@ -79,7 +79,7 @@ function bp_xprofile_format_activity_action_updated_profile( $action, $activity 
  *
  * @since 1.0.0
  *
- * @param array|string $args String containing all variables used after bp_parse_args() call.
+ * @param array|string $args Optional. String containing all variables used after bp_parse_args() call.
  * @return WP_Error|bool|int
  */
 function xprofile_record_activity( $args = '' ) {
@@ -115,7 +115,7 @@ function xprofile_record_activity( $args = '' ) {
  *
  * @since 1.0.0
  *
- * @param array|string $args Containing all variables used after bp_parse_args() call.
+ * @param array|string $args Optional. Containing all variables used after bp_parse_args() call.
  */
 function xprofile_delete_activity( $args = '' ) {
 
@@ -171,10 +171,10 @@ function xprofile_register_activity_action( $key, $value ) {
  * @since 2.0.0
  *
  * @param int   $user_id    ID of the user who has updated his profile.
- * @param array $field_ids  IDs of the fields submitted.
- * @param bool  $errors     True if validation or saving errors occurred, otherwise false.
- * @param array $old_values Pre-save xprofile field values and visibility levels.
- * @param array $new_values Post-save xprofile field values and visibility levels.
+ * @param array $field_ids  Optional. IDs of the fields submitted.
+ * @param bool  $errors     Optional. True if validation or saving errors occurred, otherwise false.
+ * @param array $old_values Optional. Pre-save xprofile field values and visibility levels.
+ * @param array $new_values Optional. Post-save xprofile field values and visibility levels.
  * @return bool
  */
 function bp_xprofile_updated_profile_activity( $user_id, $field_ids = array(), $errors = false, $old_values = array(), $new_values = array() ) {

@@ -237,7 +237,7 @@ function bp_nouveau_activity_timestamp() {
  *
  * @since 3.0.0
  *
- * @param array $args See bp_nouveau_wrapper() for the description of parameters.
+ * @param array $args Optional. See bp_nouveau_wrapper() for the description of parameters.
  */
 function bp_nouveau_activity_entry_buttons( $args = array() ) {
 	$output = join( ' ', bp_nouveau_get_activity_entry_buttons( $args ) );

@@ -56,8 +56,8 @@ function bp_xprofile_admin_load() {
  *
  * @since 1.0.0
  *
- * @param string $message Message to display.
- * @param string $type    Type of action to be displayed.
+ * @param string $message Optional. Message to display.
+ * @param string $type    Optional. Type of action to be displayed.
  */
 function xprofile_admin( $message = '', $type = 'error' ) {
 
@@ -145,8 +145,8 @@ function xprofile_admin( $message = '', $type = 'error' ) {
  *
  * @since 2.3.0
  *
- * @param string $message Feedback message.
- * @param string $type    Feedback type.
+ * @param string $message Optional. Feedback message.
+ * @param string $type    Optional. Feedback type.
  *
  * @todo Improve error message output
  */
@@ -471,7 +471,7 @@ function xprofile_admin_screen( $message = '', $type = 'error' ) {
  * @global string $message The feedback message to show.
  * @global string $type    The type of feedback message to show.
  *
- * @param int|null $group_id Group ID to manage.
+ * @param int|null $group_id Optional. Group ID to manage.
  */
 function xprofile_admin_manage_group( $group_id = null ) {
 	global $message, $type;
@@ -640,7 +640,7 @@ function xprofile_admin_delete_group_screen( $group_id ) {
  * @global array  $groups  The list of matching xProfile field groups.
  *
  * @param int      $group_id ID of the group.
- * @param int|null $field_id ID of the field being managed.
+ * @param int|null $field_id Optional. ID of the field being managed.
  */
 function xprofile_admin_manage_field( $group_id, $field_id = null ) {
 	global $wpdb, $message, $groups;
@@ -808,8 +808,8 @@ function xprofile_admin_manage_field( $group_id, $field_id = null ) {
  * @global string $type The type of feedback message to show.
  *
  * @param int    $field_id    The field to delete.
- * @param string $field_type  The type of field being deleted.
- * @param bool   $delete_data Should the field data be deleted too.
+ * @param string $field_type  Optional. The type of field being deleted.
+ * @param bool   $delete_data Optional. Should the field data be deleted too.
  */
 function xprofile_admin_delete_field( $field_id, $field_type = 'field', $delete_data = false ) {
 	global $message, $type;

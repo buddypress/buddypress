@@ -25,7 +25,7 @@ defined( 'ABSPATH' ) || exit;
  *      return values.
  *
  * @param array|string $args {
- *     An array of arguments for the new activity item. Accepts all parameters
+ *     Optional. An array of arguments for the new activity item. Accepts all parameters
  *     of {@link bp_activity_add()}. The following argument has a different
  *     default.
  *     @type string $component Default: the id of your Friends component
@@ -283,8 +283,8 @@ add_filter( 'bp_activity_prefetch_object_data', 'bp_friends_prefetch_activity_ob
  *
  * @since 2.2.0
  *
- * @param array $retval Empty array by default.
- * @param array $filter Current activity arguments.
+ * @param array $retval Optional. Empty array by default.
+ * @param array $filter Optional. Current activity arguments.
  * @return array
  */
 function bp_friends_filter_activity_scope( $retval = array(), $filter = array() ) {
@@ -336,8 +336,8 @@ add_filter( 'bp_activity_set_friends_scope_args', 'bp_friends_filter_activity_sc
  *
  * @since 2.2.0
  *
- * @param array $retval Empty array by default.
- * @param array $filter Current activity arguments.
+ * @param array $retval Optional. Empty array by default.
+ * @param array $filter Optional. Current activity arguments.
  * @return array
  */
 function bp_friends_filter_activity_just_me_scope( $retval = array(), $filter = array() ) {
@@ -438,7 +438,7 @@ add_action( 'friends_friendship_accepted', 'bp_friends_friendship_accepted_activ
  *
  * @since 2.5.0
  *
- * @param int $user_id The ID of the user being deleted.
+ * @param int $user_id Optional. The ID of the user being deleted.
  */
 function bp_friends_delete_activity_on_user_delete( $user_id = 0 ) {
 	if ( ! bp_is_active( 'activity' ) ) {

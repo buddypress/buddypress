@@ -483,7 +483,7 @@ class BP_Members_Admin {
 	 *
 	 * @since 2.1.0
 	 *
-	 * @param int $user_id ID of the user being checked for edit ability.
+	 * @param int $user_id Optional. ID of the user being checked for edit ability.
 	 *
 	 * @return bool
 	 */
@@ -908,8 +908,8 @@ class BP_Members_Admin {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param object|null $user   User to create profile navigation for.
-	 * @param string      $active Which profile to highlight.
+	 * @param object|null $user   Optional. User to create profile navigation for.
+	 * @param string      $active Optional. Which profile to highlight.
 	 * @return string|null
 	 */
 	public function profile_nav( $user = null, $active = 'WordPress' ) {
@@ -1372,7 +1372,7 @@ class BP_Members_Admin {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param WP_User|null $user The WP_User object to be edited.
+	 * @param WP_User|null $user Optional. The WP_User object to be edited.
 	 */
 	public function user_admin_status_metabox( $user = null ) {
 
@@ -1475,7 +1475,7 @@ class BP_Members_Admin {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param WP_User|null $user The WP_User object to be edited.
+	 * @param WP_User|null $user Optional. The WP_User object to be edited.
 	 */
 	public function user_admin_spammer_metabox( $user = null ) {
 	?>
@@ -1493,7 +1493,7 @@ class BP_Members_Admin {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param WP_User|null $user The WP_User object to be edited.
+	 * @param WP_User|null $user Optional. The WP_User object to be edited.
 	 */
 	public function user_admin_stats_metabox( $user = null ) {
 
@@ -1548,7 +1548,7 @@ class BP_Members_Admin {
 	 *
 	 * @since 6.0.0
 	 *
-	 * @param WP_User|null $user The WP_User object for the user being edited.
+	 * @param WP_User|null $user Optional. The WP_User object for the user being edited.
 	 */
 	public function user_admin_avatar_metabox( $user = null ) {
 
@@ -1614,7 +1614,7 @@ class BP_Members_Admin {
 	 *
 	 * @since 2.2.0
 	 *
-	 * @param WP_User|null $user The WP_User object to be edited.
+	 * @param WP_User|null $user Optional. The WP_User object to be edited.
 	 */
 	public function user_admin_member_type_metabox( $user = null ) {
 
@@ -1696,8 +1696,8 @@ class BP_Members_Admin {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param array|string $actions WordPress row actions (edit, delete).
-	 * @param object|null  $user    The object for the user row.
+	 * @param array|string $actions Optional. WordPress row actions (edit, delete).
+	 * @param object|null  $user    Optional. The object for the user row.
 	 * @return null|string|array Merged actions.
 	 */
 	public function row_actions( $actions = '', $user = null ) {
@@ -1765,9 +1765,9 @@ class BP_Members_Admin {
 	 *
 	 * @since 2.1.0
 	 *
-	 * @param string $profile_link Profile Link for admin bar.
-	 * @param string $url          Profile URL.
-	 * @param int    $user_id      User ID.
+	 * @param string $profile_link Optional. Profile Link for admin bar.
+	 * @param string $url          Optional. Profile URL.
+	 * @param int    $user_id      Optional. User ID.
 	 * @return string
 	 */
 	public function filter_adminbar_profile_link( $profile_link = '', $url = '', $user_id = 0 ) {
@@ -1793,9 +1793,9 @@ class BP_Members_Admin {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param int    $value     Value for signup option.
-	 * @param string $option    Value for the option key.
-	 * @param int    $new_value Value for the saved option.
+	 * @param int    $value     Optional. Value for signup option.
+	 * @param string $option    Optional. Value for the option key.
+	 * @param int    $new_value Optional. Value for the saved option.
 	 * @return int The pagination preferences.
 	 */
 	public function signup_screen_options( $value = 0, $option = '', $new_value = 0 ) {
@@ -1822,7 +1822,7 @@ class BP_Members_Admin {
 	 *
 	 * @global wpdb $wpdb The WordPress database object.
 	 *
-	 * @param WP_User_Query|null $query The users query.
+	 * @param WP_User_Query|null $query Optional. The users query.
 	 * @return WP_User_Query|null The users query without the signups.
 	 */
 	public function remove_signups_from_user_query( $query = null ) {
@@ -1866,7 +1866,7 @@ class BP_Members_Admin {
 	 *
 	 * @global string $role The name of the WP Role.
 	 *
-	 * @param array $views WP List Table views.
+	 * @param array $views Optional. WP List Table views.
 	 * @return array The views with the signup view added.
 	 */
 	public function signup_filter_view( $views = array() ) {
@@ -1903,8 +1903,8 @@ class BP_Members_Admin {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param string $list_table_class The name of the class to use.
-	 * @param string $required         The parent class.
+	 * @param string $list_table_class Optional. The name of the class to use.
+	 * @param string $required         Optional. The parent class.
 	 * @return WP_List_Table|null The List table.
 	 */
 	public static function get_list_table_class( $list_table_class = '', $required = '' ) {
@@ -2505,7 +2505,7 @@ class BP_Members_Admin {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param string $action Delete, activate, or resend activation link.
+	 * @param string $action Optional. Delete, activate, or resend activation link.
 	 *
 	 * @return null|false
 	 */
@@ -2748,7 +2748,7 @@ class BP_Members_Admin {
 	 *
 	 * @since 2.7.0
 	 *
-	 * @param string $which Where this dropdown is displayed - top or bottom.
+	 * @param string $which Optional. Where this dropdown is displayed - top or bottom.
 	 */
 	public function users_table_output_type_change_select( $which = 'top' ) {
 
@@ -2890,7 +2890,7 @@ class BP_Members_Admin {
 	 *
 	 * @since 2.7.0
 	 *
-	 * @param array $columns Users table columns.
+	 * @param array $columns Optional. Users table columns.
 	 *
 	 * @return array
 	 */
@@ -2905,9 +2905,9 @@ class BP_Members_Admin {
 	 *
 	 * @since 2.7.0
 	 *
-	 * @param string $retval      Existing column output.
-	 * @param string $column_name Column being rendered.
-	 * @param int    $user_id     ID of the user being rendered.
+	 * @param string $retval      Optional. Existing column output.
+	 * @param string $column_name Optional. Column being rendered.
+	 * @param int    $user_id     Optional. ID of the user being rendered.
 	 *
 	 * @return string Member type as a link to filter all users.
 	 */
@@ -3427,7 +3427,7 @@ class BP_Members_Admin {
 	 *
 	 * @since 8.0.0
 	 *
-	 * @param string $action Delete or resend invitation.
+	 * @param string $action Optional. Delete or resend invitation.
 	 * @return null|false
 	 */
 	public function invitations_admin_manage( $action = '' ) {

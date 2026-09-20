@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.0.0
  *
- * @param array $pieces The list of terms of the hook to join.
+ * @param array $pieces Optional. The list of terms of the hook to join.
  */
 function bp_nouveau_hook( $pieces = array() ) {
 	if ( ! $pieces ) {
@@ -43,7 +43,7 @@ function bp_nouveau_hook( $pieces = array() ) {
  *
  * @since 3.0.0
  *
- * @param string $suffix The suffix of the hook.
+ * @param string $suffix Optional. The suffix of the hook.
  */
 function bp_nouveau_plugin_hook( $suffix = '' ) {
 	if ( ! $suffix ) {
@@ -67,7 +67,7 @@ function bp_nouveau_plugin_hook( $suffix = '' ) {
  *
  * @since 3.0.0
  *
- * @param string $suffix The suffix of the hook.
+ * @param string $suffix Optional. The suffix of the hook.
  */
 function bp_nouveau_friend_hook( $suffix = '' ) {
 	if ( ! $suffix ) {
@@ -278,7 +278,7 @@ function bp_nouveau_template_notices() {
  *
  * @since 3.0.0
  *
- * @param string $feedback_id The ID of the message to display.
+ * @param string $feedback_id Optional. The ID of the message to display.
  */
 function bp_nouveau_user_feedback( $feedback_id = '' ) {
 	if ( ! isset( $feedback_id ) ) {
@@ -775,7 +775,7 @@ function bp_nouveau_avatar_args() {
  * @since 3.0.0
  *
  * @param array $args {
- *     Array of arguments.
+ *     Optional. Array of arguments.
  *
  *     @type string $type                    The type of Nav to get (primary or secondary)
  *                                           Default 'primary'. Required.
@@ -1862,7 +1862,7 @@ function bp_nouveau_search_container_class() {
  *
  * @since 3.0.0
  *
- * @param  string $attr The data-bp attribute.
+ * @param  string $attr Optional. The data-bp attribute.
  * @return string The data-bp attribute.
  */
 function bp_nouveau_search_object_data_attr( $attr = '' ) {
@@ -2390,8 +2390,8 @@ function bp_nouveau_get_customizer_link( $args = array() ) {
  *
  * @since 3.0.0
  *
- * @param string $when   'before' or 'after'.
- * @param string $prefix Use it to add terms before the hook name.
+ * @param string $when   Optional. 'before' or 'after'.
+ * @param string $prefix Optional. Use it to add terms before the hook name.
  */
 function bp_nouveau_signup_hook( $when = '', $prefix = '' ) {
 	$hook = array( 'bp' );
@@ -2422,8 +2422,8 @@ function bp_nouveau_signup_hook( $when = '', $prefix = '' ) {
  *
  * @since 3.0.0
  *
- * @param string $when   'before' or 'after'.
- * @param string $suffix Use it to add terms before the hook name.
+ * @param string $when   Optional. 'before' or 'after'.
+ * @param string $suffix Optional. Use it to add terms before the hook name.
  */
 function bp_nouveau_activation_hook( $when = '', $suffix = '' ) {
 	$hook = array( 'bp' );
@@ -2704,7 +2704,7 @@ function bp_nouveau_signup_privacy_policy_acceptance_section() {
  * @since 3.0.0
  *
  * @param string $action The action to get the submit button for. Required.
- * @param int    $object_id ID of the object for the button nonce.
+ * @param int    $object_id Optional. ID of the object for the button nonce.
  */
 function bp_nouveau_submit_button( $action, $object_id = 0 ) {
 	$submit_data = bp_nouveau_get_submit_button( $action );
@@ -2774,7 +2774,7 @@ function bp_nouveau_submit_button( $action, $object_id = 0 ) {
  * This template handles in page error or feedback messages e.g signup fields
  * 'Username exists' type registration field error notices.
  *
- * @param string $message required: the message to display.
+ * @param string $message Optional. The message to display.
  * @param string $type optional: the type of error message e.g 'error'.
  *
  * @since 3.0.0

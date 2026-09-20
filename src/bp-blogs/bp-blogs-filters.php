@@ -70,10 +70,10 @@ function bp_blogs_comments_clauses_select_by_id( $retval ) {
  *
  * @since 2.2.0
  *
- * @param bool $should_publish Whether the post should be published.
- * @param int  $blog_id        ID of the blog.
- * @param int  $post_id        ID of the post.
- * @param int  $user_id        ID of the post author.
+ * @param bool $should_publish Optional. Whether the post should be published.
+ * @param int  $blog_id        Optional. ID of the blog.
+ * @param int  $post_id        Optional. ID of the post.
+ * @param int  $user_id        Optional. ID of the post author.
  * @return bool True to authorize the post to be published, otherwise false.
  */
 function bp_blogs_post_pre_publish( $should_publish = true, $blog_id = 0, $post_id = 0, $user_id = 0 ) {

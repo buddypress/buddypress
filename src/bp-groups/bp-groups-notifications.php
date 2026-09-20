@@ -20,8 +20,8 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  *
- * @param int                  $group_id  ID of the group.
- * @param BP_Groups_Group|null $old_group Group before new details were saved.
+ * @param int                  $group_id  Optional. ID of the group.
+ * @param BP_Groups_Group|null $old_group Optional. Group before new details were saved.
  */
 function groups_notification_group_updated( $group_id = 0, $old_group = null ) {
 	$group = groups_get_group( $group_id );
@@ -119,9 +119,9 @@ function groups_notification_group_updated( $group_id = 0, $old_group = null ) {
  * @since 1.0.0
  * @since 15.0.0 The `$membership_id` parameter was removed since it was unused.
  *
- * @param int $requesting_user_id ID of the user requesting group membership.
- * @param int $admin_id           ID of the group admin.
- * @param int $group_id           ID of the group.
+ * @param int $requesting_user_id Optional. ID of the user requesting group membership.
+ * @param int $admin_id           Optional. ID of the group admin.
+ * @param int $group_id           Optional. ID of the group.
  */
 function groups_notification_new_membership_request( $requesting_user_id = 0, $admin_id = 0, $group_id = 0 ) {
 
@@ -187,8 +187,8 @@ function groups_notification_new_membership_request( $requesting_user_id = 0, $a
  *
  * @since 1.0.0
  *
- * @param int  $requesting_user_id ID of the user requesting group membership.
- * @param int  $group_id           ID of the group.
+ * @param int  $requesting_user_id Optional. ID of the user requesting group membership.
+ * @param int  $group_id           Optional. ID of the group.
  * @param bool $accepted           Optional. Whether the membership request was accepted.
  *                                 Default: true.
  */
@@ -257,8 +257,8 @@ add_action( 'groups_membership_rejected', 'groups_notification_membership_reques
  *
  * @since 1.0.0
  *
- * @param int $user_id  ID of the user.
- * @param int $group_id ID of the group.
+ * @param int $user_id  Optional. ID of the user.
+ * @param int $group_id Optional. ID of the group.
  */
 function groups_notification_promoted_member( $user_id = 0, $group_id = 0 ) {
 
@@ -396,7 +396,7 @@ function groups_notification_group_invites( &$group, &$member, $inviter_user_id 
  * @param int    $secondary_item_id The secondary item ID.
  * @param int    $total_items       The total number of messaging-related notifications
  *                                  waiting for the user.
- * @param string $format            'string' for notification HTML link or 'array' for separate link and text.
+ * @param string $format            Optional. 'string' for notification HTML link or 'array' for separate link and text.
  *                                  for WP Toolbar. Default: 'string'.
  * @return string
  */
@@ -1121,8 +1121,8 @@ add_action( 'groups_delete_group', 'bp_groups_delete_group_delete_all_notificati
  *
  * @since 5.0.0
  *
- * @param int $group_id ID of the group being uninvited from.
- * @param int $user_id  ID of the user being uninvited.
+ * @param int $group_id Optional. ID of the group being uninvited from.
+ * @param int $user_id  Optional. ID of the user being uninvited.
  */
 function bp_groups_uninvite_user_delete_group_invite_notification( $group_id = 0, $user_id = 0 ) {
 	if ( ! bp_is_active( 'notifications' ) || ! $group_id || ! $user_id ) {
@@ -1138,8 +1138,8 @@ add_action( 'groups_uninvite_user', 'bp_groups_uninvite_user_delete_group_invite
  *
  * @since 2.0.0
  *
- * @param int $user_id  ID of the user.
- * @param int $group_id ID of the group.
+ * @param int $user_id  Optional. ID of the user.
+ * @param int $group_id Optional. ID of the group.
  */
 function bp_groups_delete_promotion_notifications( $user_id = 0, $group_id = 0 ) {
 	if ( bp_is_active( 'notifications' ) && ! empty( $group_id ) && ! empty( $user_id ) ) {

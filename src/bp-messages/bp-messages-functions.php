@@ -21,7 +21,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 2.4.0 Added 'error_type' as an additional $args parameter.
  *
  * @param array|string $args {
- *     Array of arguments.
+ *     Optional. Array of arguments.
  *     @type int    $sender_id  Optional. ID of the user who is sending the
  *                              message. Default: ID of the logged-in user.
  *     @type int    $thread_id  Optional. ID of the parent thread. Leave blank to
@@ -264,7 +264,7 @@ function messages_send_notice( $subject, $message ) {
  *              was always assumed.
  *
  * @param int|array $thread_ids Thread ID or array of thread IDs.
- * @param int       $user_id    ID of the user to delete the threads for. Defaults
+ * @param int       $user_id    Optional. ID of the user to delete the threads for. Defaults
  *                              to the current logged-in user.
  * @return bool
  */
@@ -444,7 +444,7 @@ function messages_is_valid_thread( $thread_id ) {
  *
  * @global wpdb $wpdb WordPress database object.
  *
- * @param  int $message_id ID of the message.
+ * @param  int $message_id Optional. ID of the message.
  * @return int The ID of the thread if found, otherwise 0.
  */
 function messages_get_message_thread_id( $message_id = 0 ) {
@@ -469,9 +469,9 @@ function messages_get_message_thread_id( $message_id = 0 ) {
  * @see delete_metadata() for full documentation excluding $meta_type variable.
  *
  * @param int         $message_id ID of the message to have meta deleted for.
- * @param string|bool $meta_key   Meta key to delete. Default false.
- * @param string|bool $meta_value Meta value to delete. Default false.
- * @param bool        $delete_all Whether or not to delete all meta data.
+ * @param string|bool $meta_key   Optional. Meta key to delete. Default false.
+ * @param string|bool $meta_value Optional. Meta value to delete. Default false.
+ * @param bool        $delete_all Optional. Whether or not to delete all meta data.
  * @return bool
  */
 function bp_messages_delete_meta( $message_id, $meta_key = false, $meta_value = false, $delete_all = false ) {
@@ -516,8 +516,8 @@ function bp_messages_delete_meta( $message_id, $meta_key = false, $meta_value = 
  * @see get_metadata() for full documentation excluding $meta_type variable.
  *
  * @param int    $message_id ID of the message to retrieve meta for.
- * @param string $meta_key   Meta key to retrieve. Default empty string.
- * @param bool   $single     Whether or not to fetch all or a single value.
+ * @param string $meta_key   Optional. Meta key to retrieve. Default empty string.
+ * @param bool   $single     Optional. Whether or not to fetch all or a single value.
  * @return mixed
  */
 function bp_messages_get_meta( $message_id, $meta_key = '', $single = true ) {
@@ -538,7 +538,7 @@ function bp_messages_get_meta( $message_id, $meta_key = '', $single = true ) {
  * @param int         $message_id ID of the message to have meta deleted for.
  * @param string|bool $meta_key   Meta key to update.
  * @param string|bool $meta_value Meta value to update.
- * @param string      $prev_value If specified, only update existing metadata entries with
+ * @param string      $prev_value Optional. If specified, only update existing metadata entries with
  *                                the specified value. Otherwise, update all entries.
  * @return mixed
  */
@@ -560,7 +560,7 @@ function bp_messages_update_meta( $message_id, $meta_key, $meta_value, $prev_val
  * @param int         $message_id ID of the message to have meta deleted for.
  * @param string|bool $meta_key   Meta key to update.
  * @param string|bool $meta_value Meta value to update.
- * @param bool        $unique     Whether the specified metadata key should be
+ * @param bool        $unique     Optional. Whether the specified metadata key should be
  *                                unique for the object. If true, and the object
  *                                already has a value for the specified metadata key,
  *                                no change will be made.
@@ -582,7 +582,7 @@ function bp_messages_add_meta( $message_id, $meta_key, $meta_value, $unique = fa
  * @since 1.0.0
  *
  * @param array|BP_Messages_Message $raw_args {
- *     Array of arguments. Also accepts a BP_Messages_Message object.
+ *     Optional. Array of arguments. Also accepts a BP_Messages_Message object.
  *     @type array  $recipients    User IDs of recipients.
  *     @type string $email_subject Subject line of message.
  *     @type string $email_content Content of message.
@@ -774,9 +774,9 @@ function bp_messages_personal_data_exporter( $email_address, $page ) {
  *
  * @since 9.0.0
  *
- * @param int $user_id   ID of the user to dismiss the notice for.
+ * @param int $user_id   Optional. ID of the user to dismiss the notice for.
  *                       Defaults to the logged-in user.
- * @param int $notice_id ID of the notice to be dismissed.
+ * @param int $notice_id Optional. ID of the notice to be dismissed.
  *                       Defaults to the currently active notice.
  * @return bool False on failure, true if notice is dismissed
  *              (or was already dismissed).
@@ -829,7 +829,7 @@ function bp_messages_dismiss_sitewide_notice( $user_id = 0, $notice_id = 0 ) {
  * @since 10.0.0
  *
  * @param int|array $thread_ids Thread ID or array of thread IDs.
- * @param int       $user_id    ID of the user to delete the threads for. Defaults
+ * @param int       $user_id    Optional. ID of the user to delete the threads for. Defaults
  *                              to the current logged-in user.
  * @return bool
  */

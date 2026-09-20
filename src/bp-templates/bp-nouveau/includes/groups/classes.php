@@ -155,8 +155,8 @@ class BP_Nouveau_Group_Invite_Query extends BP_User_Query {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param int $user_id  The User ID.
-	 * @param int $group_id The Group ID.
+	 * @param int $user_id  Optional. The User ID.
+	 * @param int $group_id Optional. The Group ID.
 	 * @return array            Matching BP_Invitation objects.
 	 */
 	public static function get_inviter_ids( $user_id = 0, $group_id = 0 ) {
@@ -368,7 +368,7 @@ class BP_Nouveau_Customizer_Group_Nav extends BP_Core_Nav {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param array $templates The list of possible group front templates.
+	 * @param array $templates Optional. The list of possible group front templates.
 	 *
 	 * @return array The list of "global" group front templates.
 	 */
@@ -430,7 +430,7 @@ class BP_Nouveau_Group_Meta {
 	 *
 	 * @since 7.0.0
 	 *
-	 * @param string $key Deprecated object property name.
+	 * @param string $key Optional. Deprecated object property name.
 	 * @return string
 	 */
 	public function __get( $key = '' ) {

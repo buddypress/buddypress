@@ -192,9 +192,9 @@ if ( ! bp_is_classic() ) {
 	 * @since 1.0.0
 	 * @deprecated 12.0.0
 	 *
-	 * @param int         $user_id       User ID to check.
-	 * @param string|bool $user_nicename Optional. user_nicename of user being checked.
-	 * @param string|bool $user_login    Optional. user_login of user being checked.
+	 * @param int         $user_id       Optional. User ID to check.
+	 * @param string|bool $user_nicename Optional. User nicename of user being checked.
+	 * @param string|bool $user_login    Optional. User login of user being checked.
 	 * @return string The username of the matched user or an empty string if no user is found.
 	 */
 	function bp_core_get_username( $user_id = 0, $user_nicename = false, $user_login = false ) {
@@ -235,9 +235,9 @@ if ( ! bp_is_classic() ) {
 	 * @since 1.0.0
 	 * @deprecated 12.0.0
 	 *
-	 * @param int         $user_id       The ID of the user.
-	 * @param string|bool $user_nicename Optional. user_nicename of the user.
-	 * @param string|bool $user_login    Optional. user_login of the user.
+	 * @param int         $user_id       Optional. The ID of the user.
+	 * @param string|bool $user_nicename Optional. User nicename of the user.
+	 * @param string|bool $user_login    Optional. User login of the user.
 	 * @return string
 	 */
 	function bp_core_get_user_domain( $user_id = 0, $user_nicename = false, $user_login = false ) {
@@ -713,8 +713,8 @@ function bp_blogs_blog_tabs() {
  * @since 10.0.0
  * @deprecated 12.0.0
  *
- * @param string[] $post_states An array of post display states.
- * @param WP_Post  $post        The current post object.
+ * @param string[] $post_states Optional. An array of post display states.
+ * @param WP_Post  $post        Optional. The current post object.
  */
 function bp_admin_display_directory_states( $post_states = array(), $post = null ) {
 	_deprecated_function( __FUNCTION__, '12.0.0' );
@@ -965,8 +965,8 @@ function bp_messages_register_widgets() {
  *
  * @deprecated 12.0.0
  *
- * @param bool $admin_list
- * @param bool $group
+ * @param bool $admin_list Optional.
+ * @param bool $group Optional.
  */
 function bp_group_mod_memberlist( $admin_list = false, $group = false ) {
 	_deprecated_function( __FUNCTION__, '12.0.0' );
@@ -1390,7 +1390,7 @@ function bp_friends_random_friends() {
  *
  * @deprecated 12.0.0
  *
- * @param int $total_members The number of members to retrieve.
+ * @param int $total_members Optional. The number of members to retrieve.
  */
 function bp_friends_random_members( $total_members = 5 ) {
 	_deprecated_function( __FUNCTION__, '12.0.0' );
@@ -1653,7 +1653,7 @@ function bp_core_get_displayed_userid( $user_login ) {
  *
  * @deprecated 12.0.0
  *
- * @param int $user_id ID of the user being queried.
+ * @param int $user_id Optional. ID of the user being queried.
  * @return array Post IDs.
  */
 function bp_core_get_all_posts_for_user( $user_id = 0 ) {

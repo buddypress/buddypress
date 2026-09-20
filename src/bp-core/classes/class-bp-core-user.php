@@ -257,18 +257,18 @@ class BP_Core_User {
 	 *      are used there in the same way.
 	 *
 	 * @param string      $type            See {@link BP_User_Query}.
-	 * @param int         $limit           See {@link BP_User_Query}. Default: 0.
-	 * @param int         $page            See {@link BP_User_Query}. Default: 1.
-	 * @param int         $user_id         See {@link BP_User_Query}. Default: 0.
-	 * @param mixed       $include_ids     See {@link BP_User_Query}. Default: false.
-	 * @param string|bool $search_terms    See {@link BP_User_Query}.
+	 * @param int         $limit           Optional. See {@link BP_User_Query}. Default: 0.
+	 * @param int         $page            Optional. See {@link BP_User_Query}. Default: 1.
+	 * @param int         $user_id         Optional. See {@link BP_User_Query}. Default: 0.
+	 * @param mixed       $include_ids     Optional. See {@link BP_User_Query}. Default: false.
+	 * @param string|bool $search_terms    Optional. See {@link BP_User_Query}.
 	 *                                     Default: false.
-	 * @param bool        $populate_extras See {@link BP_User_Query}.
+	 * @param bool        $populate_extras Optional. See {@link BP_User_Query}.
 	 *                                     Default: true.
-	 * @param mixed       $exclude         See {@link BP_User_Query}. Default: false.
-	 * @param string|bool $meta_key        See {@link BP_User_Query}.
+	 * @param mixed       $exclude         Optional. See {@link BP_User_Query}. Default: false.
+	 * @param string|bool $meta_key        Optional. See {@link BP_User_Query}.
 	 *                                     Default: false.
-	 * @param string|bool $meta_value      See {@link BP_User_Query}.
+	 * @param string|bool $meta_value      Optional. See {@link BP_User_Query}.
 	 *                                     Default: false.
 	 * @return false|array {
 	 *     @type int   $total_users Total number of users matched by query
@@ -479,11 +479,11 @@ class BP_Core_User {
 	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param string   $letter          The letter the users names are to start with.
-	 * @param int|null $limit           The number of users we wish to retrive.
-	 * @param int      $page            The page number we are currently on, used in conjunction
+	 * @param int|null $limit           Optional. The number of users we wish to retrive.
+	 * @param int      $page            Optional. The page number we are currently on, used in conjunction
 	 *                                  with $limit to get the start position for the limit.
-	 * @param bool     $populate_extras If we should populate extra user fields.
-	 * @param string   $exclude         Comma-separated IDs of users whose results
+	 * @param bool     $populate_extras Optional. If we should populate extra user fields.
+	 * @param string   $exclude         Optional. Comma-separated IDs of users whose results
 	 *                                  aren't to be fetched.
 	 * @return false|array False on error, otherwise associative array of results.
 	 */
@@ -570,9 +570,9 @@ class BP_Core_User {
 	 *
 	 * @param array    $user_ids        The user IDs of the users who we wish to
 	 *                                  fetch information on.
-	 * @param int|null $limit           The limit of results we want.
-	 * @param int      $page            The page we are on for pagination.
-	 * @param bool     $populate_extras If we should populate extra user fields.
+	 * @param int|null $limit           Optional. The limit of results we want.
+	 * @param int      $page            Optional. The page we are on for pagination.
+	 * @param bool     $populate_extras Optional. If we should populate extra user fields.
 	 * @return array Associative array.
 	 */
 	public static function get_specific_users( $user_ids, $limit = null, $page = 1, $populate_extras = true ) {
@@ -673,9 +673,9 @@ class BP_Core_User {
 	 *
 	 * @param string   $search_terms    The terms to search the profile table
 	 *                                  value column for.
-	 * @param int|null $limit           The limit of results we want.
-	 * @param int      $page            The page we are on for pagination.
-	 * @param bool     $populate_extras If we should populate extra user fields.
+	 * @param int|null $limit           Optional. The limit of results we want.
+	 * @param int      $page            Optional. The page we are on for pagination.
+	 * @param bool     $populate_extras Optional. If we should populate extra user fields.
 	 * @return array Associative array.
 	 */
 	public static function search_users( $search_terms, $limit = null, $page = 1, $populate_extras = true ) {
@@ -742,7 +742,7 @@ class BP_Core_User {
 	 *
 	 * @param array       $paged_users An array of stdClass containing the users.
 	 * @param string      $user_ids    The user ids to select information about.
-	 * @param string|bool $type        The type of fields we wish to get.
+	 * @param string|bool $type        Optional. The type of fields we wish to get.
 	 * @return mixed False on error, otherwise associative array of results.
 	 */
 	public static function get_user_extras( &$paged_users, &$user_ids, $type = false ) {

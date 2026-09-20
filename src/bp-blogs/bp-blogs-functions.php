@@ -33,7 +33,7 @@ function bp_blogs_has_directory() {
  * @see BP_Blogs_Blog::get() for a description of arguments and return value.
  *
  * @param array|string $args {
- *     Arguments are listed here with their default values. For more
+ *     Optional. Arguments are listed here with their default values. For more
  *     information about the arguments, see {@link BP_Blogs_Blog::get()}.
  *     @type string      $type              Default: 'active'.
  *     @type int|bool    $user_id           Default: false.
@@ -90,7 +90,7 @@ function bp_blogs_get_blogs( $args = '' ) {
  * @global wpdb $wpdb WordPress database object.
  *
  * @param array $args {
- *     Array of arguments.
+ *     Optional. Array of arguments.
  *     @type int    $offset   The offset to use.
  *     @type int    $limit    The number of blogs to record at one time.
  *     @type array  $blog_ids Blog IDs to record. If empty, all blogs will be recorded.
@@ -589,7 +589,7 @@ add_action( 'update_option_site_icon', 'bp_blogs_update_option_site_icon', 10, 2
  *
  * @since 2.3.0
  *
- * @param int $site_id The site ID.
+ * @param int $site_id Optional. The site ID.
  */
 function bp_blogs_delete_url_blogmeta( $site_id = 0 ) {
 	bp_blogs_delete_blogmeta( (int) $site_id, 'url' );
@@ -730,9 +730,9 @@ add_action( 'bp_activity_post_type_updated', 'bp_blogs_update_post_activity_meta
  * @since  2.5.0
  *
  * @param  int|bool        $activity_id          ID of recorded activity, or false if sync is active.
- * @param  WP_Comment|null $comment              The comment object.
- * @param  array           $activity_args        Array of activity arguments.
- * @param  object|null     $activity_post_object The post type tracking args object.
+ * @param  WP_Comment|null $comment              Optional. The comment object.
+ * @param  array           $activity_args        Optional. Array of activity arguments.
+ * @param  object|null     $activity_post_object Optional. The post type tracking args object.
  */
 function bp_blogs_comment_sync_activity_comment( &$activity_id, $comment = null, $activity_args = array(), $activity_post_object = null ) {
 	if ( empty( $activity_args ) || empty( $comment->post->ID ) || empty( $activity_post_object->comment_action_id ) ) {
@@ -873,8 +873,8 @@ add_action( 'bp_activity_post_type_comment', 'bp_blogs_comment_sync_activity_com
  * @global wpdb $wpdb WordPress database object.
  *
  * @param int         $user_id The ID of the user.
- * @param string|bool $role    User's WordPress role for this blog ID.
- * @param int         $blog_id Blog ID user is being added to.
+ * @param string|bool $role    Optional. User's WordPress role for this blog ID.
+ * @param int         $blog_id Optional. Blog ID user is being added to.
  */
 function bp_blogs_add_user_to_blog( $user_id, $role = false, $blog_id = 0 ) {
 	global $wpdb;
@@ -1060,7 +1060,7 @@ add_action( 'remove_user_from_blog', 'bp_blogs_remove_blog_for_user', 10, 2 );
  * @param bool   $deleted              True when a comment post type activity was successfully removed.
  * @param int    $comment_id           ID of the comment to be removed.
  * @param object $activity_post_object The post type tracking args object.
- * @param string $activity_type        The post type comment activity type.
+ * @param string $activity_type        Optional. The post type comment activity type.
  */
 function bp_blogs_post_type_remove_comment( $deleted, $comment_id, $activity_post_object, $activity_type = '' ) {
 	// Remove synced activity comments, if needed.
@@ -1134,9 +1134,9 @@ add_action( 'bp_activity_post_type_remove_comment', 'bp_blogs_post_type_remove_c
  * @see bp_blogs_remove_synced_comment()
  * @see bp_blogs_sync_delete_from_activity_comment()
  *
- * @param array $activity_ids The activity IDs to check association with blog
+ * @param array $activity_ids Optional. The activity IDs to check association with blog
  *                            comments.
- * @param bool  $force_delete  Whether to force delete the comments. If false,
+ * @param bool  $force_delete  Optional. Whether to force delete the comments. If false,
  *                            comments are trashed instead.
  */
 function bp_blogs_remove_associated_blog_comments( $activity_ids = array(), $force_delete = true ) {
@@ -1188,7 +1188,7 @@ function bp_blogs_total_blogs() {
  *
  * @since 1.2.0
  *
- * @param int $user_id ID of the user being queried. Default: on a user page,
+ * @param int $user_id Optional. ID of the user being queried. Default: on a user page,
  *                     the displayed user. Otherwise, the logged-in user.
  * @return int Total blog count for the user.
  */
@@ -1250,7 +1250,7 @@ add_action( 'bp_delete_site', 'bp_blogs_remove_data_for_blog', 1 );
  *      and return values.
  *
  * @param int  $user_id     See {@BP_Blogs_Blog::get_blogs_for_user()}.
- * @param bool $show_hidden See {@BP_Blogs_Blog::get_blogs_for_user()}.
+ * @param bool $show_hidden Optional. See {@BP_Blogs_Blog::get_blogs_for_user()}.
  * @return array See {@BP_Blogs_Blog::get_blogs_for_user()}.
  */
 function bp_blogs_get_blogs_for_user( $user_id, $show_hidden = false ) {
@@ -1262,8 +1262,8 @@ function bp_blogs_get_blogs_for_user( $user_id, $show_hidden = false ) {
  *
  * @see BP_Blogs_Blog::get_all() for a description of parameters and return values.
  *
- * @param int|null $limit See {@BP_Blogs_Blog::get_all()}.
- * @param int|null $page  See {@BP_Blogs_Blog::get_all()}.
+ * @param int|null $limit Optional. See {@BP_Blogs_Blog::get_all()}.
+ * @param int|null $page  Optional. See {@BP_Blogs_Blog::get_all()}.
  * @return array See {@BP_Blogs_Blog::get_all()}.
  */
 function bp_blogs_get_all_blogs( $limit = null, $page = null ) {
@@ -1275,8 +1275,8 @@ function bp_blogs_get_all_blogs( $limit = null, $page = null ) {
  *
  * @see BP_Blogs_Blog::get() for a description of parameters and return values.
  *
- * @param int|null $per_page See {@BP_Blogs_Blog::get()}.
- * @param int|null $page  See {@BP_Blogs_Blog::get()}.
+ * @param int|null $per_page Optional. See {@BP_Blogs_Blog::get()}.
+ * @param int|null $page  Optional. See {@BP_Blogs_Blog::get()}.
  * @return array See {@BP_Blogs_Blog::get()}.
  */
 function bp_blogs_get_random_blogs( $per_page = null, $page = null ) {
@@ -1485,7 +1485,7 @@ add_action( 'delete_user', 'bp_blogs_remove_data_on_delete_user' );
  *
  * @since 2.2.0
  *
- * @param int $user_id ID whose blog data should be restored.
+ * @param int $user_id Optional. ID whose blog data should be restored.
  */
 function bp_blogs_restore_data( $user_id = 0 ) {
 	if ( ! is_multisite() ) {
@@ -1575,8 +1575,8 @@ function bp_blogs_get_signup_form_submitted_vars() {
  * @since 7.0.0 Add the blog_name and blog_title parameters.
  *              The function has been moved into `bp-blogs/bp-blogs-functions.php`.
  *
- * @param string $blog_name  Site name to validate.
- * @param string $blog_title Site title to validate.
+ * @param string $blog_name  Optional. Site name to validate.
+ * @param string $blog_title Optional. Site title to validate.
  * @return array Contains the new site data and error messages.
  */
 function bp_blogs_validate_blog_form( $blog_name = '', $blog_title = '' ) {
@@ -1603,8 +1603,8 @@ function bp_blogs_validate_blog_form( $blog_name = '', $blog_title = '' ) {
  *
  * @since 7.0.0
  *
- * @param int $blog_id The ID of the blog to get the site icon URL for.
- * @param int $size    The size of the site icon.
+ * @param int $blog_id Optional. The ID of the blog to get the site icon URL for.
+ * @param int $size    Optional. The size of the site icon.
  * @return string
  */
 function bp_blogs_get_site_icon_url( $blog_id = 0, $size = 512 ) {

@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 9.0.0
  * @since 12.0.0 Uses the `@wordpress/scripts` `index.asset.php` generated file to get dependencies.
  *
- * @param array $scripts Data about the scripts to register.
+ * @param array $scripts Optional. Data about the scripts to register.
  * @return array Data about the scripts to register.
  */
 function bp_members_register_scripts( $scripts = array() ) {

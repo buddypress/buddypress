@@ -64,7 +64,7 @@ class BP_XProfile_Field_Type_WordPress_Biography extends BP_XProfile_Field_Type_
 	 * @since 8.0.0
 	 *
 	 * @param string $value   The user field value.
-	 * @param int    $user_id The user ID.
+	 * @param int    $user_id Optional. The user ID.
 	 * @return string The sanitized field value.
 	 */
 	public function sanitize_for_output( $value, $user_id = 0 ) {

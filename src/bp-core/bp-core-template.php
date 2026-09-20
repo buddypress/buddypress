@@ -28,7 +28,7 @@ defined( 'ABSPATH' ) || exit;
  *
  *       viewed user.
  *
- * @param string $parent_slug Options nav slug.
+ * @param string $parent_slug Optional. Options nav slug.
  * @return string
  */
 function bp_get_options_nav( $parent_slug = '' ) {
@@ -120,7 +120,7 @@ function bp_get_options_nav( $parent_slug = '' ) {
  *
  * @since 2.0.0
  *
- * @param string $component Component to get directory title for.
+ * @param string $component Optional. Component to get directory title for.
  * @return string
  */
 function bp_get_directory_title( $component = '' ) {
@@ -286,7 +286,7 @@ function bp_site_name() {
  *
  * @since 1.1.0
  *
- * @param int|string $time         The UNIX timestamp to be formatted.
+ * @param int|string $time         Optional. The UNIX timestamp to be formatted.
  * @param bool       $exclude_time Optional. True to return only the month + day, false
  *                                 to return month, day, and time. Default: false.
  * @param bool       $gmt          Optional. True to display in local time, false to
@@ -499,7 +499,7 @@ function bp_search_form_type_select() {
  *
  * @since 2.7.0
  *
- * @param string $component See bp_get_search_input_name().
+ * @param string $component Optional. See bp_get_search_input_name().
  */
 function bp_search_input_name( $component = '' ) {
 	echo esc_attr( bp_get_search_input_name( $component ) );
@@ -510,7 +510,7 @@ function bp_search_input_name( $component = '' ) {
  *
  * @since 2.7.0
  *
- * @param string $component Component name. Defaults to current component.
+ * @param string $component Optional. Component name. Defaults to current component.
  * @return string Text for the 'name' attribute.
  */
 function bp_get_search_input_name( $component = '' ) {
@@ -533,7 +533,7 @@ function bp_get_search_input_name( $component = '' ) {
  *
  * @since 2.7.0
  *
- * @param string $component See bp_get_search_placeholder().
+ * @param string $component Optional. See bp_get_search_placeholder().
  */
 function bp_search_placeholder( $component = '' ) {
 	echo esc_attr( bp_get_search_placeholder( $component ) );
@@ -544,7 +544,7 @@ function bp_search_placeholder( $component = '' ) {
  *
  * @since 2.7.0
  *
- * @param string $component Component name. Defaults to current component.
+ * @param string $component Optional. Component name. Defaults to current component.
  * @return string Placeholder text for the search field.
  */
 function bp_get_search_placeholder( $component = '' ) {
@@ -566,7 +566,7 @@ function bp_get_search_placeholder( $component = '' ) {
  *
  * @see bp_get_search_default_text()
  *
- * @param string $component See {@link bp_get_search_default_text()}.
+ * @param string $component Optional. See {@link bp_get_search_default_text()}.
  */
 function bp_search_default_text( $component = '' ) {
 	echo esc_attr( bp_get_search_default_text( $component ) );
@@ -576,7 +576,7 @@ function bp_search_default_text( $component = '' ) {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @param string $component Component name. Default: current component.
+	 * @param string $component Optional. Component name. Default: current component.
 	 * @return string Placeholder text for search field.
 	 */
 	function bp_get_search_default_text( $component = '' ) {
@@ -619,8 +619,8 @@ function bp_search_default_text( $component = '' ) {
  *
  * @since 2.2.0
  *
- * @param string $name       The field name to output attributes for.
- * @param array  $attributes Array of existing attributes to add.
+ * @param string $name       Optional. The field name to output attributes for.
+ * @param array  $attributes Optional. Array of existing attributes to add.
  */
 function bp_form_field_attributes( $name = '', $attributes = array() ) {
 	// phpcs:ignore WordPress.Security.EscapeOutput
@@ -635,8 +635,8 @@ function bp_form_field_attributes( $name = '', $attributes = array() ) {
 	 *
 	 * @since 2.2.0
 	 *
-	 * @param string $name       The field name to get attributes for.
-	 * @param array  $attributes Array of existing attributes to add.
+	 * @param string $name       Optional. The field name to get attributes for.
+	 * @param array  $attributes Optional. Array of existing attributes to add.
 	 * @return string
 	 */
 	function bp_get_form_field_attributes( $name = '', $attributes = array() ) {
@@ -703,7 +703,7 @@ function bp_form_field_attributes( $name = '', $attributes = array() ) {
  *
  * @see bp_get_button()
  *
- * @param array|string $args See {@link BP_Button}.
+ * @param array|string $args Optional. See {@link BP_Button}.
  */
 function bp_button( $args = '' ) {
 	// Escaping is done in `BP_Core_HTML_Element()`.
@@ -717,7 +717,7 @@ function bp_button( $args = '' ) {
 	 *
 	 * @see BP_Button for a description of arguments and return value.
 	 *
-	 * @param array|string $args See {@link BP_Button}.
+	 * @param array|string $args Optional. See {@link BP_Button}.
 	 * @return string HTML markup for the button.
 	 */
 	function bp_get_button( $args = '' ) {
@@ -1140,7 +1140,7 @@ function bp_get_email_subject( $args = array() ) {
  * @since 1.2.0
  * @since 15.0.0 The `$object` parameter was renamed to `$component`.
  *
- * @param string|bool $component Current template component.
+ * @param string|bool $component Optional. Current template component.
  * @return string The AJAX querystring.
  */
 function bp_ajax_querystring( $component = false ) {
@@ -1263,7 +1263,7 @@ function bp_action_variables() {
  *
  * @since 1.5.0
  *
- * @param int $position The key of the action_variables array that you want.
+ * @param int $position Optional. The key of the action_variables array that you want.
  * @return string|bool The value of that position in the
  *                                      array, or false if not found.
  */
@@ -1336,7 +1336,7 @@ function bp_root_url() {
  *
  * @since 1.5.0
  *
- * @param string $component The component name.
+ * @param string $component Optional. The component name.
  */
 function bp_root_slug( $component = '' ) {
 	echo esc_attr( bp_get_root_slug( $component ) );
@@ -1416,7 +1416,7 @@ function bp_root_slug( $component = '' ) {
  *
  * @since 1.5.0
  *
- * @param string $root_slug Needle to our active component haystack.
+ * @param string $root_slug Optional. Needle to our active component haystack.
  * @return mixed False if none found, component name if found.
  */
 function bp_get_name_from_root_slug( $root_slug = '' ) {
@@ -1548,7 +1548,7 @@ function bp_loggedin_user_id() {
  *
  * @since 1.5.0
  *
- * @param string $component Name of the component being checked.
+ * @param string $component Optional. Name of the component being checked.
  * @return bool Returns true if the component matches, or else false.
  */
 function bp_is_current_component( $component = '' ) {
@@ -1640,7 +1640,7 @@ function bp_is_current_component( $component = '' ) {
  *
  * @since 1.5.0
  *
- * @param string $action The action being tested against.
+ * @param string $action Optional. The action being tested against.
  * @return bool True if the current action matches $action.
  */
 function bp_is_current_action( $action = '' ) {
@@ -1661,7 +1661,7 @@ function bp_is_current_action( $action = '' ) {
  *
  * @since 1.5.0
  *
- * @param string   $action_variable The action_variable being tested against.
+ * @param string   $action_variable Optional. The action_variable being tested against.
  * @param int|bool $position        Optional. The array key you're testing against. If you
  *                                  don't provide a $position, the function will return true if the
  *                                  $action_variable is found *anywhere* in the action variables array.
@@ -1701,7 +1701,7 @@ function bp_is_action_variable( $action_variable = '', $position = false ) {
  *
  * @since 1.5.0
  *
- * @param string $item The item being checked.
+ * @param string $item Optional. The item being checked.
  * @return bool True if $item is the current item.
  */
 function bp_is_current_item( $item = '' ) {
@@ -1831,7 +1831,7 @@ function bp_is_directory() {
  *
  * @since 1.5.0
  *
- * @param string $component_name Component name to check.
+ * @param string $component_name Optional. Component name to check.
  *
  * @return bool True if root component, else false.
  */
@@ -1997,8 +1997,8 @@ function is_buddypress() {
  * @since 1.2.0 See r2539.
  * @since 2.3.0 Added $feature as a parameter.
  *
- * @param string $component The component name.
- * @param string $feature   The feature name.
+ * @param string $component Optional. The component name.
+ * @param string $feature   Optional. The feature name.
  * @return bool
  */
 function bp_is_active( $component = '', $feature = '' ) {
@@ -2996,7 +2996,7 @@ function bp_is_register_page() {
  *
  * @since 2.4.3
  *
- * @param string $seplocation Location for the separator.
+ * @param string $seplocation Optional. Location for the separator.
  * @return array the title parts
  */
 function bp_get_title_parts( $seplocation = 'right' ) {
@@ -3187,8 +3187,8 @@ function bp_the_body_class() {
 	 *
 	 * @since 1.1.0
 	 *
-	 * @param array      $wp_classes     The body classes coming from WP.
-	 * @param array|bool $custom_classes Classes that were passed to get_body_class().
+	 * @param array      $wp_classes     Optional. The body classes coming from WP.
+	 * @param array|bool $custom_classes Optional. Classes that were passed to get_body_class().
 	 * @return array The BP-adjusted body classes.
 	 */
 	function bp_get_the_body_class( $wp_classes = array(), $custom_classes = false ) {
@@ -3432,7 +3432,7 @@ function bp_the_body_class() {
  *
  * @since 2.1.0
  *
- * @param array $wp_classes The post classes coming from WordPress.
+ * @param array $wp_classes Optional. The post classes coming from WordPress.
  * @return array
  */
 function bp_get_the_post_class( $wp_classes = array() ) {
@@ -3753,7 +3753,7 @@ function bp_nav_menu( $args = array() ) {
  *
  * @since 2.5.0
  *
- * @param array $settings Email Settings.
+ * @param array $settings Optional. Email Settings.
  */
 function bp_email_the_salutation( $settings = array() ) {
 	echo esc_html( bp_email_get_salutation( $settings ) );
@@ -3765,7 +3765,7 @@ function bp_email_the_salutation( $settings = array() ) {
 	 * @since 2.5.0
 	 * @since 8.0.0 Checks current BP Email type schema to eventually use the unnamed salutation.
 	 *
-	 * @param array $settings Email Settings.
+	 * @param array $settings Optional. Email Settings.
 	 * @return string The Recipient Salutation.
 	 */
 	function bp_email_get_salutation( $settings = array() ) {

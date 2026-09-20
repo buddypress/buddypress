@@ -76,7 +76,7 @@ add_action( 'bp_register_taxonomies', 'bp_register_default_taxonomies' );
  *
  * @since 2.6.0
  *
- * @param string $taxonomy Taxonomy slug to check for.
+ * @param string $taxonomy Optional. Taxonomy slug to check for.
  * @return int
  */
 function bp_get_taxonomy_term_site_id( $taxonomy = '' ) {
@@ -147,7 +147,7 @@ function bp_set_object_terms( $object_id, $terms, $taxonomy, $append = false ) {
  *
  * @param int|array    $object_ids ID or IDs of objects.
  * @param string|array $taxonomies Name or names of taxonomies to match.
- * @param array        $args       See {@see wp_get_object_terms()}.
+ * @param array        $args       Optional. See {@see wp_get_object_terms()}.
  *
  * @return WP_Term[]|int[]|string[]
  */
@@ -258,7 +258,7 @@ function bp_remove_object_terms( $object_id, $terms, $taxonomy ) {
  *
  * @param int|array    $term_ids   Term id or array of term ids of terms that will be used.
  * @param string|array $taxonomies String of taxonomy name or Array of string values of taxonomy names.
- * @param array|string $args       Change the order of the object_ids, either ASC or DESC.
+ * @param array|string $args       Optional. Change the order of the object_ids, either ASC or DESC.
  *
  * @return WP_Error|array If the taxonomy does not exist, then WP_Error will be returned. On success,
  *                        the array can be empty, meaning that there are no $object_ids found. When
@@ -304,8 +304,8 @@ function bp_get_objects_in_term( $term_ids, $taxonomies, $args = array() ) {
  *
  * @param string     $field    Either 'slug', 'name', 'id' (term_id), or 'term_taxonomy_id'.
  * @param string|int $value    Search for this term value.
- * @param string     $taxonomy Taxonomy name. Optional, if `$field` is 'term_taxonomy_id'.
- * @param string     $output   Constant OBJECT, ARRAY_A, or ARRAY_N.
+ * @param string     $taxonomy Optional. Taxonomy name. Optional, if `$field` is 'term_taxonomy_id'.
+ * @param string     $output   Optional. Constant OBJECT, ARRAY_A, or ARRAY_N.
  * @param string     $filter   Optional, default is raw or no WordPress defined filter will applied.
  *
  * @return WP_Term|bool WP_Term instance on success. Will return false if `$taxonomy` does not exist
@@ -336,7 +336,7 @@ function bp_get_term_by( $field, $value, $taxonomy = '', $output = OBJECT, $filt
  * @since 7.0.0
  *
  * @param string $term     The BP term name to add.
- * @param string $taxonomy The BP taxonomy to which to add the BP term.
+ * @param string $taxonomy Optional. The BP taxonomy to which to add the BP term.
  * @param array  $args {
  *     Optional. Array of arguments for inserting a BP term.
  *     @type string $description The term description. Default empty string.
@@ -413,7 +413,7 @@ function bp_insert_term( $term, $taxonomy = '', $args = array() ) {
  * @since 7.0.0
  *
  * @param array $args {
- *    Array of arguments to query BP Terms.
+ *    Optional. Array of arguments to query BP Terms.
  *     @see `get_terms()` for full description of arguments in case of a member type.
  * }
  * @return array The list of terms matching arguments.
@@ -468,8 +468,8 @@ function bp_get_terms( $args = array() ) {
  *
  * @since 7.0.0
  *
- * @param int    $term_id  The BP Term ID. Required.
- * @param string $taxonomy The BP Taxonomy Name. Required.
+ * @param int    $term_id  Optional. The BP Term ID. Required.
+ * @param string $taxonomy Optional. The BP Taxonomy Name. Required.
  * @return bool|WP_Error True on success, WP_Error on failure.
  */
 function bp_delete_term( $term_id = 0, $taxonomy = '' ) {

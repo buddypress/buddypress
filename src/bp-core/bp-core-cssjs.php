@@ -457,7 +457,7 @@ function bp_core_get_js_dependencies() {
  *
  * @since 2.4.0
  *
- * @param bool $return_css True to get the inline CSS.
+ * @param bool $return_css Optional. True to get the inline CSS.
  * @return null|array|false
  */
 function bp_add_cover_image_inline_css( $return_css = false ) {

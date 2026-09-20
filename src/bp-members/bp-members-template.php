@@ -356,7 +356,7 @@ function bp_members_invitations_slug() {
  * @global BP_Core_Members_Template $members_template The main member template loop class.
  *
  * @param array|string $args {
- *     Arguments for limiting the contents of the members loop. Most arguments
+ *     Optional. Arguments for limiting the contents of the members loop. Most arguments
  *     are in the same format as {@link BP_User_Query}. However, because
  *     the format of the arguments accepted here differs in a number of ways,
  *     and because bp_has_members() determines some default arguments in a
@@ -661,7 +661,7 @@ function bp_member_user_id() {
  *
  * @since 1.7.0
  *
- * @param array $classes Array of custom classes.
+ * @param array $classes Optional. Array of custom classes.
  */
 function bp_member_class( $classes = array() ) {
 	// phpcs:ignore WordPress.Security.EscapeOutput
@@ -674,7 +674,7 @@ function bp_member_class( $classes = array() ) {
 	 *
 	 * @global BP_Core_Members_Template $members_template The main member template loop class.
 	 *
-	 * @param array $classes Array of custom classes.
+	 * @param array $classes Optional. Array of custom classes.
 	 *
 	 * @return string Row class of the member
 	 */
@@ -849,7 +849,7 @@ function bp_member_is_loggedin_user() {
  *
  * @see bp_get_member_avatar() for description of arguments.
  *
- * @param array|string $args See {@link bp_get_member_avatar()}.
+ * @param array|string $args Optional. See {@link bp_get_member_avatar()}.
  */
 function bp_member_avatar( $args = '' ) {
 	// phpcs:disable WordPress.Security.EscapeOutput
@@ -877,7 +877,7 @@ function bp_member_avatar( $args = '' ) {
 	 *      return values.
 	 *
 	 * @param array|string $args  {
-	 *     Arguments are listed here with an explanation of their defaults.
+	 *     Optional. Arguments are listed here with an explanation of their defaults.
 	 *     For more information about the arguments, see
 	 *     {@link bp_core_fetch_avatar()}.
 	 *     @type string   $alt     Default: 'Profile picture of [user name]'.
@@ -1060,6 +1060,7 @@ function bp_member_name() {
  * @since 1.2.0
  *
  * @param array $args {@see bp_get_member_last_active()}.
+ *    Optional.
  */
 function bp_member_last_active( $args = array() ) {
 	echo esc_html( bp_get_member_last_active( $args ) );
@@ -1134,6 +1135,7 @@ function bp_member_last_active( $args = array() ) {
  * @since 1.2.0
  *
  * @param array|string $args {@see bp_get_member_latest_update()}.
+ *    Optional.
  */
 function bp_member_latest_update( $args = '' ) {
 	// phpcs:ignore WordPress.Security.EscapeOutput
@@ -1250,7 +1252,7 @@ function bp_member_latest_update( $args = '' ) {
  *
  * @see bp_get_member_profile_data() for a description of params.
  *
- * @param array|string $args See {@link bp_get_member_profile_data()}.
+ * @param array|string $args Optional. See {@link bp_get_member_profile_data()}.
  */
 function bp_member_profile_data( $args = '' ) {
 	// phpcs:ignore WordPress.Security.EscapeOutput
@@ -1268,7 +1270,7 @@ function bp_member_profile_data( $args = '' ) {
 	 * @global BP_Core_Members_Template $members_template The main member template loop class.
 	 *
 	 * @param array|string $args {
-	 *     Array of config parameters.
+	 *     Optional. Array of config parameters.
 	 *     @type string $field   Name of the profile field.
 	 *     @type int    $user_id ID of the user whose data is being fetched.
 	 *                           Defaults to the current member in the loop, or if not
@@ -1737,6 +1739,7 @@ function bp_displayed_user_use_cover_image_header() {
  * @see bp_get_loggedin_user_avatar() for a description of params.
  *
  * @param array|string $args {@see bp_get_loggedin_user_avatar()}.
+ *    Optional.
  */
 function bp_loggedin_user_avatar( $args = '' ) {
 	// phpcs:ignore WordPress.Security.EscapeOutput
@@ -1751,7 +1754,7 @@ function bp_loggedin_user_avatar( $args = '' ) {
 	 *      return values.
 	 *
 	 * @param array|string $args  {
-	 *     Arguments are listed here with an explanation of their defaults.
+	 *     Optional. Arguments are listed here with an explanation of their defaults.
 	 *     For more information about the arguments, see
 	 *     {@link bp_core_fetch_avatar()}.
 	 *     @type string   $alt    Default: 'Profile picture of [user name]'.
@@ -1797,6 +1800,7 @@ function bp_loggedin_user_avatar( $args = '' ) {
  * @see bp_get_displayed_user_avatar() for a description of params.
  *
  * @param array|string $args {@see bp_get_displayed_user_avatar()}.
+ *    Optional.
  */
 function bp_displayed_user_avatar( $args = '' ) {
 	// phpcs:ignore WordPress.Security.EscapeOutput
@@ -1811,7 +1815,7 @@ function bp_displayed_user_avatar( $args = '' ) {
 	 *      return values.
 	 *
 	 * @param array|string $args  {
-	 *     Arguments are listed here with an explanation of their defaults.
+	 *     Optional. Arguments are listed here with an explanation of their defaults.
 	 *     For more information about the arguments, see
 	 *     {@link bp_core_fetch_avatar()}.
 	 *     @type string   $alt    Default: 'Profile picture of [user name]'.
@@ -1891,7 +1895,7 @@ function bp_displayed_user_email() {
  *
  * @see bp_get_last_activity() for a description of parameters.
  *
- * @param int $user_id See {@link bp_get_last_activity()}.
+ * @param int $user_id Optional. See {@link bp_get_last_activity()}.
  */
 function bp_last_activity( $user_id = 0 ) {
 	echo esc_html( bp_get_last_activity( $user_id ) );
@@ -1901,7 +1905,7 @@ function bp_last_activity( $user_id = 0 ) {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @param int $user_id ID of the user. Default: displayed user ID.
+	 * @param int $user_id Optional. ID of the user. Default: displayed user ID.
 	 * @return string
 	 */
 	function bp_get_last_activity( $user_id = 0 ) {
@@ -1940,7 +1944,7 @@ function bp_user_firstname() {
 	 *
 	 * @since 1.2.0
 	 *
-	 * @param string|bool $name Full name to use when generating first name.
+	 * @param string|bool $name Optional. Full name to use when generating first name.
 	 *                          Defaults to displayed user's first name, or to
 	 *                          logged-in user's first name if it's unavailable.
 	 * @return string
@@ -1985,7 +1989,7 @@ function bp_current_user_id() {
  * @since 1.2.4
  * @since 12.0.0 Introduced the `$chunk` argument.
  *
- * @param array $chunks A list of slugs to append to the URL.
+ * @param array $chunks Optional. A list of slugs to append to the URL.
  */
 function bp_displayed_user_link( $chunks = array() ) {
 	$path_chunks = array();
@@ -2072,7 +2076,7 @@ function bp_displayed_user_domain() {
  * @since 1.2.4
  * @since 12.0.0 Introduced the `$chunk` argument.
  *
- * @param array $chunks A list of slugs to append to the URL.
+ * @param array $chunks Optional. A list of slugs to append to the URL.
  */
 function bp_loggedin_user_link( $chunks = array() ) {
 	$path_chunks = array();
@@ -2323,7 +2327,7 @@ function bp_current_member_type_message() {
  *
  * @since 7.0.0
  *
- * @param string $member_type Unique member type identifier as used in bp_register_member_type().
+ * @param string $member_type Optional. Unique member type identifier as used in bp_register_member_type().
  */
 function bp_member_type_directory_link( $member_type = '' ) {
 	// phpcs:ignore WordPress.Security.EscapeOutput
@@ -2334,7 +2338,7 @@ function bp_member_type_directory_link( $member_type = '' ) {
 	 *
 	 * @since 7.0.0
 	 *
-	 * @param string $member_type Unique member type identifier as used in bp_register_member_type().
+	 * @param string $member_type Optional. Unique member type identifier as used in bp_register_member_type().
 	 * @return string
 	 */
 	function bp_get_member_type_directory_link( $member_type = '' ) {
@@ -2371,7 +2375,7 @@ function bp_member_type_directory_link( $member_type = '' ) {
  *
  * @see bp_get_member_type_list() For additional information on default arguments.
  *
- * @param int   $user_id User ID.
+ * @param int   $user_id Optional. User ID.
  * @param array $r       Optional. Member type list arguments. Default empty array.
  */
 function bp_member_type_list( $user_id = 0, $r = array() ) {
@@ -2383,7 +2387,7 @@ function bp_member_type_list( $user_id = 0, $r = array() ) {
 	 *
 	 * @since 7.0.0
 	 *
-	 * @param int          $user_id User ID. Defaults to displayed user ID if on a member page.
+	 * @param int          $user_id Optional. User ID. Defaults to displayed user ID if on a member page.
 	 * @param array|string $r       {
 	 *     Array of parameters. All items are optional.
 	 *     @type string $parent_element     Element to wrap around the list. Defaults to 'p'.
@@ -2980,7 +2984,7 @@ function bp_current_signup_step() {
  *
  * @see bp_get_signup_avatar() for description of arguments.
  *
- * @param array|string $args See {@link bp_get_signup_avatar(}.
+ * @param array|string $args Optional. See {@link bp_get_signup_avatar(}.
  */
 function bp_signup_avatar( $args = '' ) {
 	// phpcs:ignore WordPress.Security.EscapeOutput
@@ -3107,7 +3111,7 @@ function bp_get_members_invitations_allowed() {
  *
  * @since 10.0.0
  *
- * @param bool $context "raw" to fetch value from database,
+ * @param bool $context Optional. "raw" to fetch value from database,
  *                      "site" to take "anyone can register" setting into account.
  * @return bool
  */
@@ -3179,9 +3183,9 @@ add_action( 'bp_head', 'bp_members_activity_feed' );
  * @see bp_get_members_component_link() for description of parameters.
  *
  * @param string      $component See {@bp_get_members_component_link()}.
- * @param string      $action See {@bp_get_members_component_link()}.
- * @param string      $query_args See {@bp_get_members_component_link()}.
- * @param string|bool $nonce See {@bp_get_members_component_link()}.
+ * @param string      $action Optional. See {@bp_get_members_component_link()}.
+ * @param string      $query_args Optional. See {@bp_get_members_component_link()}.
+ * @param string|bool $nonce Optional. See {@bp_get_members_component_link()}.
  */
 function bp_members_component_link( $component, $action = '', $query_args = '', $nonce = false ) {
 	echo esc_url( bp_get_members_component_link( $component, $action, $query_args, $nonce ) );
@@ -3293,7 +3297,7 @@ function bp_avatar_delete_link() {
  * @since 8.0.0
  *
  * @param array|string $args {
- *     Arguments for limiting the contents of the invitations loop. Can be
+ *     Optional. Arguments for limiting the contents of the invitations loop. Can be
  *     passed as an associative array, or as a URL query string.
  *
  *     See {@link BP_Invitations_Invitation::get()} for detailed
@@ -3461,8 +3465,8 @@ function bp_members_invitations_pagination_links() {
  *
  * @since 8.0.0
  *
- * @param string $property The name of the property to display.
- * @param string $context  The context of display.
+ * @param string $property Optional. The name of the property to display.
+ * @param string $context  Optional. The context of display.
  *                         Possible values are 'attribute' and 'html'.
  */
 function bp_the_members_invitation_property( $property = '', $context = 'html' ) {
@@ -3492,7 +3496,7 @@ function bp_the_members_invitation_property( $property = '', $context = 'html' )
 	 *
 	 * @since 8.0.0
 	 *
-	 * @param string $property Invitation property to return.
+	 * @param string $property Optional. Invitation property to return.
 	 * @return int ID of the current network invitation.
 	 */
 	function bp_get_the_members_invitation_property( $property = 'id' ) {
@@ -3538,7 +3542,7 @@ function bp_the_members_invitation_property( $property = '', $context = 'html' )
  *
  * @since 8.0.0
  *
- * @param array|string $args Array of arguments.
+ * @param array|string $args Optional. Array of arguments.
  */
 function bp_the_members_invitation_action_links( $args = '' ) {
 	// phpcs:ignore WordPress.Security.EscapeOutput
@@ -3550,7 +3554,7 @@ function bp_the_members_invitation_action_links( $args = '' ) {
 	 * @since 8.0.0
 	 *
 	 * @param array|string $args {
-	 *     Arguments.
+	 *     Optional. Arguments.
 	 *     @type string $before  HTML before the links.
 	 *     @type string $after   HTML after the links.
 	 *     @type string $sep     HTML between the links.
@@ -3596,7 +3600,7 @@ function bp_the_members_invitation_action_links( $args = '' ) {
  *
  * @since 8.0.0
  *
- * @param int $user_id The user ID.
+ * @param int $user_id Optional. The user ID.
  */
 function bp_the_members_invitations_resend_link( $user_id = 0 ) {
 	// phpcs:ignore WordPress.Security.EscapeOutput
@@ -3607,7 +3611,7 @@ function bp_the_members_invitations_resend_link( $user_id = 0 ) {
 	 *
 	 * @since 8.0.0
 	 *
-	 * @param int $user_id The user ID.
+	 * @param int $user_id Optional. The user ID.
 	 * @return string
 	 */
 	function bp_get_the_members_invitation_resend_link( $user_id = 0 ) {
@@ -3639,7 +3643,7 @@ function bp_the_members_invitations_resend_link( $user_id = 0 ) {
  *
  * @since 8.0.0
  *
- * @param int $user_id The user ID.
+ * @param int $user_id Optional. The user ID.
  */
 function bp_the_members_invitations_resend_url( $user_id = 0 ) {
 	echo esc_url( bp_get_the_members_invitations_resend_url( $user_id ) );
@@ -3649,7 +3653,7 @@ function bp_the_members_invitations_resend_url( $user_id = 0 ) {
 	 *
 	 * @since 8.0.0
 	 *
-	 * @param int $user_id The user ID.
+	 * @param int $user_id Optional. The user ID.
 	 * @return string
 	 */
 	function bp_get_the_members_invitations_resend_url( $user_id = 0 ) {
@@ -3688,7 +3692,7 @@ function bp_the_members_invitations_resend_url( $user_id = 0 ) {
  *
  * @since 8.0.0
  *
- * @param int $user_id The user ID.
+ * @param int $user_id Optional. The user ID.
  */
 function bp_the_members_invitations_delete_link( $user_id = 0 ) {
 	// phpcs:ignore WordPress.Security.EscapeOutput
@@ -3699,7 +3703,7 @@ function bp_the_members_invitations_delete_link( $user_id = 0 ) {
 	 *
 	 * @since 8.0.0
 	 *
-	 * @param int $user_id The user ID.
+	 * @param int $user_id Optional. The user ID.
 	 * @return string
 	 */
 	function bp_get_the_members_invitation_delete_link( $user_id = 0 ) {
@@ -3737,7 +3741,7 @@ function bp_the_members_invitations_delete_link( $user_id = 0 ) {
  *
  * @since 8.0.0
  *
- * @param int $user_id The user ID.
+ * @param int $user_id Optional. The user ID.
  */
 function bp_the_members_invitations_delete_url( $user_id = 0 ) {
 	echo esc_url( bp_get_the_members_invitations_delete_url( $user_id ) );
@@ -3747,7 +3751,7 @@ function bp_the_members_invitations_delete_url( $user_id = 0 ) {
 	 *
 	 * @since 8.0.0
 	 *
-	 * @param int $user_id The user ID.
+	 * @param int $user_id Optional. The user ID.
 	 * @return string
 	 */
 	function bp_get_the_members_invitations_delete_url( $user_id = 0 ) {
@@ -3786,7 +3790,7 @@ function bp_the_members_invitations_delete_url( $user_id = 0 ) {
  *
  * @since 8.0.0
  *
- * @param int $user_id The user ID.
+ * @param int $user_id Optional. The user ID.
  */
 function bp_members_invitations_list_invites_permalink( $user_id = 0 ) {
 	echo esc_url( bp_get_members_invitations_list_invites_permalink( $user_id ) );
@@ -3796,7 +3800,7 @@ function bp_members_invitations_list_invites_permalink( $user_id = 0 ) {
 	 *
 	 * @since 8.0.0
 	 *
-	 * @param int $user_id ID of the user.
+	 * @param int $user_id Optional. ID of the user.
 	 * @return string Members invitations list permalink for a user.
 	 */
 	function bp_get_members_invitations_list_invites_permalink( $user_id = 0 ) {
@@ -3825,7 +3829,7 @@ function bp_members_invitations_list_invites_permalink( $user_id = 0 ) {
  *
  * @since 8.0.0
  *
- * @param int $user_id The user ID.
+ * @param int $user_id Optional. The user ID.
  */
 function bp_members_invitations_send_invites_permalink( $user_id = 0 ) {
 	echo esc_url( bp_get_members_invitations_send_invites_permalink( $user_id ) );
@@ -3835,7 +3839,7 @@ function bp_members_invitations_send_invites_permalink( $user_id = 0 ) {
 	 *
 	 * @since 8.0.0
 	 *
-	 * @param int $user_id The user ID.
+	 * @param int $user_id Optional. The user ID.
 	 * @return string      The send invitations permalink.
 	 */
 	function bp_get_members_invitations_send_invites_permalink( $user_id = 0 ) {

@@ -88,7 +88,7 @@ add_action( 'embed_head', 'bp_activity_embed_add_inline_styles', 20 );
  *
  * @global BP_Activity_Template $activities_template The Activity template loop.
  *
- * @param  int $activity_id The activity ID.
+ * @param  int $activity_id Optional. The activity ID.
  * @return bool
  */
 function bp_activity_embed_has_activity( $activity_id = 0 ) {
@@ -121,7 +121,7 @@ function bp_activity_embed_has_activity( $activity_id = 0 ) {
  * Outputs excerpt for an activity embed item.
  *
  * @since 2.6.0
- * @param string $content Activity content to excerpt.
+ * @param string $content Optional. Activity content to excerpt.
  */
 function bp_activity_embed_excerpt( $content = '' ) {
 	// Escaping is made in `bp-activity/bp-activity-filters.php`.
@@ -136,7 +136,7 @@ function bp_activity_embed_excerpt( $content = '' ) {
 	 *
 	 * @global BP_Activity_Template $activities_template The Activity template loop.
 	 *
-	 * @param  string $content The content to generate an excerpt for.
+	 * @param  string $content Optional. The content to generate an excerpt for.
 	 * @return string
 	 */
 	function bp_activity_get_embed_excerpt( $content = '' ) {

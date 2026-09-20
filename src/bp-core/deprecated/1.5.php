@@ -79,6 +79,7 @@ if ( !function_exists( 'is_site_admin' ) ) {
  * @deprecated Use add_menu_page().
  * @since 1.1.0
  *
+ * @param array|string $args Optional. Menu page arguments.
  * @return string
  */
 function bp_core_add_admin_menu_page( $args = '' ) {
@@ -420,6 +421,7 @@ function bp_core_delete_notifications_for_user_by_type( $user_id, $component_nam
 }
 
 /**
+ * @param false|int $secondary_item_id Optional. Secondary item ID.
  * @return mixed
  */
 function bp_core_delete_notifications_for_user_by_item_id( $user_id, $item_id, $component_name, $component_action, $secondary_item_id = false ) {
@@ -743,8 +745,8 @@ function bp_core_screen_delete_account_content() {
  * @since 1.0.0
  * @todo Remove in 1.4
  *
- * @param bool $admin_list
- * @param bool $group
+ * @param bool $admin_list Optional.
+ * @param bool $group Optional.
  */
 function bp_group_admin_memberlist( $admin_list = false, $group = false ) {
 	global $groups_template;

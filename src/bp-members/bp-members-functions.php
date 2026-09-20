@@ -143,7 +143,7 @@ function bp_core_get_users( $args = '' ) {
  *
  * @since 12.0.0
  *
- * @param array $chunks An array of BP URL default slugs.
+ * @param array $chunks Optional. An array of BP URL default slugs.
  * @return array An associative array containing member's customized path chunks.
  */
 function bp_members_get_path_chunks( $chunks = array() ) {
@@ -187,7 +187,7 @@ function bp_members_get_path_chunks( $chunks = array() ) {
  *
  * @since 12.0.0
  *
- * @param int   $user_id  The user ID.
+ * @param int   $user_id  Optional. The user ID.
  * @param array $path_chunks {
  *   An array of arguments. Optional.
  *
@@ -242,7 +242,7 @@ function bp_members_get_user_url( $user_id = 0, $path_chunks = array() ) {
  *
  * @since 1.2.0
  *
- * @param int $user_id The ID of the user.
+ * @param int $user_id Optional. The ID of the user.
  * @return array|bool Array of data on success, false on failure.
  */
 function bp_core_get_core_userdata( $user_id = 0 ) {
@@ -268,7 +268,7 @@ function bp_core_get_core_userdata( $user_id = 0 ) {
  *
  * @since 1.0.0
  *
- * @param string $username user_login to check.
+ * @param string $username Optional. User login to check.
  * @return int|null The ID of the matched user on success, null on failure.
  */
 function bp_core_get_userid( $username = '' ) {
@@ -294,7 +294,7 @@ function bp_core_get_userid( $username = '' ) {
  *
  * @since 1.2.3
  *
- * @param string $user_nicename user_nicename to check.
+ * @param string $user_nicename Optional. User nicename to check.
  * @return int|null The ID of the matched user on success, null on failure.
  */
 function bp_core_get_userid_from_nicename( $user_nicename = '' ) {
@@ -320,7 +320,7 @@ function bp_core_get_userid_from_nicename( $user_nicename = '' ) {
  *
  * @since 12.0.0
  *
- * @param int $user_id The User ID.
+ * @param int $user_id Optional. The User ID.
  * @return string The member slug.
  */
 function bp_members_get_user_slug( $user_id = 0 ) {
@@ -409,9 +409,9 @@ function bp_core_get_user_email( $user_id ) {
  * @since 1.0.0
  *
  * @param int  $user_id   User ID to check.
- * @param bool $no_anchor Disable URL and HTML and just return full name.
+ * @param bool $no_anchor Optional. Disable URL and HTML and just return full name.
  *                        Default: false.
- * @param bool $just_link Disable full name and HTML and just return the URL
+ * @param bool $just_link Optional. Disable full name and HTML and just return the URL
  *                        text. Default false.
  * @return string|false The link text based on passed parameters, or false on
  *                     no match.
@@ -857,7 +857,7 @@ add_action( 'make_ham_user', 'bp_core_mark_user_ham_admin' );
  *
  * @global BP_Core_Members_Template $members_template The Members template loop class.
  *
- * @param int $user_id The ID for the user.
+ * @param int $user_id Optional. The ID for the user.
  * @return bool True if spammer, otherwise false.
  */
 function bp_is_user_spammer( $user_id = 0 ) {
@@ -929,7 +929,7 @@ function bp_is_user_spammer( $user_id = 0 ) {
  *
  * @since 1.6.0
  *
- * @param int $user_id The ID for the user.
+ * @param int $user_id Optional. The ID for the user.
  * @return bool True if deleted, otherwise false.
  */
 function bp_is_user_deleted( $user_id = 0 ) {
@@ -1158,7 +1158,7 @@ add_filter( 'update_user_metadata', '_bp_update_user_meta_last_activity_warning'
  *
  * @since 1.9.0
  *
- * @param int $user_id The ID of the user.
+ * @param int $user_id Optional. The ID of the user.
  * @return string Time of last activity, in 'Y-m-d H:i:s' format, or an empty
  *                string if none is found.
  */
@@ -1485,7 +1485,7 @@ function bp_core_flush_illegal_names() {
  *
  * @since 1.2.7
  *
- * @param array|string $value Illegal names as being saved defined in
+ * @param array|string $value Optional. Illegal names as being saved defined in
  *                            Multisite settings.
  * @return array Merged and unique array of illegal names.
  */
@@ -1788,7 +1788,7 @@ function bp_core_validate_user_signup( $user_name, $user_email ) {
  *
  * @param string       $pass         The password.
  * @param string       $confirm_pass The confirmed password.
- * @param null|WP_User $userdata     Null or the userdata object when a member updates their password from front-end.
+ * @param null|WP_User $userdata     Optional. Null or the userdata object when a member updates their password from front-end.
  * @return WP_Error A WP error object possibly containing error messages.
  */
 function bp_members_validate_user_password( $pass, $confirm_pass, $userdata = null ) {
@@ -2410,9 +2410,9 @@ function bp_core_signup_send_validation_email( $user_id, $user_email, $key, $sal
  *
  * @since 1.2.2
  *
- * @param WP_User|WP_Error|null $user     Either the WP_User or the WP_Error object.
- * @param string                $username The inputted, attempted username.
- * @param string                $password The inputted, attempted password.
+ * @param WP_User|WP_Error|null $user     Optional. Either the WP_User or the WP_Error object.
+ * @param string                $username Optional. The inputted, attempted username.
+ * @param string                $password Optional. The inputted, attempted password.
  * @return WP_User|WP_Error
  */
 function bp_core_signup_disable_inactive( $user = null, $username = '', $password = '' ) {
@@ -2844,8 +2844,8 @@ function bp_get_member_type_tax_args() {
  *
  * @since 7.0.0
  *
- * @param array  $schema   The generic Type metadata schema.
- * @param string $taxonomy The taxonomy name the schema applies to.
+ * @param array  $schema   Optional. The generic Type metadata schema.
+ * @param string $taxonomy Optional. The taxonomy name the schema applies to.
  * @return array           The Member Type metadata schema.
  */
 function bp_get_member_type_metadata_schema( $schema = array(), $taxonomy = '' ) {
@@ -2895,7 +2895,7 @@ add_action( 'bp_register_type_metadata', 'bp_register_member_type_metadata' );
  *
  * @param string $member_type Unique string identifier for the member type.
  * @param array  $args {
- *     Array of arguments describing the member type.
+ *     Optional. Array of arguments describing the member type.
  *
  *     @type array       $labels {
  *         Array of labels to use in various parts of the interface.
@@ -3088,8 +3088,8 @@ add_filter( bp_get_member_type_tax_name() . '_registered_by_code', 'bp_get_membe
  *
  * @since 7.0.0
  *
- * @param array  $metadata Existing member type metadata.
- * @param string $type     Member type name.
+ * @param array  $metadata Optional. Existing member type metadata.
+ * @param string $type     Optional. Member type name.
  * @return array The member type metadata.
  */
 function bp_set_registered_by_code_member_type_metadata( $metadata = array(), $type = '' ) {
@@ -3420,7 +3420,7 @@ function bp_members_avatar_upload_dir( $directory = 'avatars', $user_id = 0 ) {
  *
  * @since 8.0.0
  *
- * @param int $user_id The new user's ID.
+ * @param int $user_id Optional. The new user's ID.
  */
 function bp_send_welcome_email( $user_id = 0 ) {
 	if ( ! $user_id ) {
@@ -3456,7 +3456,7 @@ add_action( 'bp_core_activated_user', 'bp_send_welcome_email', 10, 1 );
  *
  * @since 8.0.0
  *
- * @param array $args Invitation arguments. See BP_Invitation::get() for list.
+ * @param array $args Optional. Invitation arguments. See BP_Invitation::get() for list.
  * @return array Matching BP_Invitation objects.
  */
 function bp_members_invitations_get_invites( $args = array() ) {
@@ -3469,7 +3469,7 @@ function bp_members_invitations_get_invites( $args = array() ) {
  *
  * @since 8.0.0
  *
- * @param int $user_id ID of user to check for invitations sent by.
+ * @param int $user_id Optional. ID of user to check for invitations sent by.
  *                     Defaults to the current user's ID.
  *
  * @return bool True if user has sent invites.
@@ -3494,7 +3494,7 @@ function bp_members_invitations_user_has_sent_invites( $user_id = 0 ) {
  * @since 8.0.0
  *
  * @param array|string $args {
- *     Array of arguments.
+ *     Optional. Array of arguments.
  *     @type int    $invitee_email Email address of the user being invited.
  *     @type int    $network_id    ID of the network to which the user is being invited.
  *     @type int    $inviter_id    Optional. ID of the inviting user. Default:
@@ -3552,7 +3552,7 @@ function bp_members_invitations_invite_user( $args = array() ) {
  *
  * @since 8.0.0
  *
- * @param int $id ID of the invitation to resend.
+ * @param int $id Optional. ID of the invitation to resend.
  * @return bool
  */
 function bp_members_invitation_resend_by_id( $id = 0 ) {
@@ -3583,7 +3583,7 @@ function bp_members_invitation_resend_by_id( $id = 0 ) {
  *
  * @since 8.0.0
  *
- * @param int $id ID of the invitation to delete.
+ * @param int $id Optional. ID of the invitation to delete.
  * @return int|bool Number of rows deleted on success, false on failure.
  */
 function bp_members_invitations_delete_by_id( $id = 0 ) {
@@ -3636,7 +3636,7 @@ function bp_members_invitations_delete_by_id( $id = 0 ) {
  * @since 8.0.0
  *
  * @param intring $args {
- *     Array of arguments.
+ *     Optional. Array of arguments.
  *     @type int|array $id            Id(s) of the invitation(s) to remove.
  *     @type int       $invitee_email Email address of the user being invited.
  *     @type int       $network_id    ID of the network to which the user is being invited.
@@ -3760,9 +3760,9 @@ function bp_get_members_invitation_from_request() {
  *
  * @since 10.0.0
  *
- * @param string $field Which fields to search by. Possible values are
+ * @param string $field Optional. Which fields to search by. Possible values are
  *                      activation_key, user_email, id.
- * @param string $value Value to search by.
+ * @param string $value Optional. Value to search by.
  * @return bool|BP_Signup Found signup, returns first found if more than one is found.
  */
 function bp_members_get_signup_by( $field = 'activation_key', $value = '' ) {

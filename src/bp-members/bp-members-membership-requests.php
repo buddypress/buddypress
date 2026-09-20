@@ -18,10 +18,10 @@ defined( 'ABSPATH' ) || exit;
  * @since 10.0.0
  *
  * @param bool   $send           Whether or not to send the activation key.
- * @param int    $user_id        User ID to send activation key to.
- * @param string $user_email     User email to send activation key to.
- * @param string $activation_key Activation key to be sent.
- * @param array  $usermeta       Miscellaneous metadata about the user (blog-specific
+ * @param int    $user_id        Optional. User ID to send activation key to.
+ * @param string $user_email     Optional. User email to send activation key to.
+ * @param string $activation_key Optional. Activation key to be sent.
+ * @param array  $usermeta       Optional. Miscellaneous metadata about the user (blog-specific
  *                               signup data, xprofile data, etc).
  * @return bool Whether or not to send the activation key.
  */
@@ -83,11 +83,11 @@ add_filter( 'bp_core_signup_send_activation_key', 'bp_members_membership_request
  *
  * @since 10.0.0
  *
- * @param bool   $send             Whether or not to send the activation key.
- * @param string $user_login       User login name.
- * @param string $user_email       User email address.
- * @param string $activation_key   Activation key created in wpmu_signup_user().
- * @param bool   $is_signup_resend Whether the site admin is sending this email.
+ * @param bool   $send             Optional. Whether or not to send the activation key.
+ * @param string $user_login       Optional. User login name.
+ * @param string $user_email       Optional. User email address.
+ * @param string $activation_key   Optional. Activation key created in wpmu_signup_user().
+ * @param bool   $is_signup_resend Optional. Whether the site admin is sending this email.
  * @return bool Whether or not to send the activation key.
  */
 function bp_members_membership_requests_cancel_activation_email_multisite( $send = true, $user_login = '', $user_email = '', $activation_key = '', $is_signup_resend = false ) {

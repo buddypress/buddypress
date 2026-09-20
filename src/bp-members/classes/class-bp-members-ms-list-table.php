@@ -260,8 +260,8 @@ class BP_Members_MS_List_Table extends WP_MS_Users_List_Table {
 	 *
 	 * @see WP_List_Table::single_row() for explanation of params.
 	 *
-	 * @param object|null $signup_object Signup user object.
-	 * @param string      $style         Styles for the row.
+	 * @param object|null $signup_object Optional. Signup user object.
+	 * @param string      $style         Optional. Styles for the row.
 	 */
 	public function single_row( $signup_object = null, $style = '' ) {
 		if ( '' === $style ) {
@@ -281,9 +281,9 @@ class BP_Members_MS_List_Table extends WP_MS_Users_List_Table {
 	 *
 	 * @since 2.4.0
 	 *
-	 * @param object|null $signup_object Signup being acted upon.
-	 * @param string      $column_name   Current column name.
-	 * @param string      $primary       Primary column name.
+	 * @param object|null $signup_object Optional. Signup being acted upon.
+	 * @param string      $column_name   Optional. Current column name.
+	 * @param string      $primary       Optional. Primary column name.
 	 * @return string
 	 */
 	protected function handle_row_actions( $signup_object = null, $column_name = '', $primary = '' ) {
@@ -295,7 +295,7 @@ class BP_Members_MS_List_Table extends WP_MS_Users_List_Table {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param object|null $signup_object The signup data object.
+	 * @param object|null $signup_object Optional. The signup data object.
 	 */
 	public function column_cb( $signup_object = null ) {
 	?>
@@ -317,7 +317,7 @@ class BP_Members_MS_List_Table extends WP_MS_Users_List_Table {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param object|null $signup_object The signup data object.
+	 * @param object|null $signup_object Optional. The signup data object.
 	 */
 	public function column_username( $signup_object = null ) {
 		$avatar = get_avatar( $signup_object->user_email, 32 );
@@ -389,7 +389,7 @@ class BP_Members_MS_List_Table extends WP_MS_Users_List_Table {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param object|null $signup_object The signup data object.
+	 * @param object|null $signup_object Optional. The signup data object.
 	 */
 	public function column_name( $signup_object = null ) {
 		echo esc_html( $signup_object->user_name );
@@ -426,7 +426,7 @@ class BP_Members_MS_List_Table extends WP_MS_Users_List_Table {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param object|null $signup_object The signup data object.
+	 * @param object|null $signup_object Optional. The signup data object.
 	 */
 	public function column_email( $signup_object = null ) {
 		printf( '<a href="mailto:%1$s">%2$s</a>', esc_attr( $signup_object->user_email ), esc_html( $signup_object->user_email ) );
@@ -439,7 +439,7 @@ class BP_Members_MS_List_Table extends WP_MS_Users_List_Table {
 	 *
 	 * @global string $mode The display mode.
 	 *
-	 * @param object|null $signup_object The signup data object.
+	 * @param object|null $signup_object Optional. The signup data object.
 	 */
 	public function column_registered( $signup_object = null ) {
 		global $mode;
@@ -460,7 +460,7 @@ class BP_Members_MS_List_Table extends WP_MS_Users_List_Table {
 	 *
 	 * @global string $mode The display mode.
 	 *
-	 * @param object|null $signup_object Signup object instance.
+	 * @param object|null $signup_object Optional. Signup object instance.
 	 */
 	public function column_date_sent( $signup_object = null ) {
 		global $mode;
@@ -496,7 +496,7 @@ class BP_Members_MS_List_Table extends WP_MS_Users_List_Table {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param object|null $signup_object Signup object instance.
+	 * @param object|null $signup_object Optional. Signup object instance.
 	 */
 	public function column_count_sent( $signup_object = null ) {
 		echo absint( $signup_object->count_sent );
@@ -507,8 +507,8 @@ class BP_Members_MS_List_Table extends WP_MS_Users_List_Table {
 	 *
 	 * @since 2.1.0
 	 *
-	 * @param object|null $signup_object The signup data object.
-	 * @param string      $column_name   The column name.
+	 * @param object|null $signup_object Optional. The signup data object.
+	 * @param string      $column_name   Optional. The column name.
 	 * @return string
 	 */
 	public function column_default( $signup_object = null, $column_name = '' ) {

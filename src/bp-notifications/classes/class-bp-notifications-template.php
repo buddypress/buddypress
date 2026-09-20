@@ -161,7 +161,7 @@ class BP_Notifications_Template {
 	 * @since 1.9.0
 	 *
 	 * @param array $args {
-	 *     An array of arguments. See {@link bp_has_notifications()}
+	 *     Optional. An array of arguments. See {@link bp_has_notifications()}
 	 *     for more details.
 	 * }.
 	 */

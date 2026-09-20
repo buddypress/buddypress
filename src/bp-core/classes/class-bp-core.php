@@ -42,7 +42,7 @@ class BP_Core extends BP_Component {
 	 *
 	 * @since 7.0.0
 	 *
-	 * @param string $key The object var to get.
+	 * @param string $key Optional. The object var to get.
 	 * @return mixed
 	 */
 	public function __get( $key = '' ) {
@@ -181,7 +181,7 @@ class BP_Core extends BP_Component {
 	 *
 	 * @see BP_Component::includes() for description of parameters.
 	 *
-	 * @param array $includes See {@link BP_Component::includes()}.
+	 * @param array $includes Optional. See {@link BP_Component::includes()}.
 	 */
 	public function includes( $includes = array() ) {
 
@@ -206,7 +206,7 @@ class BP_Core extends BP_Component {
 	 *
 	 * @see BP_Component::setup_globals() for description of parameters.
 	 *
-	 * @param array $args See {@link BP_Component::setup_globals()}.
+	 * @param array $args Optional. See {@link BP_Component::setup_globals()}.
 	 */
 	public function setup_globals( $args = array() ) {
 		$bp = buddypress();

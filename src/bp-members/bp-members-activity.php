@@ -170,10 +170,10 @@ add_action( 'bp_core_activated_user', 'bp_core_new_user_activity' );
  * @since 8.0.0
  * @since 10.0.0 Adds the `$type`, `$crop_data` and `$cropped_avatar` parameters.
  *
- * @param int    $user_id        The user id the avatar was set for.
- * @param string $type           The way the avatar was set ('camera' or `crop`).
- * @param array  $crop_data      Array of parameters passed to the crop handler.
- * @param array  $cropped_avatar Array containing the full, thumb avatar and the timestamp.
+ * @param int    $user_id        Optional. The user id the avatar was set for.
+ * @param string $type           Optional. The way the avatar was set ('camera' or `crop`).
+ * @param array  $crop_data      Optional. Array of parameters passed to the crop handler.
+ * @param array  $cropped_avatar Optional. Array containing the full, thumb avatar and the timestamp.
  */
 function bp_members_new_avatar_activity( $user_id = 0, $type = '', $crop_data = array(), $cropped_avatar = array() ) {
 
@@ -258,8 +258,8 @@ add_action( 'bp_members_avatar_uploaded', 'bp_members_new_avatar_activity', 10, 
  *
  * @since 10.0.0
  *
- * @param int $user_id   The user ID.
- * @param int $timestamp The timestamp when the activity was created.
+ * @param int $user_id   Optional. The user ID.
+ * @param int $timestamp Optional. The timestamp when the activity was created.
  * @return bool False otherwise.
  */
 function bp_members_remove_previous_avatar_activity( $user_id = 0, $timestamp = 0 ) {

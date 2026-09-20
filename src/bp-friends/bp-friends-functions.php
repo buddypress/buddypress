@@ -301,7 +301,7 @@ function friends_check_friendship_status( $user_id, $possible_friend_id ) {
  *
  * @since 1.2.0
  *
- * @param int $user_id ID of the user whose friends are being counted.
+ * @param int $user_id Optional. ID of the user whose friends are being counted.
  * @return int Friend count of the user.
  */
 function friends_get_total_friend_count( $user_id = 0 ) {
@@ -552,9 +552,9 @@ function friends_get_bulk_last_active( $friend_ids ) {
  *
  * @since 1.0.0
  *
- * @param int $user_id  User ID whose friends to see can be invited. Default:
+ * @param int $user_id  Optional. User ID whose friends to see can be invited. Default:
  *                      ID of the logged-in user.
- * @param int $group_id Group to check possible invitations against.
+ * @param int $group_id Optional. Group to check possible invitations against.
  * @return mixed False if no friends, array of users if friends.
  */
 function friends_get_friends_invite_list( $user_id = 0, $group_id = 0 ) {
@@ -684,9 +684,9 @@ function friends_get_friend_count_for_user( $user_id ) {
  *
  * @param string $search_terms Search term to filter on.
  * @param int    $user_id      ID of the user whose friends are being searched.
- * @param int    $pag_num      Number of results to return per page. Default: 0 (no
+ * @param int    $pag_num      Optional. Number of results to return per page. Default: 0 (no
  *                             pagination - show all results).
- * @param int    $pag_page     Number of the page being requested. Default: 0 (no
+ * @param int    $pag_page     Optional. Number of the page being requested. Default: 0 (no
  *                             pagination - show all results).
  * @return array Array of BP_Core_User objects corresponding to friends.
  */

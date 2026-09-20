@@ -306,7 +306,7 @@ function bp_delete_option( $option_name ) {
  * @since 1.2.4
  * @deprecated 1.6.0
  *
- * @param array $keys Array of site options.
+ * @param array $keys Optional. Array of site options.
  * @return bool
  */
 function bp_core_activate_site_options( $keys = array() ) {

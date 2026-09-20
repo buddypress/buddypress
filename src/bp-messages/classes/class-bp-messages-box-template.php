@@ -125,7 +125,7 @@ class BP_Messages_Box_Template {
 	 * Constructor method.
 	 *
 	 * @param array $args {
-	 *     Array of arguments. See bp_has_message_threads() for full description.
+	 *     Optional. Array of arguments. See bp_has_message_threads() for full description.
 	 * }.
 	 */
 	public function __construct( $args = array() ) {

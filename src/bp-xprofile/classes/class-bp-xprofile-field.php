@@ -185,9 +185,9 @@ class BP_XProfile_Field {
 	 *
 	 * @since 1.1.0
 	 *
-	 * @param int|null $id Field ID.
-	 * @param int|null $user_id User ID.
-	 * @param bool     $get_data Get data.
+	 * @param int|null $id Optional. Field ID.
+	 * @param int|null $user_id Optional. User ID.
+	 * @param bool     $get_data Optional. Get data.
 	 */
 	public function __construct( $id = null, $user_id = null, $get_data = true ) {
 
@@ -219,8 +219,8 @@ class BP_XProfile_Field {
 	 * @global object $userdata
 	 *
 	 * @param int      $id Field ID.
-	 * @param int|null $user_id User ID.
-	 * @param bool     $get_data Get data.
+	 * @param int|null $user_id Optional. User ID.
+	 * @param bool     $get_data Optional. Get data.
 	 */
 	public function populate( $id, $user_id = null, $get_data = true ) {
 		global $wpdb, $userdata;
@@ -264,7 +264,7 @@ class BP_XProfile_Field {
 	 *                           Ignored if `$get_data` is false. If `$get_data` is
 	 *                           true, but no `$user_id` is provided, defaults to
 	 *                           logged-in user ID.
-	 * @param bool     $get_data Whether to fetch data for the specified `$user_id`.
+	 * @param bool     $get_data Optional. Whether to fetch data for the specified `$user_id`.
 	 * @return BP_XProfile_Field|false Field object if found, otherwise false.
 	 */
 	public static function get_instance( $field_id, $user_id = null, $get_data = true ) {
@@ -360,7 +360,7 @@ class BP_XProfile_Field {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @param bool $delete_data Whether or not to delete data.
+	 * @param bool $delete_data Optional. Whether or not to delete data.
 	 * @return bool
 	 */
 	public function delete( $delete_data = false ) {
@@ -586,7 +586,7 @@ class BP_XProfile_Field {
 	 *
 	 * @since 1.2.0
 	 *
-	 * @param int $user_id ID of the user to get field data for.
+	 * @param int $user_id Optional. ID of the user to get field data for.
 	 * @return BP_XProfile_ProfileData
 	 */
 	public function get_field_data( $user_id = 0 ) {
@@ -600,7 +600,7 @@ class BP_XProfile_Field {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @param bool $for_editing Whether or not the field is for editing. Default to false.
+	 * @param bool $for_editing Optional. Whether or not the field is for editing. Default to false.
 	 * @return array
 	 */
 	public function get_children( $for_editing = false ) {
@@ -719,7 +719,7 @@ class BP_XProfile_Field {
 	 *
 	 * @param array $member_types Array of member types. Can include 'null' (users with no type) in addition to any
 	 *                            registered types.
-	 * @param bool  $append       Whether to append to existing member types. If false, all existing member type
+	 * @param bool  $append       Optional. Whether to append to existing member types. If false, all existing member type
 	 *                            associations will be deleted before adding your `$member_types`. Default false.
 	 * @return array Member types for the current field, after being saved.
 	 */
@@ -957,7 +957,7 @@ class BP_XProfile_Field {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @param int $field_id Field ID to get type of.
+	 * @param int $field_id Optional. Field ID to get type of.
 	 * @return bool|null|string
 	 */
 	public static function get_type( $field_id = 0 ) {
@@ -987,7 +987,7 @@ class BP_XProfile_Field {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @param int $group_id ID of the field group to delete fields from.
+	 * @param int $group_id Optional. ID of the field group to delete fields from.
 	 * @return bool
 	 */
 	public static function delete_for_group( $group_id = 0 ) {
@@ -1017,7 +1017,7 @@ class BP_XProfile_Field {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @param string $field_name Name of the field to query the ID for.
+	 * @param string $field_name Optional. Name of the field to query the ID for.
 	 * @return int|null Field ID on success; null on failure.
 	 */
 	public static function get_id_from_name( $field_name = '' ) {
@@ -1047,8 +1047,8 @@ class BP_XProfile_Field {
 	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param int      $field_id       ID of the field to update.
-	 * @param int|null $position       Field position to update.
-	 * @param int|null $field_group_id ID of the field group.
+	 * @param int|null $position       Optional. Field position to update.
+	 * @param int|null $field_group_id Optional. ID of the field group.
 	 * @return bool
 	 */
 	public static function update_position( $field_id, $position = null, $field_group_id = null ) {
@@ -1263,7 +1263,7 @@ class BP_XProfile_Field {
 	 *
 	 * @since 1.9.0
 	 *
-	 * @param string $message Message to display.
+	 * @param string $message Optional. Message to display.
 	 */
 	public function render_admin_form( $message = '' ) {
 
@@ -1441,7 +1441,7 @@ class BP_XProfile_Field {
 	 *
 	 * @since 8.0.0
 	 *
-	 * @param string $support The name of the feature.
+	 * @param string $support Optional. The name of the feature.
 	 * @return bool True if the field type supports the feature. False otherwise.
 	 */
 	public function field_type_supports( $support = '' ) {
@@ -1460,7 +1460,7 @@ class BP_XProfile_Field {
 	 *
 	 * @since 2.3.0
 	 *
-	 * @param string $button_text Text to put on button.
+	 * @param string $button_text Optional. Text to put on button.
 	 */
 	private function submit_metabox( $button_text = '' ) {
 
@@ -1930,7 +1930,7 @@ class BP_XProfile_Field {
 	 *
 	 * @since 2.3.0
 	 *
-	 * @param int $field_id ID of field to check.
+	 * @param int $field_id Optional. ID of field to check.
 	 * @return bool
 	 */
 	private function is_default_field( $field_id = 0 ) {

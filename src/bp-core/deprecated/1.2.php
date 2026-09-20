@@ -14,7 +14,7 @@
  * @since 1.0.0
  * @deprecated 1.2.0
  *
- * @param string|array $args
+ * @param string|array $args Optional.
  *
  * @return object The activity/activities object
  */

@@ -76,7 +76,7 @@ add_action( 'bp_register_activity_actions', 'groups_register_activity_actions' )
  *
  * @since 5.0.0
  *
- * @param int $group_id The group ID the activity is linked to.
+ * @param int $group_id Optional. The group ID the activity is linked to.
  * @return BP_Groups_Group  The group object the activity belongs to.
  */
 function bp_groups_get_activity_group( $group_id = 0 ) {
@@ -311,8 +311,8 @@ add_filter( 'bp_activity_prefetch_object_data', 'bp_groups_prefetch_activity_obj
  *
  * @since 2.2.0
  *
- * @param array $retval Empty array by default.
- * @param array $filter Current activity arguments.
+ * @param array $retval Optional. Empty array by default.
+ * @param array $filter Optional. Current activity arguments.
  * @return array
  */
 function bp_groups_filter_activity_scope( $retval = array(), $filter = array() ) {
@@ -489,7 +489,7 @@ add_filter( 'bp_activity_set_favorites_scope_args', 'bp_groups_filter_activity_f
  *      return values.
  *
  * @param array|string $args {
- *     An array of arguments for the new activity item. Accepts all parameters
+ *     Optional. An array of arguments for the new activity item. Accepts all parameters
  *     of {@link bp_activity_add()}. This wrapper provides the following
  *     additional defaults.
  *     @type string $component     Default: the id of your Groups component
@@ -544,7 +544,7 @@ function groups_record_activity( $args = '' ) {
  * @since 2.6.0 Added 'error_type' parameter to $args.
  *
  * @param array|string $args {
- *     Array of arguments.
+ *     Optional. Array of arguments.
  *     @type string $content  The content of the update.
  *     @type int    $user_id  Optional. ID of the user posting the update. Default:
  *                            ID of the logged-in user.
@@ -678,7 +678,7 @@ add_filter( 'bp_activity_user_can_delete', 'bp_groups_filter_activity_user_can_d
  * @since 3.0.0
  *
  * @param bool                      $retval   True if item can receive comments.
- * @param null|BP_Activity_Activity $activity Null by default. Pass an activity object to check against that instead.
+ * @param null|BP_Activity_Activity $activity Optional. Null by default. Pass an activity object to check against that instead.
  * @return bool
  */
 function bp_groups_filter_activity_can_comment( $retval, $activity = null ) {

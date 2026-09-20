@@ -229,7 +229,7 @@ class BP_Messages_Notice {
 	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param array $args {
-	 *     Array of parameters.
+	 *     Optional. Array of parameters.
 	 *     @type int $pag_num  Number of notices per page. Defaults to 20.
 	 *     @type int $pag_page The page number.  Defaults to 1.
 	 * }

@@ -241,7 +241,7 @@ function bp_nouveau_group_invites_interface() {
  * @since 3.0.0
  * @since 4.4.0
  *
- * @param  int $user_id The user ID to check group invites preference for.
+ * @param  int $user_id Optional. The user ID to check group invites preference for.
  * @return int          Returns 1 if user chose to restrict to friends, 0 otherwise.
  */
 function bp_nouveau_groups_get_group_invites_setting( $user_id = 0 ) {
@@ -1066,7 +1066,7 @@ function bp_nouveau_groups_manage_members_buttons( $args = array() ) {
  * @since 3.0.0
  * @since 3.2.0 Adds the $meta_key argument.
  *
- * @param  string $meta_key The key of the meta to check the value for.
+ * @param  string $meta_key Optional. The key of the meta to check the value for.
  * @return bool             True if the group has meta. False otherwise.
  */
 function bp_nouveau_group_has_meta( $meta_key = '' ) {
@@ -1168,7 +1168,7 @@ function bp_nouveau_the_group_meta( $args = array() ) {
 	 * @since 3.0.0
 	 * @since 7.0.0 Adds the `$keys` parameter.
 	 *
-	 * @param array $keys One or more template meta keys to populate with their values.
+	 * @param array $keys Optional. One or more template meta keys to populate with their values.
 	 *                    Possible keys are `status`, `count`, `group_type_list`, `description`, `extra`.
 	 * @return array      The corresponding group template meta values.
 	 */
@@ -1454,7 +1454,7 @@ function bp_nouveau_get_group_description_excerpt( $group = null, $length = null
  *
  * @since 3.2.0
  *
- * @param object $type Group type object. See bp_groups_get_group_type_object().
+ * @param object $type Optional. Group type object. See bp_groups_get_group_type_object().
  */
 function bp_nouveau_group_type_checked( $type = null ) {
 	if ( ! is_object( $type ) ) {

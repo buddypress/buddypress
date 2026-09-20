@@ -19,7 +19,7 @@ defined( 'ABSPATH' ) || exit;
  * @param int    $item_id           The activity ID.
  * @param int    $secondary_item_id In the case of at-mentions, this is the mentioner's ID.
  * @param int    $total_items       The total number of notifications to format.
- * @param string $format            'string' for notification HTML link or 'array' for separate link and text.
+ * @param string $format            Optional. 'string' for notification HTML link or 'array' for separate link and text.
  * @param int    $id                Optional. The notification ID.
  * @return string Formatted @mention notification.
  */
@@ -239,7 +239,7 @@ add_action( 'bp_activity_sent_reply_to_reply_notification', 'bp_activity_comment
  * @since 1.5.0
  * @since 2.5.0 Add the $user_id parameter
  *
- * @param int $user_id The id of the user whose notifications are marked as read.
+ * @param int $user_id Optional. The id of the user whose notifications are marked as read.
  */
 function bp_activity_remove_screen_notifications( $user_id = 0 ) {
 	// Only mark read if the current user is looking at his own mentions.
@@ -323,7 +323,7 @@ add_action( 'bp_screens', 'bp_activity_remove_screen_notifications_for_non_menti
  *
  * @since 2.0.0
  *
- * @param array $activity_ids_deleted IDs of deleted activity items.
+ * @param array $activity_ids_deleted Optional. IDs of deleted activity items.
  */
 function bp_activity_at_mention_delete_notification( $activity_ids_deleted = array() ) {
 	// Let's delete all without checking if content contains any mentions

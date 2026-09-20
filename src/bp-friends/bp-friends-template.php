@@ -120,7 +120,7 @@ function bp_member_total_friend_count() {
  *
  * @see bp_get_potential_friend_id() for a description of arguments.
  *
- * @param int $user_id See {@link bp_get_potential_friend_id()}.
+ * @param int $user_id Optional. See {@link bp_get_potential_friend_id()}.
  */
 function bp_potential_friend_id( $user_id = 0 ) {
 	echo intval( bp_get_potential_friend_id( $user_id ) );
@@ -162,7 +162,7 @@ function bp_potential_friend_id( $user_id = 0 ) {
  *
  * @since 1.2.6
  *
- * @param int $user_id ID of the potential friend. Default: the value of
+ * @param int $user_id Optional. ID of the potential friend. Default: the value of
  *                     {@link bp_get_potential_friend_id()}.
  * @return bool|string 'is_friend', 'not_friends', or 'pending'.
  */
@@ -199,7 +199,7 @@ function bp_is_friend( $user_id = 0 ) {
  *
  * @see bp_get_add_friend_button() for information on arguments.
  *
- * @param int $potential_friend_id See {@link bp_get_add_friend_button()}.
+ * @param int $potential_friend_id Optional. See {@link bp_get_add_friend_button()}.
  */
 function bp_add_friend_button( $potential_friend_id = 0 ) {
 	// Escaping is done in `BP_Core_HTML_Element()`.
@@ -212,7 +212,7 @@ function bp_add_friend_button( $potential_friend_id = 0 ) {
 	 *
 	 * @since 11.0.0
 	 *
-	 * @param int $potential_friend_id The user ID of the potential friend.
+	 * @param int $potential_friend_id Optional. The user ID of the potential friend.
 	 * @return array The friend button arguments.
 	 */
 	function bp_get_add_friend_button_args( $potential_friend_id = 0 ) {
@@ -325,7 +325,7 @@ function bp_add_friend_button( $potential_friend_id = 0 ) {
 	 * @since 11.0.0 uses `bp_get_add_friend_button_args()`.
 	 * @since 15.0.0 The `$friend_status` parameter was removed since it was unused.
 	 *
-	 * @param int $potential_friend_id ID of the user to whom the button
+	 * @param int $potential_friend_id Optional. ID of the user to whom the button
 	 *                                 applies. Default: value of {@link bp_get_potential_friend_id()}.
 	 * @return bool|string HTML for the Add Friend button. False if already friends.
 	 */
@@ -372,7 +372,7 @@ function bp_get_friend_ids( $user_id = 0 ) {
  *
  * @since 1.2.0
  *
- * @param int $user_id ID of the user whose requests are being retrieved.
+ * @param int $user_id Optional. ID of the user whose requests are being retrieved.
  *                     Defaults to displayed user.
  * @return array|int An array of user IDs if found, or a 0 if none are found.
  */
@@ -532,7 +532,7 @@ function bp_friend_reject_request_link() {
  *
  * @since 1.2.0
  *
- * @param int $user_id See {@link friends_get_total_friend_count()}.
+ * @param int $user_id Optional. See {@link friends_get_total_friend_count()}.
  */
 function bp_total_friend_count( $user_id = 0 ) {
 	echo intval( bp_get_total_friend_count( $user_id ) );
@@ -542,7 +542,7 @@ function bp_total_friend_count( $user_id = 0 ) {
 	 *
 	 * @since 1.2.0
 	 *
-	 * @param int $user_id See {@link friends_get_total_friend_count()}.
+	 * @param int $user_id Optional. See {@link friends_get_total_friend_count()}.
 	 * @return int Total friend count.
 	 */
 	function bp_get_total_friend_count( $user_id = 0 ) {
@@ -564,7 +564,7 @@ function bp_total_friend_count( $user_id = 0 ) {
  *
  * @since 1.2.0
  *
- * @param int $user_id ID of the user whose requests are being counted.
+ * @param int $user_id Optional. ID of the user whose requests are being counted.
  *                     Default: ID of the logged-in user.
  */
 function bp_friend_total_requests_count( $user_id = 0 ) {
@@ -575,7 +575,7 @@ function bp_friend_total_requests_count( $user_id = 0 ) {
 	 *
 	 * @since 1.2.0
 	 *
-	 * @param int $user_id ID of the user whose requests are being counted.
+	 * @param int $user_id Optional. ID of the user whose requests are being counted.
 	 *                     Default: ID of the logged-in user.
 	 * @return int Friend count.
 	 */
@@ -603,7 +603,7 @@ function bp_friend_total_requests_count( $user_id = 0 ) {
  *
  * @since 2.0.0
  *
- * @param array|string $args before|after|user_id.
+ * @param array|string $args Optional. Arguments: `before`, `after`, and `user_id`.
  */
 function bp_friends_profile_stats( $args = '' ) {
 	echo wp_kses(
@@ -623,7 +623,7 @@ add_action( 'bp_members_admin_user_stats', 'bp_friends_profile_stats', 7, 1 );
  *
  * @since 2.0.0
  *
- * @param array|string $args before|after|user_id.
+ * @param array|string $args Optional. Arguments: `before`, `after`, and `user_id`.
  * @return string HTML for stats output.
  */
 function bp_friends_get_profile_stats( $args = '' ) {

@@ -39,7 +39,7 @@ class BP_Settings_Component extends BP_Component {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @param array $includes Array of values to include. Not used.
+	 * @param array $includes Optional. Array of values to include. Not used.
 	 */
 	public function includes( $includes = array() ) {
 		parent::includes(
@@ -102,7 +102,7 @@ class BP_Settings_Component extends BP_Component {
 	 *
 	 * @see BP_Component::setup_globals() for a description of arguments.
 	 *
-	 * @param array $args See BP_Component::setup_globals() for a description.
+	 * @param array $args Optional. See BP_Component::setup_globals() for a description.
 	 */
 	public function setup_globals( $args = array() ) {
 		$default_slug = $this->id;
@@ -242,7 +242,7 @@ class BP_Settings_Component extends BP_Component {
 	 * @see `BP_Component::setup_admin_bar()` for a description of the $wp_admin_nav
 	 *      parameter array.
 	 *
-	 * @param array $wp_admin_nav See `BP_Component::setup_admin_bar()` for a
+	 * @param array $wp_admin_nav Optional. See `BP_Component::setup_admin_bar()` for a
 	 *                            description.
 	 */
 	public function setup_admin_bar( $wp_admin_nav = array() ) {

@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
  * in $blog_ids and adds it to the WP cache. This improves efficiency when
  * using querying blogmeta inline.
  *
- * @param int|string|array|bool $blog_ids Accepts a single blog ID, or a comma-
+ * @param int|string|array|bool $blog_ids Optional. Accepts a single blog ID, or a comma-
  *                                        separated list or array of blog IDs.
  */
 function bp_blogs_update_meta_cache( $blog_ids = false ) {
@@ -37,8 +37,8 @@ function bp_blogs_update_meta_cache( $blog_ids = false ) {
  *
  * @since 1.0.0
  *
- * @param int $blog_id ID of the current blog.
- * @param int $user_id ID of the user whose blog cache should be cleared.
+ * @param int $blog_id Optional. ID of the current blog.
+ * @param int $user_id Optional. ID of the user whose blog cache should be cleared.
  */
 function bp_blogs_clear_blog_object_cache( $blog_id = 0, $user_id = 0 ) {
 	if ( ! empty( $user_id ) ) {

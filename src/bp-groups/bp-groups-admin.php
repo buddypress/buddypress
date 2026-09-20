@@ -110,7 +110,7 @@ add_action( 'bp_admin_menu', 'bp_groups_admin_types_menu' );
  *
  * @since 1.7.0
  *
- * @param string[] $custom_menus Array of BP top-level menu items.
+ * @param string[] $custom_menus Optional. Array of BP top-level menu items.
  * @return string[] Menu item array, with Groups added.
  */
 function bp_groups_admin_menu_order( $custom_menus = array() ) {
@@ -1345,7 +1345,7 @@ function bp_groups_admin_edit_metabox_status( $item ) {
  *
  * @since 2.6.0
  *
- * @param BP_Groups_Group|null $group The BP_Groups_Group object corresponding to the group being edited.
+ * @param BP_Groups_Group|null $group Optional. The BP_Groups_Group object corresponding to the group being edited.
  */
 function bp_groups_admin_edit_metabox_group_type( $group = null ) {
 
@@ -1500,7 +1500,7 @@ function bp_groups_admin_create_pagination_links( BP_Group_Member_Query $query, 
  *
  * @since 1.7.0
  *
- * @param array $user_ids Array of user IDs.
+ * @param array $user_ids Optional. Array of user IDs.
  * @return array Array of user_logins corresponding to $user_ids.
  */
 function bp_groups_admin_get_usernames_from_ids( $user_ids = array() ) {
@@ -1664,8 +1664,8 @@ add_action( bp_core_admin_hook(), 'bp_groups_admin_groups_type_change_notice' );
  *
  * @since 7.0.0
  *
- * @param  bool   $exists  True if the group type already exists. False otherwise.
- * @param  string $type_id The group type identifier.
+ * @param  bool   $exists  Optional. True if the group type already exists. False otherwise.
+ * @param  string $type_id Optional. The group type identifier.
  * @return bool          True if the group type already exists. False otherwise.
  */
 function bp_groups_type_admin_type_exists( $exists = false, $type_id = '' ) {
@@ -1682,7 +1682,7 @@ add_filter( bp_get_group_type_tax_name() . '_check_existing_type', 'bp_groups_ty
  *
  * @since 7.0.0
  *
- * @param array $messages The feedback messages.
+ * @param array $messages Optional. The feedback messages.
  * @return array           The feedback messages including the ones for the Group Types Admin actions.
  */
 function bp_groups_type_admin_updated_messages( $messages = array() ) {

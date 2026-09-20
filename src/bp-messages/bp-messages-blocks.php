@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 9.0.0
  *
- * @param array $attributes The block attributes.
+ * @param array $attributes Optional. The block attributes.
  * @return string HTML output.
  */
 function bp_messages_render_sitewide_notices_block( $attributes = array() ) {

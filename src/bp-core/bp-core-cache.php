@@ -72,7 +72,7 @@ add_action( 'deleted_user', 'bp_core_clear_member_count_caches' );
  *
  * @since 2.0.0
  *
- * @param int $post_id ID of the page that was saved.
+ * @param int $post_id Optional. ID of the page that was saved.
  */
 function bp_core_clear_directory_pages_cache_page_edit( $post_id = 0 ) {
 
@@ -187,7 +187,7 @@ function bp_get_non_cached_ids( $item_ids, $cache_group ) {
  * @global wpdb $wpdb WordPress database object.
  *
  * @param array $args {
- *     Array of arguments.
+ *     Optional. Array of arguments.
  *     @type array|string $object_ids       List of object IDs to fetch metadata for.
  *                                          Accepts an array or a comma-separated list of numeric IDs.
  *     @type string       $object_type      The type of object, eg 'groups' or 'activity'.
@@ -416,8 +416,8 @@ add_action( 'bp_setup_cache_groups', 'bp_set_object_type_terms_cache_group' );
  *
  * @since 7.0.0
  *
- * @param int    $type_id The Type's term ID.
- * @param string $taxonomy The Type's taxonomy name.
+ * @param int    $type_id Optional. The Type's term ID.
+ * @param string $taxonomy Optional. The Type's taxonomy name.
  */
 function bp_clear_object_type_terms_cache( $type_id = 0, $taxonomy = '' ) {
 	wp_cache_delete( $taxonomy, 'bp_object_terms' );

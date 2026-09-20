@@ -128,11 +128,11 @@ class BP_Messages_Thread {
 	 * @since 1.0.0
 	 * @since 10.0.0 Updated the `$args` with new parameters.
 	 *
-	 * @param int    $thread_id          The message thread ID.
-	 * @param string $order              The order to sort the messages. Either 'ASC' or 'DESC'.
+	 * @param int    $thread_id          Optional. The message thread ID.
+	 * @param string $order              Optional. The order to sort the messages. Either 'ASC' or 'DESC'.
 	 *                                   Defaults to 'ASC'.
 	 * @param array  $args               {
-	 *     Array of arguments.
+	 *     Optional. Array of arguments.
 	 *     @type int         $user_id             ID of the user to get the unread count.
 	 *     @type bool        $update_meta_cache   Whether to pre-fetch metadata for
 	 *                                            queried message items. Default: true.
@@ -158,11 +158,11 @@ class BP_Messages_Thread {
 	 * @since 1.0.0
 	 * @since 10.0.0 Updated the `$args` with new parameters.
 	 *
-	 * @param int    $thread_id                   The message thread ID.
-	 * @param string $order                       The order to sort the messages. Either 'ASC' or 'DESC'.
+	 * @param int    $thread_id                   Optional. The message thread ID.
+	 * @param string $order                       Optional. The order to sort the messages. Either 'ASC' or 'DESC'.
 	 *                                            Defaults to 'ASC'.
 	 * @param array  $args                        {
-	 *     Array of arguments.
+	 *     Optional. Array of arguments.
 	 *     @type int         $user_id             ID of the user to get the unread count.
 	 *     @type bool        $update_meta_cache   Whether to pre-fetch metadata for
 	 *                                            queried message items. Default: true.
@@ -275,9 +275,9 @@ class BP_Messages_Thread {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @param int   $thread_id Message thread ID.
+	 * @param int   $thread_id Optional. Message thread ID.
 	 * @param array $args      {
-	 *     Array of arguments.
+	 *     Optional. Array of arguments.
 	 *     @type int|null $recipients_page     Page of recipients being requested. Default to all.
 	 *     @type int|null $recipients_per_page Recipients to return per page. Defaults to all.
 	 * }
@@ -363,9 +363,9 @@ class BP_Messages_Thread {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @param int   $thread_id The message thread ID.
+	 * @param int   $thread_id Optional. The message thread ID.
 	 * @param array $args      {
-	 *     Array of arguments.
+	 *     Optional. Array of arguments.
 	 *     @type int|null    $page     Page of messages being requested. Default to all.
 	 *     @type int|null    $per_page Messages to return per page. Default to all.
 	 *     @type string      $order    The order to sort the messages. Either 'ASC' or 'DESC'.
@@ -495,7 +495,7 @@ class BP_Messages_Thread {
 	 *
 	 * @since 2.3.0
 	 *
-	 * @param int $thread_id The thread ID.
+	 * @param int $thread_id Optional. The thread ID.
 	 * @return array
 	 */
 	public static function get_recipients_for_thread( $thread_id = 0 ) {
@@ -515,8 +515,8 @@ class BP_Messages_Thread {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @param int $thread_id The message thread ID.
-	 * @param int $user_id The ID of the user in the thread to mark messages as
+	 * @param int $thread_id Optional. The message thread ID.
+	 * @param int $user_id Optional. The ID of the user in the thread to mark messages as
 	 *                     deleted for. Defaults to the current logged-in user.
 	 *
 	 * @return bool
@@ -611,8 +611,8 @@ class BP_Messages_Thread {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @param int $thread_id The message thread ID.
-	 * @param int $user_id The ID of the user in the thread.
+	 * @param int $thread_id Optional. The message thread ID.
+	 * @param int $user_id Optional. The ID of the user in the thread.
 	 *                     Defaults to the current logged-in user.
 	 *
 	 * @return bool
@@ -677,7 +677,7 @@ class BP_Messages_Thread {
 	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param array $args {
-	 *     Array of arguments.
+	 *     Optional. Array of arguments.
 	 *     @type int      $user_id             The user ID.
 	 *     @type string   $box                 The type of mailbox to get. Either 'inbox' or 'sentbox'.
 	 *                                         Defaults to 'inbox'.
@@ -890,7 +890,7 @@ class BP_Messages_Thread {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @param array $meta_query An array of meta_query filters. See the
+	 * @param array $meta_query Optional. An array of meta_query filters. See the
 	 *                          documentation for WP_Meta_Query for details.
 	 * @return array 'join' and 'where' clauses.
 	 */
@@ -923,8 +923,8 @@ class BP_Messages_Thread {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @param int $thread_id The message thread ID.
-	 * @param int $user_id   The user the thread will be marked as read.
+	 * @param int $thread_id Optional. The message thread ID.
+	 * @param int $user_id   Optional. The user the thread will be marked as read.
 	 *
 	 * @return bool|int Number of threads marked as read or false on error.
 	 */
@@ -968,8 +968,8 @@ class BP_Messages_Thread {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @param int $thread_id The message thread ID.
-	 * @param int $user_id   The user the thread will be marked as unread.
+	 * @param int $thread_id Optional. The message thread ID.
+	 * @param int $user_id   Optional. The user the thread will be marked as unread.
 	 *
 	 * @return bool|int Number of threads marked as unread or false on error.
 	 */
@@ -1013,9 +1013,9 @@ class BP_Messages_Thread {
 	 * @global wpdb $wpdb The WordPress database object.
 	 *
 	 * @param int    $user_id The user ID.
-	 * @param string $box     The type of mailbox to get. Either 'inbox' or 'sentbox'.
+	 * @param string $box     Optional. The type of mailbox to get. Either 'inbox' or 'sentbox'.
 	 *                        Defaults to 'inbox'.
-	 * @param string $type    The type of messages to get. Either 'all' or 'unread'.
+	 * @param string $type    Optional. The type of messages to get. Either 'all' or 'unread'.
 	 *                        or 'read'. Defaults to 'all'.
 	 * @return int Total thread count for the provided user.
 	 */
@@ -1130,7 +1130,7 @@ class BP_Messages_Thread {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @param int $user_id The user ID.
+	 * @param int $user_id Optional. The user ID.
 	 * @return int Total inbox unread count for user.
 	 */
 	public static function get_inbox_count( $user_id = 0 ) {
@@ -1167,7 +1167,7 @@ class BP_Messages_Thread {
 	 * @since 1.0.0
 	 *
 	 * @param int $thread_id The message thread ID.
-	 * @param int $user_id   The user ID. Default: ID of the logged-in user.
+	 * @param int $user_id   Optional. The user ID. Default: ID of the logged-in user.
 	 * @return int|null The recorded recipient ID on success, null on failure.
 	 */
 	public static function check_access( $thread_id, $user_id = 0 ) {
@@ -1190,7 +1190,7 @@ class BP_Messages_Thread {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param int $thread_id The message thread ID.
+	 * @param int $thread_id Optional. The message thread ID.
 	 * @return bool|int|null The message thread ID on success, null on failure.
 	 */
 	public static function is_valid( $thread_id = 0 ) {

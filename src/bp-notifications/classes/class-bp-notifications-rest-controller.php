@@ -695,7 +695,7 @@ class BP_Notifications_REST_Controller extends WP_REST_Controller {
 	 *
 	 * @since 15.0.0
 	 *
-	 * @param int $notification_id Notification ID.
+	 * @param int $notification_id Optional. Notification ID.
 	 * @return bool
 	 */
 	protected function can_see( $notification_id = 0 ) {

@@ -23,7 +23,7 @@ defined( 'ABSPATH' ) || exit;
  * @param int    $secondary_item_id The secondary item ID.
  * @param int    $total_items       The total number of members-related notifications
  *                                  waiting for the user.
- * @param string $format            'string' for BuddyBar-compatible notifications;
+ * @param string $format            Optional. 'string' for BuddyBar-compatible notifications;
  *                                  'array' for WP Toolbar. Default: 'string'.
  * @return array|string
  */

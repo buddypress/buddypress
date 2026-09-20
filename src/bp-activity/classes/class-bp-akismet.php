@@ -571,8 +571,8 @@ class BP_Akismet {
 	 * @since 1.6.0
 	 *
 	 * @param array  $activity_data Packet of information to submit to Akismet.
-	 * @param string $check         "check" or "submit".
-	 * @param string $spam          "spam" or "ham".
+	 * @param string $check         Optional. "check" or "submit".
+	 * @param string $spam          Optional. "spam" or "ham".
 	 * @return array Activity data, with Akismet data added.
 	 */
 	public function send_akismet_request( $activity_data, $check = 'check', $spam = 'spam' ) {
@@ -700,9 +700,9 @@ class BP_Akismet {
 	 *
 	 * @since 1.6.0
 	 *
-	 * @param int    $activity_id Activity item ID.
-	 * @param string $message     Human-readable description of what's changed.
-	 * @param string $event       The type of check we were carrying out.
+	 * @param int    $activity_id Optional. Activity item ID.
+	 * @param string $message     Optional. Human-readable description of what's changed.
+	 * @param string $event       Optional. The type of check we were carrying out.
 	 */
 	public function update_activity_history( $activity_id = 0, $message = '', $event = '' ) {
 		$event = array(
@@ -721,7 +721,7 @@ class BP_Akismet {
 	 *
 	 * @since 1.6.0
 	 *
-	 * @param int $activity_id Activity item ID.
+	 * @param int $activity_id Optional. Activity item ID.
 	 * @return array The activity item's Akismet history.
 	 */
 	public function get_activity_history( $activity_id = 0 ) {

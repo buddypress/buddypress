@@ -24,7 +24,7 @@ class BP_Members_Invitation_Manager extends BP_Invitation_Manager {
 	 *
 	 * @since 8.0.0
 	 *
-	 * @param array|string $args Arguments for the invitation.
+	 * @param array|string $args Optional. Arguments for the invitation.
 	 */
 	public function __construct( $args = '' ) {
 		parent::__construct();

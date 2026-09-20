@@ -63,8 +63,8 @@ class BP_XProfile_ProfileData {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @param int|null $field_id Field ID to instantiate.
-	 * @param int|null $user_id  User ID to instantiate for.
+	 * @param int|null $field_id Optional. Field ID to instantiate.
+	 * @param int|null $user_id  Optional. User ID to instantiate for.
 	 */
 	public function __construct( $field_id = null, $user_id = null ) {
 		if ( ! empty( $field_id ) ) {
@@ -336,7 +336,7 @@ class BP_XProfile_ProfileData {
 	 *
 	 * @param int   $user_id            ID of user whose data is being queried.
 	 * @param array $field_ids          Array of field IDs to query for.
-	 * @param array $field_type_objects Array of field type objects keyed by the queried filed IDs.
+	 * @param array $field_type_objects Optional. Array of field type objects keyed by the queried filed IDs.
 	 * @return array
 	 */
 	public static function get_data_for_user( $user_id, $field_ids, $field_type_objects = array() ) {
@@ -531,7 +531,7 @@ class BP_XProfile_ProfileData {
 	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param int            $field_id ID of the field.
-	 * @param int|array|null $user_ids ID or IDs of user(s).
+	 * @param int|array|null $user_ids Optional. ID or IDs of user(s).
 	 * @return string|array Single value if a single user is queried,
 	 *                      otherwise an array of results.
 	 */
@@ -643,7 +643,7 @@ class BP_XProfile_ProfileData {
 	 * @deprecated 8.0.0 This function is not used anymore.
 	 *
 	 * @param array|string $fields  Field(s) to get.
-	 * @param int|null     $user_id User ID to get field data for.
+	 * @param int|null     $user_id Optional. User ID to get field data for.
 	 * @return array|bool
 	 */
 	public static function get_value_byfieldname( $fields, $user_id = null ) {
@@ -799,7 +799,7 @@ class BP_XProfile_ProfileData {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param int $user_id ID of the user to query.
+	 * @param int $user_id Optional. ID of the user to query.
 	 * @return mixed
 	 */
 	public static function get_fullname( $user_id = 0 ) {

@@ -155,7 +155,7 @@ class BP_Members_Invitations_Template {
 	 * @since 8.0.0
 	 *
 	 * @param array $args {
-	 *     An array of arguments. See {@link bp_has_members_invitations()}
+	 *     Optional. An array of arguments. See {@link bp_has_members_invitations()}
 	 *     for more details.
 	 * }.
 	 */

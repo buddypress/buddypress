@@ -105,7 +105,7 @@ add_action( 'bp_setup_globals', 'bp_core_set_avatar_globals' );
  *
  * @since 8.0.0
  *
- * @param string $d The name of the default gravatar.
+ * @param string $d Optional. The name of the default gravatar.
  * @return bool True if it's a default gravatar. False otherwise.
  */
 function bp_core_is_default_gravatar( $d = '' ) {
@@ -773,7 +773,7 @@ function bp_core_fetch_avatar( $args = '' ) {
  * @since 1.1.0
  *
  * @param array|string $args {
- *     Array of function parameters.
+ *     Optional. Array of function parameters.
  *     @type bool|int    $item_id    ID of the item whose avatar you're deleting.
  *                                   Defaults to the current item of type $object.
  *     @type string      $object     Object type of the item whose avatar you're
@@ -1323,7 +1323,7 @@ function bp_avatar_handle_capture( $data = '', $item_id = 0, $retval = 'boolean'
  * @since 10.0.0 Adds the `$return` param to eventually return the crop result.
  *
  * @param array|string $args {
- *     Array of function parameters.
+ *     Optional. Array of function parameters.
  *
  *     @type string      $object        Object type of the item whose avatar you're
  *                                      handling. 'user', 'group', 'blog', or custom.
@@ -1691,7 +1691,7 @@ function bp_core_check_avatar_type( $file ) {
  *
  * @since 1.8.0
  *
- * @param string $type The variable we want to return from the $bp->avatars object.
+ * @param string $type Optional. The variable we want to return from the $bp->avatars object.
  *                     Only 'upload_path' and 'url' are supported. Default: 'upload_path'.
  * @return string The avatar upload directory path.
  */
@@ -1801,7 +1801,7 @@ function bp_core_avatar_url() {
  *
  * @since 1.0.0
  *
- * @param int $user_id ID of the user whose avatar is being checked.
+ * @param int $user_id Optional. ID of the user whose avatar is being checked.
  * @return bool True if the user has uploaded a local avatar. Otherwise, false.
  */
 function bp_get_user_has_avatar( $user_id = 0 ) {
@@ -1838,9 +1838,9 @@ function bp_get_user_has_avatar( $user_id = 0 ) {
  *
  * @since 1.5.0
  *
- * @param string $type   Dimension type you're fetching dimensions for. 'thumb'
+ * @param string $type   Optional. Dimension type you're fetching dimensions for. 'thumb'
  *                       or 'full'. Default: 'thumb'.
- * @param string $h_or_w Which dimension is being fetched. 'height' or 'width'.
+ * @param string $h_or_w Optional. Which dimension is being fetched. 'height' or 'width'.
  *                       Default: 'height'.
  * @return int|bool The dimension.
  */
@@ -1980,10 +1980,10 @@ function bp_core_avatar_original_max_filesize() {
  * @since 1.5.0
  * @since 2.6.0 Introduced `$params` and `$object_type` parameters.
  *
- * @param string $type   'local' if the fallback should be the locally-hosted version
+ * @param string $type   Optional. 'local' if the fallback should be the locally-hosted version
  *                       of the mystery person, 'gravatar' if the fallback should be
  *                       Gravatar's version. Default: 'gravatar'.
- * @param array  $params Parameters passed to bp_core_fetch_avatar().
+ * @param array  $params Optional. The parameters passed to bp_core_fetch_avatar().
  * @return string The URL of the default avatar.
  */
 function bp_core_avatar_default( $type = 'gravatar', $params = array() ) {
@@ -2049,10 +2049,10 @@ function bp_core_avatar_default( $type = 'gravatar', $params = array() ) {
  * @since 1.5.0
  * @since 2.6.0 Introduced `$object_type` parameter.
  *
- * @param string $type   'local' if the fallback should be the locally-hosted version
+ * @param string $type   Optional. 'local' if the fallback should be the locally-hosted version
  *                       of the mystery person, 'gravatar' if the fallback should be
  *                       Gravatar's version. Default: 'gravatar'.
- * @param array  $params Parameters passed to bp_core_fetch_avatar().
+ * @param array  $params Optional. The parameters passed to bp_core_fetch_avatar().
  * @return string The URL of the default avatar thumb.
  */
 function bp_core_avatar_default_thumb( $type = 'gravatar', $params = array() ) {
@@ -2090,7 +2090,7 @@ function bp_core_avatar_default_thumb( $type = 'gravatar', $params = array() ) {
  *
  * @since 2.2.0
  *
- * @param WP_Query|null $posts_query The main query object.
+ * @param WP_Query|null $posts_query Optional. The main query object.
  */
 function bp_core_avatar_reset_query( $posts_query = null ) {
 	// Group's avatar edit screen.
@@ -2252,10 +2252,10 @@ function bp_avatar_history_is_disabled() {
  * @since 10.0.0
  * @since 15.0.0 The `$object` parameter was renamed to `$item_type`.
  *
- * @param int        $item_id   The item ID we need the avatar version for.
- * @param string     $item_type The object the item ID relates to.
- * @param int|string $timestamp An integer Unix timestamp or a date string of the format 'Y-m-d h:i:s'.
- * @param string     $type      The type of avatar we need. Possible values are `thumb` and `full`.
+ * @param int        $item_id   Optional. The item ID we need the avatar version for.
+ * @param string     $item_type Optional. The object the item ID relates to.
+ * @param int|string $timestamp Optional. An integer Unix timestamp or a date string of the format 'Y-m-d h:i:s'.
+ * @param string     $type      Optional. The type of avatar we need. Possible values are `thumb` and `full`.
  * @return array                A list of matching results, an empty array if no avatars were found.
  */
 function bp_avatar_get_version( $item_id = 0, $item_type = 'user', $timestamp = '', $type = 'full' ) {
@@ -2289,9 +2289,9 @@ function bp_avatar_get_version( $item_id = 0, $item_type = 'user', $timestamp = 
  * @since 10.0.0
  * @since 15.0.0 The `$object` parameter was renamed to `$item_type`.
  *
- * @param int    $item_id   The item ID we need the avatar version for.
- * @param string $item_type The object the item ID relates to.
- * @param string $type      Get the `full`, `thumb` or `both` versions.
+ * @param int    $item_id   Optional. The item ID we need the avatar version for.
+ * @param string $item_type Optional. The object the item ID relates to.
+ * @param string $type      Optional. Get the `full`, `thumb` or `both` versions.
  * @return array          The list of previous uploaded avatars.
  */
 function bp_avatar_get_avatars_history( $item_id = 0, $item_type = 'user', $type = 'full' ) {

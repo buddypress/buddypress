@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.0.0
  *
- * @param array $scripts  The array of scripts to register.
+ * @param array $scripts  Optional. The array of scripts to register.
  *
  * @return array The same array with the specific activity scripts.
  */
@@ -60,7 +60,7 @@ function bp_nouveau_activity_enqueue_scripts() {
  *
  * @since 3.0.0
  *
- * @param array $params Associative array containing the JS Strings needed by scripts.
+ * @param array $params Optional. Associative array containing the JS Strings needed by scripts.
  *
  * @return array The same array with specific strings for the Activity Post form UI if needed.
  */
@@ -331,9 +331,9 @@ function bp_nouveau_get_activity_directory_nav_items() {
  *
  * @since 3.0.0
  *
- * @param string $output  HTML output.
+ * @param string $output  Optional. HTML output.
  * @param array  $filters Optional.
- * @param string $context Activity scope context.
+ * @param string $context Optional. Activity scope context.
  *
  * @return array
  */
@@ -406,7 +406,7 @@ function bp_nouveau_activity_secondary_avatars( $action, $activity ) {
  * Adds the newest class to Activity scope navigation items.
  *
  * @since 3.0.0
- * @param string $classes Classes for the activity scope item.
+ * @param string $classes Optional. Classes for the activity scope item.
  */
 function bp_nouveau_activity_scope_newest_class( $classes = '' ) {
 	if ( ! is_user_logged_in() ) {
@@ -576,7 +576,7 @@ function bp_nouveau_activity_customizer_controls( $controls = array() ) {
  *
  * @since 7.0.0
  *
- * @param string $read_more The read more text.
+ * @param string $read_more Optional. The read more text.
  * @return string The read more text without brackets.
  */
 function bp_nouveau_activity_excerpt_append_text( $read_more = '' ) {

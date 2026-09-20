@@ -322,7 +322,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 	 *
 	 * @since 1.7.0
 	 *
-	 * @param object|array $item The current group item in the loop.
+	 * @param object|array $item Optional. The current group item in the loop.
 	 */
 	public function single_row( $item = array() ) {
 		static $even = false;
@@ -552,7 +552,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 	 * @since 2.3.4 Visibility set to public for compatibility with WP < 4.0.0.
 	 *
 	 * @param array $actions        The list of actions.
-	 * @param bool  $always_visible Whether the actions should be always visible.
+	 * @param bool  $always_visible Optional. Whether the actions should be always visible.
 	 * @return string
 	 */
 	public function row_actions( $actions, $always_visible = false ) {
@@ -581,7 +581,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 	 *
 	 * @see WP_List_Table::single_row_columns()
 	 *
-	 * @param array $item A singular item (one full row).
+	 * @param array $item Optional. A singular item (one full row).
 	 */
 	public function column_cb( $item = array() ) {
 		/* translators: accessibility text */
@@ -595,7 +595,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 	 *
 	 * @see WP_List_Table::single_row_columns()
 	 *
-	 * @param array $item A singular item (one full row).
+	 * @param array $item Optional. A singular item (one full row).
 	 */
 	public function column_gid( $item = array() ) {
 		echo '<strong>' . absint( $item['id'] ) . '</strong>';
@@ -610,7 +610,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 	 *
 	 * @see WP_List_Table::single_row_columns()
 	 *
-	 * @param array $item A singular item (one full row).
+	 * @param array $item Optional. A singular item (one full row).
 	 */
 	public function column_comment( $item = array() ) {
 
@@ -706,7 +706,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 	 *
 	 * @since 1.7.0
 	 *
-	 * @param array $item Information about the current row.
+	 * @param array $item Optional. Information about the current row.
 	 */
 	public function column_description( $item = array() ) {
 
@@ -730,7 +730,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 	 *
 	 * @since 1.7.0
 	 *
-	 * @param array $item Information about the current row.
+	 * @param array $item Optional. Information about the current row.
 	 */
 	public function column_status( $item = array() ) {
 		$status      = $item['status'];
@@ -767,7 +767,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 	 * @since 1.7.0
 	 * @since 10.0.0 Updated to use `groups_get_total_member_count`.
 	 *
-	 * @param array $item Information about the current row.
+	 * @param array $item Optional. Information about the current row.
 	 */
 	public function column_members( $item = array() ) {
 		$count = groups_get_total_member_count( absint( $item['id'] ) );
@@ -788,7 +788,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 	 *
 	 * @since 1.7.0
 	 *
-	 * @param array $item Information about the current row.
+	 * @param array $item Optional. Information about the current row.
 	 */
 	public function column_last_active( $item = array() ) {
 		$last_active = groups_get_groupmeta( $item['id'], 'last_activity' );
@@ -809,8 +809,8 @@ class BP_Groups_List_Table extends WP_List_Table {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param array  $item        Information about the current row.
-	 * @param string $column_name The column name.
+	 * @param array  $item        Optional. Information about the current row.
+	 * @param string $column_name Optional. The column name.
 	 * @return string
 	 */
 	public function column_default( $item = array(), $column_name = '' ) {
@@ -834,7 +834,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 	 *
 	 * @since 2.7.0
 	 *
-	 * @param array $columns Groups table columns.
+	 * @param array $columns Optional. Groups table columns.
 	 *
 	 * @return array
 	 */
@@ -849,9 +849,9 @@ class BP_Groups_List_Table extends WP_List_Table {
 	 *
 	 * @since 2.7.0
 	 *
-	 * @param string $retval      Empty string.
-	 * @param string $column_name Name of the column being rendered.
-	 * @param array  $item        The current group item in the loop.
+	 * @param string $retval      Optional. Empty string.
+	 * @param string $column_name Optional. Name of the column being rendered.
+	 * @param array  $item        Optional. The current group item in the loop.
 	 * @return string
 	 */
 	public function column_content_group_type( $retval = '', $column_name = '', $item = array() ) {

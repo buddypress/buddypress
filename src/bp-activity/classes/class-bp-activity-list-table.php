@@ -578,7 +578,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 	 * @since 2.3.4 Visibility set to public for compatibility with WP < 4.0.0.
 	 *
 	 * @param array $actions The list of actions.
-	 * @param bool  $always_visible Whether the actions should be always visible.
+	 * @param bool  $always_visible Optional. Whether the actions should be always visible.
 	 * @return string
 	 */
 	public function row_actions( $actions, $always_visible = false ) {
@@ -874,8 +874,8 @@ class BP_Activity_List_Table extends WP_List_Table {
 	 *
 	 * @since 2.4.0
 	 *
-	 * @param array  $item        Information about the current row.
-	 * @param string $column_name The column name.
+	 * @param array  $item        Optional. Information about the current row.
+	 * @param string $column_name Optional. The column name.
 	 * @return string
 	 */
 	public function column_default( $item = array(), $column_name = '' ) {

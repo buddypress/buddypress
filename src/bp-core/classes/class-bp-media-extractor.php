@@ -257,7 +257,7 @@ class BP_Media_Extractor {
 	 *
 	 * @param string $richtext   Content to parse.
 	 * @param string $plaintext  Sanitized version of the content.
-	 * @param array  $extra_args Bespoke data for a particular extractor.
+	 * @param array  $extra_args Optional. Bespoke data for a particular extractor.
 	 * @return array {
 	 *     @type array $has Extracted media counts. {
 	 *         @type int $mentions

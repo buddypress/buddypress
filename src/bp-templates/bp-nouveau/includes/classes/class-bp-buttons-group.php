@@ -32,7 +32,7 @@ class BP_Buttons_Group {
 	 * @since 3.0.0
 	 *
 	 * @param array $args {
-	 *     Optional array of button parameters.
+	 *     Optional. Optional array of button parameters.
 	 *     @type string $id                A string to use as the unique ID for the button. Required.
 	 *     @type int    $position          Where to insert the Button. Defaults to 99.
 	 *     @type string $component         The Component's the button is build for (eg: Activity, Groups..). Required.
@@ -92,7 +92,7 @@ class BP_Buttons_Group {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param bool $sort whether to sort the buttons or not.
+	 * @param bool $sort Optional. Whether to sort the buttons or not.
 	 *
 	 * @return array An array of HTML links.
 	 */

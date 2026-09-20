@@ -65,7 +65,7 @@ class BP_Activity_Query extends BP_Recursive_Query {
 	 * @since 2.2.0
 	 *
 	 * @param array $query {
-	 *     Array of query clauses.
+	 *     Optional. Array of query clauses.
 	 *     @type array {
 	 *         @type string $column   Required. The column to query against. Basically, any DB column in the main
 	 *                                'wp_bp_activity' table.
@@ -94,7 +94,7 @@ class BP_Activity_Query extends BP_Recursive_Query {
 	 *
 	 * @since 2.2.0
 	 *
-	 * @param string $alias An existing table alias that is compatible with the current query clause.
+	 * @param string $alias Optional. An existing table alias that is compatible with the current query clause.
 	 *                      Default: 'a'. BP_Activity_Activity::get() uses 'a', so we default to that.
 	 * @return string SQL fragment to append to the main WHERE clause.
 	 */
@@ -265,7 +265,7 @@ class BP_Activity_Query extends BP_Recursive_Query {
 	 *
 	 * @since 2.2.0
 	 *
-	 * @param string $column The user-supplied column name.
+	 * @param string $column Optional. The user-supplied column name.
 	 * @return string A validated column name value.
 	 */
 	public function validate_column( $column = '' ) {

@@ -42,7 +42,7 @@ function bp_nouveau_messages_enqueue_styles( $styles = array() ) {
  *
  * @since 3.0.0
  *
- * @param array $scripts The array of scripts to register.
+ * @param array $scripts Optional. The array of scripts to register.
  *
  * @return array The same array with the specific messages scripts.
  */
@@ -90,7 +90,7 @@ function bp_nouveau_messages_enqueue_scripts() {
  *
  * @since 3.0.0
  *
- * @param  array $params Associative array containing the JS Strings needed by scripts.
+ * @param  array $params Optional. Associative array containing the JS Strings needed by scripts.
  * @return array         The same array with specific strings for the messages UI if needed.
  */
 function bp_nouveau_messages_localize_scripts( $params = array() ) {
@@ -372,7 +372,7 @@ function bp_nouveau_push_sitewide_notices() {
  *
  * @since 3.0.0
  *
- * @param array $buttons The WP Editor buttons list.
+ * @param array $buttons Optional. The WP Editor buttons list.
  */
 function bp_nouveau_messages_mce_buttons( $buttons = array() ) {
 	$remove_buttons = array(
@@ -514,7 +514,7 @@ function bp_nouveau_messages_notification_filters() {
  *
  * @since 3.0.1
  *
- * @param array $hooks The list of hooks to fire.
+ * @param array $hooks Optional. The list of hooks to fire.
  * @return array       An associative containing the caught content.
  */
 function bp_nouveau_messages_catch_hook_content( $hooks = array() ) {

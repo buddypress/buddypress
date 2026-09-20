@@ -85,7 +85,7 @@ add_filter( 'wp_privacy_personal_data_exporters', 'bp_xprofile_register_personal
  *
  * @since 2.3.0
  *
- * @param mixed $field_options Options to sanitize.
+ * @param mixed $field_options Optional. Options to sanitize.
  * @return mixed
  */
 function bp_xprofile_sanitize_field_options( $field_options = '' ) {
@@ -101,7 +101,7 @@ function bp_xprofile_sanitize_field_options( $field_options = '' ) {
  *
  * @since 2.3.0
  *
- * @param mixed $field_default Field defaults to sanitize.
+ * @param mixed $field_default Optional. Field defaults to sanitize.
  * @return array|int
  */
 function bp_xprofile_sanitize_field_default( $field_default = '' ) {
@@ -205,9 +205,9 @@ function xprofile_sanitize_data_value_before_display_from_get_field_data( $value
  * @since 1.2.6
  *
  * @param string      $field_value Field value being sanitized.
- * @param int         $field_id    Field ID being sanitized.
- * @param bool        $reserialize Whether to reserialize arrays before returning. Defaults to true.
- * @param object|null $data_obj    The BP_XProfile_ProfileData object.
+ * @param int         $field_id    Optional. Field ID being sanitized.
+ * @param bool        $reserialize Optional. Whether to reserialize arrays before returning. Defaults to true.
+ * @param object|null $data_obj    Optional. The BP_XProfile_ProfileData object.
  * @return string
  */
 function xprofile_sanitize_data_value_before_save( $field_value, $field_id = 0, $reserialize = true, $data_obj = null ) {
@@ -269,7 +269,7 @@ function xprofile_sanitize_data_value_before_save( $field_value, $field_id = 0, 
  * @since 1.0.0
  *
  * @param string $field_value XProfile field_value to be filtered.
- * @param string $field_type  XProfile field_type to be filtered.
+ * @param string $field_type  Optional. XProfile field_type to be filtered.
  * @return false|string Filtered XProfile field_value. False on failure.
  */
 function xprofile_filter_format_field_value( $field_value, $field_type = '' ) {
@@ -293,7 +293,7 @@ function xprofile_filter_format_field_value( $field_value, $field_type = '' ) {
  * @since 2.4.0 Added `$field_id` parameter.
  *
  * @param mixed      $field_value Field value.
- * @param string     $field_type  Field type.
+ * @param string     $field_type  Optional. Field type.
  * @param string|int $field_id    Optional. ID of the field.
  * @return mixed
  */
@@ -394,7 +394,7 @@ function bp_xprofile_escape_field_data( $value, $field_type, $field_id ) {
  * @since 1.1.0
  *
  * @param string $field_value Profile field data value.
- * @param string $field_type  Profile field type.
+ * @param string $field_type  Optional. Profile field type.
  * @return string|array
  */
 function xprofile_filter_link_profile_data( $field_value, $field_type = 'textbox' ) {
@@ -708,7 +708,7 @@ function bp_xprofile_register_personal_data_exporter( $exporters ) {
  *
  * @since 8.0.0
  *
- * @param string $field_selector The text to use as the input name/id attribute.
+ * @param string $field_selector Optional. The text to use as the input name/id attribute.
  * @return string                The text to use as the input name/id attribute.
  */
 function bp_get_the_profile_signup_field_input_name( $field_selector = '' ) {
@@ -727,7 +727,7 @@ function bp_get_the_profile_signup_field_input_name( $field_selector = '' ) {
  * @since 8.0.0
  * @access private
  *
- * @param array $args The xProfile loop's signup arguments.
+ * @param array $args Optional. The xProfile loop's signup arguments.
  * @return array The xProfile loop's signup arguments.
  */
 function _bp_xprofile_signup_do_backcompat( $args = array() ) {
@@ -748,8 +748,8 @@ function _bp_xprofile_signup_do_backcompat( $args = array() ) {
  * @since 8.0.0
  * @access private
  *
- * @param string $template      The located path for registration template.
- * @param string $template_name The needed template name.
+ * @param string $template      Optional. The located path for registration template.
+ * @param string $template_name Optional. The needed template name.
  */
 function _bp_xprofile_signup_check_backcompat( $template = '', $template_name = '' ) {
 	if ( 'members/register.php' !== $template_name ) {

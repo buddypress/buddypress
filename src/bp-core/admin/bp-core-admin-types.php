@@ -40,7 +40,7 @@ function bp_core_admin_get_type_default_meta_values( $type_taxonomy ) {
  * @since 7.0.0
  *
  * @param array $args {
- *     Array of arguments describing the object type.
+ *     Optional. Array of arguments describing the object type.
  *
  *     @type string $taxonomy   The Type's taxonomy. Required.
  *     @type string $bp_type_id Unique string identifier for the member type. Required.
@@ -170,7 +170,7 @@ function bp_core_admin_insert_type( $args = array() ) {
  * @since 7.0.0
  *
  * @param array $args {
- *     Array of arguments describing the object type.
+ *     Optional. Array of arguments describing the object type.
  *
  *     @type string  $taxonomy     The Type's taxonomy. Required.
  *     @type integer $type_term_id The Type's term ID. Required.
@@ -242,7 +242,7 @@ function bp_core_admin_update_type( $args = array() ) {
  * @since 7.0.0
  *
  * @param array $args {
- *     Array of arguments describing the object type.
+ *     Optional. Array of arguments describing the object type.
  *
  *     @type string  $taxonomy     The Type's taxonomy. Required.
  *     @type integer $type_term_id The Type's term ID. Required.

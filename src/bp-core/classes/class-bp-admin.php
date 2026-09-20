@@ -1285,7 +1285,7 @@ class BP_Admin {
 	 *
 	 * @since 2.6.0
 	 *
-	 * @param array $columns Current column data.
+	 * @param array $columns Optional. Current column data.
 	 * @return array
 	 */
 	public function emails_register_situation_column( $columns = array() ) {
@@ -1302,8 +1302,8 @@ class BP_Admin {
 	 *
 	 * @since 2.6.0
 	 *
-	 * @param string $column  Current column name.
-	 * @param int    $post_id Current post ID.
+	 * @param string $column  Optional. Current column name.
+	 * @param int    $post_id Optional. Current post ID.
 	 */
 	public function emails_display_situation_column_data( $column = '', $post_id = 0 ) {
 		if ( 'situation' !== $column ) {
@@ -1405,7 +1405,7 @@ class BP_Admin {
 	 *
 	 * @since 2.4.0
 	 *
-	 * @param array $custom_menus The list of top-level BP menu items.
+	 * @param array $custom_menus Optional. The list of top-level BP menu items.
 	 * @return array List of top-level BP menu items, with Emails added.
 	 */
 	public function emails_admin_menu_order( $custom_menus = array() ) {
@@ -1625,7 +1625,7 @@ class BP_Admin {
 	 *
 	 * @since 10.0.0
 	 *
-	 * @param array $tabs The list of "Add Plugins" Tabs (Featured, Recommended, etc..).
+	 * @param array $tabs Optional. The list of "Add Plugins" Tabs (Featured, Recommended, etc..).
 	 * @return array      The same list including the "BuddyPress Add-ons" tab.
 	 */
 	public function addons_tab( $tabs = array() ) {

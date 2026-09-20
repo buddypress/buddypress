@@ -69,9 +69,9 @@ class BP_XProfile_User_Admin {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param int         $user_id       ID of the user being edited.
-	 * @param string      $screen_id     Screen ID to load the metabox in.
-	 * @param object|null $stats_metabox Context and priority for the stats metabox.
+	 * @param int         $user_id       Optional. ID of the user being edited.
+	 * @param string      $screen_id     Optional. Screen ID to load the metabox in.
+	 * @param object|null $stats_metabox Optional. Context and priority for the stats metabox.
 	 */
 	public function register_metaboxes( $user_id = 0, $screen_id = '', $stats_metabox = null ) {
 
@@ -133,10 +133,10 @@ class BP_XProfile_User_Admin {
 	 * @since 2.0.0
 	 * @since 6.0.0 The `delete_avatar` action is now managed into BP_Members_Admin::user_admin_load().
 	 *
-	 * @param string $doaction    Action being run.
-	 * @param int    $user_id     ID for the user whose profile is being saved.
-	 * @param array  $request     Request being made.
-	 * @param string $redirect_to Where to redirect user to.
+	 * @param string $doaction    Optional. Action being run.
+	 * @param int    $user_id     Optional. ID for the user whose profile is being saved.
+	 * @param array  $request     Optional. Request being made.
+	 * @param string $redirect_to Optional. Where to redirect user to.
 	 */
 	public function user_admin_load( $doaction = '', $user_id = 0, $request = array(), $redirect_to = '' ) {
 
@@ -261,8 +261,8 @@ class BP_XProfile_User_Admin {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param WP_User|null $user The WP_User object for the user being edited.
-	 * @param array        $args Array of arguments for metaboxes.
+	 * @param WP_User|null $user Optional. The WP_User object for the user being edited.
+	 * @param array        $args Optional. Array of arguments for metaboxes.
 	 */
 	public function user_admin_profile_metaboxes( $user = null, $args = array() ) {
 
@@ -383,7 +383,7 @@ class BP_XProfile_User_Admin {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param WP_User|null $user The WP_User object for the user being edited.
+	 * @param WP_User|null $user Optional. The WP_User object for the user being edited.
 	 */
 	public function user_admin_spammer_metabox( $user = null ) {
 	?>

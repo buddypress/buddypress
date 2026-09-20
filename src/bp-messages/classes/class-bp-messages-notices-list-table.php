@@ -25,7 +25,7 @@ class BP_Messages_Notices_List_Table extends WP_List_Table {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param array $args Arguments passed to the WP_List_Table::constructor.
+	 * @param array $args Optional. Arguments passed to the WP_List_Table::constructor.
 	 */
 	public function __construct( $args = array() ) {
 		parent::__construct(

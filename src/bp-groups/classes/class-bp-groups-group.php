@@ -704,7 +704,7 @@ class BP_Groups_Group {
 	 * @since 10.0.0 Updated to add the deprecated notice.
 	 *
 	 * @param string      $slug       Slug to check.
-	 * @param string|bool $table_name Deprecated.
+	 * @param string|bool $table_name Optional. Deprecated.
 	 * @return int|null|bool False if empty slug, group ID if found; `null` if not.
 	 */
 	public static function group_exists( $slug, $table_name = false ) {
@@ -804,7 +804,7 @@ class BP_Groups_Group {
 	 *
 	 * @param  int      $user_id  ID of the inviting user.
 	 * @param  int      $group_id ID of the group.
-	 * @param  int|null $sent     Query for a specific invite sent status. If 0, this will query for users
+	 * @param  int|null $sent     Optional. Query for a specific invite sent status. If 0, this will query for users
 	 *                            that haven't had an invite sent to them yet. If 1, this will query for
 	 *                            users that have had an invite sent to them. If null, no invite status will
 	 *                            queried. Default: null.
@@ -837,9 +837,9 @@ class BP_Groups_Group {
 	 *
 	 * @param string   $filter  Search term. Matches against 'name' and
 	 *                          'description' fields.
-	 * @param int      $user_id ID of the user whose groups are being searched.
+	 * @param int      $user_id Optional. ID of the user whose groups are being searched.
 	 *                          Default: the displayed user.
-	 * @param mixed    $order   Not used.
+	 * @param mixed    $order   Optional. Not used.
 	 * @param int|null $limit   Optional. The max number of results to return.
 	 *                          Default: null (no limit).
 	 * @param int|null $page    Optional. The page offset of results to return.
@@ -890,9 +890,9 @@ class BP_Groups_Group {
 	 *                             Default: null (no limit).
 	 * @param int|null    $page    Optional. The page offset of results to return.
 	 *                             Default: null (no limit).
-	 * @param string|bool $sort_by Column to sort by. Default: false (default
+	 * @param string|bool $sort_by Optional. Column to sort by. Default: false (default
 	 *        sort).
-	 * @param string|bool $order   ASC or DESC. Default: false (default sort).
+	 * @param string|bool $order   Optional. ASC or DESC. Default: false (default sort).
 	 * @return array {
 	 *     @type array $groups Array of matched and paginated group IDs.
 	 *     @type int   $total  Total count of groups matching the query.
@@ -1515,7 +1515,7 @@ class BP_Groups_Group {
 	 *
 	 * @since 1.8.0
 	 *
-	 * @param array $meta_query An array of meta_query filters. See the
+	 * @param array $meta_query Optional. An array of meta_query filters. See the
 	 *                          documentation for {@link WP_Meta_Query} for more details.
 	 * @return array
 	 */
@@ -1546,7 +1546,7 @@ class BP_Groups_Group {
 	/**
 	 * Get the SQL for the 'tax_query' param in BP_Groups_Group::get().
 	 *
-	 * @param array $tax_query An array of tax query arguments. See the
+	 * @param array $tax_query Optional. An array of tax query arguments. See the
 	 *                         documentation for {@link WP_Tax_Query} for more details.
 	 * @return array
 	 */
@@ -1646,7 +1646,7 @@ class BP_Groups_Group {
 	 *
 	 * @since 1.8.0
 	 *
-	 * @param string $type The 'type' shorthand param.
+	 * @param string $type Optional. The 'type' shorthand param.
 	 *
 	 * @return array {
 	 *     @type string $order   SQL-friendly order string.
@@ -1740,7 +1740,7 @@ class BP_Groups_Group {
 	 *                                           Default: null (no limit).
 	 * @param int|null          $page            Optional. The page offset of results to return.
 	 *                                           Default: null (no limit).
-	 * @param bool              $populate_extras Deprecated.
+	 * @param bool              $populate_extras Optional. Deprecated.
 	 * @param string|array|bool $exclude         Optional. Array or comma-separated list of group
 	 *                                           IDs to exclude from results.
 	 * @return false|array {
@@ -1801,7 +1801,7 @@ class BP_Groups_Group {
 	 *                                           those of which the specified user is a member.
 	 * @param string|bool       $search_terms    Optional. Limit groups to those whose name
 	 *                                           or description field contain the search string.
-	 * @param bool              $populate_extras Deprecated.
+	 * @param bool              $populate_extras Optional. Deprecated.
 	 * @param string|array|bool $exclude         Optional. Array or comma-separated list of group
 	 *                                           IDs to exclude from results.
 	 * @return array {

@@ -34,6 +34,8 @@ function bp_admin_bar_my_sites_menu() {
 
 /**
  * @deprecated 1.6.0
+ *
+ * @param WP_Admin_Bar|string $wp_admin_bar Optional. WordPress admin bar object.
  */
 function bp_admin_bar_comments_menu( $wp_admin_bar = '' ) {
 	_deprecated_function( __FUNCTION__, '1.6' );
@@ -62,6 +64,8 @@ function bp_members_admin_bar_my_account_logout() {
 
 /**
  * @deprecated 1.6.0
+ *
+ * @param int $user_id Optional. User ID.
  */
 function bp_core_is_user_deleted( $user_id = 0 ) {
 	_deprecated_function( __FUNCTION__, '1.6' );
@@ -70,6 +74,8 @@ function bp_core_is_user_deleted( $user_id = 0 ) {
 
 /**
  * @deprecated 1.6.0
+ *
+ * @param int $user_id Optional. User ID.
  */
 function bp_core_is_user_spammer( $user_id = 0 ) {
 	_deprecated_function( __FUNCTION__, '1.6' );

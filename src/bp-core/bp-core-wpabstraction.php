@@ -206,7 +206,7 @@ if ( ! is_multisite() ) {
  * @internal
  * @todo Why is this function defined in this file?
  *
- * @param string|bool $prefix Global table prefix.
+ * @param string|bool $prefix Optional. Global table prefix.
  * @return string SQL chunk.
  */
 function bp_core_get_status_sql( $prefix = false ) {
@@ -311,8 +311,8 @@ if ( ! function_exists( 'mb_strrpos' ) ) {
  *
  * @since 6.0.0
  *
- * @param WP_Error|null $errors The WP_Error object.
- * @param array         $data   Associative array of complete site data. See {@see wp_insert_site()}.
+ * @param WP_Error|null $errors Optional. The WP_Error object.
+ * @param array         $data   Optional. Associative array of complete site data. See {@see wp_insert_site()}.
  */
 function bp_catch_site_data( $errors = null, $data = array() ) {
 	buddypress()->new_site_data = $data;
@@ -327,11 +327,11 @@ add_action( 'wp_validate_site_data', 'bp_catch_site_data', 10, 2 );
  * @since 6.0.0
  *
  * @param int|WP_Site $site            The Site ID or the WP Site object.
- * @param int|array   $args_or_user_id An array of Site arguments or the User ID.
- * @param string      $domain          Site domain.
- * @param string      $path            Site path.
- * @param int         $network_id      Network ID. Only relevant on multi-network installations.
- * @param array       $meta            Meta data. Used to set initial site options.
+ * @param int|array   $args_or_user_id Optional. An array of Site arguments or the User ID.
+ * @param string      $domain          Optional. Site domain.
+ * @param string      $path            Optional. Site path.
+ * @param int         $network_id      Optional. Network ID. Only relevant on multi-network installations.
+ * @param array       $meta            Optional. Meta data. Used to set initial site options.
  */
 function bp_insert_site( $site, $args_or_user_id = null, $domain = '', $path = '', $network_id = 0, $meta = array() ) {
 	if ( $site instanceof WP_Site ) {
@@ -403,7 +403,7 @@ add_action( 'wp_update_site', 'bp_delete_site_no_tables_drop' );
  * @since 6.0.0
  *
  * @param int|WP_Error $site_id_or_error A WP Error object or the site ID.
- * @param bool|WP_Site $drop_or_site     A WP Site object or a boolean to inform whether site's table should be dropped.
+ * @param bool|WP_Site $drop_or_site     Optional. A WP Site object or a boolean to inform whether site's table should be dropped.
  */
 function bp_delete_site( $site_id_or_error, $drop_or_site = false ) {
 	if ( $drop_or_site instanceof WP_Site ) {

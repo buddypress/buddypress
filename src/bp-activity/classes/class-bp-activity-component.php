@@ -45,7 +45,7 @@ class BP_Activity_Component extends BP_Component {
 	 *
 	 * @see BP_Component::includes() for a description of arguments.
 	 *
-	 * @param array $includes See BP_Component::includes() for a description.
+	 * @param array $includes Optional. See BP_Component::includes() for a description.
 	 */
 	public function includes( $includes = array() ) {
 
@@ -184,7 +184,7 @@ class BP_Activity_Component extends BP_Component {
 	 *
 	 * @see BP_Component::setup_globals() for a description of arguments.
 	 *
-	 * @param array $args See BP_Component::setup_globals() for a description.
+	 * @param array $args Optional. See BP_Component::setup_globals() for a description.
 	 */
 	public function setup_globals( $args = array() ) {
 		$bp           = buddypress();
@@ -326,7 +326,7 @@ class BP_Activity_Component extends BP_Component {
 	 * @see BP_Component::setup_nav() for a description of the $wp_admin_nav
 	 *      parameter array.
 	 *
-	 * @param array $wp_admin_nav See BP_Component::setup_admin_bar() for a
+	 * @param array $wp_admin_nav Optional. See BP_Component::setup_admin_bar() for a
 	 *                            description.
 	 */
 	public function setup_admin_bar( $wp_admin_nav = array() ) {

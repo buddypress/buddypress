@@ -251,11 +251,11 @@ class BP_Component {
 	 * @since 2.4.0 Added $params['search_query_arg'] as a configurable value.
 	 * @since 14.3.0 Changed the `$name` parameter's description.
 	 *
-	 * @param string $id   Unique ID. Letters, numbers, and underscores only.
-	 * @param string $name Unique raw name for the component (do not use translatable strings).
-	 * @param string $path The file path for the component's files. Used by {@link BP_Component::includes()}.
+	 * @param string $id   Optional. Unique ID. Letters, numbers, and underscores only.
+	 * @param string $name Optional. Unique raw name for the component (do not use translatable strings).
+	 * @param string $path Optional. The file path for the component's files. Used by {@link BP_Component::includes()}.
 	 * @param array  $params {
-	 *     Additional parameters used by the component.
+	 *     Optional. Additional parameters used by the component.
 	 *     @type int    $adminbar_myaccount_order Set the position for our menu under the WP Toolbar's "My Account menu".
 	 *     @type array  $features                 An array of feature names. This is used to load additional files from your
 	 *                                            component directory and for feature active checks. eg. array( 'awesome' )
@@ -569,7 +569,7 @@ class BP_Component {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @param array $includes An array of file names, or file name chunks,
+	 * @param array $includes Optional. An array of file names, or file name chunks,
 	 *                        to be parsed and then included.
 	 */
 	public function includes( $includes = array() ) {
@@ -902,7 +902,7 @@ class BP_Component {
 	 *
 	 * @global WP_Admin_Bar $wp_admin_bar WordPress object implementing a Toolbar API.
 	 *
-	 * @param array $wp_admin_nav An array of nav item arguments. Each item in this parameter
+	 * @param array $wp_admin_nav Optional. An array of nav item arguments. Each item in this parameter
 	 *                            array is passed to {@link WP_Admin_Bar::add_menu()}.
 	 *                            See that method for a description of the required syntax for
 	 *                            each item.
@@ -1029,7 +1029,7 @@ class BP_Component {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param array $tables Table names to register.
+	 * @param array $tables Optional. Table names to register.
 	 */
 	public function register_global_tables( $tables = array() ) {
 
@@ -1083,7 +1083,7 @@ class BP_Component {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param array $tables Table names to register.
+	 * @param array $tables Optional. Table names to register.
 	 */
 	public function register_meta_tables( $tables = array() ) {
 		global $wpdb;
@@ -1205,7 +1205,7 @@ class BP_Component {
 	 * @since 1.5.0
 	 * @since 12.0.0 Adds the `$rewrite_tags` parameter.
 	 *
-	 * @param array $rewrite_tags Array of arguments list used to add WordPress rewrite tags.
+	 * @param array $rewrite_tags Optional. Array of arguments list used to add WordPress rewrite tags.
 	 *                            Each argument key needs to match one of `$this->rewrite_ids` keys.
 	 */
 	public function add_rewrite_tags( $rewrite_tags = array() ) {
@@ -1252,7 +1252,7 @@ class BP_Component {
 	 * @since 12.0.0 Adds the `$rewrite_rules` parameter.
 	 *
 	 * @param array $rewrite_rules {
-	 *     Array of associative arrays of arguments list used to add WordPress rewrite rules.
+	 *     Optional. Array of associative arrays of arguments list used to add WordPress rewrite rules.
 	 *     Each associative array needs to include the following keys.
 	 *
 	 *     @type string $regex    Regular expression to match request against. Required.
@@ -1339,7 +1339,7 @@ class BP_Component {
 	 * @since 12.0.0 Adds the `$permastructs` parameter.
 	 *
 	 * @param array $permastructs {
-	 *      Array of associative arrays of arguments list used to register WordPress additional permalink structures.
+	 *      Optional. Array of associative arrays of arguments list used to register WordPress additional permalink structures.
 	 *      Each array enty is keyed with the permalink structure.
 	 *      Each associative array needs to include the following keys.
 	 *
@@ -1442,8 +1442,8 @@ class BP_Component {
 	 *
 	 * @since 12.0.0
 	 *
-	 * @param  null     $posts A null value to use the regular WP Query.
-	 * @param  WP_Query $query The WP Query object.
+	 * @param  null     $posts Optional. A null value to use the regular WP Query.
+	 * @param  WP_Query $query Optional. The WP Query object.
 	 * @return null|array Null if not displaying a BuddyPress page.
 	 *                    An array containing the BuddyPress directory page otherwise.
 	 */
@@ -1569,7 +1569,7 @@ class BP_Component {
 	 *
 	 * @since 5.0.0
 	 *
-	 * @param array $controllers The list of BP REST controllers to load.
+	 * @param array $controllers Optional. The list of BP REST controllers to load.
 	 */
 	public function rest_api_init( $controllers = array() ) {
 		if ( is_array( $controllers ) && $controllers ) {
@@ -1637,7 +1637,7 @@ class BP_Component {
 	 *
 	 * @see `BP_Block->construct()` for a full description of a BP Block arguments.
 	 *
-	 * @param array $blocks The list of BP Blocks to register.
+	 * @param array $blocks Optional. The list of BP Blocks to register.
 	 */
 	public function blocks_init( $blocks = array() ) {
 		/**
@@ -1684,7 +1684,7 @@ class BP_Component {
 	 * @since 10.0.0
 	 * @deprecated 12.0.0
 	 *
-	 * @param string[] $states An array of post display states.
+	 * @param string[] $states Optional. An array of post display states.
 	 * @return array The component's directory states.
 	 */
 	public function admin_directory_states( $states = array() ) {

@@ -32,7 +32,7 @@ add_action( 'bp_admin_enqueue_scripts', 'bp_groups_register_scripts', 1 );
  *
  * @since 5.0.0
  *
- * @param  int $group_id Required. The Group ID whose members has to be managed.
+ * @param  int $group_id Optional. The group ID whose members are managed.
  * @return array   The JavaScript data.
  */
 function bp_groups_get_group_manage_members_script_data( $group_id = 0 ) {
@@ -68,7 +68,7 @@ function bp_groups_get_group_manage_members_script_data( $group_id = 0 ) {
  * @since 9.0.0
  * @since 12.0.0 Uses the `@wordpress/scripts` `index.asset.php` generated file to get dependencies.
  *
- * @param array $scripts Data about the scripts to register.
+ * @param array $scripts Optional. Data about the scripts to register.
  * @return array Data about the scripts to register.
  */
 function bp_groups_register_widget_block_scripts( $scripts = array() ) {

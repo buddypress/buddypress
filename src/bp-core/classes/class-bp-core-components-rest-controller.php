@@ -323,7 +323,7 @@ class BP_Core_Components_REST_Controller extends WP_REST_Controller {
 	 * @since 15.0.0
 	 *
 	 * @param string $name        Component name.
-	 * @param string $return_type Use `string` to get the l10n string. Default.
+	 * @param string $return_type Optional. Use `string` to get the l10n string. Default.
 	 *                            Use `bool` to get whether the component is active or not.
 	 *                            Use `array` to get both information.
 	 * @return string|bool|array By default a l10n string is returned.

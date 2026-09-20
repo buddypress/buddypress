@@ -156,7 +156,7 @@ class BP_XProfile_Field_Type_URL extends BP_XProfile_Field_Type {
 	 * @since 2.1.0
 	 * @since 2.4.0 Added the `$field_id` parameter.
 	 *
-	 * @param string     $submitted_value Raw value submitted by the user.
+	 * @param string     $submitted_value Optional. Raw value submitted by the user.
 	 * @param string|int $field_id        Optional. ID of the field.
 	 * @return string
 	 */

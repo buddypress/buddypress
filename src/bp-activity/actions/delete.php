@@ -12,7 +12,7 @@
  *
  * @since 1.1.0
  *
- * @param int $activity_id Activity id to be deleted. Defaults to 0.
+ * @param int $activity_id Optional. Activity id to be deleted. Defaults to 0.
  * @return bool False on failure.
  */
 function bp_activity_action_delete_activity( $activity_id = 0 ) {

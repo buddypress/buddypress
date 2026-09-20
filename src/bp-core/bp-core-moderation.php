@@ -20,7 +20,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.6.0
  *
- * @param int $user_id User id to check for flood.
+ * @param int $user_id Optional. User id to check for flood.
  * @return bool True if there is no flooding, false if there is.
  */
 function bp_core_check_for_flood( $user_id = 0 ) {
@@ -51,10 +51,10 @@ function bp_core_check_for_flood( $user_id = 0 ) {
  * @since 1.6.0
  * @since 2.6.0 Added $error_type parameter.
  *
- * @param int    $user_id    User ID.
- * @param string $title      The title of the content.
- * @param string $content    The content being posted.
- * @param string $error_type The error type to return. Either 'bool' or 'wp_error'.
+ * @param int    $user_id    Optional. User ID.
+ * @param string $title      Optional. The title of the content.
+ * @param string $content    Optional. The content being posted.
+ * @param string $error_type Optional. The error type to return. Either 'bool' or 'wp_error'.
  * @return bool|WP_Error True if test is passed, false if it fails.
  */
 function bp_core_check_for_moderation( $user_id = 0, $title = '', $content = '', $error_type = 'bool' ) {
@@ -204,10 +204,10 @@ function bp_core_check_for_moderation( $user_id = 0, $title = '', $content = '',
  *
  * @since 7.0.0
  *
- * @param int    $user_id    User ID.
- * @param string $title      The title of the content.
- * @param string $content    The content being posted.
- * @param string $error_type The error type to return. Either 'bool' or 'wp_error'.
+ * @param int    $user_id    Optional. User ID.
+ * @param string $title      Optional. The title of the content.
+ * @param string $content    Optional. The content being posted.
+ * @param string $error_type Optional. The error type to return. Either 'bool' or 'wp_error'.
  * @return bool|WP_Error True if test is passed, false if fail.
  */
 function bp_core_check_for_disallowed_keys( $user_id = 0, $title = '', $content = '', $error_type = 'bool' ) {

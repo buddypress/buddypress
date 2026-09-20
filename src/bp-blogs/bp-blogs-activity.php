@@ -44,8 +44,8 @@ add_action( 'bp_register_activity_actions', 'bp_blogs_register_activity_actions'
  *
  * @see bp_activity_get_post_type_tracking_args() for information on parameters.
  *
- * @param object|null $params    Tracking arguments.
- * @param string|int  $post_type Post type to track.
+ * @param object|null $params    Optional. Tracking arguments.
+ * @param string|int  $post_type Optional. Post type to track.
  * @return object|null
  */
 function bp_blogs_register_post_tracking_args( $params = null, $post_type = 0 ) {
@@ -117,7 +117,7 @@ add_filter( 'bp_activity_get_post_type_tracking_args', 'bp_blogs_register_post_t
  *
  * @since 11.0.0
  *
- * @param BP_Activity_Activity $activity The activity object.
+ * @param BP_Activity_Activity $activity Optional. The activity object.
  * @return array The blog URL and name which relates to a post or comment activity.
  */
 function bp_blogs_activity_get_site_link_meta( $activity = null ) {
@@ -407,7 +407,7 @@ add_filter( 'bp_activity_prefetch_object_data', 'bp_blogs_prefetch_activity_obje
  * @see bp_activity_add() for description of parameters.
  *
  * @param array|string $args {
- *     See {@link bp_activity_add()} for complete description of arguments.
+ *     Optional. See {@link bp_activity_add()} for complete description of arguments.
  *     The arguments listed here have different default values from
  *     bp_activity_add().
  *     @type string $component Default: 'blogs'.
@@ -494,7 +494,7 @@ function bp_blogs_record_activity( $args = '' ) {
  * @see bp_activity_delete() for description of parameters.
  *
  * @param array|string $args {
- *     See {@link bp_activity_delete()} for complete description of arguments.
+ *     Optional. See {@link bp_activity_delete()} for complete description of arguments.
  *     The arguments listed here have different default values from
  *     bp_activity_add().
  *     @type string $component Default: 'blogs'.
@@ -648,7 +648,7 @@ add_action( 'bp_blogs_new_blog', 'bp_blogs_record_activity_on_site_creation', 10
  * @since 2.6.0
  *
  * @param int $blog_id Site ID.
- * @param int $user_id ID of the user whose activity may be removed.
+ * @param int $user_id Optional. ID of the user whose activity may be removed.
  */
 function bp_blogs_delete_new_blog_activity_for_site( $blog_id, $user_id = 0 ) {
 	$args = array(
@@ -1025,8 +1025,8 @@ add_action( 'bp_activity_before_save', 'bp_blogs_sync_activity_edit_to_post_comm
  *
  * @since 2.0.0
  *
- * @param int   $post_id  The post ID.
- * @param array $comments Array of comment statuses. The key is comment ID, the
+ * @param int   $post_id  Optional. The post ID.
+ * @param array $comments Optional. Array of comment statuses. The key is comment ID, the
  *                        value is the $comment->comment_approved value.
  */
 function bp_blogs_remove_activity_meta_for_trashed_comments( $post_id = 0, $comments = array() ) {
@@ -1367,7 +1367,7 @@ add_filter( 'bp_activity_can_comment_reply', 'bp_blogs_can_comment_reply', 10, 2
  *
  * @global BP_Activity_Template $activities_template The Activity template object.
  *
- * @param string $retval The activity comment permalink.
+ * @param string $retval Optional. The activity comment permalink.
  * @return string
  */
 function bp_blogs_activity_comment_permalink( $retval = '' ) {

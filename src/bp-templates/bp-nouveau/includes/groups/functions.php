@@ -100,7 +100,7 @@ function bp_nouveau_groups_enqueue_scripts() {
  *
  * @since 3.0.0
  *
- * @param bool $disallow False to allow. True to disallow.
+ * @param bool $disallow Optional. False to allow. True to disallow.
  *
  * @return bool
  */
@@ -130,7 +130,7 @@ add_filter( 'bp_is_groups_invitations_active', 'bp_nouveau_is_groups_invitations
  *
  * @since 3.0.0
  *
- * @param array $params Associative array containing the JS Strings needed by scripts.
+ * @param array $params Optional. Associative array containing the JS Strings needed by scripts.
  *
  * @return array The same array with specific strings for the Group's Invite UI if needed.
  */
@@ -293,7 +293,7 @@ function bp_nouveau_prepare_group_potential_invites_for_js( $user ) {
  * Gets potential group invitations.
  *
  * @since 3.0.0
- * @param array $args Arguments for retrieving potential invitees.
+ * @param array $args Optional. Arguments for retrieving potential invitees.
  */
 function bp_nouveau_get_group_potential_invites( $args = array() ) {
 	$r = bp_parse_args(
@@ -362,7 +362,7 @@ function bp_nouveau_get_group_potential_invites( $args = array() ) {
  * @since 3.0.0
  * @since 10.0.0 The function is no more creating a Group invite step.
  *
- * @param array $steps The Group create steps.
+ * @param array $steps Optional. The Group create steps.
  * @return array       The Group create steps.
  */
 function bp_nouveau_group_invites_create_steps( $steps = array() ) {
@@ -401,7 +401,7 @@ function bp_nouveau_group_setup_nav() {
  * @since 3.0.0
  * @deprecated 6.3.0
  *
- * @param string $message The message to send with the invite.
+ * @param string $message Optional. The message to send with the invite.
  */
 function bp_nouveau_groups_invites_custom_message( $message = '' ) {
 	_deprecated_function( __FUNCTION__, '6.3.0' );
@@ -647,7 +647,7 @@ function bp_nouveau_get_groups_directory_nav_items() {
  *
  * @since 3.0.0
  *
- * @param string $context 'directory' or 'user'.
+ * @param string $context Optional. 'directory' or 'user'.
  *
  * @return array the filters
  */
@@ -751,7 +751,7 @@ function bp_nouveau_groups_front_page_description() {
  *
  * @since 3.0.0
  *
- * @param array $sections the Customizer sections to add.
+ * @param array $sections Optional. The Customizer sections to add.
  *
  * @return array the Customizer sections to add.
  */

@@ -561,7 +561,7 @@ class BP_Legacy extends BP_Theme_Compat {
 	 *
 	 * @since 2.2.0
 	 *
-	 * @param  array $templates Array of templates.
+	 * @param  array $templates Optional. Array of templates.
 	 *                         to use the defined page template for component's directory and its single items.
 	 * @return array
 	 */
@@ -1989,7 +1989,7 @@ function bp_legacy_theme_ajax_messages_star_handler() {
  *
  * @since  2.4.0
  *
- * @param  array $params the current component's feature parameters.
+ * @param  array $params Optional. The current component's feature parameters.
  * @return null|string An array to inform about the css handle to attach the css rules to
  */
 function bp_legacy_theme_cover_image( $params = array() ) {

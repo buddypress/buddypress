@@ -782,7 +782,7 @@ function bp_message_thread_last_post_date() {
  *
  * @see bp_get_message_thread_avatar() for a description of arguments.
  *
- * @param array|string $args See {@link bp_get_message_thread_avatar()}.
+ * @param array|string $args Optional. See {@link bp_get_message_thread_avatar()}.
  */
 function bp_message_thread_avatar( $args = '' ) {
 	// phpcs:ignore WordPress.Security.EscapeOutput
@@ -797,7 +797,7 @@ function bp_message_thread_avatar( $args = '' ) {
 	 * @global BP_Messages_Box_Template $messages_template The message box template loop class.
 	 *
 	 * @param array|string $args {
-	 *     Arguments are listed here with an explanation of their defaults.
+	 *     Optional. Arguments are listed here with an explanation of their defaults.
 	 *     For more information about the arguments, see
 	 *     {@link bp_core_fetch_avatar()}.
 	 *     @type string      $type   Default: 'thumb'.
@@ -860,7 +860,7 @@ function bp_message_thread_avatar( $args = '' ) {
  *
  * @since 2.6.x Added the `$user_id` parameter.
  *
- * @param int $user_id The user ID.
+ * @param int $user_id Optional. The user ID.
  */
 function bp_total_unread_messages_count( $user_id = 0 ) {
 	echo intval( bp_get_total_unread_messages_count( $user_id ) );
@@ -870,7 +870,7 @@ function bp_total_unread_messages_count( $user_id = 0 ) {
 	 *
 	 * @since 2.6.x Added the `$user_id` parameter.
 	 *
-	 * @param int $user_id The user ID.
+	 * @param int $user_id Optional. The user ID.
 	 *
 	 * @return int Total inbox unread count for user.
 	 */
@@ -1288,7 +1288,7 @@ function bp_message_notice_post_date() {
  *
  * @since 5.0.0 The $notice parameter has been added.
  *
- * @param BP_Messages_Notice $notice The notice object.
+ * @param BP_Messages_Notice $notice Optional. The notice object.
  */
 function bp_message_notice_subject( $notice = null ) {
 	// Escaping is made in `bp-messages/bp-messages-filters.php`.
@@ -1302,7 +1302,7 @@ function bp_message_notice_subject( $notice = null ) {
 	 *
 	 * @global BP_Messages_Box_Template $messages_template The message box template loop class.
 	 *
-	 * @param BP_Messages_Notice|null $notice The notice object.
+	 * @param BP_Messages_Notice|null $notice Optional. The notice object.
 	 * @return string
 	 */
 	function bp_get_message_notice_subject( $notice = null ) {
@@ -1327,7 +1327,7 @@ function bp_message_notice_subject( $notice = null ) {
  *
  * @since 5.0.0 The $notice parameter has been added.
  *
- * @param BP_Messages_Notice $notice The notice object.
+ * @param BP_Messages_Notice $notice Optional. The notice object.
  */
 function bp_message_notice_text( $notice = null ) {
 	// Escaping is made in `bp-messages/bp-messages-filters.php`.
@@ -1341,7 +1341,7 @@ function bp_message_notice_text( $notice = null ) {
 	 *
 	 * @global BP_Messages_Box_Template $messages_template The message box template loop class.
 	 *
-	 * @param BP_Messages_Notice|null $notice The notice object.
+	 * @param BP_Messages_Notice|null $notice Optional. The notice object.
 	 * @return string
 	 */
 	function bp_get_message_notice_text( $notice = null ) {
@@ -1605,7 +1605,7 @@ function bp_send_private_message_button() {
  *
  * @see bp_get_send_message_button_args() for description of parameters.
  *
- * @param array|string $args See {@link bp_get_send_message_button_args()}.
+ * @param array|string $args Optional. See {@link bp_get_send_message_button_args()}.
  */
 function bp_send_message_button( $args = '' ) {
 	// Escaping is done in `BP_Core_HTML_Element()`.
@@ -1669,7 +1669,7 @@ function bp_send_message_button( $args = '' ) {
 	 *
 	 * @see bp_get_send_message_button_args() for description of parameters.
 	 *
-	 * @param array|string $args See {@link bp_get_send_message_button_args()}.
+	 * @param array|string $args Optional. See {@link bp_get_send_message_button_args()}.
 	 * @return string
 	 */
 	function bp_get_send_message_button( $args = '' ) {
@@ -2193,7 +2193,7 @@ function bp_the_thread_message_sender_id() {
 /**
  * Output the avatar for the current message sender.
  *
- * @param array|string $args See {@link bp_get_the_thread_message_sender_avatar_thumb()}
+ * @param array|string $args Optional. See {@link bp_get_the_thread_message_sender_avatar_thumb()}
  *                           for a description.
  */
 function bp_the_thread_message_sender_avatar( $args = '' ) {

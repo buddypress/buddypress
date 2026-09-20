@@ -109,7 +109,7 @@ class BP_Nouveau_Members {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param string $sidebar_index The Sidebar identifier.
+	 * @param string $sidebar_index Optional. The Sidebar identifier.
 	 */
 	public function user_home_sidebar_set( $sidebar_index = '' ) {
 		if ( 'sidebar-buddypress-members' !== $sidebar_index ) {
@@ -128,7 +128,7 @@ class BP_Nouveau_Members {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param  string $sidebar_index The Sidebar identifier.
+	 * @param  string $sidebar_index Optional. The Sidebar identifier.
 	 */
 	public function user_home_sidebar_unset( $sidebar_index = '' ) {
 		if ( 'sidebar-buddypress-members' !== $sidebar_index ) {
@@ -146,7 +146,7 @@ class BP_Nouveau_Members {
  * Launch the Members loader class.
  *
  * @since 3.0.0
- * @param BP_Nouveau|null $bp_nouveau Nouveau instance.
+ * @param BP_Nouveau|null $bp_nouveau Optional. Nouveau instance.
  */
 function bp_nouveau_members( $bp_nouveau = null ) {
 	if ( is_null( $bp_nouveau ) ) {

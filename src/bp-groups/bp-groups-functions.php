@@ -159,7 +159,7 @@ function bp_get_group( $group = false ) {
  * @since 1.0.0
  *
  * @param array|string $args {
- *     An array of arguments.
+ *     Optional. An array of arguments.
  *     @type int|bool $group_id     Pass a group ID to update an existing item, or
  *                                  0 / false to create a new group. Default: 0.
  *     @type int      $creator_id   The user ID that creates the group.
@@ -427,7 +427,7 @@ function groups_edit_base_group_details( $args = array() ) {
  * @param string      $status        Group status. 'public', 'private', 'hidden'.
  * @param string|bool $invite_status Optional. Who is allowed to send invitations
  *                                   to the group. 'members', 'mods', or 'admins'.
- * @param int|bool    $parent_id     Parent group ID.
+ * @param int|bool    $parent_id     Optional. Parent group ID.
  * @return bool
  */
 function groups_edit_group_settings( $group_id, $enable_forum, $status, $invite_status = false, $parent_id = false ) {
@@ -744,7 +744,7 @@ function groups_join_group( $group, $user_id = 0 ) {
  * @since 1.0.0
  * @since 10.0.0 Updated to use `bp_get_group`.
  *
- * @param int|string|BP_Groups_Group $group The Group ID, the Group Slug or the Group object.
+ * @param int|string|BP_Groups_Group $group Optional. The Group ID, the Group Slug or the Group object.
  *                                          Default: the current group's ID.
  */
 function groups_update_last_activity( $group = 0 ) {
@@ -930,7 +930,7 @@ function groups_get_total_member_count( $group, $skip_cache = false ) {
  * @since 10.0.0 Added `$date_query` parameter.
  *
  * @param array|string $args {
- *     Array of arguments. Supports all arguments of
+ *     Optional. Array of arguments. Supports all arguments of
  *     {@link BP_Groups_Group::get()}. Where the default values differ, they
  *     have been described here.
  *     @type int $per_page Default: 20.
@@ -1028,7 +1028,7 @@ function groups_get_total_group_count( $skip_cache = false ) {
  *
  * @since 1.0.0
  *
- * @param int $user_id  ID of the user.
+ * @param int $user_id  Optional. ID of the user.
  * @param int $pag_num  Optional. Max number of results to return.
  *                      Default: false (no limit).
  * @param int $pag_page Optional. Page offset of results to return.
@@ -1523,7 +1523,7 @@ function groups_is_user_banned( $user_id, $group_id ) {
  *
  * @param int    $user_id  ID of the user.
  * @param int    $group_id ID of the group.
- * @param string $type     If 'sent', results are limited to those invitations
+ * @param string $type     Optional. If 'sent', results are limited to those invitations
  *                         that have actually been sent (non-draft).
  *                         Possible values: 'sent', 'draft', or 'all' Default: 'sent'.
  * @return int|bool ID of the membership if the user is invited, otherwise false.
@@ -1575,10 +1575,10 @@ function groups_is_user_creator( $user_id, $group_id ) {
  *
  * @since 1.0.0
  *
- * @param int               $user_id ID of the invited user.
- * @param int|bool          $limit   Limit to restrict to.
+ * @param int               $user_id Optional. ID of the invited user.
+ * @param int|bool          $limit   Optional. Limit to restrict to.
  * @param int|bool          $page    Optional. Page offset of results to return.
- * @param string|array|bool $exclude Array of comma-separated list of group IDs
+ * @param string|array|bool $exclude Optional. Array of comma-separated list of group IDs
  *                                   to exclude from results.
  * @return array {
  *     @type array $groups Array of groups returned by paginated query.
@@ -1618,7 +1618,7 @@ function groups_get_invites_for_user( $user_id = 0, $limit = false, $page = fals
  *
  * @since 2.0.0
  *
- * @param int $user_id The user ID.
+ * @param int $user_id Optional. The user ID.
  * @return int
  */
 function groups_get_invite_count_for_user( $user_id = 0 ) {
@@ -1635,7 +1635,7 @@ function groups_get_invite_count_for_user( $user_id = 0 ) {
  *
  * @since 5.0.0
  *
- * @param int $user_id The user ID.
+ * @param int $user_id Optional. The user ID.
  *
  * @return array Array of group IDs.
  */
@@ -1661,7 +1661,7 @@ function groups_get_invited_to_group_ids( $user_id = 0 ) {
  * @since 1.0.0
  *
  * @param array|string $args {
- *     Array of arguments.
+ *     Optional. Array of arguments.
  *     @type int    $user_id       ID of the user being invited.
  *     @type int    $group_id      ID of the group to which the user is being invited.
  *     @type int    $inviter_id    Optional. ID of the inviting user. Default:
@@ -1722,7 +1722,7 @@ function groups_invite_user( $args = '' ) {
  *
  * @param int $user_id  ID of the user.
  * @param int $group_id ID of the group.
- * @param int $inviter_id ID of the inviter.
+ * @param int $inviter_id Optional. ID of the inviter.
  * @return bool
  */
 function groups_uninvite_user( $user_id, $group_id, $inviter_id = false ) {
@@ -1786,7 +1786,7 @@ function groups_accept_invite( $user_id, $group_id ) {
  *
  * @param int $user_id    ID of the user.
  * @param int $group_id   ID of the group.
- * @param int $inviter_id ID of the inviter.
+ * @param int $inviter_id Optional. ID of the inviter.
  *
  * @return bool
  */
@@ -1827,7 +1827,7 @@ function groups_reject_invite( $user_id, $group_id, $inviter_id = false ) {
  *
  * @param int $user_id  ID of the invited user.
  * @param int $group_id ID of the group.
- * @param int $inviter_id ID of the inviter.
+ * @param int $inviter_id Optional. ID of the inviter.
  *
  * @return bool
  */
@@ -1959,7 +1959,7 @@ function groups_send_invites( ...$args ) {
  *
  * @param  int      $user_id  ID of the inviting user.
  * @param  int      $group_id ID of the group.
- * @param  int|null $sent     Query for a specific invite sent status. If 0, this will query for users
+ * @param  int|null $sent     Optional. Query for a specific invite sent status. If 0, this will query for users
  *                            that haven't had an invite sent to them yet. If 1, this will query for
  *                            users that have had an invite sent to them. If null, no invite status will
  *                            queried. Default: null.
@@ -1975,7 +1975,7 @@ function groups_get_invites_for_group( $user_id, $group_id, $sent = null ) {
  *
  * @since 5.0.0
  *
- * @param array $args     Invitation arguments.
+ * @param array $args     Optional. Invitation arguments.
  *                        See BP_Invitation::get() for list.
  *
  * @return array     Matching BP_Invitation objects.
@@ -2426,12 +2426,10 @@ function groups_send_membership_request( ...$args ) {
  * @since 5.0.0 Deprecated $membership_id argument.
  *
  * @param int $membership_id Deprecated 5.0.0.
- * @param int $user_id       Required. ID of the user who requested membership.
- *                           Provide this value along with $group_id to override
- *                           $membership_id.
- * @param int $group_id      Required. ID of the group to which membership is being
- *                           requested. Provide this value along with $user_id to
- *                           override $membership_id.
+ * @param int $user_id       Optional. ID of the user who requested membership. Required with
+ *                           $group_id to override $membership_id.
+ * @param int $group_id      Optional. ID of the group to which membership is being requested.
+ *                           Required with $user_id to override $membership_id.
  * @return bool
  */
 function groups_accept_membership_request( $membership_id, $user_id = 0, $group_id = 0 ) {
@@ -2532,7 +2530,7 @@ function groups_delete_membership_request( $membership_id, $user_id = 0, $group_
  *
  * @since 5.0.0
  *
- * @param array $args     Invitation arguments.
+ * @param array $args     Optional. Invitation arguments.
  *                        See BP_Invitation::get() for list.
  *
  * @return array Matching BP_Invitation objects.
@@ -2570,7 +2568,7 @@ function groups_check_for_membership_request( $user_id, $group_id ) {
  *
  * @since 5.0.0
  *
- * @param int $user_id The user ID.
+ * @param int $user_id Optional. The user ID.
  *
  * @return array Array of group IDs.
  */
@@ -2594,7 +2592,7 @@ function groups_get_membership_requested_group_ids( $user_id = 0 ) {
  *
  * @since 5.0.0
  *
- * @param int $group_id The group ID.
+ * @param int $group_id Optional. The group ID.
  *
  * @return array Array of group IDs.
  */
@@ -2618,7 +2616,7 @@ function groups_get_membership_requested_user_ids( $group_id = 0 ) {
  *
  * @since 1.0.2
  *
- * @param int $group_id ID of the group.
+ * @param int $group_id Optional. ID of the group.
  * @return bool
  */
 function groups_accept_all_pending_membership_requests( $group_id = 0 ) {
@@ -2658,7 +2656,7 @@ function groups_accept_all_pending_membership_requests( $group_id = 0 ) {
  * @global wpdb $wpdb WordPress database object.
  *
  * @param int         $group_id   ID of the group.
- * @param string|bool $meta_key   The key of the row to delete.
+ * @param string|bool $meta_key   Optional. The key of the row to delete.
  * @param string|bool $meta_value Optional. Metadata value. If specified, only delete
  *                                metadata entries with this value.
  * @param bool        $delete_all Optional. If true, delete matching metadata entries
@@ -2701,7 +2699,7 @@ function groups_delete_groupmeta( $group_id, $meta_key = false, $meta_value = fa
  * @since 1.0.0
  *
  * @param int    $group_id ID of the group.
- * @param string $meta_key Metadata key.
+ * @param string $meta_key Optional. Metadata key.
  * @param bool   $single   Optional. If true, return only the first value of the
  *                         specified meta_key. This parameter has no effect if
  *                         meta_key is empty.
@@ -2942,7 +2940,7 @@ function bp_get_group_type_tax_args() {
  *
  * @since 7.0.0
  *
- * @param array $taxonomies BuddyPress default taxonomies.
+ * @param array $taxonomies Optional. BuddyPress default taxonomies.
  * @return array            BuddyPress default taxonomies.
  */
 function bp_groups_register_group_type_taxonomy( $taxonomies = array() ) {
@@ -2980,8 +2978,8 @@ add_action( 'bp_register_taxonomies', 'bp_groups_register_group_types' );
  *
  * @since 7.0.0
  *
- * @param array  $schema   The generic Type metadata schema.
- * @param string $taxonomy The taxonomy name the schema applies to.
+ * @param array  $schema   Optional. The generic Type metadata schema.
+ * @param string $taxonomy Optional. The taxonomy name the schema applies to.
  * @return array           The Group Type metadata schema.
  */
 function bp_get_group_type_metadata_schema( $schema = array(), $taxonomy = '' ) {
@@ -3041,7 +3039,7 @@ add_action( 'bp_register_type_metadata', 'bp_register_group_type_metadata', 11 )
  *
  * @param string $group_type Unique string identifier for the group type.
  * @param array  $args {
- *     Array of arguments describing the group type.
+ *     Optional. Array of arguments describing the group type.
  *
  *     @type string|bool $has_directory         Set the slug to be used for custom group directory page. eg.
  *                                              example.com/groups/type/MY_SLUG. Default: false.
@@ -3247,8 +3245,8 @@ add_filter( bp_get_group_type_tax_name() . '_registered_by_code', 'bp_get_group_
  *
  * @since 7.0.0
  *
- * @param array  $metadata Existing group type metadata.
- * @param string $type     Group type name.
+ * @param array  $metadata Optional. Existing group type metadata.
+ * @param string $type     Optional. Group type name.
  * @return array The group type metadata.
  */
 function bp_set_registered_by_code_group_type_metadata( $metadata = array(), $type = '' ) {
@@ -3503,7 +3501,7 @@ function bp_get_current_group_directory_type() {
  *
  * @since 2.6.0
  *
- * @param int $group_id ID of the group.
+ * @param int $group_id Optional. ID of the group.
  */
 function bp_remove_group_type_on_group_delete( $group_id = 0 ) {
 	bp_groups_set_group_type( $group_id, '' );
@@ -3870,7 +3868,7 @@ function bp_groups_migrate_invitations() {
  *               It only registers Group Extensions if their corresponding class name has not been already
  *               registered.
  *
- * @param string $group_extension_class Name of the Extension class.
+ * @param string $group_extension_class Optional. Name of the Extension class.
  * @return bool                         Returns true on success, otherwise false.
  */
 function bp_register_group_extension( $group_extension_class = '' ) {
@@ -3917,7 +3915,7 @@ add_action( 'bp_init', 'bp_init_group_extensions', 11 );
  * @since 10.3.0
  *
  * @param BP_Groups_Member|int $groups_member The BP_Groups_Member object or the group member ID.
- * @param int                  $group_id      The group's ID.
+ * @param int                  $group_id      Optional. The group's ID.
  */
 function bp_groups_update_group_members_count( $groups_member, $group_id = 0 ) {
 	if ( $groups_member instanceof BP_Groups_Member ) {
@@ -3935,8 +3933,8 @@ add_action( 'bp_groups_member_after_delete', 'bp_groups_update_group_members_cou
  *
  * @since 10.3.0
  *
- * @param bool $defer True to defer, false otherwise.
- * @param int  $group_id The group's ID.
+ * @param bool $defer Optional. True to defer, false otherwise.
+ * @param int  $group_id Optional. The group's ID.
  */
 function bp_groups_defer_group_members_count( $defer = true, $group_id = 0 ) {
 	if ( $defer ) {
@@ -3983,7 +3981,7 @@ function bp_get_group_restricted_screens() {
  *
  * @since 12.0.0
  *
- * @param string $context The display context. Required. Defaults to `read`.
+ * @param string $context Optional. The display context. Required. Defaults to `read`.
  * @return array          The list of registered Group Extension screens.
  */
 function bp_get_group_extension_screens( $context = 'read' ) {
@@ -4027,9 +4025,9 @@ function bp_get_group_extension_screens( $context = 'read' ) {
  *
  * @since 12.0.0
  *
- * @param string $context  The display context. Required. Defaults to `read`.
+ * @param string $context  Optional. The display context. Required. Defaults to `read`.
  *                         Possible values are `read`, `manage` or `create`.
- * @param bool   $built_in True to only get builtin screens. False otherwise.
+ * @param bool   $built_in Optional. True to only get builtin screens. False otherwise.
  * @return array            The list of potential Group screens.
  */
 function bp_get_group_screens( $context = 'read', $built_in = false ) {
@@ -4243,8 +4241,8 @@ function bp_get_group_screens( $context = 'read', $built_in = false ) {
  *
  * @since 12.0.0
  *
- * @param array  $chunks   An array of BP URL default slugs.
- * @param string $context Whether to get chunks for the 'read', 'create' or 'manage' contexts.
+ * @param array  $chunks   Optional. An array of BP URL default slugs.
+ * @param string $context Optional. Whether to get chunks for the 'read', 'create' or 'manage' contexts.
  * @return array An associative array containing group's customized path chunks.
  */
 function bp_groups_get_path_chunks( $chunks = array(), $context = 'read' ) {

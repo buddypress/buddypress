@@ -51,7 +51,7 @@ class BP_Core_Nav {
 	 *
 	 * @since 2.6.0
 	 *
-	 * @param int    $object_id The item ID to build the nav for. Default is the displayed user ID.
+	 * @param int    $object_id Optional. The item ID to build the nav for. Default is the displayed user ID.
 	 * @param string $component_id Optional. The component ID. Default is 'members'.
 	 */
 	public function __construct( $object_id = 0, $component_id = 'members' ) {
@@ -234,9 +234,9 @@ class BP_Core_Nav {
 	 *
 	 * @since 2.6.0
 	 *
-	 * @param array  $args        The nav item's arguments.
-	 * @param string $slug        The slug of the nav item.
-	 * @param string $parent_slug The slug of the parent nav item (required to edit a child).
+	 * @param array  $args        Optional. The nav item's arguments.
+	 * @param string $slug        Optional. The slug of the nav item.
+	 * @param string $parent_slug Optional. The slug of the parent nav item (required to edit a child).
 	 * @return BP_Core_Nav_Item
 	 */
 	public function edit_nav( $args = array(), $slug = '', $parent_slug = '' ) {
@@ -300,8 +300,8 @@ class BP_Core_Nav {
 	 *
 	 * @since 2.6.0
 	 *
-	 * @param string $slug        The slug of the main item.
-	 * @param string $parent_slug The slug of the sub item.
+	 * @param string $slug        Optional. The slug of the main item.
+	 * @param string $parent_slug Optional. The slug of the sub item.
 	 * @return false|callable|array False on failure, the screen function(s) on success.
 	 */
 	public function delete_nav( $slug = '', $parent_slug = '' ) {
@@ -417,8 +417,8 @@ class BP_Core_Nav {
 	 *
 	 * @since 2.6.0
 	 *
-	 * @param array $args Filters to select the specific primary items. See wp_list_filter().
-	 * @param bool  $sort True to sort the nav items. False otherwise.
+	 * @param array $args Optional. Filters to select the specific primary items. See wp_list_filter().
+	 * @param bool  $sort Optional. True to sort the nav items. False otherwise.
 	 * @return array The list of primary objects nav
 	 */
 	public function get_primary( $args = array(), $sort = true ) {
@@ -452,8 +452,8 @@ class BP_Core_Nav {
 	 *
 	 * @since 2.6.0
 	 *
-	 * @param array $args Filters to select the specific secondary items. See wp_list_filter().
-	 * @param bool  $sort True to sort the nav items. False otherwise.
+	 * @param array $args Optional. Filters to select the specific secondary items. See wp_list_filter().
+	 * @param bool  $sort Optional. True to sort the nav items. False otherwise.
 	 * @return bool|array The list of secondary objects nav, or false if none set.
 	 */
 	public function get_secondary( $args = array(), $sort = true ) {

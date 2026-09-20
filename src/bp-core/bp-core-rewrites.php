@@ -69,10 +69,10 @@ function bp_has_pretty_urls() {
  *
  * @since 12.0.0
  *
- * @param string $component_id The BuddyPress component's ID.
- * @param string $rewrite_id   The screen rewrite ID, used to find the custom slugs.
+ * @param string $component_id Optional. The BuddyPress component's ID.
+ * @param string $rewrite_id   Optional. The screen rewrite ID, used to find the custom slugs.
  *                             Eg: `member_profile_edit` will try to find the xProfile edit's slug.
- * @param string $default_slug The screen default slug, used as a fallback.
+ * @param string $default_slug Optional. The screen default slug, used as a fallback.
  * @return string The slug to use for the screen belonging to the requested component.
  */
 function bp_rewrites_get_slug( $component_id = '', $rewrite_id = '', $default_slug = '' ) {
@@ -118,9 +118,9 @@ function bp_rewrites_get_slug( $component_id = '', $rewrite_id = '', $default_sl
  *
  * @since 12.0.0
  *
- * @param string $component_id The component ID (eg: `activity` for the BP Activity component).
- * @param string $slug         The customized slug.
- * @param string $context      The context for the customized slug, useful when the same slug is used
+ * @param string $component_id Optional. The component ID (eg: `activity` for the BP Activity component).
+ * @param string $slug         Optional. The customized slug.
+ * @param string $context      Optional. The context for the customized slug, useful when the same slug is used
  *                             for more than one rewrite ID of the same component.
  * @return string              The rewrite ID matching the customized slug.
  */
@@ -324,7 +324,7 @@ function bp_rewrites_get_root_url() {
  *
  * @since 12.0.0
  *
- * @param string $request The request used during parsing.
+ * @param string $request Optional. The request used during parsing.
  * @return array Data to use to find a member single item from the request.
  */
 function bp_rewrites_get_member_data( $request = '' ) {

@@ -169,7 +169,7 @@ class BP_XProfile_Query {
 	 *
 	 * @since 2.2.0
 	 *
-	 * @param string $type MySQL type to cast `value`.
+	 * @param string $type Optional. MySQL type to cast `value`.
 	 * @return string MySQL type.
 	 */
 	public function get_cast_for_type( $type = '' ) {

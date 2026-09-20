@@ -171,11 +171,11 @@ function bp_nouveau_ajax_querystring( $query_string, $component ) {
  *
  * @since 3.0.0
  *
- * @param string      $output Existing button output.
- * @param object|null $button Button data object.
- * @param string      $before Markup to prepend to the button.
- * @param string      $after  Markup to append to the button.
- * @param array       $r      Button arguments.
+ * @param string      $output Optional. Existing button output.
+ * @param object|null $button Optional. Button data object.
+ * @param string      $before Optional. Markup to prepend to the button.
+ * @param string      $after  Optional. Markup to append to the button.
+ * @param array       $r      Optional. Button arguments.
  * @return string
  */
 function bp_nouveau_ajax_button( $output = '', $button = null, $before = '', $after = '', $r = array() ) {
@@ -403,7 +403,7 @@ function bp_nouveau_is_object_nav_in_sidebar() {
  *
  * @since 3.0.0
  *
- * @param string $capability Capability to check.
+ * @param string $capability Optional. Capability to check.
  * @return bool
  */
 function bp_nouveau_current_user_can( $capability = '' ) {
@@ -424,9 +424,9 @@ function bp_nouveau_current_user_can( $capability = '' ) {
  *
  * @since 3.0.0
  *
- * @param string $hook      The hook to fire.
- * @param string $component The component nav belongs to.
- * @param int    $position  The position of the nav item.
+ * @param string $hook      Optional. The hook to fire.
+ * @param string $component Optional. The component nav belongs to.
+ * @param int    $position  Optional. The position of the nav item.
  *
  * @return array A list of component's dir nav items
  */
@@ -508,8 +508,8 @@ function bp_nouveau_parse_hooked_dir_nav( $hook = '', $component = '', $position
  *
  * @since 3.0.0
  *
- * @param string $hook    Hook name to run.
- * @param array  $filters Existing filter options.
+ * @param string $hook    Optional. Hook name to run.
+ * @param array  $filters Optional. Existing filter options.
  *
  * @return array
  */
@@ -549,8 +549,8 @@ function bp_nouveau_parse_hooked_options( $hook = '', $filters = array() ) {
  *
  * @since 3.0.0
  *
- * @param string $context   'directory', 'user' or 'group'.
- * @param string $component The BuddyPress component ID.
+ * @param string $context   Optional. 'directory', 'user' or 'group'.
+ * @param string $component Optional. The BuddyPress component ID.
  *
  * @return array the dropdown filters.
  */
@@ -613,8 +613,8 @@ function bp_nouveau_get_component_filters( $context = '', $component = '' ) {
  *
  * @since 3.0.0
  *
- * @param string $option the index of the setting to get.
- * @param mixed  $retval the value to use as default.
+ * @param string $option Optional. The index of the setting to get.
+ * @param mixed  $retval Optional. The value to use as default.
  *
  * @return mixed The value for the requested option.
  */
@@ -658,7 +658,7 @@ function bp_nouveau_get_temporary_setting( $option = '', $retval = false ) {
  *
  * @since 3.0.0
  *
- * @param string $option Leave empty to get all settings, specify a value for a specific one.
+ * @param string $option Optional. Leave empty to get all settings, specify a value for a specific one.
  * @return array|false|mixed
  */
 function bp_nouveau_get_appearance_settings( $option = '' ) {
@@ -746,7 +746,7 @@ function bp_nouveau_get_appearance_settings( $option = '' ) {
  *
  * @since 3.0.0
  *
- * @param string $type 'option' to get the labels, 'classes' to get the classes.
+ * @param string $type Optional. 'option' to get the labels, 'classes' to get the classes.
  *
  * @return array The list of labels or classes preserving keys.
  */
@@ -786,7 +786,7 @@ function bp_nouveau_customizer_grid_choices( $type = 'option' ) {
  *
  * @since 3.0.0
  *
- * @param  string $option A comma separated list of nav items slugs.
+ * @param  string $option Optional. A comma separated list of nav items slugs.
  *
  * @return array An array of nav items slugs.
  */
@@ -993,7 +993,7 @@ function bp_nouveau_theme_cover_image( $params = array() ) {
  * @since 3.0.0
  * @since 8.0.0 Adds the 'member-invites-none' feedback.
  *
- * @param string $feedback_id The ID of the message.
+ * @param string $feedback_id Optional. The ID of the message.
  *
  * @return string|false The list of parameters for the message
  */
@@ -1327,7 +1327,7 @@ function bp_nouveau_get_signup_fields( $section = '' ) {
  * @since 3.0.0
  * @since 8.0.0 Adds the 'member-send-invite' button.
  *
- * @param string $action The action requested.
+ * @param string $action Optional. The action requested.
  *
  * @return array|false The list of the submit button parameters for the requested action
  *                     False if no actions were found.
@@ -1468,9 +1468,9 @@ function bp_nouveau_get_submit_button( $action = '' ) {
  *
  * @since 3.0.0
  *
- * @param object $nav         The BuddyPress Item Nav object to reorder.
- * @param array  $order       A list of slugs ordered (eg: array( 'profile', 'activity', etc..) ).
- * @param string $parent_slug A parent slug if it's a secondary nav we are reordering (case of the Groups single item).
+ * @param object $nav         Optional. The BuddyPress Item Nav object to reorder.
+ * @param array  $order       Optional. A list of slugs ordered (eg: array( 'profile', 'activity', etc..) ).
+ * @param string $parent_slug Optional. A parent slug if it's a secondary nav we are reordering (case of the Groups single item).
  *
  * @return bool False otherwise.
  */
@@ -1508,7 +1508,7 @@ function bp_nouveau_set_nav_item_order( $nav = null, $order = array(), $parent_s
  *
  * @since 8.0.0
  *
- * @param string $component_id The component ID.
+ * @param string $component_id Optional. The component ID.
  * @return string The slug for the requested component ID.
  */
 function bp_nouveau_get_component_slug( $component_id = '' ) {
@@ -1565,7 +1565,7 @@ function bp_nouveau_get_component_slug( $component_id = '' ) {
  * @since 9.0.0
  * @since 12.0.0 Use the WP Blocks API v2.
  *
- * @param array $blocks The Core Blocks list.
+ * @param array $blocks Optional. The Core Blocks list.
  * @return array The Core Blocks list.
  */
 function bp_nouveau_register_primary_nav_widget_block( $blocks = array() ) {
@@ -1583,7 +1583,7 @@ add_filter( 'bp_core_register_blocks', 'bp_nouveau_register_primary_nav_widget_b
  *
  * @since 9.0.0
  *
- * @param array $block_globals The list of global properties for Core blocks.
+ * @param array $block_globals Optional. The list of global properties for Core blocks.
  * @return array               The list of global properties for Core blocks.
  */
 function bp_nouveau_register_core_block_globals( $block_globals = array() ) {
@@ -1615,7 +1615,7 @@ add_action( 'load-post-new.php', 'bp_nouveau_unregister_blocks_for_post_context'
  *
  * @since 9.0.0
  *
- * @param array $attributes The block attributes.
+ * @param array $attributes Optional. The block attributes.
  * @return string           HTML output.
  */
 function bp_nouveau_render_primary_nav_block( $attributes = array() ) {
@@ -1753,7 +1753,7 @@ function bp_nouveau_get_current_priority_nav_object() {
  *
  * @since 12.0.0
  *
- * @param string $single_item The single item object name. Possible valuers are 'member' or 'group'.
+ * @param string $single_item Optional. The single item object name. Possible valuers are 'member' or 'group'.
  * @return bool True if the single item supports priority nav. False otherwise.
  */
 function bp_nouveau_single_item_supports_priority_nav( $single_item = '' ) {
