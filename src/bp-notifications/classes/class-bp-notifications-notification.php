@@ -237,7 +237,7 @@ class BP_Notifications_Notification {
 	 * @param array $data_format See {@link wpdb::insert()}.
 	 * @return int|false The number of rows inserted, or false on error.
 	 */
-	protected static function _insert( $data = array(), $data_format = array() ) {
+	protected static function _insert( $data = array(), $data_format = array() ) { // phpcs:ignore PSR2.Methods.MethodDeclaration.Underscore -- Retains the established method name for backward compatibility.
 		global $wpdb;
 		return $wpdb->insert( buddypress()->notifications->table_name, $data, $data_format );
 	}
@@ -261,7 +261,7 @@ class BP_Notifications_Notification {
 	 * @param array $where_format See {@link wpdb::insert()}.
 	 * @return int|false The number of rows updated, or false on error.
 	 */
-	protected static function _update( $data = array(), $where = array(), $data_format = array(), $where_format = array() ) {
+	protected static function _update( $data = array(), $where = array(), $data_format = array(), $where_format = array() ) { // phpcs:ignore PSR2.Methods.MethodDeclaration.Underscore -- Retains the established method name for backward compatibility.
 		global $wpdb;
 		return $wpdb->update( buddypress()->notifications->table_name, $data, $where, $data_format, $where_format );
 	}
@@ -281,7 +281,7 @@ class BP_Notifications_Notification {
 	 * @param array $where_format See {@link wpdb::insert()}.
 	 * @return int|false The number of rows updated, or false on error.
 	 */
-	protected static function _delete( $where = array(), $where_format = array() ) {
+	protected static function _delete( $where = array(), $where_format = array() ) { // phpcs:ignore PSR2.Methods.MethodDeclaration.Underscore -- Retains the established method name for backward compatibility.
 		global $wpdb;
 		return $wpdb->delete( buddypress()->notifications->table_name, $where, $where_format );
 	}

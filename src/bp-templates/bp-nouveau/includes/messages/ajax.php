@@ -510,6 +510,7 @@ function bp_nouveau_ajax_get_user_message_threads() {
 	);
 
 	if ( array_filter( $extra_content ) ) {
+		// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- JavaScript consumers require the existing extraContent response property.
 		$threads->extraContent = $extra_content;
 	}
 
