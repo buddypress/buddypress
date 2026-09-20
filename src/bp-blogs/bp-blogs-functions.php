@@ -1603,9 +1603,9 @@ function bp_blogs_validate_blog_form( $blog_name = '', $blog_title = '' ) {
  *
  * @since 7.0.0
  *
- * @param integer $blog_id The ID of the blog to get the site icon URL for.
- * @param integer $size    The size of the site icon.
- * @return string          The site icon URL
+ * @param int $blog_id The ID of the blog to get the site icon URL for.
+ * @param int $size    The size of the site icon.
+ * @return string
  */
 function bp_blogs_get_site_icon_url( $blog_id = 0, $size = 512 ) {
 	if ( is_multisite() && ! bp_is_network_activated() && ! bp_is_root_blog( $blog_id ) ) {

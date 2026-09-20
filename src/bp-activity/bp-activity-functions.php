@@ -3288,7 +3288,7 @@ function bp_activity_get_permalink( $activity_id, $activity_obj = false ) {
  * @since 3.0.0
  *
  * @param  BP_Activity_Activity $activity Activity object.
- * @param  integer              $user_id  User ID.
+ * @param  int                  $user_id  User ID.
  * @return bool
  */
 function bp_activity_user_can_read( $activity, $user_id = 0 ) {

@@ -155,8 +155,8 @@ class BP_Nouveau_Group_Invite_Query extends BP_User_Query {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param integer $user_id  The User ID.
-	 * @param integer $group_id The Group ID.
+	 * @param int $user_id  The User ID.
+	 * @param int $group_id The Group ID.
 	 * @return array            Matching BP_Invitation objects.
 	 */
 	public static function get_inviter_ids( $user_id = 0, $group_id = 0 ) {

@@ -187,9 +187,9 @@ function bp_members_get_path_chunks( $chunks = array() ) {
  *
  * @since 12.0.0
  *
- * @param integer $user_id  The user ID.
- * @param array   $path_chunks {
- *     An array of arguments. Optional.
+ * @param int   $user_id  The user ID.
+ * @param array $path_chunks {
+ *   An array of arguments. Optional.
  *
  *     @type string $single_item_component        The component slug the action is relative to.
  *     @type string $single_item_action           The slug of the action to perform.
@@ -224,7 +224,7 @@ function bp_members_get_user_url( $user_id = 0, $path_chunks = array() ) {
 	 * @since 12.0.0
 	 *
 	 * @param string  $url      The user url.
-	 * @param integer $user_id  The user ID.
+	 * @param int     $user_id  The user ID.
 	 * @param string  $slug     The user slug.
 	 * @param array   $path_chunks {
 	 *     An array of arguments. Optional.
@@ -320,7 +320,7 @@ function bp_core_get_userid_from_nicename( $user_nicename = '' ) {
  *
  * @since 12.0.0
  *
- * @param integer $user_id The User ID.
+ * @param int $user_id The User ID.
  * @return string The member slug.
  */
 function bp_members_get_user_slug( $user_id = 0 ) {
@@ -349,8 +349,8 @@ function bp_members_get_user_slug( $user_id = 0 ) {
 	 *
 	 * @since 12.0.0
 	 *
-	 * @param string $slug     The user's slug.
-	 * @param integer $user_id The user ID.
+	 * @param string $slug    The user's slug.
+	 * @param int    $user_id The user ID.
 	 */
 	return apply_filters( 'bp_members_get_user_slug', $slug, $user_id );
 }
@@ -1886,7 +1886,7 @@ function bp_core_signup_user( $user_login, $user_password, $user_email, $usermet
 		 * @since 14.0.0
 		 * @todo Fully deprecate in 15.0.0
 		 *
-		 * @param boolean $create_user True to carry on creating a user when a registration is performed.
+		 * @param bool $create_user True to carry on creating a user when a registration is performed.
 		 *                             False otherwise.
 		 */
 		if ( apply_filters( 'bp_signups_create_user', $create_user ) ) {

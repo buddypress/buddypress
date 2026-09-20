@@ -227,7 +227,7 @@ function bp_nouveau_activity_timestamp() {
 		 *
 		 * @since 3.0.0
 		 *
-		 * @param integer $value The Activity timestamp.
+		 * @param int $activity_timestamp The Activity timestamp.
 		 */
 		return apply_filters( 'bp_nouveau_get_activity_timestamp', strtotime( bp_get_activity_date_recorded() ) );
 	}

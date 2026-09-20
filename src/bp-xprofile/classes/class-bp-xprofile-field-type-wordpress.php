@@ -97,8 +97,8 @@ abstract class BP_XProfile_Field_Type_WordPress extends BP_XProfile_Field_Type {
 	 *
 	 * @since 8.0.0
 	 *
-	 * @param string  $value The user field value.
-	 * @param integer $user_id The user ID.
+	 * @param string $value   The user field value.
+	 * @param int    $user_id The user ID.
 	 */
 	abstract public function sanitize_for_output( $value, $user_id = 0 );
 
@@ -107,10 +107,10 @@ abstract class BP_XProfile_Field_Type_WordPress extends BP_XProfile_Field_Type {
 	 *
 	 * @since 8.0.0
 	 *
-	 * @param boolean $retval Whether to shortcircuit the $bp->profile->table_name_data table.
-	 *                        Default `false`.
-	 * @param array   $field_args {
-	 *       An array of arguments.
+	 * @param bool  $retval Whether to shortcircuit the $bp->profile->table_name_data table.
+	 *                         Default `false`.
+	 * @param array $field_args {
+	 *     An array of arguments.
 	 *
 	 *     @type object            $field_type_obj Field type object.
 	 *     @type BP_XProfile_Field $field          Field object.
@@ -158,8 +158,8 @@ abstract class BP_XProfile_Field_Type_WordPress extends BP_XProfile_Field_Type {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @param integer $user_id The user ID.
-	 * @param integer $field_id The xProfile field ID.
+	 * @param int $user_id  The user ID.
+	 * @param int $field_id The xProfile field ID.
 	 * @return array An array containing the metadata `id`, `value` and `table_name`.
 	 */
 	public function get_field_value( $user_id, $field_id = 0 ) {

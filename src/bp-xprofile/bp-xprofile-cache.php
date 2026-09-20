@@ -305,7 +305,7 @@ add_action( 'xprofile_updated_profile', 'bp_core_clear_cache' );
  *
  * @since 8.0.0
  *
- * @param integer $user_id The user ID.
+ * @param int $user_id The user ID.
  */
 function bp_xprofile_reset_user_mid_cache( $user_id ) {
 	wp_cache_delete( $user_id, 'bp_user_mid' );

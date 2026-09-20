@@ -360,7 +360,7 @@ class BP_XProfile_Field {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @param boolean $delete_data Whether or not to delete data.
+	 * @param bool $delete_data Whether or not to delete data.
 	 * @return bool
 	 */
 	public function delete( $delete_data = false ) {

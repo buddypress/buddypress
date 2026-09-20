@@ -235,7 +235,7 @@ class BP_Groups_Component extends BP_Component {
 	 * @since 12.0.0
 	 *
 	 * @param string $group_slug The current action which is possibly a group slug.
-	 * @return BP_Groups_Group|Object|integer A group's object or 0 if no groups were found.
+	 * @return BP_Groups_Group|Object|int A group's object or 0 if no groups were found.
 	 */
 	public function setup_current_group( $group_slug = '' ) {
 		if ( ! bp_is_groups_component() || ! $group_slug ) {

@@ -1177,7 +1177,7 @@ class BP_Activity_REST_Controller extends WP_REST_Controller {
 	 * @since 15.0.0
 	 *
 	 * @param  WP_REST_Request $request Full details about the request.
-	 * @return boolean
+	 * @return bool
 	 */
 	protected function can_see( $request ) {
 		return bp_activity_user_can_read(
@@ -1193,7 +1193,7 @@ class BP_Activity_REST_Controller extends WP_REST_Controller {
 	 *
 	 * @param  string $component The component the activity is from.
 	 * @param  int    $item_id   The activity item ID.
-	 * @return boolean
+	 * @return bool
 	 */
 	protected function show_hidden( $component, $item_id ) {
 		$user_id = get_current_user_id();

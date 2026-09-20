@@ -1091,7 +1091,7 @@ add_action( 'bp_init', 'bp_register_buddypress_theme_feature' );
  * @param bool  $supports Whether the active theme supports the given feature. Default false.
  * @param array $args     Array of arguments for the feature.
  * @param mixed $feature  The theme feature.
- * @return boolean True if the feature is supported. False otherwise.
+ * @return bool True if the feature is supported. False otherwise.
  */
 function _bp_filter_current_theme_supports( $supports = false, $args = array(), $feature = null ) {
 	$is_expected_params = array();

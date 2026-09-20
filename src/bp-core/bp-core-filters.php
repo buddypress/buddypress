@@ -907,10 +907,10 @@ add_filter( 'wp_setup_nav_menu_item', 'bp_setup_nav_menu_item', 10, 1 );
  *
  * @since 2.3.3
  *
- * @param array   $items  The array of menu items.
- * @param string  $type   The requested type.
- * @param string  $object The requested object name.
- * @param integer $page   The page num being requested.
+ * @param array  $items  The array of menu items.
+ * @param string $type   The requested type.
+ * @param string $object The requested object name.
+ * @param int    $page   The page num being requested.
  * @return array The paginated BuddyPress user nav items.
  */
 function bp_customizer_nav_menus_get_items( $items = array(), $type = '', $object = '', $page = 0 ) {

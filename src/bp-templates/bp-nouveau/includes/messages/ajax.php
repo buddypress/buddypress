@@ -187,7 +187,7 @@ function bp_nouveau_ajax_messages_send_message() {
  *
  * @since 15.0.0
  *
- * @param integer $user_id The User ID.
+ * @param int $user_id The User ID.
  * @return array
  */
 function bp_nouveau_ajax_get_message_recipients_data( $user_id ) {
@@ -221,7 +221,7 @@ function bp_nouveau_ajax_get_message_recipients_data( $user_id ) {
  *
  * @since 15.0.0
  *
- * @param integer $user_id The User ID.
+ * @param int $user_id The User ID.
  * @return array
  */
 function bp_nouveau_ajax_get_message_sender_data( $user_id ) {

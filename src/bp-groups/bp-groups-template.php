@@ -270,8 +270,8 @@ function bp_group_type_directory_link( $group_type = '' ) {
  * @since 2.7.0
  * @see   bp_get_group_type_list() for parameter documentation.
  *
- * @param integer $group_id The group ID.
- * @param array   $r        List parameters.
+ * @param int   $group_id The group ID.
+ * @param array $r        List parameters.
  */
 function bp_group_type_list( $group_id = 0, $r = array() ) {
 	// phpcs:ignore WordPress.Security.EscapeOutput
@@ -1282,9 +1282,9 @@ function bp_group_url( $group = false, $chunks = array() ) {
  *
  * @since 12.0.0
  *
- * @param integer|BP_Groups_Group $group The group ID or the Group object.
- * @param array                   $path_chunks {
- *     An array of arguments. Optional.
+ * @param int|BP_Groups_Group $group The group ID or the Group object.
+ * @param array               $path_chunks {
+ * An array of arguments. Optional.
  *
  *     @type string $single_item_action           The slug of the action to perform.
  *     @type array  $single_item_action_variables An array of additional informations about the action to perform.
@@ -1320,7 +1320,7 @@ function bp_get_group_url( $group = 0, $path_chunks = array() ) {
 	 * @since 12.0.0
 	 *
 	 * @param string  $url      The group url.
-	 * @param integer $group_id The group ID.
+	 * @param int     $group_id The group ID.
 	 * @param string  $slug     The group slug.
 	 * @param array   $path_chunks {
 	 *     An array of arguments. Optional.

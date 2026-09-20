@@ -76,7 +76,7 @@ add_action( 'bp_register_activity_actions', 'groups_register_activity_actions' )
  *
  * @since 5.0.0
  *
- * @param integer $group_id The group ID the activity is linked to.
+ * @param int $group_id The group ID the activity is linked to.
  * @return BP_Groups_Group  The group object the activity belongs to.
  */
 function bp_groups_get_activity_group( $group_id = 0 ) {

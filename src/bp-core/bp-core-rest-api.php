@@ -100,8 +100,8 @@ function bp_rest_version() {
  *
  * @since 9.0.0
  *
- * @param integer $object_id   Object ID.
- * @param string  $object_path Path of the component endpoint.
+ * @param int    $object_id   Object ID.
+ * @param string $object_path Path of the component endpoint.
  * @return string
  */
 function bp_rest_get_object_url( $object_id, $object_path ) {
@@ -122,9 +122,9 @@ function bp_rest_get_object_url( $object_id, $object_path ) {
  * @since 5.0.0
  *
  * @param  WP_REST_Response $response The response data.
- * @param  integer          $total    The total number of found items.
- * @param  integer          $per_page The number of items per page of results.
- * @return WP_REST_Response $response The response data.
+ * @param  int              $total    The total number of found items.
+ * @param  int              $per_page The number of items per page of results.
+ * @return WP_REST_Response
  */
 function bp_rest_response_add_total_headers( WP_REST_Response $response, $total = 0, $per_page = 0 ) {
 	if ( ! $total || ! $per_page ) {

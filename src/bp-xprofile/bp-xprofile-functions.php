@@ -498,7 +498,7 @@ function xprofile_set_field_data( $field, $user_id, $value, $is_required = false
 	 *
 	 * @since 8.0.0
 	 *
-	 * @param boolean Whether to shortcircuit the $bp->profile->table_name_data table.
+	 * @param bool  Whether to shortcircuit the $bp->profile->table_name_data table.
 	 * @param array $field_args {
 	 *     An array of arguments.
 	 *

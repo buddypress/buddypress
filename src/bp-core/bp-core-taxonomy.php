@@ -519,9 +519,9 @@ function bp_delete_term( $term_id = 0, $taxonomy = '' ) {
 	 *
 	 * @since 7.0.0
 	 *
-	 * @param boolean $deleted True.
-	 * @param int     $term_id  The deleted BP Term ID.
-	 * @param string  $taxonomy The BP Taxonomy Name of the deleted BP Term ID.
+	 * @param bool   $deleted  The status of the BP term deletion.
+	 * @param int    $term_id  The deleted BP Term ID.
+	 * @param string $taxonomy The BP Taxonomy Name of the deleted BP Term ID.
 	 */
 	do_action( 'bp_delete_term', $deleted, $term_id, $taxonomy );
 

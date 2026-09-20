@@ -351,7 +351,7 @@ class BP_Attachment_Avatar extends BP_Attachment {
 	 *
 	 * @since 2.3.0
 	 *
-	 * @return integer The user ID.
+	 * @return int The user ID.
 	 */
 	private function get_user_id() {
 		$bp      = buddypress();
@@ -373,7 +373,7 @@ class BP_Attachment_Avatar extends BP_Attachment {
 	 *
 	 * @since 2.3.0
 	 *
-	 * @return integer The group ID.
+	 * @return int The group ID.
 	 */
 	private function get_group_id() {
 		$group_id = 0;

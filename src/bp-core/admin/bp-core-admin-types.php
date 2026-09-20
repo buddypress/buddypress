@@ -101,8 +101,8 @@ function bp_core_admin_insert_type( $args = array() ) {
 	 *
 	 * @since 7.0.0
 	 *
-	 * @param boolean $existing_type True if the type exists. False otherwise.
-	 * @param string  $type_id       The Type's ID.
+	 * @param bool   $existing_type True if the type exists. False otherwise.
+	 * @param string $type_id       The Type's ID.
 	 */
 	$type_exists = apply_filters( "{$type_taxonomy}_check_existing_type", false, $type_id );
 
@@ -147,9 +147,9 @@ function bp_core_admin_insert_type( $args = array() ) {
 	 *
 	 * @since 7.0.0
 	 *
-	 * @param integer $type_term_id  The Type's term_ID.
-	 * @param string  $type_taxonomy The Type's taxonomy name.
-	 * @param string  $type_id       The Type's ID.
+	 * @param int    $type_term_id  The Type's term_ID.
+	 * @param string $type_taxonomy The Type's taxonomy name.
+	 * @param string $type_id       The Type's ID.
 	 */
 	do_action( 'bp_type_inserted', $type_term_id, $type_taxonomy, $type_id );
 
@@ -220,8 +220,8 @@ function bp_core_admin_update_type( $args = array() ) {
 	 *
 	 * @since 7.0.0
 	 *
-	 * @param integer $type_term_id  The Type's term_ID.
-	 * @param string  $type_taxonomy The Type's taxonomy name.
+	 * @param int    $type_term_id  The Type's term_ID.
+	 * @param string $type_taxonomy The Type's taxonomy name.
 	 */
 	do_action( 'bp_type_updated', $type_term_id, $type_taxonomy );
 
@@ -301,8 +301,8 @@ function bp_core_admin_delete_type( $args = array() ) {
 	 *
 	 * @since 7.0.0
 	 *
-	 * @param integer $type_term_id  The Type's term_ID.
-	 * @param string  $type_taxonomy The Type's taxonomy name.
+	 * @param int    $type_term_id  The Type's term_ID.
+	 * @param string $type_taxonomy The Type's taxonomy name.
 	 */
 	do_action( 'bp_type_deleted', $type_term_id, $type_taxonomy );
 

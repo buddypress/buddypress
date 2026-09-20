@@ -448,7 +448,7 @@ class BP_Messages_Thread {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @param integer $thread_id The message thread ID.
+	 * @param int $thread_id The message thread ID.
 	 * @return object|null
 	 */
 	public static function get_latest_thread_message( $thread_id ) {
@@ -485,7 +485,7 @@ class BP_Messages_Thread {
 		 * @since 12.0.0
 		 *
 		 * @param object|null $message   Latest thread message or null.
-		 * @param integer     $thread_id ID of the thread.
+		 * @param int         $thread_id ID of the thread.
 		 */
 		return apply_filters( 'messages_thread_get_latest_message', $message, $thread_id );
 	}
@@ -1046,8 +1046,8 @@ class BP_Messages_Thread {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @param integer $thread_id The message thread ID.
-	 * @return integer Total thread message count
+	 * @param int $thread_id The message thread ID.
+	 * @return int Total thread message count
 	 */
 	public static function get_total_thread_message_count( $thread_id ) {
 		global $wpdb;
@@ -1070,8 +1070,8 @@ class BP_Messages_Thread {
 		 *
 		 * @since 12.0.0
 		 *
-		 * @param integer $total_count Total thread messages count.
-		 * @param integer $thread_id   ID of the thread.
+		 * @param int $total_count Total thread messages count.
+		 * @param int $thread_id   ID of the thread.
 		 */
 		return (int) apply_filters( 'messages_thread_get_total_message_count', $total_count, (int) $thread_id );
 	}

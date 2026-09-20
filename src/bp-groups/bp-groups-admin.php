@@ -1667,8 +1667,8 @@ add_action( bp_core_admin_hook(), 'bp_groups_admin_groups_type_change_notice' );
  *
  * @since 7.0.0
  *
- * @param  boolean $exists  True if the group type already exists. False otherwise.
- * @param  string  $type_id The group type identifier.
+ * @param  bool   $exists  True if the group type already exists. False otherwise.
+ * @param  string $type_id The group type identifier.
  * @return bool          True if the group type already exists. False otherwise.
  */
 function bp_groups_type_admin_type_exists( $exists = false, $type_id = '' ) {

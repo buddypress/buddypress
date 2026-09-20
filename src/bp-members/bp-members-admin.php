@@ -70,8 +70,8 @@ add_action( 'bp_admin_menu', 'bp_members_type_admin_menu' );
  *
  * @since 7.0.0
  *
- * @param  boolean $exists  True if the member type already exists. False otherwise.
- * @param  string  $type_id The member type identifier.
+ * @param  bool   $exists  True if the member type already exists. False otherwise.
+ * @param  string $type_id The member type identifier.
  * @return bool True if the member type already exists. False otherwise.
  */
 function bp_members_type_admin_type_exists( $exists = false, $type_id = '' ) {

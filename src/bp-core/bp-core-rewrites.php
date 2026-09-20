@@ -84,11 +84,11 @@ function bp_rewrites_get_slug( $component_id = '', $rewrite_id = '', $default_sl
 	 *
 	 * @since 12.0.0
 	 *
-	 * @param boolean $using_legacy Whether the legacy URL parser is in use.
-	 *                              In this case, slug customization is not supported.
-	 * @param string  $default_slug The screen default slug, used as a fallback.
-	 * @param string  $rewrite_id   The screen rewrite ID, used to find the custom slugs.
-	 * @param string  $component_id The BuddyPress component's ID.
+	 * @param bool   $using_legacy Whether the legacy URL parser is in use.
+	 *                             In this case, slug customization is not supported.
+	 * @param string $default_slug The screen default slug, used as a fallback.
+	 * @param string $rewrite_id   The screen rewrite ID, used to find the custom slugs.
+	 * @param string $component_id The BuddyPress component's ID.
 	 */
 	$use_default_slug = apply_filters( 'bp_rewrites_pre_get_slug', $using_legacy, $default_slug, $rewrite_id, $component_id );
 	if ( $use_default_slug ) {

@@ -53,7 +53,7 @@ function bp_activity_akismet_delete_old_metadata() {
 	 *
 	 * @since 1.6.0
 	 *
-	 * @param integer 15 How many days old metadata needs to be.
+	 * @param int $delelete_meta_interval 15 How many days old metadata needs to be.
 	 */
 	$interval = apply_filters( 'bp_activity_akismet_delete_meta_interval', 15 );
 

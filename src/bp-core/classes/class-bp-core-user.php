@@ -129,9 +129,9 @@ class BP_Core_User {
 	/**
 	 * Class constructor.
 	 *
-	 * @param integer $user_id         The ID for the user being queried.
-	 * @param bool    $populate_extras Optional. Whether to fetch extra information such as
-	 *                                 group/friendship counts or not. Default: false.
+	 * @param int  $user_id         The ID for the user being queried.
+	 * @param bool $populate_extras Optional. Whether to fetch extra information such as
+	 *                              group/friendship counts or not. Default: false.
 	 */
 	public function __construct( $user_id, $populate_extras = false ) {
 		if ( ! empty( $user_id ) ) {
@@ -664,7 +664,7 @@ class BP_Core_User {
 	 *                                  value column for.
 	 * @param int|null $limit           The limit of results we want.
 	 * @param int      $page            The page we are on for pagination.
-	 * @param boolean  $populate_extras If we should populate extra user fields.
+	 * @param bool     $populate_extras If we should populate extra user fields.
 	 * @return array Associative array.
 	 */
 	public static function search_users( $search_terms, $limit = null, $page = 1, $populate_extras = true ) {

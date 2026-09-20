@@ -144,7 +144,7 @@ function bp_is_running_wp( $version, $compare = '>=' ) {
  *
  * @since 15.0.0
  *
- * @return boolean True if BuddyPress was loaded from the `src` subdirectory, false otherwise.
+ * @return bool True if BuddyPress was loaded from the `src` subdirectory, false otherwise.
  */
 function bp_is_running_from_src_subdirectory() {
 	$is_src = defined( 'BP_SOURCE_SUBDIRECTORY' ) && BP_SOURCE_SUBDIRECTORY === 'src';
@@ -154,7 +154,7 @@ function bp_is_running_from_src_subdirectory() {
 	 *
 	 * @since 15.0.0
 	 *
-	 * @param boolean $is_src True if BuddyPress was loaded from the `src` subdirectory, false otherwise.
+	 * @param bool $is_src True if BuddyPress was loaded from the `src` subdirectory, false otherwise.
 	 */
 	return apply_filters( 'bp_is_running_from_src_subdirectory', $is_src );
 }
@@ -843,11 +843,11 @@ function bp_core_get_directory_pages() {
  * @since 1.7.0
  * @since 12.0.0 Adds the `$return_pages` parameter.
  *
- * @param array   $components   Components to create pages for.
- * @param string  $existing     'delete' if you want to delete existing page mappings
- *                              and replace with new ones. Otherwise existing page mappings
- *                              are kept, and the gaps filled in with new pages. Default: 'keep'.
- * @param boolean $return_pages Whether to return the page mapping or not.
+ * @param array  $components   Components to create pages for.
+ * @param string $existing     'delete' if you want to delete existing page mappings
+ *                             and replace with new ones. Otherwise existing page mappings
+ *                             are kept, and the gaps filled in with new pages. Default: 'keep'.
+ * @param bool   $return_pages Whether to return the page mapping or not.
  * @return array|null
  */
 function bp_core_add_page_mappings( $components, $existing = 'keep', $return_pages = false ) {
@@ -3520,8 +3520,8 @@ function bp_get_email_tax_type_args() {
  *
  * @since 7.0.0
  *
- * @param  boolean $suppress_filters Whether to suppress filters. Default `false`.
- * @param  string  $type_taxonomy    Optional. the Type's taxonomy name.
+ * @param  bool   $suppress_filters Whether to suppress filters. Default `false`.
+ * @param  string $type_taxonomy    Optional. the Type's taxonomy name.
  * @return array                     The default BuddyPress type metadata schema.
  */
 function bp_get_type_metadata_schema( $suppress_filters = false, $type_taxonomy = '' ) {
@@ -3594,10 +3594,10 @@ function bp_register_type_meta( $type_tax, $meta_key, array $args ) {
  *
  * @since 7.0.0
  *
- * @param  integer $type_id    The database ID of the BP Type.
- * @param  string  $taxonomy   The BP Type taxonomy.
- * @param  array   $type_metas An associative array (meta_key=>meta_value).
- * @return bool             False on failure. True otherwise.
+ * @param  int    $type_id    The database ID of the BP Type.
+ * @param  string $taxonomy   The BP Type taxonomy.
+ * @param  array  $type_metas An associative array (meta_key=>meta_value).
+ * @return bool
  */
 function bp_update_type_metadata( $type_id = 0, $taxonomy = '', $type_metas = array() ) {
 	if ( ! $type_id || ! $taxonomy || ! is_array( $type_metas ) ) {
@@ -5112,7 +5112,7 @@ function bp_get_post_type_site_id() {
 	 *
 	 * @since 12.0.0
 	 *
-	 * @param integer $site_id The site ID to register the post type on.
+	 * @param int $site_id The site ID to register the post type on.
 	 */
 	return (int) apply_filters( 'bp_get_post_type_site_id', $site_id );
 }
@@ -5319,7 +5319,7 @@ function bp_core_get_admin_notifications() {
  * @since 15.0.0
  *
  * @param string $screen_id The specific screen ID to check.
- * @return boolean True if a BuddyPress admin screen is displayed. False otherwise.
+ * @return bool True if a BuddyPress admin screen is displayed. False otherwise.
  */
 function bp_is_admin( $screen_id = '' ) {
 	$bp = buddypress();

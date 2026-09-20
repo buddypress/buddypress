@@ -64,7 +64,7 @@ function bp_core_add_notification( $item_id, $user_id, $component_name, $compone
  * @since 1.0.0
  *
  * @param int $id ID of notification.
- * @return false|integer True on success, false on failure.
+ * @return false|int True on success, false on failure.
  */
 function bp_core_delete_notification( $id ) {
 

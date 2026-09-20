@@ -32,7 +32,7 @@ add_action( 'bp_admin_enqueue_scripts', 'bp_groups_register_scripts', 1 );
  *
  * @since 5.0.0
  *
- * @param  integer $group_id Required. The Group ID whose members has to be managed.
+ * @param  int $group_id Required. The Group ID whose members has to be managed.
  * @return array   The JavaScript data.
  */
 function bp_groups_get_group_manage_members_script_data( $group_id = 0 ) {

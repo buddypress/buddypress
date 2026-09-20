@@ -1396,7 +1396,7 @@ class BP_Members_Admin {
 		 *
 		 * @since 15.0.0
 		 *
-		 * @param boolean $disabled True to disable the primary action. False otherwise.
+		 * @param bool $disabled True to disable the primary action. False otherwise.
 		 */
 		$disable_primary_action = apply_filters(
 			'bp_members_admin_profile_disable_major_primary_action',

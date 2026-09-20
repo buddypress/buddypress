@@ -70,8 +70,8 @@ class BP_XProfile_Field_Type_WordPress_Textbox extends BP_XProfile_Field_Type_Wo
 	 *
 	 * @since 8.0.0
 	 *
-	 * @param integer $user_id The user ID.
-	 * @param integer $field_id The xProfile field ID.
+	 * @param int $user_id  The user ID.
+	 * @param int $field_id The xProfile field ID.
 	 * @return array An array containing the metadata `id`, `value` and `table_name`.
 	 */
 	public function get_field_value( $user_id, $field_id = 0 ) {

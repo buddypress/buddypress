@@ -4019,9 +4019,9 @@ function bp_get_group_extension_screens( $context = 'read' ) {
  *
  * @since 12.0.0
  *
- * @param string  $context  The display context. Required. Defaults to `read`.
- *                          Possible values are `read`, `manage` or `create`.
- * @param boolean $built_in True to only get builtin screens. False otherwise.
+ * @param string $context  The display context. Required. Defaults to `read`.
+ *                         Possible values are `read`, `manage` or `create`.
+ * @param bool   $built_in True to only get builtin screens. False otherwise.
  * @return array            The list of potential Group screens.
  */
 function bp_get_group_screens( $context = 'read', $built_in = false ) {

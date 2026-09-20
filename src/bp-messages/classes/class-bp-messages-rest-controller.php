@@ -522,7 +522,7 @@ class BP_Messages_REST_Controller extends WP_REST_Controller {
 		 *
 		 * @since 15.0.0
 		 *
-		 * @param boolean             $value           Whether the user can edit the message meta.
+		 * @param bool                $value           Whether the user can edit the message meta.
 		 *                                             By default: only the sender and a community moderator can.
 		 * @param BP_Messages_Message $updated_message The updated message object.
 		 * @param WP_REST_Request     $request         Full details about the request.
