@@ -396,6 +396,34 @@ class BP_Tests_BP_Group_Member_Query_TestCases extends BP_UnitTestCase {
 		$this->assertSame( array( $u1, $u2 ), $ids );
 	}
 
+	public function test_get_with_matching_join_dates_has_deterministic_order() {
+		$g    = self::factory()->group->create();
+		$u1   = self::factory()->user->create();
+		$u2   = self::factory()->user->create();
+		$date = bp_core_current_time();
+
+		$this->add_user_to_group( $u1, $g, array( 'date_modified' => $date ) );
+		$this->add_user_to_group( $u2, $g, array( 'date_modified' => $date ) );
+
+		$last_joined = new BP_Group_Member_Query(
+			array(
+				'group_id' => $g,
+				'type'     => 'last_joined',
+			)
+		);
+
+		$this->assertSame( array( $u1, $u2 ), array_keys( $last_joined->results ) );
+
+		$first_joined = new BP_Group_Member_Query(
+			array(
+				'group_id' => $g,
+				'type'     => 'first_joined',
+			)
+		);
+
+		$this->assertSame( array( $u1, $u2 ), array_keys( $first_joined->results ) );
+	}
+
 	/**
 	 * @group type
 	 * @group group_activity
