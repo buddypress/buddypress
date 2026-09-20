@@ -161,7 +161,11 @@ class BP_Tests_Group_Membership_REST_Controller extends BP_Test_REST_Controller_
 			array( 'status' => 'hidden' )
 		);
 
-		$this->populate_group_with_members( array( $u1, $u2, $u3, $u4, $u5, $u6 ), $g1 );
+		$this->populate_group_with_members(
+			array( $u1, $u2, $u3, $u4, $u5, $u6 ),
+			$g1,
+			array( 'date_modified' => bp_core_current_time() )
+		);
 
 		wp_set_current_user( $u1 );
 
@@ -1554,12 +1558,13 @@ class BP_Tests_Group_Membership_REST_Controller extends BP_Test_REST_Controller_
 	/**
 	 * Add member to the group.
 	 *
-	 * @param int[] $members Array of user IDs.
+	 * @param int[] $members  Array of user IDs.
 	 * @param int   $group_id Group ID.
+	 * @param array $args     Optional. Group membership arguments.
 	 */
-	protected function populate_group_with_members( $members, $group_id ) {
+	protected function populate_group_with_members( $members, $group_id, $args = array() ) {
 		foreach ( $members as $member_id ) {
-			$this->bp::add_user_to_group( $member_id, $group_id );
+			$this->bp::add_user_to_group( $member_id, $group_id, $args );
 		}
 	}
 
