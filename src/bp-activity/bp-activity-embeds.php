@@ -213,7 +213,7 @@ function bp_activity_embed_media() {
 			'discover' => true,
 		);
 		$url             = $media['embeds'][0]['url'];
-		$cachekey        = '_oembed_response_' . md5( $url . serialize( $oembed_args ) );
+		$cachekey        = '_oembed_response_' . md5( $url . serialize( $oembed_args ) ); // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_serialize -- Retain the established cache key format.
 
 		// Try to fetch oEmbed response from meta.
 		$oembed = bp_activity_get_meta( bp_get_activity_id(), $cachekey );

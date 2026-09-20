@@ -783,6 +783,7 @@ class BP_Signup {
 			buddypress()->members->table_name_signups,
 			// Data to update.
 			array(
+				// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_serialize -- Signup metadata uses the established serialized storage format.
 				'meta' => serialize( $blended_meta ),
 			),
 			// WHERE.

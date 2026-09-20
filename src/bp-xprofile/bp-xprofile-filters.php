@@ -253,6 +253,7 @@ function xprofile_sanitize_data_value_before_save( $field_value, $field_id = 0, 
 		}
 
 		if ( ! empty( $reserialize ) ) {
+			// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_serialize -- Preserve the existing profile field storage format.
 			$filtered_field_value = serialize( $filtered_values );
 		} else {
 			$filtered_field_value = $filtered_values;

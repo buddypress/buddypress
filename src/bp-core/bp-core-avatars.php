@@ -882,6 +882,7 @@ function bp_core_delete_existing_avatar( $args = '' ) {
 		closedir( $av_dir );
 	}
 
+	// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_rmdir -- This path requires a direct filesystem operation.
 	@rmdir( $avatar_folder_dir );
 
 	/**
@@ -1285,6 +1286,7 @@ function bp_avatar_handle_capture( $data = '', $item_id = 0, $retval = 'boolean'
 
 	$original_file = $avatar_folder_dir . '/webcam-capture-' . $item_id . '.png';
 
+	// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents -- This path requires a direct filesystem operation.
 	if ( file_put_contents( $original_file, $data ) ) {
 		$avatar_to_crop = str_replace( bp_core_avatar_upload_path(), '', $original_file );
 

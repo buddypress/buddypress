@@ -1000,6 +1000,7 @@ function bp_the_profile_field_visibility_level_label() {
  */
 function bp_unserialize_profile_field( $value ) {
 	if ( is_serialized( $value ) ) {
+		// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_unserialize -- Support existing serialized profile field values.
 		$field_value = @unserialize( $value );
 		$field_value = implode( ', ', $field_value );
 		return $field_value;

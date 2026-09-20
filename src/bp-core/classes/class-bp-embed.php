@@ -186,6 +186,7 @@ class BP_Embed extends WP_Embed {
 
 		if ( $id ) {
 			// Setup the cache key.
+			// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_serialize -- Retain the established cache key format.
 			$cachekey = '_oembed_' . md5( $url . serialize( $attr ) );
 
 			// Let components / plugins grab their cache.
