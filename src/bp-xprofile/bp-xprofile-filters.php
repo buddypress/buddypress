@@ -672,7 +672,8 @@ function bp_xprofile_filter_meta_query( $q ) {
 
 	// Put quoted content back into the string.
 	if ( ! empty( $quoted_matches[0] ) ) {
-		for ( $i = 0; $i < count( $quoted_matches[0] ); $i++ ) {
+		$quoted_matches_count = count( $quoted_matches[0] );
+		for ( $i = 0; $i < $quoted_matches_count; $i++ ) {
 			$quote_pos = strpos( $q, '__QUOTE__' );
 			$q         = substr_replace( $q, $quoted_matches[0][ $i ], $quote_pos, 9 );
 		}
