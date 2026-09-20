@@ -467,7 +467,7 @@ function bp_blog_avatar( $args = '' ) {
 					esc_url( $site_icon ),
 					esc_attr( "{$r['class']} avatar-{$size}" ),
 					esc_attr( $size ),
-					esc_attr( $alt_attribute )
+					esc_attr( $r['alt'] )
 				);
 			}
 		}

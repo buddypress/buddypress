@@ -407,6 +407,7 @@ class BP_Tests_Blogs_Template extends BP_UnitTestCase {
 		$blogs_template = $reset_blogs_template;
 
 		$this->assertTrue( false !== strpos( $avatar, BP_TESTS_DIR . 'assets/upside-down.jpg' ) );
+		$this->assertTrue( false !== strpos( $avatar, 'alt="test"' ) );
 	}
 
 	/**
