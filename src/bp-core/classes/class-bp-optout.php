@@ -209,7 +209,7 @@ class BP_Optout {
 	 * @param array $data_format See {@link wpdb::insert()}.
 	 * @return int|false The number of rows inserted, or false on error.
 	 */
-	protected static function _insert( $data = array(), $data_format = array() ) {
+	protected static function _insert( $data = array(), $data_format = array() ) { // phpcs:ignore PSR2.Methods.MethodDeclaration.Underscore -- Retains the established method name for backward compatibility.
 		global $wpdb;
 
 		// We must lowercase and hash the email address at insert.
@@ -237,7 +237,7 @@ class BP_Optout {
 	 * @param array $where_format See {@link wpdb::insert()}.
 	 * @return int|false The number of rows updated, or false on error.
 	 */
-	protected static function _update( $data = array(), $where = array(), $data_format = array(), $where_format = array() ) {
+	protected static function _update( $data = array(), $where = array(), $data_format = array(), $where_format = array() ) { // phpcs:ignore PSR2.Methods.MethodDeclaration.Underscore -- Retains the established method name for backward compatibility.
 		global $wpdb;
 
 		// Ensure that a passed email address is lowercased and hashed.
@@ -264,7 +264,7 @@ class BP_Optout {
 	 * @param array $where_format See {@link wpdb::insert()}.
 	 * @return int|false The number of rows updated, or false on error.
 	 */
-	protected static function _delete( $where = array(), $where_format = array() ) {
+	protected static function _delete( $where = array(), $where_format = array() ) { // phpcs:ignore PSR2.Methods.MethodDeclaration.Underscore -- Retains the established method name for backward compatibility.
 		global $wpdb;
 		return $wpdb->delete( self::get_table_name(), $where, $where_format );
 	}

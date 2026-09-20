@@ -880,6 +880,7 @@ function bp_core_delete_existing_avatar( $args = '' ) {
 			}
 
 			if ( ( preg_match( '/-bpfull/', $avatar_file ) || preg_match( '/-bpthumb/', $avatar_file ) ) && '.' !== $avatar_file && '..' !== $avatar_file ) {
+				// phpcs:ignore WordPress.WP.AlternativeFunctions.unlink_unlink
 				@unlink( $avatar_folder_dir . '/' . $avatar_file );
 			}
 		}
@@ -1035,6 +1036,7 @@ function bp_core_avatar_handle_upload( $file, $upload_dir_filter ) {
 	} else {
 		$bp->avatar_admin->image->file = $bp->avatar_admin->resized['path'];
 		$bp->avatar_admin->image->dir  = str_replace( $upload_path, '', $bp->avatar_admin->resized['path'] );
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.unlink_unlink
 		@unlink( $bp->avatar_admin->original['file'] );
 	}
 
@@ -1427,6 +1429,7 @@ function bp_avatar_ajax_set() {
 
 		if ( ! empty( $avatar_data['original_file'] ) ) {
 			$webcam_avatar = str_replace( array( 'data:image/png;base64,', ' ' ), array( '', '+' ), $avatar_data['original_file'] );
+			// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_decode
 			$webcam_avatar = base64_decode( $webcam_avatar );
 		}
 
@@ -2464,6 +2467,7 @@ function bp_avatar_ajax_recycle_previous_avatar() {
 			$full_avatar_path = $avatar_dir_path . '/' . str_replace( 'bpfull', 'original-file', wp_basename( $avatar->path ) );
 
 			// Move the full version back to avatar dir.
+			// phpcs:ignore WordPress.WP.AlternativeFunctions.rename_rename
 			rename( $avatar->path, $full_avatar_path );
 
 			$avatar_types = $avatar_attachment->crop(
@@ -2480,6 +2484,7 @@ function bp_avatar_ajax_recycle_previous_avatar() {
 				$timestamp = str_replace( array( '-bpthumb', '-bpfull' ), '', $avatar_object->id );
 
 				if ( ! is_numeric( $timestamp ) && false !== strpos( $avatar_object->id, '-bpthumb' ) ) {
+					// phpcs:ignore WordPress.WP.AlternativeFunctions.unlink_unlink
 					@unlink( $avatar_object->path );
 				}
 			}
@@ -2489,6 +2494,7 @@ function bp_avatar_ajax_recycle_previous_avatar() {
 				$avatar_id    = pathinfo( $filename, PATHINFO_FILENAME );
 				$recycle_path = $avatar_dir_path . '/' . str_replace( $avatar_id, $recycle_timestamp . '-bp' . $type_key, $filename );
 
+				// phpcs:ignore WordPress.WP.AlternativeFunctions.rename_rename
 				if ( ! rename( $avatar_path, $recycle_path ) ) {
 					$recycle_errors[] = __( 'An unexpected error occured while recycling the previous profile photo.', 'buddypress' );
 				} else {
@@ -2661,6 +2667,7 @@ function bp_avatar_ajax_delete_previous_avatar() {
 			continue;
 		}
 
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.unlink_unlink
 		@unlink( $avatar_path );
 	}
 

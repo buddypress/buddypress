@@ -43,7 +43,7 @@ class BP_Theme_Compat {
 	 *
 	 * @var array
 	 */
-	protected $_data = array();
+	protected $_data = array(); // phpcs:ignore PSR2.Classes.PropertyDeclaration.Underscore -- Retains the established protected compatibility property.
 
 	/**
 	 * Pass the $properties to the object on creation.

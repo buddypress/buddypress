@@ -626,7 +626,7 @@ class BP_Group_Extension {
 	 *
 	 * @since 1.1.0
 	 */
-	public function _register() {
+	public function _register() { // phpcs:ignore PSR2.Methods.MethodDeclaration.Underscore -- Retains the established method name for backward compatibility.
 
 		// Detect and parse properties set by legacy extensions.
 		$this->parse_legacy_properties();
@@ -1056,7 +1056,7 @@ class BP_Group_Extension {
 	 *
 	 * @since 1.1.0
 	 */
-	public function _display_hook() {
+	public function _display_hook() { // phpcs:ignore PSR2.Methods.MethodDeclaration.Underscore -- Retains the established method name for backward compatibility.
 		add_action( 'bp_template_content', array( &$this, 'call_display' ) );
 
 		/**
@@ -1505,7 +1505,7 @@ class BP_Group_Extension {
 	 *
 	 * @since 1.7.0
 	 */
-	public function _meta_box_display_callback() {
+	public function _meta_box_display_callback() { // phpcs:ignore PSR2.Methods.MethodDeclaration.Underscore -- Retains the established method name for backward compatibility.
 		// phpcs:disable WordPress.Security.NonceVerification
 		$group_id = 0;
 		if ( isset( $_GET['gid'] ) ) {

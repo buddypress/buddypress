@@ -694,21 +694,30 @@ function bp_admin_reinstall_emails() {
 		$switched = true;
 	}
 
-	$emails = get_posts(
-		array(
-			'fields'           => 'ids',
-			'post_status'      => 'publish',
-			'post_type'        => bp_get_email_post_type(),
-			'posts_per_page'   => 200,
-			'suppress_filters' => false,
-		)
-	);
+	do {
+		$emails = get_posts(
+			array(
+				'fields'           => 'ids',
+				'orderby'          => 'ID',
+				'order'            => 'ASC',
+				'post_status'      => 'publish',
+				'post_type'        => bp_get_email_post_type(),
+				// phpcs:ignore WordPress.WP.PostsPerPage.posts_per_page_posts_per_page -- Process email posts in bounded batches so large customized email sets complete.
+				'posts_per_page'   => 200,
+				'suppress_filters' => false,
+			)
+		);
 
-	if ( $emails ) {
 		foreach ( $emails as $email_id ) {
-			wp_trash_post( $email_id );
+			if ( ! wp_trash_post( $email_id ) ) {
+				if ( $switched ) {
+					restore_current_blog();
+				}
+
+				return array( 1, __( 'Emails could not be fully reinstalled because an existing email could not be deleted.', 'buddypress' ) );
+			}
 		}
-	}
+	} while ( $emails );
 
 	$email_tax_type = bp_get_email_tax_type();
 
