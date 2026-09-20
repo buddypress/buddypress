@@ -344,6 +344,33 @@ class BP_Tests_Admin_Functions extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group bp_admin_reinstall_emails
+	 */
+	public function test_bp_admin_reinstall_emails_deletes_more_than_one_batch() {
+		$email_ids = self::factory()->post->create_many(
+			201,
+			array(
+				'post_status' => 'publish',
+				'post_type'   => bp_get_email_post_type(),
+			)
+		);
+
+		$result = bp_admin_reinstall_emails();
+		$this->assertSame( 0, $result[0] );
+
+		$published_email_ids = get_posts(
+			array(
+				'fields'         => 'ids',
+				'post__in'       => $email_ids,
+				'post_status'    => 'publish',
+				'post_type'      => bp_get_email_post_type(),
+				'posts_per_page' => -1,
+			)
+		);
+		$this->assertEmpty( $published_email_ids );
+	}
+
+	/**
 	 * @group bp_core_set_unique_directory_page_slug
 	 * @ticket BP9086
 	 */

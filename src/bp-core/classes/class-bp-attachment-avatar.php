@@ -289,6 +289,7 @@ class BP_Attachment_Avatar extends BP_Attachment {
 							);
 
 							if ( is_wp_error( $revision ) ) {
+								// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log -- Surface nonfatal avatar-history filesystem failures without logging user data.
 								error_log( $revision->get_error_message() );
 							}
 						}
