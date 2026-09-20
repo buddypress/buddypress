@@ -247,6 +247,8 @@ class BP_Core_User {
 	 *
 	 * Since BuddyPress 1.7, use {@link BP_User_Query} instead.
 	 *
+	 * @since 15.0.0 The `$include` parameter was renamed to `$include_ids`.
+	 *
 	 * @deprecated 1.7.0 Use {@link BP_User_Query}.
 	 *
 	 * @global wpdb $wpdb WordPress database object.
@@ -258,7 +260,7 @@ class BP_Core_User {
 	 * @param int         $limit           See {@link BP_User_Query}. Default: 0.
 	 * @param int         $page            See {@link BP_User_Query}. Default: 1.
 	 * @param int         $user_id         See {@link BP_User_Query}. Default: 0.
-	 * @param mixed       $include         See {@link BP_User_Query}. Default: false.
+	 * @param mixed       $include_ids     See {@link BP_User_Query}. Default: false.
 	 * @param string|bool $search_terms    See {@link BP_User_Query}.
 	 *                                     Default: false.
 	 * @param bool        $populate_extras See {@link BP_User_Query}.
@@ -275,7 +277,7 @@ class BP_Core_User {
 	 *                              query params.
 	 * }
 	 */
-	public static function get_users( $type, $limit = 0, $page = 1, $user_id = 0, $include = false, $search_terms = false, $populate_extras = true, $exclude = false, $meta_key = false, $meta_value = false ) {
+	public static function get_users( $type, $limit = 0, $page = 1, $user_id = 0, $include_ids = false, $search_terms = false, $populate_extras = true, $exclude = false, $meta_key = false, $meta_value = false ) {
 		global $wpdb;
 
 		_deprecated_function( __METHOD__, '1.7', 'BP_User_Query' );
@@ -345,13 +347,13 @@ class BP_Core_User {
 			$sql['where_exclude'] = "AND u.ID NOT IN ({$exclude})";
 		}
 
-		// Passing an $include value of 0 or '0' will necessarily result in an empty set
+		// Passing an $include_ids value of 0 or '0' will necessarily result in an empty set
 		// returned. The default value of false will hit the 'else' clause.
-		if ( 0 === $include || '0' === $include ) {
+		if ( 0 === $include_ids || '0' === $include_ids ) {
 			$sql['where_users'] = 'AND 0 = 1';
-		} elseif ( ! empty( $include ) ) {
-				$include            = implode( ',', wp_parse_id_list( $include ) );
-				$sql['where_users'] = "AND u.ID IN ({$include})";
+		} elseif ( ! empty( $include_ids ) ) {
+				$include_ids        = implode( ',', wp_parse_id_list( $include_ids ) );
+				$sql['where_users'] = "AND u.ID IN ({$include_ids})";
 		} elseif ( ! empty( $user_id ) && bp_is_active( 'friends' ) ) {
 			$friend_ids = friends_get_friend_user_ids( $user_id );
 

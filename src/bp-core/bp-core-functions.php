@@ -232,7 +232,7 @@ function bp_sort_by_key( $items, $key, $type = 'alpha', $preserve_keys = false )
 			0 => false,
 			1 => false,
 		);
-		foreach ( func_get_args() as $indexi => $index ) {
+		foreach ( array( $a, $b ) as $indexi => $index ) {
 			if ( isset( $index->{$key} ) ) {
 				$values[ $indexi ] = $index->{$key};
 			} elseif ( isset( $index[ $key ] ) ) {
@@ -1812,22 +1812,23 @@ add_action( 'wp_head', 'bp_core_record_activity' );
  * Format last activity string based on time since date given.
  *
  * @since 1.0.0
+ * @since 15.0.0 The `$string` parameter was renamed to `$format`.
  *
  * @param int|string $last_activity_date The date of last activity.
- * @param string     $string             A sprintf()-able statement of the form 'Active %s'.
+ * @param string     $format             A sprintf()-able statement of the form 'Active %s'.
  * @return string $last_active A string of the form '3 years ago'.
  */
-function bp_core_get_last_activity( $last_activity_date = '', $string = '' ) {
+function bp_core_get_last_activity( $last_activity_date = '', $format = '' ) {
 
 	// Setup a default string if none was passed.
-	$string = empty( $string )
+	$format = empty( $format )
 		? '%s'     // Gettext library's placeholder.
-		: $string;
+		: $format;
 
 	// Use the string if a last activity date was passed.
 	$last_active = empty( $last_activity_date )
 		? __( 'Not recently active', 'buddypress' )
-		: sprintf( $string, bp_core_time_since( $last_activity_date ) );
+		: sprintf( $format, bp_core_time_since( $last_activity_date ) );
 
 	/**
 	 * Filters last activity string based on time since date given.
@@ -1836,9 +1837,9 @@ function bp_core_get_last_activity( $last_activity_date = '', $string = '' ) {
 	 *
 	 * @param string $last_active        Last activity string based on time since date given.
 	 * @param string $last_activity_date The date of last activity.
-	 * @param string $string             A sprintf()-able statement of the form 'Active %s'.
+	 * @param string $format             A sprintf()-able statement of the form 'Active %s'.
 	 */
-	return apply_filters( 'bp_core_get_last_activity', $last_active, $last_activity_date, $string );
+	return apply_filters( 'bp_core_get_last_activity', $last_active, $last_activity_date, $format );
 }
 
 /** Meta **********************************************************************/
@@ -4036,30 +4037,31 @@ function bp_email_get_appearance_settings() {
  * Get the paths to possible templates for the specified email object.
  *
  * @since 2.5.0
+ * @since 15.0.0 The `$object` parameter was renamed to `$email_post`.
  *
- * @param WP_Post $object Post to get email template for.
+ * @param WP_Post $email_post Post to get email template for.
  * @return array
  */
-function bp_email_get_template( WP_Post $object ) {
-	$single = "single-{$object->post_type}";
+function bp_email_get_template( WP_Post $email_post ) {
+	$single = "single-{$email_post->post_type}";
 
 	/**
 	 * Filter the possible template paths for the specified email object.
 	 *
 	 * @since 2.5.0
 	 *
-	 * @param array   $value  Array of possible template paths.
-	 * @param WP_Post $object WP_Post object.
+	 * @param array   $value      Array of possible template paths.
+	 * @param WP_Post $email_post WP_Post object.
 	 */
 	return apply_filters(
 		'bp_email_get_template',
 		array(
-			"assets/emails/{$single}-{$object->post_name}.php",
-			"{$single}-{$object->post_name}.php",
+			"assets/emails/{$single}-{$email_post->post_name}.php",
+			"{$single}-{$email_post->post_name}.php",
 			"{$single}.php",
 			"assets/emails/{$single}.php",
 		),
-		$object
+		$email_post
 	);
 }
 
@@ -4834,11 +4836,11 @@ function bp_get_allowedtags() {
  *
  * @since 3.0.1
  *
- * @param  string $string The string to strip tags from.
- * @return string         The stripped tags string.
+ * @param string $content The string to strip tags from.
+ * @return string
  */
-function bp_strip_script_and_style_tags( $string ) {
-	return preg_replace( '@<(script|style)[^>]*?>.*?</\\1>@si', '', $string );
+function bp_strip_script_and_style_tags( $content ) {
+	return preg_replace( '@<(script|style)[^>]*?>.*?</\\1>@si', '', $content );
 }
 
 /**

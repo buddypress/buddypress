@@ -46,14 +46,12 @@ class BP_Core_Friends_Widget {
 	 * Display the widget.
 	 *
 	 * @since 1.9.0
+	 * @since 15.0.0 The `$args` and `$instance` parameters were removed since they were unused.
 	 * @deprecated 12.0.0
 	 *
 	 * @global BP_Core_Members_Template $members_template The main member template loop class.
-	 *
-	 * @param array $args Widget arguments.
-	 * @param array $instance The widget settings, as saved by the user.
 	 */
-	public function widget( $args, $instance ) {
+	public function widget() {
 		_deprecated_function( __METHOD__, '12.0.0' );
 	}
 
@@ -61,12 +59,10 @@ class BP_Core_Friends_Widget {
 	 * Process a widget save.
 	 *
 	 * @since 1.9.0
+	 * @since 15.0.0 The `$new_instance` and `$old_instance` parameters were removed since they were unused.
 	 * @deprecated 12.0.0
-	 *
-	 * @param array $new_instance The parameters saved by the user.
-	 * @param array $old_instance The parameters as previously saved to the database.
 	 */
-	public function update( $new_instance, $old_instance ) {
+	public function update() {
 		_deprecated_function( __METHOD__, '12.0.0' );
 	}
 
@@ -74,11 +70,10 @@ class BP_Core_Friends_Widget {
 	 * Render the widget edit form.
 	 *
 	 * @since 1.9.0
+	 * @since 15.0.0 The `$instance` parameter was removed since it was unused.
 	 * @deprecated 12.0.0
-	 *
-	 * @param array $instance The saved widget settings.
 	 */
-	public function form( $instance ) {
+	public function form() {
 		_deprecated_function( __METHOD__, '12.0.0' );
 	}
 }

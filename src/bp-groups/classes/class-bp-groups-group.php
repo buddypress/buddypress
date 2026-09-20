@@ -1841,22 +1841,17 @@ class BP_Groups_Group {
 	/**
 	 * Fetch extra data for a list of groups.
 	 *
-	 * This method is used throughout the class, by methods that take a
-	 * $populate_extras parameter.
+	 * This method is used throughout the class, by methods that take a `$populate_extras` parameter.
 	 *
-	 * Data fetched:
-	 *     - Logged-in user's status within each group (is_member,
-	 *       is_confirmed, is_pending, is_banned)
+	 * Data fetched: Logged-in user's status within each group (is_member, is_confirmed, is_pending, is_banned)
 	 *
 	 * @since 1.6.0
+	 * @since 15.0.0 The `$group_ids` and `$type` parameters were removed since they were unused.
 	 *
-	 * @param array        $paged_groups Array of groups.
-	 * @param string|array $group_ids    Array or comma-separated list of IDs matching
-	 *                                   $paged_groups.
-	 * @param string|bool  $type         Not used.
-	 * @return array $paged_groups
+	 * @param array $paged_groups Array of groups.
+	 * @return array
 	 */
-	public static function get_group_extras( &$paged_groups, &$group_ids, $type = false ) {
+	public static function get_group_extras( &$paged_groups ) {
 		$user_id = bp_loggedin_user_id();
 
 		foreach ( $paged_groups as &$group ) {

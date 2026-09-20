@@ -195,16 +195,16 @@ function bp_is_friend( $user_id = 0 ) {
  * Output the Add Friend button.
  *
  * @since 1.0.0
+ * @since 15.0.0 The `$friend_status` parameter was removed since it was unused.
  *
  * @see bp_get_add_friend_button() for information on arguments.
  *
- * @param int      $potential_friend_id See {@link bp_get_add_friend_button()}.
- * @param int|bool $friend_status       See {@link bp_get_add_friend_button()}.
+ * @param int $potential_friend_id See {@link bp_get_add_friend_button()}.
  */
-function bp_add_friend_button( $potential_friend_id = 0, $friend_status = false ) {
+function bp_add_friend_button( $potential_friend_id = 0 ) {
 	// Escaping is done in `BP_Core_HTML_Element()`.
 	// phpcs:ignore WordPress.Security.EscapeOutput
-	echo bp_get_add_friend_button( $potential_friend_id, $friend_status );
+	echo bp_get_add_friend_button( $potential_friend_id );
 }
 
 	/**
@@ -323,13 +323,13 @@ function bp_add_friend_button( $potential_friend_id = 0, $friend_status = false 
 	 *
 	 * @since 1.1.0
 	 * @since 11.0.0 uses `bp_get_add_friend_button_args()`.
+	 * @since 15.0.0 The `$friend_status` parameter was removed since it was unused.
 	 *
-	 * @param int  $potential_friend_id ID of the user to whom the button
-	 *                                  applies. Default: value of {@link bp_get_potential_friend_id()}.
-	 * @param bool $friend_status       Not currently used.
+	 * @param int $potential_friend_id ID of the user to whom the button
+	 *                                 applies. Default: value of {@link bp_get_potential_friend_id()}.
 	 * @return bool|string HTML for the Add Friend button. False if already friends.
 	 */
-	function bp_get_add_friend_button( $potential_friend_id = 0, $friend_status = false ) {
+	function bp_get_add_friend_button( $potential_friend_id = 0 ) {
 		$button_args = bp_get_add_friend_button_args( $potential_friend_id );
 
 		if ( ! array_filter( $button_args ) ) {

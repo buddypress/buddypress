@@ -716,11 +716,11 @@ function bp_legacy_theme_blog_create_nav() {
  * @since 1.2.0
  *
  * @param string $query_string Query string for the current request.
- * @param string $object       Object for cookie.
+ * @param string $component    Object for cookie.
  * @return string Query string for the component loops.
  */
-function bp_legacy_theme_ajax_querystring( $query_string, $object ) {
-	if ( empty( $object ) ) {
+function bp_legacy_theme_ajax_querystring( $query_string, $component ) {
+	if ( empty( $component ) ) {
 		return '';
 	}
 
@@ -745,14 +745,14 @@ function bp_legacy_theme_ajax_querystring( $query_string, $object ) {
 	 */
 
 	// Activity stream filtering on action.
-	if ( ! empty( $bp_cookie[ 'bp-' . $object . '-filter' ] ) && '-1' !== $bp_cookie[ 'bp-' . $object . '-filter' ] ) {
-		$qs[] = 'type=' . urlencode( $bp_cookie[ 'bp-' . $object . '-filter' ] );
+	if ( ! empty( $bp_cookie[ 'bp-' . $component . '-filter' ] ) && '-1' !== $bp_cookie[ 'bp-' . $component . '-filter' ] ) {
+		$qs[] = 'type=' . urlencode( $bp_cookie[ 'bp-' . $component . '-filter' ] );
 
 		if ( bp_is_active( 'activity' ) ) {
 			$actions = bp_activity_get_actions_for_context();
 
 			// Handle multiple actions (eg. 'friendship_accepted,friendship_created')
-			$action_filter = explode( ',', $bp_cookie[ 'bp-' . $object . '-filter' ] );
+			$action_filter = explode( ',', $bp_cookie[ 'bp-' . $component . '-filter' ] );
 
 			// See if action filter matches registered actions. If so, add it to qs.
 			if ( ! array_diff( $action_filter, wp_list_pluck( $actions, 'key' ) ) ) {
@@ -761,15 +761,15 @@ function bp_legacy_theme_ajax_querystring( $query_string, $object ) {
 		}
 	}
 
-	if ( ! empty( $bp_cookie[ 'bp-' . $object . '-scope' ] ) ) {
-		if ( 'personal' === $bp_cookie[ 'bp-' . $object . '-scope' ] ) {
+	if ( ! empty( $bp_cookie[ 'bp-' . $component . '-scope' ] ) ) {
+		if ( 'personal' === $bp_cookie[ 'bp-' . $component . '-scope' ] ) {
 			$user_id = bp_displayed_user_id() ? bp_displayed_user_id() : bp_loggedin_user_id();
 			$qs[]    = 'user_id=' . $user_id;
 		}
 
 		// Activity stream scope only on activity directory.
-		if ( 'all' !== $bp_cookie[ 'bp-' . $object . '-scope' ] && ! bp_displayed_user_id() && ! bp_is_single_item() ) {
-			$qs[] = 'scope=' . urlencode( $bp_cookie[ 'bp-' . $object . '-scope' ] );
+		if ( 'all' !== $bp_cookie[ 'bp-' . $component . '-scope' ] && ! bp_displayed_user_id() && ! bp_is_single_item() ) {
+			$qs[] = 'scope=' . urlencode( $bp_cookie[ 'bp-' . $component . '-scope' ] );
 		}
 	}
 
@@ -793,7 +793,7 @@ function bp_legacy_theme_ajax_querystring( $query_string, $object ) {
 		$qs[] = 'offset_lower=' . intval( $_POST['offset_lower'] );
 	}
 
-	$object_search_text = bp_get_search_default_text( $object );
+	$object_search_text = bp_get_search_default_text( $component );
 
 	if (
 		! empty( $_POST['search_terms'] )
@@ -809,28 +809,28 @@ function bp_legacy_theme_ajax_querystring( $query_string, $object ) {
 	$query_string = empty( $qs ) ? '' : join( '&', (array) $qs );
 
 	$object_filter = '';
-	if ( isset( $bp_cookie[ 'bp-' . $object . '-filter' ] ) ) {
-		$object_filter = $bp_cookie[ 'bp-' . $object . '-filter' ];
+	if ( isset( $bp_cookie[ 'bp-' . $component . '-filter' ] ) ) {
+		$object_filter = $bp_cookie[ 'bp-' . $component . '-filter' ];
 	}
 
 	$object_scope = '';
-	if ( isset( $bp_cookie[ 'bp-' . $object . '-scope' ] ) ) {
-		$object_scope = $bp_cookie[ 'bp-' . $object . '-scope' ];
+	if ( isset( $bp_cookie[ 'bp-' . $component . '-scope' ] ) ) {
+		$object_scope = $bp_cookie[ 'bp-' . $component . '-scope' ];
 	}
 
 	$object_page = '';
-	if ( isset( $bp_cookie[ 'bp-' . $object . '-page' ] ) ) {
-		$object_page = $bp_cookie[ 'bp-' . $object . '-page' ];
+	if ( isset( $bp_cookie[ 'bp-' . $component . '-page' ] ) ) {
+		$object_page = $bp_cookie[ 'bp-' . $component . '-page' ];
 	}
 
 	$object_search_terms = '';
-	if ( isset( $bp_cookie[ 'bp-' . $object . '-search-terms' ] ) ) {
-		$object_search_terms = $bp_cookie[ 'bp-' . $object . '-search-terms' ];
+	if ( isset( $bp_cookie[ 'bp-' . $component . '-search-terms' ] ) ) {
+		$object_search_terms = $bp_cookie[ 'bp-' . $component . '-search-terms' ];
 	}
 
 	$object_extras = '';
-	if ( isset( $bp_cookie[ 'bp-' . $object . '-extras' ] ) ) {
-		$object_extras = $bp_cookie[ 'bp-' . $object . '-extras' ];
+	if ( isset( $bp_cookie[ 'bp-' . $component . '-extras' ] ) ) {
+		$object_extras = $bp_cookie[ 'bp-' . $component . '-extras' ];
 	}
 
 	/**
@@ -839,14 +839,14 @@ function bp_legacy_theme_ajax_querystring( $query_string, $object ) {
 	 * @since 1.7.0
 	 *
 	 * @param string $query_string        The query string we are working with.
-	 * @param string $object              The type of page we are on.
+	 * @param string $component           The type of page we are on.
 	 * @param string $object_filter       The current object filter.
 	 * @param string $object_scope        The current object scope.
 	 * @param string $object_page         The current object page.
 	 * @param string $object_search_terms The current object search terms.
 	 * @param string $object_extras       The current object extras.
 	 */
-	return apply_filters( 'bp_legacy_theme_ajax_querystring', $query_string, $object, $object_filter, $object_scope, $object_page, $object_search_terms, $object_extras );
+	return apply_filters( 'bp_legacy_theme_ajax_querystring', $query_string, $component, $object_filter, $object_scope, $object_page, $object_search_terms, $object_extras );
 }
 
 /**

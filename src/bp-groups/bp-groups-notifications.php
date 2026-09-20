@@ -117,13 +117,13 @@ function groups_notification_group_updated( $group_id = 0, $old_group = null ) {
  * Notify group admin about new membership request.
  *
  * @since 1.0.0
+ * @since 15.0.0 The `$membership_id` parameter was removed since it was unused.
  *
  * @param int $requesting_user_id ID of the user requesting group membership.
  * @param int $admin_id           ID of the group admin.
  * @param int $group_id           ID of the group.
- * @param int $membership_id      ID of the group membership object.
  */
-function groups_notification_new_membership_request( $requesting_user_id = 0, $admin_id = 0, $group_id = 0, $membership_id = 0 ) {
+function groups_notification_new_membership_request( $requesting_user_id = 0, $admin_id = 0, $group_id = 0 ) {
 
 	// Trigger a BuddyPress Notification.
 	if ( bp_is_active( 'notifications' ) ) {

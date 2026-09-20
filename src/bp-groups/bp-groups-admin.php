@@ -1060,10 +1060,9 @@ function bp_groups_admin_edit_metabox_settings( $item ) {
  * Output the markup for a single group's Add New Members metabox.
  *
  * @since 1.7.0
- *
- * @param BP_Groups_Group $item The BP_Groups_Group object for the current group.
+ * @since 15.0.0 The `$item` parameter was removed since it was unused.
  */
-function bp_groups_admin_edit_metabox_add_new_members( $item ) {
+function bp_groups_admin_edit_metabox_add_new_members() {
 	if ( bp_is_large_install() ) {
 		$class  = '';
 		$notice = __( 'Enter a comma-separated list of user logins.', 'buddypress' );
@@ -1571,10 +1570,9 @@ add_action( 'wp_ajax_bp_group_admin_member_autocomplete', 'bp_groups_admin_autoc
  * Process input from the Group Type bulk change select.
  *
  * @since 2.7.0
- *
- * @param string $doaction Current $_GET action being performed in admin screen.
+ * @since 15.0.0 The `$doaction` parameter was removed since it was unused.
  */
-function bp_groups_admin_process_group_type_bulk_changes( $doaction ) {
+function bp_groups_admin_process_group_type_bulk_changes() {
 	// Bail if no groups are specified or if this isn't a relevant action.
 	if ( empty( $_REQUEST['gid'] )
 		|| ( empty( $_REQUEST['bp_change_type'] ) && empty( $_REQUEST['bp_change_type2'] ) )

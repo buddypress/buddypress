@@ -310,11 +310,10 @@ function bp_nouveau_add_notice_notification_for_user( $notifications, $user_id )
  * Format the notice notifications.
  *
  * @since 3.0.0
+ * @since 15.0.0 The `$array` parameter was removed since it was unused.
  * @deprecated 10.0.0
- *
- * @param array $array Notice notification arguments.
  */
-function bp_nouveau_format_notice_notification_for_user( $array ) {
+function bp_nouveau_format_notice_notification_for_user() {
 	_deprecated_function( __FUNCTION__, '10.0.0' );
 }
 

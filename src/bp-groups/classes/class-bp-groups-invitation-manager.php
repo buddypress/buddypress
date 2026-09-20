@@ -45,7 +45,7 @@ class BP_Groups_Invitation_Manager extends BP_Invitation_Manager {
 			$admins = groups_get_group_admins( $invitation->item_id );
 
 			foreach ( $admins as $admin ) {
-				groups_notification_new_membership_request( $invitation->user_id, $admin->user_id, $invitation->item_id, $invitation->id );
+				groups_notification_new_membership_request( $invitation->user_id, $admin->user_id, $invitation->item_id );
 			}
 			return true;
 

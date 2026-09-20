@@ -1107,12 +1107,12 @@ add_action( 'wp_ajax_xprofile_reorder_groups', 'xprofile_ajax_reorder_field_grou
  *
  * @global BP_XProfile_Field $field The Admin field.
  *
- * @param BP_XProfile_Field $admin_field Admin field.
- * @param object            $admin_group Admin group object.
- * @param string            $class       Classes to append to output.
- * @param bool              $is_signup   Whether the admin field output is made inside the signup group.
+ * @param BP_XProfile_Field $admin_field   Admin field.
+ * @param object            $admin_group   Admin group object.
+ * @param string            $extra_classes Optional. Classes to append to output.
+ * @param bool              $is_signup     Optional. Whether the admin field output is made inside the signup group.
  */
-function xprofile_admin_field( $admin_field, $admin_group, $class = '', $is_signup = false ) {
+function xprofile_admin_field( $admin_field, $admin_group, $extra_classes = '', $is_signup = false ) {
 	global $field;
 
 	$field       = $admin_field;
@@ -1149,11 +1149,11 @@ function xprofile_admin_field( $admin_field, $admin_group, $class = '', $is_sign
 		$fieldset_id = sprintf( 'draggable_signup_field_%d', $field->id );
 	}
 
-	$has_class  = ! empty( $class );
+	$has_class  = ! empty( $extra_classes );
 	$is_primary = empty( $field->can_delete );
 	?>
 
-	<fieldset id="<?php echo esc_attr( $fieldset_id ); ?>" class="sortable<?php echo ' ' . esc_attr( $field->type ); ?><?php echo $has_class ? ' ' . esc_attr( $class ) : ''; ?>">
+	<fieldset id="<?php echo esc_attr( $fieldset_id ); ?>" class="sortable<?php echo ' ' . esc_attr( $field->type ); ?><?php echo $has_class ? ' ' . esc_attr( $extra_classes ) : ''; ?>">
 		<legend>
 			<span>
 				<?php bp_the_profile_field_name(); ?>
@@ -1252,28 +1252,28 @@ function xprofile_admin_field( $admin_field, $admin_group, $class = '', $is_sign
  *
  * @since 8.0.0
  *
- * @param BP_XProfile_Field $signup_field The field to use into the signup form.
- * @param object            $field_group The real field group object.
- * @param string            $class       Classes to append to output.
- * @param bool              $echo        Whether to return or display the HTML output.
+ * @param BP_XProfile_Field $signup_field  The field to use into the signup form.
+ * @param object            $field_group   Optional. The real field group object.
+ * @param string            $extra_classes Optional. Classes to append to output.
+ * @param bool              $display       Optional. Whether to return or display the HTML output.
  * @return string The HTML output.
  */
-function bp_xprofile_admin_get_signup_field( $signup_field, $field_group = null, $class = '', $echo = false ) {
+function bp_xprofile_admin_get_signup_field( $signup_field, $field_group = null, $extra_classes = '', $display = false ) {
 	add_filter( 'bp_get_the_profile_field_input_name', 'bp_get_the_profile_signup_field_input_name' );
 
-	if ( ! $echo ) {
+	if ( ! $display ) {
 		// Set up an output buffer.
 		ob_start();
-		xprofile_admin_field( $signup_field, $field_group, $class, true );
+		xprofile_admin_field( $signup_field, $field_group, $extra_classes, true );
 		$output = ob_get_contents();
 		ob_end_clean();
 	} else {
-		xprofile_admin_field( $signup_field, $field_group, $class, true );
+		xprofile_admin_field( $signup_field, $field_group, $extra_classes, true );
 	}
 
 	remove_filter( 'bp_get_the_profile_field_input_name', 'bp_get_the_profile_signup_field_input_name' );
 
-	if ( ! $echo ) {
+	if ( ! $display ) {
 		return $output;
 	}
 }

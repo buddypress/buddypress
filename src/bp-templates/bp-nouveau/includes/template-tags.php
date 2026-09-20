@@ -1750,17 +1750,17 @@ function bp_nouveau_groups_create_steps_classes() {
  *
  * @since 3.0.0
  *
- * @param string $object (Optional) The primary object.
+ * @param string $primary_object Optional. The primary object.
  *
  * @return string The primary object.
  */
-function bp_nouveau_get_search_primary_object( $object = '' ) {
+function bp_nouveau_get_search_primary_object( $primary_object = '' ) {
 	if ( bp_is_user() ) {
-		$object = 'member';
+		$primary_object = 'member';
 	} elseif ( bp_is_group() ) {
-		$object = 'group';
+		$primary_object = 'group';
 	} elseif ( bp_is_directory() ) {
-		$object = 'dir';
+		$primary_object = 'dir';
 	} else {
 
 		/**
@@ -1768,12 +1768,12 @@ function bp_nouveau_get_search_primary_object( $object = '' ) {
 		 *
 		 * @since 3.0.0
 		 *
-		 * @param string $object Search object.
+		 * @param string $primary_object Search object.
 		 */
-		$object = apply_filters( 'bp_nouveau_get_search_primary_object', $object );
+		$primary_object = apply_filters( 'bp_nouveau_get_search_primary_object', $primary_object );
 	}
 
-	return $object;
+	return $primary_object;
 }
 
 /**

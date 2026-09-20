@@ -330,7 +330,7 @@ class BP_Akismet {
 	public function mark_as_ham( $activity, $source ) {
 		// If the activity was, originally, automatically marked as spam by Akismet, run the @mentions filter as it would have been skipped.
 		if ( 'true' === bp_activity_get_meta( $activity->id, '_bp_akismet_result' ) && ! bp_activity_get_meta( $activity->id, '_bp_akismet_user_result' ) ) {
-			$activity->content = bp_activity_at_name_filter( $activity->content, $activity->id );
+			$activity->content = bp_activity_at_name_filter( $activity->content );
 		}
 
 		/**

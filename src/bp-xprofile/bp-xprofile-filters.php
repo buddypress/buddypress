@@ -432,7 +432,7 @@ function xprofile_filter_link_profile_data( $field_value, $field_type = 'textbox
 
 		array_walk(
 			$values,
-			function ( &$value, $key ) use ( $field_type, $field ) {
+			function ( &$value ) use ( $field_type, $field ) {
 				$value = bp_xprofile_escape_field_data( $value, $field_type, $field->id );
 			}
 		);
@@ -476,12 +476,12 @@ function xprofile_filter_link_profile_data( $field_value, $field_type = 'textbox
  * and swaps out user data with BP xprofile data, where available.
  *
  * @since 1.2.0
+ * @since 15.0.0 The `$post_id` parameter was removed since it was unused.
  *
  * @param array $comments Comments to filter in.
- * @param int   $post_id  Post ID the comments are for.
- * @return array $comments
+ * @return array
  */
-function xprofile_filter_comments( $comments, $post_id = 0 ) {
+function xprofile_filter_comments( $comments ) {
 
 	// Locate comment authors with WP accounts.
 	foreach ( (array) $comments as $comment ) {

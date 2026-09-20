@@ -179,18 +179,18 @@ add_filter( 'wp_list_pages_excludes', 'bp_core_exclude_pages' );
  *
  * @since 2.0.0
  *
- * @param object|null $object The post type object used in the meta box.
- * @return object|null The $object, with a query argument to remove register and activate pages id.
+ * @param object|null $post_type_object The post type object used in the meta box.
+ * @return object|null The $post_type_object, with a query argument to remove register and activate pages id.
  */
-function bp_core_exclude_pages_from_nav_menu_admin( $object = null ) {
+function bp_core_exclude_pages_from_nav_menu_admin( $post_type_object = null ) {
 
 	// Bail if not the root blog.
 	if ( ! bp_is_root_blog() ) {
-		return $object;
+		return $post_type_object;
 	}
 
-	if ( 'page' !== $object->name ) {
-		return $object;
+	if ( 'page' !== $post_type_object->name ) {
+		return $post_type_object;
 	}
 
 	$bp    = buddypress();
@@ -205,10 +205,10 @@ function bp_core_exclude_pages_from_nav_menu_admin( $object = null ) {
 	}
 
 	if ( ! empty( $pages ) ) {
-		$object->_default_query['post__not_in'] = $pages;
+		$post_type_object->_default_query['post__not_in'] = $pages;
 	}
 
-	return $object;
+	return $post_type_object;
 }
 add_filter( 'nav_menu_meta_box_object', 'bp_core_exclude_pages_from_nav_menu_admin', 11, 1 );
 
@@ -907,16 +907,16 @@ add_filter( 'wp_setup_nav_menu_item', 'bp_setup_nav_menu_item', 10, 1 );
  *
  * @since 2.3.3
  *
- * @param array  $items  The array of menu items.
- * @param string $type   The requested type.
- * @param string $object The requested object name.
- * @param int    $page   The page num being requested.
+ * @param array  $items       The array of menu items.
+ * @param string $type        The requested type.
+ * @param string $object_name The requested object name.
+ * @param int    $page        The page num being requested.
  * @return array The paginated BuddyPress user nav items.
  */
-function bp_customizer_nav_menus_get_items( $items = array(), $type = '', $object = '', $page = 0 ) {
-	if ( 'bp_loggedin_nav' === $object ) {
+function bp_customizer_nav_menus_get_items( $items = array(), $type = '', $object_name = '', $page = 0 ) {
+	if ( 'bp_loggedin_nav' === $object_name ) {
 		$bp_items = bp_nav_menu_get_loggedin_pages();
-	} elseif ( 'bp_loggedout_nav' === $object ) {
+	} elseif ( 'bp_loggedout_nav' === $object_name ) {
 		$bp_items = bp_nav_menu_get_loggedout_pages();
 	} else {
 		return $items;
@@ -930,7 +930,7 @@ function bp_customizer_nav_menus_get_items( $items = array(), $type = '', $objec
 			'url'        => esc_url_raw( $bp_item->guid ),
 			'classes'    => "bp-menu bp-{$bp_item->post_excerpt}-nav",
 			'type_label' => _x( 'Custom Link', 'customizer menu type label', 'buddypress' ),
-			'object'     => $object,
+			'object'     => $object_name,
 			'object_id'  => -1,
 		);
 	}

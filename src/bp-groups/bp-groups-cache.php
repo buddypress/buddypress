@@ -46,10 +46,9 @@ function bp_groups_update_meta_cache( $group_ids = false ) {
  * Clear the cached group count.
  *
  * @since 1.0.0
- *
- * @param int $group_id Not used.
+ * @since 15.0.0 The `$group_id` parameter was removed since it was unused.
  */
-function groups_clear_group_object_cache( $group_id ) {
+function groups_clear_group_object_cache() {
 	wp_cache_delete( 'bp_total_group_count', 'bp' );
 }
 add_action( 'groups_group_deleted', 'groups_clear_group_object_cache' );

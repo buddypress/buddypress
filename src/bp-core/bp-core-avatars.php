@@ -2239,14 +2239,15 @@ function bp_avatar_history_is_disabled() {
  * Get a specific version of an avatar from its history.
  *
  * @since 10.0.0
+ * @since 15.0.0 The `$object` parameter was renamed to `$item_type`.
  *
  * @param int        $item_id   The item ID we need the avatar version for.
- * @param string     $object    The object the item ID relates to.
+ * @param string     $item_type The object the item ID relates to.
  * @param int|string $timestamp An integer Unix timestamp or a date string of the format 'Y-m-d h:i:s'.
  * @param string     $type      The type of avatar we need. Possible values are `thumb` and `full`.
  * @return array                A list of matching results, an empty array if no avatars were found.
  */
-function bp_avatar_get_version( $item_id = 0, $object = 'user', $timestamp = '', $type = 'full' ) {
+function bp_avatar_get_version( $item_id = 0, $item_type = 'user', $timestamp = '', $type = 'full' ) {
 	if ( ! $item_id || ! $timestamp ) {
 		return array();
 	}
@@ -2261,8 +2262,8 @@ function bp_avatar_get_version( $item_id = 0, $object = 'user', $timestamp = '',
 	}
 
 	$avatar_dir = 'avatars';
-	if ( 'user' !== $object ) {
-		$avatar_dir = sanitize_key( $object ) . '-avatars';
+	if ( 'user' !== $item_type ) {
+		$avatar_dir = sanitize_key( $item_type ) . '-avatars';
 	}
 
 	// The object avatar directory we are looking into to get the avatar url.
@@ -2275,13 +2276,14 @@ function bp_avatar_get_version( $item_id = 0, $object = 'user', $timestamp = '',
  * Get the list of previous avatars in history
  *
  * @since 10.0.0
+ * @since 15.0.0 The `$object` parameter was renamed to `$item_type`.
  *
- * @param int    $item_id The item ID we need the avatar version for.
- * @param string $object  The object the item ID relates to.
- * @param string $type    Get the `full`, `thumb` or `both` versions.
+ * @param int    $item_id   The item ID we need the avatar version for.
+ * @param string $item_type The object the item ID relates to.
+ * @param string $type      Get the `full`, `thumb` or `both` versions.
  * @return array          The list of previous uploaded avatars.
  */
-function bp_avatar_get_avatars_history( $item_id = 0, $object = 'user', $type = 'full' ) {
+function bp_avatar_get_avatars_history( $item_id = 0, $item_type = 'user', $type = 'full' ) {
 	/**
 	 * Filter to short-circuit the avatars history retrieval process.
 	 *
@@ -2291,10 +2293,10 @@ function bp_avatar_get_avatars_history( $item_id = 0, $object = 'user', $type = 
 	 *
 	 * @param null|array $pre_filter Null to proceed with the default handling, or an array of avatars to override it.
 	 * @param int        $item_id    The item ID we need the avatar version for.
-	 * @param string     $object     The object the item ID relates to.
+	 * @param string     $item_type  The object the item ID relates to.
 	 * @param string     $type       Get the `full`, `thumb` or `both` versions.
 	 */
-	$pre_filter = apply_filters( 'bp_pre_avatar_get_avatars_history', null, $item_id, $object, $type );
+	$pre_filter = apply_filters( 'bp_pre_avatar_get_avatars_history', null, $item_id, $item_type, $type );
 
 	if ( null !== $pre_filter ) {
 		return $pre_filter;
@@ -2305,8 +2307,8 @@ function bp_avatar_get_avatars_history( $item_id = 0, $object = 'user', $type = 
 	}
 
 	$avatar_dir = 'avatars';
-	if ( 'user' !== $object ) {
-		$avatar_dir = sanitize_key( $object ) . '-avatars';
+	if ( 'user' !== $item_type ) {
+		$avatar_dir = sanitize_key( $item_type ) . '-avatars';
 	}
 
 	// The user avatar directory we are looking into to get the avatar url.

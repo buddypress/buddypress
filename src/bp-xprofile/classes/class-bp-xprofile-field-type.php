@@ -482,12 +482,12 @@ abstract class BP_XProfile_Field_Type {
 	 *
 	 * @since 2.1.0
 	 * @since 2.4.0 Added the `$field_id` parameter.
+	 * @since 15.0.0 The `$field_id` parameter was removed since it was unused.
 	 *
-	 * @param mixed      $field_value Submitted field value.
-	 * @param string|int $field_id    Optional. ID of the field.
+	 * @param mixed $field_value Submitted field value.
 	 * @return mixed
 	 */
-	public static function pre_validate_filter( $field_value, $field_id = '' ) {
+	public static function pre_validate_filter( $field_value ) {
 		return $field_value;
 	}
 
@@ -500,12 +500,12 @@ abstract class BP_XProfile_Field_Type {
 	 *
 	 * @since 2.1.0
 	 * @since 2.4.0 Added `$field_id` parameter.
+	 * @since 15.0.0 The `$field_id` parameter was removed since it was unused.
 	 *
-	 * @param mixed      $field_value Field value.
-	 * @param string|int $field_id    ID of the field.
+	 * @param mixed $field_value Field value.
 	 * @return mixed
 	 */
-	public static function display_filter( $field_value, $field_id = '' ) {
+	public static function display_filter( $field_value ) {
 		return $field_value;
 	}
 

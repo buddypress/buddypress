@@ -156,16 +156,17 @@ function bp_get_dynamic_template_part( $template = '', $type = 'js', $tokens = a
  *
  * @since 1.7.0
  * @since 7.0.0 Added `$args` parameter.
+ * @since 15.0.0 The `$require_once` parameter was renamed to `$load_once`.
  *
  * @param string|array $template_names Template file(s) to search for, in order.
  * @param bool         $load           Optional. If true, the template file will be loaded when
  *                                     found. If false, the path will be returned. Default: false.
- * @param bool         $require_once   Optional. Whether to require_once or require. Has
+ * @param bool         $load_once      Optional. Whether to require_once or require. Has
  *                                     no effect if $load is false. Default: true.
  * @param array        $args           Optional. Extra args to pass to locate_template().
  * @return string The template filename if one is located.
  */
-function bp_locate_template( $template_names, $load = false, $require_once = true, $args = array() ) {
+function bp_locate_template( $template_names, $load = false, $load_once = true, $args = array() ) {
 
 	// Bail when there are no templates to locate.
 	if ( empty( $template_names ) ) {
@@ -210,7 +211,7 @@ function bp_locate_template( $template_names, $load = false, $require_once = tru
 	 * If you want to override a specific template part, please either filter
 	 * 'bp_get_template_part' or add a new location to the template stack.
 	 */
-	do_action( 'bp_locate_template', $located, $template_name, $template_names, $template_locations, $load, $require_once, $args );
+	do_action( 'bp_locate_template', $located, $template_name, $template_names, $template_locations, $load, $load_once, $args );
 
 	/**
 	 * Filter here to allow/disallow template loading.
@@ -222,7 +223,7 @@ function bp_locate_template( $template_names, $load = false, $require_once = tru
 	$load_template = (bool) apply_filters( 'bp_locate_template_and_load', true );
 
 	if ( $load_template && $load && ! empty( $located ) ) {
-		load_template( $located, $require_once, $args );
+		load_template( $located, $load_once, $args );
 	}
 
 	return $located;

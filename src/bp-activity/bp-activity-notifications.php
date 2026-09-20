@@ -342,13 +342,13 @@ add_action( 'bp_activity_deleted_activities', 'bp_activity_at_mention_delete_not
  * Requires "activity stream commenting on posts and comments" to be enabled.
  *
  * @since 2.6.0
+ * @since 15.0.0 The `$activity_post_object` parameter was removed since it was unused.
  *
- * @param int        $activity_id          The activity comment ID.
- * @param WP_Comment $post_type_comment    WP Comment object.
- * @param array      $activity_args        Activity comment arguments.
- * @param object     $activity_post_object The post type tracking args object.
+ * @param int        $activity_id       The activity comment ID.
+ * @param WP_Comment $post_type_comment WP Comment object.
+ * @param array      $activity_args     Activity comment arguments.
  */
-function bp_activity_add_notification_for_synced_blog_comment( $activity_id, $post_type_comment, $activity_args, $activity_post_object ) {
+function bp_activity_add_notification_for_synced_blog_comment( $activity_id, $post_type_comment, $activity_args ) {
 	// If activity comments are disabled for WP posts, stop now!
 	if ( bp_disable_blogforum_comments() || empty( $activity_id ) ) {
 		return;

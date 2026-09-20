@@ -46,12 +46,10 @@ class BP_Groups_Widget {
 	 * Extends our front-end output method.
 	 *
 	 * @since 1.0.3
+	 * @since 15.0.0 The `$args` and `$instance` parameters were removed since they were unused.
 	 * @deprecated 12.0.0
-	 *
-	 * @param array $args     Array of arguments for the widget.
-	 * @param array $instance Widget instance data.
 	 */
-	public function widget( $args, $instance ) {
+	public function widget() {
 		_deprecated_function( __METHOD__, '12.0.0' );
 	}
 
@@ -59,12 +57,10 @@ class BP_Groups_Widget {
 	 * Extends our update method.
 	 *
 	 * @since 1.0.3
+	 * @since 15.0.0 The `$new_instance` and `$old_instance` parameters were removed since they were unused.
 	 * @deprecated 12.0.0
-	 *
-	 * @param array $new_instance New instance data.
-	 * @param array $old_instance Original instance data.
 	 */
-	public function update( $new_instance, $old_instance ) {
+	public function update() {
 		_deprecated_function( __METHOD__, '12.0.0' );
 	}
 
@@ -72,12 +68,12 @@ class BP_Groups_Widget {
 	 * Extends our form method.
 	 *
 	 * @since 1.0.3
+	 * @since 15.0.0 The `$instance` parameter was removed since it was unused.
 	 * @deprecated 12.0.0
 	 *
-	 * @param array $instance Current instance.
 	 * @return mixed
 	 */
-	public function form( $instance ) {
+	public function form() {
 		_deprecated_function( __METHOD__, '12.0.0' );
 	}
 }

@@ -365,24 +365,25 @@ function bp_format_time( $time = '', $exclude_time = false, $gmt = true ) {
  * do the necessary argument swapping for dynamic phrases.
  *
  * @since 1.0.0
+ * @since 15.0.0 The `$echo` parameter was renamed to `$display`.
  *
  * @param string $youtext    The "you" version of the phrase (eg "Your Friends").
  * @param string $nametext   The other-user version of the phrase. Should be in
  *                           a format appropriate for sprintf() - use %s in place of the displayed
  *                           user's name (eg "%'s Friends").
  * @param bool   $capitalize Optional. Force into title case. Default: true.
- * @param bool   $echo       Optional. True to echo the results, false to return them.
+ * @param bool   $display    Optional. True to echo the results, false to return them.
  *                           Default: true.
- * @return string|null $nametext If ! $echo, returns the appropriate string.
+ * @return string|null
  */
-function bp_word_or_name( $youtext, $nametext, $capitalize = true, $echo = true ) {
+function bp_word_or_name( $youtext, $nametext, $capitalize = true, $display = true ) {
 
 	if ( ! empty( $capitalize ) ) {
 		$youtext = bp_core_ucfirst( $youtext );
 	}
 
 	if ( bp_displayed_user_id() === bp_loggedin_user_id() ) {
-		if ( true === $echo ) {
+		if ( true === $display ) {
 
 			/**
 			 * Filters the text used based on context of own profile or someone else's profile.
@@ -401,7 +402,7 @@ function bp_word_or_name( $youtext, $nametext, $capitalize = true, $echo = true 
 		$fullname = bp_get_displayed_user_fullname();
 		$fullname = (array) explode( ' ', $fullname );
 		$nametext = sprintf( $nametext, $fullname[0] );
-		if ( true === $echo ) {
+		if ( true === $display ) {
 
 			/** This filter is documented in bp-core/bp-core-template.php */
 			echo esc_html( apply_filters( 'bp_word_or_name', $nametext ) );
@@ -1137,11 +1138,12 @@ function bp_get_email_subject( $args = array() ) {
  * WordPress theme without coping the functions from functions.php.
  *
  * @since 1.2.0
+ * @since 15.0.0 The `$object` parameter was renamed to `$component`.
  *
- * @param string|bool $object Current template component.
+ * @param string|bool $component Current template component.
  * @return string The AJAX querystring.
  */
-function bp_ajax_querystring( $object = false ) {
+function bp_ajax_querystring( $component = false ) {
 	$bp = buddypress();
 
 	if ( ! isset( $bp->ajax_querystring ) ) {
@@ -1156,9 +1158,9 @@ function bp_ajax_querystring( $object = false ) {
 	 * @since 1.2.0
 	 *
 	 * @param string $ajax_querystring Current query string.
-	 * @param string $object           Current template component.
+	 * @param string $component        Current template component.
 	 */
-	return apply_filters( 'bp_ajax_querystring', $bp->ajax_querystring, $object );
+	return apply_filters( 'bp_ajax_querystring', $bp->ajax_querystring, $component );
 }
 
 /** Template Classes and _is functions ****************************************/

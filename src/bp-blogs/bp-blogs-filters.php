@@ -70,13 +70,13 @@ function bp_blogs_comments_clauses_select_by_id( $retval ) {
  *
  * @since 2.2.0
  *
- * @param bool $return  Whether the post should be published.
- * @param int  $blog_id ID of the blog.
- * @param int  $post_id ID of the post.
- * @param int  $user_id ID of the post author.
+ * @param bool $should_publish Whether the post should be published.
+ * @param int  $blog_id        ID of the blog.
+ * @param int  $post_id        ID of the post.
+ * @param int  $user_id        ID of the post author.
  * @return bool True to authorize the post to be published, otherwise false.
  */
-function bp_blogs_post_pre_publish( $return = true, $blog_id = 0, $post_id = 0, $user_id = 0 ) {
+function bp_blogs_post_pre_publish( $should_publish = true, $blog_id = 0, $post_id = 0, $user_id = 0 ) {
 
 	// If blog is not trackable, do not record the activity.
 	if ( ! bp_blogs_is_blog_trackable( $blog_id, $user_id ) ) {
@@ -120,7 +120,7 @@ function bp_blogs_post_pre_publish( $return = true, $blog_id = 0, $post_id = 0, 
 		return false;
 	}
 
-	return $return;
+	return $should_publish;
 }
 add_filter( 'bp_activity_post_pre_publish', 'bp_blogs_post_pre_publish', 10, 4 );
 add_filter( 'bp_activity_post_pre_comment', 'bp_blogs_post_pre_publish', 10, 4 );

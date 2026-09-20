@@ -139,36 +139,38 @@ function bp_profile_group_has_fields() {
  * Output the class attribute for a field.
  *
  * @since 1.0.0
+ * @since 15.0.0 The `$class` parameter was renamed to `$extra_classes`.
  *
- * @param mixed $class Extra classes to append to class attribute.
- *                     Pass multiple class names as an array or
- *                     space-delimited string.
+ * @param mixed $extra_classes Extra classes to append to class attribute.
+ *                             Pass multiple class names as an array or
+ *                             space-delimited string.
  */
-function bp_field_css_class( $class = false ) {
+function bp_field_css_class( $extra_classes = false ) {
 	// phpcs:ignore WordPress.Security.EscapeOutput
-	echo bp_get_field_css_class( $class );
+	echo bp_get_field_css_class( $extra_classes );
 }
 
 	/**
 	 * Return the class attribute for a field.
 	 *
 	 * @since 1.1.0
+	 * @since 15.0.0 The `$class` parameter was renamed to `$extra_classes`.
 	 *
 	 * @global BP_XProfile_Data_Template $profile_template Profile data template object.
 	 *
-	 * @param string|bool $class Extra classes to append to class attribute.
+	 * @param string|bool $extra_classes Optional. Extra classes to append to class attribute.
 	 * @return string
 	 */
-	function bp_get_field_css_class( $class = false ) {
+	function bp_get_field_css_class( $extra_classes = false ) {
 		global $profile_template;
 
 		$css_classes = array();
 
-		if ( ! empty( $class ) ) {
-			if ( ! is_array( $class ) ) {
-				$class = preg_split( '#\s+#', $class );
+		if ( ! empty( $extra_classes ) ) {
+			if ( ! is_array( $extra_classes ) ) {
+				$extra_classes = preg_split( '#\s+#', $extra_classes );
 			}
-			$css_classes = array_map( 'sanitize_html_class', $class );
+			$css_classes = array_map( 'sanitize_html_class', $extra_classes );
 		}
 
 		// Set a class with the field ID.

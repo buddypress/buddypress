@@ -1409,8 +1409,6 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$paged_groups[0]->id = 5;
 		$paged_groups[1]->id = 10;
 
-		$group_ids = array( 5, 10 );
-
 		$expected = array();
 		foreach ( $paged_groups as $key => $value ) {
 			$expected[ $key ] = new stdClass;
@@ -1426,7 +1424,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 
 		$this->assertSame(
 			array_map( 'get_object_vars', $expected ),
-			array_map( 'get_object_vars', BP_Groups_Group::get_group_extras( $paged_groups, $group_ids ) )
+			array_map( 'get_object_vars', BP_Groups_Group::get_group_extras( $paged_groups ) )
 		);
 
 		wp_set_current_user( $old_user );
@@ -1443,8 +1441,6 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$paged_groups[] = new stdClass;
 		$paged_groups[0]->id = $g;
 
-		$group_ids = array( $g );
-
 		$expected = array();
 		foreach ( $paged_groups as $key => $value ) {
 			$expected[ $key ] = new stdClass;
@@ -1460,7 +1456,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 
 		$this->assertSame(
 			array_map( 'get_object_vars', $expected ),
-			array_map( 'get_object_vars', BP_Groups_Group::get_group_extras( $paged_groups, $group_ids ) )
+			array_map( 'get_object_vars', BP_Groups_Group::get_group_extras( $paged_groups ) )
 		);
 
 		wp_set_current_user( $old_user );
@@ -1478,8 +1474,6 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$paged_groups[] = new stdClass;
 		$paged_groups[0]->id = $g;
 
-		$group_ids = array( $g );
-
 		$expected = array();
 		foreach ( $paged_groups as $key => $value ) {
 			$expected[ $key ] = new stdClass;
@@ -1495,7 +1489,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 
 		$this->assertSame(
 			array_map( 'get_object_vars', $expected ),
-			array_map( 'get_object_vars', BP_Groups_Group::get_group_extras( $paged_groups, $group_ids ) )
+			array_map( 'get_object_vars', BP_Groups_Group::get_group_extras( $paged_groups ) )
 		);
 
 		wp_set_current_user( $old_user );
@@ -1521,8 +1515,6 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$paged_groups[] = new stdClass;
 		$paged_groups[0]->id = $g;
 
-		$group_ids = array( $g );
-
 		$expected = array();
 		foreach ( $paged_groups as $key => $value ) {
 			$expected[ $key ] = new stdClass;
@@ -1538,7 +1530,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 
 		$this->assertSame(
 			array_map( 'get_object_vars', $expected ),
-			array_map( 'get_object_vars', BP_Groups_Group::get_group_extras( $paged_groups, $group_ids ) )
+			array_map( 'get_object_vars', BP_Groups_Group::get_group_extras( $paged_groups ) )
 		);
 
 		wp_set_current_user( $old_user );
@@ -1561,8 +1553,6 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$paged_groups[] = new stdClass;
 		$paged_groups[0]->id = $g;
 
-		$group_ids = array( $g );
-
 		$expected = array();
 		foreach ( $paged_groups as $key => $value ) {
 			$expected[ $key ] = new stdClass;
@@ -1578,7 +1568,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 
 		$this->assertSame(
 			array_map( 'get_object_vars', $expected ),
-			array_map( 'get_object_vars', BP_Groups_Group::get_group_extras( $paged_groups, $group_ids ) )
+			array_map( 'get_object_vars', BP_Groups_Group::get_group_extras( $paged_groups ) )
 		);
 
 		wp_set_current_user( $old_user );
@@ -1602,8 +1592,6 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$paged_groups[] = new stdClass;
 		$paged_groups[0]->id = $g;
 
-		$group_ids = array( $g );
-
 		$expected = array();
 		foreach ( $paged_groups as $key => $value ) {
 			$expected[ $key ] = new stdClass;
@@ -1619,7 +1607,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 
 		$this->assertSame(
 			array_map( 'get_object_vars', $expected ),
-			array_map( 'get_object_vars', BP_Groups_Group::get_group_extras( $paged_groups, $group_ids ) )
+			array_map( 'get_object_vars', BP_Groups_Group::get_group_extras( $paged_groups ) )
 		);
 
 		wp_set_current_user( $old_user );

@@ -1904,12 +1904,12 @@ class BP_Members_Admin {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param string $class    The name of the class to use.
-	 * @param string $required The parent class.
+	 * @param string $list_table_class The name of the class to use.
+	 * @param string $required         The parent class.
 	 * @return WP_List_Table|null The List table.
 	 */
-	public static function get_list_table_class( $class = '', $required = '' ) {
-		if ( empty( $class ) ) {
+	public static function get_list_table_class( $list_table_class = '', $required = '' ) {
+		if ( empty( $list_table_class ) ) {
 			return;
 		}
 
@@ -1917,7 +1917,7 @@ class BP_Members_Admin {
 			require_once ABSPATH . 'wp-admin/includes/class-wp-' . $required . '-list-table.php';
 		}
 
-		return new $class();
+		return new $list_table_class();
 	}
 
 	/**

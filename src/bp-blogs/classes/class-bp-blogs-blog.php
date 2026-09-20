@@ -335,7 +335,7 @@ class BP_Blogs_Blog {
 			$blog_ids[] = (int) $blog->blog_id;
 		}
 
-		$paged_blogs = self::get_blog_extras( $paged_blogs, $blog_ids, $r['type'] );
+		$paged_blogs = self::get_blog_extras( $paged_blogs, $blog_ids );
 
 		// Integer casting.
 		foreach ( (array) $paged_blogs as $key => $data ) {
@@ -686,12 +686,13 @@ class BP_Blogs_Blog {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @param array       $paged_blogs Array of results from the original query.
-	 * @param array       $blog_ids    Array of IDs returned from the original query.
-	 * @param string|bool $type        Not currently used. Default: false.
-	 * @return array $paged_blogs The located blogs array, with the extras added.
+	 * @since 15.0.0 The `$type` parameter was removed since it was unused.
+	 *
+	 * @param array $paged_blogs Array of results from the original query.
+	 * @param array $blog_ids    Array of IDs returned from the original query.
+	 * @return array
 	 */
-	public static function get_blog_extras( &$paged_blogs, &$blog_ids, $type = false ) {
+	public static function get_blog_extras( &$paged_blogs, &$blog_ids ) {
 		global $wpdb;
 
 		$bp = buddypress();

@@ -100,19 +100,19 @@ function bp_nouveau_groups_enqueue_scripts() {
  *
  * @since 3.0.0
  *
- * @param bool $default False to allow. True to disallow.
+ * @param bool $disallow False to allow. True to disallow.
  *
  * @return bool
  */
-function bp_nouveau_groups_disallow_all_members_invites( $default = false ) {
+function bp_nouveau_groups_disallow_all_members_invites( $disallow = false ) {
 	/**
 	 * Filter to remove the All members nav, returning true
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param bool $default True to disable the nav. False otherwise.
+	 * @param bool $disallow True to disable the nav. False otherwise.
 	 */
-	return apply_filters( 'bp_nouveau_groups_disallow_all_members_invites', $default );
+	return apply_filters( 'bp_nouveau_groups_disallow_all_members_invites', $disallow );
 }
 
 /**

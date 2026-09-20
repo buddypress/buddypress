@@ -1661,11 +1661,11 @@ function bp_activity_generated_content_part( $property = '' ) {
 	 *
 	 * @since 10.0.0
 	 *
-	 * @param string $property The name of the property to check into the generated content.
-	 * @param string $return   Whether to return the property value or a boolean to check it exists.
-	 * @return bool|string     A boolean when requested, false if there is no value, the HTML output otherwise.
+	 * @param string $property     The name of the property to check into the generated content.
+	 * @param string $return_found Whether to return the property value or a boolean to check it exists.
+	 * @return bool|string
 	 */
-	function bp_activity_get_generated_content_part( $property = '', $return = '' ) {
+	function bp_activity_get_generated_content_part( $property = '', $return_found = '' ) {
 		global $activities_template;
 
 		if ( ! isset( $activities_template->activity->generated_content->{$property} ) ) {
@@ -1678,7 +1678,7 @@ function bp_activity_generated_content_part( $property = '' ) {
 			return false;
 		}
 
-		if ( 'boolean' === $return ) {
+		if ( 'boolean' === $return_found ) {
 			return true;
 		}
 
@@ -1888,28 +1888,27 @@ function bp_activity_user_can_delete( $activity = false ) {
  * Output the activity parent content.
  *
  * @since 1.2.0
+ * @since 15.0.0 The `$args` parameter was removed since it was unused.
  *
- * @see bp_get_activity_parent_content() for a description of arguments.
- *
- * @param array|string $args See {@link bp_get_activity_parent_content} for description.
+ * @see bp_get_activity_parent_content().
  */
-function bp_activity_parent_content( $args = '' ) {
+function bp_activity_parent_content() {
 	// Escaping is made in `bp-activity/bp-activity-filters.php`.
 	// phpcs:ignore WordPress.Security.EscapeOutput
-	echo bp_get_activity_parent_content( $args );
+	echo bp_get_activity_parent_content();
 }
 
 	/**
 	 * Return the activity content.
 	 *
 	 * @since 1.2.0
+	 * @since 15.0.0 The `$args` parameter was removed since it was unused.
 	 *
 	 * @global BP_Activity_Template $activities_template The main activity template loop class.
 	 *
-	 * @param string $args Unused. Left over from an earlier implementation.
 	 * @return mixed False on failure, otherwise the activity parent content.
 	 */
-	function bp_get_activity_parent_content( $args = '' ) {
+	function bp_get_activity_parent_content() {
 		global $activities_template;
 
 		// Bail if no activity on no item ID.

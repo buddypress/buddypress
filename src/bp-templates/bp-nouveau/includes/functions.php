@@ -27,12 +27,12 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.0.0
  *
  * @param string $query_string Query string for the current request.
- * @param string $object       Object for cookie.
+ * @param string $component    Object for cookie.
  *
  * @return string Query string for the component loops
  */
-function bp_nouveau_ajax_querystring( $query_string, $object ) {
-	if ( empty( $object ) ) {
+function bp_nouveau_ajax_querystring( $query_string, $component ) {
+	if ( empty( $component ) ) {
 		return '';
 	}
 
@@ -80,7 +80,7 @@ function bp_nouveau_ajax_querystring( $query_string, $object ) {
 
 	// Activity stream filtering on action.
 	if ( ! empty( $post_query['filter'] ) && '-1' !== $post_query['filter'] ) {
-		if ( 'notifications' === $object ) {
+		if ( 'notifications' === $component ) {
 			$qs[] = 'component_action=' . $post_query['filter'];
 		} else {
 			$qs[] = 'type=' . $post_query['filter'];
@@ -89,7 +89,7 @@ function bp_nouveau_ajax_querystring( $query_string, $object ) {
 	}
 
 	// Sort the notifications if needed
-	if ( ! empty( $post_query['extras'] ) && 'notifications' === $object ) {
+	if ( ! empty( $post_query['extras'] ) && 'notifications' === $component ) {
 		$qs[] = 'sort_order=' . $post_query['extras'];
 	}
 
@@ -123,20 +123,20 @@ function bp_nouveau_ajax_querystring( $query_string, $object ) {
 		$qs[] = 'offset_lower=' . intval( $post_query['offset_lower'] );
 	}
 
-	$object_search_text = bp_get_search_default_text( $object );
+	$object_search_text = bp_get_search_default_text( $component );
 	if ( ! empty( $post_query['search_terms'] ) && $object_search_text !== $post_query['search_terms'] && 'false' !== $post_query['search_terms'] && 'undefined' !== $post_query['search_terms'] ) {
 		$qs[] = 'search_terms=' . urlencode( $_POST['search_terms'] );
 	}
 
 	// Specific to messages
-	if ( 'messages' === $object ) {
+	if ( 'messages' === $component ) {
 		if ( ! empty( $post_query['box'] ) ) {
 			$qs[] = 'box=' . $post_query['box'];
 		}
 	}
 
 	// Single activity.
-	if ( bp_is_single_activity() && 'activity' === $object ) {
+	if ( bp_is_single_activity() && 'activity' === $component ) {
 		$qs = array(
 			'display_comments=threaded',
 			'show_hidden=true',
@@ -156,14 +156,14 @@ function bp_nouveau_ajax_querystring( $query_string, $object ) {
 	 * @since 3.0.0
 	 *
 	 * @param string $query_string The query string we are working with.
-	 * @param string $object       The type of page we are on.
+	 * @param string $component    The type of page we are on.
 	 * @param string $filter       The current object filter.
 	 * @param string $scope        The current object scope.
 	 * @param string $page         The current object page.
 	 * @param string $search_terms The current object search terms.
 	 * @param string $extras       The current object extras.
 	 */
-	return apply_filters( 'bp_nouveau_ajax_querystring', $query_string, $object, $filter, $scope, $page, $search_terms, $extras );
+	return apply_filters( 'bp_nouveau_ajax_querystring', $query_string, $component, $filter, $scope, $page, $search_terms, $extras );
 }
 
 /**
