@@ -495,8 +495,12 @@ class BP_Activity_Activity {
 		}
 
 		// Regular filtering.
-		if ( $r['filter'] && $filter_sql = self::get_filter_sql( $r['filter'] ) ) {
-			$where_conditions['filter_sql'] = $filter_sql;
+		if ( $r['filter'] ) {
+			$filter_sql = self::get_filter_sql( $r['filter'] );
+
+			if ( $filter_sql ) {
+				$where_conditions['filter_sql'] = $filter_sql;
+			}
 		}
 
 		// User IDs filtering.

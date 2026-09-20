@@ -1585,27 +1585,31 @@ function bp_is_current_component( $component = '' ) {
 		} elseif ( isset( $bp->{$component}->slug ) && $bp->{$component}->slug === $bp->current_component ) {
 			$is_current_component = true;
 
-		// Next, check to see whether $component is a canonical,
-		// non-translatable component name. If so, we can return its
-		// corresponding slug from $bp->active_components.
-		} elseif ( $key = array_search( $component, $bp->active_components, true ) ) {
-			if ( strstr( $bp->current_component, $key ) ) {
-				$is_current_component = true;
-			}
-
-		// If we haven't found a match yet, check against the root_slugs
-		// created by $bp->pages, as well as the regular slugs.
 		} else {
-			foreach ( $bp->active_components as $id ) {
-				// If the $component parameter does not match the current_component,
-				// then move along, these are not the droids you are looking for.
-				if ( empty( $bp->{$id}->root_slug ) || $bp->{$id}->root_slug !== $bp->current_component ) {
-					continue;
+			// Next, check to see whether $component is a canonical,
+			// non-translatable component name. If so, we can return its
+			// corresponding slug from $bp->active_components.
+			$key = array_search( $component, $bp->active_components, true );
+
+			if ( $key ) {
+				if ( strstr( $bp->current_component, $key ) ) {
+					$is_current_component = true;
 				}
 
-				if ( $id === $component ) {
-					$is_current_component = true;
-					break;
+			// If we haven't found a match yet, check against the root_slugs
+			// created by $bp->pages, as well as the regular slugs.
+			} else {
+				foreach ( $bp->active_components as $id ) {
+					// If the $component parameter does not match the current_component,
+					// then move along, these are not the droids you are looking for.
+					if ( empty( $bp->{$id}->root_slug ) || $bp->{$id}->root_slug !== $bp->current_component ) {
+						continue;
+					}
+
+					if ( $id === $component ) {
+						$is_current_component = true;
+						break;
+					}
 				}
 			}
 		}

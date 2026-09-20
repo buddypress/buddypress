@@ -60,7 +60,8 @@ $hidden_checked  = 'hidden' === bp_get_new_group_status();
 </fieldset>
 
 <?php // Group type selection ?>
-<?php if ( $group_types = bp_groups_get_group_types( array( 'show_in_create_screen' => true ), 'objects' ) ) : ?>
+<?php $group_types = bp_groups_get_group_types( array( 'show_in_create_screen' => true ), 'objects' ); ?>
+<?php if ( $group_types ) : ?>
 
 	<fieldset class="group-create-types">
 		<legend><?php esc_html_e( 'Group Types', 'buddypress' ); ?></legend>
