@@ -125,7 +125,7 @@ function bp_nouveau_ajax_querystring( $query_string, $component ) {
 
 	$object_search_text = bp_get_search_default_text( $component );
 	if ( ! empty( $post_query['search_terms'] ) && $object_search_text !== $post_query['search_terms'] && 'false' !== $post_query['search_terms'] && 'undefined' !== $post_query['search_terms'] ) {
-		$qs[] = 'search_terms=' . urlencode( $_POST['search_terms'] );
+		$qs[] = 'search_terms=' . rawurlencode( $_POST['search_terms'] );
 	}
 
 	// Specific to messages

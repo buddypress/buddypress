@@ -746,7 +746,7 @@ function bp_legacy_theme_ajax_querystring( $query_string, $component ) {
 
 	// Activity stream filtering on action.
 	if ( ! empty( $bp_cookie[ 'bp-' . $component . '-filter' ] ) && '-1' !== $bp_cookie[ 'bp-' . $component . '-filter' ] ) {
-		$qs[] = 'type=' . urlencode( $bp_cookie[ 'bp-' . $component . '-filter' ] );
+		$qs[] = 'type=' . rawurlencode( $bp_cookie[ 'bp-' . $component . '-filter' ] );
 
 		if ( bp_is_active( 'activity' ) ) {
 			$actions = bp_activity_get_actions_for_context();
@@ -769,7 +769,7 @@ function bp_legacy_theme_ajax_querystring( $query_string, $component ) {
 
 		// Activity stream scope only on activity directory.
 		if ( 'all' !== $bp_cookie[ 'bp-' . $component . '-scope' ] && ! bp_displayed_user_id() && ! bp_is_single_item() ) {
-			$qs[] = 'scope=' . urlencode( $bp_cookie[ 'bp-' . $component . '-scope' ] );
+			$qs[] = 'scope=' . rawurlencode( $bp_cookie[ 'bp-' . $component . '-scope' ] );
 		}
 	}
 
@@ -802,7 +802,7 @@ function bp_legacy_theme_ajax_querystring( $query_string, $component ) {
 		&& 'false' !== $_POST['search_terms']
 		&& 'undefined' !== $_POST['search_terms']
 	) {
-		$qs[] = 'search_terms=' . urlencode( $_POST['search_terms'] );
+		$qs[] = 'search_terms=' . rawurlencode( $_POST['search_terms'] );
 	}
 
 	// Now pass the querystring to override default values.

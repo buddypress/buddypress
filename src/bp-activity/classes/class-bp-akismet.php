@@ -614,7 +614,7 @@ class BP_Akismet {
 		}
 
 		foreach ( $activity_data as $key => $data ) {
-			$query_string .= $key . '=' . urlencode( stripslashes( $data ) ) . '&';
+			$query_string .= $key . '=' . rawurlencode( stripslashes( $data ) ) . '&';
 		}
 
 		if ( 'check' === $check ) {

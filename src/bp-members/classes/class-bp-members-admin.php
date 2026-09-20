@@ -930,7 +930,7 @@ class BP_Members_Admin {
 		if ( ! empty( $_REQUEST['wp_http_referer'] ) ) {
 			$wp_http_referer               = wp_unslash( $_REQUEST['wp_http_referer'] );
 			$wp_http_referer               = wp_validate_redirect( esc_url_raw( $wp_http_referer ) );
-			$query_args['wp_http_referer'] = urlencode( $wp_http_referer );
+			$query_args['wp_http_referer'] = rawurlencode( $wp_http_referer );
 		}
 
 		// Setup the two distinct "edit" URL's.
@@ -1584,7 +1584,7 @@ class BP_Members_Admin {
 					$wp_http_referer               = wp_unslash( $_REQUEST['wp_http_referer'] );
 					$wp_http_referer               = remove_query_arg( array( 'action', 'updated' ), $wp_http_referer );
 					$wp_http_referer               = wp_validate_redirect( esc_url_raw( $wp_http_referer ) );
-					$query_args['wp_http_referer'] = urlencode( $wp_http_referer );
+					$query_args['wp_http_referer'] = rawurlencode( $wp_http_referer );
 				}
 
 				$community_url = add_query_arg( $query_args, $this->edit_profile_url );
@@ -1719,7 +1719,7 @@ class BP_Members_Admin {
 		// Add the referer.
 		$wp_http_referer         = wp_unslash( $_SERVER['REQUEST_URI'] );
 		$wp_http_referer         = wp_validate_redirect( esc_url_raw( $wp_http_referer ) );
-		$args['wp_http_referer'] = urlencode( $wp_http_referer );
+		$args['wp_http_referer'] = rawurlencode( $wp_http_referer );
 
 		// Add the "Extended" link if the current user can edit this user.
 		if ( current_user_can( 'edit_user', $user->ID ) || bp_current_user_can( 'bp_moderate' ) ) {
@@ -2930,7 +2930,7 @@ class BP_Members_Admin {
 
 			$type_links = array();
 			foreach ( $member_types as $type ) {
-				$url          = add_query_arg( array( 'bp-member-type' => urlencode( $type->name ) ) );
+				$url          = add_query_arg( array( 'bp-member-type' => rawurlencode( $type->name ) ) );
 				$type_links[] = sprintf(
 					'<a href="%1$s">%2$s</a>',
 					esc_url( $url ),

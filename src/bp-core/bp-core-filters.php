@@ -531,7 +531,7 @@ function bp_core_activation_signup_blog_notification( $domain, $path, $title, $u
 
 	$args = array(
 		'tokens' => array(
-			'activate-site.url' => esc_url( bp_get_activation_page() . '?key=' . urlencode( $key ) ),
+			'activate-site.url' => esc_url( bp_get_activation_page() . '?key=' . rawurlencode( $key ) ),
 			'domain'            => $domain,
 			'key_blog'          => $key,
 			'path'              => $path,

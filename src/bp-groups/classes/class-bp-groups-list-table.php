@@ -898,7 +898,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 	 * @return string
 	 */
 	public function group_type_permalink_use_admin_filter( $retval, $type ) {
-		return add_query_arg( array( 'bp-group-type' => urlencode( $type->name ) ) );
+		return add_query_arg( array( 'bp-group-type' => rawurlencode( $type->name ) ) );
 	}
 
 	/**

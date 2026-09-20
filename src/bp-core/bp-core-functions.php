@@ -2682,7 +2682,7 @@ function bp_core_action_search_site( $slug = '' ) {
 	}
 
 	$search_terms         = sanitize_text_field( wp_unslash( $_POST['search-terms'] ) );
-	$encoded_search_terms = urlencode( $search_terms );
+	$encoded_search_terms = rawurlencode( $search_terms );
 	$search_which         = '';
 
 	if ( ! empty( $_POST['search-which'] ) ) {

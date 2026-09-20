@@ -398,7 +398,7 @@ function bp_core_no_access( $args = '' ) {
 		default:
 			$url = $root;
 			if ( ! empty( $redirect ) ) {
-				$url = add_query_arg( 'redirect_to', urlencode( $redirect ), $root );
+				$url = add_query_arg( 'redirect_to', rawurlencode( $redirect ), $root );
 			}
 
 			if ( ! empty( $message ) ) {

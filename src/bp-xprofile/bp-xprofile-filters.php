@@ -455,7 +455,7 @@ function xprofile_filter_link_profile_data( $field_value, $field_type = 'textbox
 			// Less than 5 spaces.
 			} else {
 				$query_arg    = bp_core_get_component_search_query_arg( 'members' );
-				$search_url   = add_query_arg( array( $query_arg => urlencode( $value ) ), bp_get_members_directory_permalink() );
+				$search_url   = add_query_arg( array( $query_arg => rawurlencode( $value ) ), bp_get_members_directory_permalink() );
 				$new_values[] = '<a href="' . esc_url( $search_url ) . '" rel="nofollow">' . $value . '</a>';
 			}
 		}
