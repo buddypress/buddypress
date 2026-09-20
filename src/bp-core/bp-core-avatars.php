@@ -1427,6 +1427,7 @@ function bp_avatar_ajax_set() {
 
 		if ( ! empty( $avatar_data['original_file'] ) ) {
 			$webcam_avatar = str_replace( array( 'data:image/png;base64,', ' ' ), array( '', '+' ), $avatar_data['original_file'] );
+			// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_decode
 			$webcam_avatar = base64_decode( $webcam_avatar );
 		}
 
