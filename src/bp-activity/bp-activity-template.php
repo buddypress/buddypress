@@ -2381,7 +2381,7 @@ function bp_activity_comment_date_recorded() {
 		 *
 		 * @since 1.5.0
 		 *
-		 * @param string|bool Date for the activity comment currently being displayed.
+		 * @param string|bool $date_recorded Date for the activity comment currently being displayed.
 		 */
 		return apply_filters( 'bp_activity_comment_date_recorded', bp_core_time_since( bp_get_activity_comment_date_recorded_raw() ) );
 	}
@@ -2413,7 +2413,7 @@ function bp_activity_comment_date_recorded_raw() {
 		 *
 		 * @since 2.3.0
 		 *
-		 * @param string|bool Raw date for the activity comment currently being displayed.
+		 * @param string|bool $date_recorded Raw date for the activity comment currently being displayed.
 		 */
 		return apply_filters( 'bp_activity_comment_date_recorded', $activities_template->activity->current_comment->date_recorded );
 	}

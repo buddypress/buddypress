@@ -204,7 +204,7 @@ class BP_Invitation {
 		 *
 		 * @since 5.0.0
 		 *
-		 * @param BP_Invitation object $this Characteristics of the invitation to be saved.
+		 * @param BP_Invitation $invitation Characteristics of the invitation to be saved.
 		 */
 		do_action_ref_array( 'bp_invitation_before_save', array( &$this ) );
 
@@ -231,7 +231,7 @@ class BP_Invitation {
 		 *
 		 * @since 5.0.0
 		 *
-		 * @param BP_Invitation object $this Characteristics of the invitation just saved.
+		 * @param BP_Invitation $invitation Characteristics of the invitation just saved.
 		 */
 		do_action_ref_array( 'bp_invitation_after_save', array( &$this ) );
 

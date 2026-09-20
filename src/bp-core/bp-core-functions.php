@@ -538,7 +538,7 @@ function bp_forums_parent_forum_id() {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @param int BP_FORUMS_PARENT_FORUM_ID The Parent forum ID constant.
+	 * @param int $parent_forum_id The parent forum ID.
 	 */
 	return apply_filters( 'bp_forums_parent_forum_id', BP_FORUMS_PARENT_FORUM_ID );
 }

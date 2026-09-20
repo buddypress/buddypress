@@ -113,7 +113,7 @@ class BP_Groups_Membership_Request_REST_Controller extends WP_REST_Controller {
 	 *
 	 * @since 15.0.0
 	 *
-	 * @param  WP_REST_Request $request Full data about the request.
+	 * @param WP_REST_Request $request Full data about the request.
 	 * @return WP_REST_Response|WP_Error
 	 */
 	public function get_items( $request ) {
@@ -156,9 +156,9 @@ class BP_Groups_Membership_Request_REST_Controller extends WP_REST_Controller {
 		 *
 		 * @since 15.0.0
 		 *
-		 * @param array of BP_Invitations $group_requests List of membership requests.
-		 * @param WP_REST_Response        $response       The response data.
-		 * @param WP_REST_Request         $request        The request sent to the API.
+		 * @param BP_Invitation[]  $group_requests List of membership requests.
+		 * @param WP_REST_Response $response       The response data.
+		 * @param WP_REST_Request  $request        The request sent to the API.
 		 */
 		do_action( 'bp_rest_group_membership_requests_get_items', $group_requests, $response, $request );
 

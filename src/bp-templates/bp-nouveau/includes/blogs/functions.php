@@ -109,8 +109,8 @@ function bp_nouveau_get_blogs_filters( $context = '' ) {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param array  the blogs filters.
-	 * @param string the context.
+	 * @param array  $filters The blogs filters.
+	 * @param string $context The context.
 	 */
 	$filters = apply_filters(
 		'bp_nouveau_get_blogs_filters',

@@ -306,8 +306,8 @@ function messages_delete_thread( $thread_ids, $user_id = 0 ) {
 		 * @since 1.0.0
 		 * @since 2.7.0 The $user_id parameter was added.
 		 *
-		 * @param int|array Thread ID or array of thread IDs that were deleted.
-		 * @param int       ID of the user that the threads were deleted for.
+		 * @param int|array $thread_ids Thread ID or array of thread IDs that were deleted.
+		 * @param int       $user_id    ID of the user that the threads were deleted for.
 		 */
 		do_action( 'messages_delete_thread', $thread_ids, $user_id );
 
@@ -870,8 +870,8 @@ function bp_messages_exit_thread( $thread_ids, $user_id = 0 ) {
 		 *
 		 * @since 10.0.0
 		 *
-		 * @param int|array Thread ID or array of thread IDs that were deleted.
-		 * @param int       ID of the user that the threads were deleted for.
+		 * @param int|array $thread_ids Thread ID or array of thread IDs that were exited.
+		 * @param int       $user_id    ID of the user who exited the threads.
 		 */
 		do_action( 'bp_messages_exit_thread', $thread_ids, $user_id );
 

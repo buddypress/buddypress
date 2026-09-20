@@ -174,7 +174,7 @@ abstract class BP_Invitation_Manager {
 		 *
 		 * @since 5.0.0
 		 *
-		 * @param BP_Invitation object $invitation Invitation about to be sent.
+		 * @param BP_Invitation $invitation Invitation about to be sent.
 		 */
 		do_action( 'bp_invitations_send_invitation_by_id_before_send', $invitation );
 

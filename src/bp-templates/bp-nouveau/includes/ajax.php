@@ -172,7 +172,7 @@ function bp_nouveau_ajax_object_template_loader() {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param string Template file path.
+	 * @param string $template_path Template file path.
 	 */
 	$template_path = apply_filters( 'bp_nouveau_object_template_path', $template_path );
 

@@ -2588,7 +2588,7 @@ function bp_activity_post_type_comment( $comment_id = 0, $is_approved = true, $a
 	 *
 	 * @since 2.5.0
 	 *
-	 * @param bool true to bail, false otherwise.
+	 * @param bool $is_post_status_not_allowed True to bail, false otherwise.
 	 */
 	$is_post_status_not_allowed = (bool) apply_filters( 'bp_activity_post_type_is_post_status_allowed', 'publish' !== $post_type_comment->post->post_status || ! empty( $post_type_comment->post->post_password ) );
 
@@ -3460,7 +3460,7 @@ function bp_activity_get_excerpt_length() {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @param int Character length for activity excerpts.
+	 * @param int $length Character length for activity excerpts.
 	 */
 	return (int) apply_filters( 'bp_activity_excerpt_length', 358 );
 }

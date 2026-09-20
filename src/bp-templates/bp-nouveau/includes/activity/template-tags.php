@@ -1009,7 +1009,7 @@ function bp_nouveau_activity_rss_link() {
 		 *
 		 * @since 8.0.0
 		 *
-		 * @param string The Activity RSS link.
+		 * @param string $link The Activity RSS link.
 		 */
 		return apply_filters( 'bp_nouveau_activity_get_rss_link', $link );
 	}
@@ -1043,7 +1043,7 @@ function bp_nouveau_activity_rss_tooltip() {
 		 *
 		 * @since 8.0.0
 		 *
-		 * @param string The Activity RSS Tooltip.
+		 * @param string $tooltip The Activity RSS Tooltip.
 		 */
 		return apply_filters( 'bp_nouveau_activity_get_rss_tooltip', $tooltip );
 	}
@@ -1077,7 +1077,7 @@ function bp_nouveau_activity_rss_screen_reader_text() {
 		 *
 		 * @since 8.0.0
 		 *
-		 * @param string The Activity RSS screen reader text.
+		 * @param string $screen_reader_text The Activity RSS screen reader text.
 		 */
 		return apply_filters( 'bp_nouveau_activity_get_rss_screen_reader_text', $screen_reader_text );
 	}

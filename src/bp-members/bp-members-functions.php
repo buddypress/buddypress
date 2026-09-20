@@ -1463,7 +1463,7 @@ function bp_core_can_edit_settings() {
 	 *
 	 * @since 2.8.0
 	 *
-	 * @param bool True if editing is allowed, otherwise false.
+	 * @param bool $status True if editing is allowed, otherwise false.
 	 */
 	return apply_filters( 'bp_core_can_edit_settings', $status );
 }
@@ -1543,7 +1543,7 @@ function bp_core_get_illegal_names( $value = '' ) {
 	 *
 	 * @since 3.0
 	 *
-	 * @param array Array of illegal usernames.
+	 * @param array $usernames Array of illegal usernames.
 	 */
 	$wp_filtered_illegal_names = apply_filters( 'illegal_user_logins', array() );
 

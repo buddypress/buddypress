@@ -26,7 +26,7 @@ function bp_get_messages_starred_slug() {
 	 *
 	 * @since 2.3.0
 	 *
-	 * @param string
+	 * @param string $slug The starred messages slug.
 	 */
 	return sanitize_title( apply_filters( 'bp_get_messages_starred_slug', 'starred' ) );
 }

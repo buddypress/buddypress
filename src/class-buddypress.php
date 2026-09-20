@@ -825,7 +825,7 @@ class BuddyPress {
 			'register_theme_packages',  // Register bundled theme packages (bp-themes).
 			'load_textdomain',          // Load textdomain.
 			'add_rewrite_tags',         // Add rewrite tags.
-			'generate_rewrite_rules',    // Generate rewrite rules.
+			'generate_rewrite_rules',   // Generate rewrite rules.
 		);
 
 		// Add the actions.
@@ -842,7 +842,7 @@ class BuddyPress {
 		 *
 		 * @since 1.7.0
 		 *
-		 * @param BuddyPress $this. Current BuddyPress instance. Passed by reference.
+		 * @param BuddyPress $buddypress Current BuddyPress instance. Passed by reference.
 		 */
 		do_action_ref_array( 'bp_after_setup_actions', array( &$this ) );
 	}

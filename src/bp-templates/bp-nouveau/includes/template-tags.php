@@ -312,7 +312,7 @@ function bp_nouveau_user_feedback( $feedback_id = '' ) {
 		 *
 		 * @since 3.0.0
 		 *
-		 * @param string path to your template part.
+		 * @param string $template Path to the template part.
 		 */
 		apply_filters( 'bp_nouveau_user_feedback_template', 'common/notices/template-notices' )
 	);

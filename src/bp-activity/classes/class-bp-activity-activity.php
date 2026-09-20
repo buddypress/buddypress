@@ -1191,7 +1191,7 @@ class BP_Activity_Activity {
 			 *
 			 * @since 2.2.0
 			 *
-			 * @param array {
+			 * @param array $scope_args {
 			 *     Activity query clauses.
 			 *     @type array {
 			 *         Activity arguments for your custom scope.

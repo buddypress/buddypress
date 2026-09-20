@@ -36,7 +36,7 @@ class BP_Members_Invitation_Manager extends BP_Invitation_Manager {
 	 *
 	 * @since 8.0.0
 	 *
-	 * @param obj BP_Invitation $invitation The invitation to send.
+	 * @param BP_Invitation $invitation The invitation to send.
 	 * @return bool
 	 */
 	public function run_send_action( BP_Invitation $invitation ) {
