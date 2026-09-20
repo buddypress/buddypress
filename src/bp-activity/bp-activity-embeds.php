@@ -71,6 +71,7 @@ function bp_activity_embed_add_inline_styles() {
 	}
 
 	// Grab contents of CSS file and do some rudimentary CSS protection.
+	// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
 	$css = file_get_contents( $css['file'] );
 
 	printf( '<style type="text/css">%s</style>', wp_kses( $css, array( "\'", '\"' ) ) );

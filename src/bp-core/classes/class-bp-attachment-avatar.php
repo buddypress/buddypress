@@ -335,6 +335,7 @@ class BP_Attachment_Avatar extends BP_Attachment {
 		}
 
 		// Remove the original.
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.unlink_unlink
 		@unlink( $absolute_path );
 
 		// Return the full, thumb cropped avatars and the timestamp.

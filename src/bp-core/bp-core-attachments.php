@@ -445,6 +445,7 @@ function bp_attachments_create_item_type( $type = 'avatar', $args = array() ) {
 
 	// Remove copied file if it fails.
 	if ( ! $created ) {
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.unlink_unlink -- Preserve best-effort cleanup of the local copied upload.
 		@unlink( $image_file_path );
 	}
 
@@ -600,6 +601,7 @@ function bp_attachments_delete_file( $args = array() ) {
 		return false;
 	}
 
+	// phpcs:ignore WordPress.WP.AlternativeFunctions.unlink_unlink
 	@unlink( $attachment_path );
 	return true;
 }
@@ -1337,6 +1339,7 @@ function bp_attachments_cover_image_generate_file( $args = array(), $cover_image
 	// Image is too small in width and height.
 	if ( empty( $cover_image ) ) {
 		$cover_file = $cover_image_class->generate_filename( $args['file'] );
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.rename_rename
 		@rename( $args['file'], $cover_file );
 
 		// It's too small!
@@ -1371,6 +1374,7 @@ function bp_attachments_cover_image_generate_file( $args = array(), $cover_image
 
 			// Skip directories and the new cover image.
 			if ( 2 < strlen( $attachment_file ) && 0 !== strpos( $attachment_file, '.' ) && $cover_basename !== $attachment_file ) {
+				// phpcs:ignore WordPress.WP.AlternativeFunctions.unlink_unlink
 				@unlink( $args['cover_image_dir'] . '/' . $attachment_file );
 			}
 		}

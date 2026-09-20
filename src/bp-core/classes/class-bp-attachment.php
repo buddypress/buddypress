@@ -629,12 +629,14 @@ abstract class BP_Attachment {
 
 		// Create the revision directory if it doesn't exist yet.
 		if ( ! is_dir( $revision_dir ) ) {
+			// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_mkdir
 			mkdir( $revision_dir );
 		}
 
 		$revision_name = wp_unique_filename( $revision_dir, $filename );
 		$revision_path = trailingslashit( $revision_dir ) . $revision_name;
 
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.rename_rename
 		if ( ! rename( $filepath, $revision_path ) ) {
 			return new WP_Error( 'adding_revision_failed', __( 'An unexpected error occured while adding the revision.', 'buddypress' ) );
 		}
