@@ -1249,9 +1249,9 @@ add_action( 'bp_delete_site', 'bp_blogs_remove_data_for_blog', 1 );
  * @see BP_Blogs_Blog::get_blogs_for_user() for a description of parameters
  *      and return values.
  *
- * @param int  $user_id     See {@BP_Blogs_Blog::get_blogs_for_user()}.
- * @param bool $show_hidden Optional. See {@BP_Blogs_Blog::get_blogs_for_user()}.
- * @return array See {@BP_Blogs_Blog::get_blogs_for_user()}.
+ * @param int  $user_id     See {@link BP_Blogs_Blog::get_blogs_for_user()}.
+ * @param bool $show_hidden Optional. See {@link BP_Blogs_Blog::get_blogs_for_user()}.
+ * @return array See {@link BP_Blogs_Blog::get_blogs_for_user()}.
  */
 function bp_blogs_get_blogs_for_user( $user_id, $show_hidden = false ) {
 	return BP_Blogs_Blog::get_blogs_for_user( $user_id, $show_hidden );
@@ -1262,9 +1262,9 @@ function bp_blogs_get_blogs_for_user( $user_id, $show_hidden = false ) {
  *
  * @see BP_Blogs_Blog::get_all() for a description of parameters and return values.
  *
- * @param int|null $limit Optional. See {@BP_Blogs_Blog::get_all()}.
- * @param int|null $page  Optional. See {@BP_Blogs_Blog::get_all()}.
- * @return array See {@BP_Blogs_Blog::get_all()}.
+ * @param int|null $limit Optional. See {@link BP_Blogs_Blog::get_all()}.
+ * @param int|null $page  Optional. See {@link BP_Blogs_Blog::get_all()}.
+ * @return array See {@link BP_Blogs_Blog::get_all()}.
  */
 function bp_blogs_get_all_blogs( $limit = null, $page = null ) {
 	return BP_Blogs_Blog::get_all( $limit, $page );
@@ -1275,9 +1275,9 @@ function bp_blogs_get_all_blogs( $limit = null, $page = null ) {
  *
  * @see BP_Blogs_Blog::get() for a description of parameters and return values.
  *
- * @param int|null $per_page Optional. See {@BP_Blogs_Blog::get()}.
- * @param int|null $page  Optional. See {@BP_Blogs_Blog::get()}.
- * @return array See {@BP_Blogs_Blog::get()}.
+ * @param int|null $per_page Optional. See {@link BP_Blogs_Blog::get()}.
+ * @param int|null $page  Optional. See {@link BP_Blogs_Blog::get()}.
+ * @return array
  */
 function bp_blogs_get_random_blogs( $per_page = null, $page = null ) {
 	return BP_Blogs_Blog::get(
@@ -1294,8 +1294,8 @@ function bp_blogs_get_random_blogs( $per_page = null, $page = null ) {
  *
  * @see BP_Blogs_Blog::is_hidden() for a description of parameters and return values.
  *
- * @param int $blog_id See {@BP_Blogs_Blog::is_hidden()}.
- * @return bool See {@BP_Blogs_Blog::is_hidden()}.
+ * @param int $blog_id See {@link BP_Blogs_Blog::is_hidden()}.
+ * @return bool
  */
 function bp_blogs_is_blog_hidden( $blog_id ) {
 	return BP_Blogs_Blog::is_hidden( $blog_id );

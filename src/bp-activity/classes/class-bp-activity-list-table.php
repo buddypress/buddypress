@@ -123,7 +123,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 			 *
 			 * @since  2.5.0
 			 *
-			 * @param array $filter
+			 * @param array $filter Current activity filter parameters.
 			 */
 			$has_filter_query = apply_filters( 'bp_activity_list_table_filter_activity_type_items', $filter );
 

@@ -70,7 +70,7 @@ class BP_Tests_Core_Functions_BPVerifyNonceRequest extends BP_UnitTestCase {
 	 *
 	 * @param string      $url         The complete home URL including scheme and path.
 	 * @param string      $path        Path relative to the home URL. Blank string if no path is specified.
-	 * @param string|null $orig_scheme Scheme to give the home URL context. Accepts 'http', 'https', 'relative' or null.
+	 * @param string|null $scheme      Scheme to give the home URL context. Accepts 'http', 'https', 'relative' or null.
 	 * @return string
 	 */
 	public function add_port_and_subdirectory_to_home_url( $url, $path, $scheme ) {

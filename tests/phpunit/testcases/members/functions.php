@@ -426,7 +426,7 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 	/**
 	 * @group bp_update_user_last_activity
 	 * @global wpdb $wpdb WordPress database object.
-	 * @param  string $key
+	 * @param string $key User meta key.
 	 * @return string
 	 */
 	public function filter_usermeta_key( $key ) {

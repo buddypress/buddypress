@@ -736,6 +736,9 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 	/**
 	 * Dopey passthrough method so we can check that the correct values
 	 * are being passed to the filter
+	 *
+	 * @param string        $a Activity action.
+	 * @param BP_Blogs_Blog $b Blog object.
 	 */
 	public function created_blog_passthrough( $a, $b ) {
 		$this->userblog_id = isset( $b->id ) ? $b->id : '';
@@ -745,6 +748,9 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 	/**
 	 * Dopey passthrough method so we can check that the correct values
 	 * are being passed to the filter
+	 *
+	 * @param string  $a Activity action.
+	 * @param WP_Post $b Post object.
 	 */
 	public function new_post_passthrough( $a, $b ) {
 		$this->post_id = isset( $b->ID ) ? $b->ID : '';
@@ -754,6 +760,9 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 	/**
 	 * Dopey passthrough method so we can check that the correct values
 	 * are being passed to the filter
+	 *
+	 * @param string     $a Activity action.
+	 * @param WP_Comment $b Comment object.
 	 */
 	public function new_comment_passthrough( $a, $b ) {
 		$this->comment_post_id = isset( $b->comment_post_ID ) ? $b->comment_post_ID : '';
@@ -762,6 +771,8 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 
 	/**
 	 * Explicitly set activity to spam.
+	 *
+	 * @param BP_Activity_Activity $activity Activity object to mark as spam.
 	 */
 	public function set_activity_to_spam( $activity ) {
 		$activity->is_spam = 1;

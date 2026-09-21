@@ -39,8 +39,8 @@ class BP_Messages_Sitewide_Notices_Widget extends WP_Widget {
 	 *
 	 * @see WP_Widget::widget() for a description of parameters.
 	 *
-	 * @param array $args     See {@WP_Widget::widget()}.
-	 * @param array $instance See {@WP_Widget::widget()}.
+	 * @param array $args     See {@link WP_Widget::widget()}.
+	 * @param array $instance See {@link WP_Widget::widget()}.
 	 */
 	public function widget( $args, $instance ) {
 		_deprecated_function( __METHOD__, '12.0.0' );
@@ -54,8 +54,8 @@ class BP_Messages_Sitewide_Notices_Widget extends WP_Widget {
 	 * @see WP_Widget::update() for a description of parameters and
 	 *      return values.
 	 *
-	 * @param array $new_instance See {@WP_Widget::update()}.
-	 * @param array $old_instance See {@WP_Widget::update()}.
+	 * @param array $new_instance See {@link WP_Widget::update()}.
+	 * @param array $old_instance See {@link WP_Widget::update()}.
 	 */
 	public function update( $new_instance, $old_instance ) {
 		_deprecated_function( __METHOD__, '12.0.0' );
@@ -68,7 +68,7 @@ class BP_Messages_Sitewide_Notices_Widget extends WP_Widget {
 	 *
 	 * @see WP_Widget::form() for a description of parameters.
 	 *
-	 * @param array $instance See {@WP_Widget::form()}.
+	 * @param array $instance See {@link WP_Widget::form()}.
 	 */
 	public function form( $instance ) {
 		_deprecated_function( __METHOD__, '12.0.0' );

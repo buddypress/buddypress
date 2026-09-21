@@ -3635,10 +3635,10 @@ function bp_members_invitations_delete_by_id( $id = 0 ) {
  *
  * @since 8.0.0
  *
- * @param intring $args {
+ * @param array|string $args {
  *     Optional. Array of arguments.
  *     @type int|array $id            Id(s) of the invitation(s) to remove.
- *     @type int       $invitee_email Email address of the user being invited.
+ *     @type string    $invitee_email Email address of the user being invited.
  *     @type int       $network_id    ID of the network to which the user is being invited.
  *     @type int       $inviter_id    ID of the inviting user.
  *     @type int       $accepted      Whether the invitation has been accepted yet.

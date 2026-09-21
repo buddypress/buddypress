@@ -4102,8 +4102,8 @@ function bp_core_replace_tokens_in_text( $text, $tokens ) {
 	 *
 	 * @since 2.5.0
 	 *
-	 * @param string $text
-	 * @param array $tokens Token names and replacement values for the $text.
+	 * @param string $text   Text containing tokens to replace.
+	 * @param array  $tokens Token names and replacement values for the $text.
 	 */
 	return apply_filters( 'bp_core_replace_tokens_in_text', $text, $tokens );
 }
@@ -5208,8 +5208,8 @@ function bp_get_community_visibility( $component = 'global' ) {
 	 *
 	 * @since 12.0.0
 	 *
-	 * @param arrary|string $retval    The calculated visbility settings for the site.
-	 * @param string        $component The component value to get the visibility for.
+	 * @param array|string $retval    The calculated visibility settings for the site.
+	 * @param string       $component The component value to get the visibility for.
 	 */
 	return apply_filters( 'bp_get_community_visibility', $retval, $component );
 }

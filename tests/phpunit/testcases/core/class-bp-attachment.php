@@ -59,6 +59,9 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 	/**
 	 * To avoid copying files in tests, we're faking a succesfull uploads
 	 * as soon as all the test_form have been executed in _wp_handle_upload
+	 *
+	 * @param array  $file    File upload data.
+	 * @param string $message Upload error message.
 	 */
 	public function upload_error_handler( $file, $message ) {
 		if ( 'fake_upload_success' !== $message ) {

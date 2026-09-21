@@ -1382,9 +1382,13 @@ function bp_nouveau_groups_get_customizer_widgets_link() {
  *
  * @since 3.0.0
  *
- * @param object $group Optional. The group being referenced.
- *                      Defaults to the group currently being iterated on in the groups loop.
- * @param int    $length   Optional. Length of returned string, including ellipsis. Default: 100.
+ * @param false|int|string|object|BP_Groups_Group|null $group  Optional. The group being referenced.
+ *                                                             Defaults to the group currently being
+ *                                                             iterated on in the groups loop.
+ * @param int|null                                     $length Optional. Length of returned string,
+ *                                                             including ellipsis. Defaults to 100 for
+ *                                                             grid layouts; otherwise uses the
+ *                                                             bp_create_excerpt() default.
  */
 function bp_nouveau_group_description_excerpt( $group = null, $length = null ) {
 	$group = bp_get_group( $group );
@@ -1406,9 +1410,13 @@ function bp_nouveau_group_description_excerpt( $group = null, $length = null ) {
  *
  * @since 3.0.0
  *
- * @param object $group Optional. The group being referenced. Defaults to the group currently being
- *                      iterated on in the groups loop.
- * @param int    $length   Optional. Length of returned string, including ellipsis. Default: 100.
+ * @param false|int|string|object|BP_Groups_Group|null $group  Optional. The group being referenced.
+ *                                                             Defaults to the group currently being
+ *                                                             iterated on in the groups loop.
+ * @param int|null                                     $length Optional. Length of returned string,
+ *                                                             including ellipsis. Defaults to 100 for
+ *                                                             grid layouts; otherwise uses the
+ *                                                             bp_create_excerpt() default.
  *
  * @return string Excerpt.
  */

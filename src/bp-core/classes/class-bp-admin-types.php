@@ -507,7 +507,7 @@ class BP_Admin_Types {
 	 * @since 7.0.0
 	 *
 	 * @param array $column_headers Optional. The column header labels keyed by column ID.
-	 * @return arrayThe column header labels keyed by column ID.
+	 * @return array The column header labels keyed by column ID.
 	 */
 	public function column_headers( $column_headers = array() ) {
 		if ( isset( $column_headers['name'] ) ) {

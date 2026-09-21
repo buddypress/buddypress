@@ -1221,7 +1221,7 @@ function bp_nouveau_get_user_feedback( $feedback_id = '' ) {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param array $feedback_messages
+	 * @param array $feedback_message Selected feedback message.
 	 */
 	return apply_filters( 'bp_nouveau_get_user_feedback', $feedback_messages[ $feedback_id ] );
 }

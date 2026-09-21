@@ -619,6 +619,11 @@ class BP_Tests_BP_XProfile_Query extends BP_UnitTestCase {
 
 	/** Helpers **********************************************************/
 
+	/**
+	 * Create xProfile fields for a test.
+	 *
+	 * @param int $count Number of fields to create.
+	 */
 	protected function create_fields( $count ) {
 		$this->group = self::factory()->xprofile_group->create();
 		for ( $i = 0; $i < $count; $i++ ) {

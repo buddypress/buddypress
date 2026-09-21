@@ -31,6 +31,8 @@ class BP_Tests_Groups_Types extends BP_UnitTestCase {
 
 	/**
 	 * @dataProvider illegal_names
+	 *
+	 * @param string $name Invalid group type name.
 	 */
 	public function test_illegal_names( $name ) {
 		$this->assertWPError( bp_groups_register_group_type( $name ) );

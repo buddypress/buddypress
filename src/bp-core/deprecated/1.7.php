@@ -47,7 +47,8 @@ function bp_get_profile_header() {
 
 /**
  * @deprecated 1.7.0
- * @param string $component_name
+ *
+ * @param string $component_name Name of the component.
  * @return bool
  */
 function bp_exists( $component_name ) {
@@ -73,6 +74,8 @@ function bp_get_plugin_sidebar() {
  * step. It also means that the themes won't show for selection on other blogs.
  *
  * @deprecated 1.7.0
+ *
+ * @param array $themes Allowed themes.
  * @return array
  */
 function bp_core_allow_default_theme( $themes ) {

@@ -526,7 +526,7 @@ class BP_Notifications_Notification {
 	 * @since 1.9.0
 	 *
 	 * @param array $args Optional. Associative array of filter arguments.
-	 *                    See {@BP_Notifications_Notification::get()}
+	 *                    See {@link BP_Notifications_Notification::get()}
 	 *                    for a breakdown.
 	 * @return array Associative array of 'data' and 'format' args.
 	 */
@@ -1094,7 +1094,7 @@ class BP_Notifications_Notification {
 	 *      return value.
 	 *
 	 * @param int $id ID of the notification item to be deleted.
-	 * @return int|false True on success, false on failure.
+	 * @return int|false Number of rows affected on success, false on failure.
 	 */
 	public static function delete_by_id( $id ) {
 		return self::delete(

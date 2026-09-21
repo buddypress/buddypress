@@ -44,6 +44,9 @@ class BP_Tests_Core_Nav_BpCoreRemoveNavItem extends BP_UnitTestCase {
 
 	/**
 	 * Helper method to filter 'bp_is_active' for unit tests.
+	 *
+	 * @param bool   $retval    Whether the component is active.
+	 * @param string $component Component name.
 	 */
 	public function foo_is_active( $retval, $component ) {
 		if ( 'foo' === $component ) {

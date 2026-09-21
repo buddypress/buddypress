@@ -68,8 +68,8 @@ class BP_Activity_Theme_Compat {
 	 *
 	 * @since 1.8.0
 	 *
-	 * @param string $templates The templates from bp_get_theme_compat_templates().
-	 * @return array Array of custom templates to look for.
+	 * @param string[] $templates The templates from bp_get_theme_compat_templates().
+	 * @return string[] Array of custom templates to look for.
 	 */
 	public function directory_template_hierarchy( $templates ) {
 
@@ -78,7 +78,7 @@ class BP_Activity_Theme_Compat {
 		 *
 		 * @since 1.8.0
 		 *
-		 * @param array $index-directory Array holding template names to be merged into template list.
+		 * @param string[] $new_templates Array holding template names to be merged into the template list.
 		 */
 		$new_templates = apply_filters(
 			'bp_template_hierarchy_activity_directory',

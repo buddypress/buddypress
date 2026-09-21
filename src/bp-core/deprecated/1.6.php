@@ -90,6 +90,9 @@ function bp_core_is_user_spammer( $user_id = 0 ) {
 /**
  * @deprecated 1.6.0
  * @deprecated No longer used; see bp_activity_transition_post_type_comment_status()
+ *
+ * @param int    $comment_id     ID of the comment.
+ * @param string $comment_status New comment status.
  */
 function bp_blogs_manage_comment( $comment_id, $comment_status ) {
 	_deprecated_function( __FUNCTION__, '1.6', 'No longer used' );
@@ -171,6 +174,8 @@ function bp_friends_filter_title() {
 /**
  * @deprecated 1.6.0
  * @deprecated Renamed to groups_get_id() for greater consistency
+ *
+ * @param string $group_slug Slug of the group.
  */
 function groups_check_group_exists( $group_slug ) {
 	_deprecated_function( __FUNCTION__, '1.6', 'groups_get_id()' );
