@@ -15,7 +15,7 @@
 function bp_messages_action_exit_thread() {
 
 	if ( ! bp_is_messages_component() || bp_is_current_action( 'notices' ) || ! bp_is_action_variable( 'exit', 0 ) ) {
-		return false;
+		return;
 	}
 
 	$thread_id   = bp_action_variable( 1 );
@@ -26,7 +26,7 @@ function bp_messages_action_exit_thread() {
 		bp_core_redirect( $redirect );
 	} else {
 		if ( ! check_admin_referer( 'bp_messages_exit_thread' ) ) {
-			return false;
+			return;
 		}
 
 		// Exit message.

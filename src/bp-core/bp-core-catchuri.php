@@ -301,7 +301,7 @@ function bp_core_catch_no_access() {
 	// If coming from bp_core_redirect() and $bp_no_status_set is true,
 	// we are redirecting to an accessible page so skip this check.
 	if ( ! empty( $bp->no_status_set ) ) {
-		return false;
+		return;
 	}
 
 	if ( ! isset( $wp_query->queried_object ) && ! bp_is_blog_page() ) {

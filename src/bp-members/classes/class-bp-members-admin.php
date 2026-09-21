@@ -432,12 +432,10 @@ class BP_Members_Admin {
 	 * Setup BP Members Admin.
 	 *
 	 * @since 2.0.0
-	 *
-	 * @return BP_Members_Admin|null
 	 */
 	public static function register_members_admin() {
 		if ( ! is_admin() ) {
-			return null;
+			return;
 		}
 
 		$bp = buddypress();
@@ -445,8 +443,6 @@ class BP_Members_Admin {
 		if ( empty( $bp->members->admin ) ) {
 			$bp->members->admin = new self();
 		}
-
-		return $bp->members->admin;
 	}
 
 	/**

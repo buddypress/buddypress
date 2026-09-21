@@ -11,14 +11,12 @@
  * Handles bulk management (resend, cancellation) of invitations.
  *
  * @since 8.0.0
- *
- * @return bool
  */
 function bp_members_invitations_action_bulk_manage() {
 
 	// Bail if not the user's invitations screen.
 	if ( ! bp_is_my_profile() && ! bp_current_user_can( 'bp_moderate' ) ) {
-		return false;
+		return;
 	}
 
 	// Get the parameters.
@@ -28,13 +26,13 @@ function bp_members_invitations_action_bulk_manage() {
 
 	// Bail if no action or no IDs.
 	if ( ( ! in_array( $action, array( 'cancel', 'resend' ), true ) ) || empty( $invitations ) || empty( $nonce ) ) {
-		return false;
+		return;
 	}
 
 	// Check the nonce.
 	if ( ! wp_verify_nonce( $nonce, 'invitations_bulk_nonce' ) ) {
 		bp_core_add_message( __( 'There was a problem managing your invitations.', 'buddypress' ), 'error' );
-		return false;
+		return;
 	}
 
 	$invitations = wp_parse_id_list( $invitations );

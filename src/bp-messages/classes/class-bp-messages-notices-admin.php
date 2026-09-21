@@ -44,8 +44,6 @@ class BP_Messages_Notices_Admin {
 	 * Create a new instance or access the current instance of this class.
 	 *
 	 * @since 3.0.0
-	 *
-	 * @return BP_Messages_Notices_Admin
 	 */
 	public static function register_notices_admin() {
 
@@ -58,8 +56,6 @@ class BP_Messages_Notices_Admin {
 		if ( empty( $bp->messages->admin ) ) {
 			$bp->messages->admin = new self();
 		}
-
-		return $bp->messages->admin;
 	}
 
 	/**
@@ -98,7 +94,7 @@ class BP_Messages_Notices_Admin {
 	public function admin_menu() {
 		// Bail if current user cannot moderate community.
 		if ( ! bp_current_user_can( 'bp_moderate' ) || ! bp_is_active( 'messages' ) ) {
-			return false;
+			return;
 		}
 
 		$this->screen_id = add_users_page(

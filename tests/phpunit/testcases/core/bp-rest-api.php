@@ -2,6 +2,7 @@
 /**
  * @group core
  */
+
 function bp_rest() {
 	return true;
 }

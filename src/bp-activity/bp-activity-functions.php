@@ -1470,14 +1470,13 @@ add_action( 'delete_user', 'bp_activity_remove_all_user_data_on_delete_user' );
  * @global wpdb $wpdb WordPress database object.
  *
  * @param int $user_id Optional. ID of the user whose activity is being spammed.
- * @return bool
  */
 function bp_activity_spam_all_user_data( $user_id = 0 ) {
 	global $wpdb;
 
 	// Do not delete user data unless a logged in user says so.
 	if ( empty( $user_id ) || ! is_user_logged_in() ) {
-		return false;
+		return;
 	}
 
 	// Get all the user's activities.
@@ -1541,14 +1540,13 @@ add_action( 'bp_make_spam_user', 'bp_activity_spam_all_user_data' );
  * @global wpdb $wpdb WordPress database object.
  *
  * @param int $user_id Optional. ID of the user whose activity is being hammed.
- * @return bool
  */
 function bp_activity_ham_all_user_data( $user_id = 0 ) {
 	global $wpdb;
 
 	// Do not delete user data unless a logged in user says so.
 	if ( empty( $user_id ) || ! is_user_logged_in() ) {
-		return false;
+		return;
 	}
 
 	// Get all the user's activities.

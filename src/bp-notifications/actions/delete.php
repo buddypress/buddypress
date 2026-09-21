@@ -11,14 +11,12 @@
  * Handle deleting single notifications.
  *
  * @since 1.9.0
- *
- * @return bool
  */
 function bp_notifications_action_delete() {
 
 	// Bail if not the read or unread screen.
 	if ( ! bp_is_notifications_component() || ! ( bp_is_current_action( 'read' ) || bp_is_current_action( 'unread' ) ) ) {
-		return false;
+		return;
 	}
 
 	// Get the action.
@@ -28,7 +26,7 @@ function bp_notifications_action_delete() {
 
 	// Bail if no action or no ID.
 	if ( ( 'delete' !== $action ) || empty( $id ) || empty( $nonce ) ) {
-		return false;
+		return;
 	}
 
 	// Check the nonce and delete the notification.

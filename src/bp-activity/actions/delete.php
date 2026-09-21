@@ -13,12 +13,11 @@
  * @since 1.1.0
  *
  * @param int $activity_id Optional. Activity id to be deleted. Defaults to 0.
- * @return bool False on failure.
  */
 function bp_activity_action_delete_activity( $activity_id = 0 ) {
 	// Not viewing activity or action is not delete.
 	if ( ! bp_is_activity_component() || ! bp_is_current_action( 'delete' ) ) {
-		return false;
+		return;
 	}
 
 	if ( empty( $activity_id ) && bp_action_variable( 0 ) ) {
@@ -27,7 +26,7 @@ function bp_activity_action_delete_activity( $activity_id = 0 ) {
 
 	// Not viewing a specific activity item.
 	if ( empty( $activity_id ) ) {
-		return false;
+		return;
 	}
 
 	// Check the nonce.
@@ -38,7 +37,7 @@ function bp_activity_action_delete_activity( $activity_id = 0 ) {
 
 	// Check access.
 	if ( ! bp_activity_user_can_delete( $activity ) ) {
-		return false;
+		return;
 	}
 
 	/**

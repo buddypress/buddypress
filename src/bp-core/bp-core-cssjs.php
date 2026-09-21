@@ -199,7 +199,7 @@ add_action( 'bp_admin_enqueue_scripts', 'bp_core_register_common_styles', 1 );
  */
 function bp_core_confirmation_js() {
 	if ( is_multisite() && ! bp_is_root_blog() ) {
-		return false;
+		return;
 	}
 
 	wp_enqueue_script( 'bp-confirm' );
@@ -222,7 +222,7 @@ add_action( 'bp_admin_enqueue_scripts', 'bp_core_confirmation_js' );
  */
 function bp_core_avatar_scripts() {
 	if ( ! bp_avatar_is_front_edit() ) {
-		return false;
+		return;
 	}
 
 	// Enqueue the Attachments scripts for the Avatar UI.
@@ -242,7 +242,7 @@ add_action( 'bp_enqueue_community_scripts', 'bp_core_avatar_scripts' );
  */
 function bp_core_cover_image_scripts() {
 	if ( ! bp_attachments_cover_image_is_edit() ) {
-		return false;
+		return;
 	}
 
 	// Enqueue the Attachments scripts for the Cover Image UI.
@@ -456,11 +456,8 @@ function bp_core_get_js_dependencies() {
  * Add inline css to display the component's single item cover image.
  *
  * @since 2.4.0
- *
- * @param bool $return_css Optional. True to get the inline CSS.
- * @return null|array|false
  */
-function bp_add_cover_image_inline_css( $return_css = false ) {
+function bp_add_cover_image_inline_css() {
 	$bp = buddypress();
 
 	// Find the component of the current item.
@@ -543,18 +540,7 @@ function bp_add_cover_image_inline_css( $return_css = false ) {
 
 		// Finally add the inline css to the handle.
 		if ( ! empty( $inline_css ) ) {
-
-			// Used to get the css when Ajax setting the cover image.
-			if ( true === $return_css ) {
-				return array(
-					'css_rules' => '<style type="text/css">' . "\n" . $inline_css . "\n" . '</style>',
-					'handle'    => $params['theme_handle'],
-				);
-			}
-
 			wp_add_inline_style( $params['theme_handle'], $inline_css );
-		} else {
-			return false;
 		}
 	}
 }

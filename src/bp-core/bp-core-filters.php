@@ -1366,7 +1366,7 @@ function bp_core_render_email_template( $template ) {
 
 	return '';
 }
-add_action( 'bp_template_include', 'bp_core_render_email_template', 12 );
+add_filter( 'bp_template_include', 'bp_core_render_email_template', 12 );
 
 /**
  * Adds BuddyPress components' slugs to the WordPress Multisite subdirectory reserved names.

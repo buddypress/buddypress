@@ -454,11 +454,11 @@ add_action( 'admin_bar_menu', 'bp_members_membership_requests_add_toolbar_link',
  * @since 10.0.0
  *
  * @param string $link HTML link to the home URL of the current site.
- * @return string      HTML link to the home URL of the current site and the one to request a membership.
+ * @return string
  */
 function bp_members_membership_requests_add_link_wp_login( $link ) {
 	$link_separator = apply_filters( 'login_link_separator', ' | ' );
 
 	return $link . $link_separator . '<a href="' . esc_url( wp_registration_url() ) . '">' . esc_html__( 'Request Membership', 'buddypress' ) . '</a>';
 }
-add_action( 'login_site_html_link', 'bp_members_membership_requests_add_link_wp_login' );
+add_filter( 'login_site_html_link', 'bp_members_membership_requests_add_link_wp_login' );

@@ -60,7 +60,7 @@ class BP_Akismet {
 		add_action( 'bp_activity_mark_as_ham', array( $this, 'mark_as_ham' ), 10, 2 );
 
 		// Hook into the Activity wp-admin screen.
-		add_action( 'bp_activity_admin_comment_row_actions', array( $this, 'comment_row_action' ), 10, 2 );
+		add_filter( 'bp_activity_admin_comment_row_actions', array( $this, 'comment_row_action' ), 10, 2 );
 		add_action( 'bp_activity_admin_load', array( $this, 'add_history_metabox' ) );
 	}
 

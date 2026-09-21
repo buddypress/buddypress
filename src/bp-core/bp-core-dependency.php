@@ -553,7 +553,7 @@ function bp_enqueue_context_scripts( $context = 'embed' ) {
  * @since 2.6.0
  */
 function bp_enqueue_embed_scripts() {
-	return bp_enqueue_context_scripts( 'embed' );
+	bp_enqueue_context_scripts( 'embed' );
 }
 
 /**
@@ -562,7 +562,7 @@ function bp_enqueue_embed_scripts() {
  * @since 11.0.0
  */
 function bp_enqueue_community_scripts() {
-	return bp_enqueue_context_scripts( 'community' );
+	bp_enqueue_context_scripts( 'community' );
 }
 
 /**

@@ -2296,13 +2296,12 @@ function bp_members_migrate_signups() {
  * @since 1.2.0
  *
  * @param int $user_id ID of the user.
- * @return bool
  */
 function bp_core_map_user_registration( $user_id ) {
 
 	// Only map data when the site admin is adding users, not on registration.
 	if ( ! is_admin() ) {
-		return false;
+		return;
 	}
 
 	// Add the user's fullname to Xprofile.

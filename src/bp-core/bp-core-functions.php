@@ -1757,14 +1757,12 @@ function bp_core_render_message() {
  * site.
  *
  * @since 1.0.0
- *
- * @return false|null Returns false if there is nothing to do.
  */
 function bp_core_record_activity() {
 
 	// Bail if user is not logged in.
 	if ( ! is_user_logged_in() ) {
-		return false;
+		return;
 	}
 
 	// Get the user ID.
@@ -1772,7 +1770,7 @@ function bp_core_record_activity() {
 
 	// Bail if user is not active.
 	if ( bp_is_user_inactive( $user_id ) ) {
-		return false;
+		return;
 	}
 
 	// Get the user's last activity.

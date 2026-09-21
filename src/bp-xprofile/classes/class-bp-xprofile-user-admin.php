@@ -22,8 +22,6 @@ class BP_XProfile_User_Admin {
 	 * Setup xProfile User Admin.
 	 *
 	 * @since 2.0.0
-	 *
-	 * @return BP_XProfile_User_Admin
 	 */
 	public static function register_xprofile_user_admin() {
 
@@ -37,8 +35,6 @@ class BP_XProfile_User_Admin {
 		if ( empty( $bp->profile->admin ) ) {
 			$bp->profile->admin = new self();
 		}
-
-		return $bp->profile->admin;
 	}
 
 	/**

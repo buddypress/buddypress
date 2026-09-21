@@ -1101,9 +1101,6 @@ function bp_blogs_post_type_remove_comment( $deleted, $comment_id, $activity_pos
 
 				// Rebuild activity comment tree.
 				BP_Activity_Activity::rebuild_activity_comment_tree( $activity['activities'][0]->item_id );
-
-				// Set the result.
-				$deleted = true;
 			}
 		}
 	}
@@ -1121,8 +1118,6 @@ function bp_blogs_post_type_remove_comment( $deleted, $comment_id, $activity_pos
 		 */
 		do_action( 'bp_blogs_remove_comment', get_current_blog_id(), $comment_id, bp_loggedin_user_id() );
 	}
-
-	return $deleted;
 }
 add_action( 'bp_activity_post_type_remove_comment', 'bp_blogs_post_type_remove_comment', 10, 4 );
 

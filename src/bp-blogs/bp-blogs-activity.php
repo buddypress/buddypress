@@ -704,7 +704,7 @@ function bp_blogs_remove_post( $post_id, $blog_id = 0, $user_id = 0 ) {
 	global $wpdb;
 
 	if ( empty( $wpdb->blogid ) ) {
-		return false;
+		return;
 	}
 
 	$post_id = (int) $post_id;

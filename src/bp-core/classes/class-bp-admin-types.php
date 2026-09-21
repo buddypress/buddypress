@@ -72,8 +72,6 @@ class BP_Admin_Types {
 	 * Register BP Types Admin.
 	 *
 	 * @since 7.0.0
-	 *
-	 * @return BP_Admin_Types|null The BP Types Admin object or null if not in admin.
 	 */
 	public static function register_types_admin() {
 		if ( ! is_admin() ) {
@@ -85,8 +83,6 @@ class BP_Admin_Types {
 		if ( empty( $bp->core->types_admin ) ) {
 			$bp->core->types_admin = new self();
 		}
-
-		return $bp->core->types_admin;
 	}
 
 	/**
