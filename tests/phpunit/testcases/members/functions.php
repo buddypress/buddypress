@@ -659,7 +659,7 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 
 		$validate = bp_members_validate_user_password( 'one', 'one' );
 
-		remove_filter( 'bp_members_validate_user_password', array( $this, 'filter_bp_members_validate_user_password' ), 10, 2 );
+		remove_filter( 'bp_members_validate_user_password', array( $this, 'filter_bp_members_validate_user_password' ) );
 
 		$this->assertSame( 'too_short_user_password', $validate->get_error_code() );
 	}

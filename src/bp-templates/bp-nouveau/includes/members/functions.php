@@ -459,9 +459,9 @@ function bp_nouveau_members_add_home_widget_filters() {
  * @since 3.0.0
  */
 function bp_nouveau_members_remove_home_widget_filters() {
-	remove_filter( 'bp_nouveau_activity_widget_query', 'bp_nouveau_member_activity_widget_overrides', 10, 1 );
-	remove_filter( 'bp_before_has_groups_parse_args', 'bp_nouveau_member_groups_widget_overrides', 10, 1 );
-	remove_filter( 'bp_before_has_members_parse_args', 'bp_nouveau_member_members_widget_overrides', 10, 1 );
+	remove_filter( 'bp_nouveau_activity_widget_query', 'bp_nouveau_member_activity_widget_overrides' );
+	remove_filter( 'bp_before_has_groups_parse_args', 'bp_nouveau_member_groups_widget_overrides' );
+	remove_filter( 'bp_before_has_members_parse_args', 'bp_nouveau_member_members_widget_overrides' );
 
 	/**
 	 * Fires after Nouveau removes its members home widget filters.
@@ -533,7 +533,7 @@ function bp_nouveau_member_customizer_nav() {
 		);
 	}
 
-	remove_filter( '_bp_nouveau_member_reset_front_template', 'bp_nouveau_member_restrict_user_front_templates', 10, 1 );
+	remove_filter( '_bp_nouveau_member_reset_front_template', 'bp_nouveau_member_restrict_user_front_templates' );
 
 	// Eventually reset the order.
 	bp_nouveau_set_nav_item_order( $nav, bp_nouveau_get_appearance_settings( 'user_nav_order' ) );

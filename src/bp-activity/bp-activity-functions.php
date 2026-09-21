@@ -1695,7 +1695,7 @@ function bp_activity_generate_action_string( $activity ) {
 	$action = apply_filters( 'bp_activity_generate_action_string', $activity->action, $activity );
 
 	// Remove the filter for future activity items.
-	remove_filter( 'bp_activity_generate_action_string', $actions->{$activity->component}->{$activity->type}['format_callback'], 10 );
+	remove_filter( 'bp_activity_generate_action_string', $actions->{$activity->component}->{$activity->type}['format_callback'] );
 
 	return $action;
 }
@@ -2726,7 +2726,7 @@ function bp_activity_post_type_comment( $comment_id = 0, $is_approved = true, $a
 	return $activity_id;
 }
 add_action( 'comment_post', 'bp_activity_post_type_comment', 10, 2 );
-add_action( 'edit_comment', 'bp_activity_post_type_comment', 10 );
+add_action( 'edit_comment', 'bp_activity_post_type_comment' );
 
 /**
  * Remove an activity item when a comment about a post type is deleted.

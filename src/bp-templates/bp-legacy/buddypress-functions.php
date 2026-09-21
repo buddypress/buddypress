@@ -1094,7 +1094,7 @@ function bp_legacy_theme_post_update() {
 	}
 
 	if ( ! empty( $last_recorded ) ) {
-		remove_filter( 'bp_get_activity_css_class', 'bp_activity_newest_class', 10 );
+		remove_filter( 'bp_get_activity_css_class', 'bp_activity_newest_class' );
 	}
 
 	exit;

@@ -545,7 +545,7 @@ function bp_blogs_comments_open( $activity ) {
 		switch_to_blog( $blog_id );
 
 		// Use comments_open().
-		remove_filter( 'comments_open', 'bp_comments_open', 10 );
+		remove_filter( 'comments_open', 'bp_comments_open' );
 		$open = comments_open( $activity->secondary_item_id );
 		add_filter( 'comments_open', 'bp_comments_open', 10, 2 );
 
@@ -819,7 +819,7 @@ function bp_blogs_sync_add_from_activity_comment( $comment_id, $params, $parent_
 	);
 
 	// Prevent separate activity entry being made.
-	remove_action( 'comment_post', 'bp_activity_post_type_comment', 10 );
+	remove_action( 'comment_post', 'bp_activity_post_type_comment' );
 
 	// Handle multisite.
 	switch_to_blog( $parent_activity->item_id );
@@ -984,8 +984,8 @@ function bp_blogs_sync_activity_edit_to_post_comment( BP_Activity_Activity $acti
 	$post_comment_status = wp_get_comment_status( $post_comment_id );
 
 	// No need to edit the activity, as it's the activity who's updating the comment.
-	remove_action( 'transition_comment_status', 'bp_activity_transition_post_type_comment_status', 10 );
-	remove_action( 'bp_activity_post_type_comment', 'bp_blogs_comment_sync_activity_comment', 10 );
+	remove_action( 'transition_comment_status', 'bp_activity_transition_post_type_comment_status' );
+	remove_action( 'bp_activity_post_type_comment', 'bp_blogs_comment_sync_activity_comment' );
 
 	if ( 1 === $activity->is_spam && 'spam' !== $post_comment_status ) {
 		wp_spam_comment( $post_comment_id );

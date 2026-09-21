@@ -1783,7 +1783,7 @@ class BP_Members_Admin {
 	 * @since 2.1.0
 	 */
 	public function remove_edit_profile_url_filter() {
-		remove_filter( 'bp_members_edit_profile_url', array( $this, 'filter_adminbar_profile_link' ), 10 );
+		remove_filter( 'bp_members_edit_profile_url', array( $this, 'filter_adminbar_profile_link' ) );
 	}
 
 	/** Signups Management ****************************************************/

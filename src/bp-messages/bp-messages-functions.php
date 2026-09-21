@@ -668,7 +668,7 @@ function messages_notification_new_message( $raw_args = array() ) {
 	 */
 	do_action( 'bp_messages_sent_notification_email', $recipients, '', '', $args );
 }
-add_action( 'messages_message_sent', 'messages_notification_new_message', 10 );
+add_action( 'messages_message_sent', 'messages_notification_new_message' );
 
 /**
  * Finds and exports personal data associated with an email address from the Messages tables.

@@ -279,7 +279,7 @@ abstract class BP_Attachment {
 
 		// Restore WordPress Uploads data.
 		if ( ! empty( $upload_dir_filter ) ) {
-			remove_filter( 'upload_dir', $upload_dir_filter, 10 );
+			remove_filter( 'upload_dir', $upload_dir_filter );
 		}
 
 		// Finally return the uploaded file or the error.

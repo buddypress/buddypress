@@ -420,7 +420,7 @@ function bp_block_render_login_form_block( $attributes = array() ) {
 			)
 		);
 
-		remove_filter( 'login_form_bottom', 'bp_blocks_get_login_widget_registration_link', 10, 2 );
+		remove_filter( 'login_form_bottom', 'bp_blocks_get_login_widget_registration_link' );
 
 		$action_output = '';
 		if ( has_action( 'bp_after_login_widget_loggedout' ) ) {

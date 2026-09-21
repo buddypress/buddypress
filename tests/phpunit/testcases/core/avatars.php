@@ -437,7 +437,7 @@ class BP_Tests_Avatars extends BP_UnitTestCase {
 
 		bp_avatar_handle_capture( $data, $u . '/../../../../../../foobar', 'array' );
 
-		remove_filter( 'bp_core_pre_avatar_handle_crop', array( $this, 'set_capture' ), 10, 2 );
+		remove_filter( 'bp_core_pre_avatar_handle_crop', array( $this, 'set_capture' ) );
 
 		$expected = '/avatars/' . $u . '/webcam-capture-' . $u . '.png';
 

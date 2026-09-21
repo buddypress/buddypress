@@ -1077,8 +1077,8 @@ function bp_update_user_last_activity( $user_id = 0, $time = '' ) {
 	 * query is enabled.
 	 */
 	if ( $use_legacy_query ) {
-		remove_filter( 'update_user_metadata', '_bp_update_user_meta_last_activity_warning', 10 );
-		remove_filter( 'get_user_metadata', '_bp_get_user_meta_last_activity_warning', 10 );
+		remove_filter( 'update_user_metadata', '_bp_update_user_meta_last_activity_warning' );
+		remove_filter( 'get_user_metadata', '_bp_get_user_meta_last_activity_warning' );
 		bp_update_user_meta( $user_id, 'last_activity', $time );
 		add_filter( 'update_user_metadata', '_bp_update_user_meta_last_activity_warning', 10, 4 );
 		add_filter( 'get_user_metadata', '_bp_get_user_meta_last_activity_warning', 10, 4 );

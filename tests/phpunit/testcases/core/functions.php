@@ -998,7 +998,7 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 			$this->assertSame( $versions, $expected_versions, 'The last deprecated function files are loaded for updated BuddyPress.' );
 		}
 
-		remove_filter( 'pre_option__bp_initial_major_version', array( $this, 'override_initial_version' ), 10, 0 );
+		remove_filter( 'pre_option__bp_initial_major_version', array( $this, 'override_initial_version' ) );
 	}
 
 	/**
@@ -1062,6 +1062,6 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 		$test = bp_core_check_for_moderation( $u, '', $content );
 		$this->assertTrue( $test );
 
-		remove_filter( 'pre_option_comment_max_links', array( $this, 'override_comment_max_links' ), 10, 0 );
+		remove_filter( 'pre_option_comment_max_links', array( $this, 'override_comment_max_links' ) );
 	}
 }

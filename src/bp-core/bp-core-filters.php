@@ -40,8 +40,8 @@ defined( 'ABSPATH' ) || exit;
  *
  *           v--WordPress Actions       v--BuddyPress Sub-actions
  */
-add_filter( 'request', 'bp_request', 10 );
-add_filter( 'template_include', 'bp_template_include', 10 );
+add_filter( 'request', 'bp_request' );
+add_filter( 'template_include', 'bp_template_include' );
 add_filter( 'login_redirect', 'bp_login_redirect', 10, 3 );
 add_filter( 'map_meta_cap', 'bp_map_meta_caps', 10, 4 );
 
@@ -107,7 +107,7 @@ add_filter( 'comments_open', 'bp_comments_open', 10, 2 );
  */
 function bp_post_render_core_comments_block( $block_content ) {
 	// Stop forcing comments count to be 0 or comments list to be an empty array.
-	remove_filter( 'comments_pre_query', 'bp_comments_pre_query', 10 );
+	remove_filter( 'comments_pre_query', 'bp_comments_pre_query' );
 	remove_filter( 'render_block', 'bp_post_render_core_comments_block' );
 
 	return $block_content;

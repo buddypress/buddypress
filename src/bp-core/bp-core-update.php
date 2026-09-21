@@ -870,7 +870,7 @@ function bp_update_to_12_0() {
 			$nav_menu_item_ids = array();
 
 			// Do not check post slugs nor post types.
-			remove_filter( 'wp_unique_post_slug', 'bp_core_set_unique_directory_page_slug', 10 );
+			remove_filter( 'wp_unique_post_slug', 'bp_core_set_unique_directory_page_slug' );
 
 			// Update Directory pages post types.
 			foreach ( $directory_pages as $directory_page ) {
