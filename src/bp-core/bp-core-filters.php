@@ -72,6 +72,24 @@ add_filter( 'bp_core_fetch_avatar', 'bp_core_add_loading_lazy_attribute' );
 add_filter( 'bp_template_include', 'bp_template_include_theme_supports', 2, 1 );
 add_filter( 'bp_template_include', 'bp_template_include_theme_compat', 4, 2 );
 
+/**
+ * Load block styles on demand in classic themes.
+ *
+ * WordPress 6.9 introduced the `wp_before_include_template` hook as part of `template-loader.php` template
+ * to enable output buffering for block style hoisting.
+ *
+ * Since BuddyPress bypasses `template-loader.php` when loading templates, we need to
+ * integrate this optimization, by hooking it directly.
+ *
+ * @todo Remove this once we support templates using the template-loader.php.
+ *
+ * @since 14.5.0
+ *
+ * @link https://buddypress.trac.wordpress.org/ticket/9309
+ * @link https://core.trac.wordpress.org/ticket/64099
+ */
+add_action( 'bp_core_pre_load_template', 'wp_start_template_enhancement_output_buffer', 1000 ); // Late priority to let `wp_template_enhancement_output_buffer` filters and `wp_finalized_template_enhancement_output_buffer` actions be registered.
+
 // Filter BuddyPress template locations.
 add_filter( 'bp_get_template_stack', 'bp_add_template_stack_locations' );
 
@@ -124,7 +142,7 @@ add_filter( 'posts_pre_query', 'bp_core_filter_wp_query', 10, 2 );
  *
  * @since 1.5.0
  *
- * @param array $pages List of excluded page IDs, as passed to the
+ * @param array $pages Optional. List of excluded page IDs, as passed to the
  *                     'wp_list_pages_excludes' filter.
  * @return array The exclude list, with BP's pages added.
  */
@@ -161,18 +179,18 @@ add_filter( 'wp_list_pages_excludes', 'bp_core_exclude_pages' );
  *
  * @since 2.0.0
  *
- * @param object|null $object The post type object used in the meta box.
- * @return object|null The $object, with a query argument to remove register and activate pages id.
+ * @param object|null $post_type_object Optional. The post type object used in the meta box.
+ * @return object|null The $post_type_object, with a query argument to remove register and activate pages id.
  */
-function bp_core_exclude_pages_from_nav_menu_admin( $object = null ) {
+function bp_core_exclude_pages_from_nav_menu_admin( $post_type_object = null ) {
 
 	// Bail if not the root blog.
 	if ( ! bp_is_root_blog() ) {
-		return $object;
+		return $post_type_object;
 	}
 
-	if ( 'page' !== $object->name ) {
-		return $object;
+	if ( 'page' !== $post_type_object->name ) {
+		return $post_type_object;
 	}
 
 	$bp    = buddypress();
@@ -187,10 +205,10 @@ function bp_core_exclude_pages_from_nav_menu_admin( $object = null ) {
 	}
 
 	if ( ! empty( $pages ) ) {
-		$object->_default_query['post__not_in'] = $pages;
+		$post_type_object->_default_query['post__not_in'] = $pages;
 	}
 
-	return $object;
+	return $post_type_object;
 }
 add_filter( 'nav_menu_meta_box_object', 'bp_core_exclude_pages_from_nav_menu_admin', 11, 1 );
 
@@ -287,7 +305,7 @@ add_filter( 'nav_menu_css_class', 'bp_core_menu_highlight_nav_menu_item', 10, 2 
  * @since 1.2.0
  *
  * @param array $comments The array of comments supplied to the comments template.
- * @return array $comments The modified comment array.
+ * @return array The modified comment array.
  */
 function bp_core_filter_comments( $comments ) {
 	global $wpdb;
@@ -398,7 +416,7 @@ add_filter( 'bp_login_redirect', 'bp_core_login_redirect', 10, 3 );
  * @param string $retval    Current email content.
  * @param string $prop      Email property to check against.
  * @param string $transform Either 'raw' or 'replace-tokens'.
- * @return string|null $retval Modified email content.
+ * @return string|null Modified email content.
  */
 function bp_email_plaintext_entity_decode( $retval, $prop, $transform ) {
 	switch ( $prop ) {
@@ -513,7 +531,7 @@ function bp_core_activation_signup_blog_notification( $domain, $path, $title, $u
 
 	$args = array(
 		'tokens' => array(
-			'activate-site.url' => esc_url( bp_get_activation_page() . '?key=' . urlencode( $key ) ),
+			'activate-site.url' => esc_url( bp_get_activation_page() . '?key=' . rawurlencode( $key ) ),
 			'domain'            => $domain,
 			'key_blog'          => $key,
 			'path'              => $path,
@@ -672,9 +690,9 @@ add_filter( 'signup_site_meta', 'bp_core_add_meta_to_multisite_signups' );
  *
  * @see wp_title()
  *
- * @param string $title       Original page title.
- * @param string $sep         How to separate the various items within the page title.
- * @param string $seplocation Direction to display title.
+ * @param string $title       Optional. Original page title.
+ * @param string $sep         Optional. How to separate the various items within the page title.
+ * @param string $seplocation Optional. Direction to display title.
  * @return string              New page title.
  */
 function bp_modify_page_title( $title = '', $sep = '&raquo;', $seplocation = 'right' ) {
@@ -742,7 +760,7 @@ add_filter( 'bp_modify_page_title', 'esc_html' );
  *
  * @since 2.4.3
  *
- * @param array $title The WordPress document title parts.
+ * @param array $title Optional. The WordPress document title parts.
  * @return array the unchanged title parts or the BuddyPress ones
  */
 function bp_modify_document_title_parts( $title = array() ) {
@@ -799,7 +817,7 @@ function bp_setup_nav_menu_item( $menu_item ) {
 			$menu_item->type = 'custom';
 			$menu_item->url  = $menu_item->guid;
 
-			if ( ! in_array( array( 'bp-menu', 'bp-' . $menu_item->post_excerpt . '-nav' ), $menu_item->classes ) ) {
+			if ( ! in_array( array( 'bp-menu', 'bp-' . $menu_item->post_excerpt . '-nav' ), $menu_item->classes, true ) ) {
 				$menu_item->classes[] = 'bp-menu';
 				$menu_item->classes[] = 'bp-' . $menu_item->post_excerpt . '-nav';
 			}
@@ -889,16 +907,16 @@ add_filter( 'wp_setup_nav_menu_item', 'bp_setup_nav_menu_item', 10, 1 );
  *
  * @since 2.3.3
  *
- * @param array   $items  The array of menu items.
- * @param string  $type   The requested type.
- * @param string  $object The requested object name.
- * @param integer $page   The page num being requested.
+ * @param array  $items       Optional. The array of menu items.
+ * @param string $type        Optional. The requested type.
+ * @param string $object_name Optional. The requested object name.
+ * @param int    $page        Optional. The page num being requested.
  * @return array The paginated BuddyPress user nav items.
  */
-function bp_customizer_nav_menus_get_items( $items = array(), $type = '', $object = '', $page = 0 ) {
-	if ( 'bp_loggedin_nav' === $object ) {
+function bp_customizer_nav_menus_get_items( $items = array(), $type = '', $object_name = '', $page = 0 ) {
+	if ( 'bp_loggedin_nav' === $object_name ) {
 		$bp_items = bp_nav_menu_get_loggedin_pages();
-	} elseif ( 'bp_loggedout_nav' === $object ) {
+	} elseif ( 'bp_loggedout_nav' === $object_name ) {
 		$bp_items = bp_nav_menu_get_loggedout_pages();
 	} else {
 		return $items;
@@ -912,7 +930,7 @@ function bp_customizer_nav_menus_get_items( $items = array(), $type = '', $objec
 			'url'        => esc_url_raw( $bp_item->guid ),
 			'classes'    => "bp-menu bp-{$bp_item->post_excerpt}-nav",
 			'type_label' => _x( 'Custom Link', 'customizer menu type label', 'buddypress' ),
-			'object'     => $object,
+			'object'     => $object_name,
 			'object_id'  => -1,
 		);
 	}
@@ -926,8 +944,8 @@ add_filter( 'customize_nav_menu_available_items', 'bp_customizer_nav_menus_get_i
  *
  * @since 2.3.3
  *
- * @param  array $item_types An associative array structured for the customizer.
- * @return array $item_types An associative array structured for the customizer.
+ * @param  array $item_types Optional. An associative array structured for the customizer.
+ * @return array An associative array structured for the customizer.
  */
 function bp_customizer_nav_menus_set_item_types( $item_types = array() ) {
 	$item_types = array_merge(
@@ -955,13 +973,18 @@ add_filter( 'customize_nav_menu_available_item_types', 'bp_customizer_nav_menus_
  *
  * @since 12.0.0
  *
- * @param WP_Post[] $pages Array of page objects.
- * @param array     $args  Array of get_pages() arguments.
+ * @param WP_Post[] $pages Optional. Array of page objects.
+ * @param array     $args  Optional. Array of get_pages() arguments.
  * @return WP_Post[]       Array of page objects, potentially including BP directories.
  */
 function bp_core_include_directory_on_front( $pages = array(), $args = array() ) {
 	// Prevent duplicate "page on front" option values when the 'legacy' BuddyPress URL Parser is in use.
 	if ( 'rewrites' !== bp_core_get_query_parser() ) {
+		return $pages;
+	}
+
+	// BP pages are only relevant on the root blog in multisite.
+	if ( ! bp_is_root_blog() ) {
 		return $pages;
 	}
 
@@ -1054,7 +1077,8 @@ function bp_filter_metaid_column_name( $q ) {
 
 	// Put quoted content back into the string.
 	if ( ! empty( $quoted_matches[0] ) ) {
-		for ( $i = 0; $i < count( $quoted_matches[0] ); $i++ ) {
+		$quoted_matches_count = count( $quoted_matches[0] );
+		for ( $i = 0; $i < $quoted_matches_count; $i++ ) {
 			$quote_pos = strpos( $q, '__QUOTE__' );
 			$q         = substr_replace( $q, $quoted_matches[0][ $i ], $quote_pos, 9 );
 		}
@@ -1068,8 +1092,8 @@ function bp_filter_metaid_column_name( $q ) {
  *
  * @since 2.1.0
  *
- * @param string $edit_link The edit link.
- * @param int    $post_id   Post ID.
+ * @param string $edit_link Optional. The edit link.
+ * @param int    $post_id   Optional. Post ID.
  * @return false|string Will be a boolean (false) if $post_id is 0. Will be a string (the unchanged edit link)
  *                      otherwise
  */
@@ -1086,7 +1110,7 @@ function bp_core_filter_edit_post_link( $edit_link = '', $post_id = 0 ) {
  *
  * @since 7.0.0
  *
- * @param string $content Content to inject attribute into.
+ * @param string $content Optional. Content to inject attribute into.
  * @return string
  */
 function bp_core_add_loading_lazy_attribute( $content = '' ) {
@@ -1349,7 +1373,7 @@ add_action( 'bp_template_include', 'bp_core_render_email_template', 12 );
  *
  * @since 6.0.0
  *
- * @param array $names The WordPress Multisite subdirectory reserved names.
+ * @param array $names Optional. The WordPress Multisite subdirectory reserved names.
  * @return array       The WordPress & BuddyPress Multisite subdirectory reserved names.
  */
 function bp_core_components_subdirectory_reserved_names( $names = array() ) {
@@ -1364,8 +1388,8 @@ add_filter( 'subdirectory_reserved_names', 'bp_core_components_subdirectory_rese
  *
  * @since 12.0.0
  *
- * @param string       $link The post type link.
- * @param WP_Post|null $post The post type object.
+ * @param string       $link Optional. The post type link.
+ * @param WP_Post|null $post Optional. The post type object.
  * @return string            The post type link.
  */
 function bp_get_post_type_link( $link = '', $post = null ) {

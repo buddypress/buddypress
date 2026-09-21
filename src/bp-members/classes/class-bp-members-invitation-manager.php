@@ -24,7 +24,7 @@ class BP_Members_Invitation_Manager extends BP_Invitation_Manager {
 	 *
 	 * @since 8.0.0
 	 *
-	 * @param array|string $args.
+	 * @param array|string $args Optional. Arguments for the invitation.
 	 */
 	public function __construct( $args = '' ) {
 		parent::__construct();
@@ -36,7 +36,7 @@ class BP_Members_Invitation_Manager extends BP_Invitation_Manager {
 	 *
 	 * @since 8.0.0
 	 *
-	 * @param obj BP_Invitation $invitation The invitation to send.
+	 * @param BP_Invitation $invitation The invitation to send.
 	 * @return bool
 	 */
 	public function run_send_action( BP_Invitation $invitation ) {
@@ -52,7 +52,7 @@ class BP_Members_Invitation_Manager extends BP_Invitation_Manager {
 				return false;
 			}
 
-			$invite_url = esc_url(
+			$invite_url       = esc_url(
 				add_query_arg(
 					array(
 						'inv' => $invitation->id,
@@ -89,7 +89,7 @@ class BP_Members_Invitation_Manager extends BP_Invitation_Manager {
 	 *
 	 * @since 8.0.0
 	 *
-	 * @param string $type Are we accepting an invitation or request?
+	 * @param string $type Whether an invitation or request is being accepted.
 	 * @param array  $r    Parameters that describe the invitation being accepted.
 	 * @return bool
 	 */
@@ -111,11 +111,11 @@ class BP_Members_Invitation_Manager extends BP_Invitation_Manager {
 				bp_update_user_meta( $new_user->ID, 'accepted_members_invitation', $invite->id );
 
 				// We will mark all invitations to this user as "accepted."
-				if ( ! empty( $invite->invitee_email )  ) {
-					$args  = array(
+				if ( ! empty( $invite->invitee_email ) ) {
+					$args = array(
 						'invitee_email' => $invite->invitee_email,
 						'item_id'       => get_current_network_id(),
-						'type'          => 'all'
+						'type'          => 'all',
 					);
 					$this->mark_accepted( $args );
 				}
@@ -163,7 +163,7 @@ class BP_Members_Invitation_Manager extends BP_Invitation_Manager {
 	 *
 	 * @since 8.0.0
 	 *
-	 * @param array $args.
+	 * @param array $args Arguments for the membership request.
 	 * @return bool.
 	 */
 	public function allow_request( $args ) {

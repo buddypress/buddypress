@@ -78,7 +78,7 @@ class BP_Tests_Activity_Functions_BpActivityGetActions extends BP_UnitTestCase {
 			'foo_bar_50',
 		);
 		$foo_actions = (array) $actions->foo;
-		$this->assertEquals( $expected, array_values( wp_list_pluck( $foo_actions, 'key' ) ) );
+		$this->assertSame( $expected, array_values( wp_list_pluck( $foo_actions, 'key' ) ) );
 	}
 
 	/**

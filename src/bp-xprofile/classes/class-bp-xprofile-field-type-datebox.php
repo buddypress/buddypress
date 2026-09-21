@@ -112,36 +112,55 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 				 *
 				 * @since 1.8.0
 				 */
-				do_action( bp_get_the_profile_field_errors_action() ); ?>
+				do_action( bp_get_the_profile_field_errors_action() );
+				?>
 
-				<label for="<?php bp_the_profile_field_input_name(); ?>_day" class="xprofile-field-label"><?php
+				<label for="<?php bp_the_profile_field_input_name(); ?>_day" class="xprofile-field-label">
+				<?php
 					esc_html_e( 'Day', 'buddypress' );
-				?></label>
+				?>
+				</label>
 				<select <?php $this->output_edit_field_html_elements( $day_r ); ?>>
-					<?php bp_the_profile_field_options( array(
-						'type'    => 'day',
-						'user_id' => $user_id,
-					) ); ?>
+					<?php
+					bp_the_profile_field_options(
+						array(
+							'type'    => 'day',
+							'user_id' => $user_id,
+						)
+					);
+					?>
 				</select>
 
-				<label for="<?php bp_the_profile_field_input_name(); ?>_month" class="xprofile-field-label"><?php
+				<label for="<?php bp_the_profile_field_input_name(); ?>_month" class="xprofile-field-label">
+				<?php
 					esc_html_e( 'Month', 'buddypress' );
-				?></label>
+				?>
+				</label>
 				<select <?php $this->output_edit_field_html_elements( $month_r ); ?>>
-					<?php bp_the_profile_field_options( array(
-						'type'    => 'month',
-						'user_id' => $user_id,
-					) ); ?>
+					<?php
+					bp_the_profile_field_options(
+						array(
+							'type'    => 'month',
+							'user_id' => $user_id,
+						)
+					);
+					?>
 				</select>
 
-				<label for="<?php bp_the_profile_field_input_name(); ?>_year" class="xprofile-field-label"><?php
+				<label for="<?php bp_the_profile_field_input_name(); ?>_year" class="xprofile-field-label">
+				<?php
 					esc_html_e( 'Year', 'buddypress' );
-				?></label>
+				?>
+				</label>
 				<select <?php $this->output_edit_field_html_elements( $year_r ); ?>>
-					<?php bp_the_profile_field_options( array(
-						'type'    => 'year',
-						'user_id' => $user_id,
-					) ); ?>
+					<?php
+					bp_the_profile_field_options(
+						array(
+							'type'    => 'year',
+							'user_id' => $user_id,
+						)
+					);
+					?>
 				</select>
 
 			</div>
@@ -194,11 +213,11 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 		// being saved first time.
 		if ( ! empty( $_POST[ 'field_' . $this->field_obj->id . '_day' ] ) ) {
 			$new_day = (int) $_POST[ 'field_' . $this->field_obj->id . '_day' ];
-			$day     = ( $day != $new_day ) ? $new_day : $day;
+			$day     = ( $day !== $new_day ) ? $new_day : $day;
 		}
 
 		if ( ! empty( $_POST[ 'field_' . $this->field_obj->id . '_month' ] ) ) {
-			if ( in_array( $_POST[ 'field_' . $this->field_obj->id . '_month' ], $eng_months ) ) {
+			if ( in_array( $_POST[ 'field_' . $this->field_obj->id . '_month' ], $eng_months, true ) ) {
 				$new_month = $_POST[ 'field_' . $this->field_obj->id . '_month' ];
 			} else {
 				$new_month = $month;
@@ -209,7 +228,7 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 
 		if ( ! empty( $_POST[ 'field_' . $this->field_obj->id . '_year' ] ) ) {
 			$new_year = (int) $_POST[ 'field_' . $this->field_obj->id . '_year' ];
-			$year     = ( $year != $new_year ) ? $new_year : $year;
+			$year     = ( $year !== $new_year ) ? $new_year : $year;
 		}
 
 		// $type will be passed by calling function when needed.
@@ -220,22 +239,22 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 				for ( $i = 1; $i < 32; ++$i ) {
 					$html .= sprintf( '<option value="%1$s" %2$s>%3$s</option>', (int) $i, selected( $day, $i, false ), (int) $i );
 				}
-			break;
+				break;
 
 			case 'month':
 				$months = array(
-					esc_html__( 'January',   'buddypress' ),
-					esc_html__( 'February',  'buddypress' ),
-					esc_html__( 'March',     'buddypress' ),
-					esc_html__( 'April',     'buddypress' ),
-					esc_html__( 'May',       'buddypress' ),
-					esc_html__( 'June',      'buddypress' ),
-					esc_html__( 'July',      'buddypress' ),
-					esc_html__( 'August',    'buddypress' ),
+					esc_html__( 'January', 'buddypress' ),
+					esc_html__( 'February', 'buddypress' ),
+					esc_html__( 'March', 'buddypress' ),
+					esc_html__( 'April', 'buddypress' ),
+					esc_html__( 'May', 'buddypress' ),
+					esc_html__( 'June', 'buddypress' ),
+					esc_html__( 'July', 'buddypress' ),
+					esc_html__( 'August', 'buddypress' ),
 					esc_html__( 'September', 'buddypress' ),
-					esc_html__( 'October',   'buddypress' ),
-					esc_html__( 'November',  'buddypress' ),
-					esc_html__( 'December',  'buddypress' ),
+					esc_html__( 'October', 'buddypress' ),
+					esc_html__( 'November', 'buddypress' ),
+					esc_html__( 'December', 'buddypress' ),
 				);
 
 				$html = sprintf( '<option value="" %1$s>%2$s</option>', selected( $month, 0, false ), /* translators: no option picked in select box */ esc_html__( '----', 'buddypress' ) );
@@ -243,7 +262,7 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 				for ( $i = 0; $i < 12; ++$i ) {
 					$html .= sprintf( '<option value="%1$s" %2$s>%3$s</option>', esc_attr( $eng_months[ $i ] ), selected( $month, $eng_months[ $i ], false ), $months[ $i ] );
 				}
-			break;
+				break;
 
 			case 'year':
 				$html = sprintf( '<option value="" %1$s>%2$s</option>', selected( $year, 0, false ), /* translators: no option picked in select box */ esc_html__( '----', 'buddypress' ) );
@@ -261,7 +280,7 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 				for ( $i = $end; $i >= $start; $i-- ) {
 					$html .= sprintf( '<option value="%1$s" %2$s>%3$s</option>', (int) $i, selected( $year, $i, false ), (int) $i );
 				}
-			break;
+				break;
 		}
 
 		// phpcs:ignore WordPress.Security.EscapeOutput
@@ -326,23 +345,29 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 		);
 		?>
 
-		<label for="<?php bp_the_profile_field_input_name(); ?>_day" class="xprofile-field-label"><?php
+		<label for="<?php bp_the_profile_field_input_name(); ?>_day" class="xprofile-field-label">
+		<?php
 			esc_html_e( 'Day', 'buddypress' );
-		?></label>
+		?>
+		</label>
 		<select <?php $this->output_edit_field_html_elements( $day_r ); ?>>
 			<?php bp_the_profile_field_options( array( 'type' => 'day' ) ); ?>
 		</select>
 
-		<label for="<?php bp_the_profile_field_input_name(); ?>_month" class="xprofile-field-label"><?php
+		<label for="<?php bp_the_profile_field_input_name(); ?>_month" class="xprofile-field-label">
+		<?php
 			esc_html_e( 'Month', 'buddypress' );
-		?></label>
+		?>
+		</label>
 		<select <?php $this->output_edit_field_html_elements( $month_r ); ?>>
 			<?php bp_the_profile_field_options( array( 'type' => 'month' ) ); ?>
 		</select>
 
-		<label for="<?php bp_the_profile_field_input_name(); ?>_year" class="xprofile-field-label"><?php
+		<label for="<?php bp_the_profile_field_input_name(); ?>_year" class="xprofile-field-label">
+		<?php
 			esc_html_e( 'Year', 'buddypress' );
-		?></label>
+		?>
+		</label>
 		<select <?php $this->output_edit_field_html_elements( $year_r ); ?>>
 			<?php bp_the_profile_field_options( array( 'type' => 'year' ) ); ?>
 		</select>
@@ -396,22 +421,22 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 	public static function validate_settings( $settings ) {
 		foreach ( $settings as $key => &$value ) {
 			switch ( $key ) {
-				case 'range_type' :
+				case 'range_type':
 					if ( $value !== 'absolute' ) {
 						$value = 'relative';
 					}
-				break;
+					break;
 
 				// @todo More date restrictions?
-				case 'range_absolute_start' :
-				case 'range_absolute_end' :
+				case 'range_absolute_start':
+				case 'range_absolute_end':
 					$value = absint( $value );
-				break;
+					break;
 
-				case 'range_relative_start' :
-				case 'range_relative_end' :
+				case 'range_relative_start':
+				case 'range_relative_end':
 					$value = intval( $value );
-				break;
+					break;
 			}
 		}
 
@@ -431,8 +456,8 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 		$saved_settings = array();
 		foreach ( array_keys( $existing_settings ) as $setting ) {
 			switch ( $setting ) {
-				case 'range_relative_start' :
-				case 'range_relative_end' :
+				case 'range_relative_start':
+				case 'range_relative_end':
 					$op_key = $setting . '_type';
 					if ( isset( $settings[ $op_key ] ) && 'past' === $settings[ $op_key ] ) {
 						$value = 0 - intval( $settings[ $setting ] );
@@ -441,13 +466,13 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 					}
 
 					$saved_settings[ $setting ] = $value;
-				break;
+					break;
 
-				default :
+				default:
 					if ( isset( $settings[ $setting ] ) ) {
 						$saved_settings[ $setting ] = $settings[ $setting ];
 					}
-				break;
+					break;
 			}
 		}
 
@@ -471,15 +496,16 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 	 *                                         field's child options.
 	 */
 	public function admin_new_field_html( BP_XProfile_Field $current_field, $control_type = '' ) {
-		$type = array_search( get_class( $this ), bp_xprofile_get_field_types() );
+		$type = array_search( get_class( $this ), bp_xprofile_get_field_types(), true );
 
 		if ( false === $type ) {
 			return;
 		}
 
-		$class = $current_field->type != $type ? 'display: none;' : '';
+		$class = $current_field->type !== $type ? 'display: none;' : '';
 
-		$settings = self::get_field_settings( $current_field->id );
+		$settings               = self::get_field_settings( $current_field->id );
+		$has_custom_date_format = ! empty( $settings['date_format_custom'] );
 		?>
 
 <div id="<?php echo esc_attr( $type ); ?>" class="postbox bp-options-box" style="<?php echo esc_attr( $class ); ?> margin-top: 15px;">
@@ -495,7 +521,7 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 						<?php esc_html_e( 'Date format', 'buddypress' ); ?>
 					</legend>
 
-					<?php foreach ( $this->get_date_formats() as $format ): ?>
+					<?php foreach ( $this->get_date_formats() as $format ) : ?>
 						<div class="bp-date-format-option">
 							<label for="date-format-<?php echo esc_attr( $format ); ?>">
 								<input type="radio" name="field-settings[date_format]" id="date-format-<?php echo esc_attr( $format ); ?>" value="<?php echo esc_attr( $format ); ?>" <?php checked( $format, $settings['date_format'] ); ?> />
@@ -503,7 +529,7 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 								<code><?php echo esc_html( $format ); ?></code>
 							</label>
 						</div>
-					<?php endforeach;?>
+					<?php endforeach; ?>
 
 					<div class="bp-date-format-option">
 						<label for="date-format-elapsed">
@@ -525,7 +551,7 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 							<span class="date-format-label"><?php esc_html_e( 'Custom:', 'buddypress' ); ?></span>
 						</label>
 						<label for="date-format-custom-value" class="screen-reader-text"><?php esc_html_e( 'Enter custom time format', 'buddypress' ); ?></label>
-						<input type="text" name="field-settings[date_format_custom]" id="date-format-custom-value" class="date-format-custom-value" value="<?php echo esc_attr( $settings['date_format_custom'] ); ?>" aria-describedby="date-format-custom-example" /> <span class="screen-reader-text"><?php esc_html_e( 'Example:', 'buddypress' ); ?></span><span class="date-format-custom-example" id="date-format-custom-sample"><?php if ( $settings['date_format_custom'] ) : ?><?php echo esc_html( date_i18n( $settings['date_format_custom'] ) ); endif; ?></span><span class="spinner" id="date-format-custom-spinner" aria-hidden="true"></span>
+						<input type="text" name="field-settings[date_format_custom]" id="date-format-custom-value" class="date-format-custom-value" value="<?php echo esc_attr( $settings['date_format_custom'] ); ?>" aria-describedby="date-format-custom-example" /> <span class="screen-reader-text"><?php esc_html_e( 'Example:', 'buddypress' ); ?></span><span class="date-format-custom-example" id="date-format-custom-sample"><?php echo $has_custom_date_format ? esc_html( date_i18n( $settings['date_format_custom'] ) ) : ''; ?></span><span class="spinner" id="date-format-custom-spinner" aria-hidden="true"></span>
 
 						<p><a href="https://wordpress.org/documentation/article/customize-date-and-time-format/"><?php esc_html_e( 'Documentation on date and time formatting', 'buddypress' ); ?></a></p>
 					</div>
@@ -571,32 +597,40 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 
 						<div class="bp-date-range-type-values">
 							<label for="field-settings[range_relative_start]"><?php esc_html_e( 'Start:', 'buddypress' ); ?></label>
-							<?php printf( '<input type="text" class="date-range-numeric" name="field-settings[range_relative_start]" id="field-settings[range_relative_start]" value="%s" />',
+							<?php
+							printf(
+								'<input type="text" class="date-range-numeric" name="field-settings[range_relative_start]" id="field-settings[range_relative_start]" value="%s" />',
 								esc_attr( abs( $settings['range_relative_start'] ) )
-								);
+							);
 							?>
 
 							<label class="screen-reader-text" for="field-settings[range_relative_start_type]"><?php esc_html_e( 'Select range', 'buddypress' ); ?></label>
-							<?php printf( '<select name="field-settings[range_relative_start_type]" id="field-settings[range_relative_start_type]"><option value="past" %s>%s</option><option value="future" %s>%s</option></select>',
+							<?php
+							printf(
+								'<select name="field-settings[range_relative_start_type]" id="field-settings[range_relative_start_type]"><option value="past" %s>%s</option><option value="future" %s>%s</option></select>',
 								selected( true, $settings['range_relative_start'] <= 0, false ),
 								esc_attr__( 'years ago', 'buddypress' ),
 								selected( true, $settings['range_relative_start'] > 0, false ),
 								esc_attr__( 'years from now', 'buddypress' )
-								);
+							);
 							?>
 
 							<label for="field-settings[range_relative_end]"><?php esc_html_e( 'End:', 'buddypress' ); ?></label>
-							<?php printf( '<input type="text" class="date-range-numeric" name="field-settings[range_relative_end]" id="field-settings[range_relative_end]" value="%s" />',
+							<?php
+							printf(
+								'<input type="text" class="date-range-numeric" name="field-settings[range_relative_end]" id="field-settings[range_relative_end]" value="%s" />',
 								esc_attr( abs( $settings['range_relative_end'] ) )
-								);
+							);
 							?>
 							<label class="screen-reader-text" for="field-settings[range_relative_end_type]"><?php esc_html_e( 'Select range', 'buddypress' ); ?></label>
-							<?php printf( '<select name="field-settings[range_relative_end_type]" id="field-settings[range_relative_end_type]"><option value="past" %s>%s</option><option value="future" %s>%s</option></select>',
-									selected( true, $settings['range_relative_end'] <= 0, false ),
-									esc_attr__( 'years ago', 'buddypress' ),
-									selected( true, $settings['range_relative_end'] > 0, false ),
-									esc_attr__( 'years from now', 'buddypress' )
-								);
+							<?php
+							printf(
+								'<select name="field-settings[range_relative_end_type]" id="field-settings[range_relative_end_type]"><option value="past" %s>%s</option><option value="future" %s>%s</option></select>',
+								selected( true, $settings['range_relative_end'] <= 0, false ),
+								esc_attr__( 'years ago', 'buddypress' ),
+								selected( true, $settings['range_relative_end'] > 0, false ),
+								esc_attr__( 'years from now', 'buddypress' )
+							);
 							?>
 						</div>
 					</div>
@@ -633,21 +667,21 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 		$settings = self::get_field_settings( $field_id );
 
 		switch ( $settings['date_format'] ) {
-			case 'elapsed' :
+			case 'elapsed':
 				$formatted = bp_core_time_since( $field_value );
-			break;
+				break;
 
-			case 'age' :
+			case 'age':
 				$formatted = bp_core_time_old( $field_value );
-			break;
+				break;
 
-			case 'custom' :
+			case 'custom':
 				$formatted = date_i18n( $settings['date_format_custom'], $field_value );
-			break;
+				break;
 
-			default :
+			default:
 				$formatted = date_i18n( $settings['date_format'], $field_value );
-			break;
+				break;
 		}
 
 		return $formatted;
@@ -662,7 +696,6 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 	 */
 	public function get_date_formats() {
 		$date_formats = array_unique( apply_filters( 'date_formats', array( __( 'F j, Y', 'buddypress' ), 'Y-m-d', 'm/d/Y', 'd/m/Y' ) ) );
-
 
 		/**
 		 * Filters the available date formats for XProfile date fields.

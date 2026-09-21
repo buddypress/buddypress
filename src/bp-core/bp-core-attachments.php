@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 2.4.0
  *
- * @param string $data The data to get. Possible values are: 'dir', 'basedir' & 'baseurl'.
+ * @param string $data Optional. The data to get. Possible values are: 'dir', 'basedir' & 'baseurl'.
  *                     Leave empty to get all datas.
  * @return string|array The needed Upload dir data.
  */
@@ -74,6 +74,7 @@ function bp_attachments_uploads_dir_get( $data = '' ) {
  * @since 3.0.0
  *
  * @param array $args {
+ *     Optional. An array of cover image upload directory arguments.
  *    @type int    $object_id        The ID of the object (Required).
  *    @type string $object_directory The object directory (eg: members, groups) (Required).
  * }
@@ -136,7 +137,7 @@ function bp_attachments_cover_image_upload_dir( $args = array() ) {
  *
  * @since 2.4.0
  *
- * @param string $type A string to inform about the type of attachment
+ * @param string $type Optional. A string to inform about the type of attachment
  *                     we wish to get the max upload file size for.
  * @return int Max upload file size for any attachment.
  */
@@ -166,7 +167,7 @@ function bp_attachments_get_max_upload_file_size( $type = '' ) {
  * @since 2.4.0
  * @since 11.0.0 Adds the support for .webp images to Avatars and Cover images.
  *
- * @param string $type The extension types to get.
+ * @param string $type Optional. The extension types to get.
  *                     Default: 'avatar'.
  * @return array The list of allowed extensions for attachments.
  */
@@ -227,7 +228,7 @@ function bp_attachments_get_allowed_types( $type = 'avatar' ) {
  * @since 2.4.0
  *
  * @param string $type          The extension types to get (Optional).
- * @param array  $allowed_types List of allowed extensions.
+ * @param array  $allowed_types Optional. List of allowed extensions.
  * @return array List of allowed mime types.
  */
 function bp_attachments_get_allowed_mimes( $type = '', $allowed_types = array() ) {
@@ -284,8 +285,9 @@ function bp_attachments_check_filetype( $file, $filename, $allowed_mimes ) {
  *
  * @since 2.4.0
  *
- * @param string $type The attachment type to create (avatar or cover_image). Default: avatar.
+ * @param string $type Optional. The attachment type to create (avatar or cover_image). Default: avatar.
  * @param array  $args {
+ *     Optional. An array of arguments.
  *     @type int    $item_id   The ID of the object (Required). Default: 0.
  *     @type string $object    The object type (eg: group, user, blog) (Required). Default: 'user'.
  *     @type string $component The component for the object (eg: groups, members, blogs). Default: ''.
@@ -443,6 +445,7 @@ function bp_attachments_create_item_type( $type = 'avatar', $args = array() ) {
 
 	// Remove copied file if it fails.
 	if ( ! $created ) {
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.unlink_unlink -- Preserve best-effort cleanup of the local copied upload.
 		@unlink( $image_file_path );
 	}
 
@@ -455,8 +458,9 @@ function bp_attachments_create_item_type( $type = 'avatar', $args = array() ) {
  *
  * @since 2.4.0
  *
- * @param string $data whether to get the url or the path.
+ * @param string $data Optional. Whether to get the URL or the path.
  * @param array  $args {
+ *     Optional. An array of arguments.
  *     @type string $object_dir  The object dir (eg: members/groups). Defaults to members.
  *     @type int    $item_id     The object id (eg: a user or a group id). Defaults to current user.
  *     @type string $type        The type of the attachment which is also the subdir where files are saved.
@@ -530,17 +534,26 @@ function bp_attachments_get_attachment( $data = 'url', $args = array() ) {
 	} else {
 		$file = false;
 
-		// Open the directory and get the first file.
+		// Open the directory.
 		$att_dir = opendir( $type_dir );
 		if ( $att_dir ) {
 
-			while ( false !== ( $attachment_file = readdir( $att_dir ) ) ) {
+			while ( true ) {
+				$attachment_file = readdir( $att_dir );
+
+				if ( false === $attachment_file ) {
+					break;
+				}
+
 				// Look for the first file having the type in its name.
 				if ( false !== strpos( $attachment_file, $r['type'] ) && empty( $file ) ) {
 					$file = $attachment_file;
 					break;
 				}
 			}
+
+			// Close the directory.
+			closedir( $att_dir );
 		}
 
 		if ( empty( $file ) ) {
@@ -564,7 +577,7 @@ function bp_attachments_get_attachment( $data = 'url', $args = array() ) {
  *
  * @see bp_attachments_get_attachment() For more information on accepted arguments.
  *
- * @param array $args Array of arguments for the attachment deletion.
+ * @param array $args Optional. Array of arguments for the attachment deletion.
  * @return bool True if the attachment was deleted, false otherwise.
  */
 function bp_attachments_delete_file( $args = array() ) {
@@ -588,6 +601,7 @@ function bp_attachments_delete_file( $args = array() ) {
 		return false;
 	}
 
+	// phpcs:ignore WordPress.WP.AlternativeFunctions.unlink_unlink
 	@unlink( $attachment_path );
 	return true;
 }
@@ -712,7 +726,7 @@ function bp_attachments_get_plupload_l10n() {
  * @see BP_Attachment::script_data() && BP_Attachment_Avatar::script_data() for examples showing how
  * to set specific script data.
  *
- * @param string $class_name Name of the class extending BP_Attachment (eg: BP_Attachment_Avatar).
+ * @param string $class_name Optional. Name of the class extending BP_Attachment (eg: BP_Attachment_Avatar).
  * @return null|WP_Error
  */
 function bp_attachments_enqueue_scripts( $class_name = '' ) {
@@ -720,7 +734,7 @@ function bp_attachments_enqueue_scripts( $class_name = '' ) {
 
 	// Enqueue me just once per page, please.
 	if ( did_action( 'bp_attachments_enqueue_scripts' ) ) {
-		return;
+		return null;
 	}
 
 	if ( ! $class || ! class_exists( $class ) ) {
@@ -991,7 +1005,7 @@ function bp_attachments_enqueue_scripts( $class_name = '' ) {
  * @since 2.3.0
  *
  * @param string $capability The capability to check.
- * @param array  $args       An array containing the item_id and the object to check.
+ * @param array  $args       Optional. An array containing the item_id and the object to check.
  * @return bool
  */
 function bp_attachments_current_user_can( $capability, $args = array() ) {
@@ -1033,8 +1047,8 @@ function bp_attachments_current_user_can( $capability, $args = array() ) {
  * @since 2.3.0
  *
  * @param bool  $success  True for a success, false otherwise.
- * @param bool  $is_html4 True if the Plupload runtime used is html4, false otherwise.
- * @param mixed $data     Data to encode as JSON, then print and die.
+ * @param bool  $is_html4 Optional. True if the Plupload runtime used is html4, false otherwise.
+ * @param mixed $data     Optional. Data to encode as JSON, then print and die.
  */
 function bp_attachments_json_response( $success, $is_html4 = false, $data = null ) {
 	$response = array( 'success' => $success );
@@ -1096,7 +1110,7 @@ function bp_attachments_get_template_part( $slug ) {
  *
  * @since 2.4.0
  *
- * @param string $component The component to get the settings for ("members" for user or "groups").
+ * @param string $component Optional. The component to get the settings for ("members" for user or "groups").
  * @return false|array The cover image settings in array, false on failure.
  */
 function bp_attachments_get_cover_image_settings( $component = 'members' ) {
@@ -1169,7 +1183,7 @@ function bp_attachments_get_cover_image_settings( $component = 'members' ) {
  *
  * @since 2.4.0
  *
- * @param string $component The BuddyPress component concerned ("members" for user or "groups").
+ * @param string $component Optional. The BuddyPress component concerned ("members" for user or "groups").
  * @return array|bool An associative array containing the advised width and height for the cover image. False if settings are empty.
  */
 function bp_attachments_get_cover_image_dimensions( $component = 'members' ) {
@@ -1236,7 +1250,7 @@ function bp_attachments_cover_image_is_edit() {
  *
  * @since 2.4.0
  *
- * @param int $user_id User ID to retrieve cover image for.
+ * @param int $user_id Optional. User ID to retrieve cover image for.
  * @return bool True if the user has a cover image, false otherwise.
  */
 function bp_attachments_get_user_has_cover_image( $user_id = 0 ) {
@@ -1260,7 +1274,7 @@ function bp_attachments_get_user_has_cover_image( $user_id = 0 ) {
  * @since 2.4.0
  * @since 6.0.0 Renamed the filter coherently.
  *
- * @param int $group_id Group ID to check cover image existence for.
+ * @param int $group_id Optional. Group ID to check cover image existence for.
  * @return bool True if the group has a cover image, false otherwise.
  */
 function bp_attachments_get_group_has_cover_image( $group_id = 0 ) {
@@ -1285,11 +1299,12 @@ function bp_attachments_get_group_has_cover_image( $group_id = 0 ) {
  * @since 2.4.0
  *
  * @param array                          $args {
+ *     Optional. An array of arguments.
  *     @type string $file            The absolute path to the image. Required.
  *     @type string $component       The component for the object (eg: groups, members). Required.
  *     @type string $cover_image_dir The Cover image dir to write the image into. Required.
  * }
- * @param BP_Attachment_Cover_Image|null $cover_image_class The class to use to fit the cover image.
+ * @param BP_Attachment_Cover_Image|null $cover_image_class Optional. The class to use to fit the cover image.
  * @return false|array An array containing cover image data on success, false otherwise.
  */
 function bp_attachments_cover_image_generate_file( $args = array(), $cover_image_class = null ) {
@@ -1324,6 +1339,7 @@ function bp_attachments_cover_image_generate_file( $args = array(), $cover_image
 	// Image is too small in width and height.
 	if ( empty( $cover_image ) ) {
 		$cover_file = $cover_image_class->generate_filename( $args['file'] );
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.rename_rename
 		@rename( $args['file'], $cover_file );
 
 		// It's too small!
@@ -1345,13 +1361,26 @@ function bp_attachments_cover_image_generate_file( $args = array(), $cover_image
 	// Do some clean up with old cover image, now a new one is set.
 	$cover_basename = wp_basename( $cover_file );
 
-	if ( $att_dir = opendir( $args['cover_image_dir'] ) ) {
-		while ( false !== ( $attachment_file = readdir( $att_dir ) ) ) {
+	// Open the directory.
+	$att_dir = opendir( $args['cover_image_dir'] );
+	if ( $att_dir ) {
+
+		while ( true ) {
+			$attachment_file = readdir( $att_dir );
+
+			if ( false === $attachment_file ) {
+				break;
+			}
+
 			// Skip directories and the new cover image.
 			if ( 2 < strlen( $attachment_file ) && 0 !== strpos( $attachment_file, '.' ) && $cover_basename !== $attachment_file ) {
+				// phpcs:ignore WordPress.WP.AlternativeFunctions.unlink_unlink
 				@unlink( $args['cover_image_dir'] . '/' . $attachment_file );
 			}
 		}
+
+		// Close the directory.
+		closedir( $att_dir );
 	}
 
 	// Finally return needed data.
@@ -1573,10 +1602,13 @@ function bp_attachments_cover_image_ajax_upload() {
 	/**
 	 * Fires if the new cover image was successfully uploaded.
 	 *
-	 * The dynamic portion of the hook will be members in case of a user's
-	 * cover image, groups in case of a group's cover image. For instance:
-	 * Use add_action( 'members_cover_image_uploaded' ) to run your specific
-	 * code once the user has set his cover image.
+	 * The dynamic portion of the hook name, `$component`, refers to the component that owns the cover
+	 * image.
+	 *
+	 * Possible hook names include:
+	 *
+	 *  - `members_cover_image_uploaded`
+	 *  - `groups_cover_image_uploaded`
 	 *
 	 * @since 2.4.0
 	 * @since 3.0.0 Added $cover_url, $name, $feedback_code arguments.
@@ -1673,10 +1705,13 @@ function bp_attachments_cover_image_ajax_delete() {
 		/**
 		 * Fires if the cover image was successfully deleted.
 		 *
-		 * The dynamic portion of the hook will be members in case of a user's
-		 * cover image, groups in case of a group's cover image. For instance:
-		 * Use add_action( 'members_cover_image_deleted' ) to run your specific
-		 * code once the user has deleted his cover image.
+		 * The dynamic portion of the hook name, `$component`, refers to the component that owns the cover
+		 * image.
+		 *
+		 * Possible hook names include:
+		 *
+		 *  - `members_cover_image_deleted`
+		 *  - `groups_cover_image_deleted`
 		 *
 		 * @since 2.8.0
 		 *
@@ -1731,7 +1766,7 @@ add_action( 'bp_init', 'bp_attachments_cover_register_ajax_actions' );
  *
  * @since 11.0.0
  *
- * @param string $file Absolute path of a file or directory.
+ * @param string $file Optional. Absolute path of a file or directory.
  * @return false|string False if the mime type is not supported by WordPress.
  *                      The mime type of a file or 'directory' for a directory.
  */
@@ -1783,7 +1818,7 @@ function bp_attachments_get_file_object( SplFileInfo $file ) {
  *
  * @since 10.0.0
  *
- * @param string $directory_path Absolute path of a directory.
+ * @param string $directory_path Optional. Absolute path of a directory.
  * @return array                 The file objects list of the directory.
  */
 function bp_attachments_list_directory_files( $directory_path = '' ) {
@@ -1812,8 +1847,8 @@ function bp_attachments_list_directory_files( $directory_path = '' ) {
  *
  * @since 10.0.0
  *
- * @param string $directory_path Absolute path of a directory.
- * @param string $find           The file ID to find into the directory or its children.
+ * @param string $directory_path Optional. Absolute path of a directory.
+ * @param string $find           Optional. The file ID to find into the directory or its children.
  * @return array                 The file objects list of the directory and subdirectories.
  */
 function bp_attachments_list_directory_files_recursively( $directory_path = '', $find = '' ) {

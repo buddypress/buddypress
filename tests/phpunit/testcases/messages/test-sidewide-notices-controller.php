@@ -115,7 +115,7 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 		$request->set_param( 'context', 'edit' );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$all_data = $response->get_data();
 		$this->assertNotEmpty( $all_data );
@@ -182,7 +182,7 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$data = $response->get_data();
 
@@ -238,7 +238,7 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$data = $response->get_data();
 		$this->assertNotEmpty( $data );
@@ -271,7 +271,7 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 		$request->set_param( 'context', 'edit' );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$data = $response->get_data();
 		$this->assertNotEmpty( $data );
@@ -337,7 +337,7 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$data = $response->get_data();
 		$this->assertNotEmpty( $data );
@@ -375,7 +375,7 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 		$data = $response->get_data();
 		$this->assertNotEmpty( $data );
 
@@ -444,7 +444,7 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 		$request->set_param( 'message', 'Yeah!' );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$data = $response->get_data();
 
@@ -532,7 +532,7 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 		$request->set_param( 'context', 'edit' );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$data = $response->get_data();
 
@@ -599,7 +599,7 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 		$request->set_param( 'context', 'edit' );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$data = $response->get_data();
 
@@ -663,21 +663,26 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 	}
 
 	protected function check_notice_data( $notice, $data, $context = 'view' ) {
-		$this->assertEquals( $notice->id, $data['id'] );
+		$this->assertSame( $notice->id, $data['id'] );
 
 		if ( 'edit' === $context ) {
-			$this->assertEquals( $notice->subject, $data['subject']['raw'] );
-			$this->assertEquals( $notice->message, $data['message']['raw'] );
-			$this->assertEquals( (bool) $notice->is_active, $data['is_active'] );
+			$this->assertSame( $notice->subject, $data['subject']['raw'] );
+			$this->assertSame( $notice->message, $data['message']['raw'] );
+
+			if ( (bool) $notice->is_active ) {
+				$this->assertTrue( $data['is_active'] );
+			} else {
+				$this->assertFalse( $data['is_active'] );
+			}
 		}
 
-		$this->assertEquals( apply_filters( 'bp_get_message_notice_subject', wp_staticize_emoji( $notice->subject ) ), $data['subject']['rendered'] );
-		$this->assertEquals( apply_filters( 'bp_get_message_notice_text', wp_staticize_emoji( $notice->message ) ), $data['message']['rendered'] );
-		$this->assertEquals(
+		$this->assertSame( apply_filters( 'bp_get_message_notice_subject', wp_staticize_emoji( $notice->subject ) ), $data['subject']['rendered'] );
+		$this->assertSame( apply_filters( 'bp_get_message_notice_text', wp_staticize_emoji( $notice->message ) ), $data['message']['rendered'] );
+		$this->assertSame(
 			bp_rest_prepare_date_response( $notice->date_sent, get_date_from_gmt( $notice->date_sent ) ),
 			$data['date']
 		);
-		$this->assertEquals( bp_rest_prepare_date_response( $notice->date_sent ), $data['date_gmt'] );
+		$this->assertSame( bp_rest_prepare_date_response( $notice->date_sent ), $data['date_gmt'] );
 	}
 
 	public function test_get_item_schema() {
@@ -686,7 +691,7 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 		$data       = $response->get_data();
 		$properties = $data['schema']['properties'];
 
-		$this->assertEquals( 6, count( $properties ) );
+		$this->assertCount( 6, $properties );
 		$this->assertArrayHasKey( 'id', $properties );
 		$this->assertArrayHasKey( 'subject', $properties );
 		$this->assertArrayHasKey( 'message', $properties );
@@ -701,7 +706,7 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 		$response = $this->server->dispatch( $request );
 		$data     = $response->get_data();
 
-		$this->assertEquals( 'view', $data['endpoints'][0]['args']['context']['default'] );
-		$this->assertEquals( array( 'view', 'edit' ), $data['endpoints'][0]['args']['context']['enum'] );
+		$this->assertSame( 'view', $data['endpoints'][0]['args']['context']['default'] );
+		$this->assertSame( array( 'view', 'edit' ), $data['endpoints'][0]['args']['context']['enum'] );
 	}
 }

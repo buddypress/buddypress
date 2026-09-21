@@ -117,7 +117,7 @@ class BP_Nouveau extends BP_Theme_Compat {
 		if ( ! $this->is_block_theme ) {
 			add_action(
 				'bp_customize_register',
-				function() {
+				function () {
 					if ( bp_is_root_blog() && current_user_can( 'customize' ) ) {
 						require bp_nouveau()->includes_dir . 'customizer.php';
 					}
@@ -227,11 +227,8 @@ class BP_Nouveau extends BP_Theme_Compat {
 		add_action( 'bp_enqueue_community_scripts', array( $this, 'localize_scripts' ) );
 		remove_action( 'bp_enqueue_community_scripts', 'bp_core_confirmation_js' );
 
-		/** This filter is documented in bp-core/bp-core-dependency.php */
-		if ( is_buddypress() || ! apply_filters( 'bp_enqueue_assets_in_bp_pages_only', true ) ) {
-			// Body no-js class.
-			add_filter( 'body_class', array( $this, 'add_nojs_body_class' ), 20, 1 );
-		}
+		// Body no-js class.
+		add_filter( 'body_class', array( $this, 'add_nojs_body_class' ), 20, 1 );
 
 		// Ajax querystring.
 		add_filter( 'bp_ajax_querystring', 'bp_nouveau_ajax_querystring', 10, 2 );
@@ -378,7 +375,7 @@ class BP_Nouveau extends BP_Theme_Compat {
 	public function register_scripts() {
 		$min          = bp_core_get_minified_asset_suffix();
 		$dependencies = bp_core_get_js_dependencies();
-		$bp_confirm   = array_search( 'bp-confirm', $dependencies );
+		$bp_confirm   = array_search( 'bp-confirm', $dependencies, true );
 
 		unset( $dependencies[ $bp_confirm ] );
 
@@ -483,12 +480,17 @@ class BP_Nouveau extends BP_Theme_Compat {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param array $classes Array of classes to append to body tag.
-	 *
-	 * @return array $classes
+	 * @param string[] $classes Array of classes to append to body tag.
+	 * @return string[]
 	 */
 	public function add_nojs_body_class( $classes ) {
+		/** This filter is documented in bp-core/bp-core-dependency.php */
+		if ( ! is_buddypress() && apply_filters( 'bp_enqueue_assets_in_bp_pages_only', true ) ) {
+			return $classes;
+		}
+
 		$classes[] = 'no-js';
+
 		return array_unique( $classes );
 	}
 
@@ -575,7 +577,7 @@ class BP_Nouveau extends BP_Theme_Compat {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param array $templates Array of templates.
+	 * @param array $templates Optional. Array of templates.
 	 *
 	 * @return array
 	 */
@@ -747,7 +749,7 @@ class BP_Nouveau extends BP_Theme_Compat {
 	 *
 	 * @param array $messages The list of feedback messages.
 	 *
-	 * @return array $messages
+	 * @return array
 	 */
 	public function filter_registration_messages( $messages ) {
 		// Change the "registration is disabled" message.

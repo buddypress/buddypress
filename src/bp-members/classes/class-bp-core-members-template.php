@@ -127,7 +127,16 @@ class BP_Core_Members_Template {
 	public function __construct( ...$args ) {
 		// Backward compatibility with old method of passing arguments.
 		if ( ! is_array( $args[0] ) || count( $args ) > 1 ) {
-			_deprecated_argument( __METHOD__, '7.0.0', sprintf( esc_html__( 'Arguments passed to %1$s should be in an associative array. See the inline documentation at %2$s for more details.', 'buddypress' ), __METHOD__, __FILE__ ) );
+			_deprecated_argument(
+				__METHOD__,
+				'7.0.0',
+				sprintf(
+					/* translators: 1: the name of the method. 2: the name of the file. */
+					esc_html__( 'Arguments passed to %1$s should be in an associative array. See the inline documentation at %2$s for more details.', 'buddypress' ),
+					__METHOD__,
+					__FILE__
+				)
+			);
 
 			$old_args_keys = array(
 				0  => 'type',
@@ -144,7 +153,7 @@ class BP_Core_Members_Template {
 				11 => 'page_arg',
 				12 => 'member_type',
 				13 => 'member_type__in',
-				14 => 'member_type__not_in'
+				14 => 'member_type__not_in',
 			);
 
 			$args = bp_core_parse_args_array( $old_args_keys, $args );
@@ -183,7 +192,7 @@ class BP_Core_Members_Template {
 
 		$this->pag_arg  = sanitize_key( $r['page_arg'] );
 		$this->pag_page = bp_sanitize_pagination_arg( $this->pag_arg, $r['page_number'] );
-		$this->pag_num  = bp_sanitize_pagination_arg( 'num',          $r['per_page']    );
+		$this->pag_num  = bp_sanitize_pagination_arg( 'num', $r['per_page'] );
 		$this->type     = $r['type'];
 
 		if ( ! empty( $_REQUEST['letter'] ) ) {
@@ -248,20 +257,22 @@ class BP_Core_Members_Template {
 			$add_args = array();
 
 			if ( ! empty( $r['search_terms'] ) ) {
-				$query_arg = bp_core_get_component_search_query_arg( 'members' );
-				$add_args[ $query_arg ] = urlencode( $r['search_terms'] );
+				$query_arg              = bp_core_get_component_search_query_arg( 'members' );
+				$add_args[ $query_arg ] = rawurlencode( $r['search_terms'] );
 			}
 
-			$this->pag_links = paginate_links( array(
-				'base'      => add_query_arg( $pag_args, $base ),
-				'format'    => '',
-				'total'     => ceil( (int) $this->total_member_count / (int) $this->pag_num ),
-				'current'   => (int) $this->pag_page,
-				'prev_text' => _x( '&larr;', 'Member pagination previous text', 'buddypress' ),
-				'next_text' => _x( '&rarr;', 'Member pagination next text', 'buddypress' ),
-				'mid_size'  => 1,
-				'add_args'  => $add_args,
-			) );
+			$this->pag_links = paginate_links(
+				array(
+					'base'      => add_query_arg( $pag_args, $base ),
+					'format'    => '',
+					'total'     => ceil( (int) $this->total_member_count / (int) $this->pag_num ),
+					'current'   => (int) $this->pag_page,
+					'prev_text' => _x( '&larr;', 'Member pagination previous text', 'buddypress' ),
+					'next_text' => _x( '&rarr;', 'Member pagination next text', 'buddypress' ),
+					'mid_size'  => 1,
+					'add_args'  => $add_args,
+				)
+			);
 		}
 	}
 
@@ -286,7 +297,7 @@ class BP_Core_Members_Template {
 	 * @return object The next member to iterate over.
 	 */
 	public function next_member() {
-		$this->current_member++;
+		++$this->current_member;
 		$this->member = $this->members[ $this->current_member ];
 
 		return $this->member;
@@ -327,7 +338,7 @@ class BP_Core_Members_Template {
 			 *
 			 * @since 1.5.0
 			 */
-			do_action('member_loop_end');
+			do_action( 'member_loop_end' );
 			// Do some cleaning up after the loop.
 			$this->rewind_members();
 		}

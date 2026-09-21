@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 9.0.0
  * @since 12.0.0 Uses the `@wordpress/scripts` `index.asset.php` generated file to get dependencies.
  *
- * @param array $scripts Data about the scripts to register.
+ * @param array $scripts Optional. Data about the scripts to register.
  * @return array Data about the scripts to register.
  */
 function bp_friends_register_scripts( $scripts = array() ) {
@@ -26,9 +26,9 @@ function bp_friends_register_scripts( $scripts = array() ) {
 
 	$asset      = array(
 		'dependencies' => array(),
-		'version'      => ''
+		'version'      => '',
 	);
-	$asset_path = trailingslashit( dirname( __FILE__ ) ) . 'blocks/dynamic-widget/index.asset.php';
+	$asset_path = trailingslashit( __DIR__ ) . 'blocks/dynamic-widget/index.asset.php';
 
 	if ( file_exists( $asset_path ) ) {
 		$asset = require $asset_path;

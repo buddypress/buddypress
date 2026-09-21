@@ -5,6 +5,8 @@
  * This template is used to inject the BuddyPress Backbone views
  * dealing with a group's membership management.
  *
+ * @package BuddyPress
+ * @subpackage bp-nouveau
  * @since 5.0.0
  * @version 10.0.0
  */
@@ -34,7 +36,7 @@ if ( ! did_action( '_bp_groups_print_manage_group_members_placeholders' ) ) {
 </script>
 
 <script type="text/html" id="tmpl-bp-manage-members-error">
-   <small>{{data.message}}</small>
+	<small>{{data.message}}</small>
 </script>
 
 <script type="text/html" id="tmpl-bp-manage-members-header">
@@ -88,14 +90,14 @@ if ( ! did_action( '_bp_groups_print_manage_group_members_placeholders' ) ) {
 		<# if ( ! data.editing  && ! data.managingBan && ! data.removing ) { #>
 			{{data.role.name}}
 		<# } else { #>
-			<div id="edit-group-member-{{data.id}}" class="group-member-edit"><?php // Placeholder for the Edit Role Dropdown. ;?></div>
+			<div id="edit-group-member-{{data.id}}" class="group-member-edit"><?php // Placeholder for the Edit Role Dropdown. ; ?></div>
 		<# } #>
 	</td>
 </script>
 
 <script type="text/html" id="tmpl-bp-manage-members-search">
 	<?php
-		$button_classes = array( 'bp-button', 'bp-search' );
+		$button_classes      = array( 'bp-button', 'bp-search' );
 		$screen_reader_class = 'bp-screen-reader-text';
 
 		if ( is_admin() ) {
@@ -115,7 +117,7 @@ if ( ! did_action( '_bp_groups_print_manage_group_members_placeholders' ) ) {
 
 <script type="text/html" id="tmpl-bp-manage-members-paginate">
 	<?php
-		$button_classes = array( 'group-members-paginate-button' );
+		$button_classes      = array( 'group-members-paginate-button' );
 		$screen_reader_class = 'bp-screen-reader-text';
 
 		if ( is_admin() ) {

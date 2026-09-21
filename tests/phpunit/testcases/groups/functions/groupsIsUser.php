@@ -64,7 +64,7 @@ class BP_Tests_Groups_Functions_GroupsIsUser extends BP_UnitTestCase {
 			'is_admin' => true,
 		) );
 
-		$this->assertEquals( false, groups_is_user_admin( self::$user, self::$groups[0] ) );
+		$this->assertFalse( groups_is_user_admin( self::$user, self::$groups[0] ) );
 	}
 
 	public function test_groups_is_user_mod_expected_true() {
@@ -86,7 +86,7 @@ class BP_Tests_Groups_Functions_GroupsIsUser extends BP_UnitTestCase {
 			'is_mod' => true,
 		) );
 
-		$this->assertEquals( false, groups_is_user_mod( self::$user, self::$groups[0] ) );
+		$this->assertFalse( groups_is_user_mod( self::$user, self::$groups[0] ) );
 	}
 
 	public function test_groups_is_user_mod_should_return_false_when_user_is_also_banned() {
@@ -100,7 +100,7 @@ class BP_Tests_Groups_Functions_GroupsIsUser extends BP_UnitTestCase {
 		$m = new BP_Groups_Member( self::$user, self::$groups[1] );
 		$m->ban();
 
-		$this->assertEquals( false, groups_is_user_mod( self::$user, self::$groups[1] ) );
+		$this->assertFalse( groups_is_user_mod( self::$user, self::$groups[1] ) );
 	}
 
 	public function test_groups_is_user_member_expected_true() {
@@ -128,7 +128,7 @@ class BP_Tests_Groups_Functions_GroupsIsUser extends BP_UnitTestCase {
 	public function test_groups_is_user_member_expected_false() {
 		$this->add_user_to_group( self::$user, self::$groups[1] );
 
-		$this->assertEquals( false, groups_is_user_member( self::$user, self::$groups[0] ) );
+		$this->assertFalse( groups_is_user_member( self::$user, self::$groups[0] ) );
 	}
 
 	public function test_groups_is_user_member_should_return_false_when_user_is_also_banned() {
@@ -137,11 +137,11 @@ class BP_Tests_Groups_Functions_GroupsIsUser extends BP_UnitTestCase {
 		$m = new BP_Groups_Member( self::$user, self::$groups[1] );
 		$m->ban();
 
-		$this->assertEquals( false, groups_is_user_member( self::$user, self::$groups[1] ) );
+		$this->assertFalse( groups_is_user_member( self::$user, self::$groups[1] ) );
 	}
 
 	public function test_groups_is_user_banned_should_return_false_for_non_member() {
-		$this->assertEquals( false, groups_is_user_banned( self::$user, self::$groups[1] ) );
+		$this->assertFalse( groups_is_user_banned( self::$user, self::$groups[1] ) );
 	}
 
 	/**
@@ -149,7 +149,7 @@ class BP_Tests_Groups_Functions_GroupsIsUser extends BP_UnitTestCase {
 	 */
 	public function test_groups_is_user_banned_should_return_false_for_non_banned_member() {
 		$this->add_user_to_group( self::$user, self::$groups[1] );
-		$this->assertEquals( 0, groups_is_user_banned( self::$user, self::$groups[1] ) );
+		$this->assertFalse( groups_is_user_banned( self::$user, self::$groups[1] ) );
 	}
 
 	public function test_groups_is_user_banned_should_return_true_for_banned_member() {
@@ -163,11 +163,11 @@ class BP_Tests_Groups_Functions_GroupsIsUser extends BP_UnitTestCase {
 
 	public function test_groups_is_user_invited_should_return_false_for_confirmed_member() {
 		$this->add_user_to_group( self::$user, self::$groups[1] );
-		$this->assertEquals( false, groups_is_user_invited( self::$user, self::$groups[1] ) );
+		$this->assertFalse( groups_is_user_invited( self::$user, self::$groups[1] ) );
 	}
 
 	public function test_groups_is_user_invited_should_return_false_for_uninvited_member() {
-		$this->assertEquals( false, groups_is_user_invited( self::$user, self::$groups[1] ) );
+		$this->assertFalse( groups_is_user_invited( self::$user, self::$groups[1] ) );
 	}
 
 	public function test_groups_is_user_invited_should_return_true_for_invited_member() {
@@ -188,11 +188,11 @@ class BP_Tests_Groups_Functions_GroupsIsUser extends BP_UnitTestCase {
 			'send_invite' => 1
 		) );
 
-		$this->assertEquals( false, groups_is_user_pending( self::$user, self::$groups[1] ) );
+		$this->assertFalse( groups_is_user_pending( self::$user, self::$groups[1] ) );
 	}
 
 	public function test_groups_is_user_pending_should_return_false_for_member_with_no_request() {
-		$this->assertEquals( false, groups_is_user_pending( self::$user, self::$groups[1] ) );
+		$this->assertFalse( groups_is_user_pending( self::$user, self::$groups[1] ) );
 	}
 
 	public function test_groups_is_user_pending_should_return_true_for_pending_member() {

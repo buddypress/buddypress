@@ -7,6 +7,8 @@
  *
  * It's also used to create the common Backbone views.
  *
+ * @package BuddyPress
+ * @subpackage bp-attachments
  * @since 2.4.0
  * @version 3.1.0
  */
@@ -41,7 +43,8 @@
 			 *
 			 * @since 3.0.0
 			 */
-			do_action( 'bp_attachments_cover_image_delete_template' ); ?>
+			do_action( 'bp_attachments_cover_image_delete_template' );
+			?>
 	<# } #>
 </script>
 

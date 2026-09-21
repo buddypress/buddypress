@@ -20,8 +20,8 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  *
- * @param int                  $group_id  ID of the group.
- * @param BP_Groups_Group|null $old_group Group before new details were saved.
+ * @param int                  $group_id  Optional. ID of the group.
+ * @param BP_Groups_Group|null $old_group Optional. Group before new details were saved.
  */
 function groups_notification_group_updated( $group_id = 0, $old_group = null ) {
 	$group = groups_get_group( $group_id );
@@ -117,23 +117,25 @@ function groups_notification_group_updated( $group_id = 0, $old_group = null ) {
  * Notify group admin about new membership request.
  *
  * @since 1.0.0
+ * @since 15.0.0 The `$membership_id` parameter was removed since it was unused.
  *
- * @param int $requesting_user_id ID of the user requesting group membership.
- * @param int $admin_id           ID of the group admin.
- * @param int $group_id           ID of the group.
- * @param int $membership_id      ID of the group membership object.
+ * @param int $requesting_user_id Optional. ID of the user requesting group membership.
+ * @param int $admin_id           Optional. ID of the group admin.
+ * @param int $group_id           Optional. ID of the group.
  */
-function groups_notification_new_membership_request( $requesting_user_id = 0, $admin_id = 0, $group_id = 0, $membership_id = 0 ) {
+function groups_notification_new_membership_request( $requesting_user_id = 0, $admin_id = 0, $group_id = 0 ) {
 
 	// Trigger a BuddyPress Notification.
 	if ( bp_is_active( 'notifications' ) ) {
-		bp_notifications_add_notification( array(
-			'user_id'           => $admin_id,
-			'item_id'           => $group_id,
-			'secondary_item_id' => $requesting_user_id,
-			'component_name'    => buddypress()->groups->id,
-			'component_action'  => 'new_membership_request',
-		) );
+		bp_notifications_add_notification(
+			array(
+				'user_id'           => $admin_id,
+				'item_id'           => $group_id,
+				'secondary_item_id' => $requesting_user_id,
+				'component_name'    => buddypress()->groups->id,
+				'component_action'  => 'new_membership_request',
+			)
+		);
 	}
 
 	// Bail if member opted out of receiving this email.
@@ -147,10 +149,11 @@ function groups_notification_new_membership_request( $requesting_user_id = 0, $a
 	);
 
 	$request_message = '';
-	$requests = groups_get_requests( $args = array(
-		'user_id'    => $requesting_user_id,
-		'item_id'    => $group_id,
-	) );
+	$args            = array(
+		'user_id' => $requesting_user_id,
+		'item_id' => $group_id,
+	);
+	$requests        = groups_get_requests( $args );
 
 	if ( $requests ) {
 		$request_message = current( $requests )->content;
@@ -184,8 +187,8 @@ function groups_notification_new_membership_request( $requesting_user_id = 0, $a
  *
  * @since 1.0.0
  *
- * @param int  $requesting_user_id ID of the user requesting group membership.
- * @param int  $group_id           ID of the group.
+ * @param int  $requesting_user_id Optional. ID of the user requesting group membership.
+ * @param int  $group_id           Optional. ID of the group.
  * @param bool $accepted           Optional. Whether the membership request was accepted.
  *                                 Default: true.
  */
@@ -197,12 +200,14 @@ function groups_notification_membership_request_completed( $requesting_user_id =
 		// What type of acknowledgement.
 		$type = ! empty( $accepted ) ? 'membership_request_accepted' : 'membership_request_rejected';
 
-		bp_notifications_add_notification( array(
-			'user_id'           => $requesting_user_id,
-			'item_id'           => $group_id,
-			'component_name'    => buddypress()->groups->id,
-			'component_action'  => $type,
-		) );
+		bp_notifications_add_notification(
+			array(
+				'user_id'           => $requesting_user_id,
+				'item_id'           => $group_id,
+				'component_name'    => buddypress()->groups->id,
+				'component_action'  => $type,
+			)
+		);
 	}
 
 	// Bail if member opted out of receiving this email.
@@ -252,8 +257,8 @@ add_action( 'groups_membership_rejected', 'groups_notification_membership_reques
  *
  * @since 1.0.0
  *
- * @param int $user_id  ID of the user.
- * @param int $group_id ID of the group.
+ * @param int $user_id  Optional. ID of the user.
+ * @param int $group_id Optional. ID of the group.
  */
 function groups_notification_promoted_member( $user_id = 0, $group_id = 0 ) {
 
@@ -268,12 +273,14 @@ function groups_notification_promoted_member( $user_id = 0, $group_id = 0 ) {
 
 	// Trigger a BuddyPress Notification.
 	if ( bp_is_active( 'notifications' ) ) {
-		bp_notifications_add_notification( array(
-			'user_id'           => $user_id,
-			'item_id'           => $group_id,
-			'component_name'    => buddypress()->groups->id,
-			'component_action'  => $type,
-		) );
+		bp_notifications_add_notification(
+			array(
+				'user_id'           => $user_id,
+				'item_id'           => $group_id,
+				'component_name'    => buddypress()->groups->id,
+				'component_action'  => $type,
+			)
+		);
 	}
 
 	// Bail if admin opted out of receiving this email.
@@ -314,22 +321,24 @@ add_action( 'group_member_promoted', 'groups_notification_promoted_member', 10, 
 function groups_notification_group_invites( &$group, &$member, $inviter_user_id ) {
 
 	// @todo $inviter_ud may be used for caching, test without it
-	$inviter_ud      = bp_core_get_core_userdata( $inviter_user_id );
+	$inviter_ud = bp_core_get_core_userdata( $inviter_user_id );
 
 	if ( $member instanceof BP_Groups_Member ) {
 		$invited_user_id = $member->user_id;
-	} else if ( is_int( $member ) ) {
+	} elseif ( is_int( $member ) ) {
 		$invited_user_id = $member;
 	}
 
 	// Trigger a BuddyPress Notification.
 	if ( bp_is_active( 'notifications' ) ) {
-		bp_notifications_add_notification( array(
-			'user_id'          => $invited_user_id,
-			'item_id'          => $group->id,
-			'component_name'   => buddypress()->groups->id,
-			'component_action' => 'group_invite',
-		) );
+		bp_notifications_add_notification(
+			array(
+				'user_id'          => $invited_user_id,
+				'item_id'          => $group->id,
+				'component_name'   => buddypress()->groups->id,
+				'component_action' => 'group_invite',
+			)
+		);
 	}
 
 	// Bail if member opted out of receiving this email.
@@ -348,11 +357,12 @@ function groups_notification_group_invites( &$group, &$member, $inviter_user_id 
 	);
 
 	$invite_message = '';
-	$invitations = groups_get_invites( $args = array(
+	$args           = array(
 		'user_id'    => $invited_user_id,
 		'item_id'    => $group->id,
 		'inviter_id' => $inviter_user_id,
-	) );
+	);
+	$invitations    = groups_get_invites( $args );
 	if ( $invitations ) {
 		$invite_message = current( $invitations )->content;
 	}
@@ -386,7 +396,7 @@ function groups_notification_group_invites( &$group, &$member, $inviter_user_id 
  * @param int    $secondary_item_id The secondary item ID.
  * @param int    $total_items       The total number of messaging-related notifications
  *                                  waiting for the user.
- * @param string $format            'string' for notification HTML link or 'array' for separate link and text.
+ * @param string $format            Optional. 'string' for notification HTML link or 'array' for separate link and text.
  *                                  for WP Toolbar. Default: 'string'.
  * @return string
  */
@@ -420,7 +430,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					)
 				);
 
-				if ( 'string' == $format ) {
+				if ( 'string' === $format ) {
 
 					/**
 					 * Filters groups multiple new membership request notification for string format.
@@ -455,17 +465,25 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					 * @param string $text              Notification content.
 					 * @param string $notification_link The permalink for notification.
 					 */
-					return apply_filters( 'bp_groups_' . $amount . '_' . $action . 's_notification', array(
-						'link' => $notification_link,
-						'text' => $text
-					), $group_link, $total_items, $group->name, $text, $notification_link );
+					return apply_filters(
+						'bp_groups_' . $amount . '_' . $action . 's_notification',
+						array(
+							'link' => $notification_link,
+							'text' => $text,
+						),
+						$group_link,
+						$total_items,
+						$group->name,
+						$text,
+						$notification_link
+					);
 				}
 			} else {
 				$user_fullname = bp_core_get_user_displayname( $requesting_user_id );
 
 				/* translators: %s: member name */
 				$text              = sprintf( __( '%s requests group membership', 'buddypress' ), $user_fullname );
-				$notification_link = $notification_link = add_query_arg(
+				$notification_link = add_query_arg(
 					array(
 						'n' => 1,
 					),
@@ -475,7 +493,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					)
 				);
 
-				if ( 'string' == $format ) {
+				if ( 'string' === $format ) {
 
 					/**
 					 * Filters groups single new membership request notification for string format.
@@ -510,10 +528,18 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					 * @param string $text              Notification content.
 					 * @param string $notification_link The permalink for notification.
 					 */
-					return apply_filters( 'bp_groups_' . $amount . '_' . $action . '_notification', array(
-						'link' => $notification_link,
-						'text' => $text
-					), $group_link, $user_fullname, $group->name, $text, $notification_link );
+					return apply_filters(
+						'bp_groups_' . $amount . '_' . $action . '_notification',
+						array(
+							'link' => $notification_link,
+							'text' => $text,
+						),
+						$group_link,
+						$user_fullname,
+						$group->name,
+						$text,
+						$notification_link
+					);
 				}
 			}
 
@@ -536,7 +562,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					bp_loggedin_user_url( bp_members_get_path_chunks( array( bp_get_groups_slug() ) ) )
 				);
 
-				if ( 'string' == $format ) {
+				if ( 'string' === $format ) {
 
 					/**
 					 * Filters multiple accepted group membership requests notification for string format.
@@ -565,10 +591,17 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					 * @param string $text              Notification content.
 					 * @param string $notification_link The permalink for notification.
 					 */
-					return apply_filters( 'bp_groups_' . $amount . '_' . $action . '_notification', array(
-						'link' => $notification_link,
-						'text' => $text
-					), $total_items, $group->name, $text, $notification_link );
+					return apply_filters(
+						'bp_groups_' . $amount . '_' . $action . '_notification',
+						array(
+							'link' => $notification_link,
+							'text' => $text,
+						),
+						$total_items,
+						$group->name,
+						$text,
+						$notification_link
+					);
 				}
 			} else {
 				/* translators: %s: group name. */
@@ -576,7 +609,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 				$filter            = 'bp_groups_single_membership_request_accepted_notification';
 				$notification_link = add_query_arg( 'n', 1, $group_link );
 
-				if ( 'string' == $format ) {
+				if ( 'string' === $format ) {
 
 					/**
 					 * Filters single accepted group membership request notification for string format.
@@ -605,10 +638,17 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					 * @param string $text              Notification content.
 					 * @param string $notification_link The permalink for notification.
 					 */
-					return apply_filters( $filter, array(
-						'link' => $notification_link,
-						'text' => $text
-					), $group_link, $group->name, $text, $notification_link );
+					return apply_filters(
+						$filter,
+						array(
+							'link' => $notification_link,
+							'text' => $text,
+						),
+						$group_link,
+						$group->name,
+						$text,
+						$notification_link
+					);
 				}
 			}
 
@@ -631,7 +671,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					bp_loggedin_user_url( bp_members_get_path_chunks( array( bp_get_groups_slug() ) ) )
 				);
 
-				if ( 'string' == $format ) {
+				if ( 'string' === $format ) {
 
 					/**
 					 * Filters multiple rejected group membership requests notification for string format.
@@ -660,17 +700,24 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					 * @param string $text              Notification content.
 					 * @param string $notification_link The permalink for notification.
 					 */
-					return apply_filters( 'bp_groups_' . $amount . '_' . $action . '_notification', array(
-						'link' => $notification_link,
-						'text' => $text
-					), $total_items, $group->name, $text, $notification_link );
+					return apply_filters(
+						'bp_groups_' . $amount . '_' . $action . '_notification',
+						array(
+							'link' => $notification_link,
+							'text' => $text,
+						),
+						$total_items,
+						$group->name,
+						$text,
+						$notification_link
+					);
 				}
 			} else {
 				/* translators: %s: group name. */
 				$text              = sprintf( __( 'Membership for group "%s" rejected', 'buddypress' ), $group->name );
 				$notification_link = add_query_arg( 'n', 1, $group_link );
 
-				if ( 'string' == $format ) {
+				if ( 'string' === $format ) {
 
 					/**
 					 * Filters single rejected group membership requests notification for string format.
@@ -699,10 +746,17 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					 * @param string $text              Notification content.
 					 * @param string $notification_link The permalink for notification.
 					 */
-					return apply_filters( 'bp_groups_' . $amount . '_' . $action . '_notification', array(
-						'link' => $notification_link,
-						'text' => $text
-					), $group_link, $group->name, $text, $notification_link );
+					return apply_filters(
+						'bp_groups_' . $amount . '_' . $action . '_notification',
+						array(
+							'link' => $notification_link,
+							'text' => $text,
+						),
+						$group_link,
+						$group->name,
+						$text,
+						$notification_link
+					);
 				}
 			}
 
@@ -725,7 +779,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					bp_loggedin_user_url( bp_members_get_path_chunks( array( bp_get_groups_slug() ) ) )
 				);
 
-				if ( 'string' == $format ) {
+				if ( 'string' === $format ) {
 					/**
 					 * Filters multiple promoted to group admin notification for string format.
 					 * Complete filter - bp_groups_multiple_member_promoted_to_admin_notification.
@@ -750,17 +804,23 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					 * @param string $text              Notification content.
 					 * @param string $notification_link The permalink for notification.
 					 */
-					return apply_filters( 'bp_groups_' . $amount . '_' . $action . '_notification', array(
-						'link' => $notification_link,
-						'text' => $text
-					), $total_items, $text, $notification_link );
+					return apply_filters(
+						'bp_groups_' . $amount . '_' . $action . '_notification',
+						array(
+							'link' => $notification_link,
+							'text' => $text,
+						),
+						$total_items,
+						$text,
+						$notification_link
+					);
 				}
 			} else {
 				/* translators: %s: group name. */
 				$text              = sprintf( __( 'You were promoted to an admin in the group "%s"', 'buddypress' ), $group->name );
 				$notification_link = add_query_arg( 'n', 1, $group_link );
 
-				if ( 'string' == $format ) {
+				if ( 'string' === $format ) {
 					/**
 					 * Filters single promoted to group admin notification for non-string format.
 					 * Complete filter - bp_groups_single_member_promoted_to_admin_notification.
@@ -787,10 +847,17 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					 * @param string $text              Notification content.
 					 * @param string $notification_link The permalink for notification.
 					 */
-					return apply_filters( 'bp_groups_' . $amount . '_' . $action . '_notification', array(
-						'link' => $notification_link,
-						'text' => $text
-					), $group_link, $group->name, $text, $notification_link );
+					return apply_filters(
+						'bp_groups_' . $amount . '_' . $action . '_notification',
+						array(
+							'link' => $notification_link,
+							'text' => $text,
+						),
+						$group_link,
+						$group->name,
+						$text,
+						$notification_link
+					);
 				}
 			}
 
@@ -813,7 +880,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					bp_loggedin_user_url( bp_members_get_path_chunks( array( bp_get_groups_slug() ) ) )
 				);
 
-				if ( 'string' == $format ) {
+				if ( 'string' === $format ) {
 					/**
 					 * Filters multiple promoted to group mod notification for string format.
 					 * Complete filter - bp_groups_multiple_member_promoted_to_mod_notification.
@@ -838,17 +905,23 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					 * @param string $text              Notification content.
 					 * @param string $notification_link The permalink for notification.
 					 */
-					return apply_filters( 'bp_groups_' . $amount . '_' . $action . '_notification', array(
-						'link' => $notification_link,
-						'text' => $text
-					), $total_items, $text, $notification_link );
+					return apply_filters(
+						'bp_groups_' . $amount . '_' . $action . '_notification',
+						array(
+							'link' => $notification_link,
+							'text' => $text,
+						),
+						$total_items,
+						$text,
+						$notification_link
+					);
 				}
 			} else {
 				/* translators: %s: group name. */
 				$text              = sprintf( __( 'You were promoted to a mod in the group "%s"', 'buddypress' ), $group->name );
 				$notification_link = add_query_arg( 'n', 1, $group_link );
 
-				if ( 'string' == $format ) {
+				if ( 'string' === $format ) {
 					/**
 					 * Filters single promoted to group mod notification for string format.
 					 * Complete filter - bp_groups_single_member_promoted_to_mod_notification.
@@ -875,21 +948,28 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					 * @param string $text              Notification content.
 					 * @param string $notification_link The permalink for notification.
 					 */
-					return apply_filters( 'bp_groups_' . $amount . '_' . $action . '_notification', array(
-						'link' => $notification_link,
-						'text' => $text
-					), $group_link, $group->name, $text, $notification_link );
+					return apply_filters(
+						'bp_groups_' . $amount . '_' . $action . '_notification',
+						array(
+							'link' => $notification_link,
+							'text' => $text,
+						),
+						$group_link,
+						$group->name,
+						$text,
+						$notification_link
+					);
 				}
 			}
 
 			break;
 
 		case 'group_invite':
-			$group_id           = $item_id;
-			$group              = groups_get_group( $group_id );
-			$group_link         = bp_get_group_url( $group );
-			$amount             = 'single';
-			$notification_link  = add_query_arg(
+			$group_id          = $item_id;
+			$group             = groups_get_group( $group_id );
+			$group_link        = bp_get_group_url( $group );
+			$amount            = 'single';
+			$notification_link = add_query_arg(
 				'n',
 				1,
 				bp_loggedin_user_url( bp_members_get_path_chunks( array( bp_get_groups_slug(), 'invites' ) ) )
@@ -897,10 +977,10 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 
 			if ( (int) $total_items > 1 ) {
 				/* translators: %d: number of group invites */
-				$text = sprintf( __( 'You have %d new group invitations', 'buddypress' ), (int) $total_items );
+				$text   = sprintf( __( 'You have %d new group invitations', 'buddypress' ), (int) $total_items );
 				$amount = 'multiple';
 
-				if ( 'string' == $format ) {
+				if ( 'string' === $format ) {
 					/**
 					 * Filters multiple group invitation notification for string format.
 					 * Complete filter - bp_groups_multiple_group_invite_notification.
@@ -925,17 +1005,23 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					 * @param string $text              Notification content.
 					 * @param string $notification_link The permalink for notification.
 					 */
-					return apply_filters( 'bp_groups_' . $amount . '_' . $action . '_notification', array(
-						'link' => $notification_link,
-						'text' => $text
-					), $total_items, $text, $notification_link );
+					return apply_filters(
+						'bp_groups_' . $amount . '_' . $action . '_notification',
+						array(
+							'link' => $notification_link,
+							'text' => $text,
+						),
+						$total_items,
+						$text,
+						$notification_link
+					);
 				}
 			} else {
 				/* translators: %s: group name. */
 				$text   = sprintf( __( 'You have an invitation to the group: %s', 'buddypress' ), $group->name );
 				$filter = 'bp_groups_single_group_invite_notification';
 
-				if ( 'string' == $format ) {
+				if ( 'string' === $format ) {
 					/**
 					 * Filters single group invitation notification for string format.
 					 * Complete filter - bp_groups_single_group_invite_notification.
@@ -962,17 +1048,23 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					 * @param string $text              Notification content.
 					 * @param string $notification_link The permalink for notification.
 					 */
-					return apply_filters( 'bp_groups_' . $amount . '_' . $action . '_notification', array(
-						'link' => $notification_link,
-						'text' => $text
-					), $group_link, $group->name, $text, $notification_link );
+					return apply_filters(
+						'bp_groups_' . $amount . '_' . $action . '_notification',
+						array(
+							'link' => $notification_link,
+							'text' => $text,
+						),
+						$group_link,
+						$group->name,
+						$text,
+						$notification_link
+					);
 				}
 			}
 
 			break;
 
 		default:
-
 			/**
 			 * Filters plugin-added group-related custom component_actions.
 			 *
@@ -1029,8 +1121,8 @@ add_action( 'groups_delete_group', 'bp_groups_delete_group_delete_all_notificati
  *
  * @since 5.0.0
  *
- * @param int $group_id ID of the group being uninvited from.
- * @param int $user_id  ID of the user being uninvited.
+ * @param int $group_id Optional. ID of the group being uninvited from.
+ * @param int $user_id  Optional. ID of the user being uninvited.
  */
 function bp_groups_uninvite_user_delete_group_invite_notification( $group_id = 0, $user_id = 0 ) {
 	if ( ! bp_is_active( 'notifications' ) || ! $group_id || ! $user_id ) {
@@ -1046,8 +1138,8 @@ add_action( 'groups_uninvite_user', 'bp_groups_uninvite_user_delete_group_invite
  *
  * @since 2.0.0
  *
- * @param int $user_id  ID of the user.
- * @param int $group_id ID of the group.
+ * @param int $user_id  Optional. ID of the user.
+ * @param int $group_id Optional. ID of the group.
  */
 function bp_groups_delete_promotion_notifications( $user_id = 0, $group_id = 0 ) {
 	if ( bp_is_active( 'notifications' ) && ! empty( $group_id ) && ! empty( $user_id ) ) {
@@ -1108,11 +1200,11 @@ function bp_groups_screen_my_groups_mark_notifications() {
 		// Mark notifications read.
 		bp_notifications_mark_notifications_by_type( $user_id, $group_id, 'membership_request_accepted' );
 		bp_notifications_mark_notifications_by_type( $user_id, $group_id, 'membership_request_rejected' );
-		bp_notifications_mark_notifications_by_type( $user_id, $group_id, 'member_promoted_to_mod'      );
-		bp_notifications_mark_notifications_by_type( $user_id, $group_id, 'member_promoted_to_admin'    );
+		bp_notifications_mark_notifications_by_type( $user_id, $group_id, 'member_promoted_to_mod' );
+		bp_notifications_mark_notifications_by_type( $user_id, $group_id, 'member_promoted_to_admin' );
 	}
 }
-add_action( 'groups_screen_my_groups',  'bp_groups_screen_my_groups_mark_notifications', 10 );
+add_action( 'groups_screen_my_groups', 'bp_groups_screen_my_groups_mark_notifications', 10 );
 add_action( 'groups_screen_group_home', 'bp_groups_screen_my_groups_mark_notifications', 10 );
 
 /**
@@ -1160,23 +1252,28 @@ add_action( 'groups_remove_data_for_user', 'bp_groups_remove_data_for_user_notif
  */
 function groups_screen_notification_settings() {
 
-	if ( ! $group_invite = bp_get_user_meta( bp_displayed_user_id(), 'notification_groups_invite', true ) ) {
-		$group_invite  = 'yes';
+	$group_invite = bp_get_user_meta( bp_displayed_user_id(), 'notification_groups_invite', true );
+	if ( ! $group_invite ) {
+		$group_invite = 'yes';
 	}
 
-	if ( ! $group_update = bp_get_user_meta( bp_displayed_user_id(), 'notification_groups_group_updated', true ) ) {
-		$group_update  = 'yes';
+	$group_update = bp_get_user_meta( bp_displayed_user_id(), 'notification_groups_group_updated', true );
+	if ( ! $group_update ) {
+		$group_update = 'yes';
 	}
 
-	if ( ! $group_promo = bp_get_user_meta( bp_displayed_user_id(), 'notification_groups_admin_promotion', true ) ) {
-		$group_promo   = 'yes';
+	$group_promo = bp_get_user_meta( bp_displayed_user_id(), 'notification_groups_admin_promotion', true );
+	if ( ! $group_promo ) {
+		$group_promo = 'yes';
 	}
 
-	if ( ! $group_request = bp_get_user_meta( bp_displayed_user_id(), 'notification_groups_membership_request', true ) ) {
+	$group_request = bp_get_user_meta( bp_displayed_user_id(), 'notification_groups_membership_request', true );
+	if ( ! $group_request ) {
 		$group_request = 'yes';
 	}
 
-	if ( ! $group_request_completed = bp_get_user_meta( bp_displayed_user_id(), 'notification_membership_request_completed', true ) ) {
+	$group_request_completed = bp_get_user_meta( bp_displayed_user_id(), 'notification_membership_request_completed', true );
+	if ( ! $group_request_completed ) {
 		$group_request_completed = 'yes';
 	}
 	?>
@@ -1185,72 +1282,92 @@ function groups_screen_notification_settings() {
 		<thead>
 			<tr>
 				<th class="icon"></th>
-				<th class="title"><?php echo esc_html_x( 'Groups', 'Group settings on notification settings page', 'buddypress' ) ?></th>
-				<th class="yes"><?php esc_html_e( 'Yes', 'buddypress' ) ?></th>
-				<th class="no"><?php esc_html_e( 'No', 'buddypress' )?></th>
+				<th class="title"><?php echo esc_html_x( 'Groups', 'Group settings on notification settings page', 'buddypress' ); ?></th>
+				<th class="yes"><?php esc_html_e( 'Yes', 'buddypress' ); ?></th>
+				<th class="no"><?php esc_html_e( 'No', 'buddypress' ); ?></th>
 			</tr>
 		</thead>
 
 		<tbody>
 			<tr id="groups-notification-settings-invitation">
 				<td></td>
-				<td><?php echo esc_html_x( 'A member invites you to join a group', 'group settings on notification settings page','buddypress' ) ?></td>
-				<td class="yes"><input type="radio" name="notifications[notification_groups_invite]" id="notification-groups-invite-yes" value="yes" <?php checked( $group_invite, 'yes', true ) ?>/><label for="notification-groups-invite-yes" class="bp-screen-reader-text"><?php
+				<td><?php echo esc_html_x( 'A member invites you to join a group', 'group settings on notification settings page', 'buddypress' ); ?></td>
+				<td class="yes"><input type="radio" name="notifications[notification_groups_invite]" id="notification-groups-invite-yes" value="yes" <?php checked( $group_invite, 'yes', true ); ?>/><label for="notification-groups-invite-yes" class="bp-screen-reader-text">
+				<?php
 					/* translators: accessibility text */
 					esc_html_e( 'Yes, send email', 'buddypress' );
-				?></label></td>
-				<td class="no"><input type="radio" name="notifications[notification_groups_invite]" id="notification-groups-invite-no" value="no" <?php checked( $group_invite, 'no', true ) ?>/><label for="notification-groups-invite-no" class="bp-screen-reader-text"><?php
+				?>
+				</label></td>
+				<td class="no"><input type="radio" name="notifications[notification_groups_invite]" id="notification-groups-invite-no" value="no" <?php checked( $group_invite, 'no', true ); ?>/><label for="notification-groups-invite-no" class="bp-screen-reader-text">
+				<?php
 					/* translators: accessibility text */
 					esc_html_e( 'No, do not send email', 'buddypress' );
-				?></label></td>
+				?>
+				</label></td>
 			</tr>
 			<tr id="groups-notification-settings-info-updated">
 				<td></td>
-				<td><?php echo esc_html_x( 'Group information is updated', 'group settings on notification settings page', 'buddypress' ) ?></td>
-				<td class="yes"><input type="radio" name="notifications[notification_groups_group_updated]" id="notification-groups-group-updated-yes" value="yes" <?php checked( $group_update, 'yes', true ) ?>/><label for="notification-groups-group-updated-yes" class="bp-screen-reader-text"><?php
+				<td><?php echo esc_html_x( 'Group information is updated', 'group settings on notification settings page', 'buddypress' ); ?></td>
+				<td class="yes"><input type="radio" name="notifications[notification_groups_group_updated]" id="notification-groups-group-updated-yes" value="yes" <?php checked( $group_update, 'yes', true ); ?>/><label for="notification-groups-group-updated-yes" class="bp-screen-reader-text">
+				<?php
 					/* translators: accessibility text */
 					esc_html_e( 'Yes, send email', 'buddypress' );
-				?></label></td>
-				<td class="no"><input type="radio" name="notifications[notification_groups_group_updated]" id="notification-groups-group-updated-no" value="no" <?php checked( $group_update, 'no', true ) ?>/><label for="notification-groups-group-updated-no" class="bp-screen-reader-text"><?php
+				?>
+				</label></td>
+				<td class="no"><input type="radio" name="notifications[notification_groups_group_updated]" id="notification-groups-group-updated-no" value="no" <?php checked( $group_update, 'no', true ); ?>/><label for="notification-groups-group-updated-no" class="bp-screen-reader-text">
+				<?php
 					/* translators: accessibility text */
 					esc_html_e( 'No, do not send email', 'buddypress' );
-				?></label></td>
+				?>
+				</label></td>
 			</tr>
 			<tr id="groups-notification-settings-promoted">
 				<td></td>
-				<td><?php echo esc_html_x( 'You are promoted to a group administrator or moderator', 'group settings on notification settings page', 'buddypress' ) ?></td>
-				<td class="yes"><input type="radio" name="notifications[notification_groups_admin_promotion]" id="notification-groups-admin-promotion-yes" value="yes" <?php checked( $group_promo, 'yes', true ) ?>/><label for="notification-groups-admin-promotion-yes" class="bp-screen-reader-text"><?php
+				<td><?php echo esc_html_x( 'You are promoted to a group administrator or moderator', 'group settings on notification settings page', 'buddypress' ); ?></td>
+				<td class="yes"><input type="radio" name="notifications[notification_groups_admin_promotion]" id="notification-groups-admin-promotion-yes" value="yes" <?php checked( $group_promo, 'yes', true ); ?>/><label for="notification-groups-admin-promotion-yes" class="bp-screen-reader-text">
+				<?php
 					/* translators: accessibility text */
 					esc_html_e( 'Yes, send email', 'buddypress' );
-				?></label></td>
-				<td class="no"><input type="radio" name="notifications[notification_groups_admin_promotion]" id="notification-groups-admin-promotion-no" value="no" <?php checked( $group_promo, 'no', true ) ?>/><label for="notification-groups-admin-promotion-no" class="bp-screen-reader-text"><?php
+				?>
+				</label></td>
+				<td class="no"><input type="radio" name="notifications[notification_groups_admin_promotion]" id="notification-groups-admin-promotion-no" value="no" <?php checked( $group_promo, 'no', true ); ?>/><label for="notification-groups-admin-promotion-no" class="bp-screen-reader-text">
+				<?php
 					/* translators: accessibility text */
 					esc_html_e( 'No, do not send email', 'buddypress' );
-				?></label></td>
+				?>
+				</label></td>
 			</tr>
 			<tr id="groups-notification-settings-request">
 				<td></td>
-				<td><?php echo esc_html_x( 'A member requests to join a private group for which you are an admin', 'group settings on notification settings page', 'buddypress' ) ?></td>
-				<td class="yes"><input type="radio" name="notifications[notification_groups_membership_request]" id="notification-groups-membership-request-yes" value="yes" <?php checked( $group_request, 'yes', true ) ?>/><label for="notification-groups-membership-request-yes" class="bp-screen-reader-text"><?php
+				<td><?php echo esc_html_x( 'A member requests to join a private group for which you are an admin', 'group settings on notification settings page', 'buddypress' ); ?></td>
+				<td class="yes"><input type="radio" name="notifications[notification_groups_membership_request]" id="notification-groups-membership-request-yes" value="yes" <?php checked( $group_request, 'yes', true ); ?>/><label for="notification-groups-membership-request-yes" class="bp-screen-reader-text">
+				<?php
 					/* translators: accessibility text */
 					esc_html_e( 'Yes, send email', 'buddypress' );
-				?></label></td>
-				<td class="no"><input type="radio" name="notifications[notification_groups_membership_request]" id="notification-groups-membership-request-no" value="no" <?php checked( $group_request, 'no', true ) ?>/><label for="notification-groups-membership-request-no" class="bp-screen-reader-text"><?php
+				?>
+				</label></td>
+				<td class="no"><input type="radio" name="notifications[notification_groups_membership_request]" id="notification-groups-membership-request-no" value="no" <?php checked( $group_request, 'no', true ); ?>/><label for="notification-groups-membership-request-no" class="bp-screen-reader-text">
+				<?php
 					/* translators: accessibility text */
 					esc_html_e( 'No, do not send email', 'buddypress' );
-				?></label></td>
+				?>
+				</label></td>
 			</tr>
 			<tr id="groups-notification-settings-request-completed">
 				<td></td>
-				<td><?php echo esc_html_x( 'Your request to join a group has been approved or denied', 'group settings on notification settings page', 'buddypress' ) ?></td>
-				<td class="yes"><input type="radio" name="notifications[notification_membership_request_completed]" id="notification-groups-membership-request-completed-yes" value="yes" <?php checked( $group_request_completed, 'yes', true ) ?>/><label for="notification-groups-membership-request-completed-yes" class="bp-screen-reader-text"><?php
+				<td><?php echo esc_html_x( 'Your request to join a group has been approved or denied', 'group settings on notification settings page', 'buddypress' ); ?></td>
+				<td class="yes"><input type="radio" name="notifications[notification_membership_request_completed]" id="notification-groups-membership-request-completed-yes" value="yes" <?php checked( $group_request_completed, 'yes', true ); ?>/><label for="notification-groups-membership-request-completed-yes" class="bp-screen-reader-text">
+				<?php
 					/* translators: accessibility text */
 					esc_html_e( 'Yes, send email', 'buddypress' );
-				?></label></td>
-				<td class="no"><input type="radio" name="notifications[notification_membership_request_completed]" id="notification-groups-membership-request-completed-no" value="no" <?php checked( $group_request_completed, 'no', true ) ?>/><label for="notification-groups-membership-request-completed-no" class="bp-screen-reader-text"><?php
+				?>
+				</label></td>
+				<td class="no"><input type="radio" name="notifications[notification_membership_request_completed]" id="notification-groups-membership-request-completed-no" value="no" <?php checked( $group_request_completed, 'no', true ); ?>/><label for="notification-groups-membership-request-completed-no" class="bp-screen-reader-text">
+				<?php
 					/* translators: accessibility text */
 					esc_html_e( 'No, do not send email', 'buddypress' );
-				?></label></td>
+				?>
+				</label></td>
 			</tr>
 
 			<?php
@@ -1260,7 +1377,8 @@ function groups_screen_notification_settings() {
 			 *
 			 * @since 1.0.0
 			 */
-			do_action( 'groups_screen_notification_settings' ); ?>
+			do_action( 'groups_screen_notification_settings' );
+			?>
 
 		</tbody>
 	</table>

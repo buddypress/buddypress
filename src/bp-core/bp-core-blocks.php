@@ -42,7 +42,7 @@ function bp_register_block_components() {
 		'dependencies' => array(),
 		'version'      => bp_get_version(),
 	);
-	$asset_file = trailingslashit( dirname( __FILE__ ) ) . 'blocks/block-components/index.asset.php';
+	$asset_file = trailingslashit( __DIR__ ) . 'blocks/block-components/index.asset.php';
 
 	if ( file_exists( $asset_file ) ) {
 		$asset = require $asset_file;
@@ -70,7 +70,7 @@ function bp_register_block_assets() {
 		'dependencies' => array(),
 		'version'      => bp_get_version(),
 	);
-	$asset_data_file = trailingslashit( dirname( __FILE__ ) ) . 'blocks/block-data/index.asset.php';
+	$asset_data_file = trailingslashit( __DIR__ ) . 'blocks/block-data/index.asset.php';
 
 	if ( file_exists( $asset_data_file ) ) {
 		$asset_data = require $asset_data_file;
@@ -86,7 +86,7 @@ function bp_register_block_assets() {
 		false
 	);
 
-	$asset_collection_file = trailingslashit( dirname( __FILE__ ) ) . 'blocks/block-collection/index.asset.php';
+	$asset_collection_file = trailingslashit( __DIR__ ) . 'blocks/block-collection/index.asset.php';
 
 	if ( file_exists( $asset_collection_file ) ) {
 		$asset_collection = require $asset_collection_file;
@@ -136,7 +136,7 @@ add_action( 'enqueue_block_editor_assets', 'bp_enqueue_block_editor_assets', 9 )
  *
  * @since 6.0.0
  *
- * @param array $editor_settings Default editor settings.
+ * @param array $editor_settings Optional. Default editor settings.
  * @return array The editor settings including BP blocks specific ones.
  */
 function bp_blocks_editor_settings( $editor_settings = array() ) {
@@ -162,7 +162,7 @@ add_filter( 'block_editor_settings_all', 'bp_blocks_editor_settings' );
  *
  * @since 9.0.0
  *
- * @param string[] $paths The Block Editors preload paths.
+ * @param string[] $paths Optional. The Block Editors preload paths.
  * @return string[] The Block Editors preload paths.
  */
 function bp_blocks_preload_paths( $paths = array() ) {
@@ -180,7 +180,7 @@ add_filter( 'block_editor_rest_api_preload_paths', 'bp_blocks_preload_paths' );
  *
  * @since 6.0.0
  *
- * @param array $args The registration arguments for the block type.
+ * @param array $args Optional. The registration arguments for the block type.
  * @return BP_Block   The BuddyPress block type object.
  */
 function bp_register_block( $args = array() ) {
@@ -202,7 +202,7 @@ function bp_register_block( $args = array() ) {
  *
  * @since 9.0.0
  *
- * @param string $block_name The Block name.
+ * @param string $block_name Optional. The Block name.
  * @return array The list of widget classnames for the Block.
  */
 function bp_blocks_get_widget_block_classnames( $block_name = '' ) {
@@ -250,8 +250,8 @@ add_filter( 'widget_block_dynamic_classname', 'bp_widget_block_dynamic_classname
  *
  * @since 9.0.0
  *
- * @param string $content Content to display. Default empty.
- * @param array  $args    Array of login form arguments.
+ * @param string $content Optional. Content to display. Default empty.
+ * @param array  $args    Optional. Array of login form arguments.
  * @return string         HTML output.
  */
 function bp_blocks_get_login_widget_registration_link( $content = '', $args = array() ) {
@@ -297,7 +297,7 @@ function bp_blocks_get_login_widget_registration_link( $content = '', $args = ar
  *
  * @since 9.0.0
  *
- * @param array $attributes The block attributes.
+ * @param array $attributes Optional. The block attributes.
  * @return string           HTML output.
  */
 function bp_block_render_login_form_block( $attributes = array() ) {

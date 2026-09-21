@@ -22,8 +22,8 @@ defined( 'ABSPATH' ) || exit;
  * @see BP_XProfile_Group::get() for full description of `$args` array.
  *
  * @param array|string $args {
- *     Array of arguments. See BP_XProfile_Group::get() for full description. Those arguments whose defaults differ
- *     from that method are described here:
+ *     Optional. Array of arguments. See BP_XProfile_Group::get() for full description.
+ *     The arguments with different defaults are described below.
  *     @type int            $user_id                Default: ID of the displayed user.
  *     @type string|array   $member_type            Default: 'any'.
  *     @type int|int[]|bool $profile_group_id       Default: false.
@@ -139,36 +139,38 @@ function bp_profile_group_has_fields() {
  * Output the class attribute for a field.
  *
  * @since 1.0.0
+ * @since 15.0.0 The `$class` parameter was renamed to `$extra_classes`.
  *
- * @param mixed $class Extra classes to append to class attribute.
- *                     Pass multiple class names as an array or
- *                     space-delimited string.
+ * @param mixed $extra_classes Optional. Extra classes to append to class attribute.
+ *                             Pass multiple class names as an array or
+ *                             space-delimited string.
  */
-function bp_field_css_class( $class = false ) {
+function bp_field_css_class( $extra_classes = false ) {
 	// phpcs:ignore WordPress.Security.EscapeOutput
-	echo bp_get_field_css_class( $class );
+	echo bp_get_field_css_class( $extra_classes );
 }
 
 	/**
 	 * Return the class attribute for a field.
 	 *
 	 * @since 1.1.0
+	 * @since 15.0.0 The `$class` parameter was renamed to `$extra_classes`.
 	 *
 	 * @global BP_XProfile_Data_Template $profile_template Profile data template object.
 	 *
-	 * @param string|bool $class Extra classes to append to class attribute.
+	 * @param string|bool $extra_classes Optional. Extra classes to append to class attribute.
 	 * @return string
 	 */
-	function bp_get_field_css_class( $class = false ) {
+	function bp_get_field_css_class( $extra_classes = false ) {
 		global $profile_template;
 
 		$css_classes = array();
 
-		if ( ! empty( $class ) ) {
-			if ( ! is_array( $class ) ) {
-				$class = preg_split( '#\s+#', $class );
+		if ( ! empty( $extra_classes ) ) {
+			if ( ! is_array( $extra_classes ) ) {
+				$extra_classes = preg_split( '#\s+#', $extra_classes );
 			}
-			$css_classes = array_map( 'sanitize_html_class', $class );
+			$css_classes = array_map( 'sanitize_html_class', $extra_classes );
 		}
 
 		// Set a class with the field ID.
@@ -187,7 +189,7 @@ function bp_field_css_class( $class = false ) {
 		// Add the field visibility level.
 		$css_classes[] = 'visibility-' . esc_attr( bp_get_the_profile_field_visibility_level() );
 
-		if ( $profile_template->current_field % 2 == 1 ) {
+		if ( $profile_template->current_field % 2 === 1 ) {
 			$css_classes[] = 'alt';
 		}
 
@@ -653,7 +655,7 @@ function bp_the_profile_field_edit_value() {
 
 		// Make sure field data object exists.
 		if ( ! isset( $field->data ) ) {
-			$field->data = new stdClass;
+			$field->data = new stdClass();
 		}
 
 		// Default to empty value.
@@ -801,7 +803,7 @@ function bp_get_the_profile_field_errors_action() {
  *
  * @since 1.1.0
  *
- * @param array $args Specify type for datebox. Allowed 'day', 'month', 'year'.
+ * @param array $args Optional. Specify type for datebox. Allowed 'day', 'month', 'year'.
  */
 function bp_the_profile_field_options( $args = array() ) {
 	// Escaping is made in `BP_XProfile_Field_Type->edit_field_options_html()`.
@@ -823,7 +825,7 @@ function bp_the_profile_field_options( $args = array() ) {
 	 *                                used when rendering options. Default: displayed user.
 	 * }
 	 *
-	 * @return string $vaue Field options markup.
+	 * @return string Field options markup.
 	 */
 	function bp_get_the_profile_field_options( $args = array() ) {
 		global $field;
@@ -997,8 +999,9 @@ function bp_the_profile_field_visibility_level_label() {
  * @return string
  */
 function bp_unserialize_profile_field( $value ) {
-	if ( is_serialized($value) ) {
-		$field_value = @unserialize($value);
+	if ( is_serialized( $value ) ) {
+		// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_unserialize -- Support existing serialized profile field values.
+		$field_value = @unserialize( $value );
 		$field_value = implode( ', ', $field_value );
 		return $field_value;
 	}
@@ -1011,7 +1014,7 @@ function bp_unserialize_profile_field( $value ) {
  *
  * @since 1.2.0
  *
- * @param string|array $args Array of arguments for field data. See {@link bp_get_profile_field_data}
+ * @param string|array $args Optional. Array of arguments for field data. See {@link bp_get_profile_field_data}.
  */
 function bp_profile_field_data( $args = '' ) {
 	// Escaping is made in `bp-xprofile/bp-xprofile-filters.php`.
@@ -1025,7 +1028,7 @@ function bp_profile_field_data( $args = '' ) {
 	 * @since 1.2.0
 	 *
 	 * @param string|array $args {
-	 *    Array of arguments for field data.
+	 *    Optional. Array of arguments for field data.
 	 *
 	 *    @type string|int|bool $field   Field identifier.
 	 *    @type int             $user_id ID of the user to get field data for.
@@ -1059,7 +1062,7 @@ function bp_profile_field_data( $args = '' ) {
  *
  * @since 2.1.0
  *
- * @return array $groups
+ * @return array
  */
 function bp_profile_get_field_groups() {
 
@@ -1176,7 +1179,7 @@ function bp_get_profile_group_tabs() {
  *
  * @since 1.0.0
  *
- * @param bool $deprecated Deprecated boolean parameter.
+ * @param bool $deprecated Optional. Deprecated boolean parameter.
  *
  * @return string|null
  */
@@ -1304,15 +1307,17 @@ function bp_current_profile_group_id() {
  * @since 1.0.0
  */
 function bp_edit_profile_button() {
-	bp_button( array(
-		'id'                => 'edit_profile',
-		'component'         => 'xprofile',
-		'must_be_logged_in' => true,
-		'block_self'        => true,
-		'link_href'         => bp_displayed_user_url( bp_members_get_path_chunks( array( bp_get_profile_slug(), 'edit' ) ) ),
-		'link_class'        => 'edit',
-		'link_text'         => __( 'Edit Profile', 'buddypress' ),
-	) );
+	bp_button(
+		array(
+			'id'                => 'edit_profile',
+			'component'         => 'xprofile',
+			'must_be_logged_in' => true,
+			'block_self'        => true,
+			'link_href'         => bp_displayed_user_url( bp_members_get_path_chunks( array( bp_get_profile_slug(), 'edit' ) ) ),
+			'link_class'        => 'edit',
+			'link_text'         => __( 'Edit Profile', 'buddypress' ),
+		)
+	);
 }
 
 /** Visibility ****************************************************************/
@@ -1322,7 +1327,7 @@ function bp_edit_profile_button() {
  *
  * @since 1.6.0
  *
- * @param array|string $args Args for the radio buttons. See {@link bp_profile_get_visibility_radio_buttons}
+ * @param array|string $args Optional. Args for the radio buttons. See {@link bp_profile_get_visibility_radio_buttons}.
  */
 function bp_profile_visibility_radio_buttons( $args = '' ) {
 	// phpcs:ignore WordPress.Security.EscapeOutput
@@ -1334,7 +1339,7 @@ function bp_profile_visibility_radio_buttons( $args = '' ) {
 	 * @since 1.6.0
 	 *
 	 * @param array|string $args {
-	 *    Args for the radio buttons.
+	 *    Optional. Args for the radio buttons.
 	 *
 	 *    @type int    $field_id     ID of the field to render.
 	 *    @type string $before       Markup to render before the field.
@@ -1343,7 +1348,7 @@ function bp_profile_visibility_radio_buttons( $args = '' ) {
 	 *    @type string $after_radio  Markup to render after the radio button.
 	 *    @type string $class        Class to apply to the field markup.
 	 * }
-	 * @return string $retval
+	 * @return string
 	 */
 	function bp_profile_get_visibility_radio_buttons( $args = '' ) {
 
@@ -1394,7 +1399,8 @@ function bp_profile_visibility_radio_buttons( $args = '' ) {
 
 				<?php endforeach; ?>
 
-			<?php endif;
+			<?php
+			endif;
 
 			// phpcs:ignore WordPress.Security.EscapeOutput
 			echo $r['after'];
@@ -1420,7 +1426,7 @@ function bp_profile_visibility_radio_buttons( $args = '' ) {
  *
  * @since 2.0.0
  *
- * @param array|string $args Args for the select list. See {@link bp_profile_get_settings_visibility_select}
+ * @param array|string $args Optional. Args for the select list. See {@link bp_profile_get_settings_visibility_select}.
  */
 function bp_profile_settings_visibility_select( $args = '' ) {
 	// phpcs:ignore WordPress.Security.EscapeOutput
@@ -1432,7 +1438,7 @@ function bp_profile_settings_visibility_select( $args = '' ) {
 	 * @since 2.0.0
 	 *
 	 * @param array|string $args {
-	 *    Args for the select list.
+	 *    Optional. Args for the select list.
 	 *
 	 *    @type int    $field_id ID of the field to render.
 	 *    @type string $before   Markup to render before the field.
@@ -1444,7 +1450,7 @@ function bp_profile_settings_visibility_select( $args = '' ) {
 	 *    @type string $notoggle_tag Markup element to use for notoggle tag.
 	 *    @type string $notoggle_class Class to apply to the notoggle element.
 	 * }
-	 * @return string $retval
+	 * @return string
 	 */
 	function bp_profile_get_settings_visibility_select( $args = '' ) {
 
@@ -1475,7 +1481,8 @@ function bp_profile_settings_visibility_select( $args = '' ) {
 			ob_start();
 
 			// phpcs:ignore WordPress.Security.EscapeOutput
-			echo $r['before']; ?>
+			echo $r['before'];
+			?>
 
 			<?php if ( bp_current_user_can( 'bp_xprofile_change_field_visibility' ) ) : ?>
 
@@ -1484,11 +1491,13 @@ function bp_profile_settings_visibility_select( $args = '' ) {
 				echo $r['before_controls'];
 			?>
 
-				<label for="<?php echo esc_attr( 'field_' . $r['field_id'] ) ; ?>_visibility" class="<?php echo esc_attr( $r['label_class'] ); ?>"><?php
+				<label for="<?php echo esc_attr( 'field_' . $r['field_id'] ); ?>_visibility" class="<?php echo esc_attr( $r['label_class'] ); ?>">
+				<?php
 					/* translators: accessibility text */
 					esc_html_e( 'Select visibility', 'buddypress' );
-				?></label>
-				<select class="<?php echo esc_attr( $r['class'] ); ?>" name="<?php echo esc_attr( 'field_' . $r['field_id'] ) ; ?>_visibility" id="<?php echo esc_attr( 'field_' . $r['field_id'] ) ; ?>_visibility">
+				?>
+				</label>
+				<select class="<?php echo esc_attr( $r['class'] ); ?>" name="<?php echo esc_attr( 'field_' . $r['field_id'] ); ?>_visibility" id="<?php echo esc_attr( 'field_' . $r['field_id'] ); ?>_visibility">
 
 					<?php foreach ( bp_xprofile_get_visibility_levels() as $level ) : ?>
 
@@ -1507,7 +1516,8 @@ function bp_profile_settings_visibility_select( $args = '' ) {
 
 				<<?php echo esc_html( $r['notoggle_tag'] ); ?> class="<?php echo esc_attr( $r['notoggle_class'] ); ?>"><?php bp_the_profile_field_visibility_level_label(); ?></<?php echo esc_html( $r['notoggle_tag'] ); ?>>
 
-			<?php endif;
+			<?php
+			endif;
 
 			// phpcs:ignore WordPress.Security.EscapeOutput
 			echo $r['after'];
@@ -1551,7 +1561,7 @@ function bp_the_profile_field_required_label() {
 		if ( bp_get_the_profile_field_is_required() ) {
 			$translated_string = esc_html__( '(required)', 'buddypress' );
 
-			$retval = ' <span class="bp-required-field-label">';
+			$retval  = ' <span class="bp-required-field-label">';
 			$retval .= apply_filters( 'bp_get_the_profile_field_required_label', $translated_string, bp_get_the_profile_field_id() );
 			$retval .= '</span>';
 

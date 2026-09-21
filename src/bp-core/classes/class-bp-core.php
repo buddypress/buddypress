@@ -42,7 +42,7 @@ class BP_Core extends BP_Component {
 	 *
 	 * @since 7.0.0
 	 *
-	 * @param string $key The object var to get.
+	 * @param string $key Optional. The object var to get.
 	 * @return mixed
 	 */
 	public function __get( $key = '' ) {
@@ -117,34 +117,36 @@ class BP_Core extends BP_Component {
 			 */
 			$bp->deactivated_components = apply_filters( 'bp_deactivated_components', array_values( array_diff( array_values( array_merge( $bp->optional_components, $bp->required_components ) ), array_keys( $bp->active_components ) ) ) );
 
-			// Pre 1.5 Backwards compatibility.
-		} elseif ( $deactivated_components = bp_get_option( 'bp-deactivated-components' ) ) {
-
-			// Trim off namespace and filename.
-			foreach ( array_keys( (array) $deactivated_components ) as $component ) {
-				$trimmed[] = str_replace( '.php', '', str_replace( 'bp-', '', $component ) );
-			}
-
-			/** This filter is documented in bp-core/bp-core-loader.php */
-			$bp->deactivated_components = apply_filters( 'bp_deactivated_components', $trimmed );
-
-			// Setup the active components.
-			$active_components = array_fill_keys( array_diff( array_values( array_merge( $bp->optional_components, $bp->required_components ) ), array_values( $bp->deactivated_components ) ), '1' );
-
-			/** This filter is documented in bp-core/admin/bp-core-admin-components.php */
-			$bp->active_components = apply_filters( 'bp_active_components', $bp->active_components );
-
-			// Default to all components active.
 		} else {
+			// Pre 1.5 Backwards compatibility.
+			$deactivated_components = bp_get_option( 'bp-deactivated-components' );
 
-			// Set globals.
-			$bp->deactivated_components = array();
+			if ( $deactivated_components ) {
+				// Trim off namespace and filename.
+				foreach ( array_keys( (array) $deactivated_components ) as $component ) {
+					$trimmed[] = str_replace( '.php', '', str_replace( 'bp-', '', $component ) );
+				}
 
-			// Setup the active components.
-			$active_components = array_fill_keys( array_values( array_merge( $bp->optional_components, $bp->required_components ) ), '1' );
+				/** This filter is documented in bp-core/bp-core-loader.php */
+				$bp->deactivated_components = apply_filters( 'bp_deactivated_components', $trimmed );
 
-			/** This filter is documented in bp-core/admin/bp-core-admin-components.php */
-			$bp->active_components = apply_filters( 'bp_active_components', $bp->active_components );
+				// Setup the active components.
+				$active_components = array_fill_keys( array_diff( array_values( array_merge( $bp->optional_components, $bp->required_components ) ), array_values( $bp->deactivated_components ) ), '1' );
+
+				/** This filter is documented in bp-core/admin/bp-core-admin-components.php */
+				$bp->active_components = apply_filters( 'bp_active_components', $bp->active_components );
+
+				// Default to all components active.
+			} else {
+				// Set globals.
+				$bp->deactivated_components = array();
+
+				// Setup the active components.
+				$active_components = array_fill_keys( array_values( array_merge( $bp->optional_components, $bp->required_components ) ), '1' );
+
+				/** This filter is documented in bp-core/admin/bp-core-admin-components.php */
+				$bp->active_components = apply_filters( 'bp_active_components', $bp->active_components );
+			}
 		}
 
 		// Loop through optional components.
@@ -179,7 +181,7 @@ class BP_Core extends BP_Component {
 	 *
 	 * @see BP_Component::includes() for description of parameters.
 	 *
-	 * @param array $includes See {@link BP_Component::includes()}.
+	 * @param array $includes Optional. See {@link BP_Component::includes()}.
 	 */
 	public function includes( $includes = array() ) {
 
@@ -204,7 +206,7 @@ class BP_Core extends BP_Component {
 	 *
 	 * @see BP_Component::setup_globals() for description of parameters.
 	 *
-	 * @param array $args See {@link BP_Component::setup_globals()}.
+	 * @param array $args Optional. See {@link BP_Component::setup_globals()}.
 	 */
 	public function setup_globals( $args = array() ) {
 		$bp = buddypress();

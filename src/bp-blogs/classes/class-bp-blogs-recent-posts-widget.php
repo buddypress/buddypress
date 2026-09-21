@@ -42,36 +42,31 @@ class BP_Blogs_Recent_Posts_Widget {
 	 *
 	 * @see WP_Widget::widget() for description of parameters.
 	 *
+	 * @since 15.0.0 The `$args` and `$instance` parameters were removed since they were unused.
 	 * @deprecated 12.0.0
-	 *
-	 * @param array $args     Widget arguments.
-	 * @param array $instance Widget settings, as saved by the user.
 	 */
-	public function widget( $args, $instance ) {
+	public function widget() {
 		_deprecated_function( __METHOD__, '12.0.0' );
 	}
 
 	/**
 	 * Update the networkwide posts widget options.
 	 *
+	 * @since 15.0.0 The `$new_instance` and `$old_instance` parameters were removed since they were
+	 *               unused.
 	 * @deprecated 12.0.0
-	 *
-	 * @param array $new_instance The new instance options.
-	 * @param array $old_instance The old instance options.
-	 * @return array $instance The parsed options to be saved.
 	 */
-	public function update( $new_instance, $old_instance ) {
+	public function update() {
 		_deprecated_function( __METHOD__, '12.0.0' );
 	}
 
 	/**
 	 * Output the networkwide posts widget options form.
 	 *
+	 * @since 15.0.0 The `$instance` parameter was removed since it was unused.
 	 * @deprecated 12.0.0
-	 *
-	 * @param array $instance Settings for this widget.
 	 */
-	public function form( $instance ) {
+	public function form() {
 		_deprecated_function( __METHOD__, '12.0.0' );
 	}
 }

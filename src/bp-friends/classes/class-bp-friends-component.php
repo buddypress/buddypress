@@ -43,7 +43,7 @@ class BP_Friends_Component extends BP_Component {
 	 *
 	 * @see BP_Component::includes() for description of parameters.
 	 *
-	 * @param array $includes See {@link BP_Component::includes()}.
+	 * @param array $includes Optional. See {@link BP_Component::includes()}.
 	 */
 	public function includes( $includes = array() ) {
 		$includes = array(
@@ -105,7 +105,7 @@ class BP_Friends_Component extends BP_Component {
 	 *
 	 * @see BP_Component::setup_globals() for description of parameters.
 	 *
-	 * @param array $args See {@link BP_Component::setup_globals()}.
+	 * @param array $args Optional. See {@link BP_Component::setup_globals()}.
 	 */
 	public function setup_globals( $args = array() ) {
 		$bp           = buddypress();
@@ -232,7 +232,7 @@ class BP_Friends_Component extends BP_Component {
 	 *
 	 * @see BP_Component::setup_admin_bar() for a description of arguments.
 	 *
-	 * @param array $wp_admin_nav See BP_Component::setup_admin_bar()
+	 * @param array $wp_admin_nav Optional. See BP_Component::setup_admin_bar()
 	 *                            for description.
 	 */
 	public function setup_admin_bar( $wp_admin_nav = array() ) {

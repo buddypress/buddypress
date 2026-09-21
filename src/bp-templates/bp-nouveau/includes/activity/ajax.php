@@ -2,6 +2,8 @@
 /**
  * Activity Ajax functions
  *
+ * @package BuddyPress
+ * @subpackage bp-nouveau
  * @since 3.0.0
  * @version 12.0.0
  */
@@ -9,7 +11,9 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-add_action( 'admin_init', function () {
+add_action(
+	'admin_init',
+	function () {
 	$ajax_actions = array(
 		array(
 			'activity_filter' => array(
@@ -82,14 +86,14 @@ add_action( 'admin_init', function () {
 			add_action( 'wp_ajax_nopriv_' . $action, $ajax_action[ $action ]['function'] );
 		}
 	}
-}, 12 );
+	},
+	12
+);
 
 /**
  * Mark an activity as a favourite via a POST request.
  *
  * @since 3.0.0
- *
- * @return string JSON reply
  */
 function bp_nouveau_ajax_mark_activity_favorite() {
 	if ( ! bp_is_post_request() ) {
@@ -117,7 +121,7 @@ function bp_nouveau_ajax_mark_activity_favorite() {
 				$activity_favorites_url = bp_loggedin_user_url( bp_members_get_path_chunks( array( bp_nouveau_get_component_slug( 'activity' ), 'favorites' ) ) );
 
 				$response['directory_tab'] = '<li id="activity-favorites" data-bp-scope="favorites" data-bp-object="activity">
-					<a href="' . esc_url( $activity_favorites_url ). '">
+					<a href="' . esc_url( $activity_favorites_url ) . '">
 						' . esc_html__( 'My Favorites', 'buddypress' ) . '
 					</a>
 				</li>';
@@ -136,8 +140,6 @@ function bp_nouveau_ajax_mark_activity_favorite() {
  * Un-favourite an activity via a POST request.
  *
  * @since 3.0.0
- *
- * @return string JSON reply
  */
 function bp_nouveau_ajax_unmark_activity_favorite() {
 	if ( ! bp_is_post_request() ) {
@@ -174,8 +176,6 @@ function bp_nouveau_ajax_unmark_activity_favorite() {
  * Clear mentions if the directory tab is clicked
  *
  * @since 3.0.0
- *
- * @return string JSON reply
  */
 function bp_nouveau_ajax_clear_new_mentions() {
 	if ( ! bp_is_post_request() ) {
@@ -195,8 +195,6 @@ function bp_nouveau_ajax_clear_new_mentions() {
  * Deletes an Activity item/Activity comment item received via a POST request.
  *
  * @since 3.0.0
- *
- * @return string JSON reply.
  */
 function bp_nouveau_ajax_delete_activity() {
 	$response = array(
@@ -254,16 +252,21 @@ function bp_nouveau_ajax_delete_activity() {
 		}
 
 	// Deleting an activity.
-	} else {
-		if ( ! bp_activity_delete( array( 'id' => $activity->id, 'user_id' => $activity->user_id ) ) ) {
-			wp_send_json_error( $response );
+	} elseif (
+		! bp_activity_delete(
+			array(
+				'id'      => $activity->id,
+				'user_id' => $activity->user_id,
+			)
+		)
+	) {
+		wp_send_json_error( $response );
 
-			// The activity has been deleted successfully.
-		} else {
-			$response = array(
-				'deleted' => array( $activity->id ),
-			);
-		}
+		// The activity has been deleted successfully.
+	} else {
+		$response = array(
+			'deleted' => array( $activity->id ),
+		);
 	}
 
 	/** This action is documented in bp-activity/bp-activity-actions.php */
@@ -283,8 +286,6 @@ function bp_nouveau_ajax_delete_activity() {
  * Used for the 'Read More' link on long activity items.
  *
  * @since 3.0.0
- *
- * @return string JSON reply
  */
 function bp_nouveau_ajax_get_single_activity_content() {
 	$response = array(
@@ -317,6 +318,11 @@ function bp_nouveau_ajax_get_single_activity_content() {
 
 	$activity = $activity_array['activities'][0];
 
+	// Ensure that the user is allowed to read the activity item.
+	if ( ! bp_activity_user_can_read( $activity ) ) {
+		wp_send_json_error( $response );
+	}
+
 	/**
 	 * Fires before the return of an activity's full, non-excerpted content via a POST request.
 	 *
@@ -334,7 +340,7 @@ function bp_nouveau_ajax_get_single_activity_content() {
 		'bp_get_activity_content_body',
 		array(
 			$activity->content,
-			&$activity
+			&$activity,
 		)
 	);
 
@@ -347,8 +353,6 @@ function bp_nouveau_ajax_get_single_activity_content() {
  * @since 3.0.0
  *
  * @global BP_Activity_Template $activities_template The main activity template loop class.
- *
- * @return string JSON reply
  */
 function bp_nouveau_ajax_new_activity_comment() {
 	global $activities_template;
@@ -376,10 +380,14 @@ function bp_nouveau_ajax_new_activity_comment() {
 	}
 
 	if ( empty( $_POST['content'] ) ) {
-		wp_send_json_error( array( 'feedback' => sprintf(
-			'<div class="bp-feedback bp-messages error">%s</div>',
-			esc_html__( 'Please do not leave the comment area blank.', 'buddypress' )
-		) ) );
+		wp_send_json_error(
+			array(
+				'feedback' => sprintf(
+					'<div class="bp-feedback bp-messages error">%s</div>',
+					esc_html__( 'Please do not leave the comment area blank.', 'buddypress' )
+				),
+			)
+		);
 	}
 
 	if ( empty( $_POST['form_id'] ) || empty( $_POST['comment_id'] ) || ! is_numeric( $_POST['form_id'] ) || ! is_numeric( $_POST['comment_id'] ) ) {
@@ -392,18 +400,22 @@ function bp_nouveau_ajax_new_activity_comment() {
 		wp_send_json_error( $response );
 	}
 
-	$comment_id = bp_activity_new_comment( array(
-		'activity_id' => $_POST['form_id'],
-		'content'     => $_POST['content'],
-		'parent_id'   => $_POST['comment_id'],
-	) );
+	$comment_id = bp_activity_new_comment(
+		array(
+			'activity_id' => $_POST['form_id'],
+			'content'     => $_POST['content'],
+			'parent_id'   => $_POST['comment_id'],
+		)
+	);
 
 	if ( ! $comment_id ) {
 		if ( ! empty( $bp->activity->errors['new_comment'] ) && is_wp_error( $bp->activity->errors['new_comment'] ) ) {
-			$response = array( 'feedback' => sprintf(
-				'<div class="bp-feedback bp-messages error">%s</div>',
-				esc_html( $bp->activity->errors['new_comment']->get_error_message() )
-			) );
+			$response = array(
+				'feedback' => sprintf(
+					'<div class="bp-feedback bp-messages error">%s</div>',
+					esc_html( $bp->activity->errors['new_comment']->get_error_message() )
+				),
+			);
 			unset( $bp->activity->errors['new_comment'] );
 		}
 
@@ -431,7 +443,7 @@ function bp_nouveau_ajax_new_activity_comment() {
 		$depth     = 1;
 		$parent_id = (int) $activities_template->activities[0]->secondary_item_id;
 		while ( $parent_id !== (int) $activities_template->activities[0]->item_id ) {
-			$depth++;
+			++$depth;
 			$p_obj     = new BP_Activity_Activity( $parent_id );
 			$parent_id = (int) $p_obj->secondary_item_id;
 		}
@@ -455,8 +467,6 @@ function bp_nouveau_ajax_new_activity_comment() {
  * This is used within the activity post form autocomplete field.
  *
  * @since 3.0.0
- *
- * @return string JSON reply
  */
 function bp_nouveau_ajax_get_activity_objects() {
 	$response = array();
@@ -500,8 +510,6 @@ function bp_nouveau_ajax_get_activity_objects() {
  * Processes Activity updates received via a POST request.
  *
  * @since 3.0.0
- *
- * @return string JSON reply
  */
 function bp_nouveau_ajax_post_update() {
 	$bp = buddypress();
@@ -561,7 +569,6 @@ function bp_nouveau_ajax_post_update() {
 				$is_private = 'public' !== $status;
 			}
 		}
-
 	} else {
 		/** This filter is documented in bp-activity/actions/post.php */
 		$activity_id = apply_filters( 'bp_activity_custom_update', false, $object, $item_id, $_POST['content'] );
@@ -582,7 +589,12 @@ function bp_nouveau_ajax_post_update() {
 	}
 
 	ob_start();
-	if ( bp_has_activities( array( 'include' => $activity_id, 'show_hidden' => $is_private ) ) ) {
+	if ( bp_has_activities(
+		array(
+			'include' => $activity_id,
+			'show_hidden' => $is_private,
+		)
+	) ) {
 		while ( bp_activities() ) {
 			bp_the_activity();
 			bp_get_template_part( 'activity/entry' );
@@ -591,29 +603,29 @@ function bp_nouveau_ajax_post_update() {
 	$activity = ob_get_contents();
 	ob_end_clean();
 
-	wp_send_json_success( array(
-		'id'           => $activity_id,
-		'message'      => esc_html__( 'Update posted.', 'buddypress' ) . ' ' . sprintf( '<a href="%s" class="just-posted">%s</a>', esc_url( bp_activity_get_permalink( $activity_id ) ), esc_html__( 'View activity.', 'buddypress' ) ),
-		'activity'     => $activity,
+	wp_send_json_success(
+		array(
+			'id'           => $activity_id,
+			'message'      => esc_html__( 'Update posted.', 'buddypress' ) . ' ' . sprintf( '<a href="%s" class="just-posted">%s</a>', esc_url( bp_activity_get_permalink( $activity_id ) ), esc_html__( 'View activity.', 'buddypress' ) ),
+			'activity'     => $activity,
 
-		/**
-		 * Filters whether or not an AJAX post update is private.
-		 *
-		 * @since 3.0.0
-		 *
-		 * @param string/bool $is_private Privacy status for the update.
-		 */
-		'is_private'   => apply_filters( 'bp_nouveau_ajax_post_update_is_private', $is_private ),
-		'is_directory' => bp_is_activity_directory(),
-	) );
+			/**
+			 * Filters whether or not an AJAX post update is private.
+			 *
+			 * @since 3.0.0
+			 *
+			 * @param string/bool $is_private Privacy status for the update.
+			 */
+			'is_private'   => apply_filters( 'bp_nouveau_ajax_post_update_is_private', $is_private ),
+			'is_directory' => bp_is_activity_directory(),
+		)
+	);
 }
 
 /**
  * AJAX spam an activity item or comment.
  *
  * @since 3.0.0
- *
- * @return string JSON reply.
  */
 function bp_nouveau_ajax_spam_activity() {
 	$bp = buddypress();

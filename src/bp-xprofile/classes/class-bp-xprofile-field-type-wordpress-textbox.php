@@ -70,8 +70,8 @@ class BP_XProfile_Field_Type_WordPress_Textbox extends BP_XProfile_Field_Type_Wo
 	 *
 	 * @since 8.0.0
 	 *
-	 * @param integer $user_id The user ID.
-	 * @param integer $field_id The xProfile field ID.
+	 * @param int $user_id  The user ID.
+	 * @param int $field_id Optional. The xProfile field ID.
 	 * @return array An array containing the metadata `id`, `value` and `table_name`.
 	 */
 	public function get_field_value( $user_id, $field_id = 0 ) {
@@ -108,6 +108,7 @@ class BP_XProfile_Field_Type_WordPress_Textbox extends BP_XProfile_Field_Type_Wo
 	 * @since 8.0.0
 	 *
 	 * @param string $value The user field value.
+	 * @param int    $user_id Optional. ID of the user whose field is being sanitized.
 	 * @return string The sanitized field value.
 	 */
 	public function sanitize_for_output( $value, $user_id = 0 ) {
@@ -153,7 +154,7 @@ class BP_XProfile_Field_Type_WordPress_Textbox extends BP_XProfile_Field_Type_Wo
 			if ( bp_displayed_user_id() ) {
 				$field_value = bp_get_displayed_user()->userdata->{$this->wp_user_key};
 			} elseif ( $user_id ) {
-				$user = get_user_by( 'id', $user_id );
+				$user        = get_user_by( 'id', $user_id );
 				$field_value = $user->{$this->wp_user_key};
 			}
 		} else {
@@ -177,7 +178,8 @@ class BP_XProfile_Field_Type_WordPress_Textbox extends BP_XProfile_Field_Type_Wo
 		<?php
 
 		/** This action is documented in bp-xprofile/bp-xprofile-classes */
-		do_action( bp_get_the_profile_field_errors_action() ); ?>
+		do_action( bp_get_the_profile_field_errors_action() );
+		?>
 
 		<input <?php $this->output_edit_field_html_elements( $r ); ?> aria-labelledby="<?php bp_the_profile_field_input_name(); ?>-1" aria-describedby="<?php bp_the_profile_field_input_name(); ?>-3">
 
@@ -206,10 +208,12 @@ class BP_XProfile_Field_Type_WordPress_Textbox extends BP_XProfile_Field_Type_Wo
 		);
 		?>
 
-		<label for="<?php bp_the_profile_field_input_name(); ?>" class="screen-reader-text"><?php
+		<label for="<?php bp_the_profile_field_input_name(); ?>" class="screen-reader-text">
+		<?php
 			/* translators: accessibility text */
 			esc_html_e( 'WordPress field', 'buddypress' );
-		?></label>
+		?>
+		</label>
 		<input <?php $this->output_edit_field_html_elements( $r ); ?>>
 
 		<?php
@@ -240,7 +244,7 @@ class BP_XProfile_Field_Type_WordPress_Textbox extends BP_XProfile_Field_Type_Wo
 	 */
 	public function admin_save_settings( $field_id, $settings ) {
 		$existing_setting = self::get_field_settings( $field_id );
-		$setting = '';
+		$setting          = '';
 
 		if ( isset( $settings['wp_user_key'] ) ) {
 			$setting = sanitize_key( $settings['wp_user_key'] );
@@ -264,7 +268,7 @@ class BP_XProfile_Field_Type_WordPress_Textbox extends BP_XProfile_Field_Type_Wo
 	 *                                         current field's child options.
 	 */
 	public function admin_new_field_html( BP_XProfile_Field $current_field, $control_type = '' ) {
-		$type = array_search( get_class( $this ), bp_xprofile_get_field_types() );
+		$type = array_search( get_class( $this ), bp_xprofile_get_field_types(), true );
 
 		if ( false === $type ) {
 			return;
@@ -273,7 +277,7 @@ class BP_XProfile_Field_Type_WordPress_Textbox extends BP_XProfile_Field_Type_Wo
 		$style = 'margin-top: 15px;';
 		if ( $current_field->type !== $type ) {
 			$style .= ' display: none;';
-		};
+		}
 
 		$setting = self::get_field_settings( $current_field->id );
 

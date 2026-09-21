@@ -5,6 +5,8 @@
  * This template is used to inject the BuddyPress Backbone views
  * dealing with invites.
  *
+ * @package BuddyPress
+ * @subpackage bp-nouveau
  * @since 3.0.0
  * @version 10.0.0
  */

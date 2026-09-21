@@ -71,7 +71,7 @@ class BP_XProfile_Group {
 	 *
 	 * @since 1.1.0
 	 *
-	 * @param int|null $id Field group ID.
+	 * @param int|null $id Optional. Field group ID.
 	 */
 	public function __construct( $id = null ) {
 		if ( ! empty( $id ) ) {
@@ -769,9 +769,9 @@ class BP_XProfile_Group {
 	 *
 	 * @since 1.6.0
 	 *
-	 * @param int   $user_id The profile owner's user_id.
-	 * @param array $fields  The database results returned by the get() query.
-	 * @return array $fields The database results, with field_visibility added
+	 * @param int   $user_id Optional. The profile owner's user_id.
+	 * @param array $fields  Optional. The database results returned by the get() query.
+	 * @return array The database results, with field_visibility added
 	 */
 	public static function fetch_visibility_level( $user_id = 0, $fields = array() ) {
 
@@ -817,10 +817,8 @@ class BP_XProfile_Group {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @return array $default_visibility_levels An array, keyed by field_id, of default
-	 *                                          visibility level + allow_custom
-	 *                                          (whether the admin allows this
-	 *                                          field to be set by user)
+	 * @return array An array, keyed by field_id, of default visibility level + allow_custom
+	 *               (whether the admin allows this field to be set by user)
 	 */
 	public static function fetch_default_visibility_levels() {
 		global $wpdb;
@@ -932,7 +930,7 @@ class BP_XProfile_Group {
 
 			<form id="bp-xprofile-add-field-group" action="<?php echo esc_url( $action ); ?>" method="post">
 				<div id="poststuff">
-					<div id="post-body" class="metabox-holder columns-<?php echo ( 1 == get_current_screen()->get_columns() ) ? '1' : '2'; ?>">
+					<div id="post-body" class="metabox-holder columns-<?php echo ( 1 === get_current_screen()->get_columns() ) ? '1' : '2'; ?>">
 						<div id="post-body-content">
 							<div id="titlediv">
 								<div class="titlewrap">

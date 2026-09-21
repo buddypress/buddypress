@@ -16,7 +16,7 @@ class BP_Tests_Notifications_Template extends BP_UnitTestCase {
 			'page' => 8,
 		) );
 
-		$this->assertEquals( 5, $at->pag_page );
+		$this->assertSame( 5, $at->pag_page );
 
 		$_REQUEST = $request;
 	}
@@ -33,7 +33,7 @@ class BP_Tests_Notifications_Template extends BP_UnitTestCase {
 			'page' => 8,
 		) );
 
-		$this->assertEquals( 8, $at->pag_page );
+		$this->assertSame( 8, $at->pag_page );
 
 		$_REQUEST = $request;
 	}
@@ -50,7 +50,7 @@ class BP_Tests_Notifications_Template extends BP_UnitTestCase {
 			'per_page' => 13,
 		) );
 
-		$this->assertEquals( 14, $at->pag_num );
+		$this->assertSame( 14, $at->pag_num );
 
 		$_REQUEST = $request;
 	}
@@ -67,7 +67,7 @@ class BP_Tests_Notifications_Template extends BP_UnitTestCase {
 			'per_page' => 13,
 		) );
 
-		$this->assertEquals( 13, $at->pag_num );
+		$this->assertSame( 13, $at->pag_num );
 
 		$_REQUEST = $request;
 	}

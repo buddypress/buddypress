@@ -168,7 +168,7 @@ function bp_admin_notices() {
  *
  * @since 1.7.0
  *
- * @param string $hook_suffix The current admin page, passed to admin_enqueue_scripts.
+ * @param string $hook_suffix Optional. The current admin page, passed to admin_enqueue_scripts.
  */
 function bp_admin_enqueue_scripts( $hook_suffix = '' ) {
 

@@ -31,7 +31,12 @@ function groups_screen_group_admin_avatar() {
 		// Check the nonce.
 		check_admin_referer( 'bp_group_avatar_delete' );
 
-		if ( bp_core_delete_existing_avatar( array( 'item_id' => $bp->groups->current_group->id, 'object' => 'group' ) ) ) {
+		if ( bp_core_delete_existing_avatar(
+			array(
+				'item_id' => $bp->groups->current_group->id,
+				'object' => 'group',
+			)
+		) ) {
 			bp_core_add_message( __( 'The group profile photo was deleted successfully!', 'buddypress' ) );
 		} else {
 			bp_core_add_message( __( 'There was a problem deleting the group profile photo. Please try again.', 'buddypress' ), 'error' );
@@ -56,7 +61,6 @@ function groups_screen_group_admin_avatar() {
 			// Make sure we include the jQuery jCrop file for image cropping.
 			add_action( 'wp_print_scripts', 'bp_core_add_jquery_cropper' );
 		}
-
 	}
 
 	// If the image cropping is done, crop the image and save a full/thumb version.
@@ -73,7 +77,7 @@ function groups_screen_group_admin_avatar() {
 			'crop_x'        => $_POST['x'],
 			'crop_y'        => $_POST['y'],
 			'crop_w'        => $_POST['w'],
-			'crop_h'        => $_POST['h']
+			'crop_h'        => $_POST['h'],
 		);
 
 		$cropped_avatar = bp_core_avatar_handle_crop( $args, 'array' );

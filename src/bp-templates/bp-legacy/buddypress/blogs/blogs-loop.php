@@ -37,13 +37,17 @@ do_action( 'bp_before_blogs_loop' ); ?>
 	 *
 	 * @since 1.1.0
 	 */
-	do_action( 'bp_before_directory_blogs_list' ); ?>
+	do_action( 'bp_before_directory_blogs_list' );
+	?>
 
 	<ul id="blogs-list" class="item-list">
 
-	<?php while ( bp_blogs() ) : bp_the_blog(); ?>
+	<?php
+	while ( bp_blogs() ) :
+		bp_the_blog();
+		?>
 
-		<li <?php bp_blog_class() ?>>
+		<li <?php bp_blog_class(); ?>>
 			<div class="item-avatar">
 				<a href="<?php bp_blog_permalink(); ?>"><?php bp_blog_avatar( 'type=thumb' ); ?></a>
 			</div>
@@ -59,7 +63,8 @@ do_action( 'bp_before_blogs_loop' ); ?>
 				 *
 				 * @since 1.2.0
 				 */
-				do_action( 'bp_directory_blogs_item' ); ?>
+				do_action( 'bp_directory_blogs_item' );
+				?>
 			</div>
 
 			<div class="action">
@@ -71,7 +76,8 @@ do_action( 'bp_before_blogs_loop' ); ?>
 				 *
 				 * @since 1.1.0
 				 */
-				do_action( 'bp_directory_blogs_actions' ); ?>
+				do_action( 'bp_directory_blogs_actions' );
+				?>
 
 				<div class="meta">
 
@@ -95,7 +101,8 @@ do_action( 'bp_before_blogs_loop' ); ?>
 	 *
 	 * @since 1.1.0
 	 */
-	do_action( 'bp_after_directory_blogs_list' ); ?>
+	do_action( 'bp_after_directory_blogs_list' );
+	?>
 
 	<?php bp_blog_hidden_fields(); ?>
 
@@ -115,7 +122,7 @@ do_action( 'bp_before_blogs_loop' ); ?>
 
 	</div>
 
-<?php else: ?>
+<?php else : ?>
 
 	<div id="message" class="info">
 		<p><?php esc_html_e( 'Sorry, there were no sites found.', 'buddypress' ); ?></p>

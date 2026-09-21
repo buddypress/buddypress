@@ -172,7 +172,7 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 
 		// Success
 		$upload = $attachment_class->upload( $_FILES );
-		$this->assertEquals( $upload['file'], $attachment_class->upload_path . '/mystery-man.jpg' );
+		$this->assertSame( $upload['file'], $attachment_class->upload_path . '/mystery-man.jpg' );
 
 		// clean up!
 		$_FILES = $reset_files;
@@ -206,7 +206,7 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 		$upload = $attachment_class->upload( $_FILES, '', $time );
 
 		// If no base_dir was provided, default WordPress uploads dir should be used.
-		$this->assertEquals( $upload['file'], $attachment_class->upload_path . '/' . $time . '/mystery-man.jpg' );
+		$this->assertSame( $upload['file'], $attachment_class->upload_path . '/' . $time . '/mystery-man.jpg' );
 
 		// clean up!
 		$_FILES = $reset_files;
@@ -240,7 +240,7 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 
 		/* No error */
 		$user_avatar = $avatar_attachment->upload( $_FILES, 'bp_members_avatar_upload_dir' );
-		$this->assertEquals( $user_avatar['file'], $bp->avatar->upload_path . '/avatars/' . $u1 .'/mystery-man.jpg' );
+		$this->assertSame( $user_avatar['file'], $bp->avatar->upload_path . '/avatars/' . $u1 .'/mystery-man.jpg' );
 
 		/* File size error */
 		add_filter( 'bp_core_avatar_original_max_filesize', array( $this, 'max_filesize' ) );
@@ -290,7 +290,7 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 		);
 
 		$group_avatar = $avatar_attachment->upload( $_FILES, 'groups_avatar_upload_dir' );
-		$this->assertEquals( $group_avatar['file'], $bp->avatar->upload_path . '/group-avatars/' . $g .'/mystery-man.jpg' );
+		$this->assertSame( $group_avatar['file'], $bp->avatar->upload_path . '/group-avatars/' . $g .'/mystery-man.jpg' );
 
 		// clean up!
 		$this->clean_avatars( 'group' );
@@ -364,7 +364,7 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 
 		/* No error */
 		$cover_image = $cover_image_attachment->upload( $_FILES );
-		$this->assertEquals( $cover_image['file'], $bp->avatar->upload_path . '/buddypress/members/' . $u1 .'/cover-image/mystery-man.jpg' );
+		$this->assertSame( $cover_image['file'], $bp->avatar->upload_path . '/buddypress/members/' . $u1 .'/cover-image/mystery-man.jpg' );
 
 		// clean up!
 		$bp->displayed_user = $displayed_user;

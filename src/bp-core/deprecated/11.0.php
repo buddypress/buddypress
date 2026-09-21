@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.0.0
  * @deprecated 11.0.0
  *
- * @param array $buttons The arguments of the button that BuddyPress is about to create.
+ * @param array $button Optional. The arguments of the button that BuddyPress is about to create.
  *
  * @return array An empty array to stop the button creation process.
  */
@@ -38,7 +38,7 @@ function bp_nouveau_members_catch_button_args( $button = array() ) {
  * @since 3.0.0
  * @deprecated 11.0.0
  *
- * @param array $button The arguments of the button that BuddyPress is about to create.
+ * @param array $button Optional. The arguments of the button that BuddyPress is about to create.
  *
  * @return array An empty array to stop the button creation process.
  */
@@ -61,7 +61,7 @@ function bp_nouveau_groups_catch_button_args( $button = array() ) {
  * @since 3.0.0
  * @deprecated 11.0.0
  *
- * @param array $buttons The arguments of the button that BuddyPress is about to create.
+ * @param array $button Optional. The arguments of the button that BuddyPress is about to create.
  *
  * @return array An empty array to stop the button creation process.
  */
@@ -81,7 +81,7 @@ function bp_nouveau_blogs_catch_button_args( $button = array() ) {
  * @since 10.2.0
  * @deprecated 11.0.0 replaced by `bp_attachments_get_mime_type()`
  *
- * @param string $file Absolute path of a file or directory.
+ * @param string $file Optional. Absolute path of a file or directory.
  * @return false|string False if the mime type is not supported by WordPress.
  *                      The mime type of a file or 'directory' for a directory.
  */

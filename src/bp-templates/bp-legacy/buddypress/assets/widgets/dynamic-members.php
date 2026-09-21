@@ -8,6 +8,7 @@
  * @subpackage bp-legacy
  * @version 9.0.0
  */
+
 ?>
 <script type="html/template" id="tmpl-bp-dynamic-members-item">
 	<li class="vcard">

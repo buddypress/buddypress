@@ -26,7 +26,7 @@ class BP_Tests_Notifications_Cache extends BP_UnitTestCase {
 		$count = bp_notifications_get_unread_notification_count( $u );
 
 		// just to be sure...
-		$this->assertEquals( 2, $count, 'Cache count should be 2 before invalidation.' );
+		$this->assertSame( 2, $count, 'Cache count should be 2 before invalidation.' );
 
 		// Trigger invalidation via save
 		self::factory()->notification->create( array(
@@ -57,7 +57,7 @@ class BP_Tests_Notifications_Cache extends BP_UnitTestCase {
 		$count = bp_notifications_get_unread_notification_count( $u );
 
 		// just to be sure...
-		$this->assertEquals( 2, $count, 'Cache count should be 2 before invalidation.' );
+		$this->assertSame( 2, $count, 'Cache count should be 2 before invalidation.' );
 
 		// delete
 		BP_Notifications_Notification::delete( array( 'id' => $n1, ) );
@@ -85,7 +85,7 @@ class BP_Tests_Notifications_Cache extends BP_UnitTestCase {
 		$count = bp_notifications_get_unread_notification_count( $u );
 
 		// just to be sure...
-		$this->assertEquals( 2, $count, 'Cache count should be 2 before invalidation.' );
+		$this->assertSame( 2, $count, 'Cache count should be 2 before invalidation.' );
 
 		// mark all notifications by user as read
 		BP_Notifications_Notification::update(
@@ -116,7 +116,7 @@ class BP_Tests_Notifications_Cache extends BP_UnitTestCase {
 		$count = bp_notifications_get_unread_notification_count( $u );
 
 		// just to be sure...
-		$this->assertEquals( 2, $count, 'Cache count should be 2 before invalidation.' );
+		$this->assertSame( 2, $count, 'Cache count should be 2 before invalidation.' );
 
 		// mark one notification as read
 		BP_Notifications_Notification::update(
@@ -179,7 +179,20 @@ class BP_Tests_Notifications_Cache extends BP_UnitTestCase {
 			$n2 => wp_cache_get( $n2, 'notification_meta' ),
 		);
 
-		$this->assertEquals( $expected, $found );
+		ksort( $expected );
+		ksort( $found );
+
+		foreach ( $expected as &$expected_meta ) {
+			ksort( $expected_meta );
+		}
+		unset( $expected_meta );
+
+		foreach ( $found as &$found_meta ) {
+			ksort( $found_meta );
+		}
+		unset( $found_meta );
+
+		$this->assertSame( $expected, $found );
 	}
 
 	/**
@@ -202,7 +215,10 @@ class BP_Tests_Notifications_Cache extends BP_UnitTestCase {
 		);
 
 		$all_for_user_notifications = bp_notifications_get_all_notifications_for_user( $u );
-		$this->assertEquals( $notification_ids, wp_list_pluck( $all_for_user_notifications, 'id' ) );
+		$found_ids                  = wp_list_pluck( $all_for_user_notifications, 'id' );
+		sort( $notification_ids );
+		sort( $found_ids );
+		$this->assertSame( $notification_ids, $found_ids );
 
 		// Mark as read.
 		$amount = bp_notifications_mark_notifications_by_ids( $notification_ids );
@@ -254,7 +270,10 @@ class BP_Tests_Notifications_Cache extends BP_UnitTestCase {
 		$this->assertTrue( $amount === count( $notification_ids ) );
 
 		$all_for_user_notifications = bp_notifications_get_all_notifications_for_user( $u );
-		$this->assertEquals( $notification_ids, wp_list_pluck( $all_for_user_notifications, 'id' ) );
+		$found_ids                  = wp_list_pluck( $all_for_user_notifications, 'id' );
+		sort( $notification_ids );
+		sort( $found_ids );
+		$this->assertSame( $notification_ids, $found_ids );
 	}
 
 	/**
@@ -277,7 +296,10 @@ class BP_Tests_Notifications_Cache extends BP_UnitTestCase {
 		);
 
 		$all_for_user_notifications = bp_notifications_get_all_notifications_for_user( $u );
-		$this->assertEquals( $notification_ids, wp_list_pluck( $all_for_user_notifications, 'id' ) );
+		$found_ids                  = wp_list_pluck( $all_for_user_notifications, 'id' );
+		sort( $notification_ids );
+		sort( $found_ids );
+		$this->assertSame( $notification_ids, $found_ids );
 
 		$u2 = self::factory()->user->create();
 		$a2 = self::factory()->activity->create();
@@ -324,7 +346,10 @@ class BP_Tests_Notifications_Cache extends BP_UnitTestCase {
 		);
 
 		$all_for_user_notifications = bp_notifications_get_all_notifications_for_user( $r );
-		$this->assertEquals( $message_ids, wp_list_pluck( $all_for_user_notifications, 'item_id' ) );
+		$found_ids                  = wp_list_pluck( $all_for_user_notifications, 'item_id' );
+		sort( $message_ids );
+		sort( $found_ids );
+		$this->assertSame( $message_ids, $found_ids );
 
 		// Mark read.
 		$amount = bp_notifications_mark_notifications_by_item_ids( $r, $message_ids, 'messages', 'new_message', false );
@@ -387,7 +412,10 @@ class BP_Tests_Notifications_Cache extends BP_UnitTestCase {
 		$this->assertTrue( $amount === count( $message_ids ) );
 
 		$all_for_user_notifications = bp_notifications_get_all_notifications_for_user( $r );
-		$this->assertEquals( $message_ids, wp_list_pluck( $all_for_user_notifications, 'item_id' ) );
+		$found_ids                  = wp_list_pluck( $all_for_user_notifications, 'item_id' );
+		sort( $message_ids );
+		sort( $found_ids );
+		$this->assertSame( $message_ids, $found_ids );
 	}
 
 	/**
@@ -408,7 +436,10 @@ class BP_Tests_Notifications_Cache extends BP_UnitTestCase {
 		);
 
 		$all_for_user_notifications = bp_notifications_get_all_notifications_for_user( $r );
-		$this->assertEquals( $message_ids, wp_list_pluck( $all_for_user_notifications, 'item_id' ) );
+		$found_ids                  = wp_list_pluck( $all_for_user_notifications, 'item_id' );
+		sort( $message_ids );
+		sort( $found_ids );
+		$this->assertSame( $message_ids, $found_ids );
 
 		$message_id = self::factory()->message->create(
 			array(

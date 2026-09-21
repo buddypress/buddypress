@@ -19,7 +19,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.6.0
  *
- * @param int|string|array|bool $activity_ids Accepts a single activity ID, or a comma-
+ * @param int|string|array|bool $activity_ids Optional. Accepts a single activity ID, or a comma-
  *                                            separated list or array of activity ids.
  */
 function bp_activity_update_meta_cache( $activity_ids = false ) {

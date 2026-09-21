@@ -46,14 +46,12 @@ class BP_Core_Members_Widget {
 	 * Display the Members widget.
 	 *
 	 * @since 1.0.3
+	 * @since 15.0.0 The `$args` and `$instance` parameters were removed since they were unused.
 	 * @deprecated 12.0.0
 	 *
 	 * @see WP_Widget::widget() for description of parameters.
-	 *
-	 * @param array $args     Widget arguments.
-	 * @param array $instance Widget settings, as saved by the user.
 	 */
-	public function widget( $args, $instance ) {
+	public function widget() {
 		_deprecated_function( __METHOD__, '12.0.0' );
 	}
 
@@ -61,12 +59,10 @@ class BP_Core_Members_Widget {
 	 * Update the Members widget options.
 	 *
 	 * @since 1.0.3
+	 * @since 15.0.0 The `$new_instance` and `$old_instance` parameters were removed since they were unused.
 	 * @deprecated 12.0.0
-	 *
-	 * @param array $new_instance The new instance options.
-	 * @param array $old_instance The old instance options.
 	 */
-	public function update( $new_instance, $old_instance ) {
+	public function update() {
 		_deprecated_function( __METHOD__, '12.0.0' );
 	}
 
@@ -74,11 +70,10 @@ class BP_Core_Members_Widget {
 	 * Output the Members widget options form.
 	 *
 	 * @since 1.0.3
+	 * @since 15.0.0 The `$instance` parameter was removed since it was unused.
 	 * @deprecated 12.0.0
-	 *
-	 * @param array $instance Widget instance settings.
 	 */
-	public function form( $instance ) {
+	public function form() {
 		_deprecated_function( __METHOD__, '12.0.0' );
 	}
 
@@ -86,11 +81,10 @@ class BP_Core_Members_Widget {
 	 * Merge the widget settings into defaults array.
 	 *
 	 * @since 2.3.0
+	 * @since 15.0.0 The `$instance` parameter was removed since it was unused.
 	 * @deprecated 12.0.0
-	 *
-	 * @param array $instance Widget instance settings.
 	 */
-	public function parse_settings( $instance = array() ) {
+	public function parse_settings() {
 		_deprecated_function( __METHOD__, '12.0.0' );
 	}
 }

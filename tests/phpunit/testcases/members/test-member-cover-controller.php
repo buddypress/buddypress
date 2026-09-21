@@ -211,7 +211,7 @@ class BP_Tests_Member_Cover_REST_Controller extends BP_Test_REST_Controller_Test
 		$data       = $response->get_data();
 		$properties = $data['schema']['properties'];
 
-		$this->assertEquals( 1, count( $properties ) );
+		$this->assertCount( 1, $properties );
 		$this->assertArrayHasKey( 'image', $properties );
 	}
 
@@ -220,7 +220,7 @@ class BP_Tests_Member_Cover_REST_Controller extends BP_Test_REST_Controller_Test
 		$request  = new WP_REST_Request( 'OPTIONS', sprintf( $this->endpoint_url . '/%d/cover', $this->user ) );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$data = $response->get_data();
 

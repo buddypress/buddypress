@@ -125,7 +125,7 @@ class BP_Messages_Box_Template {
 	 * Constructor method.
 	 *
 	 * @param array $args {
-	 *     Array of arguments. See bp_has_message_threads() for full description.
+	 *     Optional. Array of arguments. See bp_has_message_threads() for full description.
 	 * }.
 	 */
 	public function __construct( $args = array() ) {
@@ -288,7 +288,7 @@ class BP_Messages_Box_Template {
 	 * @return BP_Messages_Thread The next member to iterate over.
 	 */
 	public function next_thread() {
-		$this->current_thread++;
+		++$this->current_thread;
 		$this->thread = $this->threads[ $this->current_thread ];
 
 		return $this->thread;

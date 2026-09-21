@@ -51,7 +51,7 @@ class BP_Messages_Component extends BP_Component {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @param array $includes See {BP_Component::includes()} for details.
+	 * @param array $includes Optional. See {BP_Component::includes()} for details.
 	 */
 	public function includes( $includes = array() ) {
 
@@ -148,7 +148,7 @@ class BP_Messages_Component extends BP_Component {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @param array $args Not used.
+	 * @param array $args Optional. Not used.
 	 */
 	public function setup_globals( $args = array() ) {
 		$bp           = buddypress();
@@ -194,8 +194,8 @@ class BP_Messages_Component extends BP_Component {
 	 *
 	 * @since 12.0.0
 	 *
-	 * @param array $main_nav See `BP_Component::register_nav()` for details.
-	 * @param array $sub_nav  See `BP_Component::register_nav()` for details.
+	 * @param array $main_nav Optional. See `BP_Component::register_nav()` for details.
+	 * @param array $sub_nav  Optional. See `BP_Component::register_nav()` for details.
 	 */
 	public function register_nav( $main_nav = array(), $sub_nav = array() ) {
 		$slug = bp_get_messages_slug();
@@ -316,7 +316,7 @@ class BP_Messages_Component extends BP_Component {
 	/**
 	 * Set up the Toolbar.
 	 *
-	 * @param array $wp_admin_nav See {BP_Component::setup_admin_bar()} for details.
+	 * @param array $wp_admin_nav Optional. See {BP_Component::setup_admin_bar()} for details.
 	 */
 	public function setup_admin_bar( $wp_admin_nav = array() ) {
 

@@ -29,7 +29,8 @@
 				 *
 				 * @since 1.2.0
 				 */
-				do_action( 'bp_member_blog_order_options' ); ?>
+				do_action( 'bp_member_blog_order_options' );
+				?>
 
 			</select>
 		</li>
@@ -40,18 +41,18 @@
 switch ( bp_current_action() ) :
 
 	// Home/My Blogs
-	case 'my-sites' :
-
+	case 'my-sites':
 		/**
 		 * Fires before the display of member blogs content.
 		 *
 		 * @since 1.2.0
 		 */
-		do_action( 'bp_before_member_blogs_content' ); ?>
+		do_action( 'bp_before_member_blogs_content' );
+		?>
 
 		<div class="blogs myblogs">
 
-			<?php bp_get_template_part( 'blogs/blogs-loop' ) ?>
+			<?php bp_get_template_part( 'blogs/blogs-loop' ); ?>
 
 		</div><!-- .blogs.myblogs -->
 
@@ -66,7 +67,7 @@ switch ( bp_current_action() ) :
 		break;
 
 	// Any other
-	default :
+	default:
 		bp_get_template_part( 'members/single/plugins' );
 		break;
 endswitch;

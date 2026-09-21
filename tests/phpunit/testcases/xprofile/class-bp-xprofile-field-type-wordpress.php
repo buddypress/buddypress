@@ -32,7 +32,7 @@ class BP_Tests_XProfile_Field_Type_WordPress extends BP_UnitTestCase {
 
 		$user = get_user_by( 'id', $user_id );
 
-		$this->assertEquals( 'bar', $user->last_name );
+		$this->assertSame( 'bar', $user->last_name );
 	}
 
 	/**
@@ -67,7 +67,7 @@ class BP_Tests_XProfile_Field_Type_WordPress extends BP_UnitTestCase {
 		$group  = reset( $groups );
 		$field  = reset( $group->fields );
 
-		$this->assertEquals( 'https://buddypress.org', $field->data->value );
+		$this->assertSame( 'https://buddypress.org', $field->data->value );
 	}
 
 	/**
@@ -93,7 +93,7 @@ class BP_Tests_XProfile_Field_Type_WordPress extends BP_UnitTestCase {
 
 		$field_data = xprofile_get_field_data( $field_id, $user_id );
 
-		$this->assertEquals( 'foo', $field_data );
+		$this->assertSame( 'foo', $field_data );
 	}
 
 	/**
@@ -137,6 +137,6 @@ class BP_Tests_XProfile_Field_Type_WordPress extends BP_UnitTestCase {
 
 		$members_template = $reset_members_template;
 
-		$this->assertEquals( 'The BuddyPress community is awesome!', $profile_data );
+		$this->assertSame( 'The BuddyPress community is awesome!', $profile_data );
 	}
 }

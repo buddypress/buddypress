@@ -2,6 +2,8 @@
 /**
  * Blogs Template tags
  *
+ * @package BuddyPress
+ * @subpackage bp-nouveau
  * @since 3.0.0
  * @version 12.0.0
  */
@@ -142,7 +144,7 @@ function bp_nouveau_blogs_loop_item() {
  *
  * @since 3.0.0
  *
- * @param array $args See bp_nouveau_wrapper() for the description of parameters.
+ * @param array $args Optional. See bp_nouveau_wrapper() for the description of parameters.
  */
 function bp_nouveau_blogs_loop_buttons( $args = array() ) {
 	if ( empty( $GLOBALS['blogs_template'] ) ) {
@@ -174,7 +176,7 @@ function bp_nouveau_blogs_loop_buttons( $args = array() ) {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param string $type Type of Group of buttons to get.
+	 * @param array $args Arguments used to build the buttons.
 	 *
 	 * @return array
 	 */
@@ -209,7 +211,7 @@ function bp_nouveau_blogs_loop_buttons( $args = array() ) {
 		}
 
 		if ( ! empty( $args['button_element'] ) ) {
-			$button_element = $args['button_element'] ;
+			$button_element = $args['button_element'];
 		} else {
 			$button_element = 'a';
 		}
@@ -223,11 +225,14 @@ function bp_nouveau_blogs_loop_buttons( $args = array() ) {
 		$button_args = bp_get_blogs_visit_blog_button_args();
 		if ( array_filter( $button_args ) ) {
 			// Set defaults if not set.
-			$button_args = array_merge( array(
-				'wrapper_id' => '',
-				'link_id'    => '',
-				'link_rel'   => ''
-			), $button_args );
+			$button_args = array_merge(
+				array(
+					'wrapper_id' => '',
+					'link_id'    => '',
+					'link_rel'   => '',
+				),
+				$button_args
+			);
 
 			$buttons['visit_blog'] = array(
 				'id'                => 'visit_blog',
@@ -270,7 +275,7 @@ function bp_nouveau_blogs_loop_buttons( $args = array() ) {
 
 		// It's the first entry of the loop, so build the Group and sort it
 		if ( ! isset( bp_nouveau()->blogs->group_buttons ) || ! is_a( bp_nouveau()->blogs->group_buttons, 'BP_Buttons_Group' ) ) {
-			$sort = true;
+			$sort                              = true;
 			bp_nouveau()->blogs->group_buttons = new BP_Buttons_Group( $buttons_group );
 
 		// It's not the first entry, the order is set, we simply need to update the Buttons Group

@@ -39,7 +39,7 @@ class BP_Settings_Component extends BP_Component {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @param array $includes Array of values to include. Not used.
+	 * @param array $includes Optional. Array of values to include. Not used.
 	 */
 	public function includes( $includes = array() ) {
 		parent::includes(
@@ -102,7 +102,7 @@ class BP_Settings_Component extends BP_Component {
 	 *
 	 * @see BP_Component::setup_globals() for a description of arguments.
 	 *
-	 * @param array $args See BP_Component::setup_globals() for a description.
+	 * @param array $args Optional. See BP_Component::setup_globals() for a description.
 	 */
 	public function setup_globals( $args = array() ) {
 		$default_slug = $this->id;
@@ -158,27 +158,33 @@ class BP_Settings_Component extends BP_Component {
 			'user_has_access_callback' => 'bp_core_can_edit_settings',
 		);
 
-		// Add Email nav item. Formerly called 'Notifications', we
-		// retain the old slug and function names for backward compat.
-		$sub_nav[] = array(
-			'name'                     => __( 'Email', 'buddypress' ),
-			'slug'                     => 'notifications',
-			'parent_slug'              => $slug,
-			'screen_function'          => 'bp_settings_screen_notification',
-			'position'                 => 20,
-			'user_has_access'          => false,
-			'user_has_access_callback' => 'bp_core_can_edit_settings',
-		);
+		/**
+		 * Add Email nav item. Formely called 'Notifications', we
+		 * retain the old slug and function names for backward compat.
+		 */
+		if ( bp_is_active( 'notifications' ) ) {
+			$sub_nav[] = array(
+				'name'                     => __( 'Email', 'buddypress' ),
+				'slug'                     => 'notifications',
+				'parent_slug'              => $slug,
+				'screen_function'          => 'bp_settings_screen_notification',
+				'position'                 => 20,
+				'user_has_access'          => false,
+				'user_has_access_callback' => 'bp_core_can_edit_settings',
+			);
+		}
 
-		$sub_nav[] = array(
-			'name'                     => _x( 'Profile Visibility', 'Profile settings sub nav', 'buddypress' ),
-			'slug'                     => 'profile',
-			'parent_slug'              => $slug,
-			'screen_function'          => 'bp_xprofile_screen_settings',
-			'position'                 => 30,
-			'user_has_access'          => false,
-			'user_has_access_callback' => 'bp_core_can_edit_settings',
-		);
+		if ( bp_is_active( 'xprofile' ) ) {
+			$sub_nav[] = array(
+				'name'                     => _x( 'Profile Visibility', 'Profile settings sub nav', 'buddypress' ),
+				'slug'                     => 'profile',
+				'parent_slug'              => $slug,
+				'screen_function'          => 'bp_xprofile_screen_settings',
+				'position'                 => 30,
+				'user_has_access'          => false,
+				'user_has_access_callback' => 'bp_core_can_edit_settings',
+			);
+		}
 
 		$sub_nav[] = array(
 			'name'                     => __( 'Capabilities', 'buddypress' ),
@@ -236,7 +242,7 @@ class BP_Settings_Component extends BP_Component {
 	 * @see `BP_Component::setup_admin_bar()` for a description of the $wp_admin_nav
 	 *      parameter array.
 	 *
-	 * @param array $wp_admin_nav See `BP_Component::setup_admin_bar()` for a
+	 * @param array $wp_admin_nav Optional. See `BP_Component::setup_admin_bar()` for a
 	 *                            description.
 	 */
 	public function setup_admin_bar( $wp_admin_nav = array() ) {

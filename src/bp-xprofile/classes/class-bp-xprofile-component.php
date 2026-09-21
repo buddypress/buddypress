@@ -62,7 +62,7 @@ class BP_XProfile_Component extends BP_Component {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @param array $includes Array of files to include.
+	 * @param array $includes Optional. Array of files to include.
 	 */
 	public function includes( $includes = array() ) {
 		$includes = array(
@@ -132,7 +132,7 @@ class BP_XProfile_Component extends BP_Component {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @param array $args Array of globals to set up.
+	 * @param array $args Optional. Array of globals to set up.
 	 */
 	public function setup_globals( $args = array() ) {
 		$bp           = buddypress();
@@ -224,8 +224,8 @@ class BP_XProfile_Component extends BP_Component {
 	 *
 	 * @since 12.0.0
 	 *
-	 * @param array $main_nav See `BP_Component::register_nav()` for details.
-	 * @param array $sub_nav  See `BP_Component::register_nav()` for details.
+	 * @param array $main_nav Optional. See `BP_Component::register_nav()` for details.
+	 * @param array $sub_nav  Optional. See `BP_Component::register_nav()` for details.
 	 */
 	public function register_nav( $main_nav = array(), $sub_nav = array() ) {
 		$slug = bp_get_profile_slug();
@@ -281,7 +281,7 @@ class BP_XProfile_Component extends BP_Component {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @param array $wp_admin_nav Admin Bar items.
+	 * @param array $wp_admin_nav Optional. Admin Bar items.
 	 */
 	public function setup_admin_bar( $wp_admin_nav = array() ) {
 

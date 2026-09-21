@@ -18,7 +18,8 @@
 	 *
 	 * @since 1.2.0
 	 */
-	do_action( 'bp_before_member_home_content' ); ?>
+	do_action( 'bp_before_member_home_content' );
+	?>
 
 	<div id="item-header" role="complementary">
 
@@ -48,7 +49,8 @@
 				 *
 				 * @since 1.2.4
 				 */
-				do_action( 'bp_member_options_nav' ); ?>
+				do_action( 'bp_member_options_nav' );
+				?>
 
 			</ul>
 		</div>
@@ -72,19 +74,19 @@
 			bp_get_template_part( 'members/single/activity' );
 
 		elseif ( bp_is_user_blogs() ) :
-			bp_get_template_part( 'members/single/blogs'    );
+			bp_get_template_part( 'members/single/blogs' );
 
 		elseif ( bp_is_user_friends() ) :
-			bp_get_template_part( 'members/single/friends'  );
+			bp_get_template_part( 'members/single/friends' );
 
 		elseif ( bp_is_user_groups() ) :
-			bp_get_template_part( 'members/single/groups'   );
+			bp_get_template_part( 'members/single/groups' );
 
 		elseif ( bp_is_user_messages() ) :
 			bp_get_template_part( 'members/single/messages' );
 
 		elseif ( bp_is_user_profile() ) :
-			bp_get_template_part( 'members/single/profile'  );
+			bp_get_template_part( 'members/single/profile' );
 
 		elseif ( bp_is_user_notifications() ) :
 			bp_get_template_part( 'members/single/notifications' );
@@ -97,7 +99,7 @@
 
 		// If nothing sticks, load a generic template
 		else :
-			bp_get_template_part( 'members/single/plugins'  );
+			bp_get_template_part( 'members/single/plugins' );
 
 		endif;
 
@@ -106,7 +108,8 @@
 		 *
 		 * @since 1.2.0
 		 */
-		do_action( 'bp_after_member_body' ); ?>
+		do_action( 'bp_after_member_body' );
+		?>
 
 	</div><!-- #item-body -->
 
@@ -117,6 +120,7 @@
 	 *
 	 * @since 1.2.0
 	 */
-	do_action( 'bp_after_member_home_content' ); ?>
+	do_action( 'bp_after_member_home_content' );
+	?>
 
 </div><!-- #buddypress -->

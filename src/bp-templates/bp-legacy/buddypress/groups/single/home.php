@@ -10,7 +10,11 @@
 ?>
 <div id="buddypress">
 
-	<?php if ( bp_has_groups() ) : while ( bp_groups() ) : bp_the_group(); ?>
+	<?php
+	if ( bp_has_groups() ) :
+		while ( bp_groups() ) :
+			bp_the_group();
+			?>
 
 	<?php
 
@@ -19,7 +23,8 @@
 	 *
 	 * @since 1.2.0
 	 */
-	do_action( 'bp_before_group_home_content' ); ?>
+	do_action( 'bp_before_group_home_content' );
+	?>
 
 	<div id="item-header" role="complementary">
 
@@ -49,7 +54,8 @@
 				 *
 				 * @since 1.2.0
 				 */
-				do_action( 'bp_group_options_nav' ); ?>
+				do_action( 'bp_group_options_nav' );
+				?>
 
 			</ul>
 		</div>
@@ -88,7 +94,8 @@
 					 *
 					 * @since 1.1.0
 					 */
-					do_action( 'bp_before_group_status_message' ); ?>
+					do_action( 'bp_before_group_status_message' );
+					?>
 
 					<div id="message" class="info">
 						<p><?php bp_group_status_message(); ?></p>
@@ -105,28 +112,29 @@
 
 				}
 
-			// Not looking at home
+			// Group Admin
+			elseif ( bp_is_group_admin_page() ) :
+				bp_get_template_part( 'groups/single/admin' );
+
+			// Group Activity
+			elseif ( bp_is_group_activity() ) :
+				bp_get_template_part( 'groups/single/activity' );
+
+			// Group Members
+			elseif ( bp_is_group_members() ) :
+				bp_groups_members_template_part();
+
+			// Group Invitations
+			elseif ( bp_is_group_invites() ) :
+				bp_get_template_part( 'groups/single/send-invites' );
+
+			// Membership request
+			elseif ( bp_is_group_membership_request() ) :
+				bp_get_template_part( 'groups/single/request-membership' );
+
+			// Anything else (plugins mostly)
 			else :
-
-				// Group Admin
-				if     ( bp_is_group_admin_page() ) : bp_get_template_part( 'groups/single/admin'        );
-
-				// Group Activity
-				elseif ( bp_is_group_activity()   ) : bp_get_template_part( 'groups/single/activity'     );
-
-				// Group Members
-				elseif ( bp_is_group_members()    ) : bp_groups_members_template_part();
-
-				// Group Invitations
-				elseif ( bp_is_group_invites()    ) : bp_get_template_part( 'groups/single/send-invites' );
-
-				// Membership request
-				elseif ( bp_is_group_membership_request() ) : bp_get_template_part( 'groups/single/request-membership' );
-
-				// Anything else (plugins mostly)
-				else                                : bp_get_template_part( 'groups/single/plugins'      );
-
-				endif;
+				bp_get_template_part( 'groups/single/plugins' );
 
 			endif;
 
@@ -135,7 +143,8 @@
 		 *
 		 * @since 1.2.0
 		 */
-		do_action( 'bp_after_group_body' ); ?>
+		do_action( 'bp_after_group_body' );
+		?>
 
 	</div><!-- #item-body -->
 
@@ -146,8 +155,9 @@
 	 *
 	 * @since 1.2.0
 	 */
-	do_action( 'bp_after_group_home_content' ); ?>
+	do_action( 'bp_after_group_home_content' );
+	?>
 
-	<?php endwhile; endif; ?>
+	<?php endwhile; ?><?php endif; ?>
 
 </div><!-- #buddypress -->

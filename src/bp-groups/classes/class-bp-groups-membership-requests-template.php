@@ -17,48 +17,64 @@ defined( 'ABSPATH' ) || exit;
 class BP_Groups_Membership_Requests_Template {
 
 	/**
+	 * Current membership request position in the loop.
+	 *
 	 * @since 1.0.0
 	 * @var int
 	 */
 	public $current_request = -1;
 
 	/**
+	 * Number of membership requests in the loop.
+	 *
 	 * @since 1.0.0
 	 * @var int
 	 */
 	public $request_count;
 
 	/**
+	 * Membership requests in the loop.
+	 *
 	 * @since 1.0.0
 	 * @var array
 	 */
 	public $requests;
 
 	/**
+	 * Current membership request in the loop.
+	 *
 	 * @since 1.0.0
 	 * @var object
 	 */
 	public $request;
 
 	/**
+	 * Whether the loop is active.
+	 *
 	 * @sine 1.0.0
 	 * @var bool
 	 */
 	public $in_the_loop;
 
 	/**
+	 * Current pagination page.
+	 *
 	 * @since 1.0.0
 	 * @var int
 	 */
 	public $pag_page;
 
 	/**
+	 * Number of membership requests per pagination page.
+	 *
 	 * @since 1.0.0
 	 * @var int
 	 */
 	public $pag_num;
 
 	/**
+	 * Pagination links.
+	 *
 	 * @since 1.0.0
 	 * @var array|string|null
 	 */
@@ -73,6 +89,8 @@ class BP_Groups_Membership_Requests_Template {
 	public $pag_arg;
 
 	/**
+	 * Total number of membership requests.
+	 *
 	 * @since 1.0.0
 	 * @var int
 	 */
@@ -84,6 +102,7 @@ class BP_Groups_Membership_Requests_Template {
 	 * @since 1.5.0
 	 *
 	 * @param array $args {
+	 *     Optional. An array of arguments.
 	 *     @type int $group_id ID of the group whose membership requests
 	 *                         are being queried. Default: current group id.
 	 *     @type int $per_page Number of records to return per page of
@@ -123,19 +142,21 @@ class BP_Groups_Membership_Requests_Template {
 		);
 
 		$this->pag_arg  = sanitize_key( $r['page_arg'] );
-		$this->pag_page = bp_sanitize_pagination_arg( $this->pag_arg, $r['page']     );
-		$this->pag_num  = bp_sanitize_pagination_arg( 'num',          $r['per_page'] );
+		$this->pag_page = bp_sanitize_pagination_arg( $this->pag_arg, $r['page'] );
+		$this->pag_num  = bp_sanitize_pagination_arg( 'num', $r['per_page'] );
 
-		$mquery = new BP_Group_Member_Query( array(
-			'group_id' => $r['group_id'],
-			'type'     => $r['type'],
-			'per_page' => $this->pag_num,
-			'page'     => $this->pag_page,
+		$mquery = new BP_Group_Member_Query(
+			array(
+				'group_id' => $r['group_id'],
+				'type'     => $r['type'],
+				'per_page' => $this->pag_num,
+				'page'     => $this->pag_page,
 
-			// These filters ensure we only get pending requests.
-			'is_confirmed' => false,
-			'inviter_id'   => 0,
-		) );
+				// These filters ensure we only get pending requests.
+				'is_confirmed' => false,
+				'inviter_id'   => 0,
+			)
+		);
 
 		$this->requests      = array_values( $mquery->results );
 		$this->request_count = count( $this->requests );
@@ -149,7 +170,7 @@ class BP_Groups_Membership_Requests_Template {
 			$this->requests[ $rk ]->id      = $rv->membership_id;
 
 			// Miscellaneous values.
-			$this->requests[ $rk ]->group_id   = $r['group_id'];
+			$this->requests[ $rk ]->group_id = $r['group_id'];
 		}
 
 		if ( empty( $r['max'] ) || ( $r['max'] >= (int) $mquery->total_users ) ) {
@@ -164,16 +185,18 @@ class BP_Groups_Membership_Requests_Template {
 			$this->request_count = (int) $r['max'];
 		}
 
-		$this->pag_links = paginate_links( array(
-			'base'      => add_query_arg( $this->pag_arg, '%#%' ),
-			'format'    => '',
-			'total'     => ceil( $this->total_request_count / $this->pag_num ),
-			'current'   => $this->pag_page,
-			'prev_text' => '&larr;',
-			'next_text' => '&rarr;',
-			'mid_size'  => 1,
-			'add_args'  => array(),
-		) );
+		$this->pag_links = paginate_links(
+			array(
+				'base'      => add_query_arg( $this->pag_arg, '%#%' ),
+				'format'    => '',
+				'total'     => ceil( $this->total_request_count / $this->pag_num ),
+				'current'   => $this->pag_page,
+				'prev_text' => '&larr;',
+				'next_text' => '&rarr;',
+				'mid_size'  => 1,
+				'add_args'  => array(),
+			)
+		);
 	}
 
 	/**
@@ -199,7 +222,7 @@ class BP_Groups_Membership_Requests_Template {
 	 * @return object
 	 */
 	public function next_request() {
-		$this->current_request++;
+		++$this->current_request;
 		$this->request = $this->requests[ $this->current_request ];
 
 		return $this->request;
@@ -229,7 +252,7 @@ class BP_Groups_Membership_Requests_Template {
 		$tick = intval( $this->current_request + 1 );
 		if ( $tick < $this->request_count ) {
 			return true;
-		} elseif ( $tick == $this->request_count ) {
+		} elseif ( $tick === $this->request_count ) {
 
 			/**
 			 * Fires right before the rewinding of group membership requests list.
@@ -255,7 +278,7 @@ class BP_Groups_Membership_Requests_Template {
 		$this->request     = $this->next_request();
 
 		// Loop has just started.
-		if ( 0 == $this->current_request ) {
+		if ( 0 === $this->current_request ) {
 
 			/**
 			 * Fires if the current group membership request item is the first in the loop.

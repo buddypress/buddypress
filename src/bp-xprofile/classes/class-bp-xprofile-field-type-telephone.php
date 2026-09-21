@@ -77,7 +77,8 @@ class BP_XProfile_Field_Type_Telephone extends BP_XProfile_Field_Type {
 		<?php
 
 		/** This action is documented in bp-xprofile/bp-xprofile-classes */
-		do_action( bp_get_the_profile_field_errors_action() ); ?>
+		do_action( bp_get_the_profile_field_errors_action() );
+		?>
 
 		<input <?php $this->output_edit_field_html_elements( $r ); ?> aria-labelledby="<?php bp_the_profile_field_input_name(); ?>-1" aria-describedby="<?php bp_the_profile_field_input_name(); ?>-3">
 
@@ -106,10 +107,12 @@ class BP_XProfile_Field_Type_Telephone extends BP_XProfile_Field_Type {
 		);
 		?>
 
-		<label for="<?php bp_the_profile_field_input_name(); ?>" class="screen-reader-text"><?php
+		<label for="<?php bp_the_profile_field_input_name(); ?>" class="screen-reader-text">
+		<?php
 			/* translators: accessibility text */
 			esc_html_e( 'Phone Number', 'buddypress' );
-		?></label>
+		?>
+		</label>
 		<input <?php $this->output_edit_field_html_elements( $r ); ?>>
 
 		<?php

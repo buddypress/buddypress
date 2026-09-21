@@ -2,6 +2,8 @@
 /**
  * BuddyPress - Members/Blogs Registration forms
  *
+ * @package BuddyPress
+ * @subpackage bp-nouveau
  * @since 3.0.0
  * @version 8.0.0
  */
@@ -47,9 +49,15 @@
 						<h2 class="bp-heading"><?php esc_html_e( 'Profile Details', 'buddypress' ); ?></h2>
 
 						<?php /* Use the profile field loop to render input fields for the 'base' profile field group */ ?>
-						<?php while ( bp_profile_groups() ) : bp_the_profile_group(); ?>
+						<?php
+						while ( bp_profile_groups() ) :
+							bp_the_profile_group();
+							?>
 
-							<?php while ( bp_profile_fields() ) : bp_the_profile_field(); ?>
+							<?php
+							while ( bp_profile_fields() ) :
+								bp_the_profile_field();
+								?>
 
 								<div<?php bp_field_css_class( 'editfield' ); ?>>
 									<fieldset>
@@ -80,7 +88,12 @@
 
 				<?php if ( bp_get_blog_signup_allowed() ) : ?>
 
-					<?php bp_nouveau_signup_hook( 'before', 'blog_details' ); ?>
+					<?php
+					bp_nouveau_signup_hook( 'before', 'blog_details' );
+
+					$signup_with_blog_checked = (int) bp_get_signup_with_blog_value();
+					$show_blog_details        = (int) bp_get_signup_with_blog_value();
+					?>
 
 					<?php /***** Blog Creation Details ******/ ?>
 
@@ -88,9 +101,9 @@
 
 						<h2><?php esc_html_e( 'Site Details', 'buddypress' ); ?></h2>
 
-						<p><label for="signup_with_blog"><input type="checkbox" name="signup_with_blog" id="signup_with_blog" value="1" <?php checked( (int) bp_get_signup_with_blog_value(), 1 ); ?>/> <?php esc_html_e( "Yes, i'd like to create a new site", 'buddypress' ); ?></label></p>
+						<p><label for="signup_with_blog"><input type="checkbox" name="signup_with_blog" id="signup_with_blog" value="1" <?php checked( $signup_with_blog_checked, 1 ); ?>/> <?php esc_html_e( "Yes, i'd like to create a new site", 'buddypress' ); ?></label></p>
 
-						<div id="blog-details"<?php if ( (int) bp_get_signup_with_blog_value() ) : ?>class="show"<?php endif; ?>>
+						<div id="blog-details"<?php echo $show_blog_details ? 'class="show"' : ''; ?>>
 
 							<?php bp_nouveau_signup_form( 'blog_details' ); ?>
 

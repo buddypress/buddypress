@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 2.0.0
  *
- * @param array|string $args Array of args for the settings fields.
+ * @param array|string $args Optional. Array of args for the settings fields.
  * @return bool
  */
 function bp_xprofile_get_settings_fields( $args = '' ) {
@@ -49,7 +49,7 @@ function bp_xprofile_settings_add_feedback_message() {
 
 	// Default message type is success.
 	$type    = 'success';
-	$message = __( 'Your profile settings have been saved.',        'buddypress' );
+	$message = __( 'Your profile settings have been saved.', 'buddypress' );
 
 	// Community moderator editing another user's settings.
 	if ( ! bp_is_my_profile() && bp_core_can_edit_settings() ) {

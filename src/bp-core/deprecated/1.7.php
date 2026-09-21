@@ -96,7 +96,7 @@ function bp_core_allow_default_theme( $themes ) {
  * No longer used by BuddyPress core
  *
  * @deprecated 1.7.0
- * @param string $page
+ * @param string $page Optional.
  * @return bool True if is BuddyPress page
  */
 function bp_is_page( $page = '' ) {

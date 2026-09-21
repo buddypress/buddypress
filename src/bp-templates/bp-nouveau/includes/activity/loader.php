@@ -2,6 +2,8 @@
 /**
  * BP Nouveau Activity
  *
+ * @package BuddyPress
+ * @subpackage bp-nouveau
  * @since 3.0.0
  * @version 12.0.0
  */
@@ -50,7 +52,7 @@ class BP_Nouveau_Activity {
 	 * @since 3.0.0
 	 */
 	protected function setup_globals() {
-		$this->dir = trailingslashit( dirname( __FILE__ ) );
+		$this->dir = trailingslashit( __DIR__ );
 	}
 
 	/**
@@ -68,7 +70,9 @@ class BP_Nouveau_Activity {
 
 		// Load AJAX code only on AJAX requests.
 		} else {
-			add_action( 'admin_init', function () {
+			add_action(
+				'admin_init',
+				function () {
 				// AJAX condtion.
 				if ( defined( 'DOING_AJAX' ) && true === DOING_AJAX &&
 					// Check to see if action is activity-specific.
@@ -76,7 +80,8 @@ class BP_Nouveau_Activity {
 				) {
 					require bp_nouveau()->activity->dir . 'ajax.php';
 				}
-			} );
+				}
+			);
 		}
 	}
 
@@ -122,6 +127,7 @@ class BP_Nouveau_Activity {
  * Launch the Activity loader class.
  *
  * @since 3.0.0
+ * @param BP_Nouveau|null $bp_nouveau Optional. Nouveau instance.
  */
 function bp_nouveau_activity( $bp_nouveau = null ) {
 	if ( is_null( $bp_nouveau ) ) {

@@ -21,7 +21,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 		$actions = bp_activity_get_actions();
 		$actions = array_keys( (array) $actions->blogs );
 
-		$this->assertEquals( $expected, $actions );
+		$this->assertSame( $expected, $actions );
 	}
 
 	/**
@@ -667,7 +667,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 		);
 
 		$ids = wp_list_pluck( $GLOBALS['activities_template']->activities, 'id' );
-		$this->assertEquals( array( $c ), $ids );
+		$this->assertSame( array( $c ), $ids );
 
 		// Reset.
 		remove_filter( 'bp_disable_blogforum_comments', '__return_false' );

@@ -56,7 +56,6 @@ class BP_Messages_Sitewide_Notices_Widget extends WP_Widget {
 	 *
 	 * @param array $new_instance See {@WP_Widget::update()}.
 	 * @param array $old_instance See {@WP_Widget::update()}.
-	 * @return array $instance See {@WP_Widget::update()}.
 	 */
 	public function update( $new_instance, $old_instance ) {
 		_deprecated_function( __METHOD__, '12.0.0' );

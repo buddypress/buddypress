@@ -2,22 +2,31 @@
 
 Keeping your WordPress installation, including BuddyPress, on a supported and current PHP version is crucial for site performance, security, and compatibility. Regularly consult the [WordPress Requirements](https://wordpress.org/about/requirements/) page.
 
-## PHP Version Requirements
+## Minimum requirements (BuddyPress 15.0.0 and later)
 
-BuddyPress is compatible with PHP versions supported by WordPress. The PHP requirements may change as WordPress evolves, so BuddyPress users must stay updated.
+As of BuddyPress **15.0.0**, the minimum required versions are:
 
-### Current Recommendations
+- **WordPress:** 6.4 or greater.
+- **PHP:** 7.0 or greater.
 
-- **Minimum PHP Version:** BuddyPress requires a minimum PHP version in line with WordPress's minimum requirement. As of the minimal WordPress version BuddyPress requires (6.1), PHP 5.6 can still be used but 7.4 or higher would be better 😅.
-- **Recommended PHP Version:** For the best performance, security, and access to the latest features, it is advised to run the latest stable version of PHP supported by your hosting environment.
+This change was introduced during the 15.0.0 development cycle (see [Trac ticket #9051](https://buddypress.trac.wordpress.org/ticket/9051) and the [BP Team Updates blog post](https://bpdevel.wordpress.com/2024/09/02/raising-the-minimum-version-of-wordpress-and-php-required-in-buddypress-15-0-0/)).
 
-### Future Compatibility
+## Recommended requirements
 
-BuddyPress commits to maintaining compatibility with new PHP versions as WordPress adopts them. Future releases of BuddyPress will aim to support the latest PHP versions soon after WordPress officially supports them.
+For best performance and security, we recommend:
 
-## Upgrading PHP
+- **PHP:** 7.4 or greater.
+- **Database:** MySQL 8.0+ or MariaDB 10.5+.
+- **HTTPS:** TLS/HTTPS support on your server.
 
-### Hosting Environment
+> Note: The recommended versions are higher than the minimums. Using the latest supported versions ensures the best stability and security.
 
-- Users should check their hosting environment's PHP version and consider upgrading if necessary. Most hosting providers offer tools in their control panels for an easy PHP upgrade.
-- Before applying the upgrade to a live environment, testing your WordPress site, including themes and plugins, in a staging environment is recommended.
+## Why we changed this
+
+The BuddyPress team raised the minimum requirements in version 15.0.0 to keep the software secure, compatible, and maintainable.
+
+## If your host runs an older PHP version
+
+- Check your PHP version (`php -v` or through your hosting control panel).
+- If outdated, ask your host to upgrade or move to a provider supporting PHP 7.4+.
+- Always test backups and staging sites before upgrading production.

@@ -2,9 +2,12 @@
 /**
  * BuddyPress - Blogs Directory
  *
+ * @package BuddyPress
+ * @subpackage bp-nouveau
  * @since 3.0.0
  * @version 6.0.0
  */
+
 ?>
 
 	<?php bp_nouveau_before_blogs_directory_content(); ?>

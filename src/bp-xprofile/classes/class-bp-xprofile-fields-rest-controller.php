@@ -307,7 +307,7 @@ class BP_XProfile_Fields_REST_Controller extends WP_REST_Controller {
 	 *
 	 * @since 15.0.0
 	 *
-	 * @param integer         $field_id The profile field object ID.
+	 * @param int             $field_id The profile field object ID.
 	 * @param WP_REST_Request $request  The request sent to the API.
 	 */
 	public function set_additional_field_properties( $field_id, WP_REST_Request $request ) {
@@ -823,9 +823,9 @@ class BP_XProfile_Fields_REST_Controller extends WP_REST_Controller {
 	 *
 	 * @since 15.0.0
 	 *
-	 * @param  string                    $value         The raw value of the field.
-	 * @param  integer|BP_XProfile_Field $profile_field The ID or the full object for the field.
-	 * @return string                                   The field value for the display context.
+	 * @param  string                $value         Optional. The raw value of the field.
+	 * @param  int|BP_XProfile_Field $profile_field Optional. The ID or the full object for the field.
+	 * @return string The field value for the display context.
 	 */
 	public function get_profile_field_rendered_value( $value = '', $profile_field = null ) {
 		if ( empty( $value ) ) {
@@ -869,7 +869,7 @@ class BP_XProfile_Fields_REST_Controller extends WP_REST_Controller {
 	 *
 	 * @since 15.0.0
 	 *
-	 * @param string $value The raw value of the field.
+	 * @param string $value Optional. The raw value of the field.
 	 * @return array The unserialized field value.
 	 */
 	public function get_profile_field_unserialized_value( $value = '' ) {
@@ -950,6 +950,16 @@ class BP_XProfile_Fields_REST_Controller extends WP_REST_Controller {
 
 		/**
 		 * Filters the method query arguments.
+		 *
+		 * The dynamic portion of the hook name, `$key`, refers to the REST API operation whose query arguments
+		 * are being filtered.
+		 *
+		 * Possible hook names include:
+		 *
+		 *  - `bp_rest_xprofile_fields_get_item_query_arguments`
+		 *  - `bp_rest_xprofile_fields_create_item_query_arguments`
+		 *  - `bp_rest_xprofile_fields_update_item_query_arguments`
+		 *  - `bp_rest_xprofile_fields_delete_item_query_arguments`
 		 *
 		 * @since 15.0.0
 		 *

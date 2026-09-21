@@ -88,7 +88,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 			),
 		) );
 		$ids = wp_list_pluck( $groups['groups'], 'id' );
-		$this->assertEquals( $ids, array( $g2 ) );
+		$this->assertSame( array( $g2 ), $ids );
 	}
 
 	/**
@@ -106,7 +106,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 			),
 		) );
 		$ids = wp_list_pluck( $groups['groups'], 'id' );
-		$this->assertEquals( $ids, array( $g1 ) );
+		$this->assertSame( array( $g1 ), $ids );
 	}
 
 	/**
@@ -127,7 +127,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 			),
 		) );
 		$ids = wp_list_pluck( $groups['groups'], 'id' );
-		$this->assertEquals( $ids, array( $g1 ) );
+		$this->assertSame( array( $g1 ), $ids );
 	}
 
 	/**
@@ -143,7 +143,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 			'meta_query' => array(),
 		) );
 		$ids = wp_list_pluck( $groups['groups'], 'id' );
-		$this->assertEquals( $ids, array( $g1, $g2, ) );
+		$this->assertSame( array( $g1, $g2, ), $ids );
 	}
 
 	/**
@@ -179,8 +179,8 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 			),
 		) );
 		$ids = wp_list_pluck( $groups['groups'], 'id' );
-		$this->assertEquals( $ids, array( $g1 ) );
-		$this->assertEquals( 1, $groups['total'] );
+		$this->assertSame( array( $g1 ), $ids );
+		$this->assertSame( 1, $groups['total'] );
 	}
 
 	/**
@@ -217,7 +217,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		) );
 		$ids = wp_list_pluck( $groups['groups'], 'id' );
 		$this->assertEqualSets( array( $g1, $g3 ), $ids );
-		$this->assertEquals( 2, $groups['total'] );
+		$this->assertSame( 2, $groups['total'] );
 	}
 
 	/**
@@ -255,7 +255,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		) );
 		$ids = wp_list_pluck( $groups['groups'], 'id' );
 		$this->assertEqualSets( array( $g1, $g2 ), $ids );
-		$this->assertEquals( 2, $groups['total'] );
+		$this->assertSame( 2, $groups['total'] );
 	}
 
 	/**
@@ -284,8 +284,8 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 			),
 		) );
 		$ids = wp_list_pluck( $groups['groups'], 'id' );
-		$this->assertEquals( $ids, array( $g1 ) );
-		$this->assertEquals( 1, $groups['total'] );
+		$this->assertSame( array( $g1 ), $ids );
+		$this->assertSame( 1, $groups['total'] );
 	}
 
 	/**
@@ -315,7 +315,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 			) )
 		) );
 
-		$this->assertEquals( [ $u2 ], wp_list_pluck( $groups['groups'], 'id' ) );
+		$this->assertSame( [ $u2 ], wp_list_pluck( $groups['groups'], 'id' ) );
 	}
 
 	/**
@@ -347,7 +347,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 			) )
 		) );
 
-		$this->assertEquals( [ $u2 ], wp_list_pluck( $groups['groups'], 'id' ) );
+		$this->assertSame( [ $u2 ], wp_list_pluck( $groups['groups'], 'id' ) );
 	}
 
 	/**
@@ -373,7 +373,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 			) )
 		) );
 
-		$this->assertEquals( [ $u1 ], wp_list_pluck( $groups['groups'], 'id' ) );
+		$this->assertSame( [ $u1 ], wp_list_pluck( $groups['groups'], 'id' ) );
 	}
 
 	/**
@@ -391,7 +391,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		) );
 
 		$found = wp_list_pluck( $groups['groups'], 'id' );
-		$this->assertEquals( array( $g1 ), $found );
+		$this->assertSame( array( $g1 ), $found );
 	}
 
 	/**
@@ -409,7 +409,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		) );
 
 		$found = wp_list_pluck( $groups['groups'], 'id' );
-		$this->assertEquals( array( $g1 ), $found );
+		$this->assertSame( array( $g1 ), $found );
 	}
 
 	/**
@@ -427,7 +427,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		) );
 
 		$found = wp_list_pluck( $groups['groups'], 'id' );
-		$this->assertEquals( array( $g1 ), $found );
+		$this->assertSame( array( $g1 ), $found );
 	}
 
 	/**
@@ -446,7 +446,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 
 		$found = wp_list_pluck( $groups['groups'], 'id' );
 
-		$this->assertEquals( array( $g1 ), $found );
+		$this->assertSame( array( $g1 ), $found );
 	}
 
 	/**
@@ -465,7 +465,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 
 		$found = wp_list_pluck( $groups['groups'], 'id' );
 
-		$this->assertEquals( array( $g1 ), $found );
+		$this->assertSame( array( $g1 ), $found );
 	}
 
 	/**
@@ -484,7 +484,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 
 		$found = wp_list_pluck( $groups['groups'], 'id' );
 
-		$this->assertEquals( array(), $found );
+		$this->assertSame( array(), $found );
 	}
 
 	/**
@@ -503,7 +503,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 
 		$found = wp_list_pluck( $groups['groups'], 'id' );
 
-		$this->assertEquals( array( $g1 ), $found );
+		$this->assertSame( array( $g1 ), $found );
 	}
 
 	/**
@@ -522,7 +522,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 
 		$found = wp_list_pluck( $groups['groups'], 'id' );
 
-		$this->assertEquals( array(), $found );
+		$this->assertSame( array(), $found );
 	}
 
 	/**
@@ -541,7 +541,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 
 		$found = wp_list_pluck( $groups['groups'], 'id' );
 
-		$this->assertEquals( array( $g1 ), $found );
+		$this->assertSame( array( $g1 ), $found );
 	}
 
 	/**
@@ -565,7 +565,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 
 		$found = wp_list_pluck( $groups['groups'], 'id' );
 
-		$this->assertEquals( array( $g1 ), $found );
+		$this->assertSame( array( $g1 ), $found );
 	}
 
 	/**
@@ -589,7 +589,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 
 		$found = wp_list_pluck( $groups['groups'], 'id' );
 
-		$this->assertEquals( array( $g3 ), $found );
+		$this->assertSame( array( $g3 ), $found );
 	}
 
 	/**
@@ -617,9 +617,18 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 			'date_created' => gmdate( 'Y-m-d H:i:s', time() - 1000 ),
 		) );
 
-		$found = BP_Groups_Group::get();
+		$expected = BP_Groups_Group::get( array( 'type' => 'newest' ) );
+		$found    = BP_Groups_Group::get();
 
-		$this->assertEquals( BP_Groups_Group::get( array( 'type' => 'newest' ) ), $found );
+		foreach ( array_merge( $expected['groups'], $found['groups'] ) as $group ) {
+			$this->assertInstanceOf( 'BP_Groups_Group', $group );
+		}
+
+		$this->assertSame( $expected['total'], $found['total'] );
+		$this->assertSame(
+			array_map( 'get_object_vars', $expected['groups'] ),
+			array_map( 'get_object_vars', $found['groups'] )
+		);
 	}
 
 	/**
@@ -645,8 +654,8 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		) );
 
 		$groups = BP_Groups_Group::get( array( 'type' => 'newest' ) );
-		$found = wp_parse_id_list( wp_list_pluck( $groups['groups'], 'id' ) );
-		$this->assertEquals( array( $g1, $g2, $g4, $g3 ), $found );
+		$found = wp_list_pluck( $groups['groups'], 'id' );
+		$this->assertSame( array( $g1, $g2, $g4, $g3 ), $found );
 	}
 
 	/**
@@ -677,8 +686,8 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		groups_update_groupmeta( $g4, 'total_member_count', 3 );
 
 		$groups = BP_Groups_Group::get( array( 'type' => 'popular' ) );
-		$found = wp_parse_id_list( wp_list_pluck( $groups['groups'], 'id' ) );
-		$this->assertEquals( array( $g2, $g4, $g3, $g1 ), $found );
+		$found = wp_list_pluck( $groups['groups'], 'id' );
+		$this->assertSame( array( $g2, $g4, $g3, $g1 ), $found );
 	}
 
 	/**
@@ -704,8 +713,8 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		) );
 
 		$groups = BP_Groups_Group::get( array( 'type' => 'alphabetical' ) );
-		$found = wp_parse_id_list( wp_list_pluck( $groups['groups'], 'id' ) );
-		$this->assertEquals( array( $g1, $g3, $g4, $g2 ), $found );
+		$found = wp_list_pluck( $groups['groups'], 'id' );
+		$this->assertSame( array( $g1, $g3, $g4, $g2 ), $found );
 	}
 
 	/**
@@ -747,7 +756,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		) );
 
 		// group total should match 1
-		$this->assertEquals( '1', $groups['total'] );
+		$this->assertSame( 1, $groups['total'] );
 	}
 
 	/**
@@ -770,17 +779,28 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		) );
 
 		// Should return all groups; "paged" group total should be 25
-		$this->assertEquals( count( $group_ids ), count( $groups['groups'] ) );
+		$this->assertCount( count( $group_ids ), $groups['groups'] );
 
 		unset( $groups );
 
 		// Passing 'per_page' => -1 should result in pagination not being applied.
 		$groups = BP_Groups_Group::get( array(
-			'per_page' => -1
+			'per_page' => -1,
+			'page'     => 1,
 		) );
 
 		// Should return all groups; "paged" group total should match 25
-		$this->assertEquals( count( $group_ids ), count( $groups['groups'] ) );
+		$this->assertCount( count( $group_ids ), $groups['groups'] );
+
+		unset( $groups );
+
+		// The string '-1' should also result in pagination not being applied.
+		$groups = BP_Groups_Group::get( array(
+			'per_page' => '-1',
+			'page'     => 1,
+		) );
+
+		$this->assertCount( count( $group_ids ), $groups['groups'] );
 
 		unset( $groups );
 
@@ -791,7 +811,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		) );
 
 		// Should return top 12 groups only
-		$this->assertEquals( '12', count( $groups['groups'] ) );
+		$this->assertCount( 12, $groups['groups'] );
 	}
 
 	/**
@@ -927,7 +947,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 			'order' => 'DESC',
 			'orderby' => 'date_created',
 		);
-		$this->assertEquals( $expected, _BP_Groups_Group::_convert_type_to_order_orderby( 'newest' ) );
+		$this->assertSame( $expected, _BP_Groups_Group::_convert_type_to_order_orderby( 'newest' ) );
 	}
 
 	/**
@@ -938,7 +958,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 			'order' => 'DESC',
 			'orderby' => 'last_activity',
 		);
-		$this->assertEquals( $expected, _BP_Groups_Group::_convert_type_to_order_orderby( 'active' ) );
+		$this->assertSame( $expected, _BP_Groups_Group::_convert_type_to_order_orderby( 'active' ) );
 	}
 
 	/**
@@ -949,7 +969,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 			'order' => 'DESC',
 			'orderby' => 'total_member_count',
 		);
-		$this->assertEquals( $expected, _BP_Groups_Group::_convert_type_to_order_orderby( 'popular' ) );
+		$this->assertSame( $expected, _BP_Groups_Group::_convert_type_to_order_orderby( 'popular' ) );
 	}
 
 	/**
@@ -960,7 +980,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 			'order' => 'ASC',
 			'orderby' => 'name',
 		);
-		$this->assertEquals( $expected, _BP_Groups_Group::_convert_type_to_order_orderby( 'alphabetical' ) );
+		$this->assertSame( $expected, _BP_Groups_Group::_convert_type_to_order_orderby( 'alphabetical' ) );
 	}
 
 	/**
@@ -972,7 +992,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 			'order' => '',
 			'orderby' => 'random',
 		);
-		$this->assertEquals( $expected, _BP_Groups_Group::_convert_type_to_order_orderby( 'random' ) );
+		$this->assertSame( $expected, _BP_Groups_Group::_convert_type_to_order_orderby( 'random' ) );
 	}
 
 	/**
@@ -983,7 +1003,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 			'order' => '',
 			'orderby' => '',
 		);
-		$this->assertEquals( $expected, _BP_Groups_Group::_convert_type_to_order_orderby( 'foooooooooooooooobar' ) );
+		$this->assertSame( $expected, _BP_Groups_Group::_convert_type_to_order_orderby( 'foooooooooooooooobar' ) );
 	}
 
 	/** convert_orderby_to_order_by_term() **********************************/
@@ -992,7 +1012,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 * @group convert_orderby_to_order_by_term
 	 */
 	public function test_convert_orderby_to_order_by_term_date_created() {
-		$this->assertEquals( 'g.date_created', _BP_Groups_Group::_convert_orderby_to_order_by_term( 'date_created' ) );
+		$this->assertSame( 'g.date_created', _BP_Groups_Group::_convert_orderby_to_order_by_term( 'date_created' ) );
 	}
 
 	/**
@@ -1000,7 +1020,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 */
 	public function test_convert_orderby_to_order_by_term_last_activity() {
 		$c = new _BP_Groups_Group();
-		$this->assertEquals( 'gm_last_activity.meta_value', _BP_Groups_Group::_convert_orderby_to_order_by_term( 'last_activity' ) );
+		$this->assertSame( 'gm_last_activity.meta_value', _BP_Groups_Group::_convert_orderby_to_order_by_term( 'last_activity' ) );
 	}
 
 	/**
@@ -1008,7 +1028,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 */
 	public function test_convert_orderby_to_order_by_term_total_member_count() {
 		$c = new _BP_Groups_Group();
-		$this->assertEquals( 'CONVERT(gm_total_member_count.meta_value, SIGNED)', _BP_Groups_Group::_convert_orderby_to_order_by_term( 'total_member_count' ) );
+		$this->assertSame( 'CONVERT(gm_total_member_count.meta_value, SIGNED)', _BP_Groups_Group::_convert_orderby_to_order_by_term( 'total_member_count' ) );
 	}
 
 	/**
@@ -1016,7 +1036,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 */
 	public function test_convert_orderby_to_order_by_term_name() {
 		$c = new _BP_Groups_Group();
-		$this->assertEquals( 'g.name', _BP_Groups_Group::_convert_orderby_to_order_by_term( 'name' ) );
+		$this->assertSame( 'g.name', _BP_Groups_Group::_convert_orderby_to_order_by_term( 'name' ) );
 	}
 
 	/**
@@ -1024,7 +1044,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 */
 	public function test_convert_orderby_to_order_by_term_random() {
 		$c = new _BP_Groups_Group();
-		$this->assertEquals( 'rand()', _BP_Groups_Group::_convert_orderby_to_order_by_term( 'random' ) );
+		$this->assertSame( 'rand()', _BP_Groups_Group::_convert_orderby_to_order_by_term( 'random' ) );
 	}
 
 	/**
@@ -1032,7 +1052,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 */
 	public function test_convert_orderby_to_order_by_term_invalid_fallback_to_date_created() {
 		$c = new _BP_Groups_Group();
-		$this->assertEquals( _BP_Groups_Group::_convert_orderby_to_order_by_term( 'date_created' ), _BP_Groups_Group::_convert_orderby_to_order_by_term( 'I am a bad boy' ) );
+		$this->assertSame( _BP_Groups_Group::_convert_orderby_to_order_by_term( 'date_created' ), _BP_Groups_Group::_convert_orderby_to_order_by_term( 'I am a bad boy' ) );
 	}
 
 	/**
@@ -1059,7 +1079,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$groups = BP_Groups_Group::get( $args );
 
 		$found = wp_list_pluck( $groups['groups'], 'id' );
-		$this->assertEquals( array( $g2, $g1 ), $found );
+		$this->assertSame( array( $g2, $g1 ), $found );
 	}
 
 	/**
@@ -1084,7 +1104,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 
 		// Orderby meta_id should be ignored if no meta query is present.
 		$found = wp_list_pluck( $groups['groups'], 'id' );
-		$this->assertEquals( array( $g3, $g2, $g1 ), $found );
+		$this->assertSame( array( $g3, $g2, $g1 ), $found );
 	}
 
 	public function test_filter_user_groups_normal_search() {
@@ -1099,7 +1119,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$groups = BP_Groups_Group::filter_user_groups( 'Cool', $u );
 
 		$found = wp_list_pluck( $groups['groups'], 'group_id' );
-		$this->assertEquals( array( $g1 ), $found );
+		$this->assertSame( array( $g1 ), $found );
 	}
 
 	public function test_filter_user_groups_normal_search_middle_of_string() {
@@ -1114,7 +1134,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$groups = BP_Groups_Group::filter_user_groups( 'cello', $u );
 
 		$found = wp_list_pluck( $groups['groups'], 'group_id' );
-		$this->assertEquals( array( $g1 ), $found );
+		$this->assertSame( array( $g1 ), $found );
 	}
 
 	public function test_filter_user_groups_search_with_underscores() {
@@ -1131,7 +1151,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$groups = BP_Groups_Group::filter_user_groups( '_cool_', $u );
 
 		$found = wp_list_pluck( $groups['groups'], 'group_id' );
-		$this->assertEquals( array( $g1 ), $found );
+		$this->assertSame( array( $g1 ), $found );
 	}
 
 	public function test_filter_user_groups_search_with_percent_sign() {
@@ -1148,7 +1168,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$groups = BP_Groups_Group::filter_user_groups( '100%', $u );
 
 		$found = wp_list_pluck( $groups['groups'], 'group_id' );
-		$this->assertEquals( array( $g1 ), $found );
+		$this->assertSame( array( $g1 ), $found );
 	}
 
 	public function test_filter_user_groups_search_with_quotes() {
@@ -1167,7 +1187,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$found = wp_list_pluck( $groups['groups'], 'group_id' );
 
 		// @todo
-		//$this->assertEquals( array( $g1->id ), $found );
+		//$this->assertSame( array( $g1->id ), $found );
 
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete(
@@ -1185,7 +1205,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$groups = BP_Groups_Group::search_groups( 'Cool' );
 
 		$found = wp_list_pluck( $groups['groups'], 'group_id' );
-		$this->assertEquals( array( $g1 ), $found );
+		$this->assertSame( array( $g1 ), $found );
 	}
 
 	public function test_search_groups_search_with_underscores() {
@@ -1198,7 +1218,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$groups = BP_Groups_Group::search_groups( '_cool_' );
 
 		$found = wp_list_pluck( $groups['groups'], 'group_id' );
-		$this->assertEquals( array( $g1 ), $found );
+		$this->assertSame( array( $g1 ), $found );
 	}
 
 	public function test_search_groups_search_with_percent_sign() {
@@ -1211,7 +1231,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$groups = BP_Groups_Group::search_groups( '100%' );
 
 		$found = wp_list_pluck( $groups['groups'], 'group_id' );
-		$this->assertEquals( array( $g1 ), $found );
+		$this->assertSame( array( $g1 ), $found );
 	}
 
 	public function test_search_groups_search_with_quotes() {
@@ -1224,7 +1244,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$groups = BP_Groups_Group::search_groups( "'tis " );
 		$found  = wp_list_pluck( $groups['groups'], 'group_id' );
 
-		$this->assertEquals( array( $g1 ), $found );
+		$this->assertSame( array( $g1 ), $found );
 		$this->assertNotContains( $g2, $found );
 	}
 
@@ -1241,7 +1261,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$groups = BP_Groups_Group::get_by_letter( 'A', null, null, false );
 		$found  = wp_list_pluck( $groups['groups'], 'id' );
 
-		$this->assertEquals( array( $g1 ), $found );
+		$this->assertSame( array( $g1 ), $found );
 		$this->assertNotContains( $g2, $found );
 	}
 
@@ -1255,7 +1275,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$groups = BP_Groups_Group::get_by_letter( 'A' );
 		$found  = wp_list_pluck( $groups['groups'], 'id' );
 
-		$this->assertEquals( array( $g1 ), $found );
+		$this->assertSame( array( $g1 ), $found );
 		$this->assertNotContains( $g2, $found );
 	}
 
@@ -1272,7 +1292,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$groups = BP_Groups_Group::get_by_letter( 'A', null, null, true, array( $g1, 'stringthatshouldberemoved' ) );
 		$found  = wp_list_pluck( $groups['groups'], 'id' );
 
-		$this->assertEquals( array( $g2 ), $found );
+		$this->assertSame( array( $g2 ), $found );
 
 	}
 
@@ -1292,7 +1312,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 
 		// @todo
 		// The test fails but at least it's sanitized
-		//$this->assertEquals( array( $g1->id ), $found );
+		//$this->assertSame( array( $g1->id ), $found );
 
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete(
@@ -1311,7 +1331,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$groups = BP_Groups_Group::get_random( null, null, 0, false, false, array( $g1, 'ignore this' ) );
 		$found  = wp_list_pluck( $groups['groups'], 'id' );
 
-		$this->assertEquals( array( $g2 ), $found );
+		$this->assertSame( array( $g2 ), $found );
 	}
 
 	public function test_get_random_with_exclude() {
@@ -1323,7 +1343,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 
 		$found = wp_list_pluck( $groups['groups'], 'id' );
 
-		$this->assertEquals( array( $g2 ), $found );
+		$this->assertSame( array( $g2 ), $found );
 	}
 
 	public function test_get_random_with_search_terms() {
@@ -1338,7 +1358,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$groups = BP_Groups_Group::get_random( null, null, 0, 'daci' );
 		$found  = wp_list_pluck( $groups['groups'], 'id' );
 
-		$this->assertEquals( array( $g1 ), $found );
+		$this->assertSame( array( $g1 ), $found );
 		$this->assertNotContains( $g2, $found );
 	}
 
@@ -1389,22 +1409,23 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$paged_groups[0]->id = 5;
 		$paged_groups[1]->id = 10;
 
-		$group_ids = array( 5, 10 );
-
 		$expected = array();
 		foreach ( $paged_groups as $key => $value ) {
 			$expected[ $key ] = new stdClass;
 			$expected[ $key ]->id = $value->id;
-			$expected[ $key ]->is_member = '0';
-			$expected[ $key ]->is_invited = '0';
-			$expected[ $key ]->is_pending = '0';
+			$expected[ $key ]->is_member = 0;
+			$expected[ $key ]->is_invited = 0;
+			$expected[ $key ]->is_pending = 0;
 			$expected[ $key ]->is_banned = false;
 		}
 
 		$old_user = get_current_user_id();
 		wp_set_current_user( 0 );
 
-		$this->assertEquals( $expected, BP_Groups_Group::get_group_extras( $paged_groups, $group_ids ) );
+		$this->assertSame(
+			array_map( 'get_object_vars', $expected ),
+			array_map( 'get_object_vars', BP_Groups_Group::get_group_extras( $paged_groups ) )
+		);
 
 		wp_set_current_user( $old_user );
 	}
@@ -1420,22 +1441,23 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$paged_groups[] = new stdClass;
 		$paged_groups[0]->id = $g;
 
-		$group_ids = array( $g );
-
 		$expected = array();
 		foreach ( $paged_groups as $key => $value ) {
 			$expected[ $key ] = new stdClass;
 			$expected[ $key ]->id = $value->id;
-			$expected[ $key ]->is_member = '0';
-			$expected[ $key ]->is_invited = '0';
-			$expected[ $key ]->is_pending = '0';
+			$expected[ $key ]->is_member = 0;
+			$expected[ $key ]->is_invited = 0;
+			$expected[ $key ]->is_pending = 0;
 			$expected[ $key ]->is_banned = false;
 		}
 
 		$old_user = get_current_user_id();
 		wp_set_current_user( $u );
 
-		$this->assertEquals( $expected, BP_Groups_Group::get_group_extras( $paged_groups, $group_ids ) );
+		$this->assertSame(
+			array_map( 'get_object_vars', $expected ),
+			array_map( 'get_object_vars', BP_Groups_Group::get_group_extras( $paged_groups ) )
+		);
 
 		wp_set_current_user( $old_user );
 	}
@@ -1452,22 +1474,23 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$paged_groups[] = new stdClass;
 		$paged_groups[0]->id = $g;
 
-		$group_ids = array( $g );
-
 		$expected = array();
 		foreach ( $paged_groups as $key => $value ) {
 			$expected[ $key ] = new stdClass;
 			$expected[ $key ]->id = $value->id;
-			$expected[ $key ]->is_member = '1';
-			$expected[ $key ]->is_invited = '0';
-			$expected[ $key ]->is_pending = '0';
+			$expected[ $key ]->is_member = 1;
+			$expected[ $key ]->is_invited = 0;
+			$expected[ $key ]->is_pending = 0;
 			$expected[ $key ]->is_banned = false;
 		}
 
 		$old_user = get_current_user_id();
 		wp_set_current_user( $u );
 
-		$this->assertEquals( $expected, BP_Groups_Group::get_group_extras( $paged_groups, $group_ids ) );
+		$this->assertSame(
+			array_map( 'get_object_vars', $expected ),
+			array_map( 'get_object_vars', BP_Groups_Group::get_group_extras( $paged_groups ) )
+		);
 
 		wp_set_current_user( $old_user );
 	}
@@ -1492,22 +1515,23 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$paged_groups[] = new stdClass;
 		$paged_groups[0]->id = $g;
 
-		$group_ids = array( $g );
-
 		$expected = array();
 		foreach ( $paged_groups as $key => $value ) {
 			$expected[ $key ] = new stdClass;
 			$expected[ $key ]->id = $value->id;
-			$expected[ $key ]->is_member = '0';
-			$expected[ $key ]->is_invited = '1';
-			$expected[ $key ]->is_pending = '0';
+			$expected[ $key ]->is_member = 0;
+			$expected[ $key ]->is_invited = 1;
+			$expected[ $key ]->is_pending = 0;
 			$expected[ $key ]->is_banned = false;
 		}
 
 		$old_user = get_current_user_id();
 		wp_set_current_user( $u );
 
-		$this->assertEquals( $expected, BP_Groups_Group::get_group_extras( $paged_groups, $group_ids ) );
+		$this->assertSame(
+			array_map( 'get_object_vars', $expected ),
+			array_map( 'get_object_vars', BP_Groups_Group::get_group_extras( $paged_groups ) )
+		);
 
 		wp_set_current_user( $old_user );
 	}
@@ -1529,22 +1553,23 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$paged_groups[] = new stdClass;
 		$paged_groups[0]->id = $g;
 
-		$group_ids = array( $g );
-
 		$expected = array();
 		foreach ( $paged_groups as $key => $value ) {
 			$expected[ $key ] = new stdClass;
 			$expected[ $key ]->id = $value->id;
-			$expected[ $key ]->is_member = '0';
-			$expected[ $key ]->is_invited = '0';
-			$expected[ $key ]->is_pending = '1';
+			$expected[ $key ]->is_member = 0;
+			$expected[ $key ]->is_invited = 0;
+			$expected[ $key ]->is_pending = 1;
 			$expected[ $key ]->is_banned = false;
 		}
 
 		$old_user = get_current_user_id();
 		wp_set_current_user( $u );
 
-		$this->assertEquals( $expected, BP_Groups_Group::get_group_extras( $paged_groups, $group_ids ) );
+		$this->assertSame(
+			array_map( 'get_object_vars', $expected ),
+			array_map( 'get_object_vars', BP_Groups_Group::get_group_extras( $paged_groups ) )
+		);
 
 		wp_set_current_user( $old_user );
 	}
@@ -1567,22 +1592,23 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$paged_groups[] = new stdClass;
 		$paged_groups[0]->id = $g;
 
-		$group_ids = array( $g );
-
 		$expected = array();
 		foreach ( $paged_groups as $key => $value ) {
 			$expected[ $key ] = new stdClass;
 			$expected[ $key ]->id = $value->id;
-			$expected[ $key ]->is_member = '0';
-			$expected[ $key ]->is_invited = '0';
-			$expected[ $key ]->is_pending = '0';
+			$expected[ $key ]->is_member = 0;
+			$expected[ $key ]->is_invited = 0;
+			$expected[ $key ]->is_pending = 0;
 			$expected[ $key ]->is_banned = true;
 		}
 
 		$old_user = get_current_user_id();
 		wp_set_current_user( $u );
 
-		$this->assertEquals( $expected, BP_Groups_Group::get_group_extras( $paged_groups, $group_ids ) );
+		$this->assertSame(
+			array_map( 'get_object_vars', $expected ),
+			array_map( 'get_object_vars', BP_Groups_Group::get_group_extras( $paged_groups ) )
+		);
 
 		wp_set_current_user( $old_user );
 	}
@@ -1609,7 +1635,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 
 		$found_admin = $group->admins[0];
 		foreach ( $expected_admin_props as $prop => $value ) {
-			$this->assertEquals( $value, $found_admin->{$prop} );
+			$this->assertSame( $value, $found_admin->{$prop} );
 		}
 	}
 
@@ -1671,7 +1697,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 
 		$found_mod = $group->mods[0];
 		foreach ( $expected_mod_props as $prop => $value ) {
-			$this->assertEquals( $value, $found_mod->{$prop} );
+			$this->assertSame( $value, $found_mod->{$prop} );
 		}
 	}
 
@@ -1768,7 +1794,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		) );
 
 		$found = wp_list_pluck( $groups['groups'], 'id' );
-		$this->assertEquals( array( $g2 ), $found );
+		$this->assertSame( array( $g2 ), $found );
 	}
 
 	/**
@@ -1789,7 +1815,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		) );
 
 		$found = wp_list_pluck( $groups['groups'], 'id' );
-		$this->assertEquals( array( $g3 ), $found );
+		$this->assertSame( array( $g3 ), $found );
 	}
 
 	/**

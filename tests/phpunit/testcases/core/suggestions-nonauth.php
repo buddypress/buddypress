@@ -145,7 +145,7 @@ class BP_Tests_Suggestions_Non_Authenticated extends BP_UnitTestCase {
 			'term'     => 'smith',
 		) );
 		$this->assertFalse( is_wp_error( $suggestions ) );
-		$this->assertEquals( 2, count( $suggestions ) );  // aardvark, smith.
+		$this->assertCount( 2, $suggestions );  // aardvark, smith.
 
 		$suggestions = bp_core_get_suggestions( array(
 			'group_id' => -self::$group_ids['public'],
@@ -153,7 +153,7 @@ class BP_Tests_Suggestions_Non_Authenticated extends BP_UnitTestCase {
 			'term'     => 'smith',
 		) );
 		$this->assertFalse( is_wp_error( $suggestions ) );
-		$this->assertEquals( 1, count( $suggestions ) );  // zoom
+		$this->assertCount( 1, $suggestions );  // zoom
 	}
 
 	public function test_suggestions_with_type_groupmembers_private_and_exclude_group_from_results() {

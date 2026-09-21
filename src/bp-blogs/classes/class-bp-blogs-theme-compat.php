@@ -81,7 +81,7 @@ class BP_Blogs_Theme_Compat {
 	 * @since 1.8.0
 	 *
 	 * @param array $templates The templates from bp_get_theme_compat_templates().
-	 * @return array $templates Array of custom templates to look for.
+	 * @return array Array of custom templates to look for.
 	 */
 	public function directory_template_hierarchy( $templates ) {
 
@@ -151,7 +151,7 @@ class BP_Blogs_Theme_Compat {
 	 * @since 1.8.0
 	 *
 	 * @param array $templates The templates from bp_get_theme_compat_templates().
-	 * @return array $templates Array of custom templates to look for.
+	 * @return array Array of custom templates to look for.
 	 */
 	public function create_template_hierarchy( $templates ) {
 

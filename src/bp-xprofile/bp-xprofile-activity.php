@@ -17,7 +17,6 @@ defined( 'ABSPATH' ) || exit;
  * Register the activity actions for the Extended Profile component.
  *
  * @since 1.0.0
- *
  */
 function xprofile_register_activity_actions() {
 
@@ -80,7 +79,7 @@ function bp_xprofile_format_activity_action_updated_profile( $action, $activity 
  *
  * @since 1.0.0
  *
- * @param array|string $args String containing all variables used after bp_parse_args() call.
+ * @param array|string $args Optional. String containing all variables used after bp_parse_args() call.
  * @return WP_Error|bool|int
  */
 function xprofile_record_activity( $args = '' ) {
@@ -116,16 +115,13 @@ function xprofile_record_activity( $args = '' ) {
  *
  * @since 1.0.0
  *
- *                            for a specific activity.
- *
- * @param array|string $args Containing all variables used after bp_parse_args() call.
- * @return bool
+ * @param array|string $args Optional. Containing all variables used after bp_parse_args() call.
  */
 function xprofile_delete_activity( $args = '' ) {
 
 	// Bail if activity component is not active.
 	if ( ! bp_is_active( 'activity' ) ) {
-		return false;
+		return;
 	}
 
 	// Parse the arguments.
@@ -138,7 +134,7 @@ function xprofile_delete_activity( $args = '' ) {
 	);
 
 	// Delete the activity item.
-	bp_activity_delete_by_item_id( $r );
+	bp_activity_delete( $r );
 }
 
 /**
@@ -175,10 +171,10 @@ function xprofile_register_activity_action( $key, $value ) {
  * @since 2.0.0
  *
  * @param int   $user_id    ID of the user who has updated his profile.
- * @param array $field_ids  IDs of the fields submitted.
- * @param bool  $errors     True if validation or saving errors occurred, otherwise false.
- * @param array $old_values Pre-save xprofile field values and visibility levels.
- * @param array $new_values Post-save xprofile field values and visibility levels.
+ * @param array $field_ids  Optional. IDs of the fields submitted.
+ * @param bool  $errors     Optional. True if validation or saving errors occurred, otherwise false.
+ * @param array $old_values Optional. Pre-save xprofile field values and visibility levels.
+ * @param array $new_values Optional. Post-save xprofile field values and visibility levels.
  * @return bool
  */
 function bp_xprofile_updated_profile_activity( $user_id, $field_ids = array(), $errors = false, $old_values = array(), $new_values = array() ) {
@@ -220,14 +216,16 @@ function bp_xprofile_updated_profile_activity( $user_id, $field_ids = array(), $
 	}
 
 	// Throttle to one activity of this type per 2 hours.
-	$existing = bp_activity_get( array(
-		'max'    => 1,
-		'filter' => array(
-			'user_id' => $user_id,
-			'object'  => buddypress()->profile->id,
-			'action'  => 'updated_profile',
-		),
-	) );
+	$existing = bp_activity_get(
+		array(
+			'max'    => 1,
+			'filter' => array(
+				'user_id' => $user_id,
+				'object'  => buddypress()->profile->id,
+				'action'  => 'updated_profile',
+			),
+		)
+	);
 
 	// Default throttle time is 2 hours. Filter to change (in seconds).
 	if ( ! empty( $existing['activities'] ) ) {
@@ -255,12 +253,14 @@ function bp_xprofile_updated_profile_activity( $user_id, $field_ids = array(), $
 		bp_members_get_path_chunks( array( bp_get_profile_slug() ) )
 	);
 
-	return (bool) xprofile_record_activity( array(
-		'user_id'      => $user_id,
-		'primary_link' => $profile_link,
-		'component'    => buddypress()->profile->id,
-		'type'         => 'updated_profile',
-	) );
+	return (bool) xprofile_record_activity(
+		array(
+			'user_id'      => $user_id,
+			'primary_link' => $profile_link,
+			'component'    => buddypress()->profile->id,
+			'type'         => 'updated_profile',
+		)
+	);
 }
 add_action( 'xprofile_updated_profile', 'bp_xprofile_updated_profile_activity', 10, 5 );
 
@@ -273,7 +273,7 @@ add_action( 'xprofile_updated_profile', 'bp_xprofile_updated_profile_activity', 
 function xprofile_activity_filter_options() {
 	?>
 
-	<option value="updated_profile"><?php esc_html_e( 'Profile Updates', 'buddypress' ) ?></option>
+	<option value="updated_profile"><?php esc_html_e( 'Profile Updates', 'buddypress' ); ?></option>
 
 	<?php
 }

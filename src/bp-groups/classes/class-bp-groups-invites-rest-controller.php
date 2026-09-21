@@ -868,8 +868,8 @@ class BP_Groups_Invites_REST_Controller extends WP_REST_Controller {
 	 *
 	 * @since 15.0.0
 	 *
-	 * @param int $invite_id The ID of the invitation you wish to fetch.
-	 * @return BP_Invitation|bool $invite Invitation if found, false otherwise.
+	 * @param int $invite_id Optional. The ID of the invitation you wish to fetch.
+	 * @return BP_Invitation|bool Invitation if found, false otherwise.
 	 */
 	public function fetch_single_invite( $invite_id = 0 ) {
 		$invites = groups_get_invites( array( 'id' => $invite_id ) );
@@ -917,6 +917,16 @@ class BP_Groups_Invites_REST_Controller extends WP_REST_Controller {
 
 		/**
 		 * Filters the method query arguments.
+		 *
+		 * The dynamic portion of the hook name, `$key`, refers to the REST API operation whose query arguments
+		 * are being filtered.
+		 *
+		 * Possible hook names include:
+		 *
+		 *  - `bp_rest_group_invites_get_item_query_arguments`
+		 *  - `bp_rest_group_invites_create_item_query_arguments`
+		 *  - `bp_rest_group_invites_update_item_query_arguments`
+		 *  - `bp_rest_group_invites_delete_item_query_arguments`
 		 *
 		 * @since 15.0.0
 		 *

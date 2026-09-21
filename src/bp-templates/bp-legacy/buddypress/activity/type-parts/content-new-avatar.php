@@ -4,9 +4,12 @@
  *
  * This template is only used to display the `new_avatar` activity type content.
  *
+ * @package BuddyPress
+ * @subpackage bp-legacy
  * @since 10.0.0
  * @version 10.0.0
  */
+
 ?>
 <div class="bp-member-activity-preview">
 
@@ -36,7 +39,7 @@
 		</p>
 
 		<div class="bp-profile-button">
-			<a href="<?php bp_activity_generated_content_part( 'user_url' ); ?>" class="button large primary button-primary" role="button"><?php esc_html_e( 'View Profile', 'buddypress'); ?></a>
+			<a href="<?php bp_activity_generated_content_part( 'user_url' ); ?>" class="button large primary button-primary" role="button"><?php esc_html_e( 'View Profile', 'buddypress' ); ?></a>
 		</div>
 	</div>
 </div>

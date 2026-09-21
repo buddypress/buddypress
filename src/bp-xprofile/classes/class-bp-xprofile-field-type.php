@@ -166,7 +166,6 @@ abstract class BP_XProfile_Field_Type {
 	 * @deprecated 7.0.0 Use set_allowed_values() instead.
 	 *
 	 * @param string|array $values Whitelisted values.
-	 * @return BP_XProfile_Field_Type
 	 */
 	public function set_whitelist_values( $values ) {
 		_deprecated_function( __METHOD__, '7.0.0', 'BP_XProfile_Field_Type::set_allowed_values()' );
@@ -342,12 +341,12 @@ abstract class BP_XProfile_Field_Type {
 	 *                          field's child options.
 	 */
 	public function admin_new_field_html( BP_XProfile_Field $current_field, $control_type = '' ) {
-		$type = array_search( get_class( $this ), bp_xprofile_get_field_types() );
+		$type = array_search( get_class( $this ), bp_xprofile_get_field_types(), true );
 		if ( false === $type ) {
 			return;
 		}
 
-		$class            = $current_field->type != $type ? 'display: none;' : '';
+		$class            = $current_field->type !== $type ? 'display: none;' : '';
 		$current_type_obj = bp_xprofile_create_field_type( $type );
 		?>
 
@@ -357,9 +356,9 @@ abstract class BP_XProfile_Field_Type {
 				<p>
 					<label for="sort_order_<?php echo esc_attr( $type ); ?>"><?php esc_html_e( 'Sort Order:', 'buddypress' ); ?></label>
 					<select name="sort_order_<?php echo esc_attr( $type ); ?>" id="sort_order_<?php echo esc_attr( $type ); ?>" >
-						<option value="custom" <?php selected( 'custom', $current_field->order_by ); ?>><?php esc_html_e( 'Custom',     'buddypress' ); ?></option>
-						<option value="asc"    <?php selected( 'asc',    $current_field->order_by ); ?>><?php esc_html_e( 'Ascending',  'buddypress' ); ?></option>
-						<option value="desc"   <?php selected( 'desc',   $current_field->order_by ); ?>><?php esc_html_e( 'Descending', 'buddypress' ); ?></option>
+						<option value="custom" <?php selected( 'custom', $current_field->order_by ); ?>><?php esc_html_e( 'Custom', 'buddypress' ); ?></option>
+						<option value="asc"    <?php selected( 'asc', $current_field->order_by ); ?>><?php esc_html_e( 'Ascending', 'buddypress' ); ?></option>
+						<option value="desc"   <?php selected( 'desc', $current_field->order_by ); ?>><?php esc_html_e( 'Descending', 'buddypress' ); ?></option>
 					</select>
 				</p>
 
@@ -421,10 +420,12 @@ abstract class BP_XProfile_Field_Type {
 
 						<div id="<?php echo esc_attr( "{$type}_div{$j}" ); ?>" class="bp-option sortable">
 							<span class="bp-option-icon grabber"></span>
-							<label for="<?php echo esc_attr( "{$type}_option{$j}" ); ?>" class="screen-reader-text"><?php
+							<label for="<?php echo esc_attr( "{$type}_option{$j}" ); ?>" class="screen-reader-text">
+							<?php
 								/* translators: accessibility text */
 								esc_html_e( 'Add an option', 'buddypress' );
-							?></label>
+							?>
+							</label>
 							<input type="text" name="<?php echo esc_attr( "{$type}_option[{$j}]" ); ?>" id="<?php echo esc_attr( "{$type}_option{$j}" ); ?>" value="<?php echo esc_attr( stripslashes( $options[ $i ]->name ) ); ?>" />
 							<label for="<?php echo esc_attr( "{$type}_option{$default_name}" ); ?>">
 								<input type="<?php echo esc_attr( $control_type ); ?>" id="<?php echo esc_attr( "{$type}_option{$default_name}" ); ?>" name="<?php echo esc_attr( "isDefault_{$type}_option{$default_name}" ); ?>" <?php checked( $options[ $i ]->is_default_option, true ); ?> value="<?php echo esc_attr( $j ); ?>" />
@@ -456,7 +457,8 @@ abstract class BP_XProfile_Field_Type {
 				 *
 				 * @param BP_XProfile_Field $current_field Current field being rendered.
 				 */
-				do_action( 'bp_xprofile_admin_new_field_additional_settings', $current_field ) ?>
+				do_action( 'bp_xprofile_admin_new_field_additional_settings', $current_field )
+				?>
 			</div>
 		</div>
 
@@ -480,12 +482,12 @@ abstract class BP_XProfile_Field_Type {
 	 *
 	 * @since 2.1.0
 	 * @since 2.4.0 Added the `$field_id` parameter.
+	 * @since 15.0.0 The `$field_id` parameter was removed since it was unused.
 	 *
-	 * @param mixed      $field_value Submitted field value.
-	 * @param string|int $field_id    Optional. ID of the field.
+	 * @param mixed $field_value Submitted field value.
 	 * @return mixed
 	 */
-	public static function pre_validate_filter( $field_value, $field_id = '' ) {
+	public static function pre_validate_filter( $field_value ) {
 		return $field_value;
 	}
 
@@ -498,12 +500,12 @@ abstract class BP_XProfile_Field_Type {
 	 *
 	 * @since 2.1.0
 	 * @since 2.4.0 Added `$field_id` parameter.
+	 * @since 15.0.0 The `$field_id` parameter was removed since it was unused.
 	 *
-	 * @param mixed      $field_value Field value.
-	 * @param string|int $field_id    ID of the field.
+	 * @param mixed $field_value Field value.
 	 * @return mixed
 	 */
-	public static function display_filter( $field_value, $field_id = '' ) {
+	public static function display_filter( $field_value ) {
 		return $field_value;
 	}
 

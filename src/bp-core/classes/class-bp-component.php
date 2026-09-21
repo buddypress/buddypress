@@ -251,11 +251,11 @@ class BP_Component {
 	 * @since 2.4.0 Added $params['search_query_arg'] as a configurable value.
 	 * @since 14.3.0 Changed the `$name` parameter's description.
 	 *
-	 * @param string $id   Unique ID. Letters, numbers, and underscores only.
-	 * @param string $name Unique raw name for the component (do not use translatable strings).
-	 * @param string $path The file path for the component's files. Used by {@link BP_Component::includes()}.
+	 * @param string $id   Optional. Unique ID. Letters, numbers, and underscores only.
+	 * @param string $name Optional. Unique raw name for the component (do not use translatable strings).
+	 * @param string $path Optional. The file path for the component's files. Used by {@link BP_Component::includes()}.
 	 * @param array  $params {
-	 *     Additional parameters used by the component.
+	 *     Optional. Additional parameters used by the component.
 	 *     @type int    $adminbar_myaccount_order Set the position for our menu under the WP Toolbar's "My Account menu".
 	 *     @type array  $features                 An array of feature names. This is used to load additional files from your
 	 *                                            component directory and for feature active checks. eg. array( 'awesome' )
@@ -360,14 +360,28 @@ class BP_Component {
 			/**
 			 * Filters the slug to be used for the permalink URI chunk after root.
 			 *
+			 * The dynamic portion of the hook name, `$this->id`, refers to the component ID.
+			 *
+			 * Possible hook names include:
+			 *
+			 *  - `bp_activity_slug`
+			 *  - `bp_groups_slug`
+			 *
 			 * @since 1.5.0
 			 *
-			 * @param string $value Slug to use in permalink URI chunk.
+			 * @param string $slug Slug to use in permalink URI chunk.
 			 */
 			$this->slug = apply_filters( 'bp_' . $this->id . '_slug', $r['slug'] );
 
 			/**
 			 * Filters the slug used for root directory.
+			 *
+			 * The dynamic portion of the hook name, `$this->id`, refers to the component ID.
+			 *
+			 * Possible hook names include:
+			 *
+			 *  - `bp_activity_root_slug`
+			 *  - `bp_groups_root_slug`
 			 *
 			 * @since 1.5.0
 			 *
@@ -378,6 +392,13 @@ class BP_Component {
 			/**
 			 * Filters the component's top-level directory if available.
 			 *
+			 * The dynamic portion of the hook name, `$this->id`, refers to the component ID.
+			 *
+			 * Possible hook names include:
+			 *
+			 *  - `bp_activity_has_directory`
+			 *  - `bp_groups_has_directory`
+			 *
 			 * @since 1.5.0
 			 *
 			 * @param bool $value Whether or not there is a top-level directory.
@@ -387,6 +408,13 @@ class BP_Component {
 			$rewrite_ids = bp_parse_args(
 				/**
 				 * Filters the component's rewrite IDs if available.
+				 *
+				 * The dynamic portion of the hook name, `$this->id`, refers to the component ID.
+				 *
+				 * Possible hook names include:
+				 *
+				 *  - `bp_activity_rewrite_ids`
+				 *  - `bp_groups_rewrite_ids`
 				 *
 				 * @since 12.0.0
 				 *
@@ -414,6 +442,13 @@ class BP_Component {
 			/**
 			 * Filters the component's directory title.
 			 *
+			 * The dynamic portion of the hook name, `$this->id`, refers to the component ID.
+			 *
+			 * Possible hook names include:
+			 *
+			 *  - `bp_activity_directory_title`
+			 *  - `bp_groups_directory_title`
+			 *
 			 * @since 2.0.0
 			 *
 			 * @param string $value Title to use for the directory.
@@ -423,6 +458,13 @@ class BP_Component {
 			/**
 			 * Filters the placeholder text for search inputs for component.
 			 *
+			 * The dynamic portion of the hook name, `$this->id`, refers to the component ID.
+			 *
+			 * Possible hook names include:
+			 *
+			 *  - `bp_activity_search_string`
+			 *  - `bp_groups_search_string`
+			 *
 			 * @since 1.5.0
 			 *
 			 * @param string $value Name to use in search input placeholders.
@@ -431,6 +473,13 @@ class BP_Component {
 
 			/**
 			 * Filters the callable function that formats the component's notifications.
+			 *
+			 * The dynamic portion of the hook name, `$this->id`, refers to the component ID.
+			 *
+			 * Possible hook names include:
+			 *
+			 *  - `bp_activity_notification_callback`
+			 *  - `bp_groups_notification_callback`
 			 *
 			 * @since 1.5.0
 			 *
@@ -455,6 +504,13 @@ class BP_Component {
 		/**
 		 * Filters the $blocks global value.
 		 *
+		 * The dynamic portion of the hook name, `$this->id`, refers to the component ID.
+		 *
+		 * Possible hook names include:
+		 *
+		 *  - `bp_activity_block_globals`
+		 *  - `bp_groups_block_globals`
+		 *
 		 * @since 9.0.0
 		 *
 		 * @param array $blocks a list of global properties for blocks keyed
@@ -476,7 +532,12 @@ class BP_Component {
 		/**
 		 * Fires at the end of the setup_globals method inside BP_Component.
 		 *
-		 * This is a dynamic hook that is based on the component string ID.
+		 * The dynamic portion of the hook name, `$this->id`, refers to the component ID.
+		 *
+		 * Possible hook names include:
+		 *
+		 *  - `bp_activity_setup_globals`
+		 *  - `bp_groups_setup_globals`
 		 *
 		 * @since 1.5.0
 		 */
@@ -508,7 +569,7 @@ class BP_Component {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @param array $includes An array of file names, or file name chunks,
+	 * @param array $includes Optional. An array of file names, or file name chunks,
 	 *                        to be parsed and then included.
 	 */
 	public function includes( $includes = array() ) {
@@ -546,7 +607,12 @@ class BP_Component {
 		/**
 		 * Fires at the end of the includes method inside BP_Component.
 		 *
-		 * This is a dynamic hook that is based on the component string ID.
+		 * The dynamic portion of the hook name, `$this->id`, refers to the component ID.
+		 *
+		 * Possible hook names include:
+		 *
+		 *  - `bp_activity_includes`
+		 *  - `bp_groups_includes`
 		 *
 		 * @since 1.5.0
 		 */
@@ -639,7 +705,12 @@ class BP_Component {
 		/**
 		 * Fires at the end of the setup_actions method inside BP_Component.
 		 *
-		 * This is a dynamic hook that is based on the component string ID.
+		 * The dynamic portion of the hook name, `$this->id`, refers to the component ID.
+		 *
+		 * Possible hook names include:
+		 *
+		 *  - `bp_activity_setup_actions`
+		 *  - `bp_groups_setup_actions`
 		 *
 		 * @since 1.5.0
 		 */
@@ -809,7 +880,12 @@ class BP_Component {
 		/**
 		 * Fires at the end of the setup_nav method inside BP_Component.
 		 *
-		 * This is a dynamic hook that is based on the component string ID.
+		 * The dynamic portion of the hook name, `$this->id`, refers to the component ID.
+		 *
+		 * Possible hook names include:
+		 *
+		 *  - `bp_activity_setup_nav`
+		 *  - `bp_core_setup_nav`
 		 *
 		 * @since 1.5.0
 		 */
@@ -826,7 +902,7 @@ class BP_Component {
 	 *
 	 * @global WP_Admin_Bar $wp_admin_bar WordPress object implementing a Toolbar API.
 	 *
-	 * @param array $wp_admin_nav An array of nav item arguments. Each item in this parameter
+	 * @param array $wp_admin_nav Optional. An array of nav item arguments. Each item in this parameter
 	 *                            array is passed to {@link WP_Admin_Bar::add_menu()}.
 	 *                            See that method for a description of the required syntax for
 	 *                            each item.
@@ -842,7 +918,12 @@ class BP_Component {
 		/**
 		 * Filters the admin navigation passed into setup_admin_bar.
 		 *
-		 * This is a dynamic hook that is based on the component string ID.
+		 * The dynamic portion of the hook name, `$this->id`, refers to the component ID.
+		 *
+		 * Possible hook names include:
+		 *
+		 *  - `bp_activity_admin_nav`
+		 *  - `bp_groups_admin_nav`
 		 *
 		 * @since 1.9.0
 		 *
@@ -887,7 +968,12 @@ class BP_Component {
 		/**
 		 * Fires at the end of the setup_admin_bar method inside BP_Component.
 		 *
-		 * This is a dynamic hook that is based on the component string ID.
+		 * The dynamic portion of the hook name, `$this->id`, refers to the component ID.
+		 *
+		 * Possible hook names include:
+		 *
+		 *  - `bp_activity_setup_admin_bar`
+		 *  - `bp_groups_setup_admin_bar`
 		 *
 		 * @since 1.5.0
 		 */
@@ -904,7 +990,12 @@ class BP_Component {
 		/**
 		 * Fires in the setup_title method inside BP_Component.
 		 *
-		 * This is a dynamic hook that is based on the component string ID.
+		 * The dynamic portion of the hook name, `$this->id`, refers to the component ID.
+		 *
+		 * Possible hook names include:
+		 *
+		 *  - `bp_activity_setup_title`
+		 *  - `bp_groups_setup_title`
 		 *
 		 * @since 1.5.0
 		 */
@@ -921,7 +1012,12 @@ class BP_Component {
 		/**
 		 * Fires in the setup_cache_groups method inside BP_Component.
 		 *
-		 * This is a dynamic hook that is based on the component string ID.
+		 * The dynamic portion of the hook name, `$this->id`, refers to the component ID.
+		 *
+		 * Possible hook names include:
+		 *
+		 *  - `bp_activity_setup_cache_groups`
+		 *  - `bp_groups_setup_cache_groups`
 		 *
 		 * @since 2.2.0
 		 */
@@ -933,16 +1029,22 @@ class BP_Component {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param array $tables Table names to register.
+	 * @param array $tables Optional. Table names to register.
 	 */
 	public function register_global_tables( $tables = array() ) {
 
 		/**
 		 * Filters the global tables for the component, so that it may use WordPress' database API.
 		 *
-		 * This is a dynamic hook that is based on the component string ID.
 		 * It allows for component-specific filtering of table names. To filter
 		 * *all* tables, use the 'bp_core_get_table_prefix' filter instead.
+		 *
+		 * The dynamic portion of the hook name, `$this->id`, refers to the component ID.
+		 *
+		 * Possible hook names include:
+		 *
+		 *  - `bp_activity_global_tables`
+		 *  - `bp_groups_global_tables`
 		 *
 		 * @since 1.6.0
 		 */
@@ -961,7 +1063,12 @@ class BP_Component {
 		/**
 		 * Fires at the end of the register_global_tables method inside BP_Component.
 		 *
-		 * This is a dynamic hook that is based on the component string ID.
+		 * The dynamic portion of the hook name, `$this->id`, refers to the component ID.
+		 *
+		 * Possible hook names include:
+		 *
+		 *  - `bp_activity_register_global_tables`
+		 *  - `bp_groups_register_global_tables`
 		 *
 		 * @since 2.0.0
 		 */
@@ -976,7 +1083,7 @@ class BP_Component {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param array $tables Table names to register.
+	 * @param array $tables Optional. Table names to register.
 	 */
 	public function register_meta_tables( $tables = array() ) {
 		global $wpdb;
@@ -984,9 +1091,15 @@ class BP_Component {
 		/**
 		 * Filters the global meta_tables for the component.
 		 *
-		 * This is a dynamic hook that is based on the component string ID.
 		 * It allows for component-specific filtering of table names. To filter
 		 * *all* tables, use the 'bp_core_get_table_prefix' filter instead.
+		 *
+		 * The dynamic portion of the hook name, `$this->id`, refers to the component ID.
+		 *
+		 * Possible hook names include:
+		 *
+		 *  - `bp_activity_meta_tables`
+		 *  - `bp_groups_meta_tables`
 		 *
 		 * @since 2.0.0
 		 */
@@ -1008,7 +1121,12 @@ class BP_Component {
 		/**
 		 * Fires at the end of the register_meta_tables method inside BP_Component.
 		 *
-		 * This is a dynamic hook that is based on the component string ID.
+		 * The dynamic portion of the hook name, `$this->id`, refers to the component ID.
+		 *
+		 * Possible hook names include:
+		 *
+		 *  - `bp_activity_register_meta_tables`
+		 *  - `bp_groups_register_meta_tables`
 		 *
 		 * @since 2.0.0
 		 */
@@ -1025,7 +1143,12 @@ class BP_Component {
 		/**
 		 * Fires in the register_post_types method inside BP_Component.
 		 *
-		 * This is a dynamic hook that is based on the component string ID.
+		 * The dynamic portion of the hook name, `$this->id`, refers to the component ID.
+		 *
+		 * Possible hook names include:
+		 *
+		 *  - `bp_activity_register_post_types`
+		 *  - `bp_groups_register_post_types`
 		 *
 		 * @since 1.5.0
 		 */
@@ -1042,7 +1165,12 @@ class BP_Component {
 		/**
 		 * Fires in the `register_post_statuses` method inside BP_Component.
 		 *
-		 * This is a dynamic hook that is based on the component string ID.
+		 * The dynamic portion of the hook name, `$this->id`, refers to the component ID.
+		 *
+		 * Possible hook names include:
+		 *
+		 *  - `bp_activity_register_post_statuses`
+		 *  - `bp_groups_register_post_statuses`
 		 *
 		 * @since 12.0.0
 		 */
@@ -1059,7 +1187,12 @@ class BP_Component {
 		/**
 		 * Fires in the register_taxonomies method inside BP_Component.
 		 *
-		 * This is a dynamic hook that is based on the component string ID.
+		 * The dynamic portion of the hook name, `$this->id`, refers to the component ID.
+		 *
+		 * Possible hook names include:
+		 *
+		 *  - `bp_activity_register_taxonomies`
+		 *  - `bp_groups_register_taxonomies`
 		 *
 		 * @since 1.5.0
 		 */
@@ -1072,7 +1205,7 @@ class BP_Component {
 	 * @since 1.5.0
 	 * @since 12.0.0 Adds the `$rewrite_tags` parameter.
 	 *
-	 * @param array $rewrite_tags Array of arguments list used to add WordPress rewrite tags.
+	 * @param array $rewrite_tags Optional. Array of arguments list used to add WordPress rewrite tags.
 	 *                            Each argument key needs to match one of `$this->rewrite_ids` keys.
 	 */
 	public function add_rewrite_tags( $rewrite_tags = array() ) {
@@ -1100,7 +1233,12 @@ class BP_Component {
 		/**
 		 * Fires in the add_rewrite_tags method inside BP_Component.
 		 *
-		 * This is a dynamic hook that is based on the component string ID.
+		 * The dynamic portion of the hook name, `$this->id`, refers to the component ID.
+		 *
+		 * Possible hook names include:
+		 *
+		 *  - `bp_activity_add_rewrite_tags`
+		 *  - `bp_groups_add_rewrite_tags`
 		 *
 		 * @since 1.5.0
 		 */
@@ -1114,7 +1252,7 @@ class BP_Component {
 	 * @since 12.0.0 Adds the `$rewrite_rules` parameter.
 	 *
 	 * @param array $rewrite_rules {
-	 *     Array of associative arrays of arguments list used to add WordPress rewrite rules.
+	 *     Optional. Array of associative arrays of arguments list used to add WordPress rewrite rules.
 	 *     Each associative array needs to include the following keys.
 	 *
 	 *     @type string $regex    Regular expression to match request against. Required.
@@ -1182,7 +1320,12 @@ class BP_Component {
 		/**
 		 * Fires in the add_rewrite_rules method inside BP_Component.
 		 *
-		 * This is a dynamic hook that is based on the component string ID.
+		 * The dynamic portion of the hook name, `$this->id`, refers to the component ID.
+		 *
+		 * Possible hook names include:
+		 *
+		 *  - `bp_activity_add_rewrite_rules`
+		 *  - `bp_groups_add_rewrite_rules`
 		 *
 		 * @since 1.9.0
 		 */
@@ -1196,7 +1339,7 @@ class BP_Component {
 	 * @since 12.0.0 Adds the `$permastructs` parameter.
 	 *
 	 * @param array $permastructs {
-	 *      Array of associative arrays of arguments list used to register WordPress additional permalink structures.
+	 *      Optional. Array of associative arrays of arguments list used to register WordPress additional permalink structures.
 	 *      Each array enty is keyed with the permalink structure.
 	 *      Each associative array needs to include the following keys.
 	 *
@@ -1248,7 +1391,12 @@ class BP_Component {
 		/**
 		 * Fires in the add_permastructs method inside BP_Component.
 		 *
-		 * This is a dynamic hook that is based on the component string ID.
+		 * The dynamic portion of the hook name, `$this->id`, refers to the component ID.
+		 *
+		 * Possible hook names include:
+		 *
+		 *  - `bp_activity_add_permastructs`
+		 *  - `bp_groups_add_permastructs`
 		 *
 		 * @since 1.9.0
 		 */
@@ -1264,13 +1412,23 @@ class BP_Component {
 	 */
 	public function parse_query( $query ) {
 		if ( is_buddypress() && 'rewrites' === bp_core_get_query_parser() ) {
+			// 'is_home' should always be false when on a BP page.
+			if ( $query->is_main_query() ) {
+				$query->is_home = false;
+			}
+
 			add_filter( 'posts_pre_query', array( $this, 'pre_query' ), 10, 2 );
 		}
 
 		/**
 		 * Fires in the parse_query method inside BP_Component.
 		 *
-		 * This is a dynamic hook that is based on the component string ID.
+		 * The dynamic portion of the hook name, `$this->id`, refers to the component ID.
+		 *
+		 * Possible hook names include:
+		 *
+		 *  - `bp_activity_parse_query`
+		 *  - `bp_groups_parse_query`
 		 *
 		 * @since 1.9.0
 		 *
@@ -1284,8 +1442,8 @@ class BP_Component {
 	 *
 	 * @since 12.0.0
 	 *
-	 * @param  null     $posts A null value to use the regular WP Query.
-	 * @param  WP_Query $query The WP Query object.
+	 * @param  null     $posts Optional. A null value to use the regular WP Query.
+	 * @param  WP_Query $query Optional. The WP Query object.
 	 * @return null|array Null if not displaying a BuddyPress page.
 	 *                    An array containing the BuddyPress directory page otherwise.
 	 */
@@ -1324,7 +1482,7 @@ class BP_Component {
 				 *
 				 * @since 12.0.0
 				 *
-				 * @param false Whether the user should be redirected to the site login screen.
+				 * @param bool $do_redirect_to_login_screen Whether the user should be redirected to the site login screen.
 				 */
 				$do_redirect_to_login_screen = apply_filters( 'bp_view_no_access_redirect_to_login_screen', false );
 				if ( true === $do_redirect_to_login_screen && ! is_user_logged_in() ) {
@@ -1394,7 +1552,12 @@ class BP_Component {
 		/**
 		 * Fires in the generate_rewrite_rules method inside BP_Component.
 		 *
-		 * This is a dynamic hook that is based on the component string ID.
+		 * The dynamic portion of the hook name, `$this->id`, refers to the component ID.
+		 *
+		 * Possible hook names include:
+		 *
+		 *  - `bp_activity_generate_rewrite_rules`
+		 *  - `bp_groups_generate_rewrite_rules`
 		 *
 		 * @since 1.5.0
 		 */
@@ -1406,7 +1569,7 @@ class BP_Component {
 	 *
 	 * @since 5.0.0
 	 *
-	 * @param array $controllers The list of BP REST controllers to load.
+	 * @param array $controllers Optional. The list of BP REST controllers to load.
 	 */
 	public function rest_api_init( $controllers = array() ) {
 		if ( is_array( $controllers ) && $controllers ) {
@@ -1417,7 +1580,12 @@ class BP_Component {
 			 * Use this filter to disable all or some REST API controllers
 			 * for the component.
 			 *
-			 * This is a dynamic hook that is based on the component string ID.
+			 * The dynamic portion of the hook name, `$this->id`, refers to the component ID.
+			 *
+			 * Possible hook names include:
+			 *
+			 *  - `bp_activity_rest_api_controllers`
+			 *  - `bp_groups_rest_api_controllers`
 			 *
 			 * @since 5.0.0
 			 *
@@ -1450,7 +1618,12 @@ class BP_Component {
 		/**
 		 * Fires in the rest_api_init method inside BP_Component.
 		 *
-		 * This is a dynamic hook that is based on the component string ID.
+		 * The dynamic portion of the hook name, `$this->id`, refers to the component ID.
+		 *
+		 * Possible hook names include:
+		 *
+		 *  - `bp_activity_rest_api_init`
+		 *  - `bp_groups_rest_api_init`
 		 *
 		 * @since 5.0.0
 		 */
@@ -1464,13 +1637,18 @@ class BP_Component {
 	 *
 	 * @see `BP_Block->construct()` for a full description of a BP Block arguments.
 	 *
-	 * @param array $blocks The list of BP Blocks to register.
+	 * @param array $blocks Optional. The list of BP Blocks to register.
 	 */
 	public function blocks_init( $blocks = array() ) {
 		/**
 		 * Filter here to add new BP Blocks, disable some or all BP Blocks for a component.
 		 *
-		 * This is a dynamic hook that is based on the component string ID.
+		 * The dynamic portion of the hook name, `$this->id`, refers to the component ID.
+		 *
+		 * Possible hook names include:
+		 *
+		 *  - `bp_activity_register_blocks`
+		 *  - `bp_groups_register_blocks`
 		 *
 		 * @since 6.0.0
 		 *
@@ -1488,7 +1666,12 @@ class BP_Component {
 		/**
 		 * Fires in the blocks_init method inside BP_Component.
 		 *
-		 * This is a dynamic hook that is based on the component string ID.
+		 * The dynamic portion of the hook name, `$this->id`, refers to the component ID.
+		 *
+		 * Possible hook names include:
+		 *
+		 *  - `bp_activity_blocks_init`
+		 *  - `bp_groups_blocks_init`
 		 *
 		 * @since 6.0.0
 		 */
@@ -1501,7 +1684,7 @@ class BP_Component {
 	 * @since 10.0.0
 	 * @deprecated 12.0.0
 	 *
-	 * @param string[] $states An array of post display states.
+	 * @param string[] $states Optional. An array of post display states.
 	 * @return array The component's directory states.
 	 */
 	public function admin_directory_states( $states = array() ) {
