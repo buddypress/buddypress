@@ -15,14 +15,12 @@ defined( 'ABSPATH' ) || exit;
  * tables are set up.
  *
  * @since 1.0.0
- *
- * @return bool
  */
 function xprofile_add_admin_menu() {
 
 	// Bail if current user cannot moderate community.
 	if ( ! bp_current_user_can( 'bp_moderate' ) ) {
-		return false;
+		return;
 	}
 
 	$hook = add_users_page(
@@ -926,14 +924,14 @@ function xprofile_admin_delete_field_screen( $field_id, $field_type ) {
  * Handles the ajax reordering of fields within a group.
  *
  * @since 1.0.0
- * @since 8.0.0 Returns a JSON object.
+ * @since 8.0.0 Sends a JSON response.
  */
 function xprofile_ajax_reorder_fields() {
 	// Check the nonce.
 	check_admin_referer( 'bp_reorder_fields', '_wpnonce_reorder_fields' );
 
 	if ( empty( $_POST['field_order'] ) ) {
-		return wp_send_json_error();
+		wp_send_json_error();
 	}
 
 	$field_group_id = $_POST['field_group_id'];
@@ -1057,7 +1055,7 @@ function bp_xprofile_ajax_remove_signup_field() {
 	check_admin_referer( 'bp_reorder_fields', '_wpnonce_reorder_fields' );
 
 	if ( ! isset( $_POST['signup_field_id'] ) || ! $_POST['signup_field_id'] ) {
-		return wp_send_json_error();
+		wp_send_json_error();
 	}
 
 	$signup_field_id = (int) wp_unslash( $_POST['signup_field_id'] );
@@ -1093,7 +1091,7 @@ function xprofile_ajax_reorder_field_groups() {
 	check_admin_referer( 'bp_reorder_groups', '_wpnonce_reorder_groups' );
 
 	if ( empty( $_POST['group_order'] ) ) {
-		return false;
+		return;
 	}
 
 	parse_str( $_POST['group_order'], $order );

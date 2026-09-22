@@ -1484,10 +1484,10 @@ function bp_attachments_cover_image_ajax_upload() {
 	 *
 	 * @since 2.5.1
 	 *
-	 * @param array $value
-	 * @param array $bp_params
+	 * @param array $value       Default value for the pre-upload filter.
+	 * @param array $bp_params   Cover image upload parameters.
 	 * @param array $needs_reset Stores original value of certain globals we need to revert to later.
-	 * @param array $object_data
+	 * @param array $object_data Cover image object data.
 	 */
 	$pre_filter = apply_filters( 'bp_attachments_pre_cover_image_ajax_upload', array(), $bp_params, $needs_reset, $object_data );
 	if ( isset( $pre_filter['result'] ) ) {

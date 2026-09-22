@@ -11,14 +11,12 @@
  * Handle creating of private messages or sitewide notices
  *
  * @since 2.4.0 This function was split from messages_screen_compose(). See #6505.
- *
- * @return bool
  */
 function bp_messages_action_create_message() {
 
 	// Bail if not posting to the compose message screen.
 	if ( ! bp_is_post_request() || ! bp_is_messages_component() || ! bp_is_current_action( 'compose' ) ) {
-		return false;
+		return;
 	}
 
 	// Check the nonce.

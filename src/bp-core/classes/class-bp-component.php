@@ -638,10 +638,10 @@ class BP_Component {
 	public function setup_actions() {
 
 		// Setup globals.
-		add_action( 'bp_setup_globals', array( $this, 'setup_globals' ), 10 );
+		add_action( 'bp_setup_globals', array( $this, 'setup_globals' ) );
 
 		// Set up canonical stack.
-		add_action( 'bp_setup_canonical_stack', array( $this, 'setup_canonical_stack' ), 10 );
+		add_action( 'bp_setup_canonical_stack', array( $this, 'setup_canonical_stack' ) );
 
 		// Include required files. Called early to ensure that BP core
 		// components are loaded before plugins that hook their loader functions
@@ -651,7 +651,7 @@ class BP_Component {
 		add_action( 'bp_include', array( $this, 'includes' ), 8 );
 
 		// Load files conditionally, based on certain pages.
-		add_action( 'bp_late_include', array( $this, 'late_includes' ), 10 );
+		add_action( 'bp_late_include', array( $this, 'late_includes' ) );
 
 		// Generate navigation.
 		add_action( 'bp_register_nav', array( $this, 'register_nav' ), 9 );
@@ -663,19 +663,19 @@ class BP_Component {
 		add_action( 'bp_setup_admin_bar', array( $this, 'setup_admin_bar' ), $this->adminbar_myaccount_order );
 
 		// Setup component title.
-		add_action( 'bp_setup_title', array( $this, 'setup_title' ), 10 );
+		add_action( 'bp_setup_title', array( $this, 'setup_title' ) );
 
 		// Setup cache groups.
-		add_action( 'bp_setup_cache_groups', array( $this, 'setup_cache_groups' ), 10 );
+		add_action( 'bp_setup_cache_groups', array( $this, 'setup_cache_groups' ) );
 
 		// Register post types.
-		add_action( 'bp_register_post_types', array( $this, 'register_post_types' ), 10 );
+		add_action( 'bp_register_post_types', array( $this, 'register_post_types' ) );
 
 		// Register post statuses.
-		add_action( 'bp_register_post_statuses', array( $this, 'register_post_statuses' ), 10 );
+		add_action( 'bp_register_post_statuses', array( $this, 'register_post_statuses' ) );
 
 		// Register taxonomies.
-		add_action( 'bp_register_taxonomies', array( $this, 'register_taxonomies' ), 10 );
+		add_action( 'bp_register_taxonomies', array( $this, 'register_taxonomies' ) );
 
 		// Add the rewrite tags.
 		add_action( 'bp_add_rewrite_tags', array( $this, 'add_rewrite_tags' ), 10, 0 );
@@ -684,13 +684,13 @@ class BP_Component {
 		add_action( 'bp_add_rewrite_rules', array( $this, 'add_rewrite_rules' ), 10, 0 );
 
 		// Add the permalink structure.
-		add_action( 'bp_add_permastructs', array( $this, 'add_permastructs' ), 10 );
+		add_action( 'bp_add_permastructs', array( $this, 'add_permastructs' ) );
 
 		// Allow components to parse the main query.
-		add_action( 'bp_parse_query', array( $this, 'parse_query' ), 10 );
+		add_action( 'bp_parse_query', array( $this, 'parse_query' ) );
 
 		// Generate rewrite rules.
-		add_action( 'bp_generate_rewrite_rules', array( $this, 'generate_rewrite_rules' ), 10 );
+		add_action( 'bp_generate_rewrite_rules', array( $this, 'generate_rewrite_rules' ) );
 
 		// Register BP REST Endpoints.
 		if ( bp_rest_in_buddypress() && bp_rest_api_is_available() ) {
@@ -699,7 +699,7 @@ class BP_Component {
 
 		// Register BP Blocks.
 		if ( bp_support_blocks() ) {
-			add_action( 'bp_blocks_init', array( $this, 'blocks_init' ), 10 );
+			add_action( 'bp_blocks_init', array( $this, 'blocks_init' ) );
 		}
 
 		/**
@@ -1448,7 +1448,7 @@ class BP_Component {
 	 *                    An array containing the BuddyPress directory page otherwise.
 	 */
 	public function pre_query( $posts = null, $query = null ) {
-		remove_filter( 'posts_pre_query', array( $this, 'pre_query' ), 10 );
+		remove_filter( 'posts_pre_query', array( $this, 'pre_query' ) );
 
 		$queried_object = $query->get_queried_object();
 

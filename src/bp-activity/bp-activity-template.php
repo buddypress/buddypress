@@ -1916,7 +1916,7 @@ function bp_activity_parent_content() {
 	 *
 	 * @global BP_Activity_Template $activities_template The main activity template loop class.
 	 *
-	 * @return mixed False on failure, otherwise the activity parent content.
+	 * @return string|false The activity parent content on success, false on failure.
 	 */
 	function bp_get_activity_parent_content() {
 		global $activities_template;

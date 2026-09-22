@@ -73,7 +73,7 @@ if ( ! did_action( '_bp_nouveau_messages_print_placeholders' ) ) {
 	);
 
 	// Remove the temporary filter on editor buttons
-	remove_filter( 'mce_buttons', 'bp_nouveau_messages_mce_buttons', 10, 1 );
+	remove_filter( 'mce_buttons', 'bp_nouveau_messages_mce_buttons' );
 	?>
 </script>
 

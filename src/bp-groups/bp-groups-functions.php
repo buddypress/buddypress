@@ -3940,7 +3940,7 @@ function bp_groups_defer_group_members_count( $defer = true, $group_id = 0 ) {
 	if ( $defer ) {
 		remove_action( 'groups_member_after_save', 'bp_groups_update_group_members_count' );
 		remove_action( 'groups_member_after_remove', 'bp_groups_update_group_members_count' );
-		remove_action( 'bp_groups_member_after_delete', 'bp_groups_update_group_members_count', 10, 2 );
+		remove_action( 'bp_groups_member_after_delete', 'bp_groups_update_group_members_count' );
 	} else {
 		add_action( 'groups_member_after_save', 'bp_groups_update_group_members_count' );
 		add_action( 'groups_member_after_remove', 'bp_groups_update_group_members_count' );

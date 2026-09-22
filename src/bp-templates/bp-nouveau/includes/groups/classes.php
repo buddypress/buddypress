@@ -302,7 +302,7 @@ class BP_Nouveau_Customizer_Group_Nav extends BP_Core_Nav {
 
 		$front_template = bp_groups_get_front_template( $this->group );
 
-		remove_filter( '_bp_nouveau_group_reset_front_template', array( $this, 'all_groups_fronts' ), 10, 1 );
+		remove_filter( '_bp_nouveau_group_reset_front_template', array( $this, 'all_groups_fronts' ) );
 
 		$members_nav = array(
 			'name'        => _x( 'Members', 'My Group screen nav', 'buddypress' ),

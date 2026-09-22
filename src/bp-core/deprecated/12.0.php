@@ -1112,7 +1112,7 @@ function bp_get_activities_title() {
 }
 
 /**
- * {@internal Missing Description}
+ * Outputs the message shown when no activity items are found.
  *
  * @since 1.0.0
  * @deprecated 12.0.0
@@ -1123,14 +1123,14 @@ function bp_activities_no_activity() {
 }
 
 /**
- * {@internal Missing Description}
+ * Returns the message shown when no activity items are found.
  *
  * @since 1.0.0
  * @deprecated 12.0.0
  *
  * @global string $bp_activity_no_activity
  *
- * @return string
+ * @return string The message shown when no activity items are found.
  */
 function bp_get_activities_no_activity() {
 	_deprecated_function( __FUNCTION__, '12.0.0' );

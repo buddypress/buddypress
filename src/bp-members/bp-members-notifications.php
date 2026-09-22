@@ -146,7 +146,7 @@ function members_format_notifications( $action, $item_id, $secondary_item_id, $t
  * @since 8.0.0
  *
  * @param BP_Invitation $invite     Invitation that was accepted.
- * @param WP_user       $new_user   User who accepted the membership invite.
+ * @param WP_User       $new_user   User who accepted the membership invite.
  * @param int           $inviter_id ID of the user who invited this user to the site.
  */
 function bp_members_invitations_accepted_invitation_notification( $invite, $new_user, $inviter_id ) {

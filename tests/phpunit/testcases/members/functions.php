@@ -426,7 +426,7 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 	/**
 	 * @group bp_update_user_last_activity
 	 * @global wpdb $wpdb WordPress database object.
-	 * @param  string $key
+	 * @param string $key User meta key.
 	 * @return string
 	 */
 	public function filter_usermeta_key( $key ) {
@@ -659,7 +659,7 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 
 		$validate = bp_members_validate_user_password( 'one', 'one' );
 
-		remove_filter( 'bp_members_validate_user_password', array( $this, 'filter_bp_members_validate_user_password' ), 10, 2 );
+		remove_filter( 'bp_members_validate_user_password', array( $this, 'filter_bp_members_validate_user_password' ) );
 
 		$this->assertSame( 'too_short_user_password', $validate->get_error_code() );
 	}

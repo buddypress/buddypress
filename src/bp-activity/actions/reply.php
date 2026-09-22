@@ -11,22 +11,20 @@
  * Post new activity comment.
  *
  * @since 1.2.0
- *
- * @return bool False on failure.
  */
 function bp_activity_action_post_comment() {
 	if ( ! is_user_logged_in() || ! bp_is_activity_component() || ! bp_is_current_action( 'reply' ) ) {
-		return false;
+		return;
 	}
 
 	if ( ! isset( $_POST['comment_form_id'] ) ) {
-		return false;
+		return;
 	}
 
 	$activity_id = absint( wp_unslash( $_POST['comment_form_id'] ) );
 
 	if ( ! isset( $activity_id ) ) {
-		return false;
+		return;
 	}
 
 	// Check the nonce.

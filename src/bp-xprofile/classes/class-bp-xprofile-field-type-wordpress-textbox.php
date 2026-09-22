@@ -46,7 +46,7 @@ class BP_XProfile_Field_Type_WordPress_Textbox extends BP_XProfile_Field_Type_Wo
 		 * As we are using an xProfile field meta to store the WordPress field meta key we need
 		 * to make sure $this->wp_user_key is set before once the field has been populated.
 		 */
-		add_action( 'bp_xprofile_field', array( $this, 'set_wp_user_key' ), 10 );
+		add_action( 'bp_xprofile_field', array( $this, 'set_wp_user_key' ) );
 	}
 
 	/**

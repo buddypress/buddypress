@@ -19,7 +19,7 @@ class BP_Tests_Template_Loader_Functions extends BP_UnitTestCase {
 	}
 
 	public function tear_down() {
-		remove_filter( 'bp_get_template_stack', array( $this, 'template_stack'), 10, 1 );
+		remove_filter( 'bp_get_template_stack', array( $this, 'template_stack') );
 
 		parent::tear_down();
 	}

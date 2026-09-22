@@ -738,7 +738,7 @@ class BP_Groups_Membership_REST_Controller extends WP_REST_Controller {
 		 *
 		 * @since 15.0.0
 		 *
-		 * @param array $          links         The prepared links of the REST response.
+		 * @param array            $links        The prepared links of the REST response.
 		 * @param BP_Groups_Member $group_member Group member object.
 		 */
 		return apply_filters( 'bp_rest_group_members_prepare_links', $links, $group_member );

@@ -805,7 +805,7 @@ function bp_xprofile_bp_user_query_search( $sql, BP_User_Query $query ) {
 
 	return $sql;
 }
-add_action( 'bp_user_query_uid_clauses', 'bp_xprofile_bp_user_query_search', 10, 2 );
+add_filter( 'bp_user_query_uid_clauses', 'bp_xprofile_bp_user_query_search', 10, 2 );
 
 /**
  * Syncs Xprofile data to the standard built in WordPress profile data.

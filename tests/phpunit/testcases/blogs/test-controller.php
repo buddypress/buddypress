@@ -337,6 +337,9 @@ class BP_Tests_Blogs_REST_Controller extends BP_Test_REST_Controller_Testcase {
 
 	/**
 	 * @group additional_fields
+	 *
+	 * @param array  $data      Prepared blog data.
+	 * @param string $attribute Additional field name.
 	 */
 	public function get_additional_field( $data, $attribute ) {
 		return bp_blogs_get_blogmeta( $data['id'], '_' . $attribute );

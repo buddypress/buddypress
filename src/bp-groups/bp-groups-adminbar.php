@@ -20,9 +20,6 @@ defined( 'ABSPATH' ) || exit;
  * @todo Add dynamic menu items for group extensions.
  *
  * @global WP_Admin_Bar $wp_admin_bar WordPress object implementing a Toolbar API.
- *
- * @return false|null False if not on a group page, or if user does not have
- *                    access to group admin options.
  */
 function bp_groups_group_admin_menu() {
 	global $wp_admin_bar;
@@ -30,12 +27,12 @@ function bp_groups_group_admin_menu() {
 
 	// Only show if viewing a group.
 	if ( ! bp_is_group() || bp_is_group_create() ) {
-		return false;
+		return;
 	}
 
 	// Only show this menu to group admins and super admins.
 	if ( ! bp_current_user_can( 'bp_moderate' ) && ! bp_group_is_admin() ) {
-		return false;
+		return;
 	}
 
 	// Unique ID for the 'Edit Group' menu.

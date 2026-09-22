@@ -432,12 +432,10 @@ class BP_Members_Admin {
 	 * Setup BP Members Admin.
 	 *
 	 * @since 2.0.0
-	 *
-	 * @return BP_Members_Admin|null
 	 */
 	public static function register_members_admin() {
 		if ( ! is_admin() ) {
-			return null;
+			return;
 		}
 
 		$bp = buddypress();
@@ -445,8 +443,6 @@ class BP_Members_Admin {
 		if ( empty( $bp->members->admin ) ) {
 			$bp->members->admin = new self();
 		}
-
-		return $bp->members->admin;
 	}
 
 	/**
@@ -1783,7 +1779,7 @@ class BP_Members_Admin {
 	 * @since 2.1.0
 	 */
 	public function remove_edit_profile_url_filter() {
-		remove_filter( 'bp_members_edit_profile_url', array( $this, 'filter_adminbar_profile_link' ), 10 );
+		remove_filter( 'bp_members_edit_profile_url', array( $this, 'filter_adminbar_profile_link' ) );
 	}
 
 	/** Signups Management ****************************************************/

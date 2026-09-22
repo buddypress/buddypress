@@ -210,7 +210,7 @@ function bp_messages_message_sent_add_notification( $message ) {
 		}
 	}
 }
-add_action( 'messages_message_sent', 'bp_messages_message_sent_add_notification', 10 );
+add_action( 'messages_message_sent', 'bp_messages_message_sent_add_notification' );
 
 /**
  * Mark new message notification when member reads a message thread directly.
@@ -252,7 +252,7 @@ function bp_messages_screen_conversation_mark_notifications() {
 	// Mark each notification for each PM message as read.
 	bp_notifications_mark_notifications_by_item_ids( bp_loggedin_user_id(), $message_ids, 'messages', 'new_message', false );
 }
-add_action( 'thread_loop_start', 'bp_messages_screen_conversation_mark_notifications', 10 );
+add_action( 'thread_loop_start', 'bp_messages_screen_conversation_mark_notifications' );
 
 /**
  * Mark new message notification as read when the corresponding message is mark read.

@@ -702,7 +702,7 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 		 *
 		 * @since 2.7.0
 		 *
-		 * @param array $date_formats
+		 * @param array $date_formats Available date formats.
 		 */
 		return apply_filters( 'bp_xprofile_date_field_date_formats', $date_formats );
 	}

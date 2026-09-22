@@ -1757,14 +1757,12 @@ function bp_core_render_message() {
  * site.
  *
  * @since 1.0.0
- *
- * @return false|null Returns false if there is nothing to do.
  */
 function bp_core_record_activity() {
 
 	// Bail if user is not logged in.
 	if ( ! is_user_logged_in() ) {
-		return false;
+		return;
 	}
 
 	// Get the user ID.
@@ -1772,7 +1770,7 @@ function bp_core_record_activity() {
 
 	// Bail if user is not active.
 	if ( bp_is_user_inactive( $user_id ) ) {
-		return false;
+		return;
 	}
 
 	// Get the user's last activity.
@@ -2767,7 +2765,7 @@ function bp_remove_adjacent_posts_rel_link() {
 		return;
 	}
 
-	remove_action( 'wp_head', 'adjacent_posts_rel_link_wp_head', 10 );
+	remove_action( 'wp_head', 'adjacent_posts_rel_link_wp_head' );
 }
 
 /**
@@ -4102,8 +4100,8 @@ function bp_core_replace_tokens_in_text( $text, $tokens ) {
 	 *
 	 * @since 2.5.0
 	 *
-	 * @param string $text
-	 * @param array $tokens Token names and replacement values for the $text.
+	 * @param string $text   Text containing tokens to replace.
+	 * @param array  $tokens Token names and replacement values for the $text.
 	 */
 	return apply_filters( 'bp_core_replace_tokens_in_text', $text, $tokens );
 }
@@ -5208,8 +5206,8 @@ function bp_get_community_visibility( $component = 'global' ) {
 	 *
 	 * @since 12.0.0
 	 *
-	 * @param arrary|string $retval    The calculated visbility settings for the site.
-	 * @param string        $component The component value to get the visibility for.
+	 * @param array|string $retval    The calculated visibility settings for the site.
+	 * @param string       $component The component value to get the visibility for.
 	 */
 	return apply_filters( 'bp_get_community_visibility', $retval, $component );
 }

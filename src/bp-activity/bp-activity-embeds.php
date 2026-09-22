@@ -237,7 +237,7 @@ function bp_activity_embed_media() {
 		 *
 		 * @since 2.6.0
 		 *
-		 * @param int $width.
+		 * @param int $width Default media width.
 		 */
 		$width = (int) apply_filters( 'bp_activity_embed_display_media_width', 550 );
 
