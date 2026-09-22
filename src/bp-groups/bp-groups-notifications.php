@@ -443,7 +443,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					 * @param string $string            HTML anchor tag for request.
 					 * @param string $group_link        The permalink for the group.
 					 * @param int    $total_items       Total number of membership requests.
-					 * @param string $group->name       Name of the group.
+					 * @param string $group_name        Name of the group.
 					 * @param string $text              Notification content.
 					 * @param string $notification_link The permalink for notification.
 					 */
@@ -461,7 +461,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					 * @param array  $array             Array holding permalink and content for notification.
 					 * @param string $group_link        The permalink for the group.
 					 * @param int    $total_items       Total number of membership requests.
-					 * @param string $group->name       Name of the group.
+					 * @param string $group_name        Name of the group.
 					 * @param string $text              Notification content.
 					 * @param string $notification_link The permalink for notification.
 					 */
@@ -506,7 +506,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					 * @param string $string            HTML anchor tag for request.
 					 * @param string $group_link        The permalink for the group.
 					 * @param string $user_fullname     Full name of requesting user.
-					 * @param string $group->name       Name of the group.
+					 * @param string $group_name        Name of the group.
 					 * @param string $text              Notification content.
 					 * @param string $notification_link The permalink for notification.
 					 */
@@ -524,7 +524,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					 * @param array  $array             Array holding permalink and content for notification.
 					 * @param string $group_link        The permalink for the group.
 					 * @param string $user_fullname     Full name of requesting user.
-					 * @param string $group->name       Name of the group.
+					 * @param string $group_name        Name of the group.
 					 * @param string $text              Notification content.
 					 * @param string $notification_link The permalink for notification.
 					 */
@@ -572,7 +572,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					 *
 					 * @param string $string            HTML anchor tag for notification.
 					 * @param int    $total_items       Total number of accepted requests.
-					 * @param string $group->name       Name of the group.
+					 * @param string $group_name        Name of the group.
 					 * @param string $text              Notification content.
 					 * @param string $notification_link The permalink for notification.
 					 */
@@ -587,7 +587,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					 *
 					 * @param array  $array             Array holding permalink and content for notification
 					 * @param int    $total_items       Total number of accepted requests.
-					 * @param string $group->name       Name of the group.
+					 * @param string $group_name        Name of the group.
 					 * @param string $text              Notification content.
 					 * @param string $notification_link The permalink for notification.
 					 */
@@ -619,7 +619,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					 *
 					 * @param string $string            HTML anchor tag for notification.
 					 * @param string $group_link        The permalink for the group.
-					 * @param string $group->name       Name of the group.
+					 * @param string $group_name        Name of the group.
 					 * @param string $text              Notification content.
 					 * @param string $notification_link The permalink for notification.
 					 */
@@ -634,7 +634,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					 *
 					 * @param array  $array             Array holding permalink and content for notification.
 					 * @param string $group_link        The permalink for the group.
-					 * @param string $group->name       Name of the group.
+					 * @param string $group_name        Name of the group.
 					 * @param string $text              Notification content.
 					 * @param string $notification_link The permalink for notification.
 					 */
@@ -681,7 +681,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					 *
 					 * @param string $string            HTML anchor tag for notification.
 					 * @param int    $total_items       Total number of rejected requests.
-					 * @param string $group->name       Name of the group.
+					 * @param string $group_name        Name of the group.
 					 * @param string $text              Notification content.
 					 * @param string $notification_link The permalink for notification.
 					 */
@@ -696,7 +696,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					 *
 					 * @param array  $array             Array holding permalink and content for notification.
 					 * @param int    $total_items       Total number of rejected requests.
-					 * @param string $group->name       Name of the group.
+					 * @param string $group_name        Name of the group.
 					 * @param string $text              Notification content.
 					 * @param string $notification_link The permalink for notification.
 					 */
@@ -726,8 +726,8 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					 * @since 1.0.0
 					 *
 					 * @param string $string            HTML anchor tag for notification.
-					 * @param int    $group_link        The permalink for the group.
-					 * @param string $group->name       Name of the group.
+					 * @param string $group_link        The permalink for the group.
+					 * @param string $group_name        Name of the group.
 					 * @param string $text              Notification content.
 					 * @param string $notification_link The permalink for notification.
 					 */
@@ -741,8 +741,8 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					 * @since 1.0.0
 					 *
 					 * @param array  $array             Array holding permalink and content for notification.
-					 * @param int    $group_link        The permalink for the group.
-					 * @param string $group->name       Name of the group.
+					 * @param string $group_link        The permalink for the group.
+					 * @param string $group_name        Name of the group.
 					 * @param string $text              Notification content.
 					 * @param string $notification_link The permalink for notification.
 					 */
@@ -828,8 +828,8 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					 * @since 1.0.0
 					 *
 					 * @param string $string            HTML anchor tag for notification.
-					 * @param int    $group_link        The permalink for the group.
-					 * @param string $group->name       Name of the group.
+					 * @param string $group_link        The permalink for the group.
+					 * @param string $group_name        Name of the group.
 					 * @param string $text              Notification content.
 					 * @param string $notification_link The permalink for notification.
 					 */
@@ -842,8 +842,8 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					 * @since 1.0.0
 					 *
 					 * @param array  $array             Array holding permalink and content for notification.
-					 * @param int    $group_link        The permalink for the group.
-					 * @param string $group->name       Name of the group.
+					 * @param string $group_link        The permalink for the group.
+					 * @param string $group_name        Name of the group.
 					 * @param string $text              Notification content.
 					 * @param string $notification_link The permalink for notification.
 					 */
@@ -929,8 +929,8 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					 * @since 1.0.0
 					 *
 					 * @param string $string            HTML anchor tag for notification.
-					 * @param int    $group_link        The permalink for the group.
-					 * @param string $group->name       Name of the group.
+					 * @param string $group_link        The permalink for the group.
+					 * @param string $group_name        Name of the group.
 					 * @param string $text              Notification content.
 					 * @param string $notification_link The permalink for notification.
 					 */
@@ -943,8 +943,8 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					 * @since 1.0.0
 					 *
 					 * @param array  $array             Array holding permalink and content for notification.
-					 * @param int    $group_link        The permalink for the group.
-					 * @param string $group->name       Name of the group.
+					 * @param string $group_link        The permalink for the group.
+					 * @param string $group_name        Name of the group.
 					 * @param string $text              Notification content.
 					 * @param string $notification_link The permalink for notification.
 					 */
@@ -1029,8 +1029,8 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					 * @since 1.0.0
 					 *
 					 * @param string $string            HTML anchor tag for notification.
-					 * @param int    $group_link        The permalink for the group.
-					 * @param string $group->name       Name of the group.
+					 * @param string $group_link        The permalink for the group.
+					 * @param string $group_name        Name of the group.
 					 * @param string $text              Notification content.
 					 * @param string $notification_link The permalink for notification.
 					 */
@@ -1043,8 +1043,8 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					 * @since 1.0.0
 					 *
 					 * @param array  $array             Array holding permalink and content for notification.
-					 * @param int    $group_link        The permalink for the group.
-					 * @param string $group->name       Name of the group.
+					 * @param string $group_link        The permalink for the group.
+					 * @param string $group_name        Name of the group.
 					 * @param string $text              Notification content.
 					 * @param string $notification_link The permalink for notification.
 					 */
@@ -1114,7 +1114,7 @@ function bp_groups_delete_group_delete_all_notifications( $group_id ) {
 		bp_notifications_delete_all_notifications_by_type( $group_id, buddypress()->groups->id );
 	}
 }
-add_action( 'groups_delete_group', 'bp_groups_delete_group_delete_all_notifications', 10 );
+add_action( 'groups_delete_group', 'bp_groups_delete_group_delete_all_notifications' );
 
 /**
  * Remove Group invite notification when a user is uninvited.
@@ -1204,8 +1204,8 @@ function bp_groups_screen_my_groups_mark_notifications() {
 		bp_notifications_mark_notifications_by_type( $user_id, $group_id, 'member_promoted_to_admin' );
 	}
 }
-add_action( 'groups_screen_my_groups', 'bp_groups_screen_my_groups_mark_notifications', 10 );
-add_action( 'groups_screen_group_home', 'bp_groups_screen_my_groups_mark_notifications', 10 );
+add_action( 'groups_screen_my_groups', 'bp_groups_screen_my_groups_mark_notifications' );
+add_action( 'groups_screen_group_home', 'bp_groups_screen_my_groups_mark_notifications' );
 
 /**
  * Mark group invitation notifications read when a member views their invitations.
@@ -1217,7 +1217,7 @@ function bp_groups_screen_invites_mark_notifications() {
 		bp_notifications_mark_notifications_by_type( bp_loggedin_user_id(), buddypress()->groups->id, 'group_invite' );
 	}
 }
-add_action( 'groups_screen_group_invites', 'bp_groups_screen_invites_mark_notifications', 10 );
+add_action( 'groups_screen_group_invites', 'bp_groups_screen_invites_mark_notifications' );
 
 /**
  * Mark group join requests read when an admin or moderator visits the group administration area.
@@ -1229,7 +1229,7 @@ function bp_groups_screen_group_admin_requests_mark_notifications() {
 		bp_notifications_mark_notifications_by_type( bp_loggedin_user_id(), buddypress()->groups->id, 'new_membership_request' );
 	}
 }
-add_action( 'groups_screen_group_admin_requests', 'bp_groups_screen_group_admin_requests_mark_notifications', 10 );
+add_action( 'groups_screen_group_admin_requests', 'bp_groups_screen_group_admin_requests_mark_notifications' );
 
 /**
  * Delete new group membership notifications when a user is being deleted.
@@ -1243,7 +1243,7 @@ function bp_groups_remove_data_for_user_notifications( $user_id ) {
 		bp_notifications_delete_notifications_from_user( $user_id, buddypress()->groups->id, 'new_membership_request' );
 	}
 }
-add_action( 'groups_remove_data_for_user', 'bp_groups_remove_data_for_user_notifications', 10 );
+add_action( 'groups_remove_data_for_user', 'bp_groups_remove_data_for_user_notifications' );
 
 /**
  * Render the group settings fields on the Notification Settings page.

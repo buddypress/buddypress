@@ -22,7 +22,7 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 	}
 
 	public function tear_down() {
-		remove_filter( 'bp_attachment_upload_overrides',     array( $this, 'filter_overrides' ),       10 );
+		remove_filter( 'bp_attachment_upload_overrides',     array( $this, 'filter_overrides' ) );
 		remove_filter( 'upload_dir',                         array( $this, 'filter_upload_dir' ),      20 );
 		add_filter( 'bp_attachments_cover_image_upload_dir', array( $this, 'filter_cover_image_dir' ), 10, 2 );
 		$this->upload_results = array();
@@ -59,6 +59,9 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 	/**
 	 * To avoid copying files in tests, we're faking a succesfull uploads
 	 * as soon as all the test_form have been executed in _wp_handle_upload
+	 *
+	 * @param array  $file    File upload data.
+	 * @param string $message Upload error message.
 	 */
 	public function upload_error_handler( $file, $message ) {
 		if ( 'fake_upload_success' !== $message ) {
@@ -378,8 +381,8 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 	 * @group avatars
 	 */
 	public function test_bp_attachment_avatar_shrink() {
-		if ( false === _wp_image_editor_choose() || version_compare( phpversion(), '7.0' , '<' ) ) {
-			$this->markTestSkipped( 'This test requires PHP >= 7.0 and to have a valid image editor that is compatible with WordPress.' );
+		if ( false === _wp_image_editor_choose() ) {
+			$this->markTestSkipped( 'This test requires a valid image editor that is compatible with WordPress.' );
 		}
 
 		$image = BP_TESTS_DIR . 'assets/upside-down.jpg';
@@ -411,8 +414,8 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 	 * @group add_revision
 	 */
 	public function test_bp_attachment_add_revision() {
-		if ( false === _wp_image_editor_choose() || version_compare( phpversion(), '7.0' , '<' ) ) {
-			$this->markTestSkipped( 'This test requires PHP >= 7.0 and to have a valid image editor that is compatible with WordPress.' );
+		if ( false === _wp_image_editor_choose() ) {
+			$this->markTestSkipped( 'This test requires a valid image editor that is compatible with WordPress.' );
 		}
 
 		$image = BP_TESTS_DIR . 'assets/upside-down.jpg';
@@ -450,8 +453,8 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 	 * @group avatars
 	 */
 	public function test_bp_attachment_add_avatar_history() {
-		if ( false === _wp_image_editor_choose() || version_compare( phpversion(), '7.0' , '<' ) ) {
-			$this->markTestSkipped( 'This test requires PHP >= 7.0 and to have a valid image editor that is compatible with WordPress.' );
+		if ( false === _wp_image_editor_choose() ) {
+			$this->markTestSkipped( 'This test requires a valid image editor that is compatible with WordPress.' );
 		}
 
 		$image = BP_TESTS_DIR . 'assets/upside-down.jpg';
@@ -543,8 +546,8 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 	 * @group cover_images
 	 */
 	public function test_bp_attachment_get_image_data() {
-		if ( ! is_callable( 'exif_read_data' ) || version_compare( phpversion(), '7.0' , '<' ) ) {
-			$this->markTestSkipped( 'This test requires PHP >= 7.0 and to be compiled with EXIF support.' );
+		if ( ! is_callable( 'exif_read_data' ) ) {
+			$this->markTestSkipped( 'This test requires PHP to be compiled with EXIF support.' );
 		}
 
 		$image_data = BP_Attachment::get_image_data( BP_TESTS_DIR . 'assets/upside-down.jpg' );

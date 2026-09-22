@@ -137,11 +137,10 @@ function bp_members_format_activity_action_new_avatar( $action, $activity ) {
  * @since 1.2.2
  *
  * @param array $user Array of userdata passed to bp_core_activated_user hook.
- * @return bool
  */
 function bp_core_new_user_activity( $user ) {
 	if ( empty( $user ) ) {
-		return false;
+		return;
 	}
 
 	if ( is_array( $user ) ) {
@@ -151,7 +150,7 @@ function bp_core_new_user_activity( $user ) {
 	}
 
 	if ( empty( $user_id ) ) {
-		return false;
+		return;
 	}
 
 	bp_activity_add(

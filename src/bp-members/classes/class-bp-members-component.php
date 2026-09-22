@@ -812,7 +812,7 @@ class BP_Members_Component extends BP_Component {
 				 *
 				 * @since 2.6.0
 				 *
-				 * @param string $member_slug
+				 * @param string $member_slug Current member slug.
 				 */
 				$member_slug           = apply_filters( 'bp_core_set_uri_globals_member_slug', $member_slug );
 				$bp->current_component = '';

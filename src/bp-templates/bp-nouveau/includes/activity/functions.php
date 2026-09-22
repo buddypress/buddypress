@@ -356,7 +356,7 @@ function bp_nouveau_get_activity_filters() {
 
 	$filters_data = bp_get_activity_show_filters();
 
-	remove_filter( 'bp_get_activity_show_filters', 'bp_nouveau_get_activity_filters_array', 10, 3 );
+	remove_filter( 'bp_get_activity_show_filters', 'bp_nouveau_get_activity_filters_array' );
 
 	$action = '';
 	if ( 'group' === $filters_data['context'] ) {

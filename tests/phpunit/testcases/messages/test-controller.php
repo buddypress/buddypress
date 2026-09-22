@@ -569,6 +569,8 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 	 *
 	 * @ticket BP9175
 	 * @group create_item
+	 *
+	 * @param mixed $content Empty message content to test.
 	 */
 	public function test_create_item_with_empty_content_options( $content ) {
 		wp_set_current_user( $this->user );
@@ -620,6 +622,8 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 	 *
 	 * @ticket BP9175
 	 * @group create_item
+	 *
+	 * @param string $content Irregular message content to test.
 	 */
 	public function test_create_item_with_irregular_content_options( $content ) {
 		wp_set_current_user( $this->user );
@@ -1573,7 +1577,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 	 * @group get_item
 	 */
 	public function test_prepare_item() {
-		$this->markTestSkipped();
+		$this->markTestSkipped( 'Coverage for prepare_item_for_response() has not been implemented.' );
 	}
 
 	protected function check_thread_data( $thread, $data ) {

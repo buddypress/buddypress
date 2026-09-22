@@ -788,7 +788,7 @@ function bp_nouveau_activity_comment_buttons( $args = array() ) {
 	 *
 	 * @global BP_Activity_Template $activities_template The Activity template loop.
 	 *
-	 * @param array $args Optional. See bp_nouveau_wrapper() for the description of parameters.
+	 * @param array $args See bp_nouveau_wrapper() for the description of parameters.
 	 *
 	 * @return array
 	 */

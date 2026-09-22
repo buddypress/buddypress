@@ -1470,14 +1470,13 @@ add_action( 'delete_user', 'bp_activity_remove_all_user_data_on_delete_user' );
  * @global wpdb $wpdb WordPress database object.
  *
  * @param int $user_id Optional. ID of the user whose activity is being spammed.
- * @return bool
  */
 function bp_activity_spam_all_user_data( $user_id = 0 ) {
 	global $wpdb;
 
 	// Do not delete user data unless a logged in user says so.
 	if ( empty( $user_id ) || ! is_user_logged_in() ) {
-		return false;
+		return;
 	}
 
 	// Get all the user's activities.
@@ -1541,14 +1540,13 @@ add_action( 'bp_make_spam_user', 'bp_activity_spam_all_user_data' );
  * @global wpdb $wpdb WordPress database object.
  *
  * @param int $user_id Optional. ID of the user whose activity is being hammed.
- * @return bool
  */
 function bp_activity_ham_all_user_data( $user_id = 0 ) {
 	global $wpdb;
 
 	// Do not delete user data unless a logged in user says so.
 	if ( empty( $user_id ) || ! is_user_logged_in() ) {
-		return false;
+		return;
 	}
 
 	// Get all the user's activities.
@@ -1695,7 +1693,7 @@ function bp_activity_generate_action_string( $activity ) {
 	$action = apply_filters( 'bp_activity_generate_action_string', $activity->action, $activity );
 
 	// Remove the filter for future activity items.
-	remove_filter( 'bp_activity_generate_action_string', $actions->{$activity->component}->{$activity->type}['format_callback'], 10 );
+	remove_filter( 'bp_activity_generate_action_string', $actions->{$activity->component}->{$activity->type}['format_callback'] );
 
 	return $action;
 }
@@ -2726,7 +2724,7 @@ function bp_activity_post_type_comment( $comment_id = 0, $is_approved = true, $a
 	return $activity_id;
 }
 add_action( 'comment_post', 'bp_activity_post_type_comment', 10, 2 );
-add_action( 'edit_comment', 'bp_activity_post_type_comment', 10 );
+add_action( 'edit_comment', 'bp_activity_post_type_comment' );
 
 /**
  * Remove an activity item when a comment about a post type is deleted.

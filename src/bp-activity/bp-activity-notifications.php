@@ -334,7 +334,7 @@ function bp_activity_at_mention_delete_notification( $activity_ids_deleted = arr
 		}
 	}
 }
-add_action( 'bp_activity_deleted_activities', 'bp_activity_at_mention_delete_notification', 10 );
+add_action( 'bp_activity_deleted_activities', 'bp_activity_at_mention_delete_notification' );
 
 /**
  * Add a notification for post comments to the post author or post commenter.

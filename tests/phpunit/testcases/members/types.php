@@ -23,6 +23,8 @@ class BP_Tests_Members_Types extends BP_UnitTestCase {
 	/**
 	 * @dataProvider illegal_names
 	 * @ticket BP5192
+	 *
+	 * @param string $name Invalid member type name.
 	 */
 	public function test_illegal_names( $name ) {
 		$this->assertWPError( bp_register_member_type( $name ) );

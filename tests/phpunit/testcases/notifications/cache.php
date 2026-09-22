@@ -379,7 +379,7 @@ class BP_Tests_Notifications_Cache extends BP_UnitTestCase {
 		$r                = self::factory()->user->create();
 		$notification_ids = array();
 
-		remove_action( 'messages_message_sent', 'bp_messages_message_sent_add_notification', 10 );
+		remove_action( 'messages_message_sent', 'bp_messages_message_sent_add_notification' );
 
 		$message_ids = self::factory()->message->create_many(
 			4,
@@ -402,7 +402,7 @@ class BP_Tests_Notifications_Cache extends BP_UnitTestCase {
 			);
 		}
 
-		add_action( 'messages_message_sent', 'bp_messages_message_sent_add_notification', 10 );
+		add_action( 'messages_message_sent', 'bp_messages_message_sent_add_notification' );
 
 		$all_for_user_notifications = bp_notifications_get_all_notifications_for_user( $r );
 		$this->assertEmpty( $all_for_user_notifications );

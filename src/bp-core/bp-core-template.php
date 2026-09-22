@@ -291,10 +291,8 @@ function bp_site_name() {
  *                                 to return month, day, and time. Default: false.
  * @param bool       $gmt          Optional. True to display in local time, false to
  *                                  leave in GMT. Default: true.
- * @return mixed A string representation of $time, in the format
- *               "March 18, 2014 at 2:00 pm" (or whatever your
- *               'date_format' and 'time_format' settings are
- *               on your root blog). False on failure.
+ * @return string|false A string representation of $time in the configured date and time format,
+ *                      or false on failure.
  */
 function bp_format_time( $time = '', $exclude_time = false, $gmt = true ) {
 
@@ -2054,7 +2052,7 @@ function bp_is_active( $component = '', $feature = '' ) {
 			 *
 			 * @since 2.3.0
 			 *
-			 * @param bool $retval
+			 * @param bool $retval Whether the component feature is active.
 			 */
 			$retval = apply_filters( "bp_is_{$component}_{$feature}_active", $retval );
 		}

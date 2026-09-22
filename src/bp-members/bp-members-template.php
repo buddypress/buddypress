@@ -3182,10 +3182,10 @@ add_action( 'bp_head', 'bp_members_activity_feed' );
  *
  * @see bp_get_members_component_link() for description of parameters.
  *
- * @param string      $component See {@bp_get_members_component_link()}.
- * @param string      $action Optional. See {@bp_get_members_component_link()}.
- * @param string      $query_args Optional. See {@bp_get_members_component_link()}.
- * @param string|bool $nonce Optional. See {@bp_get_members_component_link()}.
+ * @param string      $component See {@link bp_get_members_component_link()}.
+ * @param string      $action Optional. See {@link bp_get_members_component_link()}.
+ * @param string      $query_args Optional. See {@link bp_get_members_component_link()}.
+ * @param string|bool $nonce Optional. See {@link bp_get_members_component_link()}.
  */
 function bp_members_component_link( $component, $action = '', $query_args = '', $nonce = false ) {
 	echo esc_url( bp_get_members_component_link( $component, $action, $query_args, $nonce ) );

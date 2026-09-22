@@ -385,8 +385,7 @@ function friends_get_friend_user_ids( $user_id, $friend_requests_only = false, $
  *                             available), or usermeta 'nickname' field.
  * @param int    $user_id      ID of the user whose friends are being searched.
  * @param int    $pag_num      Optional. Max number of friends to return.
- * @param int    $pag_page     Optional. The page of results to return. Default: null (no
- *                             pagination - return all results).
+ * @param int    $pag_page     Optional. The page of results to return. Default: 1.
  * @return array|bool On success, an array: {
  *     @type array $friends IDs of friends returned by the query.
  *     @type int   $count   Total number of friends (disregarding
@@ -669,8 +668,7 @@ function friends_count_invitable_friends( $user_id, $group_id ) {
  *
  * @since 1.0.0
  *
- * @param int $user_id Optional. ID of the user whose friendships you are
- *                     counting. Default: displayed user (if any), otherwise logged-in user.
+ * @param int $user_id ID of the user whose friendships are being counted.
  * @return int Friend count for the user.
  */
 function friends_get_friend_count_for_user( $user_id ) {

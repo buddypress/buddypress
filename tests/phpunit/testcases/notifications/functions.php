@@ -223,6 +223,13 @@ class BP_Tests_Notifications_Functions extends BP_UnitTestCase {
 
 	/**
 	 * Used in test_notification_callback_parameter_integrity() test.
+	 *
+	 * @param string $action            Notification action.
+	 * @param int    $item_id           Notification item ID.
+	 * @param int    $secondary_item_id Notification secondary item ID.
+	 * @param int    $total_items       Total number of notifications.
+	 * @param string $format            Notification format.
+	 * @param int    $id                Notification ID.
 	 */
 	public function dummy_notification_callback( $action, $item_id, $secondary_item_id, $total_items, $format = 'string', $id = 0 ) {
 		$this->n_args = compact( 'action', 'item_id', 'secondary_item_id', 'total_items', 'id', 'format' );

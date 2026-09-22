@@ -240,7 +240,7 @@ class BP_Nouveau extends BP_Theme_Compat {
 		add_action( 'widgets_init', 'bp_nouveau_register_sidebars', 11 );
 
 		// Modify "registration disabled" and welcome message if invitations are enabled.
-		add_action( 'bp_nouveau_feedback_messages', array( $this, 'filter_registration_messages' ), 99 );
+		add_filter( 'bp_nouveau_feedback_messages', array( $this, 'filter_registration_messages' ), 99 );
 
 		/**
 		 * Fires after all of the BuddyPress theme compat actions have been added.

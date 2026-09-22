@@ -1241,7 +1241,7 @@ function bp_admin_do_wp_nav_menu_meta_box( $post = '', $box = array() ) {
 
 	// Remove temporary post type and filter.
 	unregister_post_type( 'bp_nav_menu_item' );
-	remove_filter( 'posts_pre_query', 'bp_admin_get_wp_nav_menu_items', 10, 2 );
+	remove_filter( 'posts_pre_query', 'bp_admin_get_wp_nav_menu_items' );
 
 	$tab_name    = 'bp_nav_menu_item-tab';
 	$current_tab = 'logged-in';

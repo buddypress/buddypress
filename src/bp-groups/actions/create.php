@@ -262,7 +262,7 @@ function groups_action_create_group() {
 	// Remove invitations.
 	if ( 'group-invites' === bp_get_groups_current_create_step() && ! empty( $_REQUEST['user_id'] ) && is_numeric( $_REQUEST['user_id'] ) ) {
 		if ( ! check_admin_referer( 'groups_invite_uninvite_user' ) ) {
-			return false;
+			return;
 		}
 
 		$message = __( 'Invite successfully removed', 'buddypress' );

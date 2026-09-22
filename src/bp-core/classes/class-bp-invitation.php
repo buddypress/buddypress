@@ -584,7 +584,7 @@ class BP_Invitation {
 	 * @since 5.0.0
 	 *
 	 * @param array $args Optional. Associative array of filter arguments.
-	 *                    See {@BP_Invitation::get()} for a breakdown.
+	 *                    See {@link BP_Invitation::get()} for a breakdown.
 	 * @return array Associative array of 'data' and 'format' args.
 	 */
 	protected static function get_query_clauses( $args = array() ) {

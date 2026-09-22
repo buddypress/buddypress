@@ -37,7 +37,7 @@ function bp_core_email_from_name_filter() {
  *
  * @since 2.5.0
  *
- * @param mixed $value
+ * @param mixed $value Value to filter.
  * @param string $property Name of property.
  * @param string $transform Return value transformation. Unused.
  * @param BP_Email $email Email object reference.
@@ -92,7 +92,7 @@ function bp_core_deprecated_email_filters( $value, $property, $transform, $email
 			 * @since 1.2.0
 			 * @deprecated 2.5.0 Use the filters in BP_Email.
 			 *
-			 * @param string $value
+			 * @param string $value Recipient email address.
 			 */
 			$value = apply_filters( 'bp_activity_new_comment_notification_to', $value );
 
@@ -132,7 +132,7 @@ function bp_core_deprecated_email_filters( $value, $property, $transform, $email
 			 * @since 1.2.0
 			 * @deprecated 2.5.0 Use the filters in BP_Email.
 			 *
-			 * @param string $value
+			 * @param string $value Recipient email address.
 			 */
 			$value = apply_filters( 'bp_activity_new_comment_notification_comment_author_to', $value );
 
@@ -172,7 +172,7 @@ function bp_core_deprecated_email_filters( $value, $property, $transform, $email
 			 * @since 1.2.0
 			 * @deprecated 2.5.0 Use the filters in BP_Email.
 			 *
-			 * @param string $value
+			 * @param string $value Recipient email address.
 			 */
 			$value = apply_filters( 'bp_activity_at_message_notification_to', $value );
 
@@ -331,7 +331,7 @@ function bp_core_deprecated_email_filters( $value, $property, $transform, $email
 			 * @since 1.2.0
 			 * @deprecated 2.5.0 Use the filters in BP_Email.
 			 *
-			 * @param string $value
+			 * @param string $value Recipient email address.
 			 */
 			$value = apply_filters( 'friends_notification_new_request_to', $value );
 

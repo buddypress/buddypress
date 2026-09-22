@@ -520,9 +520,8 @@ abstract class BP_Invitation_Manager {
 	 *
 	 * @since 5.0.0
 	 *
-	 * @param array $args {BP_Invitation::get()}.
-	 *     Optional.
-	 * @return bool Number of rows updated on success, false on failure.
+	 * @param array $args Optional. See {@link BP_Invitation::get()}.
+	 * @return bool Whether the request was accepted.
 	 */
 	public function accept_request( $args = array() ) {
 		$r = bp_parse_args(
@@ -547,6 +546,7 @@ abstract class BP_Invitation_Manager {
 		}
 
 		$success = $this->run_acceptance_action( 'request', $r );
+
 		if ( $success ) {
 			// Update/Delete all related invitations & requests to this item for this user.
 			$this->mark_accepted( $r );
@@ -554,6 +554,7 @@ abstract class BP_Invitation_Manager {
 			// Allow plugins an opportunity to act on the change.
 			do_action( 'bp_invitations_accepted_request', $r );
 		}
+
 		return $success;
 	}
 

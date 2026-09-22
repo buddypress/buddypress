@@ -340,7 +340,7 @@ class BP_Tests_Admin_Functions extends BP_UnitTestCase {
 
 		$this->assertNotSame( $page_name, $directory_name );
 
-		remove_filter( 'bp_is_active', array( $this, 'is_active_filter' ), 10 );
+		remove_filter( 'bp_is_active', array( $this, 'is_active_filter' ) );
 	}
 
 	/**
@@ -406,6 +406,6 @@ class BP_Tests_Admin_Functions extends BP_UnitTestCase {
 
 		$this->assertSame( $page_name, $directory_name );
 
-		remove_filter( 'bp_is_active', array( $this, 'is_active_filter' ), 10 );
+		remove_filter( 'bp_is_active', array( $this, 'is_active_filter' ) );
 	}
 }

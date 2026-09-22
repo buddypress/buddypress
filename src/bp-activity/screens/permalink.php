@@ -11,18 +11,16 @@
  * Catch and route requests for single activity item permalinks.
  *
  * @since 1.2.0
- *
- * @return bool False on failure.
  */
 function bp_activity_action_permalink_router() {
 	// Not viewing activity.
 	if ( ! bp_is_activity_component() || ! bp_is_current_action( 'p' ) ) {
-		return false;
+		return;
 	}
 
 	// No activity to display.
 	if ( ! bp_action_variable( 0 ) || ! is_numeric( bp_action_variable( 0 ) ) ) {
-		return false;
+		return;
 	}
 
 	// Get the activity details.

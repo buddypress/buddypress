@@ -56,7 +56,7 @@ class BP_Tests_Routing_Members_Root_Profiles extends BP_UnitTestCase {
 	 * @ticket BP6475
 	 */
 	public function test_member_permalink_when_members_page_is_nested_under_wp_page() {
-		$this->markTestSkipped();
+		$this->markTestSkipped( 'Nested member pages are no longer supported in BuddyPress.' );
 
 		/**
 		 * This is no more supported in BuddyPress.

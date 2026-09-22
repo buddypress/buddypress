@@ -2868,7 +2868,7 @@ function bp_nouveau_hidden_primary_nav() {
 	$object = bp_nouveau_get_current_priority_nav_object();
 
 	if ( ! $object || ! bp_nouveau_single_item_supports_priority_nav( $object ) ) {
-		return '';
+		return;
 	}
 ?>
 	<div class="primary-nav-more">
@@ -2893,7 +2893,7 @@ function bp_nouveau_hidden_secondary_nav() {
 	$object = bp_nouveau_get_current_priority_nav_object();
 
 	if ( ! $object || ! bp_nouveau_single_item_supports_priority_nav( $object ) ) {
-		return '';
+		return;
 	}
 ?>
 	<div class="secondary-nav-more">

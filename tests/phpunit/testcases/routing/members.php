@@ -87,22 +87,6 @@ class BP_Tests_Routing_Members extends BP_UnitTestCase {
 	 * @ticket BP6286
 	 * @group member_types
 	 */
-	public function test_member_directory_with_member_type_should_be_overridden_by_member_with_same_nicename() {
-		$this->set_permalink_structure( '/%postname%/' );
-		$u = self::factory()->user->create( array( 'user_nicename' => 'foo' ) );
-		bp_register_member_type( 'foo' );
-		$this->go_to( bp_get_members_directory_permalink() . 'type/foo/' );
-
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * @ticket BP6286
-	 * @group member_types
-	 */
 	public function test_member_directory_should_404_for_member_types_that_have_no_directory() {
 		$this->set_permalink_structure( '/%postname%/' );
 		bp_register_member_type( 'foo', array( 'has_directory' => false ) );

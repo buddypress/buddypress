@@ -184,7 +184,7 @@ class BP_Groups_Invitation_Manager extends BP_Invitation_Manager {
 	 * @since 5.0.0
 	 *
 	 * @param array $args Arguments for the membership request.
-	 * @return bool.
+	 * @return bool Whether the request should be created.
 	 */
 	public function allow_request( $args ) {
 		// Does the requester have this capability? (Also checks for duplicates.)

@@ -314,13 +314,7 @@ class BP_Group_Extension {
 	 *
 	 * @since 1.1.0
 	 */
-	public function widget_display() {
-		return new WP_Error(
-			'invalid-method',
-			/* translators: %s: Method name. */
-			sprintf( __( "Method '%s' not implemented. Must be overridden in subclass.", 'buddypress' ), __METHOD__ )
-		);
-	}
+	public function widget_display() {}
 
 	/*
 	 * *_screen() displays the settings form for the given context
@@ -1477,7 +1471,7 @@ class BP_Group_Extension {
 		add_action( 'bp_groups_admin_meta_boxes', array( $this, '_meta_box_display_callback' ) );
 
 		// Catch the metabox save.
-		add_action( 'bp_group_admin_edit_after', array( $this, 'call_admin_screen_save' ), 10 );
+		add_action( 'bp_group_admin_edit_after', array( $this, 'call_admin_screen_save' ) );
 	}
 
 	/**

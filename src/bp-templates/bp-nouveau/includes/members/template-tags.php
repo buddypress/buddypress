@@ -758,7 +758,7 @@ function bp_nouveau_member_description_edit_link() {
 	 * @return string HTML Output
 	 */
 	function bp_nouveau_member_get_description_edit_link() {
-		remove_filter( 'edit_profile_url', 'bp_members_edit_profile_url', 10, 3 );
+		remove_filter( 'edit_profile_url', 'bp_members_edit_profile_url' );
 
 		if ( is_multisite() && ! current_user_can( 'read' ) ) {
 			$link = get_dashboard_url( bp_displayed_user_id(), 'profile.php' );

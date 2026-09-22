@@ -333,6 +333,11 @@ function bp_log_out_link() {
  *
  * @deprecated 1.5.0
  * @deprecated Deprecated in favor of the more general bp_activity_at_message_notification()
+ *
+ * @param string $content        Activity content containing the mention.
+ * @param int    $poster_user_id ID of the user who posted the activity.
+ * @param int    $group_id       ID of the group containing the activity.
+ * @param int    $activity_id    ID of the activity item.
  */
 function groups_at_message_notification( $content, $poster_user_id, $group_id, $activity_id ) {
 	_deprecated_function( __FUNCTION__, '1.5', 'bp_activity_at_message_notification()' );
@@ -413,6 +418,9 @@ To view and respond to the message, log in and visit: %4$s
  * BP 1.5 simplified notification functions a bit
  * @deprecated 1.5.0
  *
+ * @param int    $user_id          ID of the user receiving the notifications.
+ * @param string $component_name   Name of the component that created the notifications.
+ * @param string $component_action Name of the component action.
  * @return mixed
  */
 function bp_core_delete_notifications_for_user_by_type( $user_id, $component_name, $component_action ) {
@@ -421,6 +429,10 @@ function bp_core_delete_notifications_for_user_by_type( $user_id, $component_nam
 }
 
 /**
+ * @param int       $user_id           ID of the user receiving the notifications.
+ * @param int       $item_id           ID of the associated item.
+ * @param string    $component_name    Name of the component that created the notifications.
+ * @param string    $component_action  Name of the component action.
  * @param false|int $secondary_item_id Optional. Secondary item ID.
  * @return mixed
  */
@@ -482,6 +494,8 @@ function bp_is_friend_requests() {
  *
  * @deprecated 1.5.0
  * @deprecated bp_is_root_component()
+ *
+ * @param string $component_name Name of the component.
  * @return bool True if root component, else false.
  */
 function bp_core_is_root_component( $component_name ) {
@@ -526,7 +540,7 @@ function bp_dtheme_deprecated() {
 	 * @deprecated 1.5.0
 	 * @deprecated No longer required.
 	 * @param string $oldvalue Previous value of get_option( 'page_on_front' )
-	 * @param string $oldvalue New value of get_option( 'page_on_front' )
+	 * @param string $newvalue New value of get_option( 'page_on_front' )
 	 * @return false|string
 	 * @since 1.2.0
 	 */

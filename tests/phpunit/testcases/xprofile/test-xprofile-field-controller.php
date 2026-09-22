@@ -628,6 +628,6 @@ class BP_Tests_XProfile_Fields_REST_Controller extends BP_Test_REST_Controller_T
 	}
 
 	public function test_context_param() {
-		$this->markTestSkipped();
+		$this->markTestSkipped( 'Coverage for the collection route context argument has not been implemented.' );
 	}
 }

@@ -1077,8 +1077,8 @@ function bp_update_user_last_activity( $user_id = 0, $time = '' ) {
 	 * query is enabled.
 	 */
 	if ( $use_legacy_query ) {
-		remove_filter( 'update_user_metadata', '_bp_update_user_meta_last_activity_warning', 10 );
-		remove_filter( 'get_user_metadata', '_bp_get_user_meta_last_activity_warning', 10 );
+		remove_filter( 'update_user_metadata', '_bp_update_user_meta_last_activity_warning' );
+		remove_filter( 'get_user_metadata', '_bp_get_user_meta_last_activity_warning' );
 		bp_update_user_meta( $user_id, 'last_activity', $time );
 		add_filter( 'update_user_metadata', '_bp_update_user_meta_last_activity_warning', 10, 4 );
 		add_filter( 'get_user_metadata', '_bp_get_user_meta_last_activity_warning', 10, 4 );
@@ -2331,13 +2331,12 @@ function bp_members_migrate_signups() {
  * @since 1.2.0
  *
  * @param int $user_id ID of the user.
- * @return bool
  */
 function bp_core_map_user_registration( $user_id ) {
 
 	// Only map data when the site admin is adding users, not on registration.
 	if ( ! is_admin() ) {
-		return false;
+		return;
 	}
 
 	// Add the user's fullname to Xprofile.
@@ -3670,10 +3669,10 @@ function bp_members_invitations_delete_by_id( $id = 0 ) {
  *
  * @since 8.0.0
  *
- * @param intring $args {
+ * @param array|string $args {
  *     Optional. Array of arguments.
  *     @type int|array $id            Id(s) of the invitation(s) to remove.
- *     @type int       $invitee_email Email address of the user being invited.
+ *     @type string    $invitee_email Email address of the user being invited.
  *     @type int       $network_id    ID of the network to which the user is being invited.
  *     @type int       $inviter_id    ID of the inviting user.
  *     @type int       $accepted      Whether the invitation has been accepted yet.

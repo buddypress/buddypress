@@ -23,7 +23,7 @@ class BP_XProfile_Field_Groups_REST_Controller extends WP_REST_Controller {
 	 *
 	 * @since 15.0.0
 	 *
-	 * @var BP_XProfile_Fields_REST_Controller()
+	 * @var BP_XProfile_Fields_REST_Controller
 	 */
 	protected $fields_endpoint;
 

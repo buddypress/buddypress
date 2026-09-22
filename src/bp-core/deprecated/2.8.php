@@ -39,7 +39,7 @@ function bp_core_admin_maybe_disable_update_row_for_php53_requirement() {
 
 	$loader = basename( constant( 'BP_PLUGIN_DIR' ) ) . '/bp-loader.php';
 
-	remove_action( "after_plugin_row_{$loader}", 'wp_plugin_update_row', 10 );
+	remove_action( "after_plugin_row_{$loader}", 'wp_plugin_update_row' );
 	add_action( "after_plugin_row_{$loader}", 'bp_core_admin_php52_plugin_row', 10, 2 );
 }
 
@@ -108,14 +108,14 @@ function bp_core_admin_php52_plugin_row( $file, $plugin_data ) {
 
 	$current = get_site_transient( 'update_plugins' );
 	if ( ! isset( $current->response[ $file ] ) ) {
-		return false;
+		return;
 	}
 
 	$response = $current->response[ $file ];
 
 	// No need to do this if update is for < BP 2.8.
 	if ( version_compare( $response->new_version, '2.8', '<' ) ) {
-		return false;
+		return;
 	}
 
 	$wp_list_table = _get_list_table( 'WP_Plugins_List_Table' );
