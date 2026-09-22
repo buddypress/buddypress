@@ -15,6 +15,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * Responsible for loading a group of blogs into a loop for display.
  */
+#[AllowDynamicProperties]
 class BP_Blogs_Template {
 
 	/**
