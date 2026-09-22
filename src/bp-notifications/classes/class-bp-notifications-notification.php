@@ -143,7 +143,7 @@ class BP_Notifications_Notification {
 		 */
 		do_action_ref_array( 'bp_notification_before_save', array( &$this ) );
 
-		$data = array(
+		$data        = array(
 			'user_id'           => $this->user_id,
 			'item_id'           => $this->item_id,
 			'secondary_item_id' => $this->secondary_item_id,
@@ -224,7 +224,7 @@ class BP_Notifications_Notification {
 	 * @see wpdb::insert() for further description of parameter formats.
 	 *
 	 * @param array $data {
-	 *     Array of notification data, passed to {@link wpdb::insert()}.
+	 *     Optional. Array of notification data, passed to {@link wpdb::insert()}.
 	 *     @type int    $user_id           ID of the associated user.
 	 *     @type int    $item_id           ID of the associated item.
 	 *     @type int    $secondary_item_id ID of the secondary associated item.
@@ -234,10 +234,10 @@ class BP_Notifications_Notification {
 	 *     @type string $date_notified     Timestamp of the notification.
 	 *     @type bool   $is_new            True if the notification is unread, otherwise false.
 	 * }
-	 * @param array $data_format See {@link wpdb::insert()}.
+	 * @param array $data_format Optional. See {@link wpdb::insert()}.
 	 * @return int|false The number of rows inserted, or false on error.
 	 */
-	protected static function _insert( $data = array(), $data_format = array() ) {
+	protected static function _insert( $data = array(), $data_format = array() ) { // phpcs:ignore PSR2.Methods.MethodDeclaration.Underscore -- Retains the established method name for backward compatibility.
 		global $wpdb;
 		return $wpdb->insert( buddypress()->notifications->table_name, $data, $data_format );
 	}
@@ -251,17 +251,17 @@ class BP_Notifications_Notification {
 	 *
 	 * @see wpdb::update() for further description of parameter formats.
 	 *
-	 * @param array $data         Array of notification data to update, passed to
+	 * @param array $data         Optional. Array of notification data to update, passed to
 	 *                            {@link wpdb::update()}. Accepts any property of a
 	 *                            BP_Notification_Notification object.
-	 * @param array $where        The WHERE params as passed to wpdb::update().
+	 * @param array $where        Optional. The WHERE params as passed to wpdb::update().
 	 *                            Typically consists of array( 'ID' => $id ) to specify the ID
 	 *                            of the item being updated. See {@link wpdb::update()}.
-	 * @param array $data_format  See {@link wpdb::insert()}.
-	 * @param array $where_format See {@link wpdb::insert()}.
+	 * @param array $data_format  Optional. See {@link wpdb::insert()}.
+	 * @param array $where_format Optional. See {@link wpdb::insert()}.
 	 * @return int|false The number of rows updated, or false on error.
 	 */
-	protected static function _update( $data = array(), $where = array(), $data_format = array(), $where_format = array() ) {
+	protected static function _update( $data = array(), $where = array(), $data_format = array(), $where_format = array() ) { // phpcs:ignore PSR2.Methods.MethodDeclaration.Underscore -- Retains the established method name for backward compatibility.
 		global $wpdb;
 		return $wpdb->update( buddypress()->notifications->table_name, $data, $where, $data_format, $where_format );
 	}
@@ -275,13 +275,13 @@ class BP_Notifications_Notification {
 	 *
 	 * @see wpdb::delete() for further description of parameter formats.
 	 *
-	 * @param array $where        Array of WHERE clauses to filter by, passed to
+	 * @param array $where        Optional. Array of WHERE clauses to filter by, passed to
 	 *                            {@link wpdb::delete()}. Accepts any property of a
 	 *                            BP_Notification_Notification object.
-	 * @param array $where_format See {@link wpdb::insert()}.
+	 * @param array $where_format Optional. See {@link wpdb::insert()}.
 	 * @return int|false The number of rows updated, or false on error.
 	 */
-	protected static function _delete( $where = array(), $where_format = array() ) {
+	protected static function _delete( $where = array(), $where_format = array() ) { // phpcs:ignore PSR2.Methods.MethodDeclaration.Underscore -- Retains the established method name for backward compatibility.
 		global $wpdb;
 		return $wpdb->delete( buddypress()->notifications->table_name, $where, $where_format );
 	}
@@ -296,12 +296,12 @@ class BP_Notifications_Notification {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @param array  $args           See {@link BP_Notifications_Notification::get()}
+	 * @param array  $args           Optional. See {@link BP_Notifications_Notification::get()}
 	 *                               for more details.
-	 * @param string $select_sql     SQL SELECT fragment.
-	 * @param string $from_sql       SQL FROM fragment.
-	 * @param string $join_sql       SQL JOIN fragment.
-	 * @param string $meta_query_sql SQL meta query fragment.
+	 * @param string $select_sql     Optional. SQL SELECT fragment.
+	 * @param string $from_sql       Optional. SQL FROM fragment.
+	 * @param string $join_sql       Optional. SQL JOIN fragment.
+	 * @param string $meta_query_sql Optional. SQL meta query fragment.
 	 * @return string WHERE clause.
 	 */
 	protected static function get_where_sql( $args = array(), $select_sql = '', $from_sql = '', $join_sql = '', $meta_query_sql = '' ) {
@@ -312,25 +312,25 @@ class BP_Notifications_Notification {
 
 		// The id.
 		if ( ! empty( $args['id'] ) ) {
-			$id_in = implode( ',', wp_parse_id_list( $args['id'] ) );
+			$id_in                  = implode( ',', wp_parse_id_list( $args['id'] ) );
 			$where_conditions['id'] = "id IN ({$id_in})";
 		}
 
 		// The user_id.
 		if ( ! empty( $args['user_id'] ) ) {
-			$user_id_in = implode( ',', wp_parse_id_list( $args['user_id'] ) );
+			$user_id_in                  = implode( ',', wp_parse_id_list( $args['user_id'] ) );
 			$where_conditions['user_id'] = "user_id IN ({$user_id_in})";
 		}
 
 		// The item_id.
 		if ( ! empty( $args['item_id'] ) ) {
-			$item_id_in = implode( ',', wp_parse_id_list( $args['item_id'] ) );
+			$item_id_in                  = implode( ',', wp_parse_id_list( $args['item_id'] ) );
 			$where_conditions['item_id'] = "item_id IN ({$item_id_in})";
 		}
 
 		// The secondary_item_id.
 		if ( ! empty( $args['secondary_item_id'] ) ) {
-			$secondary_item_id_in = implode( ',', wp_parse_id_list( $args['secondary_item_id'] ) );
+			$secondary_item_id_in                  = implode( ',', wp_parse_id_list( $args['secondary_item_id'] ) );
 			$where_conditions['secondary_item_id'] = "secondary_item_id IN ({$secondary_item_id_in})";
 		}
 
@@ -347,7 +347,7 @@ class BP_Notifications_Notification {
 				$cn_clean[] = $wpdb->prepare( '%s', $cn );
 			}
 
-			$cn_in = implode( ',', $cn_clean );
+			$cn_in                              = implode( ',', $cn_clean );
 			$where_conditions['component_name'] = "component_name IN ({$cn_in})";
 		}
 
@@ -364,21 +364,21 @@ class BP_Notifications_Notification {
 				$ca_clean[] = $wpdb->prepare( '%s', $ca );
 			}
 
-			$ca_in = implode( ',', $ca_clean );
+			$ca_in                                = implode( ',', $ca_clean );
 			$where_conditions['component_action'] = "component_action IN ({$ca_in})";
 		}
 
 		// If is_new.
 		if ( ! empty( $args['is_new'] ) && 'both' !== $args['is_new'] ) {
-			$where_conditions['is_new'] = "is_new = 1";
+			$where_conditions['is_new'] = 'is_new = 1';
 		} elseif ( isset( $args['is_new'] ) && ( 0 === $args['is_new'] || false === $args['is_new'] ) ) {
-			$where_conditions['is_new'] = "is_new = 0";
+			$where_conditions['is_new'] = 'is_new = 0';
 		}
 
 		// The search_terms.
 		if ( ! empty( $args['search_terms'] ) ) {
-			$search_terms_like = '%' . bp_esc_like( $args['search_terms'] ) . '%';
-			$where_conditions['search_terms'] = $wpdb->prepare( "( component_name LIKE %s OR component_action LIKE %s )", $search_terms_like, $search_terms_like );
+			$search_terms_like                = '%' . bp_esc_like( $args['search_terms'] ) . '%';
+			$where_conditions['search_terms'] = $wpdb->prepare( '( component_name LIKE %s OR component_action LIKE %s )', $search_terms_like, $search_terms_like );
 		}
 
 		// The date query.
@@ -421,7 +421,7 @@ class BP_Notifications_Notification {
 	 *
 	 * @since 1.9.0
 	 *
-	 * @param array $args See {@link BP_Notifications_Notification::get()}
+	 * @param array $args Optional. See {@link BP_Notifications_Notification::get()}
 	 *                    for more details.
 	 * @return string ORDER BY clause.
 	 */
@@ -468,9 +468,9 @@ class BP_Notifications_Notification {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @param array $args See {@link BP_Notifications_Notification::get()}
+	 * @param array $args Optional. See {@link BP_Notifications_Notification::get()}
 	 *                    for more details.
-	 * @return string $retval LIMIT clause.
+	 * @return string LIMIT clause.
 	 */
 	protected static function get_paged_sql( $args = array() ) {
 		global $wpdb;
@@ -480,10 +480,10 @@ class BP_Notifications_Notification {
 
 		// Custom LIMIT.
 		if ( ! empty( $args['page'] ) && ! empty( $args['per_page'] ) ) {
-			$page     = absint( $args['page']     );
+			$page     = absint( $args['page'] );
 			$per_page = absint( $args['per_page'] );
 			$offset   = $per_page * ( $page - 1 );
-			$retval   = $wpdb->prepare( "LIMIT %d, %d", $offset, $per_page );
+			$retval   = $wpdb->prepare( 'LIMIT %d, %d', $offset, $per_page );
 		}
 
 		return $retval;
@@ -525,8 +525,8 @@ class BP_Notifications_Notification {
 	 *
 	 * @since 1.9.0
 	 *
-	 * @param array $args Associative array of filter arguments.
-	 *                    See {@BP_Notifications_Notification::get()}
+	 * @param array $args Optional. Associative array of filter arguments.
+	 *                    See {@link BP_Notifications_Notification::get()}
 	 *                    for a breakdown.
 	 * @return array Associative array of 'data' and 'format' args.
 	 */
@@ -539,43 +539,43 @@ class BP_Notifications_Notification {
 		// The id.
 		if ( ! empty( $args['id'] ) ) {
 			$where_clauses['data']['id'] = absint( $args['id'] );
-			$where_clauses['format'][] = '%d';
+			$where_clauses['format'][]   = '%d';
 		}
 
 		// The user_id.
 		if ( ! empty( $args['user_id'] ) ) {
 			$where_clauses['data']['user_id'] = absint( $args['user_id'] );
-			$where_clauses['format'][] = '%d';
+			$where_clauses['format'][]        = '%d';
 		}
 
 		// The item_id.
 		if ( ! empty( $args['item_id'] ) ) {
 			$where_clauses['data']['item_id'] = absint( $args['item_id'] );
-			$where_clauses['format'][] = '%d';
+			$where_clauses['format'][]        = '%d';
 		}
 
 		// The secondary_item_id.
 		if ( ! empty( $args['secondary_item_id'] ) ) {
 			$where_clauses['data']['secondary_item_id'] = absint( $args['secondary_item_id'] );
-			$where_clauses['format'][] = '%d';
+			$where_clauses['format'][]                  = '%d';
 		}
 
 		// The component_name.
 		if ( ! empty( $args['component_name'] ) ) {
 			$where_clauses['data']['component_name'] = $args['component_name'];
-			$where_clauses['format'][] = '%s';
+			$where_clauses['format'][]               = '%s';
 		}
 
 		// The component_action.
 		if ( ! empty( $args['component_action'] ) ) {
 			$where_clauses['data']['component_action'] = $args['component_action'];
-			$where_clauses['format'][] = '%s';
+			$where_clauses['format'][]                 = '%s';
 		}
 
 		// If is_new.
 		if ( isset( $args['is_new'] ) ) {
 			$where_clauses['data']['is_new'] = ! empty( $args['is_new'] ) ? 1 : 0;
-			$where_clauses['format'][] = '%d';
+			$where_clauses['format'][]       = '%d';
 		}
 
 		return $where_clauses;
@@ -590,8 +590,8 @@ class BP_Notifications_Notification {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @param int $user_id         ID of the user being checked.
-	 * @param int $notification_id ID of the notification being checked.
+	 * @param int $user_id         Optional. ID of the user being checked.
+	 * @param int $notification_id Optional. ID of the notification being checked.
 	 * @return bool True if the notification belongs to the user, otherwise false.
 	 */
 	public static function check_access( $user_id = 0, $notification_id = 0 ) {
@@ -611,7 +611,7 @@ class BP_Notifications_Notification {
 	 *
 	 * @since 2.3.0
 	 *
-	 * @param array|string $args Args to parse.
+	 * @param array|string $args Optional. Args to parse.
 	 * @return array
 	 */
 	public static function parse_args( $args = '' ) {
@@ -691,7 +691,7 @@ class BP_Notifications_Notification {
 		$meta_query_sql = self::get_meta_query_sql( $r['meta_query'] );
 
 		// SELECT.
-		$select_sql = "SELECT n.*";
+		$select_sql = 'SELECT n.*';
 
 		// FROM.
 		$from_sql = "FROM {$bp->notifications->table_name} n ";
@@ -706,29 +706,39 @@ class BP_Notifications_Notification {
 		$join_sql = $meta_query_sql['join'];
 
 		// WHERE.
-		$where_sql = self::get_where_sql( array(
-			'id'                => $r['id'],
-			'user_id'           => $r['user_id'],
-			'item_id'           => $r['item_id'],
-			'secondary_item_id' => $r['secondary_item_id'],
-			'component_name'    => $r['component_name'],
-			'component_action'  => $r['component_action'],
-			'is_new'            => $r['is_new'],
-			'search_terms'      => $r['search_terms'],
-			'date_query'        => $r['date_query']
-		), $select_sql, $from_sql, $join_sql, $meta_query_sql );
+		$where_sql = self::get_where_sql(
+			array(
+				'id'                => $r['id'],
+				'user_id'           => $r['user_id'],
+				'item_id'           => $r['item_id'],
+				'secondary_item_id' => $r['secondary_item_id'],
+				'component_name'    => $r['component_name'],
+				'component_action'  => $r['component_action'],
+				'is_new'            => $r['is_new'],
+				'search_terms'      => $r['search_terms'],
+				'date_query'        => $r['date_query'],
+			),
+			$select_sql,
+			$from_sql,
+			$join_sql,
+			$meta_query_sql
+		);
 
 		// ORDER BY.
-		$order_sql  = self::get_order_by_sql( array(
-			'order_by'   => $r['order_by'],
-			'sort_order' => $r['sort_order']
-		) );
+		$order_sql = self::get_order_by_sql(
+			array(
+				'order_by'   => $r['order_by'],
+				'sort_order' => $r['sort_order'],
+			)
+		);
 
 		// LIMIT %d, %d.
-		$pag_sql    = self::get_paged_sql( array(
-			'page'     => $r['page'],
-			'per_page' => $r['per_page']
-		) );
+		$pag_sql = self::get_paged_sql(
+			array(
+				'page'     => $r['page'],
+				'per_page' => $r['per_page'],
+			)
+		);
 
 		// Concatenate query parts.
 		$sql = "{$select_sql} {$from_sql} {$join_sql} {$where_sql} {$order_sql} {$pag_sql}";
@@ -738,11 +748,11 @@ class BP_Notifications_Notification {
 
 		// Integer casting.
 		foreach ( $results as $key => $result ) {
-			$results[$key]->id                = (int) $results[$key]->id;
-			$results[$key]->user_id           = (int) $results[$key]->user_id;
-			$results[$key]->item_id           = (int) $results[$key]->item_id;
-			$results[$key]->secondary_item_id = (int) $results[$key]->secondary_item_id;
-			$results[$key]->is_new            = (int) $results[$key]->is_new;
+			$results[ $key ]->id                = (int) $results[ $key ]->id;
+			$results[ $key ]->user_id           = (int) $results[ $key ]->user_id;
+			$results[ $key ]->item_id           = (int) $results[ $key ]->item_id;
+			$results[ $key ]->secondary_item_id = (int) $results[ $key ]->secondary_item_id;
+			$results[ $key ]->is_new            = (int) $results[ $key ]->is_new;
 		}
 
 		// Update meta cache.
@@ -776,26 +786,32 @@ class BP_Notifications_Notification {
 		$meta_query_sql = self::get_meta_query_sql( $r['meta_query'] );
 
 		// SELECT.
-		$select_sql = "SELECT COUNT(*)";
+		$select_sql = 'SELECT COUNT(*)';
 
 		// FROM.
-		$from_sql   = "FROM {$bp->notifications->table_name} n ";
+		$from_sql = "FROM {$bp->notifications->table_name} n ";
 
 		// JOIN.
-		$join_sql   = $meta_query_sql['join'];
+		$join_sql = $meta_query_sql['join'];
 
 		// WHERE.
-		$where_sql  = self::get_where_sql( array(
-			'id'                => $r['id'],
-			'user_id'           => $r['user_id'],
-			'item_id'           => $r['item_id'],
-			'secondary_item_id' => $r['secondary_item_id'],
-			'component_name'    => $r['component_name'],
-			'component_action'  => $r['component_action'],
-			'is_new'            => $r['is_new'],
-			'search_terms'      => $r['search_terms'],
-			'date_query'        => $r['date_query']
-		), $select_sql, $from_sql, $join_sql, $meta_query_sql );
+		$where_sql = self::get_where_sql(
+			array(
+				'id'                => $r['id'],
+				'user_id'           => $r['user_id'],
+				'item_id'           => $r['item_id'],
+				'secondary_item_id' => $r['secondary_item_id'],
+				'component_name'    => $r['component_name'],
+				'component_action'  => $r['component_action'],
+				'is_new'            => $r['is_new'],
+				'search_terms'      => $r['search_terms'],
+				'date_query'        => $r['date_query'],
+			),
+			$select_sql,
+			$from_sql,
+			$join_sql,
+			$meta_query_sql
+		);
 
 		// Concatenate query parts.
 		$sql = "{$select_sql} {$from_sql} {$join_sql} {$where_sql}";
@@ -817,9 +833,9 @@ class BP_Notifications_Notification {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @param  array $meta_query An array of meta_query filters. See the
+	 * @param  array $meta_query Optional. An array of meta_query filters. See the
 	 *                           documentation for WP_Meta_Query for details.
-	 * @return array $sql_array 'join' and 'where' clauses.
+	 * @return array 'join' and 'where' clauses.
 	 */
 	public static function get_meta_query_sql( $meta_query = array() ) {
 		global $wpdb;
@@ -858,7 +874,7 @@ class BP_Notifications_Notification {
 	 *
 	 * @since 2.3.0
 	 *
-	 * @param array $date_query An array of date_query parameters. See the
+	 * @param array $date_query Optional. An array of date_query parameters. See the
 	 *                          documentation for the first parameter of WP_Date_Query.
 	 * @return string
 	 */
@@ -874,10 +890,10 @@ class BP_Notifications_Notification {
 	 * @see BP_Notifications_Notification::get() for a description of
 	 *      accepted update/where arguments.
 	 *
-	 * @param array $update_args Associative array of fields to update,
+	 * @param array $update_args Optional. Associative array of fields to update,
 	 *                           and the values to update them to. Of the format
 	 *                           array( 'user_id' => 4, 'component_name' => 'groups', ).
-	 * @param array $where_args  Associative array of columns/values, to
+	 * @param array $where_args  Optional. Associative array of columns/values, to
 	 *                           determine which rows should be updated. Of the format
 	 *                           array( 'item_id' => 7, 'component_action' => 'members', ).
 	 * @return int|false Number of rows updated on success, false on failure.
@@ -913,9 +929,9 @@ class BP_Notifications_Notification {
 	 *
 	 * @param string $field The name of the db field of the items to update.
 	 *                      Possible values are `id` or `item_id`.
-	 * @param int[]  $items The list of items to update.
-	 * @param array  $data  Array of notification data to update.
-	 * @param array  $where The WHERE params to use to specify the item IDs to update.
+	 * @param int[]  $items Optional. The list of items to update.
+	 * @param array  $data  Optional. Array of notification data to update.
+	 * @param array  $where Optional. The WHERE params to use to specify the item IDs to update.
 	 * @return int|false    The number of updated rows. False on error.
 	 */
 	public static function update_id_list( $field, $items = array(), $data = array(), $where = array() ) {
@@ -943,7 +959,7 @@ class BP_Notifications_Notification {
 		$conditions[] = "{$field} IN ({$_items})";
 
 		foreach ( $update_args['data'] as $update_field => $value ) {
-			$index  = array_search( $update_field, array_keys( $update_args['data'] ) );
+			$index  = array_search( $update_field, array_keys( $update_args['data'] ), true );
 			$format = $update_args['format'][ $index ];
 
 			$fields[] = "{$update_field} = {$format}";
@@ -951,7 +967,7 @@ class BP_Notifications_Notification {
 		}
 
 		foreach ( $where_args['data'] as $where_field => $value ) {
-			$index  = array_search( $where_field, array_keys( $where_args['data'] ) );
+			$index  = array_search( $where_field, array_keys( $where_args['data'] ), true );
 			$format = $where_args['format'][ $index ];
 
 			$conditions[] = "{$where_field} = {$format}";
@@ -971,7 +987,9 @@ class BP_Notifications_Notification {
 		/** This action is documented in bp-notifications/classes/class-bp-notifications-notification.php */
 		do_action( 'bp_notification_before_update', $update_args, $where_args );
 
-		return $wpdb->query( $wpdb->prepare( "UPDATE {$bp->notifications->table_name} SET {$fields} WHERE {$conditions}", $values ) );
+		$sql = "UPDATE {$bp->notifications->table_name} SET {$fields} WHERE {$conditions}";
+
+		return $wpdb->query( $wpdb->prepare( $sql, $values ) );
 	}
 
 	/**
@@ -982,7 +1000,7 @@ class BP_Notifications_Notification {
 	 * @see BP_Notifications_Notification::get() for a description of
 	 *      accepted where arguments.
 	 *
-	 * @param array $args Associative array of columns/values, to determine
+	 * @param array $args Optional. Associative array of columns/values, to determine
 	 *                    which rows should be deleted.  Of the format
 	 *                    array( 'item_id' => 7, 'component_action' => 'members', ).
 	 * @return int|false Number of rows deleted on success, false on failure.
@@ -1013,8 +1031,8 @@ class BP_Notifications_Notification {
 	 *
 	 * @param string $field The name of the db field of the items to delete.
 	 *                      Possible values are `id` or `item_id`.
-	 * @param int[]  $items The list of items to delete.
-	 * @param array  $args  The WHERE arguments to use to specify the item IDs to delete.
+	 * @param int[]  $items Optional. The list of items to delete.
+	 * @param array  $args  Optional. The WHERE arguments to use to specify the item IDs to delete.
 	 * @return int|false    The number of deleted rows. False on error.
 	 */
 	public static function delete_by_id_list( $field, $items = array(), $args = array() ) {
@@ -1040,7 +1058,7 @@ class BP_Notifications_Notification {
 		$conditions[] = "{$field} IN ({$_items})";
 
 		foreach ( $where['data'] as $where_field => $value ) {
-			$index  = array_search( $where_field, array_keys( $where['data'] ) );
+			$index  = array_search( $where_field, array_keys( $where['data'] ), true );
 			$format = $where['format'][ $index ];
 
 			$conditions[] = "{$where_field} = {$format}";
@@ -1060,7 +1078,9 @@ class BP_Notifications_Notification {
 			return $wpdb->query( "DELETE FROM {$bp->notifications->table_name} WHERE {$conditions}" );
 		}
 
-		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->notifications->table_name} WHERE {$conditions}", $values ) );
+		$sql = "DELETE FROM {$bp->notifications->table_name} WHERE {$conditions}";
+
+		return $wpdb->query( $wpdb->prepare( $sql, $values ) );
 	}
 
 	/** Convenience methods ***************************************************/
@@ -1074,12 +1094,14 @@ class BP_Notifications_Notification {
 	 *      return value.
 	 *
 	 * @param int $id ID of the notification item to be deleted.
-	 * @return int|false True on success, false on failure.
+	 * @return int|false Number of rows affected on success, false on failure.
 	 */
 	public static function delete_by_id( $id ) {
-		return self::delete( array(
-			'id' => $id,
-		) );
+		return self::delete(
+			array(
+				'id' => $id,
+			)
+		);
 	}
 
 	/**
@@ -1094,10 +1116,12 @@ class BP_Notifications_Notification {
 	 * @return array Associative array of notification items.
 	 */
 	public static function get_all_for_user( $user_id, $status = 'is_new' ) {
-		return self::get( array(
-			'user_id' => $user_id,
-			'is_new'  => 'is_new' === $status,
-		) );
+		return self::get(
+			array(
+				'user_id' => $user_id,
+				'is_new'  => 'is_new' === $status,
+			)
+		);
 	}
 
 	/**
@@ -1105,15 +1129,17 @@ class BP_Notifications_Notification {
 	 *
 	 * @since 1.9.0
 	 *
-	 * @param int $user_id ID of the user whose notifications are being
+	 * @param int $user_id Optional. ID of the user whose notifications are being
 	 *                     fetched.
 	 * @return array Associative array of unread notification items.
 	 */
 	public static function get_unread_for_user( $user_id = 0 ) {
-		return self::get( array(
-			'user_id' => $user_id,
-			'is_new'  => true,
-		) );
+		return self::get(
+			array(
+				'user_id' => $user_id,
+				'is_new'  => true,
+			)
+		);
 	}
 
 	/**
@@ -1121,15 +1147,17 @@ class BP_Notifications_Notification {
 	 *
 	 * @since 1.9.0
 	 *
-	 * @param int $user_id ID of the user whose notifications are being
+	 * @param int $user_id Optional. ID of the user whose notifications are being
 	 *                     fetched.
 	 * @return array Associative array of unread notification items.
 	 */
 	public static function get_read_for_user( $user_id = 0 ) {
-		return self::get( array(
-			'user_id' => $user_id,
-			'is_new'  => false,
-		) );
+		return self::get(
+			array(
+				'user_id' => $user_id,
+				'is_new'  => false,
+			)
+		);
 	}
 
 	/**
@@ -1138,7 +1166,7 @@ class BP_Notifications_Notification {
 	 * @since 1.9.0
 	 *
 	 * @param array $args {
-	 *     Array of arguments.
+	 *     Optional. Array of arguments.
 	 *     @type int    $user_id      ID of the user for whom the notifications are
 	 *                                being fetched. Default: logged-in user ID.
 	 *     @type bool   $is_new       Whether to limit the query to unread
@@ -1176,7 +1204,10 @@ class BP_Notifications_Notification {
 
 		$total_count = self::get_total_count( $r );
 
-		return array( 'notifications' => &$notifications, 'total' => $total_count );
+		return array(
+			'notifications' => &$notifications,
+			'total' => $total_count,
+		);
 	}
 
 	/** Mark ******************************************************************/
@@ -1187,11 +1218,11 @@ class BP_Notifications_Notification {
 	 * @since 1.9.0
 	 *
 	 * @param int    $user_id           The ID of the user who the notifications are for.
-	 * @param int    $is_new            Mark as read (1) or unread (0).
-	 * @param int    $item_id           Item ID being acted on.
-	 * @param string $component_name    Name of component the notifications are for.
-	 * @param string $component_action  Name of the component action.
-	 * @param int    $secondary_item_id The ID of the secondary item.
+	 * @param int    $is_new            Optional. Mark as read (1) or unread (0).
+	 * @param int    $item_id           Optional. Item ID being acted on.
+	 * @param string $component_name    Optional. Name of component the notifications are for.
+	 * @param string $component_action  Optional. Name of the component action.
+	 * @param int    $secondary_item_id Optional. The ID of the secondary item.
 	 * @return int|false False on failure to update. ID on success.
 	 */
 	public static function mark_all_for_user( $user_id, $is_new = 0, $item_id = 0, $component_name = '', $component_action = '', $secondary_item_id = 0 ) {
@@ -1231,10 +1262,10 @@ class BP_Notifications_Notification {
 	 * @since 1.9.0
 	 *
 	 * @param int    $user_id           The ID of the user who the notifications are from.
-	 * @param int    $is_new            Mark as read (1) or unread (0).
-	 * @param string $component_name    Name of component the notifications are for.
-	 * @param string $component_action  Name of the component action.
-	 * @param int    $secondary_item_id The ID of the secondary item.
+	 * @param int    $is_new            Optional. Mark as read (1) or unread (0).
+	 * @param string $component_name    Optional. Name of component the notifications are for.
+	 * @param string $component_action  Optional. Name of the component action.
+	 * @param int    $secondary_item_id Optional. The ID of the secondary item.
 	 * @return int|false
 	 */
 	public static function mark_all_from_user( $user_id, $is_new = 0, $component_name = '', $component_action = '', $secondary_item_id = 0 ) {
@@ -1272,10 +1303,10 @@ class BP_Notifications_Notification {
 	 *
 	 * @param int    $item_id           The ID of the item associated with the
 	 *                                  notifications.
-	 * @param int    $is_new            Mark as read (1) or unread (0).
-	 * @param string $component_name    The component that the notifications
+	 * @param int    $is_new            Optional. Mark as read (1) or unread (0).
+	 * @param string $component_name    Optional. The component that the notifications
 	 *                                  are associated with.
-	 * @param string $component_action  The action that the notifications
+	 * @param string $component_action  Optional. The action that the notifications
 	 *                                  are associated with.
 	 * @param int    $secondary_item_id Optional. ID of the secondary
 	 *                                  associated item.
@@ -1331,28 +1362,42 @@ class BP_Notifications_Notification {
 		$bp = buddypress();
 
 		// SELECT.
-		$select_sql = "SELECT id, user_id, item_id, secondary_item_id, component_name, component_action, date_notified, is_new, COUNT(id) as total_count ";
+		$select_sql = 'SELECT id, user_id, item_id, secondary_item_id, component_name, component_action, date_notified, is_new, COUNT(id) as total_count ';
 
 		// FROM.
 		$from_sql = "FROM {$bp->notifications->table_name} n ";
 
 		// WHERE.
-		$where_sql = self::get_where_sql( array(
-			'user_id'        => $user_id,
-			'is_new'         => 1,
-			'component_name' => bp_notifications_get_registered_components(),
-		), $select_sql, $from_sql );
+		$where_sql = self::get_where_sql(
+			array(
+				'user_id'        => $user_id,
+				'is_new'         => 1,
+				'component_name' => bp_notifications_get_registered_components(),
+			),
+			$select_sql,
+			$from_sql
+		);
 
 		// GROUP
-		$group_sql = "GROUP BY user_id, component_name, component_action";
+		$group_sql = 'GROUP BY user_id, component_name, component_action';
 
 		// SORT
-		$order_sql = "ORDER BY date_notified desc";
+		$order_sql = 'ORDER BY date_notified desc';
 
 		// Concatenate query parts.
 		$sql = "{$select_sql} {$from_sql} {$where_sql} {$group_sql} {$order_sql}";
 
-		// Return the queried results.
-		return $wpdb->get_results( $sql );
+		$notifications = $wpdb->get_results( $sql );
+
+		foreach ( $notifications as $notification ) {
+			$notification->id                = (int) $notification->id;
+			$notification->user_id           = (int) $notification->user_id;
+			$notification->item_id           = (int) $notification->item_id;
+			$notification->secondary_item_id = (int) $notification->secondary_item_id;
+			$notification->is_new            = (int) $notification->is_new;
+			$notification->total_count       = (int) $notification->total_count;
+		}
+
+		return $notifications;
 	}
 }

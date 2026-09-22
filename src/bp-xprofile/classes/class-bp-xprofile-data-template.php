@@ -131,7 +131,16 @@ class BP_XProfile_Data_Template {
 
 		// Backward compatibility with old method of passing arguments.
 		if ( ! is_array( $args ) || count( $function_args ) > 1 ) {
-			_deprecated_argument( __METHOD__, '2.3.0', sprintf( esc_html__( 'Arguments passed to %1$s should be in an associative array. See the inline documentation at %2$s for more details.', 'buddypress' ), __METHOD__, __FILE__ ) );
+			_deprecated_argument(
+				__METHOD__,
+				'2.3.0',
+				sprintf(
+					/* translators: 1: the name of the method. 2: the name of the file. */
+					esc_html__( 'Arguments passed to %1$s should be in an associative array. See the inline documentation at %2$s for more details.', 'buddypress' ),
+					__METHOD__,
+					__FILE__
+				)
+			);
 
 			$old_args_keys = array(
 				0 => 'user_id',
@@ -236,7 +245,7 @@ class BP_XProfile_Data_Template {
 	 * @return object
 	 */
 	public function next_group() {
-		$this->current_group++;
+		++$this->current_group;
 
 		$this->group       = $this->groups[ $this->current_group ];
 		$this->field_count = 0;
@@ -280,7 +289,7 @@ class BP_XProfile_Data_Template {
 	public function profile_groups() {
 		if ( $this->current_group + 1 < $this->group_count ) {
 			return true;
-		} elseif ( $this->current_group + 1 == $this->group_count ) {
+		} elseif ( $this->current_group + 1 === $this->group_count ) {
 
 			/**
 			 * Fires right before the rewinding of profile groups.
@@ -303,13 +312,12 @@ class BP_XProfile_Data_Template {
 	 * @since 1.0.0
 	 *
 	 * @global object $group Current group of profile fields.
-	 *
 	 */
 	public function the_profile_group() {
 		global $group;
 
 		$this->in_the_loop = true;
-		$group = $this->next_group();
+		$group             = $this->next_group();
 
 		// Loop has just started.
 		if ( 0 === $this->current_group ) {
@@ -333,7 +341,7 @@ class BP_XProfile_Data_Template {
 	 * @return int
 	 */
 	public function next_field() {
-		$this->current_field++;
+		++$this->current_field;
 
 		$this->field = $this->group->fields[ $this->current_field ];
 
@@ -365,7 +373,7 @@ class BP_XProfile_Data_Template {
 		for ( $i = 0, $count = count( $this->group->fields ); $i < $count; ++$i ) {
 			$field = &$this->group->fields[ $i ];
 
-			if ( ! empty( $field->data ) && ( $field->data->value != null ) ) {
+			if ( ! empty( $field->data ) && ( $field->data->value !== null ) ) {
 				$has_data = true;
 			}
 		}
@@ -383,7 +391,7 @@ class BP_XProfile_Data_Template {
 	public function profile_fields() {
 		if ( $this->current_field + 1 < $this->field_count ) {
 			return true;
-		} elseif ( $this->current_field + 1 == $this->field_count ) {
+		} elseif ( $this->current_field + 1 === $this->field_count ) {
 			// Do some cleaning up after the loop.
 			$this->rewind_fields();
 		}
@@ -397,7 +405,6 @@ class BP_XProfile_Data_Template {
 	 * @since 1.0.0
 	 *
 	 * @global object $field Current profile field.
-	 *
 	 */
 	public function the_profile_field() {
 		global $field;

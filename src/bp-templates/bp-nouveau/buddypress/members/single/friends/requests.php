@@ -2,9 +2,12 @@
 /**
  * BuddyPress - Members Friends Requests
  *
+ * @package BuddyPress
+ * @subpackage bp-nouveau
  * @since 3.0.0
  * @version 5.0.0
  */
+
 ?>
 
 <h2 class="screen-heading friendship-requests-screen"><?php esc_html_e( 'Friendship Requests', 'buddypress' ); ?></h2>
@@ -15,4 +18,5 @@
 	<?php bp_get_template_part( 'members/single/friends/requests-loop' ); ?>
 </div>
 
-<?php bp_nouveau_member_hook( 'after', 'friend_requests_content' );
+<?php
+bp_nouveau_member_hook( 'after', 'friend_requests_content' );

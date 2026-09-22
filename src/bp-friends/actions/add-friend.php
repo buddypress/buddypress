@@ -14,16 +14,16 @@
  */
 function friends_action_add_friend() {
 	if ( ! bp_is_friends_component() || ! bp_is_current_action( 'add-friend' ) ) {
-		return false;
+		return;
 	}
 
 	$potential_friend_id = (int) bp_action_variable( 0 );
 	if ( ! $potential_friend_id ) {
-		return false;
+		return;
 	}
 
 	if ( bp_loggedin_user_id() === $potential_friend_id ) {
-		return false;
+		return;
 	}
 
 	$friendship_status = BP_Friends_Friendship::check_is_friend( bp_loggedin_user_id(), $potential_friend_id );
@@ -31,7 +31,7 @@ function friends_action_add_friend() {
 	if ( 'not_friends' === $friendship_status ) {
 
 		if ( ! check_admin_referer( 'friends_add_friend' ) ) {
-			return false;
+			return;
 		}
 
 		if ( ! friends_add_friend( bp_loggedin_user_id(), $potential_friend_id ) ) {
@@ -46,7 +46,5 @@ function friends_action_add_friend() {
 	}
 
 	bp_core_redirect( wp_get_referer() );
-
-	return false;
 }
 add_action( 'bp_actions', 'friends_action_add_friend' );

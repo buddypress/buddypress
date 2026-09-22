@@ -25,7 +25,8 @@
 					 *
 					 * @since 1.1.0
 					 */
-					do_action( 'bp_before_message_meta' ); ?>
+					do_action( 'bp_before_message_meta' );
+					?>
 
 					<?php bp_the_thread_message_sender_avatar( 'type=thumb&width=30&height=30' ); ?>
 
@@ -54,7 +55,8 @@
 					 *
 					 * @since 1.1.0
 					 */
-					do_action( 'bp_after_message_meta' ); ?>
+					do_action( 'bp_after_message_meta' );
+					?>
 
 				</div><!-- .message-metadata -->
 
@@ -65,7 +67,8 @@
 				 *
 				 * @since 1.1.0
 				 */
-				do_action( 'bp_before_message_content' ); ?>
+				do_action( 'bp_before_message_content' );
+				?>
 
 				<div class="message-content">
 
@@ -80,7 +83,8 @@
 				 *
 				 * @since 1.1.0
 				 */
-				do_action( 'bp_after_message_content' ); ?>
+				do_action( 'bp_after_message_content' );
+				?>
 
 				<div class="clear"></div>
 

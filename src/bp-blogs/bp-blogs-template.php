@@ -14,7 +14,6 @@ defined( 'ABSPATH' ) || exit;
  * Output the blogs component slug.
  *
  * @since 1.5.0
- *
  */
 function bp_blogs_slug() {
 	echo esc_attr( bp_get_blogs_slug() );
@@ -24,7 +23,7 @@ function bp_blogs_slug() {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @return string The 'blogs' slug.
+	 * @return string
 	 */
 	function bp_get_blogs_slug() {
 
@@ -42,7 +41,6 @@ function bp_blogs_slug() {
  * Output the blogs component root slug.
  *
  * @since 1.5.0
- *
  */
 function bp_blogs_root_slug() {
 	echo esc_attr( bp_get_blogs_root_slug() );
@@ -93,7 +91,7 @@ function bp_get_blogs_directory_url( $path_chunks = array() ) {
 	$path_chunks = bp_parse_args(
 		array_intersect_key( $path_chunks, $supported_chunks ),
 		array(
-			'component_id' => 'blogs'
+			'component_id' => 'blogs',
 		)
 	);
 
@@ -141,7 +139,7 @@ function bp_rewind_blogs() {
  * @global BP_Blogs_Template $blogs_template The main blog template loop class.
  *
  * @param array|string $args {
- *     Arguments for limiting the contents of the blogs loop. Most arguments
+ *     Optional. Arguments for limiting the contents of the blogs loop. Most arguments
  *     are in the same format as {@link BP_Blogs_Blog::get()}. However, because
  *     the format of the arguments accepted here differs in a number of ways,
  *     and because bp_has_blogs() determines some default arguments in a
@@ -173,7 +171,7 @@ function bp_has_blogs( $args = '' ) {
 
 	// Check for and use search terms.
 	$search_terms_default = false;
-	$search_query_arg = bp_core_get_component_search_query_arg( 'blogs' );
+	$search_query_arg     = bp_core_get_component_search_query_arg( 'blogs' );
 	if ( ! empty( $_REQUEST[ $search_query_arg ] ) ) {
 		$search_terms_default = stripslashes( $_REQUEST[ $search_query_arg ] );
 	} elseif ( ! empty( $_REQUEST['s'] ) ) {
@@ -270,7 +268,7 @@ function bp_get_blogs_pagination_count() {
 	$to_num    = bp_core_number_format( ( $start_num + ( $blogs_template->pag_num - 1 ) > $blogs_template->total_blog_count ) ? $blogs_template->total_blog_count : $start_num + ( $blogs_template->pag_num - 1 ) );
 	$total     = bp_core_number_format( $blogs_template->total_blog_count );
 
-	if ( 1 == $blogs_template->total_blog_count ) {
+	if ( 1 === $blogs_template->total_blog_count ) {
 		$message = __( 'Viewing 1 site', 'buddypress' );
 	} else {
 		/* translators: 1: the site from number. 2: the site to number. 3: the total number of sites. */
@@ -323,7 +321,7 @@ function bp_blogs_pagination_links() {
  *
  * @see bp_get_blog_avatar() for description of arguments.
  *
- * @param array|string $args See {@link bp_get_blog_avatar()}.
+ * @param array|string $args Optional. See {@link bp_get_blog_avatar()}.
  */
 function bp_blog_avatar( $args = '' ) {
 	// phpcs:ignore WordPress.Security.EscapeOutput
@@ -345,7 +343,7 @@ function bp_blog_avatar( $args = '' ) {
 	 *      return values.
 	 *
 	 * @param array|string $args  {
-	 *     Arguments are listed here with an explanation of their defaults.
+	 *     Optional. Arguments are listed here with an explanation of their defaults.
 	 *     For more information about the arguments, see
 	 *     {@link bp_core_fetch_avatar()}.
 	 *     @type string   $alt           Default: 'Profile picture of site author [user name]'.
@@ -375,7 +373,7 @@ function bp_blog_avatar( $args = '' ) {
 
 		if ( ! empty( $args['blog_id'] ) ) {
 			$blog_id = (int) $args['blog_id'];
-		} else if ( isset( $blogs_template->blog->blog_id ) ) {
+		} elseif ( isset( $blogs_template->blog->blog_id ) ) {
 			$blog_id = bp_get_blog_id();
 
 			/* translators: %s is the blog name */
@@ -464,11 +462,12 @@ function bp_blog_avatar( $args = '' ) {
 					$size = (int) $r['width'];
 				}
 
-				$avatar = sprintf( '<img src="%1$s" class="%2$s" width="%3$s" height="%3$s" alt="%4$s" />',
+				$avatar = sprintf(
+					'<img src="%1$s" class="%2$s" width="%3$s" height="%3$s" alt="%4$s" />',
 					esc_url( $site_icon ),
 					esc_attr( "{$r['class']} avatar-{$size}" ),
 					esc_attr( $size ),
-					esc_attr( $alt_attribute )
+					esc_attr( $r['alt'] )
 				);
 			}
 		}
@@ -634,7 +633,7 @@ function bp_blog_description() {
  *
  * @since 1.7.0
  *
- * @param array $classes Array of custom classes.
+ * @param array $classes Optional. Array of custom classes.
  */
 function bp_blog_class( $classes = array() ) {
 	// phpcs:ignore WordPress.Security.EscapeOutput
@@ -647,7 +646,7 @@ function bp_blog_class( $classes = array() ) {
 	 *
 	 * @global BP_Blogs_Template $blogs_template The main blog template loop class.
 	 *
-	 * @param array $classes Array of custom classes.
+	 * @param array $classes Optional. Array of custom classes.
 	 * @return string Row class of the site.
 	 */
 	function bp_get_blog_class( $classes = array() ) {
@@ -679,7 +678,7 @@ function bp_blog_class( $classes = array() ) {
 /**
  * Output the last active date of the current blog in the loop.
  *
- * @param array $args See {@link bp_get_blog_last_active()}.
+ * @param array $args Optional. See {@link bp_get_blog_last_active()}.
  */
 function bp_blog_last_active( $args = array() ) {
 	echo esc_html( bp_get_blog_last_active( $args ) );
@@ -739,7 +738,7 @@ function bp_blog_last_active( $args = array() ) {
 /**
  * Output the latest post from the current blog in the loop.
  *
- * @param array $args See {@link bp_get_blog_latest_post()}.
+ * @param array $args Optional. See {@link bp_get_blog_latest_post()}.
  */
 function bp_blog_latest_post( $args = array() ) {
 	echo wp_kses(
@@ -760,7 +759,7 @@ function bp_blog_latest_post( $args = array() ) {
 	 *                               If false, formatted "[link to post]".
 	 *                               Default: true.
 	 * }
-	 * @return string $retval String of the form 'Latest Post: [link to post]'.
+	 * @return string String of the form 'Latest Post: [link to post]'.
 	 */
 	function bp_get_blog_latest_post( $args = array() ) {
 		global $blogs_template;
@@ -817,7 +816,7 @@ function bp_blog_latest_post( $args = array() ) {
  * @see bp_get_blog_latest_post_id()
  */
 function bp_blog_latest_post_id() {
-	echo bp_get_blog_latest_post_id();
+	echo intval( bp_get_blog_latest_post_id() );
 }
 	/**
 	 * Return the ID of the latest post on the current blog in the loop.
@@ -928,7 +927,6 @@ function bp_blog_latest_post_permalink() {
  * Output the content of the latest post on the current blog in the loop.
  *
  * @since 1.7.0
- *
  */
 function bp_blog_latest_post_content() {
 	echo wp_kses_post( bp_get_blog_latest_post_content() );
@@ -968,7 +966,7 @@ function bp_blog_latest_post_content() {
  *
  * @see bp_get_blog_latest_post_content() For description of parameters.
  *
- * @param string $size See {@link bp_get_blog_latest_post_featured_image()}.
+ * @param string $size Optional. See {@link bp_get_blog_latest_post_featured_image()}.
  */
 function bp_blog_latest_post_featured_image( $size = 'thumbnail' ) {
 	echo esc_url( bp_get_blog_latest_post_featured_image( $size ) );
@@ -980,7 +978,7 @@ function bp_blog_latest_post_featured_image( $size = 'thumbnail' ) {
 	 *
 	 * @global BP_Blogs_Template $blogs_template The main blog template loop class.
 	 *
-	 * @param string $size Image version to return. 'thumbnail', 'medium',
+	 * @param string $size Optional. Image version to return. 'thumbnail', 'medium',
 	 *                     'large', or 'post-thumbnail'. Default: 'thumbnail'.
 	 * @return string URL of the image.
 	 */
@@ -989,8 +987,8 @@ function bp_blog_latest_post_featured_image( $size = 'thumbnail' ) {
 
 		$retval = '';
 
-		if ( ! empty( $blogs_template->blog->latest_post ) && ! empty( $blogs_template->blog->latest_post->images[$size] ) ) {
-			$retval = $blogs_template->blog->latest_post->images[$size];
+		if ( ! empty( $blogs_template->blog->latest_post ) && ! empty( $blogs_template->blog->latest_post->images[ $size ] ) ) {
+			$retval = $blogs_template->blog->latest_post->images[ $size ];
 		}
 
 		/**
@@ -1008,13 +1006,13 @@ function bp_blog_latest_post_featured_image( $size = 'thumbnail' ) {
  *
  * @since 1.7.0
  *
- * @param string $thumbnail Image version to return. 'thumbnail', 'medium', 'large',
+ * @param string $thumbnail Optional. Image version to return. 'thumbnail', 'medium', 'large',
  *                          or 'post-thumbnail'. Default: 'thumbnail'.
  * @return bool True if the latest blog post from the current blog has a
  *              featured image of the given size.
  */
 function bp_blog_latest_post_has_featured_image( $thumbnail = 'thumbnail' ) {
-	$image  = bp_get_blog_latest_post_featured_image( $thumbnail );
+	$image = bp_get_blog_latest_post_featured_image( $thumbnail );
 
 	/**
 	 * Filters whether or not the latest blog post has a featured image.
@@ -1037,7 +1035,7 @@ function bp_blog_latest_post_has_featured_image( $thumbnail = 'thumbnail' ) {
  */
 function bp_blog_hidden_fields() {
 	if ( isset( $_REQUEST['s'] ) ) {
-		echo '<input type="hidden" id="search_terms" value="' . esc_attr( $_REQUEST['s'] ). '" name="search_terms" />';
+		echo '<input type="hidden" id="search_terms" value="' . esc_attr( $_REQUEST['s'] ) . '" name="search_terms" />';
 	}
 
 	if ( isset( $_REQUEST['letter'] ) ) {
@@ -1076,7 +1074,7 @@ function bp_total_blog_count() {
 /**
  * Output the total number of blogs for a given user.
  *
- * @param int $user_id ID of the user.
+ * @param int $user_id Optional. ID of the user.
  */
 function bp_total_blog_count_for_user( $user_id = 0 ) {
 	echo intval( bp_get_total_blog_count_for_user( $user_id ) );
@@ -1084,7 +1082,7 @@ function bp_total_blog_count_for_user( $user_id = 0 ) {
 	/**
 	 * Return the total number of blogs for a given user.
 	 *
-	 * @param int $user_id ID of the user.
+	 * @param int $user_id Optional. ID of the user.
 	 * @return int Total number of blogs for the user.
 	 */
 	function bp_get_total_blog_count_for_user( $user_id = 0 ) {
@@ -1137,7 +1135,14 @@ function bp_show_blog_signup_form( $blogname = '', $blog_title = '', $errors = '
 		 *      WP_Error $errors     WP_Error object.
 		 * }
 		 */
-		$filtered_results = apply_filters('signup_another_blog_init', array('blogname' => $blogname, 'blog_title' => $blog_title, 'errors' => $errors ));
+		$filtered_results = apply_filters(
+			'signup_another_blog_init',
+			array(
+				'blogname' => $blogname,
+				'blog_title' => $blog_title,
+				'errors' => $errors,
+			)
+		);
 		$blogname         = $filtered_results['blogname'];
 		$blog_title       = $filtered_results['blog_title'];
 		$errors           = $filtered_results['errors'];
@@ -1178,14 +1183,15 @@ function bp_show_blog_signup_form( $blogname = '', $blog_title = '', $errors = '
 			 *
 			 * @since 1.0.0
 			 */
-			do_action( 'signup_hidden_fields' ); ?>
+			do_action( 'signup_hidden_fields' );
+			?>
 
 			<?php bp_blogs_signup_blog( $blogname, $blog_title, $errors ); ?>
 			<p>
 				<input id="submit" type="submit" name="submit" class="submit" value="<?php esc_attr_e( 'Create Site', 'buddypress' ); ?>" />
 			</p>
 
-			<?php wp_nonce_field( 'bp_blog_signup_form' ) ?>
+			<?php wp_nonce_field( 'bp_blog_signup_form' ); ?>
 		</form>
 		<?php
 
@@ -1267,14 +1273,14 @@ function bp_blogs_signup_blog( $blogname = '', $blog_title = '', $errors = '' ) 
 	if ( ! is_user_logged_in() ) {
 		$url = sprintf(
 			/* translators: %s is the site domain and path. */
-			__( 'domain.%s' , 'buddypress' ),
+			__( 'domain.%s', 'buddypress' ),
 			$current_site->domain . $current_site->path
 		);
 
 		if ( ! is_subdomain_install() ) {
 			$url = sprintf(
 				/* translators: %s is the site domain and path. */
-				__( '%sblogname' , 'buddypress'),
+				__( '%sblogname', 'buddypress' ),
 				$current_site->domain . $current_site->path
 			);
 		}
@@ -1283,16 +1289,17 @@ function bp_blogs_signup_blog( $blogname = '', $blog_title = '', $errors = '' ) 
 			'<p>(<strong>%1$s.</strong> %2$s)</p>',
 			sprintf(
 				/* translators: %s is the site url. */
-				esc_html__( 'Your address will be %s' , 'buddypress' ), esc_url( $url )
+				esc_html__( 'Your address will be %s', 'buddypress' ),
+				esc_url( $url )
 			),
-			esc_html__( 'Must be at least 4 characters, letters and numbers only. It cannot be changed so choose carefully!' , 'buddypress' )
+			esc_html__( 'Must be at least 4 characters, letters and numbers only. It cannot be changed so choose carefully!', 'buddypress' )
 		);
 	}
 
 	// Blog Title.
 	?>
 	<p>
-		<label for="blog_title"><?php esc_html_e('Site Title:', 'buddypress') ?></label>
+		<label for="blog_title"><?php esc_html_e( 'Site Title:', 'buddypress' ); ?></label>
 		<input name="blog_title" type="text" id="blog_title" value="<?php echo esc_html( $blog_title ); ?>" />
 
 		<?php
@@ -1304,19 +1311,19 @@ function bp_blogs_signup_blog( $blogname = '', $blog_title = '', $errors = '' ) 
 
 	<fieldset class="create-site">
 
-		<legend class="label"><?php esc_html_e( 'Privacy: I would like my site to appear in search engines, and in public listings around this network', 'buddypress' ) ?></legend>
+		<legend class="label"><?php esc_html_e( 'Privacy: I would like my site to appear in search engines, and in public listings around this network', 'buddypress' ); ?></legend>
 
 		<p>
 			<label class="checkbox" for="blog_public_on">
 				<input type="radio" id="blog_public_on" name="blog_public" value="1" <?php checked( ! isset( $_POST['blog_public'] ) || 1 === (int) $_POST['blog_public'] ); ?> />
-				<strong><?php esc_html_e( 'Yes' , 'buddypress'); ?></strong>
+				<strong><?php esc_html_e( 'Yes', 'buddypress' ); ?></strong>
 			</label>
 		</p>
 
 		<p>
 			<label class="checkbox" for="blog_public_off">
 				<input type="radio" id="blog_public_off" name="blog_public" value="0" <?php checked( isset( $_POST['blog_public'] ) && 0 === (int) $_POST['blog_public'] ); ?> />
-				<strong><?php esc_html_e( 'No' , 'buddypress'); ?></strong>
+				<strong><?php esc_html_e( 'No', 'buddypress' ); ?></strong>
 			</label>
 		</p>
 
@@ -1382,13 +1389,20 @@ function bp_blogs_validate_blog_signup() {
 	 *      string $public Default public status.
 	 * }
 	 */
-	$meta = apply_filters( 'add_signup_meta', array( 'lang_id' => 1, 'public' => $public ) );
+	$meta = apply_filters(
+		'add_signup_meta',
+		array(
+			'lang_id' => 1,
+			'public' => $public,
+		)
+	);
 
 	return wpmu_create_blog(
 		$blog['domain'],
 		$blog['path'],
 		$blog['blog_title'],
-		$current_user->ID, $meta,
+		$current_user->ID,
+		$meta,
 		$current_site->id
 	);
 }
@@ -1403,9 +1417,9 @@ function bp_blogs_validate_blog_signup() {
  * @param string       $path       The new blog's path.
  * @param string       $blog_title The new blog's title.
  * @param string       $user_name  The user name of the user who created the blog. Unused.
- * @param string       $user_email The email of the user who created the blog. Unused.
- * @param string|array $meta       Meta values associated with the new blog. Unused.
- * @param int|null     $blog_id    ID of the newly created blog.
+ * @param string       $user_email Optional. The email of the user who created the blog. Unused.
+ * @param string|array $meta       Optional. Meta values associated with the new blog. Unused.
+ * @param int|null     $blog_id    Optional. ID of the newly created blog.
  */
 function bp_blogs_confirm_blog_signup( $domain, $path, $blog_title, $user_name, $user_email = '', $meta = '', $blog_id = null ) {
 	switch_to_blog( $blog_id );
@@ -1488,7 +1502,7 @@ function bp_directory_blogs_search_form() {
 	}
 
 	$search_form_html = '<form action="" method="get" id="search-blogs-form">
-		<label for="blogs_search"><input type="text" name="' . esc_attr( $query_arg ) . '" id="blogs_search" placeholder="'. esc_attr( $search_value ) .'" /></label>
+		<label for="blogs_search"><input type="text" name="' . esc_attr( $query_arg ) . '" id="blogs_search" placeholder="' . esc_attr( $search_value ) . '" /></label>
 		<input type="submit" id="blogs_search_submit" name="blogs_search_submit" value="' . esc_attr__( 'Search', 'buddypress' ) . '" />
 	</form>';
 
@@ -1568,7 +1582,6 @@ function bp_blog_create_nav_item() {
 	// phpcs:ignore WordPress.Security.EscapeOutput
 	echo bp_get_blog_create_nav_item();
 }
-
 	/**
 	 * Get the Create a Site nav item.
 	 *
@@ -1577,15 +1590,13 @@ function bp_blog_create_nav_item() {
 	 * @return string
 	 */
 	function bp_get_blog_create_nav_item() {
-		// Get the create a site button.
 		$create_blog_button = bp_get_blog_create_button();
+		$output             = '';
 
 		// Make sure the button is available.
-		if ( empty( $create_blog_button ) ) {
-			return;
+		if ( ! empty( $create_blog_button ) ) {
+			$output = '<li id="blog-create-nav">' . $create_blog_button . '</li>';
 		}
-
-		$output = '<li id="blog-create-nav">' . $create_blog_button . '</li>';
 
 		/**
 		 * Filters the Create A Site nav item output.
@@ -1623,7 +1634,7 @@ add_action( 'bp_blogs_directory_blog_types', 'bp_blog_backcompat_create_nav_item
  *
  * @see bp_get_blogs_visit_blog_button_args() for description of arguments.
  *
- * @param array|string $args See {@link bp_get_blogs_visit_blog_button_args()}.
+ * @param array|string $args Optional. See {@link bp_get_blogs_visit_blog_button_args()}.
  */
 function bp_blogs_visit_blog_button( $args = '' ) {
 	// Escaping is done in `BP_Core_HTML_Element()`.
@@ -1640,7 +1651,7 @@ function bp_blogs_visit_blog_button( $args = '' ) {
 	 * @since 11.0.0
 	 *
 	 * @param array|string $args {
-	 *     Arguments are listed below, with their default values. For a
+	 *     Optional. Arguments are listed below, with their default values. For a
 	 *     complete description of arguments, see {@link BP_Button}.
 	 *     @type string $id                Default: 'visit_blog'.
 	 *     @type string $component         Default: 'blogs'.
@@ -1688,7 +1699,7 @@ function bp_blogs_visit_blog_button( $args = '' ) {
 	 *
 	 * @see bp_get_blogs_visit_blog_button_args() for description of arguments.
 	 *
-	 * @param array|string $args See {@link bp_get_blogs_visit_blog_button_args()}.
+	 * @param array|string $args Optional. See {@link bp_get_blogs_visit_blog_button_args()}.
 	 * @return string The HTML for the Visit button.
 	 */
 	function bp_get_blogs_visit_blog_button( $args = '' ) {
@@ -1708,7 +1719,7 @@ function bp_blogs_visit_blog_button( $args = '' ) {
  *
  * @since 2.0.0
  *
- * @param array|string $args Before|after|user_id.
+ * @param array|string $args Optional. Before|after|user_id.
  */
 function bp_blogs_profile_stats( $args = '' ) {
 	echo wp_kses(
@@ -1728,7 +1739,7 @@ add_action( 'bp_members_admin_user_stats', 'bp_blogs_profile_stats', 9, 1 );
  *
  * @since 2.0.0
  *
- * @param array|string $args Before|after|user_id.
+ * @param array|string $args Optional. Before|after|user_id.
  * @return string HTML for stats output.
  */
 function bp_blogs_get_profile_stats( $args = '' ) {

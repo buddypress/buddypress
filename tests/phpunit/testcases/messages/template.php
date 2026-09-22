@@ -33,7 +33,7 @@ class BP_Tests_Messages_Template extends BP_UnitTestCase {
 
 		$messages_template = new BP_Messages_Box_Template( array( 'user_id' => $u1 ) );
 
-		$this->assertEquals( 1, $messages_template->thread_count );
+		$this->assertSame( 1, $messages_template->thread_count );
 		$this->assertSame( array( $message_1->thread_id ), wp_list_pluck( $messages_template->threads, 'thread_id' ) );
 	}
 
@@ -66,7 +66,7 @@ class BP_Tests_Messages_Template extends BP_UnitTestCase {
 
 		$messages_template = new BP_Messages_Box_Template( $u1 );
 
-		$this->assertEquals( 1, $messages_template->thread_count );
+		$this->assertSame( 1, $messages_template->thread_count );
 		$this->assertSame( array( $message_1->thread_id ), wp_list_pluck( $messages_template->threads, 'thread_id' ) );
 	}
 
@@ -161,7 +161,7 @@ class BP_Tests_Messages_Template extends BP_UnitTestCase {
 			)
 		) );
 
-		$this->assertEquals( 2, $messages_template->thread_count );
+		$this->assertSame( 2, $messages_template->thread_count );
 		$this->assertEqualSets( array( $t1, $t2 ), wp_list_pluck( $messages_template->threads, 'thread_id' ) );
 	}
 
@@ -261,7 +261,7 @@ class BP_Tests_Messages_Template extends BP_UnitTestCase {
 			)
 		) );
 
-		$this->assertEquals( 1, $messages_template->thread_count );
+		$this->assertSame( 1, $messages_template->thread_count );
 		$this->assertEqualSets( array( $t1 ), wp_list_pluck( $messages_template->threads, 'thread_id' ) );
 	}
 
@@ -287,7 +287,7 @@ class BP_Tests_Messages_Template extends BP_UnitTestCase {
 		bp_has_message_threads();
 
 		// assert!
-		$this->assertEquals( 0, $messages_template->thread_count );
+		$this->assertSame( 0, $messages_template->thread_count );
 		$this->assertEmpty( $messages_template->threads );
 
 		wp_set_current_user( $old_current_user );
@@ -305,7 +305,7 @@ class BP_Tests_Messages_Template extends BP_UnitTestCase {
 			'page' => 8,
 		) );
 
-		$this->assertEquals( 5, $at->pag_page );
+		$this->assertSame( 5, $at->pag_page );
 
 		$_REQUEST = $request;
 	}
@@ -322,7 +322,7 @@ class BP_Tests_Messages_Template extends BP_UnitTestCase {
 			'page' => 8,
 		) );
 
-		$this->assertEquals( 8, $at->pag_page );
+		$this->assertSame( 8, $at->pag_page );
 
 		$_REQUEST = $request;
 	}
@@ -339,7 +339,7 @@ class BP_Tests_Messages_Template extends BP_UnitTestCase {
 			'per_page' => 13,
 		) );
 
-		$this->assertEquals( 14, $at->pag_num );
+		$this->assertSame( 14, $at->pag_num );
 
 		$_REQUEST = $request;
 	}
@@ -356,7 +356,7 @@ class BP_Tests_Messages_Template extends BP_UnitTestCase {
 			'per_page' => 13,
 		) );
 
-		$this->assertEquals( 13, $at->pag_num );
+		$this->assertSame( 13, $at->pag_num );
 
 		$_REQUEST = $request;
 	}
@@ -474,7 +474,7 @@ class BP_Tests_Messages_Template extends BP_UnitTestCase {
 
 		$thread = reset( $messages_template->threads );
 
-		$this->assertEquals( 2, $thread->unread_count );
+		$this->assertSame( 2, $thread->unread_count );
 	}
 
 	/**
@@ -532,6 +532,6 @@ class BP_Tests_Messages_Template extends BP_UnitTestCase {
 
 		$this->assertFalse( isset( $thread->recipients[ $u3 ] ) );
 		$this->assertCount( 1, $thread->recipients );
-		$this->assertEquals( 2, $thread->unread_count );
+		$this->assertSame( 2, $thread->unread_count );
 	}
 }

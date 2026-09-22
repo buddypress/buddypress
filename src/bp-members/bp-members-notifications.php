@@ -23,7 +23,7 @@ defined( 'ABSPATH' ) || exit;
  * @param int    $secondary_item_id The secondary item ID.
  * @param int    $total_items       The total number of members-related notifications
  *                                  waiting for the user.
- * @param string $format            'string' for BuddyBar-compatible notifications;
+ * @param string $format            Optional. 'string' for BuddyBar-compatible notifications;
  *                                  'array' for WP Toolbar. Default: 'string'.
  * @return array|string
  */
@@ -31,14 +31,13 @@ function members_format_notifications( $action, $item_id, $secondary_item_id, $t
 
 	switch ( $action ) {
 		case 'accepted_invitation':
-
 			// Set up the string and the filter.
 			if ( (int) $total_items > 1 ) {
 				$link   = bp_get_notifications_permalink();
 				$amount = 'multiple';
 
 				// This is the inviter whose invitation was accepted.
-				if ( 0 !== (int) $secondary_item_id )  {
+				if ( 0 !== (int) $secondary_item_id ) {
 					/* translators: %d: the number of new users */
 					$text = sprintf( __( '%d members accepted your membership invitations', 'buddypress' ), (int) $total_items );
 				// This is someone who also invited that user to join.
@@ -51,13 +50,13 @@ function members_format_notifications( $action, $item_id, $secondary_item_id, $t
 				$amount = 'single';
 
 				// This is the inviter whose invitation was accepted.
-				if ( 0 !== (int) $secondary_item_id )  {
+				if ( 0 !== (int) $secondary_item_id ) {
 					/* translators: %s: new user name */
-					$text = sprintf( __( '%s accepted your membership invitation', 'buddypress' ),  bp_core_get_user_displayname( $item_id ) );
+					$text = sprintf( __( '%s accepted your membership invitation', 'buddypress' ), bp_core_get_user_displayname( $item_id ) );
 					// This is someone who also invited that user to join.
 				} else {
 					/* translators: %s: new user name */
-					$text = sprintf( __( '%s is now a member of the site', 'buddypress' ),  bp_core_get_user_displayname( $item_id ) );
+					$text = sprintf( __( '%s is now a member of the site', 'buddypress' ), bp_core_get_user_displayname( $item_id ) );
 				}
 			}
 			break;
@@ -74,22 +73,25 @@ function members_format_notifications( $action, $item_id, $secondary_item_id, $t
 				/* translators: %d: is the number of people who requested site membership */
 				$text = sprintf( __( '%d people have requested site membership.', 'buddypress' ), (int) $total_items );
 			} else {
-				$link   = add_query_arg( array(
-					'mod_req'   => 1,
-					'page'      => 'bp-signups',
-					'signup_id' => $item_id,
-					'action'    => 'resend',
-				), bp_get_admin_url( 'users.php' ) );
+				$link   = add_query_arg(
+					array(
+						'mod_req'   => 1,
+						'page'      => 'bp-signups',
+						'signup_id' => $item_id,
+						'action'    => 'resend',
+					),
+					bp_get_admin_url( 'users.php' )
+				);
 				$amount = 'single';
 
 				/* translators: %s: new user name */
-				$text = sprintf( __( '%s has requested site membership.', 'buddypress' ),  esc_html( $signup->user_login ) );
+				$text = sprintf( __( '%s has requested site membership.', 'buddypress' ), esc_html( $signup->user_login ) );
 			}
 			break;
 	}
 
 	// Return either an HTML link or an array, depending on the requested format.
-	if ( 'string' == $format ) {
+	if ( 'string' === $format ) {
 
 		/**
 		 * Filters the format of members notifications based on type and amount * of notifications pending.
@@ -106,13 +108,19 @@ function members_format_notifications( $action, $item_id, $secondary_item_id, $t
 		 * @param int          $item_id           The primary item ID.
 		 * @param int          $secondary_item_id The secondary item ID.
 		 */
-		$return = apply_filters( 'bp_members_' . $amount . '_'. $action . '_notification', '<a href="' . esc_url( $link ) . '">' . esc_html( $text ) . '</a>', (int) $total_items, $item_id, $secondary_item_id );
+		$return = apply_filters( 'bp_members_' . $amount . '_' . $action . '_notification', '<a href="' . esc_url( $link ) . '">' . esc_html( $text ) . '</a>', (int) $total_items, $item_id, $secondary_item_id );
 	} else {
 		/** This filter is documented in bp-members/bp-members-notifications.php */
-		$return = apply_filters( 'bp_members_' . $amount . '_'. $action . '_notification', array(
-			'link' => $link,
-			'text' => $text
-		), (int) $total_items, $item_id, $secondary_item_id );
+		$return = apply_filters(
+			'bp_members_' . $amount . '_' . $action . '_notification',
+			array(
+				'link' => $link,
+				'text' => $text,
+			),
+			(int) $total_items,
+			$item_id,
+			$secondary_item_id
+		);
 	}
 
 	/**
@@ -138,7 +146,7 @@ function members_format_notifications( $action, $item_id, $secondary_item_id, $t
  * @since 8.0.0
  *
  * @param BP_Invitation $invite     Invitation that was accepted.
- * @param WP_user       $new_user   User who accepted the membership invite.
+ * @param WP_User       $new_user   User who accepted the membership invite.
  * @param int           $inviter_id ID of the user who invited this user to the site.
  */
 function bp_members_invitations_accepted_invitation_notification( $invite, $new_user, $inviter_id ) {
@@ -147,7 +155,7 @@ function bp_members_invitations_accepted_invitation_notification( $invite, $new_
 	}
 
 	// Notify all inviters.
-	$args = array(
+	$args    = array(
 		'invitee_email' => $new_user->user_email,
 		'accepted'      => 'all',
 	);
@@ -166,15 +174,17 @@ function bp_members_invitations_accepted_invitation_notification( $invite, $new_
 			$secondary_item_id = 0;
 		}
 
-		bp_notifications_add_notification( array(
-			'user_id'           => $invite->inviter_id,
-			'item_id'           => $new_user->ID,
-			'secondary_item_id' => $secondary_item_id,
-			'component_name'    => buddypress()->members->id,
-			'component_action'  => 'accepted_invitation',
-			'date_notified'     => bp_core_current_time(),
-			'is_new'            => 1,
-		) );
+		bp_notifications_add_notification(
+			array(
+				'user_id'           => $invite->inviter_id,
+				'item_id'           => $new_user->ID,
+				'secondary_item_id' => $secondary_item_id,
+				'component_name'    => buddypress()->members->id,
+				'component_action'  => 'accepted_invitation',
+				'date_notified'     => bp_core_current_time(),
+				'is_new'            => 1,
+			)
+		);
 	}
 }
 add_action( 'members_invitations_invite_accepted', 'bp_members_invitations_accepted_invitation_notification', 10, 3 );
@@ -244,8 +254,8 @@ function members_screen_notification_settings() {
 			<tr>
 				<th class="icon"></th>
 				<th class="title"><?php echo esc_html_x( 'Members', 'Member settings on notification settings page', 'buddypress' ); ?></th>
-				<th class="yes"><?php esc_html_e( 'Yes', 'buddypress' ) ?></th>
-				<th class="no"><?php esc_html_e( 'No', 'buddypress' )?></th>
+				<th class="yes"><?php esc_html_e( 'Yes', 'buddypress' ); ?></th>
+				<th class="no"><?php esc_html_e( 'No', 'buddypress' ); ?></th>
 			</tr>
 		</thead>
 
@@ -253,20 +263,21 @@ function members_screen_notification_settings() {
 
 			<?php
 			if ( bp_get_members_invitations_allowed() ) :
-				if ( ! $allow_acceptance_emails = bp_get_user_meta( bp_displayed_user_id(), 'notification_members_invitation_accepted', true ) ) {
+				$allow_acceptance_emails = bp_get_user_meta( bp_displayed_user_id(), 'notification_members_invitation_accepted', true );
+				if ( ! $allow_acceptance_emails ) {
 					$allow_acceptance_emails = 'yes';
 				}
 				?>
 				<tr id="members-notification-settings-invitation_accepted">
 					<td></td>
 					<td><?php echo esc_html_x( 'Someone accepts your membership invitation', 'Member settings on notification settings page', 'buddypress' ); ?></td>
-					<td class="yes"><input type="radio" name="notifications[notification_members_invitation_accepted]" id="notification-members-invitation-accepted-yes" value="yes" <?php checked( $allow_acceptance_emails, 'yes', true ) ?>/><label for="notification-members-invitation-accepted-yes" class="bp-screen-reader-text">
+					<td class="yes"><input type="radio" name="notifications[notification_members_invitation_accepted]" id="notification-members-invitation-accepted-yes" value="yes" <?php checked( $allow_acceptance_emails, 'yes', true ); ?>/><label for="notification-members-invitation-accepted-yes" class="bp-screen-reader-text">
 						<?php
 						/* translators: accessibility text */
 						esc_html_e( 'Yes, send email', 'buddypress' );
 						?>
 					</label></td>
-					<td class="no"><input type="radio" name="notifications[notification_members_invitation_accepted]" id="notification-members-invitation-accepted-no" value="no" <?php checked( $allow_acceptance_emails, 'no', true ) ?>/><label for="notification-members-invitation-accepted-no" class="bp-screen-reader-text">
+					<td class="no"><input type="radio" name="notifications[notification_members_invitation_accepted]" id="notification-members-invitation-accepted-no" value="no" <?php checked( $allow_acceptance_emails, 'no', true ); ?>/><label for="notification-members-invitation-accepted-no" class="bp-screen-reader-text">
 						<?php
 						/* translators: accessibility text */
 						esc_html_e( 'No, do not send email', 'buddypress' );
@@ -277,20 +288,21 @@ function members_screen_notification_settings() {
 			endif;
 
 			if ( bp_get_membership_requests_required() && user_can( bp_displayed_user_id(), 'bp_moderate' ) ) :
-				if ( ! $allow_request_emails = bp_get_user_meta( bp_displayed_user_id(), 'notification_members_membership_request', true ) ) {
+				$allow_request_emails = bp_get_user_meta( bp_displayed_user_id(), 'notification_members_membership_request', true );
+				if ( ! $allow_request_emails ) {
 					$allow_request_emails = 'yes';
 				}
 				?>
 				<tr id="members-notification-settings-submitted_membership_request">
 					<td></td>
-					<td><?php echo esc_html_x( 'Someone has requested site membership', 'Member settings on notification settings page', 'buddypress' ) ?></td>
-					<td class="yes"><input type="radio" name="notifications[notification_members_membership_request]" id="notification-members-submitted_membership_request-yes" value="yes" <?php checked( $allow_request_emails, 'yes', true ) ?>/><label for="notification-members-submitted_membership_request-yes" class="bp-screen-reader-text">
+					<td><?php echo esc_html_x( 'Someone has requested site membership', 'Member settings on notification settings page', 'buddypress' ); ?></td>
+					<td class="yes"><input type="radio" name="notifications[notification_members_membership_request]" id="notification-members-submitted_membership_request-yes" value="yes" <?php checked( $allow_request_emails, 'yes', true ); ?>/><label for="notification-members-submitted_membership_request-yes" class="bp-screen-reader-text">
 						<?php
 						/* translators: accessibility text */
 						esc_html_e( 'Yes, send email', 'buddypress' );
 						?>
 					</label></td>
-					<td class="no"><input type="radio" name="notifications[notification_members_membership_request]" id="notification-members-submitted_membership_request-no" value="no" <?php checked( $allow_request_emails, 'no', true ) ?>/><label for="notification-members-submitted_membership_request-no" class="bp-screen-reader-text">
+					<td class="no"><input type="radio" name="notifications[notification_members_membership_request]" id="notification-members-submitted_membership_request-no" value="no" <?php checked( $allow_request_emails, 'no', true ); ?>/><label for="notification-members-submitted_membership_request-no" class="bp-screen-reader-text">
 						<?php
 						/* translators: accessibility text */
 						esc_html_e( 'No, do not send email', 'buddypress' );
@@ -305,7 +317,8 @@ function members_screen_notification_settings() {
 			 *
 			 * @since 1.0.0
 			 */
-			do_action( 'members_screen_notification_settings' ); ?>
+			do_action( 'members_screen_notification_settings' );
+			?>
 
 		</tbody>
 	</table>

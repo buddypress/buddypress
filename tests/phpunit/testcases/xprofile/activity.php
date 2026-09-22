@@ -129,7 +129,7 @@ class BP_Tests_XProfile_Activity extends BP_UnitTestCase {
 			'count_total' => 'count_query',
 		) );
 
-		$this->assertEquals( 1, $existing['total'] );
+		$this->assertSame( 1, $existing['total'] );
 	}
 
 	/**
@@ -164,7 +164,7 @@ class BP_Tests_XProfile_Activity extends BP_UnitTestCase {
 			'count_total' => 'count_query',
 		) );
 
-		$this->assertEquals( 1, $existing['total'] );
+		$this->assertSame( 1, $existing['total'] );
 	}
 
 	/**

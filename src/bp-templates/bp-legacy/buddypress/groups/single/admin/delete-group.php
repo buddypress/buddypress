@@ -18,7 +18,8 @@
  *
  * @since 1.1.0
  */
-do_action( 'bp_before_group_delete_admin' ); ?>
+do_action( 'bp_before_group_delete_admin' );
+?>
 
 <div id="message" class="info">
 	<p><?php esc_html_e( 'WARNING: Deleting this group will completely remove ALL content associated with it. There is no way back, please be careful with this option.', 'buddypress' ); ?></p>
@@ -33,10 +34,12 @@ do_action( 'bp_before_group_delete_admin' ); ?>
  *
  * @since 1.1.0
  */
-do_action( 'bp_after_group_delete_admin' ); ?>
+do_action( 'bp_after_group_delete_admin' );
+?>
 
 <div class="submit">
 	<input type="submit" disabled="disabled" value="<?php esc_attr_e( 'Delete Group', 'buddypress' ); ?>" id="delete-group-button" name="delete-group-button" />
 </div>
 
-<?php wp_nonce_field( 'groups_delete_group' );
+<?php
+wp_nonce_field( 'groups_delete_group' );

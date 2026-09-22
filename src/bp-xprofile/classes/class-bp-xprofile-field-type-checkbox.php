@@ -78,11 +78,16 @@ class BP_XProfile_Field_Type_Checkbox extends BP_XProfile_Field_Type {
 			<?php
 
 			/** This action is documented in bp-xprofile/bp-xprofile-classes */
-			do_action( bp_get_the_profile_field_errors_action() ); ?>
+			do_action( bp_get_the_profile_field_errors_action() );
+			?>
 
-			<?php bp_the_profile_field_options( array(
-				'user_id' => $user_id,
-			) ); ?>
+			<?php
+			bp_the_profile_field_options(
+				array(
+					'user_id' => $user_id,
+				)
+			);
+			?>
 
 		<?php
 	}
@@ -126,7 +131,7 @@ class BP_XProfile_Field_Type_Checkbox extends BP_XProfile_Field_Type {
 
 		// Check for updated posted values, but errors preventing them from
 		// being saved first time.
-		if ( isset( $_POST[ 'field_' . $this->field_obj->id ] ) && $option_values != maybe_serialize( $_POST[ 'field_' . $this->field_obj->id ] ) ) {
+		if ( isset( $_POST[ 'field_' . $this->field_obj->id ] ) && $option_values !== maybe_serialize( $_POST[ 'field_' . $this->field_obj->id ] ) ) {
 			if ( ! empty( $_POST[ 'field_' . $this->field_obj->id ] ) ) {
 				$option_values = array_map( 'sanitize_text_field', $_POST[ 'field_' . $this->field_obj->id ] );
 			}
@@ -142,7 +147,7 @@ class BP_XProfile_Field_Type_Checkbox extends BP_XProfile_Field_Type {
 				// so we'll be sure to get a match.
 				$allowed_options = xprofile_sanitize_data_value_before_save( $options[ $k ]->name, false, false );
 
-				if ( $option_values[ $j ] === $allowed_options || in_array( $allowed_options, $option_values ) ) {
+				if ( $option_values[ $j ] === $allowed_options || in_array( $allowed_options, $option_values, true ) ) {
 					$selected = ' checked="checked"';
 					break;
 				}
@@ -154,7 +159,8 @@ class BP_XProfile_Field_Type_Checkbox extends BP_XProfile_Field_Type {
 				$selected = ' checked="checked"';
 			}
 
-			$new_html = sprintf( '<label for="%3$s" class="option-label"><input %1$s type="checkbox" name="%2$s" id="%3$s" value="%4$s">%5$s</label>',
+			$new_html = sprintf(
+				'<label for="%3$s" class="option-label"><input %1$s type="checkbox" name="%2$s" id="%3$s" value="%4$s">%5$s</label>',
 				$selected,
 				esc_attr( bp_get_the_profile_field_input_name() . '[]' ),
 				esc_attr( "field_{$options[$k]->id}_{$k}" ),

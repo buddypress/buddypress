@@ -16,8 +16,8 @@ defined( 'ABSPATH' ) || exit;
  * @since 8.0.0
  *
  * @param bool   $send       Whether or not to send the activation key.
- * @param int    $user_id    User ID to send activation key to.
- * @param string $user_email User email to send activation key to.
+ * @param int    $user_id    Optional. User ID to send activation key to.
+ * @param string $user_email Optional. User email to send activation key to.
  *
  * @return bool Whether or not to send the activation key.
  */
@@ -54,7 +54,7 @@ function bp_members_invitations_complete_signup() {
 
 	// User has already verified their email by responding to the invitation, so we can activate.
 	$signup = bp_members_get_signup_by( 'user_email', $invite->invitee_email );
-	$key = false;
+	$key    = false;
 	if ( ! empty( $signup->activation_key ) ) {
 		$key = $signup->activation_key;
 	}
@@ -152,7 +152,7 @@ function bp_members_invitations_maybe_bypass_request_approval( $send, $details )
 	$invites = bp_members_invitations_get_invites(
 		array(
 			'invitee_email' => $details['user_email'],
-			'invite_sent'   => 'sent'
+			'invite_sent'   => 'sent',
 		)
 	);
 

@@ -2,9 +2,12 @@
 /**
  * BuddyPress - Groups Requests Loop
  *
+ * @package BuddyPress
+ * @subpackage bp-nouveau
  * @since 3.0.0
  * @version 3.0.0
  */
+
 ?>
 
 <?php if ( bp_group_has_membership_requests( bp_ajax_querystring( 'membership_requests' ) ) ) : ?>

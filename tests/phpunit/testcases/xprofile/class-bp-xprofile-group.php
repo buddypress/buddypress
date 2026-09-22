@@ -15,7 +15,7 @@ class BP_Tests_BP_XProfile_Group extends BP_UnitTestCase {
 
 		$saved = $group->save();
 
-		$this->assertEquals( $g, $saved );
+		$this->assertSame( $g, $saved );
 	}
 
 	/**
@@ -784,6 +784,24 @@ class BP_Tests_BP_XProfile_Group extends BP_UnitTestCase {
 
 		$this->assertNotSame( $queries_before, $queries_after, 'Assert that queries are run' );
 		$this->assertSame( 3, $queries_after, 'Assert that the uncached query was run' );
-		$this->assertEquals( $first_query, $second_query, 'Results of the query are expected to match.' );
+
+		foreach ( array_merge( $first_query, $second_query ) as $group ) {
+			$this->assertIsObject( $group );
+		}
+
+		$first_results  = array_map( 'get_object_vars', $first_query );
+		$second_results = array_map( 'get_object_vars', $second_query );
+
+		foreach ( $first_results as &$group ) {
+			ksort( $group );
+		}
+		unset( $group );
+
+		foreach ( $second_results as &$group ) {
+			ksort( $group );
+		}
+		unset( $group );
+
+		$this->assertSame( $first_results, $second_results, 'Results of the query are expected to match.' );
 	}
 }

@@ -92,7 +92,7 @@ class BP_Tests_Group_Cache extends BP_UnitTestCase {
 		$expected = array(
 			$g1 => array(
 				'total_member_count' => array(
-					4,
+					'4',
 				),
 				'last_activity' => array(
 					$time,
@@ -106,7 +106,7 @@ class BP_Tests_Group_Cache extends BP_UnitTestCase {
 			),
 			$g2 => array(
 				'total_member_count' => array(
-					81,
+					'81',
 				),
 				'last_activity' => array(
 					$time,
@@ -125,7 +125,7 @@ class BP_Tests_Group_Cache extends BP_UnitTestCase {
 			$g2 => wp_cache_get( $g2, 'group_meta' ),
 		);
 
-		$this->assertEquals( $expected, $found );
+		$this->assertSame( $expected, $found );
 	}
 
 	/**
@@ -240,7 +240,7 @@ class BP_Tests_Group_Cache extends BP_UnitTestCase {
 		$this->assertEmpty( wp_cache_get( $g, 'bp_group_admins' ) );
 
 		// assert new cached value
-		$this->assertEquals( 2, count( groups_get_group_admins( $g ) ) );
+		$this->assertCount( 2, groups_get_group_admins( $g ) );
 	}
 
 	/**
@@ -262,7 +262,7 @@ class BP_Tests_Group_Cache extends BP_UnitTestCase {
 		groups_promote_member( $u2, $g, 'mod' );
 
 		// assert new cached value
-		$this->assertEquals( 1, count( groups_get_group_mods( $g ) ) );
+		$this->assertCount( 1, groups_get_group_mods( $g ) );
 	}
 
 	/**
@@ -280,7 +280,7 @@ class BP_Tests_Group_Cache extends BP_UnitTestCase {
 		self::add_user_to_group( $u2, $g, array( 'is_mod' => 1 ) );
 
 		// assert new cached value
-		$this->assertEquals( 1, count( groups_get_group_mods( $g ) ) );
+		$this->assertCount( 1, groups_get_group_mods( $g ) );
 	}
 
 	/**
@@ -301,7 +301,7 @@ class BP_Tests_Group_Cache extends BP_UnitTestCase {
 		$this->assertEmpty( wp_cache_get( $g, 'bp_group_admins' ) );
 
 		// assert new cached value
-		$this->assertEquals( 2, count( groups_get_group_admins( $g ) ) );
+		$this->assertCount( 2, groups_get_group_admins( $g ) );
 	}
 
 	/**
@@ -320,7 +320,7 @@ class BP_Tests_Group_Cache extends BP_UnitTestCase {
 		groups_get_total_group_count();
 
 		// check if function references cache or hits the DB by comparing query count
-		$this->assertEquals( $first_query_count, $wpdb->num_queries );
+		$this->assertSame( $first_query_count, $wpdb->num_queries );
 	}
 
 	/**
@@ -334,13 +334,13 @@ class BP_Tests_Group_Cache extends BP_UnitTestCase {
 		self::factory()->group->create( array( 'creator_id' => $u1 ) );
 		self::factory()->group->create( array( 'creator_id' => $u2 ) );
 
-		$this->assertEquals( 2, groups_get_total_group_count() );
-		$this->assertEquals( 2, BP_Groups_Group::get_total_group_count() );
+		$this->assertSame( 2, groups_get_total_group_count() );
+		$this->assertSame( 2, BP_Groups_Group::get_total_group_count() );
 
 		self::factory()->group->create( array( 'creator_id' => $u3 ) );
 
-		$this->assertEquals( 3, groups_get_total_group_count( true ) );
-		$this->assertEquals( 3, BP_Groups_Group::get_total_group_count() );
+		$this->assertSame( 3, groups_get_total_group_count( true ) );
+		$this->assertSame( 3, BP_Groups_Group::get_total_group_count() );
 	}
 
 	/**

@@ -28,7 +28,7 @@ class BP_Activity_Activity {
 	 * @since 1.0.0
 	 * @var int
 	 */
-	var $id;
+	public $id;
 
 	/**
 	 * ID of the associated item.
@@ -36,7 +36,7 @@ class BP_Activity_Activity {
 	 * @since 1.0.0
 	 * @var int
 	 */
-	var $item_id;
+	public $item_id;
 
 	/**
 	 * ID of the associated secondary item.
@@ -44,7 +44,7 @@ class BP_Activity_Activity {
 	 * @since 1.0.0
 	 * @var int
 	 */
-	var $secondary_item_id;
+	public $secondary_item_id;
 
 	/**
 	 * ID of user associated with the activity item.
@@ -52,7 +52,7 @@ class BP_Activity_Activity {
 	 * @since 1.0.0
 	 * @var int
 	 */
-	var $user_id;
+	public $user_id;
 
 	/**
 	 * The primary URL for the activity in RSS feeds.
@@ -60,7 +60,7 @@ class BP_Activity_Activity {
 	 * @since 1.0.0
 	 * @var string
 	 */
-	var $primary_link = '';
+	public $primary_link = '';
 
 	/**
 	 * BuddyPress component the activity item relates to.
@@ -68,7 +68,7 @@ class BP_Activity_Activity {
 	 * @since 1.2.0
 	 * @var string
 	 */
-	var $component = '';
+	public $component = '';
 
 	/**
 	 * Activity type, eg 'new_blog_post'.
@@ -76,7 +76,7 @@ class BP_Activity_Activity {
 	 * @since 1.2.0
 	 * @var string
 	 */
-	var $type = '';
+	public $type = '';
 
 	/**
 	 * Description of the activity, eg 'Alex updated his profile.'.
@@ -84,7 +84,7 @@ class BP_Activity_Activity {
 	 * @since 1.2.0
 	 * @var string
 	 */
-	var $action = '';
+	public $action = '';
 
 	/**
 	 * The content of the activity item.
@@ -92,7 +92,7 @@ class BP_Activity_Activity {
 	 * @since 1.2.0
 	 * @var string
 	 */
-	var $content = '';
+	public $content = '';
 
 	/**
 	 * The date the activity item was recorded, in 'Y-m-d h:i:s' format.
@@ -100,7 +100,7 @@ class BP_Activity_Activity {
 	 * @since 1.0.0
 	 * @var string
 	 */
-	var $date_recorded = '';
+	public $date_recorded = '';
 
 	/**
 	 * Whether the item should be hidden in sitewide streams.
@@ -108,7 +108,7 @@ class BP_Activity_Activity {
 	 * @since 1.1.0
 	 * @var int
 	 */
-	var $hide_sitewide = 0;
+	public $hide_sitewide = 0;
 
 	/**
 	 * Node boundary start for activity or activity comment.
@@ -116,7 +116,7 @@ class BP_Activity_Activity {
 	 * @since 1.5.0
 	 * @var int
 	 */
-	var $mptt_left;
+	public $mptt_left;
 
 	/**
 	 * Node boundary end for activity or activity comment.
@@ -124,7 +124,7 @@ class BP_Activity_Activity {
 	 * @since 1.5.0
 	 * @var int
 	 */
-	var $mptt_right;
+	public $mptt_right;
 
 	/**
 	 * Whether this item is marked as spam.
@@ -132,7 +132,7 @@ class BP_Activity_Activity {
 	 * @since 1.6.0
 	 * @var int
 	 */
-	var $is_spam;
+	public $is_spam;
 
 	/**
 	 * Error holder.
@@ -495,8 +495,12 @@ class BP_Activity_Activity {
 		}
 
 		// Regular filtering.
-		if ( $r['filter'] && $filter_sql = self::get_filter_sql( $r['filter'] ) ) {
-			$where_conditions['filter_sql'] = $filter_sql;
+		if ( $r['filter'] ) {
+			$filter_sql = self::get_filter_sql( $r['filter'] );
+
+			if ( $filter_sql ) {
+				$where_conditions['filter_sql'] = $filter_sql;
+			}
 		}
 
 		// User IDs filtering.
@@ -544,9 +548,9 @@ class BP_Activity_Activity {
 		}
 
 		// Spam.
-		if ( 'ham_only' == $r['spam'] ) {
+		if ( 'ham_only' === $r['spam'] ) {
 			$where_conditions['spam_sql'] = 'a.is_spam = 0';
-		} elseif ( 'spam_only' == $r['spam'] ) {
+		} elseif ( 'spam_only' === $r['spam'] ) {
 			$where_conditions['spam_sql'] = 'a.is_spam = 1';
 		}
 
@@ -871,7 +875,7 @@ class BP_Activity_Activity {
 				$total_activities = $r['max'];
 			}
 
-			$retval['total'] = $total_activities;
+			$retval['total'] = (int) $total_activities;
 		}
 
 		return $retval;
@@ -885,7 +889,7 @@ class BP_Activity_Activity {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @param array $activity_ids Array of activity IDs.
+	 * @param array $activity_ids Optional. Array of activity IDs.
 	 * @param bool  $cache_results Optional. Whether to cache activity information. Default true.
 	 * @return array
 	 */
@@ -1028,7 +1032,7 @@ class BP_Activity_Activity {
 	 * @since 2.0.0
 	 *
 	 * @param array $activities Array of activities.
-	 * @return array $activities Array of activities.
+	 * @return array Array of activities.
 	 */
 	protected static function prefetch_object_data( $activities ) {
 
@@ -1081,9 +1085,9 @@ class BP_Activity_Activity {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @param array $meta_query An array of meta_query filters. See the
+	 * @param array $meta_query Optional. An array of meta_query filters. See the
 	 *                          documentation for WP_Meta_Query for details.
-	 * @return array $sql_array 'join' and 'where' clauses.
+	 * @return array 'join' and 'where' clauses.
 	 */
 	public static function get_meta_query_sql( $meta_query = array() ) {
 		global $wpdb;
@@ -1122,7 +1126,7 @@ class BP_Activity_Activity {
 	 *
 	 * @since 2.1.0
 	 *
-	 * @param array $date_query An array of date_query parameters. See the
+	 * @param array $date_query Optional. An array of date_query parameters. See the
 	 *                          documentation for the first parameter of WP_Date_Query.
 	 * @return string
 	 */
@@ -1140,8 +1144,8 @@ class BP_Activity_Activity {
 	 *
 	 * @since 2.2.0
 	 *
-	 * @param  mixed $scope  The activity scope. Accepts string or array of scopes.
-	 * @param  array $r      Current activity arguments. Same as those of BP_Activity_Activity::get(),
+	 * @param  mixed $scope  Optional. The activity scope. Accepts string or array of scopes.
+	 * @param  array $r      Optional. Current activity arguments. Same as those of BP_Activity_Activity::get(),
 	 *                       but merged with defaults.
 	 * @return false|array 'sql' WHERE SQL string and 'override' activity args.
 	 */
@@ -1178,17 +1182,16 @@ class BP_Activity_Activity {
 			/**
 			 * Plugins can hook here to set their activity arguments for custom scopes.
 			 *
-			 * This is a dynamic filter based on the activity scope. eg:
-			 *   - 'bp_activity_set_groups_scope_args'
-			 *   - 'bp_activity_set_friends_scope_args'
-			 *
 			 * To see how this filter is used, plugin devs should check out:
-			 *   - bp_groups_filter_activity_scope() - used for 'groups' scope
-			 *   - bp_friends_filter_activity_scope() - used for 'friends' scope
+			 *
+			 *  - bp_groups_filter_activity_scope() - used for 'groups' scope
+			 *  - bp_friends_filter_activity_scope() - used for 'friends' scope
+			 *
+			 * The dynamic portion of the hook name, `$scope`, refers to the requested activity query scope.
 			 *
 			 * @since 2.2.0
 			 *
-			 * @param array {
+			 * @param array $scope_args {
 			 *     Activity query clauses.
 			 *     @type array {
 			 *         Activity arguments for your custom scope.
@@ -1385,6 +1388,7 @@ class BP_Activity_Activity {
 	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param array $args {
+	 *     Optional. An array of activity item deletion arguments.
 	 *     @int    $id                Optional. The ID of a specific item to delete.
 	 *     @string $action            Optional. The action to filter by.
 	 *     @string $content           Optional. The content to filter by.
@@ -1567,8 +1571,8 @@ class BP_Activity_Activity {
 	 *
 	 * @deprecated 2.3.0
 	 *
-	 * @param array $activity_ids Activity IDs whose comments should be deleted.
-	 * @param bool  $delete_meta  Should we delete the activity meta items for these comments.
+	 * @param array $activity_ids Optional. Activity IDs whose comments should be deleted.
+	 * @param bool  $delete_meta  Optional. Should we delete the activity meta items for these comments.
 	 * @return bool
 	 */
 	public static function delete_activity_item_comments( $activity_ids = array(), $delete_meta = true ) {
@@ -1596,7 +1600,7 @@ class BP_Activity_Activity {
 	 *
 	 * @since 1.2.0
 	 *
-	 * @param array $activity_ids Activity IDs whose meta should be deleted.
+	 * @param array $activity_ids Optional. Activity IDs whose meta should be deleted.
 	 * @return bool
 	 */
 	public static function delete_activity_meta_entries( $activity_ids = array() ) {
@@ -1623,7 +1627,7 @@ class BP_Activity_Activity {
 
 		// Now fetch the activity comments and parse them into the correct position in the activities array.
 		foreach ( (array) $activities as $activity ) {
-			$top_level_parent_id                = 'activity_comment' == $activity->type ? $activity->item_id : 0;
+			$top_level_parent_id                = 'activity_comment' === $activity->type ? $activity->item_id : 0;
 			$activity_comments[ $activity->id ] = self::get_activity_comments( $activity->id, $activity->mptt_left, $activity->mptt_right, $spam, $top_level_parent_id );
 		}
 
@@ -1681,13 +1685,15 @@ class BP_Activity_Activity {
 
 				// Prevent debug errors.
 			} else {
-				$fullname_select = $fullname_from = $fullname_where = '';
+				$fullname_where  = '';
+				$fullname_from   = $fullname_where;
+				$fullname_select = $fullname_from;
 			}
 
 			// Don't retrieve activity comments marked as spam.
-			if ( 'ham_only' == $spam ) {
+			if ( 'ham_only' === $spam ) {
 				$spam_sql = 'AND a.is_spam = 0';
-			} elseif ( 'spam_only' == $spam ) {
+			} elseif ( 'spam_only' === $spam ) {
 				$spam_sql = 'AND a.is_spam = 1';
 			} else {
 				$spam_sql = '';
@@ -1808,7 +1814,7 @@ class BP_Activity_Activity {
 	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param int $parent_id ID of an activity or activity comment.
-	 * @param int $left      Node boundary start for activity or activity comment.
+	 * @param int $left      Optional. Node boundary start for activity or activity comment.
 	 * @return int Right Node boundary of activity or activity comment.
 	 */
 	public static function rebuild_activity_comment_tree( $parent_id, $left = 1 ) {
@@ -1865,7 +1871,7 @@ class BP_Activity_Activity {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @param bool $skip_last_activity If true, components will not be
+	 * @param bool $skip_last_activity Optional. If true, components will not be
 	 *                                 included if the only activity type associated with them is
 	 *                                 'last_activity'. (Since 2.0.0, 'last_activity' is stored in
 	 *                                 the activity table, but these items are not full-fledged
@@ -1892,7 +1898,7 @@ class BP_Activity_Activity {
 	 * @since 1.0.0
 	 *
 	 * @param int $limit Optional. Number of items to fetch. Default: 35.
-	 * @return array $activity_feed List of activity items, with RSS data added.
+	 * @return array List of activity items, with RSS data added.
 	 */
 	public static function get_sitewide_items_for_feed( $limit = 35 ) {
 		$activities    = bp_activity_get_sitewide( array( 'max' => $limit ) );
@@ -2064,7 +2070,7 @@ class BP_Activity_Activity {
 	 * @since 1.2.0
 	 *
 	 * @param int $user_id The ID of the user whose favorites you're counting.
-	 * @return int $value A count of the user's favorites.
+	 * @return int A count of the user's favorites.
 	 */
 	public static function total_favorite_count( $user_id ) {
 

@@ -53,7 +53,7 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 		) );
 
 		// Double check it's there
-		$this->assertEquals( array( $this->a1 ), wp_list_pluck( $notifications, 'item_id' ) );
+		$this->assertSame( array( $this->a1 ), wp_list_pluck( $notifications, 'item_id' ) );
 		$url = bp_members_get_user_url(
 			$this->u1,
 			array(
@@ -70,7 +70,7 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 		) );
 
 		// Should be empty
-		$this->assertEquals( array(), $notifications );
+		$this->assertSame( array(), $notifications );
 	}
 
 	/**
@@ -86,7 +86,7 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 		) );
 
 		// Double check it's there
-		$this->assertEquals( array( $this->a1 ), wp_list_pluck( $notifications, 'item_id' ) );
+		$this->assertSame( array( $this->a1 ), wp_list_pluck( $notifications, 'item_id' ) );
 
 		// Log out
 		wp_set_current_user( 0 );
@@ -107,7 +107,7 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 		) );
 
 		// Should be untouched
-		$this->assertEquals( array( $this->a1 ), wp_list_pluck( $notifications, 'item_id' ) );
+		$this->assertSame( array( $this->a1 ), wp_list_pluck( $notifications, 'item_id' ) );
 
 		wp_set_current_user( $this->u1 );
 	}
@@ -125,7 +125,7 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 		) );
 
 		// Double check it's there
-		$this->assertEquals( array( $this->a1 ), wp_list_pluck( $notifications, 'item_id' ) );
+		$this->assertSame( array( $this->a1 ), wp_list_pluck( $notifications, 'item_id' ) );
 
 		// Switch user
 		wp_set_current_user( $this->u2 );
@@ -146,7 +146,7 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 		) );
 
 		// Should be untouched
-		$this->assertEquals( array( $this->a1 ), wp_list_pluck( $notifications, 'item_id' ) );
+		$this->assertSame( array( $this->a1 ), wp_list_pluck( $notifications, 'item_id' ) );
 
 		wp_set_current_user( $this->u1 );
 	}
@@ -164,7 +164,7 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 		) );
 
 		// Double check it's there
-		$this->assertEquals( array( $this->a1 ), wp_list_pluck( $notifications, 'item_id' ) );
+		$this->assertSame( array( $this->a1 ), wp_list_pluck( $notifications, 'item_id' ) );
 
 		// Go to the My Activity page
 		$this->go_to(
@@ -182,7 +182,7 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 		) );
 
 		// Should be empty
-		$this->assertEquals( array(), $notifications );
+		$this->assertSame( array(), $notifications );
 	}
 
 	/**
@@ -198,7 +198,7 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 		) );
 
 		// Double check it's there
-		$this->assertEquals( array( $this->a1 ), wp_list_pluck( $notifications, 'item_id' ) );
+		$this->assertSame( array( $this->a1 ), wp_list_pluck( $notifications, 'item_id' ) );
 
 		// Log out
 		wp_set_current_user( 0 );
@@ -219,7 +219,7 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 		) );
 
 		// Should be untouched
-		$this->assertEquals( array( $this->a1 ), wp_list_pluck( $notifications, 'item_id' ) );
+		$this->assertSame( array( $this->a1 ), wp_list_pluck( $notifications, 'item_id' ) );
 
 		// clean up
 		wp_set_current_user( $this->u1 );
@@ -238,7 +238,7 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 		) );
 
 		// Double check it's there
-		$this->assertEquals( array( $this->a1 ), wp_list_pluck( $notifications, 'item_id' ) );
+		$this->assertSame( array( $this->a1 ), wp_list_pluck( $notifications, 'item_id' ) );
 
 		// Log out
 		wp_set_current_user( $this->u2 );
@@ -259,7 +259,7 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 		) );
 
 		// Should be untouched
-		$this->assertEquals( array( $this->a1 ), wp_list_pluck( $notifications, 'item_id' ) );
+		$this->assertSame( array( $this->a1 ), wp_list_pluck( $notifications, 'item_id' ) );
 
 		// clean up
 		wp_set_current_user( $this->u1 );
@@ -278,7 +278,7 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 		) );
 
 		// Double check it's there
-		$this->assertEquals( array( $this->a1 ), wp_list_pluck( $notifications, 'item_id' ) );
+		$this->assertSame( array( $this->a1 ), wp_list_pluck( $notifications, 'item_id' ) );
 
 		bp_activity_delete( array(
 			'id' => $this->a1,
@@ -304,8 +304,8 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 		) );
 
 		// Double check it's there
-		$this->assertEquals( array( $this->a1 ), wp_list_pluck( $notifications, 'item_id' ) );
-		$this->assertEquals( 1, bp_get_total_mention_count_for_user( $this->u1 ) );
+		$this->assertSame( array( $this->a1 ), wp_list_pluck( $notifications, 'item_id' ) );
+		$this->assertSame( '1', bp_get_total_mention_count_for_user( $this->u1 ) );
 
 		// Clear notifications for $this->u1
 		bp_activity_clear_new_mentions( $this->u1 );
@@ -315,7 +315,18 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 		) );
 
 		$this->assertEmpty( $notifications, 'Notifications should be cleared when new mention metas are removed' );
-		$this->assertEmpty( bp_get_total_mention_count_for_user( $this->u1 ) );
+		$this->assertSame( '0', bp_get_total_mention_count_for_user( $this->u1 ) );
+	}
+
+	public function test_bp_get_total_mention_count_for_user_without_user() {
+		$displayed_user_id                = bp_displayed_user_id();
+		buddypress()->displayed_user->id = 0;
+
+		try {
+			$this->assertFalse( bp_get_total_mention_count_for_user() );
+		} finally {
+			buddypress()->displayed_user->id = $displayed_user_id;
+		}
 	}
 
 	/**
@@ -362,8 +373,8 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 			'string_multiple' => bp_activity_format_notifications( 'new_at_mention', $a, $this->u2, 2 ),
 		);
 
-		remove_filter( 'bp_activity_single_at_mentions_notification', array( $this, 'format_notification_filter' ), 10 );
-		remove_filter( 'bp_activity_multiple_at_mentions_notification', array( $this, 'format_notification_filter' ), 10 );
+		remove_filter( 'bp_activity_single_at_mentions_notification', array( $this, 'format_notification_filter' ) );
+		remove_filter( 'bp_activity_multiple_at_mentions_notification', array( $this, 'format_notification_filter' ) );
 
 		$single = sprintf( __( '%1$s mentioned you', 'buddypress' ), bp_core_get_user_displayname( $this->u2 ) );
 		$multiple = 'You have 2 new mentions';
@@ -416,14 +427,14 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 		) );
 
 		$expected_commenters = array( $this->u2, $u3 );
-		$this->assertEquals( $expected_commenters, wp_list_pluck( $u1_notifications, 'secondary_item_id' ) );
+		$this->assertSame( $expected_commenters, wp_list_pluck( $u1_notifications, 'secondary_item_id' ) );
 
 		$u2_notifications = BP_Notifications_Notification::get( array(
 			'user_id' => $this->u2,
 		) );
 
 		$expected_commenter = array( $u3 );
-		$this->assertEquals( $expected_commenter, wp_list_pluck( $u2_notifications, 'secondary_item_id' ) );
+		$this->assertSame( $expected_commenter, wp_list_pluck( $u2_notifications, 'secondary_item_id' ) );
 
 		// Attempt to mark 'update_reply' notifications as read for user 1.
 		foreach ( $u1_notifications as $i => $n ) {
@@ -527,9 +538,9 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 			'component_name' => 'activity',
 			'user_id'        => $u1
 		) );
-		$this->assertEquals( 2, count( $n1 ) );
-		$this->assertEquals(
-			array( $ac1, $ac2 ),
+		$this->assertCount( 2, $n1 );
+		$this->assertSame(
+			wp_parse_id_list( array( $ac1, $ac2 ) ),
 			wp_list_pluck( $n1, 'item_id' )
 		);
 

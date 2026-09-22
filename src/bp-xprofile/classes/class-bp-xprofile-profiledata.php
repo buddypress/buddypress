@@ -63,8 +63,8 @@ class BP_XProfile_ProfileData {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @param int|null $field_id Field ID to instantiate.
-	 * @param int|null $user_id  User ID to instantiate for.
+	 * @param int|null $field_id Optional. Field ID to instantiate.
+	 * @param int|null $user_id  Optional. User ID to instantiate for.
 	 */
 	public function __construct( $field_id = null, $user_id = null ) {
 		if ( ! empty( $field_id ) ) {
@@ -253,14 +253,14 @@ class BP_XProfile_ProfileData {
 
 		if ( $this->is_valid_field() ) {
 			if ( $this->exists() && strlen( trim( $this->value ) ) ) {
-				$result   = $wpdb->query( $wpdb->prepare( "UPDATE {$bp->profile->table_name_data} SET value = %s, last_updated = %s WHERE user_id = %d AND field_id = %d", $this->value, $this->last_updated, $this->user_id, $this->field_id ) );
+				$result = $wpdb->query( $wpdb->prepare( "UPDATE {$bp->profile->table_name_data} SET value = %s, last_updated = %s WHERE user_id = %d AND field_id = %d", $this->value, $this->last_updated, $this->user_id, $this->field_id ) );
 
 			} elseif ( $this->exists() && empty( $this->value ) ) {
 				// Data removed, delete the entry.
-				$result   = $this->delete();
+				$result = $this->delete();
 
 			} else {
-				$result   = $wpdb->query( $wpdb->prepare("INSERT INTO {$bp->profile->table_name_data} (user_id, field_id, value, last_updated) VALUES (%d, %d, %s, %s)", $this->user_id, $this->field_id, $this->value, $this->last_updated ) );
+				$result   = $wpdb->query( $wpdb->prepare( "INSERT INTO {$bp->profile->table_name_data} (user_id, field_id, value, last_updated) VALUES (%d, %d, %s, %s)", $this->user_id, $this->field_id, $this->value, $this->last_updated ) );
 				$this->id = $wpdb->insert_id;
 			}
 
@@ -336,7 +336,7 @@ class BP_XProfile_ProfileData {
 	 *
 	 * @param int   $user_id            ID of user whose data is being queried.
 	 * @param array $field_ids          Array of field IDs to query for.
-	 * @param array $field_type_objects Array of field type objects keyed by the queried filed IDs.
+	 * @param array $field_type_objects Optional. Array of field type objects keyed by the queried filed IDs.
 	 * @return array
 	 */
 	public static function get_data_for_user( $user_id, $field_ids, $field_type_objects = array() ) {
@@ -348,14 +348,14 @@ class BP_XProfile_ProfileData {
 
 		// Prime the cache.
 		if ( ! empty( $uncached_field_ids ) ) {
-			$bp = buddypress();
+			$bp                     = buddypress();
 			$uncached_field_ids_sql = implode( ',', wp_parse_id_list( $uncached_field_ids ) );
-			$uncached_data = $wpdb->get_results( $wpdb->prepare( "SELECT id, user_id, field_id, value, last_updated FROM {$bp->profile->table_name_data} WHERE field_id IN ({$uncached_field_ids_sql}) AND user_id = %d", $user_id ) );
+			$uncached_data          = $wpdb->get_results( $wpdb->prepare( "SELECT id, user_id, field_id, value, last_updated FROM {$bp->profile->table_name_data} WHERE field_id IN ({$uncached_field_ids_sql}) AND user_id = %d", $user_id ) );
 
 			// Rekey.
 			$queried_data = array();
 			foreach ( $uncached_data as $ud ) {
-				$d               = new stdClass;
+				$d               = new stdClass();
 				$d->id           = $ud->id;
 				$d->table_name   = $bp->profile->table_name_data;
 				$d->user_id      = $ud->user_id;
@@ -378,7 +378,7 @@ class BP_XProfile_ProfileData {
 				// If no value was found, cache an empty item
 				// to avoid future cache misses.
 				} else {
-					$d = new stdClass;
+					$d = new stdClass();
 
 					// Check if it's a WordPress field.
 					if ( isset( $field_type_objects[ $field_id ]->wp_user_key ) ) {
@@ -414,7 +414,7 @@ class BP_XProfile_ProfileData {
 				$data[ $key ]->id = (int) $data[ $key ]->id;
 			}
 			if ( isset( $data[ $key ]->user_id ) ) {
-				$data[ $key ]->user_id  = (int) $data[ $key ]->user_id;
+				$data[ $key ]->user_id = (int) $data[ $key ]->user_id;
 			}
 
 			$data[ $key ]->field_id = (int) $data[ $key ]->field_id;
@@ -434,13 +434,15 @@ class BP_XProfile_ProfileData {
 	 */
 	public static function get_all_for_user( $user_id ) {
 
-		$groups = bp_xprofile_get_groups( array(
-			'user_id'                => $user_id,
-			'hide_empty_groups'      => true,
-			'hide_empty_fields'      => true,
-			'fetch_fields'           => true,
-			'fetch_field_data'       => true,
-		) );
+		$groups = bp_xprofile_get_groups(
+			array(
+				'user_id'                => $user_id,
+				'hide_empty_groups'      => true,
+				'hide_empty_fields'      => true,
+				'fetch_fields'           => true,
+				'fetch_field_data'       => true,
+			)
+		);
 
 		$profile_data = array();
 
@@ -495,7 +497,7 @@ class BP_XProfile_ProfileData {
 	 *
 	 * @param int $field_id Field ID being queried for.
 	 * @param int $user_id  User ID associated with field.
-	 * @return int $fielddata_id
+	 * @return int
 	 */
 	public static function get_fielddataid_byid( $field_id, $user_id ) {
 		global $wpdb;
@@ -529,7 +531,7 @@ class BP_XProfile_ProfileData {
 	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param int            $field_id ID of the field.
-	 * @param int|array|null $user_ids ID or IDs of user(s).
+	 * @param int|array|null $user_ids Optional. ID or IDs of user(s).
 	 * @return string|array Single value if a single user is queried,
 	 *                      otherwise an array of results.
 	 */
@@ -558,9 +560,9 @@ class BP_XProfile_ProfileData {
 
 		// Prime caches.
 		if ( ! empty( $uncached_ids ) ) {
-			$bp = buddypress();
+			$bp               = buddypress();
 			$uncached_ids_sql = implode( ',', $uncached_ids );
-			$queried_data = $wpdb->get_results( $wpdb->prepare( "SELECT id, user_id, field_id, value, last_updated FROM {$bp->profile->table_name_data} WHERE field_id = %d AND user_id IN ({$uncached_ids_sql})", $field_id ) );
+			$queried_data     = $wpdb->get_results( $wpdb->prepare( "SELECT id, user_id, field_id, value, last_updated FROM {$bp->profile->table_name_data} WHERE field_id = %d AND user_id IN ({$uncached_ids_sql})", $field_id ) );
 
 			// Rekey.
 			$qd = array();
@@ -576,7 +578,7 @@ class BP_XProfile_ProfileData {
 				// No data found for the user, so we fake it to
 				// avoid cache misses and PHP notices.
 				} else {
-					$d          = new stdClass;
+					$d          = new stdClass();
 					$field_type = bp_xprofile_get_field_type( $field_id );
 
 					// Check WordPress if it's a WordPress field.
@@ -615,7 +617,7 @@ class BP_XProfile_ProfileData {
 				$data[ $key ]->id = (int) $data[ $key ]->id;
 			}
 			if ( isset( $data[ $key ]->user_id ) ) {
-				$data[ $key ]->user_id  = (int) $data[ $key ]->user_id;
+				$data[ $key ]->user_id = (int) $data[ $key ]->user_id;
 			}
 
 			$data[ $key ]->field_id = (int) $data[ $key ]->field_id;
@@ -641,7 +643,7 @@ class BP_XProfile_ProfileData {
 	 * @deprecated 8.0.0 This function is not used anymore.
 	 *
 	 * @param array|string $fields  Field(s) to get.
-	 * @param int|null     $user_id User ID to get field data for.
+	 * @param int|null     $user_id Optional. User ID to get field data for.
 	 * @return array|bool
 	 */
 	public static function get_value_byfieldname( $fields, $user_id = null ) {
@@ -662,16 +664,16 @@ class BP_XProfile_ProfileData {
 
 		if ( is_array( $fields ) ) {
 			for ( $i = 0, $count = count( $fields ); $i < $count; ++$i ) {
-				if ( $i == 0 ) {
-					$field_sql .= $wpdb->prepare( "AND ( f.name = %s ", $fields[ $i ] );
+				if ( $i === 0 ) {
+					$field_sql .= $wpdb->prepare( 'AND ( f.name = %s ', $fields[ $i ] );
 				} else {
-					$field_sql .= $wpdb->prepare( "OR f.name = %s ", $fields[ $i ] );
+					$field_sql .= $wpdb->prepare( 'OR f.name = %s ', $fields[ $i ] );
 				}
 			}
 
 			$field_sql .= ')';
 		} else {
-			$field_sql .= $wpdb->prepare( "AND f.name = %s", $fields );
+			$field_sql .= $wpdb->prepare( 'AND f.name = %s', $fields );
 		}
 
 		$sql    = $wpdb->prepare( "SELECT d.value, f.name FROM {$bp->profile->table_name_data} d, {$bp->profile->table_name_fields} f WHERE d.field_id = f.id AND d.user_id = %d AND f.parent_id = 0 $field_sql", $user_id );
@@ -684,12 +686,13 @@ class BP_XProfile_ProfileData {
 		$new_values = array();
 
 		if ( is_array( $fields ) ) {
+			$fields_count = count( $fields );
 			for ( $i = 0, $count = count( $values ); $i < $count; ++$i ) {
-				for ( $j = 0; $j < count( $fields ); $j++ ) {
-					if ( $values[ $i ]->name == $fields[ $j ] ) {
+				for ( $j = 0; $j < $fields_count; $j++ ) {
+					if ( $values[ $i ]->name === $fields[ $j ] ) {
 						$new_values[ $fields[ $j ] ] = $values[ $i ]->value;
 					} elseif ( ! array_key_exists( $fields[ $j ], $new_values ) ) {
-						$new_values[ $fields[ $j ] ] = NULL;
+						$new_values[ $fields[ $j ] ] = null;
 					}
 				}
 			}
@@ -796,7 +799,7 @@ class BP_XProfile_ProfileData {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param int $user_id ID of the user to query.
+	 * @param int $user_id Optional. ID of the user to query.
 	 * @return mixed
 	 */
 	public static function get_fullname( $user_id = 0 ) {

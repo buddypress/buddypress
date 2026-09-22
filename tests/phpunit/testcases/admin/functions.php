@@ -27,15 +27,15 @@ class BP_Tests_Admin_Functions extends BP_UnitTestCase {
 	public function test_bp_admin_list_table_current_bulk_action() {
 		$_REQUEST['action'] = 'foo';
 		$_REQUEST['action2'] = '-1';
-		$this->assertEquals( bp_admin_list_table_current_bulk_action(), 'foo' );
+		$this->assertSame( bp_admin_list_table_current_bulk_action(), 'foo' );
 
 		$_REQUEST['action'] = '-1';
 		$_REQUEST['action2'] = 'foo';
-		$this->assertEquals( bp_admin_list_table_current_bulk_action(), 'foo' );
+		$this->assertSame( bp_admin_list_table_current_bulk_action(), 'foo' );
 
 		$_REQUEST['action'] = 'bar';
 		$_REQUEST['action2'] = 'foo';
-		$this->assertEquals( bp_admin_list_table_current_bulk_action(), 'foo' );
+		$this->assertSame( bp_admin_list_table_current_bulk_action(), 'foo' );
 	}
 
 	/**
@@ -65,7 +65,11 @@ class BP_Tests_Admin_Functions extends BP_UnitTestCase {
 			'xprofile' => 1,
 		);
 
-		$this->assertEquals( bp_core_admin_get_active_components_from_submitted_settings( $submitted ), array( 'groups' => 1, 'members' => 1, 'messages' => 1, 'settings' => 1, 'xprofile' => 1 ) );
+		$expected = array( 'groups' => 1, 'members' => 1, 'messages' => 1, 'settings' => 1, 'xprofile' => 1 );
+		$actual   = bp_core_admin_get_active_components_from_submitted_settings( $submitted );
+		ksort( $expected );
+		ksort( $actual );
+		$this->assertSame( $expected, $actual );
 
 		// Activating deactivated components from the Inactive screen
 		$_GET['action'] = 'inactive';
@@ -81,7 +85,11 @@ class BP_Tests_Admin_Functions extends BP_UnitTestCase {
 			'groups' => 1,
 		);
 
-		$this->assertEquals( bp_core_admin_get_active_components_from_submitted_settings( $submitted2 ), array( 'activity' => 1, 'groups' => 1, 'members' => 1, 'messages' => 1, 'settings' => 1, 'xprofile' => 1 ) );
+		$expected = array( 'activity' => 1, 'groups' => 1, 'members' => 1, 'messages' => 1, 'settings' => 1, 'xprofile' => 1 );
+		$actual   = bp_core_admin_get_active_components_from_submitted_settings( $submitted2 );
+		ksort( $expected );
+		ksort( $actual );
+		$this->assertSame( $expected, $actual );
 
 		// Deactivating from the Retired screen
 		$_GET['action'] = 'retired';
@@ -95,7 +103,11 @@ class BP_Tests_Admin_Functions extends BP_UnitTestCase {
 
 		$submitted4 = array();
 
-		$this->assertEquals( bp_core_admin_get_active_components_from_submitted_settings( $submitted4 ), array( 'activity' => 1, 'members' => 1, 'messages' => 1, 'settings' => 1, 'xprofile' => 1 ) );
+		$expected = array( 'activity' => 1, 'members' => 1, 'messages' => 1, 'settings' => 1, 'xprofile' => 1 );
+		$actual   = bp_core_admin_get_active_components_from_submitted_settings( $submitted4 );
+		ksort( $expected );
+		ksort( $actual );
+		$this->assertSame( $expected, $actual );
 
 		// reset
 		if ( $get_action ) {
@@ -328,7 +340,34 @@ class BP_Tests_Admin_Functions extends BP_UnitTestCase {
 
 		$this->assertNotSame( $page_name, $directory_name );
 
-		remove_filter( 'bp_is_active', array( $this, 'is_active_filter' ), 10 );
+		remove_filter( 'bp_is_active', array( $this, 'is_active_filter' ) );
+	}
+
+	/**
+	 * @group bp_admin_reinstall_emails
+	 */
+	public function test_bp_admin_reinstall_emails_deletes_more_than_one_batch() {
+		$email_ids = self::factory()->post->create_many(
+			201,
+			array(
+				'post_status' => 'publish',
+				'post_type'   => bp_get_email_post_type(),
+			)
+		);
+
+		$result = bp_admin_reinstall_emails();
+		$this->assertSame( 0, $result[0] );
+
+		$published_email_ids = get_posts(
+			array(
+				'fields'         => 'ids',
+				'post__in'       => $email_ids,
+				'post_status'    => 'publish',
+				'post_type'      => bp_get_email_post_type(),
+				'posts_per_page' => -1,
+			)
+		);
+		$this->assertEmpty( $published_email_ids );
 	}
 
 	/**
@@ -367,6 +406,6 @@ class BP_Tests_Admin_Functions extends BP_UnitTestCase {
 
 		$this->assertSame( $page_name, $directory_name );
 
-		remove_filter( 'bp_is_active', array( $this, 'is_active_filter' ), 10 );
+		remove_filter( 'bp_is_active', array( $this, 'is_active_filter' ) );
 	}
 }

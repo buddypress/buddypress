@@ -66,8 +66,8 @@ add_action( 'bp_loaded', 'bp_members_signup_sanitization' );
  *
  * @since 2.1.0
  *
- * @param array $illegal_names Array of illiegal names.
- * @return array $illegal_names
+ * @param array $illegal_names Optional. Array of illiegal names.
+ * @return array
  */
 function bp_members_signup_with_subdirectory_blog( $illegal_names = array() ) {
 	if ( ! bp_core_enable_root_profiles() ) {
@@ -100,7 +100,7 @@ add_filter( 'subdirectory_reserved_names', 'bp_members_signup_with_subdirectory_
  *
  * @param string $url     WP profile edit URL.
  * @param int    $user_id ID of the user.
- * @param string $scheme  Scheme to use.
+ * @param string $scheme  Optional. Scheme to use.
  * @return string
  */
 function bp_members_edit_profile_url( $url, $user_id, $scheme = 'admin' ) {
@@ -258,7 +258,7 @@ add_action( 'bp_user_query_populate_extras', 'bp_members_filter_user_query_popul
  * @param int    $user_id    User ID.
  * @param string $capability The capability being checked for.
  * @param int    $site_id    Site ID. Defaults to the BP root blog.
- * @param array  $args       Array of extra arguments passed.
+ * @param array  $args       Optional. Array of extra arguments passed.
  *
  * @return bool
  */
@@ -311,7 +311,7 @@ add_filter( 'bp_user_can', 'bp_members_user_can_filter', 10, 5 );
  * @param array  $attributes The field attributes.
  * @param string $name       The field name.
  *
- * @return array $attributes The field attributes.
+ * @return array The field attributes.
  */
 function bp_members_invitations_make_registration_email_input_readonly_if_invite( $attributes, $name ) {
 	if ( 'email' === $name && bp_get_members_invitations_allowed() ) {
@@ -330,7 +330,7 @@ add_filter( 'bp_get_form_field_attributes', 'bp_members_invitations_make_registr
  *
  * @since 8.0.0
  *
- * @return string $message The message text.
+ * @return string The message text.
  */
 function bp_members_invitations_get_registration_welcome_message() {
 	$message = '';
@@ -396,7 +396,7 @@ function bp_members_invitations_get_registration_welcome_message() {
  *
  * @since 8.0.0
  *
- * @return string $message The message text.
+ * @return string The message text.
  */
 function bp_members_invitations_get_modified_registration_disabled_message() {
 	$message = '';
@@ -445,8 +445,8 @@ function bp_members_invitations_get_modified_registration_disabled_message() {
  *
  * @since 8.0.0
  *
- * @param int|string $value    The value for the requested property.
- * @param string     $property The name of the requested property.
+ * @param int|string $value    Optional. The value for the requested property.
+ * @param string     $property Optional. The name of the requested property.
  * @param string     $context  Optional. The context of display.
  * @return int|string          The sanitized value.
  */

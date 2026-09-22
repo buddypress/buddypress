@@ -9,13 +9,11 @@
 
 /**
  * Process a request to delete a message.
- *
- * @return bool False on failure.
  */
 function messages_action_delete_message() {
 
 	if ( ! bp_is_messages_component() || bp_is_current_action( 'notices' ) || ! bp_is_action_variable( 'delete', 0 ) ) {
-		return false;
+		return;
 	}
 
 	$thread_id   = bp_action_variable( 1 );
@@ -26,14 +24,14 @@ function messages_action_delete_message() {
 		bp_core_redirect( $redirect );
 	} else {
 		if ( ! check_admin_referer( 'messages_delete_thread' ) ) {
-			return false;
+			return;
 		}
 
 		// Delete message.
 		if ( ! messages_delete_thread( $thread_id ) ) {
-			bp_core_add_message( __('There was an error deleting that message.', 'buddypress'), 'error' );
+			bp_core_add_message( __( 'There was an error deleting that message.', 'buddypress' ), 'error' );
 		} else {
-			bp_core_add_message( __('Message deleted.', 'buddypress') );
+			bp_core_add_message( __( 'Message deleted.', 'buddypress' ) );
 		}
 		bp_core_redirect( $redirect );
 	}

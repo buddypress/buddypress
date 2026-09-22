@@ -23,7 +23,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.6.0
  *
- * @param int|string|array|bool $group_ids Accepts a single group_id, or a
+ * @param int|string|array|bool $group_ids Optional. Accepts a single group_id, or a
  *                                         comma-separated list or array of
  *                                         group ids.
  */
@@ -46,10 +46,9 @@ function bp_groups_update_meta_cache( $group_ids = false ) {
  * Clear the cached group count.
  *
  * @since 1.0.0
- *
- * @param int $group_id Not used.
+ * @since 15.0.0 The `$group_id` parameter was removed since it was unused.
  */
-function groups_clear_group_object_cache( $group_id ) {
+function groups_clear_group_object_cache() {
 	wp_cache_delete( 'bp_total_group_count', 'bp' );
 }
 add_action( 'groups_group_deleted', 'groups_clear_group_object_cache' );
@@ -63,7 +62,7 @@ add_action( 'groups_create_group_step_complete', 'groups_clear_group_object_cach
  *
  * @since 1.7.0
  *
- * @param int $group_id The group being edited.
+ * @param int $group_id Optional. The group being edited.
  */
 function bp_groups_delete_group_cache( $group_id = 0 ) {
 	wp_cache_delete( $group_id, 'bp_groups' );
@@ -231,7 +230,7 @@ add_action( 'bp_groups_member_after_delete', 'bp_groups_clear_group_administrato
  *
  * @since 2.6.0
  *
- * @param int $group_id The group ID.
+ * @param int $group_id Optional. The group ID.
  */
 function groups_clear_group_type_cache( $group_id = 0 ) {
 	wp_cache_delete( $group_id, 'bp_groups_group_type' );

@@ -9,14 +9,12 @@
 
 /**
  * Process a request to view a single message thread.
- *
- * @return bool False if not a single conversation.
  */
 function messages_action_conversation() {
 
 	// Bail if not viewing a single conversation.
 	if ( ! bp_is_messages_component() || ! bp_is_current_action( 'view' ) ) {
-		return false;
+		return;
 	}
 
 	// Get the thread ID from the action variable.
@@ -32,11 +30,13 @@ function messages_action_conversation() {
 		// Check the nonce.
 		check_admin_referer( 'messages_send_message', 'send_message_nonce' );
 
-		$new_reply = messages_new_message( array(
-			'thread_id' => $thread_id,
-			'subject'   => ! empty( $_POST['subject'] ) ? $_POST['subject'] : false,
-			'content'   => $_POST['content']
-		) );
+		$new_reply = messages_new_message(
+			array(
+				'thread_id' => $thread_id,
+				'subject'   => ! empty( $_POST['subject'] ) ? $_POST['subject'] : false,
+				'content'   => $_POST['content'],
+			)
+		);
 
 		// Send the reply.
 		if ( ! empty( $new_reply ) ) {

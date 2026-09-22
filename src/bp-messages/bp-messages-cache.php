@@ -19,7 +19,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 2.2.0
  *
- * @param int|string|array|bool $message_ids Accepts a single message_id, or a
+ * @param int|string|array|bool $message_ids Optional. Accepts a single message_id, or a
  *                                           comma-separated list or array of message ids.
  */
 function bp_messages_update_meta_cache( $message_ids = false ) {

@@ -14,7 +14,6 @@ defined( 'ABSPATH' ) || exit;
  * Output the activity component slug.
  *
  * @since 1.5.0
- *
  */
 function bp_activity_slug() {
 	echo esc_attr( bp_get_activity_slug() );
@@ -23,7 +22,6 @@ function bp_activity_slug() {
 	 * Return the activity component slug.
 	 *
 	 * @since 1.5.0
-	 *
 	 *
 	 * @return string The activity component slug.
 	 */
@@ -43,7 +41,6 @@ function bp_activity_slug() {
  * Output the activity component root slug.
  *
  * @since 1.5.0
- *
  */
 function bp_activity_root_slug() {
 	echo esc_attr( bp_get_activity_root_slug() );
@@ -52,7 +49,6 @@ function bp_activity_root_slug() {
 	 * Return the activity component root slug.
 	 *
 	 * @since 1.5.0
-	 *
 	 *
 	 * @return string The activity component root slug.
 	 */
@@ -72,7 +68,6 @@ function bp_activity_root_slug() {
  * Output activity directory permalink.
  *
  * @since 1.5.0
- *
  */
 function bp_activity_directory_permalink() {
 	echo esc_url( bp_get_activity_directory_permalink() );
@@ -81,7 +76,6 @@ function bp_activity_directory_permalink() {
 	 * Return activity directory permalink.
 	 *
 	 * @since 1.5.0
-	 *
 	 *
 	 * @return string Activity directory permalink.
 	 */
@@ -115,7 +109,7 @@ function bp_activity_directory_permalink() {
  * @global BP_Activity_Template $activities_template The main activity template loop class.
  *
  * @param array|string $args {
- *     Arguments for limiting the contents of the activity loop. Most arguments
+ *     Optional. Arguments for limiting the contents of the activity loop. Most arguments
  *     are in the same format as {@link BP_Activity_Activity::get()}. However,
  *     because the format of the arguments accepted here differs in a number of
  *     ways, and because bp_has_activities() determines some default arguments in
@@ -239,7 +233,7 @@ function bp_has_activities( $args = '' ) {
 		: false;
 
 	$search_terms_default = false;
-	$search_query_arg = bp_core_get_component_search_query_arg( 'activity' );
+	$search_query_arg     = bp_core_get_component_search_query_arg( 'activity' );
 	if ( ! empty( $_REQUEST[ $search_query_arg ] ) ) {
 		$search_terms_default = stripslashes( $_REQUEST[ $search_query_arg ] );
 	}
@@ -330,7 +324,7 @@ function bp_has_activities( $args = '' ) {
 	 */
 	if ( isset( $_GET['afilter'] ) && apply_filters( 'bp_activity_enable_afilter_support', false ) ) {
 		$r['filter'] = array(
-			'object' => $_GET['afilter']
+			'object' => $_GET['afilter'],
 		);
 	} elseif ( ! empty( $r['user_id'] ) || ! empty( $r['object'] ) || ! empty( $r['action'] ) || ! empty( $r['primary_id'] ) || ! empty( $r['secondary_id'] ) || ! empty( $r['offset'] ) || ! empty( $r['offset_lower'] ) || ! empty( $r['since'] ) ) {
 		$r['filter'] = array(
@@ -341,7 +335,7 @@ function bp_has_activities( $args = '' ) {
 			'secondary_id' => $r['secondary_id'],
 			'offset'       => $r['offset'],
 			'offset_lower' => $r['offset_lower'],
-			'since'        => $r['since']
+			'since'        => $r['since'],
 		);
 	} else {
 		$r['filter'] = false;
@@ -415,7 +409,7 @@ function bp_activity_load_more_link() {
 	 *
 	 * @global BP_Activity_Template $activities_template The Activity template loop.
 	 *
-	 * @return string $link
+	 * @return string
 	 */
 	function bp_get_activity_load_more_link() {
 		global $activities_template;
@@ -477,7 +471,7 @@ function bp_activity_pagination_count() {
 		$to_num    = bp_core_number_format( ( $start_num + ( $activities_template->pag_num - 1 ) > $activities_template->total_activity_count ) ? $activities_template->total_activity_count : $start_num + ( $activities_template->pag_num - 1 ) );
 		$total     = bp_core_number_format( $activities_template->total_activity_count );
 
-		if ( 1 == $activities_template->total_activity_count ) {
+		if ( 1 === $activities_template->total_activity_count ) {
 			$message = __( 'Viewing 1 item', 'buddypress' );
 		} else {
 			/* translators: 1: the from number item. 2: the to number item. 3: the total number of items. */
@@ -491,7 +485,6 @@ function bp_activity_pagination_count() {
  * Output the activity pagination links.
  *
  * @since 1.0.0
- *
  */
 function bp_activity_pagination_links() {
 	// Escaping is done in WordPress's `paginate_links()` function.
@@ -528,12 +521,12 @@ function bp_activity_pagination_links() {
  *
  * @global BP_Activity_Template $activities_template The main activity template loop class.
  *
- * @return bool $has_more_items True if more items, false if not.
+ * @return bool True if more items, false if not.
  */
 function bp_activity_has_more_items() {
 	global $activities_template;
 
-	if ( ! empty( $activities_template->has_more_items )  ) {
+	if ( ! empty( $activities_template->has_more_items ) ) {
 		$has_more_items = true;
 	} else {
 		$remaining_pages = 0;
@@ -559,7 +552,6 @@ function bp_activity_has_more_items() {
  * Output the activity count.
  *
  * @since 1.2.0
- *
  */
 function bp_activity_count() {
 	echo intval( bp_get_activity_count() );
@@ -591,7 +583,6 @@ function bp_activity_count() {
  * Output the number of activities per page.
  *
  * @since 1.2.0
- *
  */
 function bp_activity_per_page() {
 	echo intval( bp_get_activity_per_page() );
@@ -623,7 +614,6 @@ function bp_activity_per_page() {
  * Output the activity ID.
  *
  * @since 1.2.0
- *
  */
 function bp_activity_id() {
 	echo intval( bp_get_activity_id() );
@@ -655,7 +645,6 @@ function bp_activity_id() {
  * Output the activity item ID.
  *
  * @since 1.2.0
- *
  */
 function bp_activity_item_id() {
 	echo intval( bp_get_activity_item_id() );
@@ -687,7 +676,6 @@ function bp_activity_item_id() {
  * Output the activity secondary item ID.
  *
  * @since 1.2.0
- *
  */
 function bp_activity_secondary_item_id() {
 	echo intval( bp_get_activity_secondary_item_id() );
@@ -719,7 +707,6 @@ function bp_activity_secondary_item_id() {
  * Output the date the activity was recorded.
  *
  * @since 1.2.0
- *
  */
 function bp_activity_date_recorded() {
 	echo esc_html( bp_get_activity_date_recorded() );
@@ -751,7 +738,6 @@ function bp_activity_date_recorded() {
  * Output the display name of the member who posted the activity.
  *
  * @since 2.1.0
- *
  */
 function bp_activity_member_display_name() {
 	echo esc_html( bp_get_activity_member_display_name() );
@@ -787,7 +773,6 @@ function bp_activity_member_display_name() {
  * Output the activity object name.
  *
  * @since 1.2.0
- *
  */
 function bp_activity_object_name() {
 	echo esc_html( bp_get_activity_object_name() );
@@ -819,7 +804,6 @@ function bp_activity_object_name() {
  * Output the activity type.
  *
  * @since 1.2.0
- *
  */
 function bp_activity_type() {
 	echo esc_html( bp_get_activity_type() );
@@ -877,9 +861,10 @@ function bp_activity_type_part() {
 	 *
 	 * @todo Properly deprecate in favor of bp_activity_type() and
 	 *       remove redundant echo
-	 *
 	 */
-	function bp_activity_action_name() { bp_activity_type(); }
+	function bp_activity_action_name() {
+		bp_activity_type();
+	}
 
 	/**
 	 * Return the activity type.
@@ -891,16 +876,16 @@ function bp_activity_type_part() {
 	 *
 	 * @todo Properly deprecate in favor of bp_get_activity_type().
 	 *
-	 *
 	 * @return string The activity type.
 	 */
-	function bp_get_activity_action_name() { return bp_get_activity_type(); }
+	function bp_get_activity_action_name() {
+		return bp_get_activity_type();
+	}
 
 /**
  * Output the activity user ID.
  *
  * @since 1.1.0
- *
  */
 function bp_activity_user_id() {
 	echo intval( bp_get_activity_user_id() );
@@ -932,7 +917,6 @@ function bp_activity_user_id() {
  * Output the activity user link.
  *
  * @since 1.2.0
- *
  */
 function bp_activity_user_link() {
 	echo esc_url( bp_get_activity_user_link() );
@@ -945,7 +929,7 @@ function bp_activity_user_link() {
 	 *
 	 * @global BP_Activity_Template $activities_template The main activity template loop class.
 	 *
-	 * @return string $link The activity user link.
+	 * @return string The activity user link.
 	 */
 	function bp_get_activity_user_link() {
 		global $activities_template;
@@ -973,7 +957,7 @@ function bp_activity_user_link() {
  *
  * @see bp_get_activity_avatar() for description of arguments.
  *
- * @param array|string $args See {@link bp_get_activity_avatar()} for description.
+ * @param array|string $args Optional. See {@link bp_get_activity_avatar()} for description.
  */
 function bp_activity_avatar( $args = '' ) {
 	// phpcs:ignore WordPress.Security.EscapeOutput
@@ -988,7 +972,7 @@ function bp_activity_avatar( $args = '' ) {
 	 * @global BP_Activity_Template $activities_template The main activity template loop class.
 	 *
 	 * @param array|string $args  {
-	 *     Arguments are listed here with an explanation of their defaults.
+	 *     Optional. Arguments are listed here with an explanation of their defaults.
 	 *     For more information about the arguments, see
 	 *     {@link bp_core_fetch_avatar()}.
 	 *     @type string      $alt     Default: 'Profile picture of [user name]' if
@@ -1015,7 +999,7 @@ function bp_activity_avatar( $args = '' ) {
 		$current_activity_item = isset( $activities_template->activity->current_comment ) ? $activities_template->activity->current_comment : $activities_template->activity;
 
 		// Activity user display name.
-		$dn_default  = isset( $current_activity_item->display_name ) ? $current_activity_item->display_name : '';
+		$dn_default = isset( $current_activity_item->display_name ) ? $current_activity_item->display_name : '';
 
 		// Prepend some descriptive text to alt.
 		$alt_default = esc_html__( 'Profile picture', 'buddypress' );
@@ -1029,7 +1013,7 @@ function bp_activity_avatar( $args = '' ) {
 			'class'   => 'avatar',
 			'email'   => false,
 			'type'    => $type_default,
-			'user_id' => false
+			'user_id' => false,
 		);
 
 		$r = bp_parse_args(
@@ -1041,14 +1025,14 @@ function bp_activity_avatar( $args = '' ) {
 
 			// Backpat.
 			if ( isset( $bp->avatar->full->height ) || isset( $bp->avatar->thumb->height ) ) {
-				$r['height'] = ( 'full' == $r['type'] ) ? $bp->avatar->full->height : $bp->avatar->thumb->height;
+				$r['height'] = ( 'full' === $r['type'] ) ? $bp->avatar->full->height : $bp->avatar->thumb->height;
 			} else {
 				$r['height'] = 20;
 			}
 
 			// Backpat.
 			if ( isset( $bp->avatar->full->width ) || isset( $bp->avatar->thumb->width ) ) {
-				$r['width'] = ( 'full' == $r['type'] ) ? $bp->avatar->full->width : $bp->avatar->thumb->width;
+				$r['width'] = ( 'full' === $r['type'] ) ? $bp->avatar->full->width : $bp->avatar->thumb->width;
 			} else {
 				$r['width'] = 20;
 			}
@@ -1057,9 +1041,14 @@ function bp_activity_avatar( $args = '' ) {
 		/**
 		 * Filters the activity avatar object based on current activity item component.
 		 *
-		 * This is a variable filter dependent on the component used.
-		 * Possible hooks are bp_get_activity_avatar_object_blog,
-		 * bp_get_activity_avatar_object_group, and bp_get_activity_avatar_object_user.
+		 * The dynamic portion of the hook name, `$current_activity_item->component`, refers to the current
+		 * activity item's component.
+		 *
+		 * Possible hook names include:
+		 *
+		 *  - `bp_get_activity_avatar_object_blogs`
+		 *  - `bp_get_activity_avatar_object_groups`
+		 *  - `bp_get_activity_avatar_object_friends`
 		 *
 		 * @since 1.1.0
 		 *
@@ -1082,7 +1071,7 @@ function bp_activity_avatar( $args = '' ) {
 		$item_id = apply_filters( 'bp_get_activity_avatar_item_id', $item_id );
 
 		// If this is a user object pass the users' email address for Gravatar so we don't have to prefetch it.
-		if ( 'user' == $object && empty( $r['user_id'] ) && empty( $r['email'] ) && isset( $current_activity_item->user_email ) ) {
+		if ( 'user' === $object && empty( $r['user_id'] ) && empty( $r['email'] ) && isset( $current_activity_item->user_email ) ) {
 			$r['email'] = $current_activity_item->user_email;
 		}
 
@@ -1093,7 +1082,8 @@ function bp_activity_avatar( $args = '' ) {
 		 *
 		 * @param array $value HTML image element containing the activity avatar.
 		 */
-		return apply_filters( 'bp_get_activity_avatar',
+		return apply_filters(
+			'bp_get_activity_avatar',
 			bp_core_fetch_avatar(
 				array(
 					'item_id' => $item_id,
@@ -1116,7 +1106,7 @@ function bp_activity_avatar( $args = '' ) {
  *
  * @see bp_get_activity_secondary_avatar() for description of arguments.
  *
- * @param array|string $args See {@link bp_get_activity_secondary_avatar} for description.
+ * @param array|string $args Optional. See {@link bp_get_activity_secondary_avatar} for description.
  */
 function bp_activity_secondary_avatar( $args = '' ) {
 	// phpcs:ignore WordPress.Security.EscapeOutput
@@ -1132,7 +1122,7 @@ function bp_activity_secondary_avatar( $args = '' ) {
 	 * @global BP_Activity_Template $activities_template The main activity template loop class.
 	 *
 	 * @param array|string $args  {
-	 *     For a complete description of arguments, see {@link bp_core_fetch_avatar()}.
+	 *     Optional. For a complete description of arguments, see {@link bp_core_fetch_avatar()}.
 	 *     @type string      $alt     Default value varies based on current activity
 	 *                                item component.
 	 *     @type string      $type    Default: 'full' when viewing a single activity
@@ -1162,7 +1152,7 @@ function bp_activity_secondary_avatar( $args = '' ) {
 
 		// Set item_id and object (default to user).
 		switch ( $activities_template->activity->component ) {
-			case 'groups' :
+			case 'groups':
 				if ( bp_disable_group_avatar_uploads() ) {
 					return false;
 				}
@@ -1189,7 +1179,7 @@ function bp_activity_secondary_avatar( $args = '' ) {
 				}
 
 				break;
-			case 'blogs' :
+			case 'blogs':
 				$object  = 'blog';
 				$item_id = $activities_template->activity->item_id;
 				$link    = home_url();
@@ -1200,7 +1190,7 @@ function bp_activity_secondary_avatar( $args = '' ) {
 				}
 
 				break;
-			case 'friends' :
+			case 'friends':
 				$object  = 'user';
 				$item_id = $activities_template->activity->secondary_item_id;
 				$link    = bp_core_get_userlink( $item_id, false, true );
@@ -1211,7 +1201,7 @@ function bp_activity_secondary_avatar( $args = '' ) {
 				}
 
 				break;
-			default :
+			default:
 				$object     = 'user';
 				$item_id    = $activities_template->activity->user_id;
 				$r['email'] = $activities_template->activity->user_email;
@@ -1228,9 +1218,14 @@ function bp_activity_secondary_avatar( $args = '' ) {
 		/**
 		 * Filters the activity secondary avatar object based on current activity item component.
 		 *
-		 * This is a variable filter dependent on the component used. Possible hooks are
-		 * bp_get_activity_secondary_avatar_object_blog, bp_get_activity_secondary_avatar_object_group,
-		 * and bp_get_activity_secondary_avatar_object_user.
+		 * The dynamic portion of the hook name, `$activities_template->activity->component`, refers to the
+		 * current activity item's component.
+		 *
+		 * Possible hook names include:
+		 *
+		 *  - `bp_get_activity_secondary_avatar_object_blogs`
+		 *  - `bp_get_activity_secondary_avatar_object_groups`
+		 *  - `bp_get_activity_secondary_avatar_object_friends`
 		 *
 		 * @since 1.2.10
 		 *
@@ -1287,7 +1282,8 @@ function bp_activity_secondary_avatar( $args = '' ) {
 			 */
 			$avatar = apply_filters( 'bp_get_activity_secondary_avatar', $avatar );
 
-			return sprintf( '<a href="%s" class="%s">%s</a>',
+			return sprintf(
+				'<a href="%s" class="%s">%s</a>',
 				esc_url( $link ),
 				esc_attr( $r['link_class'] ),
 				$avatar
@@ -1332,6 +1328,7 @@ function bp_activity_action_allowed_html() {
  * Output Activity metadata.
  *
  * @since 12.4.1
+ * @param string $content Optional. Activity content to which metadata is added.
  */
 function bp_output_activity_meta( $content = '' ) {
 	echo wp_kses( bp_insert_activity_meta( $content ), bp_activity_action_allowed_html() );
@@ -1342,7 +1339,7 @@ function bp_output_activity_meta( $content = '' ) {
  *
  * @since 1.2.0
  *
- * @param array $args See bp_get_activity_action().
+ * @param array $args Optional. See bp_get_activity_action().
  */
 function bp_activity_action( $args = array() ) {
 	echo wp_kses( bp_get_activity_action( $args ), bp_activity_action_allowed_html() );
@@ -1357,6 +1354,7 @@ function bp_activity_action( $args = array() ) {
 	 * @global BP_Activity_Template $activities_template The main activity template loop class.
 	 *
 	 * @param array $args {
+	 *     Optional. An array of arguments.
 	 *     @type bool $no_timestamp Whether to exclude the timestamp.
 	 * }
 	 *
@@ -1379,11 +1377,14 @@ function bp_activity_action( $args = array() ) {
 		 *
 		 * @param array $value Array containing the current action, the current activity, and the $args array passed into the function.
 		 */
-		$action = apply_filters_ref_array( 'bp_get_activity_action_pre_meta', array(
-			$activities_template->activity->action,
-			&$activities_template->activity,
-			$r
-		) );
+		$action = apply_filters_ref_array(
+			'bp_get_activity_action_pre_meta',
+			array(
+				$activities_template->activity->action,
+				&$activities_template->activity,
+				$r,
+			)
+		);
 
 		// Prepend the activity action meta (link, time since, etc...).
 		if ( ! empty( $action ) && empty( $r['no_timestamp'] ) ) {
@@ -1398,11 +1399,14 @@ function bp_activity_action( $args = array() ) {
 		 *
 		 * @param array $value Array containing the current action, the current activity, and the $r array passed into the function.
 		 */
-		return apply_filters_ref_array( 'bp_get_activity_action', array(
-			$action,
-			&$activities_template->activity,
-			$r
-		) );
+		return apply_filters_ref_array(
+			'bp_get_activity_action',
+			array(
+				$action,
+				&$activities_template->activity,
+				$r,
+			)
+		);
 	}
 
 /**
@@ -1625,7 +1629,7 @@ function bp_activity_has_content() {
 
 				// Find the activity index.
 				while ( (int) $activities_template->activities[ $activity_index ]->id !== (int) $activity_id ) {
-					$activity_index++;
+					++$activity_index;
 				}
 
 				// Add the generated content object.
@@ -1643,7 +1647,7 @@ function bp_activity_has_content() {
  *
  * @since 10.0.0
  *
- * @param string $property The name of the property to check into the generated content.
+ * @param string $property Optional. The name of the property to check into the generated content.
  * @return bool            True if the property is not empty. False otherwise.
  */
 function bp_activity_has_generated_content_part( $property = '' ) {
@@ -1655,7 +1659,7 @@ function bp_activity_has_generated_content_part( $property = '' ) {
  *
  * @since 10.0.0
  *
- * @param string $property The name of the property to check into the generated content.
+ * @param string $property Optional. The name of the property to check into the generated content.
  */
 function bp_activity_generated_content_part( $property = '' ) {
 	// phpcs:ignore WordPress.Security.EscapeOutput
@@ -1667,11 +1671,11 @@ function bp_activity_generated_content_part( $property = '' ) {
 	 *
 	 * @since 10.0.0
 	 *
-	 * @param string $property The name of the property to check into the generated content.
-	 * @param string $return   Whether to return the property value or a boolean to check it exists.
-	 * @return bool|string     A boolean when requested, false if there is no value, the HTML output otherwise.
+	 * @param string $property     Optional. The name of the property to check into the generated content.
+	 * @param string $return_found Optional. Whether to return the property value or a boolean to check it exists.
+	 * @return bool|string
 	 */
-	function bp_activity_get_generated_content_part( $property = '', $return = '' ) {
+	function bp_activity_get_generated_content_part( $property = '', $return_found = '' ) {
 		global $activities_template;
 
 		if ( ! isset( $activities_template->activity->generated_content->{$property} ) ) {
@@ -1684,7 +1688,7 @@ function bp_activity_generated_content_part( $property = '' ) {
 			return false;
 		}
 
-		if ( 'boolean' === $return ) {
+		if ( 'boolean' === $return_found ) {
 			return true;
 		}
 
@@ -1712,7 +1716,6 @@ function bp_activity_generated_content_part( $property = '' ) {
  * @deprecated 1.5.0
  *
  * @todo properly deprecate this function.
- *
  */
 function bp_activity_content() {
 	// Escaping is made in `bp-activity/bp-activity-filters.php`.
@@ -1727,7 +1730,6 @@ function bp_activity_content() {
 	 * @deprecated 1.5.0
 	 *
 	 * @todo properly deprecate this function.
-	 *
 	 *
 	 * @return string The activity content.
 	 */
@@ -1753,7 +1755,7 @@ function bp_activity_content() {
  *
  * @global BP_Activity_Template $activities_template The main activity template loop class.
  *
- * @param string $content The activity content.
+ * @param string $content Optional. The activity content.
  * @return string The activity content with the metadata string attached.
  */
 function bp_insert_activity_meta( $content = '' ) {
@@ -1763,7 +1765,7 @@ function bp_insert_activity_meta( $content = '' ) {
 	$new_content = str_replace( '<span class="time-since">%s</span>', '', $content );
 
 	// Get the time since this activity was recorded.
-	$date_recorded  = bp_core_time_since( $activities_template->activity->date_recorded );
+	$date_recorded = bp_core_time_since( $activities_template->activity->date_recorded );
 
 	// Set up 'time-since' <span>.
 	$time_since = sprintf(
@@ -1779,17 +1781,21 @@ function bp_insert_activity_meta( $content = '' ) {
 	 *
 	 * @param array $value Array containing the time since markup and the current activity component.
 	 */
-	$time_since = apply_filters_ref_array( 'bp_activity_time_since', array(
-		$time_since,
-		&$activities_template->activity
-	) );
+	$time_since = apply_filters_ref_array(
+		'bp_activity_time_since',
+		array(
+			$time_since,
+			&$activities_template->activity,
+		)
+	);
 
 	// Insert the permalink.
 	if ( ! bp_is_single_activity() ) {
 
 		// Setup variables for activity meta.
 		$activity_permalink = bp_activity_get_permalink( $activities_template->activity->id, $activities_template->activity );
-		$activity_meta      = sprintf( '%1$s <a href="%2$s" class="view activity-time-since bp-tooltip" data-bp-tooltip="%3$s">%4$s</a>',
+		$activity_meta      = sprintf(
+			'%1$s <a href="%2$s" class="view activity-time-since bp-tooltip" data-bp-tooltip="%3$s">%4$s</a>',
 			$new_content,
 			$activity_permalink,
 			esc_attr__( 'View Discussion', 'buddypress' ),
@@ -1804,10 +1810,13 @@ function bp_insert_activity_meta( $content = '' ) {
 		 * @param array $value Array containing the html markup for the activity permalink, after being parsed by
 		 *                     sprintf and current activity component.
 		 */
-		$new_content = apply_filters_ref_array( 'bp_activity_permalink', array(
-			$activity_meta,
-			&$activities_template->activity
-		) );
+		$new_content = apply_filters_ref_array(
+			'bp_activity_permalink',
+			array(
+				$activity_meta,
+				&$activities_template->activity,
+			)
+		);
 	} else {
 		$new_content .= str_pad( $time_since, strlen( $time_since ) + 2, ' ', STR_PAD_BOTH );
 	}
@@ -1889,28 +1898,27 @@ function bp_activity_user_can_delete( $activity = false ) {
  * Output the activity parent content.
  *
  * @since 1.2.0
+ * @since 15.0.0 The `$args` parameter was removed since it was unused.
  *
- * @see bp_get_activity_parent_content() for a description of arguments.
- *
- * @param array|string $args See {@link bp_get_activity_parent_content} for description.
+ * @see bp_get_activity_parent_content().
  */
-function bp_activity_parent_content( $args = '' ) {
+function bp_activity_parent_content() {
 	// Escaping is made in `bp-activity/bp-activity-filters.php`.
 	// phpcs:ignore WordPress.Security.EscapeOutput
-	echo bp_get_activity_parent_content( $args );
+	echo bp_get_activity_parent_content();
 }
 
 	/**
 	 * Return the activity content.
 	 *
 	 * @since 1.2.0
+	 * @since 15.0.0 The `$args` parameter was removed since it was unused.
 	 *
 	 * @global BP_Activity_Template $activities_template The main activity template loop class.
 	 *
-	 * @param string $args Unused. Left over from an earlier implementation.
-	 * @return mixed False on failure, otherwise the activity parent content.
+	 * @return string|false The activity parent content on success, false on failure.
 	 */
-	function bp_get_activity_parent_content( $args = '' ) {
+	function bp_get_activity_parent_content() {
 		global $activities_template;
 
 		// Bail if no activity on no item ID.
@@ -2011,7 +2019,6 @@ function bp_activity_parent_user_id() {
  * Output whether or not the current activity is in a current user's favorites.
  *
  * @since 1.2.0
- *
  */
 function bp_activity_is_favorite() {
 	// phpcs:ignore WordPress.Security.EscapeOutput
@@ -2037,7 +2044,7 @@ function bp_activity_is_favorite() {
 		 *
 		 * @param bool $value Whether or not the current activity item is in the current user's favorites.
 		 */
-		return (bool) apply_filters( 'bp_get_activity_is_favorite', in_array( $activities_template->activity->id, (array) $activities_template->my_favs ) );
+		return (bool) apply_filters( 'bp_get_activity_is_favorite', in_array( $activities_template->activity->id, (array) $activities_template->my_favs, true ) );
 	}
 
 /**
@@ -2045,7 +2052,7 @@ function bp_activity_is_favorite() {
  *
  * @since 1.2.0
  *
- * @param array|string $deprecated See {@link bp_activity_get_comments} for description.
+ * @param array|string $deprecated Optional. See {@link bp_activity_get_comments} for description.
  */
 function bp_activity_comments( $deprecated = '' ) {
 	// Deprecated notice about $args.
@@ -2076,7 +2083,7 @@ function bp_activity_comments( $deprecated = '' ) {
 	 *
 	 * @global BP_Activity_Template $activities_template The main activity template loop class.
 	 *
-	 * @param string $deprecated Unused. Left over from an earlier implementation.
+	 * @param string $deprecated Optional. Unused. Left over from an earlier implementation.
 	 * @return bool
 	 */
 	function bp_activity_get_comments( $deprecated = '' ) {
@@ -2191,13 +2198,13 @@ function bp_activity_comments( $deprecated = '' ) {
  *
  * @global BP_Activity_Template $activities_template The main activity template loop class.
  *
- * @return object|bool $current_comment The activity comment currently being
+ * @return object|bool The activity comment currently being
  *                                      displayed. False on failure.
  */
 function bp_activity_current_comment() {
 	global $activities_template;
 
-	$current_comment = !empty( $activities_template->activity->current_comment )
+	$current_comment = ! empty( $activities_template->activity->current_comment )
 		? $activities_template->activity->current_comment
 		: false;
 
@@ -2216,7 +2223,6 @@ function bp_activity_current_comment() {
  * Output the ID of the activity comment currently being displayed.
  *
  * @since 1.5.0
- *
  */
 function bp_activity_comment_id() {
 	echo intval( bp_get_activity_comment_id() );
@@ -2229,7 +2235,7 @@ function bp_activity_comment_id() {
 	 *
 	 * @global BP_Activity_Template $activities_template The main activity template loop class.
 	 *
-	 * @return int|bool $comment_id The ID of the activity comment currently
+	 * @return int|bool The ID of the activity comment currently
 	 *                              being displayed, false if none is found.
 	 */
 	function bp_get_activity_comment_id() {
@@ -2251,7 +2257,6 @@ function bp_activity_comment_id() {
  * Output the ID of the author of the activity comment currently being displayed.
  *
  * @since 1.5.0
- *
  */
 function bp_activity_comment_user_id() {
 	echo intval( bp_get_activity_comment_user_id() );
@@ -2264,7 +2269,7 @@ function bp_activity_comment_user_id() {
 	 *
 	 * @global BP_Activity_Template $activities_template The main activity template loop class.
 	 *
-	 * @return int|bool $user_id The user_id of the author of the displayed
+	 * @return int|bool The user_id of the author of the displayed
 	 *                           activity comment. False on failure.
 	 */
 	function bp_get_activity_comment_user_id() {
@@ -2286,7 +2291,6 @@ function bp_activity_comment_user_id() {
  * Output the author link for the activity comment currently being displayed.
  *
  * @since 1.5.0
- *
  */
 function bp_activity_comment_user_link() {
 	echo esc_url( bp_get_activity_comment_user_link() );
@@ -2297,8 +2301,7 @@ function bp_activity_comment_user_link() {
 	 *
 	 * @since 1.5.0
 	 *
-	 *
-	 * @return string $user_link The URL of the activity comment author's profile.
+	 * @return string The URL of the activity comment author's profile.
 	 */
 	function bp_get_activity_comment_user_link() {
 		$user_link = bp_members_get_user_url( bp_get_activity_comment_user_id() );
@@ -2317,7 +2320,6 @@ function bp_activity_comment_user_link() {
  * Output the author name for the activity comment currently being displayed.
  *
  * @since 1.5.0
- *
  */
 function bp_activity_comment_name() {
 	echo esc_html( bp_get_activity_comment_name() );
@@ -2333,7 +2335,7 @@ function bp_activity_comment_name() {
 	 *
 	 * @global BP_Activity_Template $activities_template The main activity template loop class.
 	 *
-	 * @return string $name The full name of the activity comment author.
+	 * @return string The full name of the activity comment author.
 	 */
 	function bp_get_activity_comment_name() {
 		global $activities_template;
@@ -2359,7 +2361,6 @@ function bp_activity_comment_name() {
  * Output the formatted date_recorded of the activity comment currently being displayed.
  *
  * @since 1.5.0
- *
  */
 function bp_activity_comment_date_recorded() {
 	echo esc_html( bp_get_activity_comment_date_recorded() );
@@ -2370,8 +2371,7 @@ function bp_activity_comment_date_recorded() {
 	 *
 	 * @since 1.5.0
 	 *
-	 *
-	 * @return string|bool $date_recorded Time since the activity was recorded,
+	 * @return string|bool Time since the activity was recorded,
 	 *                                    in the form "%s ago". False on failure.
 	 */
 	function bp_get_activity_comment_date_recorded() {
@@ -2381,7 +2381,7 @@ function bp_activity_comment_date_recorded() {
 		 *
 		 * @since 1.5.0
 		 *
-		 * @param string|bool Date for the activity comment currently being displayed.
+		 * @param string|bool $date_recorded Date for the activity comment currently being displayed.
 		 */
 		return apply_filters( 'bp_activity_comment_date_recorded', bp_core_time_since( bp_get_activity_comment_date_recorded_raw() ) );
 	}
@@ -2390,7 +2390,6 @@ function bp_activity_comment_date_recorded() {
  * Output the date_recorded of the activity comment currently being displayed.
  *
  * @since 2.3.0
- *
  */
 function bp_activity_comment_date_recorded_raw() {
 	echo esc_html( bp_get_activity_comment_date_recorded_raw() );
@@ -2403,7 +2402,7 @@ function bp_activity_comment_date_recorded_raw() {
 	 *
 	 * @global BP_Activity_Template $activities_template The main activity template loop class.
 	 *
-	 * @return string|bool $date_recorded Time since the activity was recorded,
+	 * @return string|bool Time since the activity was recorded,
 	 *                                    in the form "%s ago". False on failure.
 	 */
 	function bp_get_activity_comment_date_recorded_raw() {
@@ -2414,7 +2413,7 @@ function bp_activity_comment_date_recorded_raw() {
 		 *
 		 * @since 2.3.0
 		 *
-		 * @param string|bool Raw date for the activity comment currently being displayed.
+		 * @param string|bool $date_recorded Raw date for the activity comment currently being displayed.
 		 */
 		return apply_filters( 'bp_activity_comment_date_recorded', $activities_template->activity->current_comment->date_recorded );
 	}
@@ -2423,7 +2422,6 @@ function bp_activity_comment_date_recorded_raw() {
  * Output the 'delete' URL for the activity comment currently being displayed.
  *
  * @since 1.5.0
- *
  */
 function bp_activity_comment_delete_link() {
 	echo esc_url( bp_get_activity_comment_delete_link() );
@@ -2434,8 +2432,7 @@ function bp_activity_comment_delete_link() {
 	 *
 	 * @since 1.5.0
 	 *
-	 *
-	 * @return string $link The nonced URL for deleting the current
+	 * @return string The nonced URL for deleting the current
 	 *                      activity comment.
 	 */
 	function bp_get_activity_comment_delete_link() {
@@ -2462,7 +2459,6 @@ function bp_activity_comment_delete_link() {
  * Output the content of the activity comment currently being displayed.
  *
  * @since 1.5.0
- *
  */
 function bp_activity_comment_content() {
 	// Escaping is made in `bp-activity/bp-activity-filters.php`.
@@ -2482,7 +2478,7 @@ function bp_activity_comment_content() {
 	 *
 	 * @global BP_Activity_Template $activities_template The main activity template loop class.
 	 *
-	 * @return string $content The content of the current activity comment.
+	 * @return string The content of the current activity comment.
 	 */
 	function bp_get_activity_comment_content() {
 		global $activities_template;
@@ -2506,7 +2502,6 @@ function bp_activity_comment_content() {
  * Output the activity comment count.
  *
  * @since 1.2.0
- *
  */
 function bp_activity_comment_count() {
 	echo intval( bp_activity_get_comment_count() );
@@ -2519,8 +2514,8 @@ function bp_activity_comment_count() {
 	 *
 	 * @global BP_Activity_Template $activities_template The main activity template loop class.
 	 *
-	 * @param array|null $deprecated Deprecated.
-	 * @return int $count The activity comment count.
+	 * @param array|null $deprecated Optional. Deprecated.
+	 * @return int The activity comment count.
 	 */
 	function bp_activity_get_comment_count( $deprecated = null ) {
 		global $activities_template;
@@ -2562,10 +2557,9 @@ function bp_activity_comment_count() {
 		 *
 		 * @since 1.2.0
 		 *
-		 *
 		 * @param object $comment Activity comment object.
-		 * @param int    $count The current iteration count.
-		 * @return int $count The activity comment count.
+		 * @param int    $count Optional. The current iteration count.
+		 * @return int The activity comment count.
 		 */
 		function bp_activity_recurse_comment_count( $comment, $count = 0 ) {
 
@@ -2575,7 +2569,7 @@ function bp_activity_comment_count() {
 			// Loop through children and recursively count comments.
 			if ( ! empty( $comment->children ) ) {
 				foreach ( (array) $comment->children as $comment ) {
-					$new_count++;
+					++$new_count;
 					$new_count = bp_activity_recurse_comment_count( $comment, $new_count );
 				}
 			}
@@ -2598,7 +2592,7 @@ function bp_activity_comment_count() {
  * @since 2.0.0
  * @since 2.8.0 Added `$comment` as a parameter.
  *
- * @param object|int $comment Object of the activity comment or activity comment ID. Usually unnecessary
+ * @param object|int $comment Optional. Object of the activity comment or activity comment ID. Usually unnecessary
  *                            when used in activity comment loop.
  */
 function bp_activity_comment_depth( $comment = 0 ) {
@@ -2611,7 +2605,7 @@ function bp_activity_comment_depth( $comment = 0 ) {
 	 * @since 2.0.0
 	 * @since 2.8.0 Added `$comment` as a parameter.
 	 *
-	 * @param object|int $comment Object of the activity comment or activity comment ID. Usually unnecessary
+	 * @param object|int $comment Optional. Object of the activity comment or activity comment ID. Usually unnecessary
 	 *                             when used in activity comment loop.
 	 * @return int
 	 */
@@ -2659,7 +2653,6 @@ function bp_activity_comment_depth( $comment = 0 ) {
  * Output the activity comment link.
  *
  * @since 1.2.0
- *
  */
 function bp_activity_comment_link() {
 	echo esc_url( bp_get_activity_comment_link() );
@@ -2706,7 +2699,6 @@ function bp_activity_comment_link() {
  * Output the activity comment form no JavaScript display CSS.
  *
  * @since 1.2.0
- *
  */
 function bp_activity_comment_form_nojs_display() {
 	// phpcs:ignore WordPress.Security.EscapeOutput
@@ -2776,7 +2768,6 @@ function bp_get_activity_comment_cancel_url() {
  * Output the activity comment form action.
  *
  * @since 1.2.0
- *
  */
 function bp_activity_comment_form_action() {
 	echo esc_url( bp_get_activity_comment_form_action() );
@@ -2790,7 +2781,7 @@ function bp_activity_comment_form_action() {
 	 * @return string The activity comment form action.
 	 */
 	function bp_get_activity_comment_form_action() {
-		$url  = bp_rewrites_get_url(
+		$url = bp_rewrites_get_url(
 			array(
 				'component_id'       => 'activity',
 				'single_item_action' => 'reply',
@@ -2811,7 +2802,6 @@ function bp_activity_comment_form_action() {
  * Output the activity permalink ID.
  *
  * @since 1.2.0
- *
  */
 function bp_activity_permalink_id() {
 	echo esc_html( bp_get_activity_permalink_id() );
@@ -2821,7 +2811,6 @@ function bp_activity_permalink_id() {
 	 * Return the activity permalink ID.
 	 *
 	 * @since 1.2.0
-	 *
 	 *
 	 * @return string The activity permalink ID.
 	 */
@@ -2841,7 +2830,6 @@ function bp_activity_permalink_id() {
  * Output the activity thread permalink.
  *
  * @since 1.2.0
- *
  */
 function bp_activity_thread_permalink() {
 	echo esc_url( bp_get_activity_thread_permalink() );
@@ -2854,7 +2842,7 @@ function bp_activity_thread_permalink() {
 	 *
 	 * @global BP_Activity_Template $activities_template The Activity template loop.
 	 *
-	 * @return string $link The activity thread permalink.
+	 * @return string The activity thread permalink.
 	 */
 	function bp_get_activity_thread_permalink() {
 		global $activities_template;
@@ -2875,7 +2863,6 @@ function bp_activity_thread_permalink() {
  * Output the activity comment permalink.
  *
  * @since 1.8.0
- *
  */
 function bp_activity_comment_permalink() {
 	echo esc_url( bp_get_activity_comment_permalink() );
@@ -2885,7 +2872,7 @@ function bp_activity_comment_permalink() {
 	 *
 	 * @since 1.8.0
 	 *
-	 * @return string $link The activity comment permalink.
+	 * @return string The activity comment permalink.
 	 */
 	function bp_get_activity_comment_permalink() {
 		global $activities_template;
@@ -2912,7 +2899,6 @@ function bp_activity_comment_permalink() {
  * Output the activity favorite link.
  *
  * @since 1.2.0
- *
  */
 function bp_activity_favorite_link() {
 	echo esc_url( bp_get_activity_favorite_link() );
@@ -2954,7 +2940,6 @@ function bp_activity_favorite_link() {
  * Output the activity unfavorite link.
  *
  * @since 1.2.0
- *
  */
 function bp_activity_unfavorite_link() {
 	echo esc_url( bp_get_activity_unfavorite_link() );
@@ -2996,7 +2981,6 @@ function bp_activity_unfavorite_link() {
  * Output the activity CSS class.
  *
  * @since 1.0.0
- *
  */
 function bp_activity_css_class() {
 	echo esc_attr( bp_get_activity_css_class() );
@@ -3021,18 +3005,21 @@ function bp_activity_css_class() {
 		 *
 		 * @param array $value Array of classes used to determine classes applied to HTML element.
 		 */
-		$mini_activity_actions = apply_filters( 'bp_activity_mini_activity_types', array(
-			'friendship_accepted',
-			'friendship_created',
-			'new_blog',
-			'joined_group',
-			'created_group',
-			'new_member'
-		) );
+		$mini_activity_actions = apply_filters(
+			'bp_activity_mini_activity_types',
+			array(
+				'friendship_accepted',
+				'friendship_created',
+				'new_blog',
+				'joined_group',
+				'created_group',
+				'new_member',
+			)
+		);
 
 		$class = ' activity-item';
 
-		if ( in_array( $activities_template->activity->type, (array) $mini_activity_actions ) || empty( $activities_template->activity->content ) ) {
+		if ( in_array( $activities_template->activity->type, (array) $mini_activity_actions, true ) || empty( $activities_template->activity->content ) ) {
 			$class .= ' mini';
 		}
 
@@ -3054,7 +3041,6 @@ function bp_activity_css_class() {
  * Output the activity delete link.
  *
  * @since 1.1.0
- *
  */
 function bp_activity_delete_link() {
 	// phpcs:ignore WordPress.Security.EscapeOutput
@@ -3068,7 +3054,7 @@ function bp_activity_delete_link() {
 	 *
 	 * @global BP_Activity_Template $activities_template The main activity template loop class.
 	 *
-	 * @return string $link Activity delete link. Contains $redirect_to arg
+	 * @return string Activity delete link. Contains $redirect_to arg
 	 *                      if on single activity page.
 	 */
 	function bp_get_activity_delete_link() {
@@ -3099,7 +3085,6 @@ function bp_activity_delete_link() {
  * Output the URL to delete a single activity stream item.
  *
  * @since 2.1.0
- *
  */
 function bp_activity_delete_url() {
 	echo esc_url( bp_get_activity_delete_url() );
@@ -3111,7 +3096,7 @@ function bp_activity_delete_url() {
 	 *
 	 * @global BP_Activity_Template $activities_template The main activity template loop class.
 	 *
-	 * @return string $link Activity delete link. Contains $redirect_to arg
+	 * @return string Activity delete link. Contains $redirect_to arg
 	 *                      if on single activity page.
 	 */
 	function bp_get_activity_delete_url() {
@@ -3156,7 +3141,7 @@ function bp_activity_delete_url() {
  *
  * @see bp_get_activity_latest_update() for description of parameters.
  *
- * @param int $user_id See {@link bp_get_activity_latest_update()} for description.
+ * @param int $user_id Optional. See {@link bp_get_activity_latest_update()} for description.
  */
 function bp_activity_latest_update( $user_id = 0 ) {
 	// Escaping is made in `bp-activity/bp-activity-filters.php`.
@@ -3169,9 +3154,8 @@ function bp_activity_latest_update( $user_id = 0 ) {
 	 *
 	 * @since 1.2.0
 	 *
-	 *
-	 * @param int $user_id If empty, will fall back on displayed user.
-	 * @return string|bool $latest_update The activity latest update link.
+	 * @param int $user_id Optional. If empty, will fall back on displayed user.
+	 * @return string|bool The activity latest update link.
 	 *                                    False on failure.
 	 */
 	function bp_get_activity_latest_update( $user_id = 0 ) {
@@ -3184,7 +3168,8 @@ function bp_activity_latest_update( $user_id = 0 ) {
 			return false;
 		}
 
-		if ( !$update = bp_get_user_meta( $user_id, 'bp_latest_update', true ) ) {
+		$update = bp_get_user_meta( $user_id, 'bp_latest_update', true );
+		if ( ! $update ) {
 			return false;
 		}
 
@@ -3225,7 +3210,7 @@ function bp_activity_latest_update( $user_id = 0 ) {
  *
  * @see bp_get_activity_filter_links() for description of parameters.
  *
- * @param array|bool $args See {@link bp_get_activity_filter_links()} for description.
+ * @param array|bool $args Optional. See {@link bp_get_activity_filter_links()} for description.
  */
 function bp_activity_filter_links( $args = false ) {
 	// phpcs:ignore WordPress.Security.EscapeOutput
@@ -3237,12 +3222,12 @@ function bp_activity_filter_links( $args = false ) {
 	 *
 	 * @since 1.1.0
 	 *
-	 *
 	 * @param array|bool $args {
+	 *     Optional. Arguments or false.
 	 *     @type string $style The type of markup to use for the links.
 	 *                         'list', 'paragraph', or 'span'. Default: 'list'.
 	 * }
-	 * @return string|bool $component_links The activity filter links.
+	 * @return string|bool The activity filter links.
 	 *         False on failure.
 	 */
 	function bp_get_activity_filter_links( $args = false ) {
@@ -3281,24 +3266,24 @@ function bp_activity_filter_links( $args = false ) {
 
 			switch ( $r['style'] ) {
 				case 'list':
-					$tag = 'li';
+					$tag    = 'li';
 					$before = '<li id="afilter-' . $component . '"' . $selected . '>';
-					$after = '</li>';
-				break;
+					$after  = '</li>';
+					break;
 				case 'paragraph':
-					$tag = 'p';
+					$tag    = 'p';
 					$before = '<p id="afilter-' . $component . '"' . $selected . '>';
-					$after = '</p>';
-				break;
+					$after  = '</p>';
+					break;
 				case 'span':
-					$tag = 'span';
+					$tag    = 'span';
 					$before = '<span id="afilter-' . $component . '"' . $selected . '>';
-					$after = '</span>';
-				break;
+					$after  = '</span>';
+					break;
 			}
 
 			$link = add_query_arg( 'afilter', $component );
-			$link = remove_query_arg( 'acpage' , $link );
+			$link = remove_query_arg( 'acpage', $link );
 
 			/**
 			 * Filters the activity filter link URL for the current activity component.
@@ -3313,7 +3298,7 @@ function bp_activity_filter_links( $args = false ) {
 			$component_links[] = $before . '<a href="' . esc_url( $link ) . '">' . ucwords( $component ) . '</a>' . $after;
 		}
 
-		$link = remove_query_arg( 'afilter' , $link );
+		$link = remove_query_arg( 'afilter', $link );
 
 		if ( isset( $_GET['afilter'] ) ) {
 			$component_links[] = '<' . $tag . ' id="afilter-clear"><a href="' . esc_url( $link ) . '">' . esc_html__( 'Clear Filter', 'buddypress' ) . '</a></' . $tag . '>';
@@ -3338,7 +3323,7 @@ function bp_activity_filter_links( $args = false ) {
  *
  * @global BP_Activity_Template $activities_template The main activity template loop class.
  *
- * @return bool $can_comment True if item can receive comments.
+ * @return bool True if item can receive comments.
  */
 function bp_activity_can_comment() {
 	global $activities_template;
@@ -3371,9 +3356,8 @@ function bp_activity_can_comment() {
  *
  * @since 1.5.0
  *
- * @param  bool|object $comment     Activity comment.
- * @return bool        $can_comment True if comment can receive comments,
- *                                  otherwise false.
+ * @param bool|object $comment Optional. Activity comment.
+ * @return bool
  */
 function bp_activity_can_comment_reply( $comment = false ) {
 
@@ -3441,7 +3425,7 @@ function bp_activity_can_favorite() {
  *
  * @see bp_get_total_favorite_count_for_user() for description of parameters.
  *
- * @param int $user_id See {@link bp_get_total_favorite_count_for_user()}.
+ * @param int $user_id Optional. See {@link bp_get_total_favorite_count_for_user()}.
  */
 function bp_total_favorite_count_for_user( $user_id = 0 ) {
 	echo intval( bp_get_total_favorite_count_for_user( $user_id ) );
@@ -3452,8 +3436,7 @@ function bp_total_favorite_count_for_user( $user_id = 0 ) {
 	 *
 	 * @since 1.2.0
 	 *
-	 *
-	 * @param int $user_id ID of user being queried. Default: displayed user ID.
+	 * @param int $user_id Optional. ID of user being queried. Default: displayed user ID.
 	 * @return int The total favorite count for the specified user.
 	 */
 	function bp_get_total_favorite_count_for_user( $user_id = 0 ) {
@@ -3491,7 +3474,7 @@ function bp_total_favorite_count_for_user( $user_id = 0 ) {
  *
  * @see bp_get_total_mention_count_for_user() for description of parameters.
  *
- * @param int $user_id See {@link bp_get_total_mention_count_for_user()}.
+ * @param int $user_id Optional. See {@link bp_get_total_mention_count_for_user()}.
  */
 function bp_total_mention_count_for_user( $user_id = 0 ) {
 	echo intval( bp_get_total_mention_count_for_user( $user_id ) );
@@ -3502,9 +3485,8 @@ function bp_total_mention_count_for_user( $user_id = 0 ) {
 	 *
 	 * @since 1.2.0
 	 *
-	 *
-	 * @param int $user_id ID of user being queried. Default: displayed user ID.
-	 * @return int The total mention count for the specified user.
+	 * @param int $user_id Optional. ID of user being queried. Default: displayed user ID.
+	 * @return string|bool Formatted mention count for the specified user. False if no user is found.
 	 */
 	function bp_get_total_mention_count_for_user( $user_id = 0 ) {
 
@@ -3515,7 +3497,7 @@ function bp_total_mention_count_for_user( $user_id = 0 ) {
 
 		// Get user meta if user ID exists.
 		$retval = ! empty( $user_id )
-			? bp_get_user_meta( $user_id, 'bp_new_mention_count', true )
+			? bp_core_number_format( (int) bp_get_user_meta( $user_id, 'bp_new_mention_count', true ) )
 			: false;
 
 		/**
@@ -3524,8 +3506,8 @@ function bp_total_mention_count_for_user( $user_id = 0 ) {
 		 * @since 1.2.0
 		 * @since 2.6.0 Added the `$user_id` parameter.
 		 *
-		 * @param int|bool $retval  Total mention count for a user. False on no mentions.
-		 * @param int      $user_id ID of the queried user.
+		 * @param string|bool $retval  Formatted mention count for a user. False if no user is found.
+		 * @param int         $user_id ID of the queried user.
 		 */
 		return apply_filters( 'bp_get_total_mention_count_for_user', $retval, $user_id );
 	}
@@ -3534,7 +3516,6 @@ function bp_total_mention_count_for_user( $user_id = 0 ) {
  * Output the public message link for displayed user.
  *
  * @since 1.2.0
- *
  */
 function bp_send_public_message_link() {
 	echo esc_url( bp_get_send_public_message_link() );
@@ -3544,7 +3525,6 @@ function bp_send_public_message_link() {
 	 * Return the public message link for the displayed user.
 	 *
 	 * @since 1.2.0
-	 *
 	 *
 	 * @return string The public message link for the displayed user.
 	 */
@@ -3574,8 +3554,8 @@ function bp_send_public_message_link() {
  *
  * @since 2.0.0
  *
- * @param array $activity Array of activities generated from {@link bp_activity_get()}.
- * @param array $activity_ids Used for recursion purposes in this function.
+ * @param array $activity Optional. Array of activities generated from {@link bp_activity_get()}.
+ * @param array $activity_ids Optional. Used for recursion purposes in this function.
  * @return array
  */
 function bp_activity_recurse_comments_activity_ids( $activity = array(), $activity_ids = array() ) {
@@ -3584,10 +3564,10 @@ function bp_activity_recurse_comments_activity_ids( $activity = array(), $activi
 	}
 
 	if ( ! empty( $activity->children ) ) {
-		foreach ($activity->children as $child ) {
+		foreach ( $activity->children as $child ) {
 			$activity_ids[] = $child->id;
 
-			if( ! empty( $child->children ) ) {
+			if ( ! empty( $child->children ) ) {
 				$activity_ids = bp_activity_recurse_comments_activity_ids( $child, $activity_ids );
 			}
 		}
@@ -3603,7 +3583,7 @@ function bp_activity_recurse_comments_activity_ids( $activity = array(), $activi
  *
  * @see bp_get_mentioned_user_display_name() for description of parameters.
  *
- * @param int|string|bool $user_id_or_username See {@link bp_get_mentioned_user_display_name()}.
+ * @param int|string|bool $user_id_or_username Optional. See {@link bp_get_mentioned_user_display_name()}.
  */
 function bp_mentioned_user_display_name( $user_id_or_username = false ) {
 	// phpcs:ignore WordPress.Security.EscapeOutput
@@ -3615,8 +3595,7 @@ function bp_mentioned_user_display_name( $user_id_or_username = false ) {
 	 *
 	 * @since 1.2.0
 	 *
-	 *
-	 * @param int|string|bool $user_id_or_username User ID or username.
+	 * @param int|string|bool $user_id_or_username Optional. User ID or username.
 	 * @return string The mentioned user's display name.
 	 */
 	function bp_get_mentioned_user_display_name( $user_id_or_username = false ) {
@@ -3647,7 +3626,7 @@ function bp_mentioned_user_display_name( $user_id_or_username = false ) {
  *
  * @see bp_activity_get_public_message_button_args() for description of parameters.
  *
- * @param array|string $args See {@link bp_activity_get_public_message_button_args()}.
+ * @param array|string $args Optional. See {@link bp_activity_get_public_message_button_args()}.
  */
 function bp_send_public_message_button( $args = '' ) {
 	// Escaping is done in `BP_Core_HTML_Element()`.
@@ -3711,7 +3690,7 @@ function bp_send_public_message_button( $args = '' ) {
 	 *
 	 * @see bp_activity_get_public_message_button_args() for description of parameters.
 	 *
-	 * @param array|string $args See {@link bp_activity_get_public_message_button_args()}.
+	 * @param array|string $args Optional. See {@link bp_activity_get_public_message_button_args()}.
 	 * @return string The button for sending a public message.
 	 */
 	function bp_get_send_public_message_button( $args = '' ) {
@@ -3728,7 +3707,6 @@ function bp_send_public_message_button( $args = '' ) {
  * Output the activity post form action.
  *
  * @since 1.2.0
- *
  */
 function bp_activity_post_form_action() {
 	echo esc_url( bp_get_activity_post_form_action() );
@@ -3739,11 +3717,10 @@ function bp_activity_post_form_action() {
 	 *
 	 * @since 1.2.0
 	 *
-	 *
 	 * @return string The activity post form action.
 	 */
 	function bp_get_activity_post_form_action() {
-		$url  = bp_rewrites_get_url(
+		$url = bp_rewrites_get_url(
 			array(
 				'component_id'       => 'activity',
 				'single_item_action' => 'post',
@@ -3772,7 +3749,7 @@ function bp_activity_post_form_action() {
  *
  * @see bp_core_fetch_avatar() for a description of arguments.
  *
- * @param array $args See {@link bp_core_fetch_avatar()}.
+ * @param array $args Optional. See {@link bp_core_fetch_avatar()}.
  */
 function bp_activity_comments_user_avatars( $args = array() ) {
 
@@ -3809,7 +3786,7 @@ function bp_activity_comments_user_avatars( $args = array() ) {
 					'height'  => $r['height'],
 					'html'    => $r['html'],
 					'type'    => $r['type'],
-					'width'   => $r['width']
+					'width'   => $r['width'],
 				)
 			);
 
@@ -3874,7 +3851,7 @@ function bp_activity_get_comments_user_ids() {
 	 *
 	 * @since 1.7.0
 	 *
-	 * @param array $comments Array of {@link BP_Activity_Activity} items.
+	 * @param array $comments Optional. Array of {@link BP_Activity_Activity} items.
 	 * @return array Array of user IDs.
 	 */
 	function bp_activity_recurse_comments_user_ids( array $comments = array() ) {
@@ -3971,16 +3948,16 @@ function bp_activity_types_list( $output = 'select', $args = '' ) {
 	foreach ( $activities as $type => $description ) {
 
 		// See if we need to preselect the current type.
-		$checked  = checked(  true, in_array( $type, (array) $args['selected'] ), false );
-		$selected = selected( true, in_array( $type, (array) $args['selected'] ), false );
+		$checked  = checked( true, in_array( $type, (array) $args['selected'], true ), false );
+		$selected = selected( true, in_array( $type, (array) $args['selected'], true ), false );
 
 		// Switch output based on the element.
 		switch ( $output ) {
-			case 'select' :
+			case 'select':
 				// phpcs:ignore WordPress.Security.EscapeOutput
 				printf( '<option value="%1$s" %2$s>%3$s</option>', esc_attr( $type ), $selected, esc_html( $description ) );
 				break;
-			case 'checkbox' :
+			case 'checkbox':
 				// phpcs:ignore WordPress.Security.EscapeOutput
 				printf( '<label style="" for="%1$s[]">%2$s<input type="checkbox" id="%1$s[]" name="%1$s[]" value="%3$s" %4$s/></label>', esc_attr( $args['checkbox_name'] ), esc_html( $description ), esc_attr( $args['checkbox_name'] ), esc_attr( $args['checkbox_name'] ), esc_attr( $type ), $checked );
 				break;
@@ -4014,7 +3991,6 @@ function bp_activity_types_list( $output = 'select', $args = '' ) {
  * Output the sitewide activity feed link.
  *
  * @since 1.0.0
- *
  */
 function bp_sitewide_activity_feed_link() {
 	echo esc_url( bp_get_sitewide_activity_feed_link() );
@@ -4025,11 +4001,10 @@ function bp_sitewide_activity_feed_link() {
 	 *
 	 * @since 1.0.0
 	 *
-	 *
 	 * @return string The sitewide activity feed link.
 	 */
 	function bp_get_sitewide_activity_feed_link() {
-		$url  = bp_rewrites_get_url(
+		$url = bp_rewrites_get_url(
 			array(
 				'component_id'       => 'activity',
 				'single_item_action' => 'feed',
@@ -4060,7 +4035,7 @@ function bp_member_activity_feed_link() {
 	 *
 	 * @since 1.2.0
 	 *
-	 * @return string $link The member activity feed link.
+	 * @return string The member activity feed link.
 	 */
 	function bp_get_member_activity_feed_link() {
 		$activity_slug = bp_get_activity_slug();
@@ -4078,7 +4053,7 @@ function bp_member_activity_feed_link() {
 			$link          = bp_displayed_user_url( bp_members_get_path_chunks( $path_chunks ) );
 
 		// Group feed link.
-		} elseif ( bp_is_active( 'groups'  ) && bp_is_current_action( bp_get_groups_slug()  ) ) {
+		} elseif ( bp_is_active( 'groups' ) && bp_is_current_action( bp_get_groups_slug() ) ) {
 			$path_chunks[] = bp_get_groups_slug();
 			$path_chunks[] = array( 'feed' );
 			$link          = bp_displayed_user_url( bp_members_get_path_chunks( $path_chunks ) );
@@ -4118,10 +4093,11 @@ function bp_member_activity_feed_link() {
 	 *
 	 * @todo properly deprecate in favor of bp_get_member_activity_feed_link().
 	 *
-	 *
 	 * @return string The member activity feed link.
 	 */
-	function bp_get_activities_member_rss_link() { return bp_get_member_activity_feed_link(); }
+	function bp_get_activities_member_rss_link() {
+		return bp_get_member_activity_feed_link();
+	}
 
 
 /** Template tags for RSS feed output ****************************************/
@@ -4130,7 +4106,6 @@ function bp_member_activity_feed_link() {
  * Outputs the activity feed item guid.
  *
  * @since 1.0.0
- *
  */
 function bp_activity_feed_item_guid() {
 	echo esc_html( bp_get_activity_feed_item_guid() );
@@ -4162,7 +4137,6 @@ function bp_activity_feed_item_guid() {
  * Output the activity feed item title.
  *
  * @since 1.0.0
- *
  */
 function bp_activity_feed_item_title() {
 	// phpcs:ignore WordPress.Security.EscapeOutput
@@ -4176,12 +4150,12 @@ function bp_activity_feed_item_title() {
 	 *
 	 * @global BP_Activity_Template $activities_template The main activity template loop class.
 	 *
-	 * @return string $title The activity feed item title.
+	 * @return string The activity feed item title.
 	 */
 	function bp_get_activity_feed_item_title() {
 		global $activities_template;
 
-		if ( !empty( $activities_template->activity->action ) ) {
+		if ( ! empty( $activities_template->activity->action ) ) {
 			$content = $activities_template->activity->action;
 		} else {
 			$content = $activities_template->activity->content;
@@ -4195,7 +4169,7 @@ function bp_activity_feed_item_title() {
 		}
 
 		if ( 'activity_update' === $activities_template->activity->type ) {
-			$title .= ': ' . wp_strip_all_tags( ent2ncr( trim( convert_chars( bp_create_excerpt( $activities_template->activity->content, 70, array( 'ending' => " [&#133;]" ) ) ) ) ) );
+			$title .= ': ' . wp_strip_all_tags( ent2ncr( trim( convert_chars( bp_create_excerpt( $activities_template->activity->content, 70, array( 'ending' => ' [&#133;]' ) ) ) ) ) );
 		}
 
 		/**
@@ -4212,7 +4186,6 @@ function bp_activity_feed_item_title() {
  * Output the activity feed item link.
  *
  * @since 1.0.0
- *
  */
 function bp_activity_feed_item_link() {
 	echo esc_url( bp_get_activity_feed_item_link() );
@@ -4248,7 +4221,6 @@ function bp_activity_feed_item_link() {
  * Output the activity feed item date.
  *
  * @since 1.0.0
- *
  */
 function bp_activity_feed_item_date() {
 	echo esc_html( bp_get_activity_feed_item_date() );
@@ -4284,7 +4256,6 @@ function bp_activity_feed_item_date() {
  * Output the activity feed item description.
  *
  * @since 1.0.0
- *
  */
 function bp_activity_feed_item_description() {
 	// Escaping is made in `bp-activity/bp-activity-filters.php`.
@@ -4328,12 +4299,11 @@ function bp_activity_feed_item_description() {
  * Template tag so we can hook activity feed to <head>.
  *
  * @since 1.5.0
- *
  */
 function bp_activity_sitewide_feed() {
 ?>
 
-	<link rel="alternate" type="application/rss+xml" title="<?php bloginfo( 'name' ) ?> | <?php esc_html_e( 'Site Wide Activity RSS Feed', 'buddypress' ) ?>" href="<?php bp_sitewide_activity_feed_link() ?>" />
+	<link rel="alternate" type="application/rss+xml" title="<?php bloginfo( 'name' ); ?> | <?php esc_html_e( 'Site Wide Activity RSS Feed', 'buddypress' ); ?>" href="<?php bp_sitewide_activity_feed_link(); ?>" />
 
 <?php
 }
@@ -4344,7 +4314,7 @@ add_action( 'bp_head', 'bp_activity_sitewide_feed' );
  *
  * @since 2.1.0
  *
- * @param string $context The current context. 'activity', 'member',
+ * @param string $context Optional. The current context. 'activity', 'member',
  *                        'member_groups', 'group'.
  */
 function bp_activity_show_filters( $context = '' ) {
@@ -4356,7 +4326,7 @@ function bp_activity_show_filters( $context = '' ) {
 	 *
 	 * @since 2.1.0
 	 *
-	 * @param string $context The current context. 'activity', 'member',
+	 * @param string $context Optional. The current context. 'activity', 'member',
 	 *                        'member_groups', 'group'.
 	 *
 	 * @return string HTML for <option> values.
@@ -4366,7 +4336,7 @@ function bp_activity_show_filters( $context = '' ) {
 		$actions = bp_activity_get_actions_for_context( $context );
 		foreach ( $actions as $action ) {
 			// Friends activity collapses two filters into one.
-			if ( in_array( $action['key'], array( 'friendship_accepted', 'friendship_created' ) ) ) {
+			if ( in_array( $action['key'], array( 'friendship_accepted', 'friendship_created' ), true ) ) {
 				$action['key'] = 'friendship_accepted,friendship_created';
 			}
 

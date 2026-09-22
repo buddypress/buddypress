@@ -185,9 +185,9 @@ class BP_XProfile_Field {
 	 *
 	 * @since 1.1.0
 	 *
-	 * @param int|null $id Field ID.
-	 * @param int|null $user_id User ID.
-	 * @param bool     $get_data Get data.
+	 * @param int|null $id Optional. Field ID.
+	 * @param int|null $user_id Optional. User ID.
+	 * @param bool     $get_data Optional. Get data.
 	 */
 	public function __construct( $id = null, $user_id = null, $get_data = true ) {
 
@@ -219,8 +219,8 @@ class BP_XProfile_Field {
 	 * @global object $userdata
 	 *
 	 * @param int      $id Field ID.
-	 * @param int|null $user_id User ID.
-	 * @param bool     $get_data Get data.
+	 * @param int|null $user_id Optional. User ID.
+	 * @param bool     $get_data Optional. Get data.
 	 */
 	public function populate( $id, $user_id = null, $get_data = true ) {
 		global $wpdb, $userdata;
@@ -264,7 +264,7 @@ class BP_XProfile_Field {
 	 *                           Ignored if `$get_data` is false. If `$get_data` is
 	 *                           true, but no `$user_id` is provided, defaults to
 	 *                           logged-in user ID.
-	 * @param bool     $get_data Whether to fetch data for the specified `$user_id`.
+	 * @param bool     $get_data Optional. Whether to fetch data for the specified `$user_id`.
 	 * @return BP_XProfile_Field|false Field object if found, otherwise false.
 	 */
 	public static function get_instance( $field_id, $user_id = null, $get_data = true ) {
@@ -290,8 +290,14 @@ class BP_XProfile_Field {
 		}
 
 		$int_fields = array(
-			'id', 'is_required', 'group_id', 'parent_id', 'is_default_option',
-			'field_order', 'option_order', 'can_delete',
+			'id',
+			'is_required',
+			'group_id',
+			'parent_id',
+			'is_default_option',
+			'field_order',
+			'option_order',
+			'can_delete',
 		);
 
 		foreach ( $args as $k => $v ) {
@@ -300,7 +306,7 @@ class BP_XProfile_Field {
 			}
 
 			// Cast numeric strings as integers.
-			if ( true === in_array( $k, $int_fields ) ) {
+			if ( true === in_array( $k, $int_fields, true ) ) {
 				$v = (int) $v;
 			}
 
@@ -322,13 +328,11 @@ class BP_XProfile_Field {
 	 */
 	public function __get( $key ) {
 		switch ( $key ) {
-			case 'default_visibility' :
+			case 'default_visibility':
 				return $this->get_default_visibility();
-				break;
 
-			case 'allow_custom_visibility' :
+			case 'allow_custom_visibility':
 				return $this->get_allow_custom_visibility();
-				break;
 		}
 	}
 
@@ -343,10 +347,9 @@ class BP_XProfile_Field {
 	public function __isset( $key ) {
 		switch ( $key ) {
 			// Backward compatibility for when these were public methods.
-			case 'allow_custom_visibility' :
-			case 'default_visibility' :
+			case 'allow_custom_visibility':
+			case 'default_visibility':
 				return true;
-				break;
 		}
 	}
 
@@ -357,7 +360,7 @@ class BP_XProfile_Field {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @param boolean $delete_data Whether or not to delete data.
+	 * @param bool $delete_data Optional. Whether or not to delete data.
 	 * @return bool
 	 */
 	public function delete( $delete_data = false ) {
@@ -366,7 +369,7 @@ class BP_XProfile_Field {
 		// Prevent deletion if no ID is present.
 		// Prevent deletion by url when can_delete is false.
 		// Prevent deletion of option 1 since this invalidates fields with options.
-		if ( empty( $this->id ) || empty( $this->can_delete ) || ( $this->parent_id && $this->option_order == 1 ) ) {
+		if ( empty( $this->id ) || empty( $this->can_delete ) || ( $this->parent_id && $this->option_order === 1 ) ) {
 			return false;
 		}
 
@@ -422,16 +425,16 @@ class BP_XProfile_Field {
 
 		$bp = buddypress();
 
-		$this->group_id     = apply_filters( 'xprofile_field_group_id_before_save',     $this->group_id,     $this->id );
-		$this->parent_id    = apply_filters( 'xprofile_field_parent_id_before_save',    $this->parent_id,    $this->id );
-		$this->type         = apply_filters( 'xprofile_field_type_before_save',         $this->type,         $this->id );
-		$this->name         = apply_filters( 'xprofile_field_name_before_save',         $this->name,         $this->id );
-		$this->description  = apply_filters( 'xprofile_field_description_before_save',  $this->description,  $this->id );
-		$this->is_required  = apply_filters( 'xprofile_field_is_required_before_save',  $this->is_required,  $this->id );
-		$this->order_by	    = apply_filters( 'xprofile_field_order_by_before_save',     $this->order_by,     $this->id );
-		$this->field_order  = apply_filters( 'xprofile_field_field_order_before_save',  $this->field_order,  $this->id );
+		$this->group_id     = apply_filters( 'xprofile_field_group_id_before_save', $this->group_id, $this->id );
+		$this->parent_id    = apply_filters( 'xprofile_field_parent_id_before_save', $this->parent_id, $this->id );
+		$this->type         = apply_filters( 'xprofile_field_type_before_save', $this->type, $this->id );
+		$this->name         = apply_filters( 'xprofile_field_name_before_save', $this->name, $this->id );
+		$this->description  = apply_filters( 'xprofile_field_description_before_save', $this->description, $this->id );
+		$this->is_required  = apply_filters( 'xprofile_field_is_required_before_save', $this->is_required, $this->id );
+		$this->order_by     = apply_filters( 'xprofile_field_order_by_before_save', $this->order_by, $this->id );
+		$this->field_order  = apply_filters( 'xprofile_field_field_order_before_save', $this->field_order, $this->id );
 		$this->option_order = apply_filters( 'xprofile_field_option_order_before_save', $this->option_order, $this->id );
-		$this->can_delete   = apply_filters( 'xprofile_field_can_delete_before_save',   $this->can_delete,   $this->id );
+		$this->can_delete   = apply_filters( 'xprofile_field_can_delete_before_save', $this->can_delete, $this->id );
 		$this->type_obj     = bp_xprofile_create_field_type( $this->type );
 
 		/**
@@ -511,7 +514,7 @@ class BP_XProfile_Field {
 				$parent_id = $this->id;
 
 				// Allow plugins to filter the field's child options (i.e. the items in a selectbox).
-				$post_option  = ! empty( $_POST[ "{$this->type}_option" ]           ) ? $_POST[ "{$this->type}_option" ] : '';
+				$post_option  = ! empty( $_POST[ "{$this->type}_option" ] ) ? $_POST[ "{$this->type}_option" ] : '';
 				$post_default = ! empty( $_POST[ "isDefault_{$this->type}_option" ] ) ? $_POST[ "isDefault_{$this->type}_option" ] : '';
 
 				/**
@@ -543,20 +546,18 @@ class BP_XProfile_Field {
 							if ( isset( $defaults[ $option_key ] ) ) {
 								$is_default = 1;
 							}
-						} else {
-							if ( (int) $defaults == $option_key ) {
+						} elseif ( (int) $defaults === $option_key ) {
 								$is_default = 1;
-							}
 						}
 
-						if ( '' != $option_value ) {
+						if ( '' !== $option_value ) {
 							$sql = $wpdb->prepare( "INSERT INTO {$bp->profile->table_name_fields} (group_id, parent_id, type, name, description, is_required, option_order, is_default_option) VALUES (%d, %d, 'option', %s, '', 0, %d, %d)", $this->group_id, $parent_id, $option_value, $counter, $is_default );
 							if ( ! $wpdb->query( $sql ) ) {
 								return false;
 							}
 						}
 
-						$counter++;
+						++$counter;
 					}
 				}
 			}
@@ -585,7 +586,7 @@ class BP_XProfile_Field {
 	 *
 	 * @since 1.2.0
 	 *
-	 * @param int $user_id ID of the user to get field data for.
+	 * @param int $user_id Optional. ID of the user to get field data for.
 	 * @return BP_XProfile_ProfileData
 	 */
 	public function get_field_data( $user_id = 0 ) {
@@ -599,7 +600,7 @@ class BP_XProfile_Field {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @param bool $for_editing Whether or not the field is for editing. Default to false.
+	 * @param bool $for_editing Optional. Whether or not the field is for editing. Default to false.
 	 * @return array
 	 */
 	public function get_children( $for_editing = false ) {
@@ -678,7 +679,7 @@ class BP_XProfile_Field {
 
 		// If '_none' is found in the array, it overrides all types.
 		$types = array();
-		if ( ! in_array( '_none', $raw_types ) ) {
+		if ( ! in_array( '_none', $raw_types, true ) ) {
 			$registered_types = bp_get_member_types();
 
 			// Eliminate invalid member types saved in the database.
@@ -718,7 +719,7 @@ class BP_XProfile_Field {
 	 *
 	 * @param array $member_types Array of member types. Can include 'null' (users with no type) in addition to any
 	 *                            registered types.
-	 * @param bool  $append       Whether to append to existing member types. If false, all existing member type
+	 * @param bool  $append       Optional. Whether to append to existing member types. If false, all existing member type
 	 *                            associations will be deleted before adding your `$member_types`. Default false.
 	 * @return array Member types for the current field, after being saved.
 	 */
@@ -793,7 +794,7 @@ class BP_XProfile_Field {
 	 */
 	public function get_member_type_label() {
 		// Field 1 is always displayed to everyone, so never gets a label.
-		if ( 1 == $this->id ) {
+		if ( 1 === $this->id ) {
 			return '';
 		}
 
@@ -807,20 +808,20 @@ class BP_XProfile_Field {
 
 		// If the field applies to all member types, show no message.
 		$all_types[] = 'null';
-		if ( array_values( $all_types ) == $member_types ) {
+		if ( array_values( $all_types ) === $member_types ) {
 			return '';
 		}
 
 		$label = '';
 		if ( ! empty( $member_types ) ) {
-			$has_null = false;
+			$has_null           = false;
 			$member_type_labels = array();
 			foreach ( $member_types as $member_type ) {
 				if ( 'null' === $member_type ) {
 					$has_null = true;
 					continue;
 				} else {
-					$mt_obj = bp_get_member_type_object( $member_type );
+					$mt_obj               = bp_get_member_type_object( $member_type );
 					$member_type_labels[] = $mt_obj->labels['name'];
 				}
 			}
@@ -956,7 +957,7 @@ class BP_XProfile_Field {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @param int $field_id Field ID to get type of.
+	 * @param int $field_id Optional. Field ID to get type of.
 	 * @return bool|null|string
 	 */
 	public static function get_type( $field_id = 0 ) {
@@ -986,7 +987,7 @@ class BP_XProfile_Field {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @param int $group_id ID of the field group to delete fields from.
+	 * @param int $group_id Optional. ID of the field group to delete fields from.
 	 * @return bool
 	 */
 	public static function delete_for_group( $group_id = 0 ) {
@@ -1016,7 +1017,7 @@ class BP_XProfile_Field {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @param string $field_name Name of the field to query the ID for.
+	 * @param string $field_name Optional. Name of the field to query the ID for.
 	 * @return int|null Field ID on success; null on failure.
 	 */
 	public static function get_id_from_name( $field_name = '' ) {
@@ -1031,7 +1032,7 @@ class BP_XProfile_Field {
 		$id = bp_core_get_incremented_cache( $field_name, 'bp_xprofile_fields_by_name' );
 		if ( false === $id ) {
 			$sql = $wpdb->prepare( "SELECT id FROM {$bp->profile->table_name_fields} WHERE name = %s AND parent_id = 0", $field_name );
-			$id = $wpdb->get_var( $sql );
+			$id  = $wpdb->get_var( $sql );
 			bp_core_set_incremented_cache( $field_name, 'bp_xprofile_fields_by_name', $id );
 		}
 
@@ -1046,8 +1047,8 @@ class BP_XProfile_Field {
 	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param int      $field_id       ID of the field to update.
-	 * @param int|null $position       Field position to update.
-	 * @param int|null $field_group_id ID of the field group.
+	 * @param int|null $position       Optional. Field position to update.
+	 * @param int|null $field_group_id Optional. ID of the field group.
 	 * @return bool
 	 */
 	public static function update_position( $field_id, $position = null, $field_group_id = null ) {
@@ -1138,10 +1139,10 @@ class BP_XProfile_Field {
 		}
 
 		// Any fields with no member_type metadata are available to all member types.
-		if ( ! in_array( '_none', $member_types ) ) {
+		if ( ! in_array( '_none', $member_types, true ) ) {
 			if ( ! empty( $all_recorded_field_ids ) ) {
 				$all_recorded_field_ids_sql = implode( ',', array_map( 'absint', $all_recorded_field_ids ) );
-				$unrestricted_field_ids = $wpdb->get_col( "SELECT id FROM {$bp->profile->table_name_fields} WHERE id NOT IN ({$all_recorded_field_ids_sql})" );
+				$unrestricted_field_ids     = $wpdb->get_col( "SELECT id FROM {$bp->profile->table_name_fields} WHERE id NOT IN ({$all_recorded_field_ids_sql})" );
 			} else {
 				$unrestricted_field_ids = $wpdb->get_col( "SELECT id FROM {$bp->profile->table_name_fields}" );
 			}
@@ -1262,7 +1263,7 @@ class BP_XProfile_Field {
 	 *
 	 * @since 1.9.0
 	 *
-	 * @param string $message Message to display.
+	 * @param string $message Optional. Message to display.
 	 */
 	public function render_admin_form( $message = '' ) {
 
@@ -1272,12 +1273,15 @@ class BP_XProfile_Field {
 		// Add New.
 		if ( empty( $this->id ) ) {
 			$title  = __( 'Add New Field', 'buddypress' );
-			$button	= __( 'Save',          'buddypress' );
-			$action = add_query_arg( array(
-				'page'     => 'bp-profile-setup',
-				'mode'     => 'add_field',
-				'group_id' => (int) $this->group_id,
-			), $users_url . '#tabs-' . (int) $this->group_id );
+			$button = __( 'Save', 'buddypress' );
+			$action = add_query_arg(
+				array(
+					'page'     => 'bp-profile-setup',
+					'mode'     => 'add_field',
+					'group_id' => (int) $this->group_id,
+				),
+				$users_url . '#tabs-' . (int) $this->group_id
+			);
 
 			if ( ! empty( $_POST['saveField'] ) ) {
 				$this->name        = $_POST['title'];
@@ -1294,13 +1298,16 @@ class BP_XProfile_Field {
 		// Edit.
 		} else {
 			$title  = __( 'Edit Field', 'buddypress' );
-			$button	= __( 'Update',     'buddypress' );
-			$action = add_query_arg( array(
-				'page'     => 'bp-profile-setup',
-				'mode'     => 'edit_field',
-				'group_id' => (int) $this->group_id,
-				'field_id' => (int) $this->id,
-			), $users_url . '#tabs-' . (int) $this->group_id );
+			$button = __( 'Update', 'buddypress' );
+			$action = add_query_arg(
+				array(
+					'page'     => 'bp-profile-setup',
+					'mode'     => 'edit_field',
+					'group_id' => (int) $this->group_id,
+					'field_id' => (int) $this->id,
+				),
+				$users_url . '#tabs-' . (int) $this->group_id
+			);
 		} ?>
 
 		<div class="wrap">
@@ -1318,13 +1325,14 @@ class BP_XProfile_Field {
 
 			<form id="bp-xprofile-add-field" action="<?php echo esc_url( $action ); ?>" method="post">
 				<div id="poststuff">
-					<div id="post-body" class="metabox-holder columns-<?php echo ( 1 == get_current_screen()->get_columns() ) ? '1' : '2'; ?>">
+					<div id="post-body" class="metabox-holder columns-<?php echo ( 1 === get_current_screen()->get_columns() ) ? '1' : '2'; ?>">
 						<div id="post-body-content">
 
 							<?php
 
 							// Output the name & description fields.
-							$this->name_and_description(); ?>
+							$this->name_and_description();
+							?>
 
 						</div><!-- #post-body-content -->
 
@@ -1350,7 +1358,6 @@ class BP_XProfile_Field {
 							// Output the autolink metabox.
 							$this->autolink_metabox();
 
-
 							/**
 							 * Fires after XProfile Field sidebar metabox.
 							 *
@@ -1358,7 +1365,8 @@ class BP_XProfile_Field {
 							 *
 							 * @param BP_XProfile_Field $field Current instance of the field.
 							 */
-							do_action( 'xprofile_field_after_sidebarbox', $this ); ?>
+							do_action( 'xprofile_field_after_sidebarbox', $this );
+							?>
 
 						</div>
 
@@ -1388,7 +1396,8 @@ class BP_XProfile_Field {
 							 *
 							 * @param BP_XProfile_Field $field Current instance of the field.
 							 */
-							do_action( 'xprofile_field_after_contentbox', $this ); ?>
+							do_action( 'xprofile_field_after_contentbox', $this );
+							?>
 
 						</div>
 					</div><!-- #post-body -->
@@ -1432,7 +1441,7 @@ class BP_XProfile_Field {
 	 *
 	 * @since 8.0.0
 	 *
-	 * @param string $support The name of the feature.
+	 * @param string $support Optional. The name of the feature.
 	 * @return bool True if the field type supports the feature. False otherwise.
 	 */
 	public function field_type_supports( $support = '' ) {
@@ -1451,24 +1460,33 @@ class BP_XProfile_Field {
 	 *
 	 * @since 2.3.0
 	 *
-	 * @param string $button_text Text to put on button.
+	 * @param string $button_text Optional. Text to put on button.
 	 */
 	private function submit_metabox( $button_text = '' ) {
 
 		// Setup the URL for deleting
 		$users_url  = bp_get_admin_url( 'users.php' );
-		$cancel_url = add_query_arg( array(
-			'page' => 'bp-profile-setup',
-		), $users_url );
-
+		$cancel_url = add_query_arg(
+			array(
+				'page' => 'bp-profile-setup',
+			),
+			$users_url
+		);
 
 		// Delete.
 		if ( $this->can_delete ) {
-			$delete_url = wp_nonce_url( add_query_arg( array(
-				'page'     => 'bp-profile-setup',
-				'mode'     => 'delete_field',
-				'field_id' => (int) $this->id,
-			), $users_url ), 'bp_xprofile_delete_field-' . $this->id, 'bp_xprofile_delete_field' );
+			$delete_url = wp_nonce_url(
+				add_query_arg(
+					array(
+						'page'     => 'bp-profile-setup',
+						'mode'     => 'delete_field',
+						'field_id' => (int) $this->id,
+					),
+					$users_url
+				),
+				'bp_xprofile_delete_field-' . $this->id,
+				'bp_xprofile_delete_field'
+			);
 		}
 		/**
 		 * Fires before XProfile Field submit metabox.
@@ -1477,7 +1495,8 @@ class BP_XProfile_Field {
 		 *
 		 * @param BP_XProfile_Field $field Current instance of the field.
 		 */
-		do_action( 'xprofile_field_before_submitbox', $this ); ?>
+		do_action( 'xprofile_field_before_submitbox', $this );
+		?>
 
 		<div id="submitdiv" class="postbox">
 			<h2><?php esc_html_e( 'Submit', 'buddypress' ); ?></h2>
@@ -1494,7 +1513,8 @@ class BP_XProfile_Field {
 						 *
 						 * @param BP_XProfile_Field $field Current instance of the field.
 						 */
-						do_action( 'xprofile_field_submitbox_start', $this ); ?>
+						do_action( 'xprofile_field_submitbox_start', $this );
+						?>
 
 						<input type="hidden" name="field_order" id="field_order" value="<?php echo esc_attr( $this->field_order ); ?>" />
 
@@ -1589,11 +1609,13 @@ class BP_XProfile_Field {
 		}
 
 		// Bail when no member types are registered.
-		if ( ! $member_types = bp_get_member_types( array(), 'objects' ) ) {
+		$member_types = bp_get_member_types( array(), 'objects' );
+		if ( ! $member_types ) {
 			return;
 		}
 
 		$field_member_types = $this->get_member_types();
+		$none_notice_class  = ! empty( $field_member_types ) ? ' hide' : '';
 
 		?>
 
@@ -1606,7 +1628,7 @@ class BP_XProfile_Field {
 					<?php foreach ( $member_types as $member_type ) : ?>
 					<li>
 						<label for="member-type-<?php echo esc_attr( $member_type->labels['name'] ); ?>">
-							<input name="member-types[]" id="member-type-<?php echo esc_attr( $member_type->labels['name'] ); ?>" class="member-type-selector" type="checkbox" value="<?php echo esc_attr( $member_type->name ); ?>" <?php checked( in_array( $member_type->name, $field_member_types ) ); ?>/>
+							<input name="member-types[]" id="member-type-<?php echo esc_attr( $member_type->labels['name'] ); ?>" class="member-type-selector" type="checkbox" value="<?php echo esc_attr( $member_type->name ); ?>" <?php checked( in_array( $member_type->name, $field_member_types, true ) ); ?>/>
 							<?php echo esc_html( $member_type->labels['name'] ); ?>
 						</label>
 					</li>
@@ -1614,13 +1636,13 @@ class BP_XProfile_Field {
 
 					<li>
 						<label for="member-type-none">
-							<input name="member-types[]" id="member-type-none" class="member-type-selector" type="checkbox" value="null" <?php checked( in_array( 'null', $field_member_types ) ); ?>/>
+							<input name="member-types[]" id="member-type-none" class="member-type-selector" type="checkbox" value="null" <?php checked( in_array( 'null', $field_member_types, true ) ); ?>/>
 							<?php esc_html_e( 'Users with no member type', 'buddypress' ); ?>
 						</label>
 					</li>
 
 				</ul>
-				<p class="description member-type-none-notice<?php if ( ! empty( $field_member_types ) ) : ?> hide<?php endif; ?>"><?php esc_html_e( 'Unavailable to all members.', 'buddypress' ) ?></p>
+				<p class="description member-type-none-notice<?php echo esc_attr( $none_notice_class ); ?>"><?php esc_html_e( 'Unavailable to all members.', 'buddypress' ); ?></p>
 			</div>
 
 			<input type="hidden" name="has-member-types" value="1" />
@@ -1639,7 +1661,8 @@ class BP_XProfile_Field {
 		// Default field and field types not supporting the feature cannot have custom visibility.
 		if ( true === $this->is_default_field() || ! $this->field_type_supports( 'allow_custom_visibility' ) ) {
 			return;
-		} ?>
+		}
+		?>
 
 		<div class="postbox" id="field-type-visibiliy-metabox">
 			<h2><label for="default-visibility"><?php esc_html_e( 'Visibility', 'buddypress' ); ?></label></h2>
@@ -1686,14 +1709,15 @@ class BP_XProfile_Field {
 		// Default field and field types not supporting the feature cannot be required.
 		if ( true === $this->is_default_field() || ! $this->field_type_supports( 'required' ) ) {
 			return;
-		} ?>
+		}
+		?>
 
 		<div class="postbox" id="field-type-required-metabox">
 			<h2><label for="required"><?php esc_html_e( 'Requirement', 'buddypress' ); ?></label></h2>
 			<div class="inside">
 				<select name="required" id="required">
 					<option value="0"<?php selected( $this->is_required, '0' ); ?>><?php esc_html_e( 'Not Required', 'buddypress' ); ?></option>
-					<option value="1"<?php selected( $this->is_required, '1' ); ?>><?php esc_html_e( 'Required',     'buddypress' ); ?></option>
+					<option value="1"<?php selected( $this->is_required, '1' ); ?>><?php esc_html_e( 'Required', 'buddypress' ); ?></option>
 				</select>
 			</div>
 		</div>
@@ -1711,7 +1735,8 @@ class BP_XProfile_Field {
 		// Field types not supporting the feature cannot use autolink.
 		if ( ! $this->field_type_supports( 'do_autolink' ) ) {
 			return;
-		} ?>
+		}
+		?>
 
 		<div class="postbox" id="field-type-autolink-metabox">
 			<h2><?php esc_html_e( 'Autolink', 'buddypress' ); ?></h2>
@@ -1719,10 +1744,12 @@ class BP_XProfile_Field {
 				<p class="description"><?php esc_html_e( 'On user profiles, link this field to a search of the Members directory, using the field value as a search term.', 'buddypress' ); ?></p>
 
 				<p>
-					<label for="do-autolink" class="screen-reader-text"><?php
+					<label for="do-autolink" class="screen-reader-text">
+					<?php
 						/* translators: accessibility text */
 						esc_html_e( 'Autolink status for this field', 'buddypress' );
-					?></label>
+					?>
+					</label>
 					<select name="do_autolink" id="do-autolink">
 						<option value="on" <?php selected( $this->get_do_autolink() ); ?>><?php esc_html_e( 'Enabled', 'buddypress' ); ?></option>
 						<option value="" <?php selected( $this->get_do_autolink(), false ); ?>><?php esc_html_e( 'Disabled', 'buddypress' ); ?></option>
@@ -1748,7 +1775,7 @@ class BP_XProfile_Field {
 		?>
 
 		<div class="postbox">
-			<h2><label for="fieldtype"><?php esc_html_e( 'Type', 'buddypress'); ?></label></h2>
+			<h2><label for="fieldtype"><?php esc_html_e( 'Type', 'buddypress' ); ?></label></h2>
 			<div class="inside" aria-live="polite" aria-atomic="true" aria-relevant="all">
 				<?php if ( ! $this->field_type_supports( 'switch_fieldtype' ) ) : ?>
 					<input type="text" disabled="true" value="<?php echo esc_attr( $this->type_obj->name ); ?>">
@@ -1767,7 +1794,8 @@ class BP_XProfile_Field {
 				// Deprecated filter, don't use. Go look at {@link BP_XProfile_Field_Type::admin_new_field_html()}.
 				do_action( 'xprofile_field_additional_options', $this );
 
-				$this->render_admin_form_children(); ?>
+				$this->render_admin_form_children();
+				?>
 
 			</div>
 		</div>
@@ -1790,7 +1818,7 @@ class BP_XProfile_Field {
 		$signup_position      = $this->get_signup_position();
 
 		if ( 0 === $signup_position ) {
-			$signup_fields_order = bp_xprofile_get_signup_field_ids();
+			$signup_fields_order  = bp_xprofile_get_signup_field_ids();
 			$next_signup_position = count( $signup_fields_order ) + 1;
 		} else {
 			$next_signup_position = $signup_position;
@@ -1825,7 +1853,7 @@ class BP_XProfile_Field {
 
 		// Init default field hidden inputs.
 		$default_field_hidden_inputs = array();
-		$hidden_fields = array(
+		$hidden_fields               = array(
 			'required' => array(
 				'name'  => 'required',
 				'id'    => 'required',
@@ -1902,7 +1930,7 @@ class BP_XProfile_Field {
 	 *
 	 * @since 2.3.0
 	 *
-	 * @param int $field_id ID of field to check.
+	 * @param int $field_id Optional. ID of field to check.
 	 * @return bool
 	 */
 	private function is_default_field( $field_id = 0 ) {

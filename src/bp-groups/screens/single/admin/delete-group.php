@@ -14,7 +14,7 @@
  */
 function groups_screen_group_admin_delete_group() {
 
-	if ( 'delete-group' != bp_get_group_current_admin_tab() ) {
+	if ( 'delete-group' !== bp_get_group_current_admin_tab() ) {
 		return;
 	}
 

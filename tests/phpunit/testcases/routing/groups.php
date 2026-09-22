@@ -143,7 +143,7 @@ class BP_Tests_Routing_Groups extends BP_UnitTestCase {
 		);
 
 		$this->go_to( bp_get_group_url( $g1 ) );
-		$this->assertEquals( groups_get_current_group()->slug, 'ralph' );
+		$this->assertSame( groups_get_current_group()->slug, 'ralph' );
 	}
 
 	/**
@@ -173,7 +173,7 @@ class BP_Tests_Routing_Groups extends BP_UnitTestCase {
 		);
 
 		$this->go_to( $url );
-		$this->assertEquals( $g1, bp_get_current_group_id() );
+		$this->assertSame( $g1, bp_get_current_group_id() );
 	}
 
 	/**
@@ -217,6 +217,6 @@ class BP_Tests_Routing_Groups extends BP_UnitTestCase {
 		);
 
 		$this->go_to( $url );
-		$this->assertEquals( $g2, bp_get_current_group_id() );
+		$this->assertSame( $g2, bp_get_current_group_id() );
 	}
 }

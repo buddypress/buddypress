@@ -39,7 +39,7 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$a_ids = wp_list_pluck( $response->get_data(), 'id' );
 
@@ -93,7 +93,7 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$all_type = wp_list_pluck( $response->get_data(), 'type' );
 
@@ -169,7 +169,7 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 		$a_ids = wp_list_pluck( $response->get_data(), 'id' );
 
 		$this->assertNotContains( $a1, $a_ids );
@@ -231,7 +231,7 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 		$a_ids = wp_list_pluck( $response->get_data(), 'id' );
 
 		$this->assertEqualSets( array( $a1, $a2 ), $a_ids );
@@ -293,7 +293,7 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 		$a_ids = wp_list_pluck( $response->get_data(), 'id' );
 
 		$this->assertNotContains( $a2, $a_ids );
@@ -338,7 +338,7 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 		$a_ids = wp_list_pluck( $response->get_data(), 'id' );
 
 		$this->assertEmpty( $a_ids );
@@ -398,7 +398,7 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 		$a_ids = wp_list_pluck( $response->get_data(), 'id' );
 
 		$this->assertNotContains( $a2, $a_ids );
@@ -447,7 +447,7 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 		$a_ids = wp_list_pluck( $response->get_data(), 'id' );
 
 		$this->assertContains( $a1, $a_ids );
@@ -495,7 +495,7 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 		$a_ids = wp_list_pluck( $response->get_data(), 'id' );
 
 		$this->assertContains( $a2, $a_ids );
@@ -538,7 +538,7 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 		$a_ids = wp_list_pluck( $response->get_data(), 'id' );
 
 		$this->assertEmpty( $a_ids );
@@ -567,10 +567,10 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 		$headers = $response->get_headers();
-		$this->assertEquals( 6, $headers['X-WP-Total'] );
-		$this->assertEquals( 2, $headers['X-WP-TotalPages'] );
+		$this->assertSame( 6, $headers['X-WP-Total'] );
+		$this->assertSame( 2, $headers['X-WP-TotalPages'] );
 
 		$a_ids = wp_list_pluck( $response->get_data(), 'id' );
 		$this->assertContains( $a, $a_ids );
@@ -621,7 +621,7 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$a_ids = wp_list_pluck( $response->get_data(), 'id' );
 
@@ -647,11 +647,11 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$f_ids = wp_filter_object_list( $response->get_data(), array( 'favorited' => true ), 'AND', 'id' );
 		$f_id  = reset( $f_ids );
-		$this->assertEquals( $a1, $f_id );
+		$this->assertSame( $a1, $f_id );
 	}
 
 	/**
@@ -672,10 +672,10 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		);
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$f_ids = wp_filter_object_list( $response->get_data(), array( 'favorited' => false ), 'AND', 'id' );
-		$this->assertTrue( 3 === count( $f_ids ) );
+		$this->assertCount( 3, $f_ids );
 	}
 
 	/**
@@ -685,13 +685,13 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		wp_set_current_user( $this->user );
 
 		$activity = $this->endpoint->get_activity_object( $this->activity_id );
-		$this->assertEquals( $this->activity_id, $activity->id );
+		$this->assertSame( $this->activity_id, $activity->id );
 
 		$request = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '/%d', $activity->id ) );
 		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$all_data = $response->get_data();
 
@@ -705,7 +705,7 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		toggle_component_visibility();
 
 		$activity = $this->endpoint->get_activity_object( $this->activity_id );
-		$this->assertEquals( $this->activity_id, $activity->id );
+		$this->assertSame( $this->activity_id, $activity->id );
 
 		$request = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '/%d', $activity->id ) );
 		$request->set_param( 'context', 'view' );
@@ -846,7 +846,7 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		// Non-authenticated.
 		wp_set_current_user( 0 );
 		$response = $this->server->dispatch( $request );
-		$this->assertEquals( 401, $response->get_status() );
+		$this->assertSame( 401, $response->get_status() );
 
 		// Not a member of the group.
 		$u = static::factory()->user->create();
@@ -854,7 +854,7 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 403, $response->get_status() );
+		$this->assertSame( 403, $response->get_status() );
 
 		// Member of the group.
 		$new_member               = new BP_Groups_Member();
@@ -865,7 +865,7 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 	}
 
 	/**
@@ -1223,7 +1223,7 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$response = $this->server->dispatch( $request );
 
 		$data = $response->get_data();
-		$this->assertSame( (int) $u, (int) $data['user_id'], 'The user should be able to comment a group activity' );
+		$this->assertSame( $u, $data['user_id'], 'The user should be able to comment a group activity' );
 
 		// Check the comment is fetched in group's activities.
 		$expected = $data['id'];
@@ -1240,7 +1240,7 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$get_response = $this->server->dispatch( $get_request );
 		$get_data     = $get_response->get_data();
 
-		$this->assertSame( (int) $expected, (int) $get_data[0]['comments'][0]['id'] );
+		$this->assertSame( $expected, $get_data[0]['comments'][0]['id'] );
 	}
 
 	/**
@@ -1322,7 +1322,7 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		wp_set_current_user( $this->user );
 
 		$activity = $this->endpoint->get_activity_object( $this->activity_id );
-		$this->assertEquals( $this->activity_id, $activity->id );
+		$this->assertSame( $this->activity_id, $activity->id );
 
 		$request = new WP_REST_Request( 'PUT', sprintf( $this->endpoint_url . '/%d', $activity->id ) );
 		$request->set_param( 'context', 'edit' );
@@ -1337,11 +1337,11 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$new_data = $response->get_data();
 		$this->assertNotEmpty( $new_data );
 
-		$this->assertEquals( $this->activity_id, $new_data['id'] );
-		$this->assertEquals( $params['content'], $new_data['content']['raw'] );
+		$this->assertSame( $this->activity_id, $new_data['id'] );
+		$this->assertSame( $params['content'], $new_data['content']['raw'] );
 
 		$activity = $this->endpoint->get_activity_object( $this->activity_id );
-		$this->assertEquals( $params['content'], $activity->content );
+		$this->assertSame( $params['content'], $activity->content );
 	}
 
 	/**
@@ -1365,7 +1365,7 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$updated_activity = $this->endpoint->get_activity_object( $new_data['id'] );
 
 		// Dates should match.
-		$this->assertEquals( $activity_date, $updated_activity->date_recorded );
+		$this->assertSame( $activity_date, $updated_activity->date_recorded );
 	}
 
 	/**
@@ -1413,11 +1413,11 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 
 		$activity = $this->endpoint->get_activity_object( $a->id );
 
-		$this->assertEquals( $g, $activity->item_id );
-		$this->assertEquals( $g, $new_data['primary_item_id'] );
-		$this->assertEquals( $a->id, $new_data['id'] );
+		$this->assertSame( $g, $activity->item_id );
+		$this->assertSame( $g, $new_data['primary_item_id'] );
+		$this->assertSame( $a->id, $new_data['id'] );
 		$this->assertSame( (bool) $a->hide_sitewide, $new_data['hidden'], 'Private and hidden group activities should remain hidden' );
-		$this->assertEquals( $params['content'], $new_data['content']['raw'] );
+		$this->assertSame( $params['content'], $new_data['content']['raw'] );
 	}
 
 	/**
@@ -1441,7 +1441,7 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 	public function test_update_item_user_not_logged_in() {
 		$activity = $this->endpoint->get_activity_object( $this->activity_id );
 
-		$this->assertEquals( $this->activity_id, $activity->id );
+		$this->assertSame( $this->activity_id, $activity->id );
 
 		$request = new WP_REST_Request( 'PUT', sprintf( $this->endpoint_url . '/%d', $activity->id ) );
 		$request->set_param( 'context', 'edit' );
@@ -1463,7 +1463,7 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		wp_set_current_user( $u2 );
 
 		$activity = $this->endpoint->get_activity_object( $a );
-		$this->assertEquals( $a, $activity->id );
+		$this->assertSame( $a, $activity->id );
 
 		$request = new WP_REST_Request( 'PUT', sprintf( $this->endpoint_url . '/%d', $activity->id ) );
 		$request->set_param( 'context', 'edit' );
@@ -1486,7 +1486,7 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		wp_set_current_user( $u );
 
 		$activity = $this->endpoint->get_activity_object( $a );
-		$this->assertEquals( $a, $activity->id );
+		$this->assertSame( $a, $activity->id );
 
 		$request = new WP_REST_Request( 'PUT', sprintf( $this->endpoint_url . '/%d', $activity->id ) );
 		$request->add_header( 'content-type', 'application/json' );
@@ -1508,7 +1508,7 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		wp_set_current_user( $u );
 
 		$activity = $this->endpoint->get_activity_object( $a );
-		$this->assertEquals( $a, $activity->id );
+		$this->assertSame( $a, $activity->id );
 
 		$request = new WP_REST_Request( 'PUT', sprintf( $this->endpoint_url . '/%d', $activity->id ) );
 		$request->add_header( 'content-type', 'application/json' );
@@ -1536,19 +1536,19 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		);
 
 		$activity = $this->endpoint->get_activity_object( $activity_id );
-		$this->assertEquals( $activity_id, $activity->id );
+		$this->assertSame( $activity_id, $activity->id );
 
 		$request = new WP_REST_Request( 'DELETE', sprintf( $this->endpoint_url . '/%d', $activity->id ) );
 		$request->set_param( 'context', 'edit' );
 		$response = $this->server->dispatch( $request );
 		$this->assertNotInstanceOf( 'WP_Error', $response );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$data = $response->get_data();
 		$this->assertNotEmpty( $data['deleted'] );
 
-		$this->assertEquals( 'Deleted activity', $data['previous']['content']['raw'] );
+		$this->assertSame( 'Deleted activity', $data['previous']['content']['raw'] );
 	}
 
 	/**
@@ -1569,7 +1569,7 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 	 */
 	public function test_delete_item_user_not_logged_in() {
 		$activity = $this->endpoint->get_activity_object( $this->activity_id );
-		$this->assertEquals( $this->activity_id, $activity->id );
+		$this->assertSame( $this->activity_id, $activity->id );
 
 		$request = new WP_REST_Request( 'DELETE', sprintf( $this->endpoint_url . '/%d', $activity->id ) );
 		$request->set_param( 'context', 'edit' );
@@ -1589,7 +1589,7 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		wp_set_current_user( $u2 );
 
 		$activity = $this->endpoint->get_activity_object( $activity_id );
-		$this->assertEquals( $activity_id, $activity->id );
+		$this->assertSame( $activity_id, $activity->id );
 
 		$request = new WP_REST_Request( 'DELETE', sprintf( $this->endpoint_url . '/%d', $activity->id ) );
 		$request->set_param( 'context', 'edit' );
@@ -1616,7 +1616,7 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$request->add_header( 'content-type', 'application/json' );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$data = $response->get_data();
 
@@ -1646,7 +1646,7 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$request->add_header( 'content-type', 'application/json' );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$f_ids = wp_filter_object_list( $response->get_data(), array( 'favorited' => true ), 'AND', 'id' );
 		$this->assertEmpty( $f_ids );
@@ -1681,13 +1681,13 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		wp_set_current_user( $this->user );
 
 		$activity = $this->endpoint->get_activity_object( $this->activity_id );
-		$this->assertEquals( $this->activity_id, $activity->id );
+		$this->assertSame( $this->activity_id, $activity->id );
 
 		$request = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '/%d', $activity->id ) );
 		$request->set_query_params( array( 'context' => 'edit' ) );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$all_data = $response->get_data();
 
@@ -1779,35 +1779,35 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 	}
 
 	protected function check_activity_data( $activity, $data, $context = 'view' ) {
-		$this->assertEquals( $activity->user_id, $data['user_id'] );
-		$this->assertEquals( $activity->component, $data['component'] );
+		$this->assertSame( $activity->user_id, $data['user_id'] );
+		$this->assertSame( $activity->component, $data['component'] );
 
 		if ( 'view' === $context ) {
-			$this->assertEquals( wpautop( $activity->content ), $data['content']['rendered'] );
+			$this->assertSame( wpautop( $activity->content ), $data['content']['rendered'] );
 		} else {
-			$this->assertEquals( $activity->content, $data['content']['raw'] );
-			$this->assertEquals( bp_rest_prepare_date_response( $activity->date_recorded ), $data['date_gmt'] );
+			$this->assertSame( $activity->content, $data['content']['raw'] );
+			$this->assertSame( bp_rest_prepare_date_response( $activity->date_recorded ), $data['date_gmt'] );
 		}
 
-		$this->assertEquals( $activity->type, $data['type'] );
-		$this->assertEquals(
+		$this->assertSame( $activity->type, $data['type'] );
+		$this->assertSame(
 			bp_rest_prepare_date_response( $activity->date_recorded, get_date_from_gmt( $activity->date_recorded ) ),
 			$data['date']
 		);
-		$this->assertEquals( $activity->id, $data['id'] );
-		$this->assertEquals( bp_activity_get_permalink( $activity->id ), $data['link'] );
-		$this->assertEquals( $activity->item_id, $data['primary_item_id'] );
-		$this->assertEquals( $activity->secondary_item_id, $data['secondary_item_id'] );
-		$this->assertEquals( $activity->action, $data['title'] );
-		$this->assertEquals( $activity->type, $data['type'] );
-		$this->assertEquals( $activity->is_spam ? 'spam' : 'published', $data['status'] );
+		$this->assertSame( $activity->id, $data['id'] );
+		$this->assertSame( bp_activity_get_permalink( $activity->id ), $data['link'] );
+		$this->assertSame( $activity->item_id, $data['primary_item_id'] );
+		$this->assertSame( $activity->secondary_item_id, $data['secondary_item_id'] );
+		$this->assertSame( $activity->action, $data['title'] );
+		$this->assertSame( $activity->type, $data['type'] );
+		$this->assertSame( $activity->is_spam ? 'spam' : 'published', $data['status'] );
 	}
 
 	protected function check_add_edit_activity( $response, $update = false ) {
 		if ( $update ) {
-			$this->assertEquals( 200, $response->get_status() );
+			$this->assertSame( 200, $response->get_status() );
 		} else {
-			$this->assertEquals( 201, $response->get_status() );
+			$this->assertSame( 201, $response->get_status() );
 		}
 
 		$data     = $response->get_data();
@@ -1830,7 +1830,7 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$this->assertNotInstanceOf( 'WP_Error', $response );
 		$response = rest_ensure_response( $response );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 		$headers = $response->get_headers();
 		$this->assertArrayNotHasKey( 'Location', $headers );
 
@@ -1846,7 +1846,7 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$this->assertNotInstanceOf( 'WP_Error', $response );
 		$response = rest_ensure_response( $response );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$data = $response->get_data();
 
@@ -1862,7 +1862,7 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$data       = $response->get_data();
 		$properties = $data['schema']['properties'];
 
-		$this->assertEquals( 17, count( $properties ) );
+		$this->assertCount( 17, $properties );
 		$this->assertArrayHasKey( 'id', $properties );
 		$this->assertArrayHasKey( 'primary_item_id', $properties );
 		$this->assertArrayHasKey( 'secondary_item_id', $properties );
@@ -1888,16 +1888,16 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$response = $this->server->dispatch( $request );
 		$data     = $response->get_data();
 
-		$this->assertEquals( 'view', $data['endpoints'][0]['args']['context']['default'] );
-		$this->assertEquals( array( 'view', 'embed', 'edit' ), $data['endpoints'][0]['args']['context']['enum'] );
+		$this->assertSame( 'view', $data['endpoints'][0]['args']['context']['default'] );
+		$this->assertSame( array( 'view', 'embed', 'edit' ), $data['endpoints'][0]['args']['context']['enum'] );
 
 		// Single.
 		$request  = new WP_REST_Request( 'OPTIONS', sprintf( $this->endpoint_url . '/%d', $this->activity_id ) );
 		$response = $this->server->dispatch( $request );
 		$data     = $response->get_data();
 
-		$this->assertEquals( 'view', $data['endpoints'][0]['args']['context']['default'] );
-		$this->assertEquals( array( 'view', 'embed', 'edit' ), $data['endpoints'][0]['args']['context']['enum'] );
+		$this->assertSame( 'view', $data['endpoints'][0]['args']['context']['default'] );
+		$this->assertSame( array( 'view', 'embed', 'edit' ), $data['endpoints'][0]['args']['context']['enum'] );
 	}
 
 	public function update_additional_field( $value, $data, $attribute ) {

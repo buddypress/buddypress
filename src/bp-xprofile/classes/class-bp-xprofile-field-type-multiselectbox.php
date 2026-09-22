@@ -84,19 +84,25 @@ class BP_XProfile_Field_Type_Multiselectbox extends BP_XProfile_Field_Type {
 		<?php
 
 		/** This action is documented in bp-xprofile/bp-xprofile-classes */
-		do_action( bp_get_the_profile_field_errors_action() ); ?>
+		do_action( bp_get_the_profile_field_errors_action() );
+		?>
 
 		<select <?php $this->output_edit_field_html_elements( $r ); ?> aria-labelledby="<?php bp_the_profile_field_input_name(); ?>-1" aria-describedby="<?php bp_the_profile_field_input_name(); ?>-3">
-			<?php bp_the_profile_field_options( array(
-				'user_id' => $user_id,
-			) ); ?>
+			<?php
+			bp_the_profile_field_options(
+				array(
+					'user_id' => $user_id,
+				)
+			);
+			?>
 		</select>
 
 		<?php if ( bp_get_the_profile_field_description() ) : ?>
 			<p class="description" id="<?php bp_the_profile_field_input_name(); ?>-3"><?php bp_the_profile_field_description(); ?></p>
 		<?php endif; ?>
 
-		<?php if ( ! bp_get_the_profile_field_is_required() ) :
+		<?php
+		if ( ! bp_get_the_profile_field_is_required() ) :
 
 			$clear = 'clear';
 			if ( is_admin() && ! wp_doing_ajax() ) {
@@ -112,7 +118,8 @@ class BP_XProfile_Field_Type_Multiselectbox extends BP_XProfile_Field_Type {
 				<?php esc_html_e( 'Clear', 'buddypress' ); ?>
 			</a>
 
-		<?php endif;
+		<?php
+		endif;
 		// phpcs:enable
 	}
 
@@ -148,7 +155,7 @@ class BP_XProfile_Field_Type_Multiselectbox extends BP_XProfile_Field_Type {
 			// Check for updated posted values, but errors preventing them from
 			// being saved first time.
 			foreach ( $option_values as $i => $option_value ) {
-				if ( isset( $_POST[ 'field_' . $this->field_obj->id ] ) && $_POST[ 'field_' . $this->field_obj->id ][ $i ] != $option_value ) {
+				if ( isset( $_POST[ 'field_' . $this->field_obj->id ] ) && $_POST[ 'field_' . $this->field_obj->id ][ $i ] !== $option_value ) {
 					if ( ! empty( $_POST[ 'field_' . $this->field_obj->id ][ $i ] ) ) {
 						$option_values[] = sanitize_text_field( $_POST[ 'field_' . $this->field_obj->id ][ $i ] );
 					}
@@ -160,7 +167,7 @@ class BP_XProfile_Field_Type_Multiselectbox extends BP_XProfile_Field_Type {
 			$allowed_options = xprofile_sanitize_data_value_before_save( $options[ $k ]->name, false, false );
 
 			// First, check to see whether the user-entered value matches.
-			if ( in_array( $allowed_options, $option_values ) ) {
+			if ( in_array( $allowed_options, $option_values, true ) ) {
 				$selected = ' selected="selected"';
 			}
 
@@ -205,10 +212,12 @@ class BP_XProfile_Field_Type_Multiselectbox extends BP_XProfile_Field_Type {
 		);
 		?>
 
-		<label for="<?php bp_the_profile_field_input_name(); ?>" class="screen-reader-text"><?php
+		<label for="<?php bp_the_profile_field_input_name(); ?>" class="screen-reader-text">
+		<?php
 			/* translators: accessibility text */
 			esc_html_e( 'Select', 'buddypress' );
-		?></label>
+		?>
+		</label>
 		<select <?php $this->output_edit_field_html_elements( $r ); ?>>
 			<?php bp_the_profile_field_options(); ?>
 		</select>

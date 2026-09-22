@@ -65,7 +65,7 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 		$request->set_query_params( array( 'include' => $s1 ) );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$all_data = $response->get_data();
 		$this->check_signup_data( $signup, $all_data[0] );
@@ -93,12 +93,12 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$headers = $response->get_headers();
 
-		$this->assertEquals( 4, $headers['X-WP-Total'] );
-		$this->assertEquals( 2, $headers['X-WP-TotalPages'] );
+		$this->assertSame( 4, $headers['X-WP-Total'] );
+		$this->assertSame( 2, $headers['X-WP-TotalPages'] );
 	}
 
 	/**
@@ -134,13 +134,13 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 		wp_set_current_user( $this->user );
 
 		$signup = $this->endpoint->get_signup_object( $this->signup_id );
-		$this->assertEquals( $this->signup_id, $signup->id );
+		$this->assertSame( $this->signup_id, $signup->id );
 
 		$request = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '/%d', $this->signup_id ) );
 		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$all_data = $response->get_data();
 
@@ -197,7 +197,7 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 		$request->set_param( 'context', 'edit' );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$signup = $response->get_data();
 
@@ -210,16 +210,14 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 	 * @group create_item
 	 */
 	public function test_creating_multiple_pending_accounts_with_different_usernames() {
-		$this->markTestIncomplete( 'This test is flaky on CI environments. Needs investigation.' );
-
 		$request = new WP_REST_Request( 'POST', $this->endpoint_url );
 
-		$params = $this->set_signup_data( array( 'user_login' => 'user1' ) );
+		$params = $this->set_signup_data( array( 'user_login' => 'signup-test-user-one' ) );
 		$request->set_body_params( $params );
 		$request->set_param( 'context', 'edit' );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$signup = $response->get_data();
 
@@ -228,7 +226,7 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 		$this->assertTrue( ! isset( $signup['activation_key'] ) );
 
 		// Test with the same email.
-		$params = $this->set_signup_data( array( 'user_login' => 'user2' ) );
+		$params = $this->set_signup_data( array( 'user_login' => 'signup-test-user-two' ) );
 		$request->set_body_params( $params );
 		$request->set_param( 'context', 'edit' );
 		$response = $this->server->dispatch( $request );
@@ -236,12 +234,12 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 		$this->assertErrorResponse( 'bp_rest_signup_validation_failed', $response, 500, 'This user\'s email is already registered.' );
 
 		// Test with a different email.
-		$params = $this->set_signup_data( array( 'user_login' => 'user2', 'user_email' => 'user2@example.com' ) );
+		$params = $this->set_signup_data( array( 'user_login' => 'signup-test-user-two', 'user_email' => 'signup-test-user-two@example.com' ) );
 		$request->set_body_params( $params );
 		$request->set_param( 'context', 'edit' );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 	}
 
 	/**
@@ -315,7 +313,7 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 		$request->set_param( 'context', 'edit' );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$signup = $response->get_data();
 
@@ -604,7 +602,7 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 		$request->set_param( 'context', 'edit' );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$all_data = $response->get_data();
 
@@ -629,13 +627,13 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 		wp_set_current_user( $this->user );
 
 		$signup = $this->endpoint->get_signup_object( $this->signup_id );
-		$this->assertEquals( $this->signup_id, $signup->id );
+		$this->assertSame( $this->signup_id, $signup->id );
 
 		$request = new WP_REST_Request( 'DELETE', sprintf( $this->endpoint_url . '/%d', $this->signup_id ) );
 		$request->set_param( 'context', 'edit' );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$deleted = $response->get_data();
 
@@ -691,7 +689,7 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 		$request->set_param( 'context', 'edit' );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$all_data = $response->get_data();
 
@@ -713,7 +711,7 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 		$response = $this->server->dispatch( $request );
 
 		if ( is_multisite() ) {
-			$this->assertEquals( 200, $response->get_status() );
+			$this->assertSame( 200, $response->get_status() );
 
 			$all_data = $response->get_data();
 
@@ -736,7 +734,7 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 		$request->set_param( 'context', 'edit' );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 500, $response->get_status() );
+		$this->assertSame( 500, $response->get_status() );
 
 		$error_code = 'bp_rest_signup_resend_activation_email_fail';
 		$error      = $response->as_error();
@@ -764,7 +762,7 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 		$request->set_param( 'context', 'edit' );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$all_data = $response->get_data();
 
@@ -789,13 +787,13 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 		wp_set_current_user( $this->user );
 
 		$signup = $this->endpoint->get_signup_object( $this->signup_id );
-		$this->assertEquals( $this->signup_id, $signup->id );
+		$this->assertSame( $this->signup_id, $signup->id );
 
 		$request = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '/%d', $this->signup_id ) );
 		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$all_data = $response->get_data();
 
@@ -835,13 +833,13 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 	}
 
 	protected function check_signup_data( $signup, $data ) {
-		$this->assertEquals( $signup->id, $data['id'] );
-		$this->assertEquals( $signup->user_login, $data['user_login'] );
-		$this->assertEquals(
+		$this->assertSame( $signup->id, $data['id'] );
+		$this->assertSame( $signup->user_login, $data['user_login'] );
+		$this->assertSame(
 			bp_rest_prepare_date_response( $signup->registered, get_date_from_gmt( $signup->registered ) ),
 			$data['registered']
 		);
-		$this->assertEquals( bp_rest_prepare_date_response( $signup->registered ), $data['registered_gmt'] );
+		$this->assertSame( bp_rest_prepare_date_response( $signup->registered ), $data['registered_gmt'] );
 	}
 
 	public function test_get_item_schema() {
@@ -851,9 +849,9 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 		$properties = $data['schema']['properties'];
 
 		if ( is_multisite() ) {
-			$this->assertEquals( 15, count( $properties ) );
+			$this->assertCount( 15, $properties );
 		} else {
-			$this->assertEquals( 11, count( $properties ) );
+			$this->assertCount( 11, $properties );
 		}
 
 		$this->assertArrayHasKey( 'id', $properties );
@@ -881,16 +879,16 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 		$response = $this->server->dispatch( $request );
 		$data     = $response->get_data();
 
-		$this->assertEquals( 'view', $data['endpoints'][0]['args']['context']['default'] );
-		$this->assertEquals( array( 'view', 'edit' ), $data['endpoints'][0]['args']['context']['enum'] );
+		$this->assertSame( 'view', $data['endpoints'][0]['args']['context']['default'] );
+		$this->assertSame( array( 'view', 'edit' ), $data['endpoints'][0]['args']['context']['enum'] );
 
 		// Single.
 		$request  = new WP_REST_Request( 'OPTIONS', sprintf( $this->endpoint_url . '/%d', $this->signup_id ) );
 		$response = $this->server->dispatch( $request );
 		$data     = $response->get_data();
 
-		$this->assertEquals( 'view', $data['endpoints'][0]['args']['context']['default'] );
-		$this->assertEquals( array( 'view', 'edit' ), $data['endpoints'][0]['args']['context']['enum'] );
+		$this->assertSame( 'view', $data['endpoints'][0]['args']['context']['default'] );
+		$this->assertSame( array( 'view', 'edit' ), $data['endpoints'][0]['args']['context']['enum'] );
 	}
 
 	public function test_bp_rest_api_signup_disabled_feature_dispatch_error() {
@@ -905,7 +903,7 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 		$response = $this->server->dispatch( $request );
 		$data     = $response->get_data();
 
-		$this->assertEquals( 403, $response->get_status() );
+		$this->assertSame( 403, $response->get_status() );
 		$this->assertSame(
 			$data['message'],
 			'BuddyPress: The user signup feature is currently disabled. Please activate this feature to proceed.'

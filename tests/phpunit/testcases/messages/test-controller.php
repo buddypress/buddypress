@@ -60,7 +60,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$request->set_param( 'user_id', $u1 );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$data = $response->get_data();
 
@@ -129,7 +129,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 		);
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$all_data = $response->get_data();
 		$this->assertNotEmpty( $all_data );
@@ -192,7 +192,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$request->set_param( 'includes', array( $u3 ) );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$data = $response->get_data();
 
@@ -225,7 +225,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$data = $response->get_data();
 
@@ -276,11 +276,11 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$request->set_param( 'messages_per_page', 1 );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$headers = $response->get_headers();
-		$this->assertEquals( 12, $headers['X-WP-Total'] );
-		$this->assertEquals( 12, $headers['X-WP-TotalPages'] );
+		$this->assertSame( 12, $headers['X-WP-Total'] );
+		$this->assertSame( 12, $headers['X-WP-TotalPages'] );
 
 		$thread = $response->get_data();
 
@@ -310,7 +310,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$request->set_param( 'user_id', $u2 );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$data = $response->get_data();
 
@@ -327,6 +327,30 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 
 		$this->assertTrue( isset( $message['message']['rendered'] ) );
 		$this->assertTrue( isset( $message['subject']['rendered'] ) );
+	}
+
+	/**
+	 * @group get_item
+	 */
+	public function test_get_item_prevent_counterfeit_user_id() {
+		$u1 = static::factory()->user->create();
+		$u2 = static::factory()->user->create();
+		$u3 = static::factory()->user->create();
+		$m  = $this->bp::factory()->message->create_and_get( array(
+			'sender_id'  => $u1,
+			'recipients' => array( $u2 ),
+			'subject'    => 'Foo',
+		) );
+
+		$this->bp::set_current_user( $u3 );
+
+		$request = new WP_REST_Request( 'GET', $this->endpoint_url . '/' . $m->thread_id );
+		$request->set_param( 'context', 'view' );
+		$request->set_param( 'user_id', $u2 );
+		$response = $this->server->dispatch( $request );
+
+		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
+		$this->assertSame( 403, $response->get_status() );
 	}
 
 	/**
@@ -350,7 +374,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$request->set_param( 'user_id', $u2 );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$data = $response->get_data();
 
@@ -433,7 +457,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$all_data          = $response->get_data();
 		$deleted_recipient = array_values(
@@ -511,7 +535,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$data = $response->get_data();
 
@@ -545,6 +569,8 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 	 *
 	 * @ticket BP9175
 	 * @group create_item
+	 *
+	 * @param mixed $content Empty message content to test.
 	 */
 	public function test_create_item_with_empty_content_options( $content ) {
 		wp_set_current_user( $this->user );
@@ -596,6 +622,8 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 	 *
 	 * @ticket BP9175
 	 * @group create_item
+	 *
+	 * @param string $content Irregular message content to test.
 	 */
 	public function test_create_item_with_irregular_content_options( $content ) {
 		wp_set_current_user( $this->user );
@@ -613,7 +641,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 	}
 
 	/**
@@ -690,7 +718,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$request->set_param( 'user_id', $u2 );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$data = $response->get_data();
 
@@ -726,7 +754,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$request->set_param( 'user_id', $u2 );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$data = $response->get_data();
 
@@ -809,6 +837,29 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 	}
 
 	/**
+	 * @group update_item
+	 */
+	public function test_update_item_prevent_counterfeit_user_id() {
+		$u1 = static::factory()->user->create();
+		$u2 = static::factory()->user->create();
+		$u3 = static::factory()->user->create();
+		$m  = $this->bp::factory()->message->create_and_get( array(
+			'sender_id'  => $u1,
+			'recipients' => array( $u2 ),
+			'subject'    => 'Foo',
+		) );
+
+		$this->bp::set_current_user( $u3 );
+
+		$request = new WP_REST_Request( 'PUT', sprintf( $this->endpoint_url . '/%d', $m->thread_id ) );
+		$request->set_param( 'user_id', $u2 );
+		$response = $this->server->dispatch( $request );
+
+		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
+		$this->assertSame( 403, $response->get_status() );
+	}
+
+	/**
 	 * @group delete_item
 	 */
 	public function test_delete_item() {
@@ -830,7 +881,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$request->set_query_params( array( 'user_id' => $u2 ) );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$data = $response->get_data();
 
@@ -860,7 +911,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$request->set_query_params( array( 'user_id' => $u2 ) );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$data = $response->get_data();
 
@@ -902,7 +953,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 	public function test_delete_item_user_is_not_logged_in() {
 		$u1 = static::factory()->user->create();
 		$u2 = static::factory()->user->create();
-		$m  = $this->bp::factory()->message->create(
+		$m  = $this->bp::factory()->message->create_and_get(
 			array(
 				'sender_id'  => $u1,
 				'recipients' => array( $u2 ),
@@ -910,7 +961,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 			)
 		);
 
-		$request = new WP_REST_Request( 'DELETE', $this->endpoint_url . '/' . $m );
+		$request = new WP_REST_Request( 'DELETE', $this->endpoint_url . '/' . $m->thread_id );
 		$request->set_param( 'context', 'edit' );
 
 		$this->assertErrorResponse(
@@ -918,6 +969,29 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 			$this->server->dispatch( $request ),
 			rest_authorization_required_code()
 		);
+	}
+
+	/**
+	 * @group delete_item
+	 */
+	public function test_delete_item_prevent_counterfeit_user_id() {
+		$u1 = static::factory()->user->create();
+		$u2 = static::factory()->user->create();
+		$u3 = static::factory()->user->create();
+		$m  = $this->bp::factory()->message->create_and_get( array(
+			'sender_id'  => $u1,
+			'recipients' => array( $u2 ),
+			'subject'    => 'Foo',
+		) );
+
+		$this->bp::set_current_user( $u3 );
+
+		$request = new WP_REST_Request( 'DELETE', $this->endpoint_url . '/' . $m->thread_id );
+		$request->set_param( 'user_id', $u2 );
+		$response = $this->server->dispatch( $request );
+
+		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
+		$this->assertSame( 403, $response->get_status() );
 	}
 
 	/**
@@ -1017,7 +1091,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$request->add_header( 'content-type', 'application/json' );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$data = $response->get_data();
 
@@ -1056,7 +1130,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$request->add_header( 'content-type', 'application/json' );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$data = $response->get_data();
 
@@ -1292,7 +1366,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$create_data = $response->get_data();
 
@@ -1364,7 +1438,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$request->set_query_params( array( 'boz_field' => $expected ) );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$update_data = $response->get_data();
 		$this->assertNotEmpty( $update_data );
@@ -1473,7 +1547,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$get_data = $response->get_data();
 
@@ -1483,7 +1557,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 
 		foreach ( $recipients as $recipient ) {
 			$user_id = $recipient['user_id'];
-			$this->assertEquals( esc_url( bp_members_get_user_url( $user_id ) ), $recipient['user_link'] );
+			$this->assertSame( esc_url( bp_members_get_user_url( $user_id ) ), $recipient['user_link'] );
 
 			foreach ( array( 'full', 'thumb' ) as $type ) {
 				$expected['user_avatars'][ $type ] = bp_core_fetch_avatar(
@@ -1494,7 +1568,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 					)
 				);
 
-				$this->assertEquals( $expected['user_avatars'][ $type ], $recipient['user_avatars'][ $type ] );
+				$this->assertSame( $expected['user_avatars'][ $type ], $recipient['user_avatars'][ $type ] );
 			}
 		}
 	}
@@ -1503,22 +1577,22 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 	 * @group get_item
 	 */
 	public function test_prepare_item() {
-		$this->markTestSkipped();
+		$this->markTestSkipped( 'Coverage for prepare_item_for_response() has not been implemented.' );
 	}
 
 	protected function check_thread_data( $thread, $data ) {
-		$this->assertEquals( $thread->thread_id, $data['id'] );
-		$this->assertEquals( $thread->last_message_id, $data['message_id'] );
-		$this->assertEquals( $thread->last_sender_id, $data['last_sender_id'] );
-		$this->assertEquals( apply_filters( 'bp_get_message_thread_subject', $thread->last_message_subject ), $data['subject']['rendered'] );
-		$this->assertEquals( apply_filters( 'bp_get_message_thread_content', $thread->last_message_content ), $data['message']['rendered'] );
-		$this->assertEquals(
+		$this->assertSame( $thread->thread_id, $data['id'] );
+		$this->assertSame( $thread->last_message_id, $data['message_id'] );
+		$this->assertSame( $thread->last_sender_id, $data['last_sender_id'] );
+		$this->assertSame( apply_filters( 'bp_get_message_thread_subject', $thread->last_message_subject ), $data['subject']['rendered'] );
+		$this->assertSame( apply_filters( 'bp_get_message_thread_content', $thread->last_message_content ), $data['message']['rendered'] );
+		$this->assertSame(
 			bp_rest_prepare_date_response( $thread->last_message_date, get_date_from_gmt( $thread->last_message_date ) ),
 			$data['date']
 		);
-		$this->assertEquals( bp_rest_prepare_date_response( $thread->last_message_date ), $data['date_gmt'] );
-		$this->assertEquals( $thread->unread_count, $data['unread_count'] );
-		$this->assertEquals( array_values( $thread->sender_ids ), $data['sender_ids'] );
+		$this->assertSame( bp_rest_prepare_date_response( $thread->last_message_date ), $data['date_gmt'] );
+		$this->assertSame( $thread->unread_count, $data['unread_count'] );
+		$this->assertSame( array_values( $thread->sender_ids ), $data['sender_ids'] );
 	}
 
 	public function test_get_item_schema() {
@@ -1527,7 +1601,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$data       = $response->get_data();
 		$properties = $data['schema']['properties'];
 
-		$this->assertEquals( 13, count( $properties ) );
+		$this->assertCount( 13, $properties );
 		$this->assertArrayHasKey( 'id', $properties );
 		$this->assertArrayHasKey( 'message_id', $properties );
 		$this->assertArrayHasKey( 'last_sender_id', $properties );
@@ -1546,7 +1620,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$response = $this->server->dispatch( $request );
 		$data     = $response->get_data();
 
-		$this->assertEquals( 'view', $data['endpoints'][0]['args']['context']['default'] );
-		$this->assertEquals( array( 'view', 'edit' ), $data['endpoints'][0]['args']['context']['enum'] );
+		$this->assertSame( 'view', $data['endpoints'][0]['args']['context']['default'] );
+		$this->assertSame( array( 'view', 'edit' ), $data['endpoints'][0]['args']['context']['enum'] );
 	}
 }

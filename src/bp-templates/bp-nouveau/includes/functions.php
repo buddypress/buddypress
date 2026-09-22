@@ -2,6 +2,8 @@
 /**
  * Common functions
  *
+ * @package BuddyPress
+ * @subpackage bp-nouveau
  * @since 3.0.0
  * @version 14.0.0
  */
@@ -25,12 +27,12 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.0.0
  *
  * @param string $query_string Query string for the current request.
- * @param string $object       Object for cookie.
+ * @param string $component    Object for cookie.
  *
  * @return string Query string for the component loops
  */
-function bp_nouveau_ajax_querystring( $query_string, $object ) {
-	if ( empty( $object ) ) {
+function bp_nouveau_ajax_querystring( $query_string, $component ) {
+	if ( empty( $component ) ) {
 		return '';
 	}
 
@@ -78,7 +80,7 @@ function bp_nouveau_ajax_querystring( $query_string, $object ) {
 
 	// Activity stream filtering on action.
 	if ( ! empty( $post_query['filter'] ) && '-1' !== $post_query['filter'] ) {
-		if ( 'notifications' === $object ) {
+		if ( 'notifications' === $component ) {
 			$qs[] = 'component_action=' . $post_query['filter'];
 		} else {
 			$qs[] = 'type=' . $post_query['filter'];
@@ -87,7 +89,7 @@ function bp_nouveau_ajax_querystring( $query_string, $object ) {
 	}
 
 	// Sort the notifications if needed
-	if ( ! empty( $post_query['extras'] ) && 'notifications' === $object ) {
+	if ( ! empty( $post_query['extras'] ) && 'notifications' === $component ) {
 		$qs[] = 'sort_order=' . $post_query['extras'];
 	}
 
@@ -102,7 +104,7 @@ function bp_nouveau_ajax_querystring( $query_string, $object ) {
 	}
 
 	// If page have been passed via the AJAX post request, use those.
-	if ( '-1' != $post_query['page'] ) {
+	if ( '-1' !== $post_query['page'] ) {
 		$qs[] = 'page=' . absint( $post_query['page'] );
 	}
 
@@ -121,20 +123,20 @@ function bp_nouveau_ajax_querystring( $query_string, $object ) {
 		$qs[] = 'offset_lower=' . intval( $post_query['offset_lower'] );
 	}
 
-	$object_search_text = bp_get_search_default_text( $object );
-	if ( ! empty( $post_query['search_terms'] ) && $object_search_text != $post_query['search_terms'] && 'false' != $post_query['search_terms'] && 'undefined' != $post_query['search_terms'] ) {
-		$qs[] = 'search_terms=' . urlencode( $_POST['search_terms'] );
+	$object_search_text = bp_get_search_default_text( $component );
+	if ( ! empty( $post_query['search_terms'] ) && $object_search_text !== $post_query['search_terms'] && 'false' !== $post_query['search_terms'] && 'undefined' !== $post_query['search_terms'] ) {
+		$qs[] = 'search_terms=' . rawurlencode( $_POST['search_terms'] );
 	}
 
 	// Specific to messages
-	if ( 'messages' === $object ) {
+	if ( 'messages' === $component ) {
 		if ( ! empty( $post_query['box'] ) ) {
 			$qs[] = 'box=' . $post_query['box'];
 		}
 	}
 
 	// Single activity.
-	if ( bp_is_single_activity() && 'activity' === $object ) {
+	if ( bp_is_single_activity() && 'activity' === $component ) {
 		$qs = array(
 			'display_comments=threaded',
 			'show_hidden=true',
@@ -154,19 +156,26 @@ function bp_nouveau_ajax_querystring( $query_string, $object ) {
 	 * @since 3.0.0
 	 *
 	 * @param string $query_string The query string we are working with.
-	 * @param string $object       The type of page we are on.
+	 * @param string $component    The type of page we are on.
 	 * @param string $filter       The current object filter.
 	 * @param string $scope        The current object scope.
 	 * @param string $page         The current object page.
 	 * @param string $search_terms The current object search terms.
 	 * @param string $extras       The current object extras.
 	 */
-	return apply_filters( 'bp_nouveau_ajax_querystring', $query_string, $object, $filter, $scope, $page, $search_terms, $extras );
+	return apply_filters( 'bp_nouveau_ajax_querystring', $query_string, $component, $filter, $scope, $page, $search_terms, $extras );
 }
 
 /**
+ * Builds a BuddyPress Nouveau AJAX button.
+ *
  * @since 3.0.0
  *
+ * @param string      $output Optional. Existing button output.
+ * @param object|null $button Optional. Button data object.
+ * @param string      $before Optional. Markup to prepend to the button.
+ * @param string      $after  Optional. Markup to append to the button.
+ * @param array       $r      Optional. Button arguments.
  * @return string
  */
 function bp_nouveau_ajax_button( $output = '', $button = null, $before = '', $after = '', $r = array() ) {
@@ -182,22 +191,25 @@ function bp_nouveau_ajax_button( $output = '', $button = null, $before = '', $af
 		'group_membership'  => true,
 	);
 
-	if ( ! empty( $reset_ids[ $button->id ] ) )  {
+	if ( ! empty( $reset_ids[ $button->id ] ) ) {
 		$parse_class = array_map( 'sanitize_html_class', explode( ' ', $r['button_attr']['class'] ) );
 		if ( false === $parse_class ) {
 			return $output;
 		}
 
-		$find_id = array_intersect( $parse_class, array(
-			'pending_friend',
-			'is_friend',
-			'not_friends',
-			'leave-group',
-			'join-group',
-			'accept-invite',
-			'membership-requested',
-			'request-membership',
-		) );
+		$find_id = array_intersect(
+			$parse_class,
+			array(
+				'pending_friend',
+				'is_friend',
+				'not_friends',
+				'leave-group',
+				'join-group',
+				'accept-invite',
+				'membership-requested',
+				'request-membership',
+			)
+		);
 
 		if ( 1 !== count( $find_id ) ) {
 			return $output;
@@ -214,11 +226,13 @@ function bp_nouveau_ajax_button( $output = '', $button = null, $before = '', $af
 	}
 
 	// Re-render the button with our custom data attribute.
-	$output = new BP_Core_HTML_Element( array(
-		'element'    => $r['button_element'],
-		'attr'       => $r['button_attr'],
-		'inner_html' => ! empty( $r['link_text'] ) ? $r['link_text'] : ''
-	) );
+	$output = new BP_Core_HTML_Element(
+		array(
+			'element'    => $r['button_element'],
+			'attr'       => $r['button_attr'],
+			'inner_html' => ! empty( $r['link_text'] ) ? $r['link_text'] : '',
+		)
+	);
 	$output = $output->contents();
 
 	// Add span bp-screen-reader-text class
@@ -374,6 +388,8 @@ function bp_nouveau_register_sidebars() {
 }
 
 /**
+ * Checks whether object navigation is in the sidebar.
+ *
  * @since 3.0.0
  *
  * @return bool
@@ -383,8 +399,11 @@ function bp_nouveau_is_object_nav_in_sidebar() {
 }
 
 /**
+ * Checks whether the current user can perform a BuddyPress Nouveau action.
+ *
  * @since 3.0.0
  *
+ * @param string $capability Optional. Capability to check.
  * @return bool
  */
 function bp_nouveau_current_user_can( $capability = '' ) {
@@ -405,9 +424,9 @@ function bp_nouveau_current_user_can( $capability = '' ) {
  *
  * @since 3.0.0
  *
- * @param string $hook      The hook to fire.
- * @param string $component The component nav belongs to.
- * @param int    $position  The position of the nav item.
+ * @param string $hook      Optional. The hook to fire.
+ * @param string $component Optional. The component nav belongs to.
+ * @param int    $position  Optional. The position of the nav item.
  *
  * @return array A list of component's dir nav items
  */
@@ -440,7 +459,13 @@ function bp_nouveau_parse_hooked_dir_nav( $hook = '', $component = '', $position
 		return $extra_nav_items;
 	}
 
-	$extra_nav_items = array_fill_keys( $lis[1], array( 'component' => $component, 'position' => $position ) );
+	$extra_nav_items = array_fill_keys(
+		$lis[1],
+		array(
+			'component' => $component,
+			'position' => $position,
+		)
+	);
 	preg_match_all( '/<a\s[^>]*>(.*)<\/a>/siU', $output, $as );
 
 	if ( ! empty( $as[0] ) ) {
@@ -483,8 +508,8 @@ function bp_nouveau_parse_hooked_dir_nav( $hook = '', $component = '', $position
  *
  * @since 3.0.0
  *
- * @param string $hook
- * @param array  $filters
+ * @param string $hook    Optional. Hook name to run.
+ * @param array  $filters Optional. Existing filter options.
  *
  * @return array
  */
@@ -524,8 +549,8 @@ function bp_nouveau_parse_hooked_options( $hook = '', $filters = array() ) {
  *
  * @since 3.0.0
  *
- * @param string $context   'directory', 'user' or 'group'.
- * @param string $component The BuddyPress component ID.
+ * @param string $context   Optional. 'directory', 'user' or 'group'.
+ * @param string $component Optional. The BuddyPress component ID.
  *
  * @return array the dropdown filters.
  */
@@ -588,8 +613,8 @@ function bp_nouveau_get_component_filters( $context = '', $component = '' ) {
  *
  * @since 3.0.0
  *
- * @param string $option the index of the setting to get.
- * @param mixed  $retval the value to use as default.
+ * @param string $option Optional. The index of the setting to get.
+ * @param mixed  $retval Optional. The value to use as default.
  *
  * @return mixed The value for the requested option.
  */
@@ -633,9 +658,7 @@ function bp_nouveau_get_temporary_setting( $option = '', $retval = false ) {
  *
  * @since 3.0.0
  *
- * @param string $option Leave empty to get all settings, specify a value for a specific one.
- * @param mixed          An array of settings, the value of the requested setting.
- *
+ * @param string $option Optional. Leave empty to get all settings, specify a value for a specific one.
  * @return array|false|mixed
  */
 function bp_nouveau_get_appearance_settings( $option = '' ) {
@@ -723,16 +746,32 @@ function bp_nouveau_get_appearance_settings( $option = '' ) {
  *
  * @since 3.0.0
  *
- * @param string $type 'option' to get the labels, 'classes' to get the classes
+ * @param string $type Optional. 'option' to get the labels, 'classes' to get the classes.
  *
  * @return array The list of labels or classes preserving keys.
  */
 function bp_nouveau_customizer_grid_choices( $type = 'option' ) {
 	$columns = array(
-		array( 'key' => '1', 'label' => __( 'One column', 'buddypress'    ), 'class' => ''      ),
-		array( 'key' => '2', 'label' => __( 'Two columns', 'buddypress'   ), 'class' => 'two'   ),
-		array( 'key' => '3', 'label' => __( 'Three columns', 'buddypress' ), 'class' => 'three' ),
-		array( 'key' => '4', 'label' => __( 'Four columns', 'buddypress'  ), 'class' => 'four'  ),
+		array(
+			'key' => '1',
+			'label' => __( 'One column', 'buddypress' ),
+			'class' => '',
+		),
+		array(
+			'key' => '2',
+			'label' => __( 'Two columns', 'buddypress' ),
+			'class' => 'two',
+		),
+		array(
+			'key' => '3',
+			'label' => __( 'Three columns', 'buddypress' ),
+			'class' => 'three',
+		),
+		array(
+			'key' => '4',
+			'label' => __( 'Four columns', 'buddypress' ),
+			'class' => 'four',
+		),
 	);
 
 	if ( 'option' === $type ) {
@@ -747,7 +786,7 @@ function bp_nouveau_customizer_grid_choices( $type = 'option' ) {
  *
  * @since 3.0.0
  *
- * @param  string $option A comma separated list of nav items slugs.
+ * @param  string $option Optional. A comma separated list of nav items slugs.
  *
  * @return array An array of nav items slugs.
  */
@@ -784,7 +823,7 @@ function bp_nouveau_theme_cover_image( $params = array() ) {
 		$top_offset -= 40;
 	}
 
-	$cover_image = isset( $params['cover_image'] ) ? 'background-image: url( ' . $params['cover_image'] . ' );' : '';
+	$cover_image       = isset( $params['cover_image'] ) ? 'background-image: url( ' . $params['cover_image'] . ' );' : '';
 	$hide_avatar_style = '';
 
 	// Adjust the cover image header, in case avatars are completely disabled.
@@ -954,7 +993,7 @@ function bp_nouveau_theme_cover_image( $params = array() ) {
  * @since 3.0.0
  * @since 8.0.0 Adds the 'member-invites-none' feedback.
  *
- * @param string $feedback_id The ID of the message.
+ * @param string $feedback_id Optional. The ID of the message.
  *
  * @return string|false The list of parameters for the message
  */
@@ -976,7 +1015,7 @@ function bp_nouveau_get_user_feedback( $feedback_id = '' ) {
 				'type'    => 'info',
 				'message' => __( 'Member registration is currently not allowed.', 'buddypress' ),
 				'before'  => 'bp_before_registration_disabled',
-				'after'   => 'bp_after_registration_disabled'
+				'after'   => 'bp_after_registration_disabled',
 			),
 			'request-details'                   => array(
 				'type'    => 'info',
@@ -1182,7 +1221,7 @@ function bp_nouveau_get_user_feedback( $feedback_id = '' ) {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param array $feedback_messages
+	 * @param array $feedback_message Selected feedback message.
 	 */
 	return apply_filters( 'bp_nouveau_get_user_feedback', $feedback_messages[ $feedback_id ] );
 }
@@ -1211,62 +1250,65 @@ function bp_nouveau_get_signup_fields( $section = '' ) {
 	 *
 	 * @param array $value The list of fields organized into sections.
 	 */
-	$fields = apply_filters( 'bp_nouveau_get_signup_fields', array(
-		'account_details' => array(
-			'signup_username' => array(
-				'label'          => __( 'Username', 'buddypress' ),
-				'required'       => true,
-				'value'          => 'bp_get_signup_username_value',
-				'attribute_type' => 'username',
-				'type'           => 'text',
-				'class'          => '',
+	$fields = apply_filters(
+		'bp_nouveau_get_signup_fields',
+		array(
+			'account_details' => array(
+				'signup_username' => array(
+					'label'          => __( 'Username', 'buddypress' ),
+					'required'       => true,
+					'value'          => 'bp_get_signup_username_value',
+					'attribute_type' => 'username',
+					'type'           => 'text',
+					'class'          => '',
+				),
+				'signup_email' => array(
+					'label'          => __( 'Email Address', 'buddypress' ),
+					'required'       => true,
+					'value'          => 'bp_get_signup_email_value',
+					'attribute_type' => 'email',
+					'type'           => 'email',
+					'class'          => '',
+				),
+				'signup_password' => array(),
+				'signup_password_confirm' => array(),
 			),
-			'signup_email' => array(
-				'label'          => __( 'Email Address', 'buddypress' ),
-				'required'       => true,
-				'value'          => 'bp_get_signup_email_value',
-				'attribute_type' => 'email',
-				'type'           => 'email',
-				'class'          => '',
+			'blog_details' => array(
+				'signup_blog_url' => array(
+					'label'          => __( 'Site URL', 'buddypress' ),
+					'required'       => true,
+					'value'          => 'bp_get_signup_blog_url_value',
+					'attribute_type' => 'slug',
+					'type'           => 'text',
+					'class'          => '',
+				),
+				'signup_blog_title' => array(
+					'label'          => __( 'Site Title', 'buddypress' ),
+					'required'       => true,
+					'value'          => 'bp_get_signup_blog_title_value',
+					'attribute_type' => 'title',
+					'type'           => 'text',
+					'class'          => '',
+				),
+				'signup_blog_privacy_public' => array(
+					'label'          => __( 'Yes', 'buddypress' ),
+					'required'       => false,
+					'value'          => 'public',
+					'attribute_type' => '',
+					'type'           => 'radio',
+					'class'          => '',
+				),
+				'signup_blog_privacy_private' => array(
+					'label'          => __( 'No', 'buddypress' ),
+					'required'       => false,
+					'value'          => 'private',
+					'attribute_type' => '',
+					'type'           => 'radio',
+					'class'          => '',
+				),
 			),
-			'signup_password' => array(),
-			'signup_password_confirm' => array(),
-		),
-		'blog_details' => array(
-			'signup_blog_url' => array(
-				'label'          => __( 'Site URL', 'buddypress' ),
-				'required'       => true,
-				'value'          => 'bp_get_signup_blog_url_value',
-				'attribute_type' => 'slug',
-				'type'           => 'text',
-				'class'          => '',
-			),
-			'signup_blog_title' => array(
-				'label'          => __( 'Site Title', 'buddypress' ),
-				'required'       => true,
-				'value'          => 'bp_get_signup_blog_title_value',
-				'attribute_type' => 'title',
-				'type'           => 'text',
-				'class'          => '',
-			),
-			'signup_blog_privacy_public' => array(
-				'label'          => __( 'Yes', 'buddypress' ),
-				'required'       => false,
-				'value'          => 'public',
-				'attribute_type' => '',
-				'type'           => 'radio',
-				'class'          => '',
-			),
-			'signup_blog_privacy_private' => array(
-				'label'          => __( 'No', 'buddypress' ),
-				'required'       => false,
-				'value'          => 'private',
-				'attribute_type' => '',
-				'type'           => 'radio',
-				'class'          => '',
-			),
-		),
-	) );
+		)
+	);
 
 	if ( ! bp_get_blog_signup_allowed() ) {
 		unset( $fields['blog_details'] );
@@ -1285,7 +1327,7 @@ function bp_nouveau_get_signup_fields( $section = '' ) {
  * @since 3.0.0
  * @since 8.0.0 Adds the 'member-send-invite' button.
  *
- * @param string $action The action requested.
+ * @param string $action Optional. The action requested.
  *
  * @return array|false The list of the submit button parameters for the requested action
  *                     False if no actions were found.
@@ -1426,9 +1468,9 @@ function bp_nouveau_get_submit_button( $action = '' ) {
  *
  * @since 3.0.0
  *
- * @param object $nav         The BuddyPress Item Nav object to reorder
- * @param array  $order       A list of slugs ordered (eg: array( 'profile', 'activity', etc..) )
- * @param string $parent_slug A parent slug if it's a secondary nav we are reordering (case of the Groups single item)
+ * @param object $nav         Optional. The BuddyPress Item Nav object to reorder.
+ * @param array  $order       Optional. A list of slugs ordered (eg: array( 'profile', 'activity', etc..) ).
+ * @param string $parent_slug Optional. A parent slug if it's a secondary nav we are reordering (case of the Groups single item).
  *
  * @return bool False otherwise.
  */
@@ -1466,7 +1508,7 @@ function bp_nouveau_set_nav_item_order( $nav = null, $order = array(), $parent_s
  *
  * @since 8.0.0
  *
- * @param string $component_id The component ID.
+ * @param string $component_id Optional. The component ID.
  * @return string The slug for the requested component ID.
  */
 function bp_nouveau_get_component_slug( $component_id = '' ) {
@@ -1523,7 +1565,7 @@ function bp_nouveau_get_component_slug( $component_id = '' ) {
  * @since 9.0.0
  * @since 12.0.0 Use the WP Blocks API v2.
  *
- * @param array $blocks The Core Blocks list.
+ * @param array $blocks Optional. The Core Blocks list.
  * @return array The Core Blocks list.
  */
 function bp_nouveau_register_primary_nav_widget_block( $blocks = array() ) {
@@ -1541,7 +1583,7 @@ add_filter( 'bp_core_register_blocks', 'bp_nouveau_register_primary_nav_widget_b
  *
  * @since 9.0.0
  *
- * @param array $block_globals The list of global properties for Core blocks.
+ * @param array $block_globals Optional. The list of global properties for Core blocks.
  * @return array               The list of global properties for Core blocks.
  */
 function bp_nouveau_register_core_block_globals( $block_globals = array() ) {
@@ -1573,7 +1615,7 @@ add_action( 'load-post-new.php', 'bp_nouveau_unregister_blocks_for_post_context'
  *
  * @since 9.0.0
  *
- * @param array $attributes The block attributes.
+ * @param array $attributes Optional. The block attributes.
  * @return string           HTML output.
  */
 function bp_nouveau_render_primary_nav_block( $attributes = array() ) {
@@ -1711,7 +1753,7 @@ function bp_nouveau_get_current_priority_nav_object() {
  *
  * @since 12.0.0
  *
- * @param string $single_item The single item object name. Possible valuers are 'member' or 'group'.
+ * @param string $single_item Optional. The single item object name. Possible valuers are 'member' or 'group'.
  * @return bool True if the single item supports priority nav. False otherwise.
  */
 function bp_nouveau_single_item_supports_priority_nav( $single_item = '' ) {

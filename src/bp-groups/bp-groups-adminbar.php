@@ -20,9 +20,6 @@ defined( 'ABSPATH' ) || exit;
  * @todo Add dynamic menu items for group extensions.
  *
  * @global WP_Admin_Bar $wp_admin_bar WordPress object implementing a Toolbar API.
- *
- * @return false|null False if not on a group page, or if user does not have
- *                    access to group admin options.
  */
 function bp_groups_group_admin_menu() {
 	global $wp_admin_bar;
@@ -30,23 +27,25 @@ function bp_groups_group_admin_menu() {
 
 	// Only show if viewing a group.
 	if ( ! bp_is_group() || bp_is_group_create() ) {
-		return false;
+		return;
 	}
 
 	// Only show this menu to group admins and super admins.
 	if ( ! bp_current_user_can( 'bp_moderate' ) && ! bp_group_is_admin() ) {
-		return false;
+		return;
 	}
 
 	// Unique ID for the 'Edit Group' menu.
 	$bp->group_admin_menu_id = 'group-admin';
 
 	// Add the top-level Group Admin button.
-	$wp_admin_bar->add_node( array(
-		'id'    => $bp->group_admin_menu_id,
-		'title' => __( 'Edit Group', 'buddypress' ),
-		'href'  => bp_get_group_url( $bp->groups->current_group )
-	) );
+	$wp_admin_bar->add_node(
+		array(
+			'id'    => $bp->group_admin_menu_id,
+			'title' => __( 'Edit Group', 'buddypress' ),
+			'href'  => bp_get_group_url( $bp->groups->current_group ),
+		)
+	);
 
 	// Index of the Manage tabs parent slug.
 	$secondary_nav_items = $bp->groups->nav->get_secondary( array( 'parent_slug' => $bp->groups->current_group->slug . '_manage' ) );
@@ -72,7 +71,7 @@ function bp_groups_group_admin_menu() {
 			$title = sprintf( _x( 'Edit Group %s', 'Group WP Admin Bar manage links', 'buddypress' ), $menu->name );
 
 			// Title is specific for delete.
-			if ( 'delete-group' == $menu->slug ) {
+			if ( 'delete-group' === $menu->slug ) {
 				/* translators: %s the group menu name */
 				$title = sprintf( _x( '%s Group', 'Group WP Admin Bar delete link', 'buddypress' ), $menu->name );
 			}

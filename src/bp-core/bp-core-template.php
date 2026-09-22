@@ -28,7 +28,7 @@ defined( 'ABSPATH' ) || exit;
  *
  *       viewed user.
  *
- * @param string $parent_slug Options nav slug.
+ * @param string $parent_slug Optional. Options nav slug.
  * @return string
  */
 function bp_get_options_nav( $parent_slug = '' ) {
@@ -36,7 +36,7 @@ function bp_get_options_nav( $parent_slug = '' ) {
 
 	// If we are looking at a member profile, then the we can use the current
 	// component as an index. Otherwise we need to use the component's root_slug.
-	$component_index = !empty( $bp->displayed_user ) ? bp_current_component() : bp_get_root_slug( bp_current_component() );
+	$component_index = ! empty( $bp->displayed_user ) ? bp_current_component() : bp_get_root_slug( bp_current_component() );
 	$selected_item   = bp_current_action();
 
 	// Default to the Members nav.
@@ -54,7 +54,7 @@ function bp_get_options_nav( $parent_slug = '' ) {
 
 	// For a single item, try to use the component's nav.
 	} else {
-		$current_item = bp_current_item();
+		$current_item          = bp_current_item();
 		$single_item_component = bp_current_component();
 
 		// Adjust the selected nav item for the current single item if needed.
@@ -120,7 +120,7 @@ function bp_get_options_nav( $parent_slug = '' ) {
  *
  * @since 2.0.0
  *
- * @param string $component Component to get directory title for.
+ * @param string $component Optional. Component to get directory title for.
  * @return string
  */
 function bp_get_directory_title( $component = '' ) {
@@ -166,8 +166,8 @@ function bp_avatar_admin_step() {
 	 *         if none is found.
 	 */
 	function bp_get_avatar_admin_step() {
-		$bp   = buddypress();
-		$step = isset( $bp->avatar_admin->step )
+		$bp         = buddypress();
+		$step       = isset( $bp->avatar_admin->step )
 			? $step = $bp->avatar_admin->step
 			: 'upload-image';
 
@@ -286,15 +286,13 @@ function bp_site_name() {
  *
  * @since 1.1.0
  *
- * @param int|string $time         The UNIX timestamp to be formatted.
+ * @param int|string $time         Optional. The UNIX timestamp to be formatted.
  * @param bool       $exclude_time Optional. True to return only the month + day, false
  *                                 to return month, day, and time. Default: false.
  * @param bool       $gmt          Optional. True to display in local time, false to
  *                                  leave in GMT. Default: true.
- * @return mixed A string representation of $time, in the format
- *               "March 18, 2014 at 2:00 pm" (or whatever your
- *               'date_format' and 'time_format' settings are
- *               on your root blog). False on failure.
+ * @return string|false A string representation of $time in the configured date and time format,
+ *                      or false on failure.
  */
 function bp_format_time( $time = '', $exclude_time = false, $gmt = true ) {
 
@@ -337,7 +335,12 @@ function bp_format_time( $time = '', $exclude_time = false, $gmt = true ) {
 		$formatted_time = date_i18n( bp_get_option( 'time_format' ), $calculated_time, $gmt );
 
 		// Return string formatted with date and time.
-		$formatted_date = sprintf( esc_html__( '%1$s at %2$s', 'buddypress' ), $formatted_date, $formatted_time );
+		$formatted_date = sprintf(
+			/* translators: 1: activity date, 2: activity time */
+			esc_html__( '%1$s at %2$s', 'buddypress' ),
+			$formatted_date,
+			$formatted_time
+		);
 	}
 
 	/**
@@ -360,24 +363,25 @@ function bp_format_time( $time = '', $exclude_time = false, $gmt = true ) {
  * do the necessary argument swapping for dynamic phrases.
  *
  * @since 1.0.0
+ * @since 15.0.0 The `$echo` parameter was renamed to `$display`.
  *
  * @param string $youtext    The "you" version of the phrase (eg "Your Friends").
  * @param string $nametext   The other-user version of the phrase. Should be in
  *                           a format appropriate for sprintf() - use %s in place of the displayed
  *                           user's name (eg "%'s Friends").
  * @param bool   $capitalize Optional. Force into title case. Default: true.
- * @param bool   $echo       Optional. True to echo the results, false to return them.
+ * @param bool   $display    Optional. True to echo the results, false to return them.
  *                           Default: true.
- * @return string|null $nametext If ! $echo, returns the appropriate string.
+ * @return string|null
  */
-function bp_word_or_name( $youtext, $nametext, $capitalize = true, $echo = true ) {
+function bp_word_or_name( $youtext, $nametext, $capitalize = true, $display = true ) {
 
 	if ( ! empty( $capitalize ) ) {
 		$youtext = bp_core_ucfirst( $youtext );
 	}
 
-	if ( bp_displayed_user_id() == bp_loggedin_user_id() ) {
-		if ( true == $echo ) {
+	if ( bp_displayed_user_id() === bp_loggedin_user_id() ) {
+		if ( true === $display ) {
 
 			/**
 			 * Filters the text used based on context of own profile or someone else's profile.
@@ -396,7 +400,7 @@ function bp_word_or_name( $youtext, $nametext, $capitalize = true, $echo = true 
 		$fullname = bp_get_displayed_user_fullname();
 		$fullname = (array) explode( ' ', $fullname );
 		$nametext = sprintf( $nametext, $fullname[0] );
-		if ( true == $echo ) {
+		if ( true === $display ) {
 
 			/** This filter is documented in bp-core/bp-core-template.php */
 			echo esc_html( apply_filters( 'bp_word_or_name', $nametext ) );
@@ -451,11 +455,11 @@ function bp_search_form_type_select() {
 	}
 
 	if ( bp_is_active( 'groups' ) ) {
-		$options['groups']  = _x( 'Groups', 'search form', 'buddypress' );
+		$options['groups'] = _x( 'Groups', 'search form', 'buddypress' );
 	}
 
 	if ( bp_is_active( 'blogs' ) && is_multisite() ) {
-		$options['blogs']   = _x( 'Blogs', 'search form', 'buddypress' );
+		$options['blogs'] = _x( 'Blogs', 'search form', 'buddypress' );
 	}
 
 	$options['posts'] = _x( 'Posts', 'search form', 'buddypress' );
@@ -493,7 +497,7 @@ function bp_search_form_type_select() {
  *
  * @since 2.7.0
  *
- * @param string $component See bp_get_search_input_name().
+ * @param string $component Optional. See bp_get_search_input_name().
  */
 function bp_search_input_name( $component = '' ) {
 	echo esc_attr( bp_get_search_input_name( $component ) );
@@ -504,7 +508,7 @@ function bp_search_input_name( $component = '' ) {
  *
  * @since 2.7.0
  *
- * @param string $component Component name. Defaults to current component.
+ * @param string $component Optional. Component name. Defaults to current component.
  * @return string Text for the 'name' attribute.
  */
 function bp_get_search_input_name( $component = '' ) {
@@ -527,7 +531,7 @@ function bp_get_search_input_name( $component = '' ) {
  *
  * @since 2.7.0
  *
- * @param string $component See bp_get_search_placeholder().
+ * @param string $component Optional. See bp_get_search_placeholder().
  */
 function bp_search_placeholder( $component = '' ) {
 	echo esc_attr( bp_get_search_placeholder( $component ) );
@@ -538,7 +542,7 @@ function bp_search_placeholder( $component = '' ) {
  *
  * @since 2.7.0
  *
- * @param string $component Component name. Defaults to current component.
+ * @param string $component Optional. Component name. Defaults to current component.
  * @return string Placeholder text for the search field.
  */
 function bp_get_search_placeholder( $component = '' ) {
@@ -560,7 +564,7 @@ function bp_get_search_placeholder( $component = '' ) {
  *
  * @see bp_get_search_default_text()
  *
- * @param string $component See {@link bp_get_search_default_text()}.
+ * @param string $component Optional. See {@link bp_get_search_default_text()}.
  */
 function bp_search_default_text( $component = '' ) {
 	echo esc_attr( bp_get_search_default_text( $component ) );
@@ -570,7 +574,7 @@ function bp_search_default_text( $component = '' ) {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @param string $component Component name. Default: current component.
+	 * @param string $component Optional. Component name. Default: current component.
 	 * @return string Placeholder text for search field.
 	 */
 	function bp_get_search_default_text( $component = '' ) {
@@ -584,17 +588,15 @@ function bp_search_default_text( $component = '' ) {
 		$default_text = __( 'Search anything...', 'buddypress' );
 
 		// Most of the time, $component will be the actual component ID.
-		if ( !empty( $component ) ) {
-			if ( !empty( $bp->{$component}->search_string ) ) {
+		if ( ! empty( $component ) ) {
+			if ( ! empty( $bp->{$component}->search_string ) ) {
 				$default_text = $bp->{$component}->search_string;
-			} else {
+			} elseif ( ! empty( $bp->pages->{$component}->slug ) ) {
 				// When the request comes through AJAX, we need to get the component
 				// name out of $bp->pages.
-				if ( !empty( $bp->pages->{$component}->slug ) ) {
-					$key = $bp->pages->{$component}->slug;
-					if ( !empty( $bp->{$key}->search_string ) ) {
-						$default_text = $bp->{$key}->search_string;
-					}
+				$key = $bp->pages->{$component}->slug;
+				if ( ! empty( $bp->{$key}->search_string ) ) {
+					$default_text = $bp->{$key}->search_string;
 				}
 			}
 		}
@@ -615,8 +617,8 @@ function bp_search_default_text( $component = '' ) {
  *
  * @since 2.2.0
  *
- * @param string $name       The field name to output attributes for.
- * @param array  $attributes Array of existing attributes to add.
+ * @param string $name       Optional. The field name to output attributes for.
+ * @param array  $attributes Optional. Array of existing attributes to add.
  */
 function bp_form_field_attributes( $name = '', $attributes = array() ) {
 	// phpcs:ignore WordPress.Security.EscapeOutput
@@ -631,8 +633,8 @@ function bp_form_field_attributes( $name = '', $attributes = array() ) {
 	 *
 	 * @since 2.2.0
 	 *
-	 * @param string $name       The field name to get attributes for.
-	 * @param array  $attributes Array of existing attributes to add.
+	 * @param string $name       Optional. The field name to get attributes for.
+	 * @param array  $attributes Optional. Array of existing attributes to add.
 	 * @return string
 	 */
 	function bp_get_form_field_attributes( $name = '', $attributes = array() ) {
@@ -645,19 +647,19 @@ function bp_form_field_attributes( $name = '', $attributes = array() ) {
 		$name = strtolower( $name );
 
 		switch ( $name ) {
-			case 'username' :
-			case 'blogname' :
+			case 'username':
+			case 'blogname':
 				$attributes['autocomplete']   = 'off';
 				$attributes['autocapitalize'] = 'none';
 				break;
 
-			case 'email' :
+			case 'email':
 				if ( wp_is_mobile() ) {
 					$attributes['autocapitalize'] = 'none';
 				}
 				break;
 
-			case 'password' :
+			case 'password':
 				$attributes['spellcheck']   = 'false';
 				$attributes['autocomplete'] = 'off';
 
@@ -680,7 +682,7 @@ function bp_form_field_attributes( $name = '', $attributes = array() ) {
 
 		foreach ( $attributes as $attr => $value ) {
 			// Numeric keyed array.
-			if (is_numeric( $attr ) ) {
+			if ( is_numeric( $attr ) ) {
 				$retval .= sprintf( ' %s', esc_attr( $value ) );
 
 			// Associative keyed array.
@@ -699,7 +701,7 @@ function bp_form_field_attributes( $name = '', $attributes = array() ) {
  *
  * @see bp_get_button()
  *
- * @param array|string $args See {@link BP_Button}.
+ * @param array|string $args Optional. See {@link BP_Button}.
  */
 function bp_button( $args = '' ) {
 	// Escaping is done in `BP_Core_HTML_Element()`.
@@ -713,7 +715,7 @@ function bp_button( $args = '' ) {
 	 *
 	 * @see BP_Button for a description of arguments and return value.
 	 *
-	 * @param array|string $args See {@link BP_Button}.
+	 * @param array|string $args Optional. See {@link BP_Button}.
 	 * @return string HTML markup for the button.
 	 */
 	function bp_get_button( $args = '' ) {
@@ -791,14 +793,14 @@ function bp_create_excerpt( $text, $length = 225, $options = array() ) {
 	 *
 	 * @param int $length Length of returned string, including ellipsis.
 	 */
-	$length = apply_filters( 'bp_excerpt_length',      $length      );
+	$length = apply_filters( 'bp_excerpt_length', $length );
 
 	/**
 	 * Filters the excerpt appended text value.
 	 *
 	 * @since 1.5.0
 	 *
-	 * @param string $value Text to append to the end of the excerpt.
+	 * @param string $ending Text to append to the end of the excerpt.
 	 */
 	$ending = apply_filters( 'bp_excerpt_append_text', $r['ending'] );
 
@@ -816,50 +818,51 @@ function bp_create_excerpt( $text, $length = 225, $options = array() ) {
 			return $text;
 		}
 
-		$totalLength = mb_strlen( wp_strip_all_tags( $ending ) );
-		$openTags    = array();
-		$truncate    = '';
+		$total_length = mb_strlen( wp_strip_all_tags( $ending ) );
+		$open_tags    = array();
+		$truncate     = '';
 
 		// Find all the tags and HTML comments and put them in a stack for later use.
 		preg_match_all( '/(<\/?([\w+!]+)[^>]*>)?([^<>]*)/', $text, $tags, PREG_SET_ORDER );
 
 		foreach ( $tags as $tag ) {
 			// Process tags that need to be closed.
-			if ( !preg_match( '/img|br|input|hr|area|base|basefont|col|frame|isindex|link|meta|param/s',  $tag[2] ) ) {
+			if ( ! preg_match( '/img|br|input|hr|area|base|basefont|col|frame|isindex|link|meta|param/s', $tag[2] ) ) {
 				if ( preg_match( '/<[\w]+[^>]*>/s', $tag[0] ) ) {
-					array_unshift( $openTags, $tag[2] );
-				} elseif ( preg_match('/<\/([\w]+)[^>]*>/s', $tag[0], $closeTag ) ) {
-					$pos = array_search( $closeTag[1], $openTags );
+					array_unshift( $open_tags, $tag[2] );
+				} elseif ( preg_match( '/<\/([\w]+)[^>]*>/s', $tag[0], $close_tag ) ) {
+					$pos = array_search( $close_tag[1], $open_tags, true );
 					if ( $pos !== false ) {
-						array_splice( $openTags, $pos, 1 );
+						array_splice( $open_tags, $pos, 1 );
 					}
 				}
 			}
 
-			$truncate     .= $tag[1];
-			$contentLength = mb_strlen( preg_replace( '/&[0-9a-z]{2,8};|&#[0-9]{1,7};|&#x[0-9a-f]{1,6};/i', ' ', $tag[3] ) );
+			$truncate      .= $tag[1];
+			$content_length = mb_strlen( preg_replace( '/&[0-9a-z]{2,8};|&#[0-9]{1,7};|&#x[0-9a-f]{1,6};/i', ' ', $tag[3] ) );
 
-			if ( $contentLength + $totalLength > $length ) {
-				$left = $length - $totalLength;
-				$entitiesLength = 0;
+			if ( $content_length + $total_length > $length ) {
+				$left            = $length - $total_length;
+				$entities_length = 0;
 				if ( preg_match_all( '/&[0-9a-z]{2,8};|&#[0-9]{1,7};|&#x[0-9a-f]{1,6};/i', $tag[3], $entities, PREG_OFFSET_CAPTURE ) ) {
 					foreach ( $entities[0] as $entity ) {
-						if ( $entity[1] + 1 - $entitiesLength <= $left ) {
-							$left--;
-							$entitiesLength += mb_strlen( $entity[0] );
+						if ( $entity[1] + 1 - $entities_length <= $left ) {
+							--$left;
+							$entities_length += mb_strlen( $entity[0] );
 						} else {
 							break;
 						}
 					}
 				}
 
-				$truncate .= mb_substr( $tag[3], 0 , $left + $entitiesLength );
+				$truncate .= mb_substr( $tag[3], 0, $left + $entities_length );
 				break;
 			} else {
-				$truncate .= $tag[3];
-				$totalLength += $contentLength;
+				$truncate     .= $tag[3];
+				$total_length += $content_length;
 			}
-			if ( $totalLength >= $length ) {
+
+			if ( $total_length >= $length ) {
 				break;
 			}
 		}
@@ -900,19 +903,19 @@ function bp_create_excerpt( $text, $length = 225, $options = array() ) {
 		$truncate_tags = array();
 		if ( ! empty( $_truncate_tags[0] ) ) {
 			foreach ( $_truncate_tags[0] as $_tt ) {
-				$_tt['start'] = $_tt[1];
-				$_tt['end']   = $_tt[1] + strlen( $_tt[0] );
+				$_tt['start']                 = $_tt[1];
+				$_tt['end']                   = $_tt[1] + strlen( $_tt[0] );
 				$truncate_tags[ $_tt['end'] ] = $_tt;
 			}
 		}
 
 		$truncate_length = mb_strlen( $truncate );
-		$spacepos = $truncate_length + 1;
+		$spacepos        = $truncate_length + 1;
 		for ( $pos = $truncate_length - 1; $pos >= 0; $pos-- ) {
 			// Word boundaries are spaces and the close of HTML tags, when the tag is preceded by a space.
 			$is_word_boundary = ' ' === $truncate[ $pos ];
 			if ( ! $is_word_boundary && isset( $truncate_tags[ $pos - 1 ] ) ) {
-				$preceding_tag    = $truncate_tags[ $pos - 1 ];
+				$preceding_tag = $truncate_tags[ $pos - 1 ];
 				if ( ' ' === $truncate[ $preceding_tag['start'] - 1 ] ) {
 					$is_word_boundary = true;
 					break;
@@ -946,11 +949,11 @@ function bp_create_excerpt( $text, $length = 225, $options = array() ) {
 
 		if ( $r['html'] ) {
 			$bits = mb_substr( $truncate, $spacepos );
-			preg_match_all( '/<\/([a-z]+)>/', $bits, $droppedTags, PREG_SET_ORDER );
-			if ( !empty( $droppedTags ) ) {
-				foreach ( $droppedTags as $closingTag ) {
-					if ( !in_array( $closingTag[1], $openTags ) ) {
-						array_unshift( $openTags, $closingTag[1] );
+			preg_match_all( '/<\/([a-z]+)>/', $bits, $dropped_tags, PREG_SET_ORDER );
+			if ( ! empty( $dropped_tags ) ) {
+				foreach ( $dropped_tags as $closing_tag ) {
+					if ( ! in_array( $closing_tag[1], $open_tags, true ) ) {
+						array_unshift( $open_tags, $closing_tag[1] );
 					}
 				}
 			}
@@ -960,8 +963,8 @@ function bp_create_excerpt( $text, $length = 225, $options = array() ) {
 	}
 	$truncate .= $ending;
 
-	if ( !empty( $r['html'] ) ) {
-		foreach ( $openTags as $tag ) {
+	if ( ! empty( $r['html'] ) ) {
+		foreach ( $open_tags as $tag ) {
 			$truncate .= '</' . $tag . '>';
 		}
 	}
@@ -969,7 +972,7 @@ function bp_create_excerpt( $text, $length = 225, $options = array() ) {
 	/** This filter is documented in /bp-core/bp-core-template.php */
 	return apply_filters( 'bp_create_excerpt', $truncate, $original_text, $length, $options );
 }
-add_filter( 'bp_create_excerpt', 'stripslashes_deep'  );
+add_filter( 'bp_create_excerpt', 'stripslashes_deep' );
 add_filter( 'bp_create_excerpt', 'force_balance_tags' );
 
 /**
@@ -1133,11 +1136,12 @@ function bp_get_email_subject( $args = array() ) {
  * WordPress theme without coping the functions from functions.php.
  *
  * @since 1.2.0
+ * @since 15.0.0 The `$object` parameter was renamed to `$component`.
  *
- * @param string|bool $object Current template component.
+ * @param string|bool $component Optional. Current template component.
  * @return string The AJAX querystring.
  */
-function bp_ajax_querystring( $object = false ) {
+function bp_ajax_querystring( $component = false ) {
 	$bp = buddypress();
 
 	if ( ! isset( $bp->ajax_querystring ) ) {
@@ -1152,9 +1156,9 @@ function bp_ajax_querystring( $object = false ) {
 	 * @since 1.2.0
 	 *
 	 * @param string $ajax_querystring Current query string.
-	 * @param string $object           Current template component.
+	 * @param string $component        Current template component.
 	 */
-	return apply_filters( 'bp_ajax_querystring', $bp->ajax_querystring, $object );
+	return apply_filters( 'bp_ajax_querystring', $bp->ajax_querystring, $component );
 }
 
 /** Template Classes and _is functions ****************************************/
@@ -1168,7 +1172,7 @@ function bp_ajax_querystring( $object = false ) {
  */
 function bp_current_component() {
 	$bp                = buddypress();
-	$current_component = !empty( $bp->current_component )
+	$current_component = ! empty( $bp->current_component )
 		? $bp->current_component
 		: false;
 
@@ -1191,7 +1195,7 @@ function bp_current_component() {
  */
 function bp_current_action() {
 	$bp             = buddypress();
-	$current_action = !empty( $bp->current_action )
+	$current_action = ! empty( $bp->current_action )
 		? $bp->current_action
 		: '';
 
@@ -1214,7 +1218,7 @@ function bp_current_action() {
  */
 function bp_current_item() {
 	$bp           = buddypress();
-	$current_item = !empty( $bp->current_item )
+	$current_item = ! empty( $bp->current_item )
 		? $bp->current_item
 		: false;
 
@@ -1233,12 +1237,12 @@ function bp_current_item() {
  *
  * @since 1.0.0
  *
- * @return array|bool $action_variables The action variables array, or false
+ * @return array|bool The action variables array, or false
  *                                      if the array is empty.
  */
 function bp_action_variables() {
 	$bp               = buddypress();
-	$action_variables = !empty( $bp->action_variables )
+	$action_variables = ! empty( $bp->action_variables )
 		? $bp->action_variables
 		: false;
 
@@ -1257,8 +1261,8 @@ function bp_action_variables() {
  *
  * @since 1.5.0
  *
- * @param int $position The key of the action_variables array that you want.
- * @return string|bool $action_variable The value of that position in the
+ * @param int $position Optional. The key of the action_variables array that you want.
+ * @return string|bool The value of that position in the
  *                                      array, or false if not found.
  */
 function bp_action_variable( $position = 0 ) {
@@ -1330,7 +1334,7 @@ function bp_root_url() {
  *
  * @since 1.5.0
  *
- * @param string $component The component name.
+ * @param string $component Optional. The component name.
  */
 function bp_root_slug( $component = '' ) {
 	echo esc_attr( bp_get_root_slug( $component ) );
@@ -1363,7 +1367,7 @@ function bp_root_slug( $component = '' ) {
 	 * @since 1.5.0
 	 *
 	 * @param string $component Optional. Defaults to the current component.
-	 * @return string $root_slug The root slug.
+	 * @return string The root slug.
 	 */
 	function bp_get_root_slug( $component = '' ) {
 		$bp        = buddypress();
@@ -1379,9 +1383,9 @@ function bp_root_slug( $component = '' ) {
 
 			// Backward compatibility: in legacy plugins, the canonical component id
 			// was stored as an array value in $bp->active_components.
-			$component_name = ( '1' == $bp->active_components[ $component ] )
+			$component_name = ( '1' === (string) $bp->active_components[ $component ] )
 				? $component
-				: $bp->active_components[$component];
+				: $bp->active_components[ $component ];
 
 			// Component has specific root slug.
 			if ( ! empty( $bp->{$component_name}->root_slug ) ) {
@@ -1410,7 +1414,7 @@ function bp_root_slug( $component = '' ) {
  *
  * @since 1.5.0
  *
- * @param string $root_slug Needle to our active component haystack.
+ * @param string $root_slug Optional. Needle to our active component haystack.
  * @return mixed False if none found, component name if found.
  */
 function bp_get_name_from_root_slug( $root_slug = '' ) {
@@ -1428,7 +1432,7 @@ function bp_get_name_from_root_slug( $root_slug = '' ) {
 
 	// Loop through active components and look for a match.
 	foreach ( array_keys( $bp->active_components ) as $component ) {
-		if ( ( ! empty( $bp->{$component}->slug ) && ( $bp->{$component}->slug == $root_slug ) ) || ( ! empty( $bp->{$component}->root_slug ) && ( $bp->{$component}->root_slug === $root_slug ) ) ) {
+		if ( ( ! empty( $bp->{$component}->slug ) && ( $bp->{$component}->slug === $root_slug ) ) || ( ! empty( $bp->{$component}->root_slug ) && ( $bp->{$component}->root_slug === $root_slug ) ) ) {
 			return $bp->{$component}->name;
 		}
 	}
@@ -1460,7 +1464,6 @@ function bp_user_has_access() {
  * Output the search slug.
  *
  * @since 1.5.0
- *
  */
 function bp_search_slug() {
 	echo esc_attr( bp_get_search_slug() );
@@ -1489,11 +1492,11 @@ function bp_search_slug() {
  *
  * @since 1.0.0
  *
- * @return int $id ID of the currently displayed user.
+ * @return int ID of the currently displayed user.
  */
 function bp_displayed_user_id() {
 	$bp = buddypress();
-	$id = !empty( $bp->displayed_user->id )
+	$id = ! empty( $bp->displayed_user->id )
 		? $bp->displayed_user->id
 		: 0;
 
@@ -1516,7 +1519,7 @@ function bp_displayed_user_id() {
  */
 function bp_loggedin_user_id() {
 	$bp = buddypress();
-	$id = !empty( $bp->loggedin_user->id )
+	$id = ! empty( $bp->loggedin_user->id )
 		? $bp->loggedin_user->id
 		: 0;
 
@@ -1543,7 +1546,7 @@ function bp_loggedin_user_id() {
  *
  * @since 1.5.0
  *
- * @param string $component Name of the component being checked.
+ * @param string $component Optional. Name of the component being checked.
  * @return bool Returns true if the component matches, or else false.
  */
 function bp_is_current_component( $component = '' ) {
@@ -1568,39 +1571,43 @@ function bp_is_current_component( $component = '' ) {
 
 		// First, check to see whether $component_name and the current
 		// component are a simple match.
-		if ( $bp->current_component == $component ) {
+		if ( $bp->current_component === $component ) {
 			$is_current_component = true;
 
 		// Since the current component is based on the visible URL slug let's
 		// check the component being passed and see if its root_slug matches.
-		} elseif ( isset( $bp->{$component}->root_slug ) && $bp->{$component}->root_slug == $bp->current_component ) {
+		} elseif ( isset( $bp->{$component}->root_slug ) && $bp->{$component}->root_slug === $bp->current_component ) {
 			$is_current_component = true;
 
 		// Because slugs can differ from root_slugs, we should check them too.
-		} elseif ( isset( $bp->{$component}->slug ) && $bp->{$component}->slug == $bp->current_component ) {
+		} elseif ( isset( $bp->{$component}->slug ) && $bp->{$component}->slug === $bp->current_component ) {
 			$is_current_component = true;
 
-		// Next, check to see whether $component is a canonical,
-		// non-translatable component name. If so, we can return its
-		// corresponding slug from $bp->active_components.
-		} elseif ( $key = array_search( $component, $bp->active_components ) ) {
-			if ( strstr( $bp->current_component, $key ) ) {
-				$is_current_component = true;
-			}
-
-		// If we haven't found a match yet, check against the root_slugs
-		// created by $bp->pages, as well as the regular slugs.
 		} else {
-			foreach ( $bp->active_components as $id ) {
-				// If the $component parameter does not match the current_component,
-				// then move along, these are not the droids you are looking for.
-				if ( empty( $bp->{$id}->root_slug ) || $bp->{$id}->root_slug != $bp->current_component ) {
-					continue;
+			// Next, check to see whether $component is a canonical,
+			// non-translatable component name. If so, we can return its
+			// corresponding slug from $bp->active_components.
+			$key = array_search( $component, $bp->active_components, true );
+
+			if ( $key ) {
+				if ( strstr( $bp->current_component, $key ) ) {
+					$is_current_component = true;
 				}
 
-				if ( $id == $component ) {
-					$is_current_component = true;
-					break;
+			// If we haven't found a match yet, check against the root_slugs
+			// created by $bp->pages, as well as the regular slugs.
+			} else {
+				foreach ( $bp->active_components as $id ) {
+					// If the $component parameter does not match the current_component,
+					// then move along, these are not the droids you are looking for.
+					if ( empty( $bp->{$id}->root_slug ) || $bp->{$id}->root_slug !== $bp->current_component ) {
+						continue;
+					}
+
+					if ( $id === $component ) {
+						$is_current_component = true;
+						break;
+					}
 				}
 			}
 		}
@@ -1631,7 +1638,7 @@ function bp_is_current_component( $component = '' ) {
  *
  * @since 1.5.0
  *
- * @param string $action The action being tested against.
+ * @param string $action Optional. The action being tested against.
  * @return bool True if the current action matches $action.
  */
 function bp_is_current_action( $action = '' ) {
@@ -1652,7 +1659,7 @@ function bp_is_current_action( $action = '' ) {
  *
  * @since 1.5.0
  *
- * @param string   $action_variable The action_variable being tested against.
+ * @param string   $action_variable Optional. The action_variable being tested against.
  * @param int|bool $position        Optional. The array key you're testing against. If you
  *                                  don't provide a $position, the function will return true if the
  *                                  $action_variable is found *anywhere* in the action variables array.
@@ -1664,15 +1671,15 @@ function bp_is_action_variable( $action_variable = '', $position = false ) {
 	if ( false !== $position ) {
 		// When a $position is specified, check that slot in the action_variables array.
 		if ( $action_variable ) {
-			$is_action_variable = $action_variable == bp_action_variable( $position );
+			$is_action_variable = $action_variable === bp_action_variable( $position );
 		} else {
 			// If no $action_variable is provided, we are essentially checking to see
 			// whether the slot is empty.
-			$is_action_variable = !bp_action_variable( $position );
+			$is_action_variable = ! bp_action_variable( $position );
 		}
 	} else {
 		// When no $position is specified, check the entire array.
-		$is_action_variable = in_array( $action_variable, (array)bp_action_variables() );
+		$is_action_variable = in_array( $action_variable, (array) bp_action_variables(), true );
 	}
 
 	/**
@@ -1692,7 +1699,7 @@ function bp_is_action_variable( $action_variable = '', $position = false ) {
  *
  * @since 1.5.0
  *
- * @param string $item The item being checked.
+ * @param string $item Optional. The item being checked.
  * @return bool True if $item is the current item.
  */
 function bp_is_current_item( $item = '' ) {
@@ -1822,7 +1829,7 @@ function bp_is_directory() {
  *
  * @since 1.5.0
  *
- * @param string $component_name Component name to check.
+ * @param string $component_name Optional. Component name to check.
  *
  * @return bool True if root component, else false.
  */
@@ -1900,7 +1907,7 @@ function bp_is_component_front_page( $component = '' ) {
 	 * @param bool   $value     Whether or not the specified component directory is set as front page.
 	 * @param string $component Current component being checked.
 	 */
-	return (bool) apply_filters( 'bp_is_component_front_page', ( $bp->pages->{$component}->id == $page_on_front ), $component );
+	return (bool) apply_filters( 'bp_is_component_front_page', ( (int) $bp->pages->{$component}->id === (int) $page_on_front ), $component );
 }
 
 /**
@@ -1988,8 +1995,8 @@ function is_buddypress() {
  * @since 1.2.0 See r2539.
  * @since 2.3.0 Added $feature as a parameter.
  *
- * @param string $component The component name.
- * @param string $feature   The feature name.
+ * @param string $component Optional. The component name.
+ * @param string $feature   Optional. The feature name.
  * @return bool
  */
 function bp_is_active( $component = '', $feature = '' ) {
@@ -2033,12 +2040,19 @@ function bp_is_active( $component = '', $feature = '' ) {
 			/**
 			 * Filters whether or not a given feature for a component is active.
 			 *
-			 * This is a variable filter that is based on the component and feature
-			 * that you are checking of active status of.
+			 * The dynamic portions of the hook name, `$component` and `$feature`, refer to the component and
+			 * feature being checked.
+			 *
+			 * Possible hook names include:
+			 *
+			 *  - `bp_is_groups_cover_image_active`
+			 *  - `bp_is_members_cover_image_active`
+			 *  - `bp_is_activity_embeds_active`
+			 *  - `bp_is_blogs_site-icon_active`
 			 *
 			 * @since 2.3.0
 			 *
-			 * @param bool $retval
+			 * @param bool $retval Whether the component feature is active.
 			 */
 			$retval = apply_filters( "bp_is_{$component}_{$feature}_active", $retval );
 		}
@@ -2260,7 +2274,7 @@ function bp_is_members_directory() {
  * @return bool True if the current page is part of the profile of the logged-in user.
  */
 function bp_is_my_profile() {
-	if ( is_user_logged_in() && bp_loggedin_user_id() == bp_displayed_user_id() ) {
+	if ( is_user_logged_in() && bp_loggedin_user_id() === bp_displayed_user_id() ) {
 		$my_profile = true;
 	} else {
 		$my_profile = false;
@@ -2980,7 +2994,7 @@ function bp_is_register_page() {
  *
  * @since 2.4.3
  *
- * @param string $seplocation Location for the separator.
+ * @param string $seplocation Optional. Location for the separator.
  * @return array the title parts
  */
 function bp_get_title_parts( $seplocation = 'right' ) {
@@ -3017,7 +3031,8 @@ function bp_get_title_parts( $seplocation = 'right' ) {
 	if ( ! empty( $displayed_user_name ) && ! is_404() ) {
 
 		// Get the component's ID to try and get its name.
-		$component_id = $component_name = bp_current_component();
+		$component_name = bp_current_component();
+		$component_id   = $component_name;
 
 		// Set empty subnav name.
 		$component_subnav_name = '';
@@ -3037,10 +3052,13 @@ function bp_get_title_parts( $seplocation = 'right' ) {
 		}
 
 		if ( ! empty( $bp->members->nav ) ) {
-			$secondary_nav_item = $bp->members->nav->get_secondary( array(
-				'parent_slug' => $component_id,
-				'slug'        => bp_current_action()
-			), false );
+			$secondary_nav_item = $bp->members->nav->get_secondary(
+				array(
+					'parent_slug' => $component_id,
+					'slug'        => bp_current_action(),
+				),
+				false
+			);
 
 			if ( $secondary_nav_item ) {
 				$secondary_nav_item = reset( $secondary_nav_item );
@@ -3058,10 +3076,16 @@ function bp_get_title_parts( $seplocation = 'right' ) {
 
 		// Use component name on member pages.
 		} else {
-			$bp_title_parts = array_merge( $bp_title_parts, array_map( 'wp_strip_all_tags', array(
-				$displayed_user_name,
-				$component_name,
-			) ) );
+			$bp_title_parts = array_merge(
+				$bp_title_parts,
+				array_map(
+					'wp_strip_all_tags',
+					array(
+						$displayed_user_name,
+						$component_name,
+					)
+				)
+			);
 
 			// If we have a subnav name, add it separately for localization.
 			if ( ! empty( $component_subnav_name ) ) {
@@ -3074,10 +3098,13 @@ function bp_get_title_parts( $seplocation = 'right' ) {
 		$component_id = bp_current_component();
 
 		if ( ! empty( $bp->{$component_id}->nav ) ) {
-			$secondary_nav_item = $bp->{$component_id}->nav->get_secondary( array(
-				'parent_slug' => bp_current_item(),
-				'slug'        => bp_current_action()
-			), false );
+			$secondary_nav_item = $bp->{$component_id}->nav->get_secondary(
+				array(
+					'parent_slug' => bp_current_item(),
+					'slug'        => bp_current_action(),
+				),
+				false
+			);
 
 			if ( $secondary_nav_item ) {
 				$secondary_nav_item = reset( $secondary_nav_item );
@@ -3158,9 +3185,9 @@ function bp_the_body_class() {
 	 *
 	 * @since 1.1.0
 	 *
-	 * @param array      $wp_classes     The body classes coming from WP.
-	 * @param array|bool $custom_classes Classes that were passed to get_body_class().
-	 * @return array $classes The BP-adjusted body classes.
+	 * @param array      $wp_classes     Optional. The body classes coming from WP.
+	 * @param array|bool $custom_classes Optional. Classes that were passed to get_body_class().
+	 * @return array The BP-adjusted body classes.
 	 */
 	function bp_get_the_body_class( $wp_classes = array(), $custom_classes = false ) {
 
@@ -3183,7 +3210,7 @@ function bp_the_body_class() {
 		/* Components ********************************************************/
 
 		if ( ! bp_is_blog_page() ) {
-			if ( bp_is_user_profile() )  {
+			if ( bp_is_user_profile() ) {
 				$bp_classes[] = 'xprofile';
 			}
 
@@ -3207,7 +3234,7 @@ function bp_the_body_class() {
 				$bp_classes[] = 'groups';
 			}
 
-			if ( bp_is_settings_component()  ) {
+			if ( bp_is_settings_component() ) {
 				$bp_classes[] = 'settings';
 			}
 		}
@@ -3218,7 +3245,8 @@ function bp_the_body_class() {
 			$bp_classes[] = 'bp-user';
 
 			// Add current user member types.
-			if ( $member_types = bp_get_member_type( bp_displayed_user_id(), false ) ) {
+			$member_types = bp_get_member_type( bp_displayed_user_id(), false );
+			if ( is_array( $member_types ) && ! empty( $member_types ) ) {
 				foreach ( $member_types as $member_type ) {
 					$bp_classes[] = sprintf( 'member-type-%s', esc_attr( $member_type ) );
 				}
@@ -3237,10 +3265,8 @@ function bp_the_body_class() {
 			if ( bp_is_user_activity() ) {
 				$bp_classes[] = 'my-activity';
 			}
-		} else {
-			if ( bp_get_current_member_type() || ( bp_is_groups_directory() && bp_get_current_group_directory_type() ) ) {
+		} elseif ( bp_get_current_member_type() || ( bp_is_groups_directory() && bp_get_current_group_directory_type() ) ) {
 				$bp_classes[] = 'type';
-			}
 		}
 
 		if ( bp_is_my_profile() ) {
@@ -3315,7 +3341,8 @@ function bp_the_body_class() {
 			$bp_classes[] = 'group-' . groups_get_current_group()->slug;
 
 			// Add current group types.
-			if ( $group_types = bp_groups_get_group_type( bp_get_current_group_id(), false ) ) {
+			$group_types = bp_groups_get_group_type( bp_get_current_group_id(), false );
+			if ( $group_types ) {
 				foreach ( $group_types as $group_type ) {
 					$bp_classes[] = sprintf( 'group-type-%s', esc_attr( $group_type ) );
 				}
@@ -3403,7 +3430,7 @@ function bp_the_body_class() {
  *
  * @since 2.1.0
  *
- * @param array $wp_classes The post classes coming from WordPress.
+ * @param array $wp_classes Optional. The post classes coming from WordPress.
  * @return array
  */
 function bp_get_the_post_class( $wp_classes = array() ) {
@@ -3463,7 +3490,7 @@ add_filter( 'post_class', 'bp_get_the_post_class' );
  *             equal to, or greater than the second.
  */
 function _bp_nav_menu_sort( $a, $b ) {
-	if ( $a['position'] == $b['position'] ) {
+	if ( (int) $a['position'] === (int) $b['position'] ) {
 		return 0;
 	} elseif ( $a['position'] < $b['position'] ) {
 		return -1;
@@ -3498,7 +3525,7 @@ function bp_get_nav_menu_items( $component = 'members' ) {
 		}
 
 		// Add this menu.
-		$menu         = new stdClass;
+		$menu         = new stdClass();
 		$menu->class  = array( 'menu-parent' );
 		$menu->css_id = $nav_menu->css_id;
 		$menu->link   = $link;
@@ -3509,7 +3536,7 @@ function bp_get_nav_menu_items( $component = 'members' ) {
 			$submenus = array();
 
 			foreach ( $nav_menu->children as $sub_menu ) {
-				$submenu = new stdClass;
+				$submenu         = new stdClass();
 				$submenu->class  = array( 'menu-child' );
 				$submenu->css_id = $sub_menu->css_id;
 				$submenu->link   = $sub_menu->link;
@@ -3615,12 +3642,13 @@ function bp_nav_menu( $args = array() ) {
 	$args = apply_filters( 'bp_nav_menu_args', $args );
 	$args = (object) $args;
 
-	$items = $nav_menu = '';
+	$nav_menu       = '';
+	$items          = $nav_menu;
 	$show_container = false;
 
 	// Create custom walker if one wasn't set.
 	if ( empty( $args->walker ) ) {
-		$args->walker = new BP_Walker_Nav_Menu;
+		$args->walker = new BP_Walker_Nav_Menu();
 	}
 
 	// Sanitize values for class and ID.
@@ -3637,13 +3665,13 @@ function bp_nav_menu( $args = array() ) {
 		 *
 		 * @param array $value Array of allowed tags. Default 'div' and 'nav'.
 		 */
-		$allowed_tags = apply_filters( 'wp_nav_menu_container_allowedtags', array( 'div', 'nav', ) );
+		$allowed_tags = apply_filters( 'wp_nav_menu_container_allowedtags', array( 'div', 'nav' ) );
 
-		if ( in_array( $args->container, $allowed_tags ) ) {
+		if ( in_array( $args->container, $allowed_tags, true ) ) {
 			$show_container = true;
 
 			$class     = $args->container_class ? ' class="' . esc_attr( $args->container_class ) . '"' : ' class="menu-bp-container"';
-			$id        = $args->container_id    ? ' id="' . esc_attr( $args->container_id ) . '"'       : '';
+			$id        = $args->container_id ? ' id="' . esc_attr( $args->container_id ) . '"' : '';
 			$nav_menu .= '<' . $args->container . $id . $class . '>';
 		}
 	}
@@ -3668,9 +3696,9 @@ function bp_nav_menu( $args = array() ) {
 		$wrap_id = 'menu-bp';
 
 		// If a specific ID wasn't requested, and there are multiple menus on the same screen, make sure the autogenerated ID is unique.
-		while ( in_array( $wrap_id, $menu_id_slugs ) ) {
+		while ( in_array( $wrap_id, $menu_id_slugs, true ) ) {
 			if ( preg_match( '#-(\d+)$#', $wrap_id, $matches ) ) {
-				$wrap_id = preg_replace('#-(\d+)$#', '-' . ++$matches[1], $wrap_id );
+				$wrap_id = preg_replace( '#-(\d+)$#', '-' . ( ++$matches[1] ), $wrap_id );
 			} else {
 				$wrap_id = $wrap_id . '-1';
 			}
@@ -3691,8 +3719,8 @@ function bp_nav_menu( $args = array() ) {
 	$items = apply_filters( 'bp_nav_menu_items', $items, $args );
 
 	// Build the output.
-	$wrap_class  = $args->menu_class ? $args->menu_class : '';
-	$nav_menu   .= sprintf( $args->items_wrap, esc_attr( $wrap_id ), esc_attr( $wrap_class ), $items );
+	$wrap_class = $args->menu_class ? $args->menu_class : '';
+	$nav_menu  .= sprintf( $args->items_wrap, esc_attr( $wrap_id ), esc_attr( $wrap_class ), $items );
 	unset( $items );
 
 	// If we've wrapped the ul, close it.
@@ -3723,7 +3751,7 @@ function bp_nav_menu( $args = array() ) {
  *
  * @since 2.5.0
  *
- * @param array $settings Email Settings.
+ * @param array $settings Optional. Email Settings.
  */
 function bp_email_the_salutation( $settings = array() ) {
 	echo esc_html( bp_email_get_salutation( $settings ) );
@@ -3735,12 +3763,12 @@ function bp_email_the_salutation( $settings = array() ) {
 	 * @since 2.5.0
 	 * @since 8.0.0 Checks current BP Email type schema to eventually use the unnamed salutation.
 	 *
-	 * @param array $settings Email Settings.
+	 * @param array $settings Optional. Email Settings.
 	 * @return string The Recipient Salutation.
 	 */
 	function bp_email_get_salutation( $settings = array() ) {
 		$email_type = bp_email_get_type();
-		$salutation  = '';
+		$salutation = '';
 
 		if ( $email_type ) {
 			$types_schema = bp_email_get_type_schema( 'named_salutation' );

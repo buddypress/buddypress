@@ -234,14 +234,7 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 	public function test_bp_blogs_update_meta_prev_value() {
 		bp_blogs_add_blogmeta( 1, 'foo', 'bar' );
 
-		// In earlier versions of WordPress, bp_activity_update_meta()
-		// returns true even on failure. However, we know that in these
-		// cases the update is failing as expected, so we skip this
-		// assertion just to keep our tests passing
-		// See https://core.trac.wordpress.org/ticket/24933
-		if ( version_compare( $GLOBALS['wp_version'], '3.7', '>=' ) ) {
-			$this->assertFalse( bp_blogs_update_blogmeta( 1, 'foo', 'bar2', 'baz' ) );
-		}
+		$this->assertFalse( bp_blogs_update_blogmeta( 1, 'foo', 'bar2', 'baz' ) );
 
 		$this->assertTrue( bp_blogs_update_blogmeta( 1, 'foo', 'bar2', 'bar' ) );
 	}
@@ -307,7 +300,7 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 		$blogs = bp_blogs_get_blogs_for_user( $u, true );
 		$blog_ids = wp_list_pluck( $blogs['blogs'], 'blog_id' );
 
-		$this->assertNotEquals( $expected, array_map( 'intval', $blog_ids ), 'User marked as spam should not have any blog registered' );
+		$this->assertNotSame( $expected, $blog_ids, 'User marked as spam should not have any blog registered' );
 
 		// Ham the user
 		bp_core_process_spammer_status( $u, 'ham' );
@@ -316,7 +309,7 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 		$blogs = bp_blogs_get_blogs_for_user( $u, true );
 		$blog_ids = wp_list_pluck( $blogs['blogs'], 'blog_id' );
 
-		$this->assertEquals( $expected, array_map( 'intval', $blog_ids ) );
+		$this->assertSame( $expected, $blog_ids );
 	}
 
 	/**
@@ -586,11 +579,11 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 		) );
 
 		// see if blog comment activity meta matches the post items
-		$this->assertEquals( 'Second title', bp_activity_get_meta( $a1, 'post_title' ) );
-		$this->assertEquals( add_query_arg( 'p', $post_id, home_url( '/' ) ), bp_activity_get_meta( $a1, 'post_url' ) );
+		$this->assertSame( 'Second title', bp_activity_get_meta( $a1, 'post_title' ) );
+		$this->assertSame( add_query_arg( 'p', $post_id, home_url( '/' ) ), bp_activity_get_meta( $a1, 'post_url' ) );
 
-		$this->assertEquals( 'Second title', bp_activity_get_meta( $a2, 'post_title' ) );
-		$this->assertEquals( add_query_arg( 'p', $post_id, home_url( '/' ) ), bp_activity_get_meta( $a2, 'post_url' ) );
+		$this->assertSame( 'Second title', bp_activity_get_meta( $a2, 'post_title' ) );
+		$this->assertSame( add_query_arg( 'p', $post_id, home_url( '/' ) ), bp_activity_get_meta( $a2, 'post_url' ) );
 
 		// reset
 		wp_set_current_user( $old_user );
@@ -1020,7 +1013,7 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 		$blogs = bp_blogs_get_blogs( array(
 			'user_id' => $u
 		) );
-		$this->assertSame( 3, (int) $blogs['total'] );
+		$this->assertSame( 3, $blogs['total'] );
 
 		wp_set_current_user( $old_user );
 	}
@@ -1055,7 +1048,7 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 			),
 		) );
 
-		$new_blog = array_map( 'intval', wp_list_pluck( $activity['activities'], 'item_id', 'id' ) );
+		$new_blog = wp_list_pluck( $activity['activities'], 'item_id', 'id' );
 		$this->assertSame( $b, reset( $new_blog ) );
 
 		// Removing the blog should delete the activity and the blog association.
@@ -1112,7 +1105,7 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 			),
 		) );
 
-		$new_blog = array_map( 'intval', wp_list_pluck( $activity['activities'], 'item_id', 'id' ) );
+		$new_blog = wp_list_pluck( $activity['activities'], 'item_id', 'id' );
 		$this->assertSame( $b, reset( $new_blog ), 'The new_blog activity should not be deleted when a contributor is removed from the blog.' );
 
 		$_POST = $reset_post;

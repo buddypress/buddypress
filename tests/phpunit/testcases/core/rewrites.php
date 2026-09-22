@@ -52,7 +52,7 @@ class BP_Tests_Core_Rewrites extends BP_UnitTestCase {
 	 */
 	public function test_bp_rewrites_get_root_url() {
 		$root_url = get_home_url( bp_get_root_blog_id() );
-		$this->assertEquals( $root_url, bp_rewrites_get_root_url() );
+		$this->assertSame( $root_url, bp_rewrites_get_root_url() );
 	}
 
 	/**
@@ -68,7 +68,7 @@ class BP_Tests_Core_Rewrites extends BP_UnitTestCase {
 		);
 
 		$qs = wp_parse_url( $buddies_url, PHP_URL_QUERY );
-		$this->assertEquals( 'bp_buddies=1', $qs );
+		$this->assertSame( 'bp_buddies=1', $qs );
 	}
 
 	/**
@@ -84,7 +84,7 @@ class BP_Tests_Core_Rewrites extends BP_UnitTestCase {
 		);
 
 		$path = wp_parse_url( $buddies_url, PHP_URL_PATH );
-		$this->assertEquals( '/buddies/', $path );
+		$this->assertSame( '/buddies/', $path );
 	}
 
 	/**
@@ -101,7 +101,7 @@ class BP_Tests_Core_Rewrites extends BP_UnitTestCase {
 		);
 
 		$qs = wp_parse_url( $buddies_url, PHP_URL_QUERY );
-		$this->assertEquals( 'bp_buddies=1&bp_buddy=foobar', $qs );
+		$this->assertSame( 'bp_buddies=1&bp_buddy=foobar', $qs );
 	}
 
 	/**
@@ -118,7 +118,7 @@ class BP_Tests_Core_Rewrites extends BP_UnitTestCase {
 		);
 
 		$path = wp_parse_url( $buddies_url, PHP_URL_PATH );
-		$this->assertEquals( '/buddies/foobar/', $path );
+		$this->assertSame( '/buddies/foobar/', $path );
 	}
 
 	/**
@@ -136,7 +136,7 @@ class BP_Tests_Core_Rewrites extends BP_UnitTestCase {
 		);
 
 		$qs = wp_parse_url( $buddies_url, PHP_URL_QUERY );
-		$this->assertEquals( 'bp_buddies=1&bp_buddy=foobar&bp_buddy_component=activity', $qs );
+		$this->assertSame( 'bp_buddies=1&bp_buddy=foobar&bp_buddy_component=activity', $qs );
 	}
 
 	/**
@@ -154,7 +154,7 @@ class BP_Tests_Core_Rewrites extends BP_UnitTestCase {
 		);
 
 		$path = wp_parse_url( $buddies_url, PHP_URL_PATH );
-		$this->assertEquals( '/buddies/foobar/activity/', $path );
+		$this->assertSame( '/buddies/foobar/activity/', $path );
 	}
 
 	/**
@@ -173,7 +173,7 @@ class BP_Tests_Core_Rewrites extends BP_UnitTestCase {
 		);
 
 		$qs = wp_parse_url( $buddies_url, PHP_URL_QUERY );
-		$this->assertEquals( 'bp_buddies=1&bp_buddy=foobar&bp_buddy_component=activity&bp_buddy_action=mention', $qs );
+		$this->assertSame( 'bp_buddies=1&bp_buddy=foobar&bp_buddy_component=activity&bp_buddy_action=mention', $qs );
 	}
 
 	/**
@@ -192,7 +192,7 @@ class BP_Tests_Core_Rewrites extends BP_UnitTestCase {
 		);
 
 		$path = wp_parse_url( $buddies_url, PHP_URL_PATH );
-		$this->assertEquals( '/buddies/foobar/activity/mention/', $path );
+		$this->assertSame( '/buddies/foobar/activity/mention/', $path );
 	}
 
 	/**
@@ -235,6 +235,6 @@ class BP_Tests_Core_Rewrites extends BP_UnitTestCase {
 		);
 
 		$path = wp_parse_url( $buddies_url, PHP_URL_PATH );
-		$this->assertEquals( '/buddies/foobar/activity/mention/do/it/again/', $path );
+		$this->assertSame( '/buddies/foobar/activity/mention/do/it/again/', $path );
 	}
 }

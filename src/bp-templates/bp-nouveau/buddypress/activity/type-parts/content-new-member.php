@@ -4,6 +4,8 @@
  *
  * This template is only used to display the `new_member` activity type content.
  *
+ * @package BuddyPress
+ * @subpackage bp-nouveau
  * @since 10.0.0
  * @version 10.0.0
  */

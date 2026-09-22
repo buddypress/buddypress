@@ -149,7 +149,7 @@ class BP_Optout {
 		 *
 		 * @since 8.0.0
 		 *
-		 * @param BP_optout $bp_optout Characteristics of the opt-out just saved.
+		 * @param BP_Optout $bp_optout Characteristics of the opt-out just saved.
 		 */
 		do_action_ref_array( 'bp_optout_after_save', array( &$this ) );
 
@@ -199,17 +199,17 @@ class BP_Optout {
 	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param array $data {
-	 *     Array of optout data, passed to {@link wpdb::insert()}.
+	 *     Optional. Array of optout data, passed to {@link wpdb::insert()}.
 	 *     @type string $email_address     The hashed email address of the user that wishes to opt out of
 	 *                                     communications from this site.
 	 *     @type int    $user_id           The ID of the user that generated the contact that resulted in the opt-out.
 	 *     @type string $email_type        The type of email contact that resulted in the opt-out.
 	 *     @type string $date_modified     Date the opt-out was last modified.
 	 * }
-	 * @param array $data_format See {@link wpdb::insert()}.
+	 * @param array $data_format Optional. See {@link wpdb::insert()}.
 	 * @return int|false The number of rows inserted, or false on error.
 	 */
-	protected static function _insert( $data = array(), $data_format = array() ) {
+	protected static function _insert( $data = array(), $data_format = array() ) { // phpcs:ignore PSR2.Methods.MethodDeclaration.Underscore -- Retains the established method name for backward compatibility.
 		global $wpdb;
 
 		// We must lowercase and hash the email address at insert.
@@ -227,17 +227,17 @@ class BP_Optout {
 	 *
 	 * @see wpdb::update() for further description of paramater formats.
 	 *
-	 * @param array $data         Array of opt-out data to update, passed to
+	 * @param array $data         Optional. Array of opt-out data to update, passed to
 	 *                            {@link wpdb::update()}. Accepts any property of a
-	 *                            BP_optout object.
-	 * @param array $where        The WHERE params as passed to wpdb::update().
+	 *                            BP_Optout object.
+	 * @param array $where        Optional. The WHERE params as passed to wpdb::update().
 	 *                            Typically consists of array( 'ID' => $id ) to specify the ID
 	 *                            of the item being updated. See {@link wpdb::update()}.
-	 * @param array $data_format  See {@link wpdb::insert()}.
-	 * @param array $where_format See {@link wpdb::insert()}.
+	 * @param array $data_format  Optional. See {@link wpdb::insert()}.
+	 * @param array $where_format Optional. See {@link wpdb::insert()}.
 	 * @return int|false The number of rows updated, or false on error.
 	 */
-	protected static function _update( $data = array(), $where = array(), $data_format = array(), $where_format = array() ) {
+	protected static function _update( $data = array(), $where = array(), $data_format = array(), $where_format = array() ) { // phpcs:ignore PSR2.Methods.MethodDeclaration.Underscore -- Retains the established method name for backward compatibility.
 		global $wpdb;
 
 		// Ensure that a passed email address is lowercased and hashed.
@@ -258,13 +258,13 @@ class BP_Optout {
 	 *
 	 * @see wpdb::update() for further description of paramater formats.
 	 *
-	 * @param array $where        Array of WHERE clauses to filter by, passed to
+	 * @param array $where        Optional. Array of WHERE clauses to filter by, passed to
 	 *                            {@link wpdb::delete()}. Accepts any property of a
-	 *                            BP_optout object.
-	 * @param array $where_format See {@link wpdb::insert()}.
+	 *                            BP_Optout object.
+	 * @param array $where_format Optional. See {@link wpdb::insert()}.
 	 * @return int|false The number of rows updated, or false on error.
 	 */
-	protected static function _delete( $where = array(), $where_format = array() ) {
+	protected static function _delete( $where = array(), $where_format = array() ) { // phpcs:ignore PSR2.Methods.MethodDeclaration.Underscore -- Retains the established method name for backward compatibility.
 		global $wpdb;
 		return $wpdb->delete( self::get_table_name(), $where, $where_format );
 	}
@@ -272,14 +272,14 @@ class BP_Optout {
 	/**
 	 * Assemble the WHERE clause of a get() SQL statement.
 	 *
-	 * Used by BP_optout::get() to create its WHERE
+	 * Used by BP_Optout::get() to create its WHERE
 	 * clause.
 	 *
 	 * @since 8.0.0
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @param array $args See {@link BP_optout::get()} for more details.
+	 * @param array $args Optional. See {@link BP_Optout::get()} for more details.
 	 * @return string WHERE clause.
 	 */
 	protected static function get_where_sql( $args = array() ) {
@@ -360,7 +360,7 @@ class BP_Optout {
 	 *
 	 * @since 8.0.0
 	 *
-	 * @param array $args See {@link BP_optout::get()} for more details.
+	 * @param array $args Optional. See {@link BP_Optout::get()} for more details.
 	 * @return string ORDER BY clause.
 	 */
 	protected static function get_order_by_sql( $args = array() ) {
@@ -405,7 +405,7 @@ class BP_Optout {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @param array $args See {@link BP_optout::get()} for more details.
+	 * @param array $args Optional. See {@link BP_Optout::get()} for more details.
 	 * @return string LIMIT clause.
 	 */
 	protected static function get_paged_sql( $args = array() ) {
@@ -461,8 +461,8 @@ class BP_Optout {
 	 *
 	 * @since 8.0.0
 	 *
-	 * @param array $args Associative array of filter arguments.
-	 *                    See {@BP_optout::get()} for a breakdown.
+	 * @param array $args Optional. Associative array of filter arguments.
+	 *                    See {@link BP_Optout::get()} for a breakdown.
 	 * @return array Associative array of 'data' and 'format' args.
 	 */
 	protected static function get_query_clauses( $args = array() ) {
@@ -663,10 +663,10 @@ class BP_Optout {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @see BP_optout::get() for a description of
+	 * @see BP_Optout::get() for a description of
 	 *      arguments.
 	 *
-	 * @param array $args See {@link BP_optout::get()}.
+	 * @param array $args See {@link BP_Optout::get()}.
 	 * @return int Count of located items.
 	 */
 	public static function get_total_count( $args ) {
@@ -709,10 +709,10 @@ class BP_Optout {
 	 * @see BP_optout::get() for a description of
 	 *      accepted update/where arguments.
 	 *
-	 * @param array $update_args Associative array of fields to update,
+	 * @param array $update_args Optional. Associative array of fields to update,
 	 *                           and the values to update them to. Of the format
 	 *                           array( 'user_id' => 4, 'email_address' => 'bar@foo.com', ).
-	 * @param array $where_args  Associative array of columns/values, to
+	 * @param array $where_args  Optional. Associative array of columns/values, to
 	 *                           determine which rows should be updated. Of the format
 	 *                           array( 'user_id' => 7, 'email_address' => 'bar@foo.com', ).
 	 * @return int|bool Number of rows updated on success, false on failure.
@@ -761,10 +761,9 @@ class BP_Optout {
 	 *
 	 * @since 8.0.0
 	 *
-	 * @see BP_optout::get() for a description of
-	 *      accepted where arguments.
+	 * @see BP_Optout::get() for a description of accepted where arguments.
 	 *
-	 * @param array $args Associative array of columns/values, to determine
+	 * @param array $args Optional. Associative array of columns/values, to determine
 	 *                    which rows should be deleted.  Of the format
 	 *                    array( 'user_id' => 7, 'email_address' => 'bar@foo.com', ).
 	 * @return int|bool Number of rows deleted on success, false on failure.
@@ -806,14 +805,14 @@ class BP_Optout {
 	/** Convenience methods ***********************************************/
 
 	/**
-	 * Check whether an invitation exists matching the passed arguments.
+	 * Check whether an opt-out exists matching the passed arguments.
 	 *
 	 * @since 5.0.0
 	 *
 	 * @see BP_Optout::get() for a description of accepted parameters.
 	 *
-	 * @param array $args Arguments to pass to BP_optout::get().
-	 * @return int|bool ID of first found invitation or false if none found.
+	 * @param array $args Optional. Arguments to pass to BP_Optout::get().
+	 * @return int|false ID of first found opt-out or false if none found.
 	 */
 	public function optout_exists( $args = array() ) {
 		$exists = false;
@@ -832,7 +831,7 @@ class BP_Optout {
 	 *
 	 * @since 8.0.0
 	 *
-	 * @see BP_optout::delete() for explanation of
+	 * @see BP_Optout::delete() for explanation of
 	 *      return value.
 	 *
 	 * @param int $id ID of the opt-out item to be deleted.

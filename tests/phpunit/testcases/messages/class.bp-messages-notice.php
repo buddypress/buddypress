@@ -31,8 +31,8 @@ class BP_Tests_BP_Messages_Notice_TestCases extends BP_UnitTestCase {
 
 		// now get the active notice and assert
 		$notice = BP_Messages_Notice::get_active();
-		$this->assertEquals( $subject, $notice->subject );
-		$this->assertEquals( $message, $notice->message );
+		$this->assertSame( $subject, $notice->subject );
+		$this->assertSame( $message, $notice->message );
 
 		// deactivate notice and make sure cache is invalidated
 		$notice->deactivate();
@@ -48,7 +48,7 @@ class BP_Tests_BP_Messages_Notice_TestCases extends BP_UnitTestCase {
 
 		// grab the cache and make sure it equals our new notice
 		$cache = wp_cache_get( 'active_notice', 'bp_messages' );
-		$this->assertEquals( $subject2, $cache->subject );
-		$this->assertEquals( $message2, $cache->message );
+		$this->assertSame( $subject2, $cache->subject );
+		$this->assertSame( $message2, $cache->message );
 	}
 }

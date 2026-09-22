@@ -32,7 +32,7 @@ function bp_xprofile_format_activity_action_new_avatar( $action, $activity ) {
  * @since 2.3.4 Add new parameter to get the user id the avatar was set for.
  * @deprecated 8.0.0
  *
- * @param int $user_id The user id the avatar was set for.
+ * @param int $user_id Optional. The user id the avatar was set for.
  * @return bool
  */
 function bp_xprofile_new_avatar_activity( $user_id = 0 ) {

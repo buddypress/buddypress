@@ -2,9 +2,12 @@
 /**
  * BP Nouveau Search & filters bar
  *
+ * @package BuddyPress
+ * @subpackage bp-nouveau
  * @since 3.0.0
  * @version 8.0.0
  */
+
 ?>
 <div class="subnav-filters filters no-ajax" id="subnav-filters">
 
@@ -21,7 +24,7 @@
 
 			<?php bp_nouveau_search_form(); ?>
 
- 		</div>
+		</div>
 	<?php endif; ?>
 
 	<?php if ( bp_is_user() && ! bp_is_current_action( 'requests' ) ) : ?>

@@ -15,7 +15,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 		) );
 
 		$result = BP_Activity_Activity::check_exists_by_content( $content );
-		$this->assertEquals( $activity, $result );
+		$this->assertSame( $activity, $result );
 	}
 
 	/**
@@ -84,7 +84,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 			'in'          => $activity,
 			'show_hidden' => true,
 		) );
-		$this->assertEquals( $activity['activities'][0]->hide_sitewide, 1 );
+		$this->assertSame( $activity['activities'][0]->hide_sitewide, 1 );
 	}
 
 	/**
@@ -108,7 +108,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 			]
 		);
 
-		$this->assertEquals( [ $a1 ], wp_list_pluck( $activity['activities'], 'id' ) );
+		$this->assertSame( [ $a1 ], wp_list_pluck( $activity['activities'], 'id' ) );
 
 		$activity = BP_Activity_Activity::get(
 			[
@@ -121,7 +121,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 			]
 		);
 
-		$this->assertEquals( [ $a2 ], wp_list_pluck( $activity['activities'], 'id' ) );
+		$this->assertSame( [ $a2 ], wp_list_pluck( $activity['activities'], 'id' ) );
 	}
 
 	/**
@@ -158,19 +158,15 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 		) );
 
 		$ids = wp_list_pluck( $activity['activities'], 'id' );
-		$this->assertEquals( array( $a1, $a2 ), $ids );
-		$this->assertEquals( 2, $activity['total'] );
+		$this->assertSame( array( $a1, $a2 ), $ids );
+		$this->assertSame( 2, $activity['total'] );
 	}
 
 	/**
 	 * @group get
 	 * @group date_query
-	 * @requires PHP 5.3
 	 */
 	public function test_get_with_date_query_before() {
-		if ( ! class_exists( 'WP_Date_Query' ) ) {
-			return;
-		}
 
 		$a1 = self::factory()->activity->create();
 		$a2 = self::factory()->activity->create( array(
@@ -190,18 +186,14 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 				),
 			) )
 		) );
-		$this->assertEquals( array( $a2 ), wp_list_pluck( $query['activities'], 'id' ) );
+		$this->assertSame( array( $a2 ), wp_list_pluck( $query['activities'], 'id' ) );
 	}
 
 	/**
 	 * @group get
 	 * @group date_query
-	 * @requires PHP 5.3
 	 */
 	public function test_get_with_date_query_range() {
-		if ( ! class_exists( 'WP_Date_Query' ) ) {
-			return;
-		}
 
 		$a1 = self::factory()->activity->create();
 		$a2 = self::factory()->activity->create( array(
@@ -223,18 +215,14 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 				'inclusive' => true,
 			) )
 		) );
-		$this->assertEquals( array( $a3 ), wp_list_pluck( $query['activities'], 'id' ) );
+		$this->assertSame( array( $a3 ), wp_list_pluck( $query['activities'], 'id' ) );
 	}
 
 	/**
 	 * @group get
 	 * @group date_query
-	 * @requires PHP 5.3
 	 */
 	public function test_get_with_date_query_after() {
-		if ( ! class_exists( 'WP_Date_Query' ) ) {
-			return;
-		}
 
 		$a1 = self::factory()->activity->create();
 		$a2 = self::factory()->activity->create( array(
@@ -250,7 +238,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 				'after' => '1 day ago'
 			) )
 		) );
-		$this->assertEquals( array( $a1 ), wp_list_pluck( $query['activities'], 'id' ) );
+		$this->assertSame( array( $a1 ), wp_list_pluck( $query['activities'], 'id' ) );
 	}
 
 	/**
@@ -268,7 +256,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 			'search_terms' => 'cool',
 		) );
 		$ids = wp_list_pluck( $activity['activities'], 'id' );
-		$this->assertEquals( $ids, array( $a1 ) );
+		$this->assertSame( $ids, array( $a1 ) );
 	}
 
 	/**
@@ -310,7 +298,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 			$found[ $a->id ] = ! empty( $a->children ) ? array_keys( $a->children ) : array();
 		}
 
-		$this->assertEquals( $expected, $found );
+		$this->assertSame( $expected, $found );
 	}
 
 	/**
@@ -343,7 +331,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 			'display_comments' => 'stream',
 		) );
 		$ids = wp_list_pluck( $activity['activities'], 'id' );
-		$this->assertEquals( array( $a1, $a3, $a2 ), $ids );
+		$this->assertSame( array( $a1, $a3, $a2 ), $ids );
 	}
 
 	/**
@@ -369,7 +357,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 			'display_comments' => false,
 		) );
 		$ids = wp_list_pluck( $activity['activities'], 'id' );
-		$this->assertEquals( array( $a1, $a2 ), $ids );
+		$this->assertSame( array( $a1, $a2 ), $ids );
 	}
 
 	/**
@@ -396,7 +384,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 			),
 		) );
 		$ids = wp_list_pluck( $activity['activities'], 'id' );
-		$this->assertEquals( array( $a3, $a2 ), $ids );
+		$this->assertSame( array( $a3, $a2 ), $ids );
 	}
 
 	/**
@@ -423,7 +411,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 			),
 		) );
 		$ids = wp_list_pluck( $activity['activities'], 'id' );
-		$this->assertEquals( array( $a3, $a2 ), $ids );
+		$this->assertSame( array( $a3, $a2 ), $ids );
 	}
 
 	/**
@@ -460,7 +448,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 		);
 
 		$ids = wp_list_pluck( $activity['activities'], 'id' );
-		$this->assertEquals( array( $a2, $a1 ), $ids );
+		$this->assertSame( array( $a2, $a1 ), $ids );
 	}
 
 	/**
@@ -503,7 +491,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 
 		$page_two_ids                = wp_list_pluck( $stream['activities'], 'id' );
 		$first_displayed_on_page_two = reset( $page_two_ids );
-		$this->assertEquals( $first_displayed_on_page_two, $last_displayed_on_first_page );
+		$this->assertSame( $first_displayed_on_page_two, $last_displayed_on_first_page );
 
 		$stream = BP_Activity_Activity::get(
 			array(
@@ -537,7 +525,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 
 		$ids = wp_list_pluck( $activities['activities'], 'id' );
 		sort( $ids );
-		$this->assertEquals( array( $a1, $a2 ), $ids );
+		$this->assertSame( array( $a1, $a2 ), $ids );
 	}
 
 	/**
@@ -556,7 +544,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 		) );
 
 		$ids = wp_list_pluck( $activities['activities'], 'id' );
-		$this->assertEquals( array( $a1 ), $ids );
+		$this->assertSame( array( $a1 ), $ids );
 	}
 
 	/**
@@ -581,7 +569,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 
 		$ids = wp_list_pluck( $activities['activities'], 'id' );
 		sort( $ids );
-		$this->assertEquals( array( $a1, $a2 ), $ids );
+		$this->assertSame( array( $a1, $a2 ), $ids );
 	}
 
 	/**
@@ -596,7 +584,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 			'count_total' => 'count_query',
 		) );
 
-		$this->assertEquals( 2, $activity['total'] );
+		$this->assertSame( 2, $activity['total'] );
 	}
 
 	/**
@@ -611,7 +599,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 			'count_total' => false,
 		) );
 
-		$this->assertSame( null, $activity['total'] );
+		$this->assertNull( $activity['total'] );
 	}
 
 	/**
@@ -624,7 +612,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 
 		$activity = BP_Activity_Activity::get();
 
-		$this->assertSame( null, $activity['total'] );
+		$this->assertNull( $activity['total'] );
 	}
 
 	/**
@@ -643,7 +631,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 		);
 
 		$activity = BP_Activity_Activity::get_id( $args );
-		$this->assertEquals( $a1, $activity );
+		$this->assertSame( $a1, $activity );
 	}
 
 	/**
@@ -660,7 +648,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 		) );
 
 		$activity = BP_Activity_Activity::get_id( false, false, false, 1098, false, false, false, false );
-		$this->assertEquals( $a2, $activity );
+		$this->assertSame( $a2, $activity );
 	}
 
 	/**
@@ -679,7 +667,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 		);
 
 		$activity = BP_Activity_Activity::get_id( $args );
-		$this->assertEquals( $a1, $activity );
+		$this->assertSame( $a1, $activity );
 	}
 
 	/**
@@ -696,7 +684,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 		$activity = BP_Activity_Activity::delete( array(
 			'item_id' => 523,
 		) );
-		$this->assertEquals( array( $a1 ), $activity );
+		$this->assertSame( array( $a1 ), $activity );
 	}
 
 	/**
@@ -713,7 +701,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 		$activity = BP_Activity_Activity::delete( array(
 			'secondary_item_id' => 523,
 		) );
-		$this->assertEquals( array( $a1 ), $activity );
+		$this->assertSame( array( $a1 ), $activity );
 	}
 
 	/**
@@ -792,7 +780,24 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 		$a1_obj = new BP_Activity_Activity( $a1 );
 		$comments = BP_Activity_Activity::get_activity_comments( $a1, $a1_obj->mptt_left, $a1_obj->mptt_right, 'ham_only', $a1 );
 
-		$this->assertEquals( $expected, $comments );
+		foreach ( $comments as $comment ) {
+			$this->assertInstanceOf( 'stdClass', $comment );
+		}
+
+		$expected_comments = array_map( 'get_object_vars', $expected );
+		$actual_comments   = array_map( 'get_object_vars', $comments );
+
+		foreach ( $expected_comments as &$comment ) {
+			ksort( $comment );
+		}
+		unset( $comment );
+
+		foreach ( $actual_comments as &$comment ) {
+			ksort( $comment );
+		}
+		unset( $comment );
+
+		$this->assertSame( $expected_comments, $actual_comments );
 	}
 
 	/**
@@ -975,7 +980,8 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 	 */
 	public function test_nonexistent_activity_should_have_id_0_after_population() {
 		$a = self::factory()->activity->create();
-		bp_activity_delete_by_activity_id( $a );
+
+		bp_activity_delete( array( 'id' => $a ) );
 
 		$a_obj = new BP_Activity_Activity( $a );
 		$this->assertSame( 0, $a_obj->id );
@@ -999,7 +1005,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 		);
 
 		$this->assertInstanceOf( 'WP_Error', $a );
-		$this->assertEquals( 'bp_activity_missing_component', $a->get_error_code() );
+		$this->assertSame( 'bp_activity_missing_component', $a->get_error_code() );
 	}
 
 	/**
@@ -1016,7 +1022,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 		);
 
 		$this->assertInstanceOf( 'WP_Error', $a );
-		$this->assertEquals( 'bp_activity_missing_type', $a->get_error_code() );
+		$this->assertSame( 'bp_activity_missing_type', $a->get_error_code() );
 	}
 
 	/**
@@ -1033,7 +1039,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 		);
 
 		$this->assertInstanceOf( 'WP_Error', $a );
-		$this->assertEquals( 'bp_activity_missing_content', $a->get_error_code() );
+		$this->assertSame( 'bp_activity_missing_content', $a->get_error_code() );
 	}
 
 	/**
@@ -1070,6 +1076,6 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 		remove_filter( 'bp_activity_type_requires_content', '__return_true' );
 
 		$this->assertInstanceOf( 'WP_Error', $a );
-		$this->assertEquals( 'bp_activity_missing_content', $a->get_error_code() );
+		$this->assertSame( 'bp_activity_missing_content', $a->get_error_code() );
 	}
 }

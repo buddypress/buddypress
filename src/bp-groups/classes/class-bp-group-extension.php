@@ -299,10 +299,9 @@ class BP_Group_Extension {
 	 * The content of the group tab.
 	 *
 	 * @since 1.1.0
-	 *
-	 * @param int|null $group_id ID of the group to display.
+	 * @since 15.0.0 The `$group_id` parameter was removed since it was unused.
 	 */
-	public function display( $group_id = null ) {
+	public function display() {
 		return new WP_Error(
 			'invalid-method',
 			/* translators: %s: Method name. */
@@ -315,13 +314,7 @@ class BP_Group_Extension {
 	 *
 	 * @since 1.1.0
 	 */
-	public function widget_display() {
-		return new WP_Error(
-			'invalid-method',
-			/* translators: %s: Method name. */
-			sprintf( __( "Method '%s' not implemented. Must be overridden in subclass.", 'buddypress' ), __METHOD__ )
-		);
-	}
+	public function widget_display() {}
 
 	/*
 	 * *_screen() displays the settings form for the given context
@@ -335,10 +328,9 @@ class BP_Group_Extension {
 	 * Provide the fallback markup for Group's Create/Admin/Edit screens.
 	 *
 	 * @since 1.8.0
-	 *
-	 * @param int|null $group_id ID of the group to display.
+	 * @since 15.0.0 The `$group_id` parameter was removed since it was unused.
 	 */
-	public function settings_screen( $group_id = null ) {
+	public function settings_screen() {
 		return new WP_Error(
 			'invalid-method',
 			/* translators: %s: Method name. */
@@ -350,10 +342,9 @@ class BP_Group_Extension {
 	 * Group's Fallback handler for the Create/Admin/Edit screens.
 	 *
 	 * @since 1.8.0
-	 *
-	 * @param int|null $group_id ID of the group to display.
+	 * @since 15.0.0 The `$group_id` parameter was removed since it was unused.
 	 */
-	public function settings_screen_save( $group_id = null ) {
+	public function settings_screen_save() {
 		return new WP_Error(
 			'invalid-method',
 			/* translators: %s: Method name. */
@@ -365,10 +356,9 @@ class BP_Group_Extension {
 	 * The content of the Manage sub tab.
 	 *
 	 * @since 1.1.0
-	 *
-	 * @param int|null $group_id ID of the group to display.
+	 * @since 15.0.0 The `$group_id` parameter was removed since it was unused.
 	 */
-	public function edit_screen( $group_id = null ) {
+	public function edit_screen() {
 		return new WP_Error(
 			'invalid-method',
 			/* translators: %s: Method name. */
@@ -380,10 +370,9 @@ class BP_Group_Extension {
 	 * Group Manage sub tab handler.
 	 *
 	 * @since 1.1.0
-	 *
-	 * @param int|null $group_id ID of the group to display.
+	 * @since 15.0.0 The `$group_id` parameter was removed since it was unused.
 	 */
-	public function edit_screen_save( $group_id = null ) {
+	public function edit_screen_save() {
 		return new WP_Error(
 			'invalid-method',
 			/* translators: %s: Method name. */
@@ -395,10 +384,9 @@ class BP_Group_Extension {
 	 * The content of the group create step tab.
 	 *
 	 * @since 1.1.0
-	 *
-	 * @param int|null $group_id ID of the group to display.
+	 * @since 15.0.0 The `$group_id` parameter was removed since it was unused.
 	 */
-	public function create_screen( $group_id = null ) {
+	public function create_screen() {
 		return new WP_Error(
 			'invalid-method',
 			/* translators: %s: Method name. */
@@ -410,10 +398,9 @@ class BP_Group_Extension {
 	 * Group create step tab handler.
 	 *
 	 * @since 1.1.0
-	 *
-	 * @param int|null $group_id ID of the group to display.
+	 * @since 15.0.0 The `$group_id` parameter was removed since it was unused.
 	 */
-	public function create_screen_save( $group_id = null ) {
+	public function create_screen_save() {
 		return new WP_Error(
 			'invalid-method',
 			/* translators: %s: Method name. */
@@ -425,10 +412,9 @@ class BP_Group_Extension {
 	 * The content of Group's WP Administration screen metabox.
 	 *
 	 * @since 1.8.0
-	 *
-	 * @param int|null $group_id ID of the group to display.
+	 * @since 15.0.0 The `$group_id` parameter was removed since it was unused.
 	 */
-	public function admin_screen( $group_id = null ) {
+	public function admin_screen() {
 		return new WP_Error(
 			'invalid-method',
 			/* translators: %s: Method name. */
@@ -440,10 +426,9 @@ class BP_Group_Extension {
 	 * Group's WP Administration screen handler.
 	 *
 	 * @since 1.8.0
-	 *
-	 * @param int|null $group_id ID of the group to display.
+	 * @since 15.0.0 The `$group_id` parameter was removed since it was unused.
 	 */
-	public function admin_screen_save( $group_id = null ) {
+	public function admin_screen_save() {
 		return new WP_Error(
 			'invalid-method',
 			/* translators: %s: Method name. */
@@ -474,7 +459,7 @@ class BP_Group_Extension {
 	 * @since 12.0.0 Set the Group Extension screens.
 	 *
 	 * @param array $args {
-	 *     Array of initialization arguments.
+	 *     Optional. Array of initialization arguments.
 	 *     @type string       $slug              Unique, URL-safe identifier for your extension.
 	 *     @type string       $name              Translatable name for your extension. Used to populate
 	 *                                           navigation items.
@@ -635,7 +620,7 @@ class BP_Group_Extension {
 	 *
 	 * @since 1.1.0
 	 */
-	public function _register() {
+	public function _register() { // phpcs:ignore PSR2.Methods.MethodDeclaration.Underscore -- Retains the established method name for backward compatibility.
 
 		// Detect and parse properties set by legacy extensions.
 		$this->parse_legacy_properties();
@@ -964,7 +949,7 @@ class BP_Group_Extension {
 	 *
 	 * @since 12.0.0
 	 *
-	 * @param string $context One of these contexts: 'create', 'manage', 'read'.
+	 * @param string $context Optional. One of these contexts: 'create', 'manage', 'read'.
 	 * @return string         The found Rewrite ID, an empty string otherwise.
 	 */
 	protected function get_rewrite_id_for( $context = '' ) {
@@ -1065,7 +1050,7 @@ class BP_Group_Extension {
 	 *
 	 * @since 1.1.0
 	 */
-	public function _display_hook() {
+	public function _display_hook() { // phpcs:ignore PSR2.Methods.MethodDeclaration.Underscore -- Retains the established method name for backward compatibility.
 		add_action( 'bp_template_content', array( &$this, 'call_display' ) );
 
 		/**
@@ -1087,7 +1072,7 @@ class BP_Group_Extension {
 	 * @since 2.1.1
 	 */
 	public function call_display() {
-		$this->display( $this->group_id );
+		$this->display();
 	}
 
 	/**
@@ -1097,11 +1082,11 @@ class BP_Group_Extension {
 	 * Access to the tab is controlled by the user_can_visit() check.
 	 *
 	 * @since 2.1.0
+	 * @since 15.0.0 The `$user_can_see_nav_item` parameter was removed since it was unused.
 	 *
-	 * @param bool $user_can_see_nav_item Whether or not the user can see the nav item.
 	 * @return bool
 	 */
-	public function user_can_see_nav_item( $user_can_see_nav_item = false ) {
+	public function user_can_see_nav_item() {
 
 		// Always allow moderators to see nav items, even if explicitly 'noone'
 		if ( ( 'noone' !== $this->params['show_tab'] ) && bp_current_user_can( 'bp_moderate' ) ) {
@@ -1118,11 +1103,11 @@ class BP_Group_Extension {
 	 * Display of the navigation item is controlled by user_can_see_nav_item().
 	 *
 	 * @since 2.1.0
+	 * @since 15.0.0 The `$user_can_visit` parameter was removed since it was unused.
 	 *
-	 * @param bool $user_can_visit Whether or not the user can visit the tab.
 	 * @return bool
 	 */
-	public function user_can_visit( $user_can_visit = false ) {
+	public function user_can_visit() {
 
 		// Always allow moderators to visit a tab, even if explicitly 'noone'
 		if ( ( 'noone' !== $this->params['access'] ) && bp_current_user_can( 'bp_moderate' ) ) {
@@ -1216,7 +1201,7 @@ class BP_Group_Extension {
 			return;
 		}
 
-		call_user_func( $this->screens['create']['screen_callback'], $this->group_id );
+		call_user_func( $this->screens['create']['screen_callback'] );
 		$this->nonce_field( 'create' );
 
 		/*
@@ -1237,7 +1222,7 @@ class BP_Group_Extension {
 		}
 
 		$this->check_nonce( 'create' );
-		call_user_func( $this->screens['create']['screen_save_callback'], $this->group_id );
+		call_user_func( $this->screens['create']['screen_save_callback'] );
 	}
 
 	/** Edit **************************************************************/
@@ -1282,7 +1267,7 @@ class BP_Group_Extension {
 
 		// Catch the edit screen and forward it to the plugin template.
 		if ( bp_is_groups_component() && bp_is_current_action( 'admin' ) && bp_is_action_variable( $screen['slug'], 0 ) ) {
-			$this->call_edit_screen_save( $this->group_id );
+			$this->call_edit_screen_save();
 
 			add_action( 'groups_custom_edit_steps', array( &$this, 'call_edit_screen' ) );
 
@@ -1330,7 +1315,7 @@ class BP_Group_Extension {
 	 */
 	public function call_edit_screen() {
 		ob_start();
-		call_user_func( $this->screens['edit']['screen_callback'], $this->group_id );
+		call_user_func( $this->screens['edit']['screen_callback'] );
 		$screen = ob_get_contents();
 		ob_end_clean();
 
@@ -1367,7 +1352,7 @@ class BP_Group_Extension {
 		add_filter( 'wp_redirect', array( $this, 'detect_post_save_redirect' ) );
 
 		// Call the extension's save routine.
-		call_user_func( $this->screens['edit']['screen_save_callback'], $this->group_id );
+		call_user_func( $this->screens['edit']['screen_save_callback'] );
 
 		// Clean up detection filters.
 		remove_filter( 'wp_redirect', array( $this, 'detect_post_save_redirect' ) );
@@ -1420,9 +1405,9 @@ class BP_Group_Extension {
 	 *
 	 * @since 1.8.0
 	 *
-	 * @param string $screen The screen markup, captured in the output
+	 * @param string $screen Optional. The screen markup, captured in the output
 	 *                       buffer.
-	 * @return string $screen The same markup, with a submit button added.
+	 * @return string The same markup, with a submit button added.
 	 */
 	protected function maybe_add_submit_button( $screen = '' ) {
 		if ( $this->has_submit_button( $screen ) ) {
@@ -1442,7 +1427,7 @@ class BP_Group_Extension {
 	 *
 	 * @since 1.8.0
 	 *
-	 * @param string $screen The markup to check.
+	 * @param string $screen Optional. The markup to check.
 	 * @return bool True if a Submit button is found, otherwise false.
 	 */
 	public static function has_submit_button( $screen = '' ) {
@@ -1456,7 +1441,7 @@ class BP_Group_Extension {
 	 *
 	 * @since 2.1.0
 	 *
-	 * @param string $redirect Redirect string.
+	 * @param string $redirect Optional. Redirect string.
 	 * @return string
 	 */
 	public function detect_post_save_redirect( $redirect = '' ) {
@@ -1486,7 +1471,7 @@ class BP_Group_Extension {
 		add_action( 'bp_groups_admin_meta_boxes', array( $this, '_meta_box_display_callback' ) );
 
 		// Catch the metabox save.
-		add_action( 'bp_group_admin_edit_after', array( $this, 'call_admin_screen_save' ), 10 );
+		add_action( 'bp_group_admin_edit_after', array( $this, 'call_admin_screen_save' ) );
 	}
 
 	/**
@@ -1495,7 +1480,7 @@ class BP_Group_Extension {
 	 * @since 1.8.0
 	 */
 	public function call_admin_screen() {
-		call_user_func( $this->screens['admin']['screen_callback'], $this->group_id );
+		call_user_func( $this->screens['admin']['screen_callback'] );
 		$this->nonce_field( 'admin' );
 	}
 
@@ -1506,7 +1491,7 @@ class BP_Group_Extension {
 	 */
 	public function call_admin_screen_save() {
 		$this->check_nonce( 'admin' );
-		call_user_func( $this->screens['admin']['screen_save_callback'], $this->group_id );
+		call_user_func( $this->screens['admin']['screen_save_callback'] );
 	}
 
 	/**
@@ -1514,7 +1499,7 @@ class BP_Group_Extension {
 	 *
 	 * @since 1.7.0
 	 */
-	public function _meta_box_display_callback() {
+	public function _meta_box_display_callback() { // phpcs:ignore PSR2.Methods.MethodDeclaration.Underscore -- Retains the established method name for backward compatibility.
 		// phpcs:disable WordPress.Security.NonceVerification
 		$group_id = 0;
 		if ( isset( $_GET['gid'] ) ) {
@@ -1553,7 +1538,7 @@ class BP_Group_Extension {
 	 *
 	 * @since 1.8.0
 	 *
-	 * @param string $context Screen context. 'create', 'edit', or 'admin'.
+	 * @param string $context Optional. Screen context. 'create', 'edit', or 'admin'.
 	 */
 	public function nonce_field( $context = '' ) {
 		wp_nonce_field( 'bp_group_extension_' . $this->slug . '_' . $context, '_bp_group_' . $context . '_nonce_' . $this->slug );
@@ -1564,7 +1549,7 @@ class BP_Group_Extension {
 	 *
 	 * @since 1.8.0
 	 *
-	 * @param string $context Screen context. 'create', 'edit', or 'admin'.
+	 * @param string $context Optional. Screen context. 'create', 'edit', or 'admin'.
 	 */
 	public function check_nonce( $context = '' ) {
 		check_admin_referer( 'bp_group_extension_' . $this->slug . '_' . $context, '_bp_group_' . $context . '_nonce_' . $this->slug );
@@ -1579,7 +1564,7 @@ class BP_Group_Extension {
 	 *
 	 * @since 1.8.0
 	 *
-	 * @param string $context Screen context. 'create', 'edit', or 'admin'.
+	 * @param string $context Optional. Screen context. 'create', 'edit', or 'admin'.
 	 * @return bool True if the screen is enabled, otherwise false.
 	 */
 	public function is_screen_enabled( $context = '' ) {
@@ -1626,8 +1611,8 @@ class BP_Group_Extension {
 	 *
 	 * @since 1.8.0
 	 *
-	 * @param string $context Screen context. 'create', 'edit', or 'admin'.
-	 * @param string $type    Screen type. 'screen' or 'screen_save'. Default:
+	 * @param string $context Optional. Screen context. 'create', 'edit', or 'admin'.
+	 * @param string $type    Optional. Screen type. 'screen' or 'screen_save'. Default:
 	 *                        'screen'.
 	 * @return callable A callable function handle.
 	 */

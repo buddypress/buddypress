@@ -42,8 +42,11 @@ do_action( 'bp_before_member_settings_template' ); ?>
 	</label>
 	<input type="password" name="pass1" id="pass1" size="16" value="" class="settings-input small password-entry" <?php bp_form_field_attributes( 'password' ); ?>/>
 	<div id="pass-strength-result"></div>
-	<label for="pass2"><?php esc_html_e( 'Repeat New Password', 'buddypress' );
-	?></label>
+	<label for="pass2">
+	<?php
+	esc_html_e( 'Repeat New Password', 'buddypress' );
+	?>
+	</label>
 	<input type="password" name="pass2" id="pass2" size="16" value="" class="settings-input small password-entry-confirm" <?php bp_form_field_attributes( 'password' ); ?>/>
 
 	<?php
@@ -53,7 +56,8 @@ do_action( 'bp_before_member_settings_template' ); ?>
 	 *
 	 * @since 1.5.0
 	 */
-	do_action( 'bp_core_general_settings_before_submit' ); ?>
+	do_action( 'bp_core_general_settings_before_submit' );
+	?>
 
 	<div class="submit">
 		<input type="submit" name="submit" value="<?php esc_attr_e( 'Save Changes', 'buddypress' ); ?>" id="submit" class="auto" />
@@ -66,7 +70,8 @@ do_action( 'bp_before_member_settings_template' ); ?>
 	 *
 	 * @since 1.5.0
 	 */
-	do_action( 'bp_core_general_settings_after_submit' ); ?>
+	do_action( 'bp_core_general_settings_after_submit' );
+	?>
 
 	<?php wp_nonce_field( 'bp_settings_general' ); ?>
 

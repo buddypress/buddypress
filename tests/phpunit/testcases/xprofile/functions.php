@@ -11,7 +11,7 @@ class BP_Tests_XProfile_Functions extends BP_UnitTestCase {
 		$old_current_user = bp_loggedin_user_id();
 		wp_set_current_user( 0 );
 
-		$this->assertEquals( array( 'friends', 'loggedin', 'adminsonly' ), bp_xprofile_get_hidden_field_types_for_user( $duser, bp_loggedin_user_id() ) );
+		$this->assertSame( array( 'friends', 'loggedin', 'adminsonly' ), bp_xprofile_get_hidden_field_types_for_user( $duser, bp_loggedin_user_id() ) );
 
 		wp_set_current_user( $old_current_user );
 	}
@@ -23,7 +23,7 @@ class BP_Tests_XProfile_Functions extends BP_UnitTestCase {
 		$old_current_user = bp_loggedin_user_id();
 		wp_set_current_user( $cuser );
 
-		$this->assertEquals( array( 'friends', 'adminsonly' ), bp_xprofile_get_hidden_field_types_for_user( $duser, bp_loggedin_user_id() ) );
+		$this->assertSame( array( 'friends', 'adminsonly' ), bp_xprofile_get_hidden_field_types_for_user( $duser, bp_loggedin_user_id() ) );
 
 		wp_set_current_user( $old_current_user );
 	}
@@ -36,7 +36,7 @@ class BP_Tests_XProfile_Functions extends BP_UnitTestCase {
 		$old_current_user = bp_loggedin_user_id();
 		wp_set_current_user( $cuser );
 
-		$this->assertEquals( array( 'adminsonly' ), bp_xprofile_get_hidden_field_types_for_user( $duser, bp_loggedin_user_id() ) );
+		$this->assertSame( array( 'adminsonly' ), bp_xprofile_get_hidden_field_types_for_user( $duser, bp_loggedin_user_id() ) );
 
 		wp_set_current_user( $old_current_user );
 	}
@@ -49,7 +49,7 @@ class BP_Tests_XProfile_Functions extends BP_UnitTestCase {
 		$old_current_user = bp_loggedin_user_id();
 		wp_set_current_user( $cuser );
 
-		$this->assertEquals( array(), bp_xprofile_get_hidden_field_types_for_user( $duser, bp_loggedin_user_id() ) );
+		$this->assertSame( array(), bp_xprofile_get_hidden_field_types_for_user( $duser, bp_loggedin_user_id() ) );
 
 		$this->revoke_bp_moderate( $cuser );
 		wp_set_current_user( $old_current_user );
@@ -69,7 +69,7 @@ class BP_Tests_XProfile_Functions extends BP_UnitTestCase {
 
 Bar!';
 		bp_xprofile_update_meta( $f, 'field', 'linebreak_field', $meta_value );
-		$this->assertEquals( $meta_value, bp_xprofile_get_meta( $f, 'field', 'linebreak_field' ) );
+		$this->assertSame( $meta_value, bp_xprofile_get_meta( $f, 'field', 'linebreak_field' ) );
 	}
 
 	/**
@@ -447,15 +447,7 @@ Bar!';
 		$g = self::factory()->xprofile_group->create();
 		bp_xprofile_add_meta( $g, 'group', 'foo', 'bar' );
 
-		// In earlier versions of WordPress, bp_activity_update_meta()
-		// returns true even on failure. However, we know that in these
-		// cases the update is failing as expected, so we skip this
-		// assertion just to keep our tests passing
-		// See https://core.trac.wordpress.org/ticket/24933
-		if ( version_compare( $GLOBALS['wp_version'], '3.7', '>=' ) ) {
-			$this->assertFalse( bp_xprofile_update_meta( $g, 'group', 'foo', 'bar2', 'baz' ) );
-		}
-
+		$this->assertFalse( bp_xprofile_update_meta( $g, 'group', 'foo', 'bar2', 'baz' ) );
 		$this->assertTrue( bp_xprofile_update_meta( $g, 'group', 'foo', 'bar2', 'bar' ) );
 	}
 
@@ -578,7 +570,7 @@ Bar!';
 		) );
 		xprofile_set_field_data( $f, $u, 0 );
 
-		$this->assertEquals( 0, xprofile_get_field_data( 'Pens', $u ) );
+		$this->assertSame( '0', xprofile_get_field_data( 'Pens', $u ) );
 	}
 
 	/**
@@ -613,7 +605,7 @@ Bar!';
 		// clean up post vars
 		$_POST = $post_vars;
 
-		$this->assertEquals( $display_name, xprofile_get_field_data( bp_xprofile_fullname_field_id(), $id ) );
+		$this->assertSame( $display_name, xprofile_get_field_data( bp_xprofile_fullname_field_id(), $id ) );
 	}
 
 	/**
@@ -661,14 +653,14 @@ Bar!';
 		$this->assertNotEmpty( $f );
 
 		$field = new BP_XProfile_Field( $f );
-		$this->assertEquals( 1, $field->is_required );
-		$this->assertEquals( 1, $field->can_delete );
-		$this->assertEquals( 1, $field->is_default_option );
-		$this->assertEquals( 13, $field->parent_id );
-		$this->assertEquals( 5, $field->field_order );
-		$this->assertEquals( 8, $field->option_order );
-		$this->assertEquals( 'foo', $field->description );
-		$this->assertEquals( 'custom', $field->order_by );
+		$this->assertSame( 1, $field->is_required );
+		$this->assertSame( 1, $field->can_delete );
+		$this->assertSame( 1, $field->is_default_option );
+		$this->assertSame( 13, $field->parent_id );
+		$this->assertSame( 5, $field->field_order );
+		$this->assertSame( 8, $field->option_order );
+		$this->assertSame( 'foo', $field->description );
+		$this->assertSame( 'custom', $field->order_by );
 
 		$f = xprofile_insert_field( array(
 			'field_group_id' => $g,
@@ -687,14 +679,14 @@ Bar!';
 		$this->assertNotEmpty( $f );
 
 		$field = new BP_XProfile_Field( $f );
-		$this->assertEquals( 0, $field->is_required );
-		$this->assertEquals( 0, $field->can_delete );
-		$this->assertEquals( 0, $field->is_default_option );
-		$this->assertEquals( 0, $field->parent_id );
-		$this->assertEquals( 0, $field->field_order );
-		$this->assertEquals( 0, $field->option_order );
-		$this->assertEquals( '', $field->description );
-		$this->assertEquals( '', $field->order_by );
+		$this->assertSame( 0, $field->is_required );
+		$this->assertSame( 0, $field->can_delete );
+		$this->assertSame( 0, $field->is_default_option );
+		$this->assertSame( 0, $field->parent_id );
+		$this->assertSame( 0, $field->field_order );
+		$this->assertSame( 0, $field->option_order );
+		$this->assertSame( '', $field->description );
+		$this->assertSame( '', $field->order_by );
 	}
 
 	/**
@@ -720,8 +712,8 @@ Bar!';
 
 		$field = new BP_XProfile_Field( $f );
 
-		$this->assertEquals( $parent, $field->parent_id );
-		$this->assertNotEquals( 0, $field->parent_id );
+		$this->assertSame( $parent, $field->parent_id );
+		$this->assertNotSame( 0, $field->parent_id );
 
 		$field->name = 'Option 2';
 		$field->save(); // Perform the `UPDATE` query. The reason for the bug.
@@ -729,8 +721,8 @@ Bar!';
 		// Fetch the new DB value.
 		$field = new BP_XProfile_Field( $f );
 
-		$this->assertNotEquals( 0, $field->parent_id );
-		$this->assertEquals( $parent, $field->parent_id );
+		$this->assertNotSame( 0, $field->parent_id );
+		$this->assertSame( $parent, $field->parent_id );
 	}
 
 	/**
@@ -754,7 +746,7 @@ Bar!';
 
 		$field = new BP_XProfile_Field( $f );
 
-		$this->assertEquals( 5, $field->option_order );
+		$this->assertSame( 5, $field->option_order );
 	}
 
 	/**
@@ -780,7 +772,7 @@ Bar!';
 
 		$this->assertNotEmpty( $f );
 		$field = new BP_XProfile_Field( $f );
-		$this->assertEquals( 0, $field->is_default_option );
+		$this->assertSame( 0, $field->is_default_option );
 	}
 
 	/**
@@ -806,7 +798,7 @@ Bar!';
 
 		$this->assertNotEmpty( $f );
 		$field = new BP_XProfile_Field( $f );
-		$this->assertEquals( 1, $field->is_default_option );
+		$this->assertSame( 1, $field->is_default_option );
 	}
 
 	/**
@@ -832,7 +824,7 @@ Bar!';
 
 		$this->assertNotEmpty( $f );
 		$field = new BP_XProfile_Field( $f );
-		$this->assertEquals( 1, $field->is_default_option );
+		$this->assertSame( 1, $field->is_default_option );
 
 		$f = xprofile_insert_field( array(
 			'field_id' => $f,
@@ -842,7 +834,7 @@ Bar!';
 		) );
 
 		$field2 = new BP_XProfile_Field( $f );
-		$this->assertEquals( 0, $field2->is_default_option );
+		$this->assertSame( 0, $field2->is_default_option );
 	}
 
 	/**
@@ -868,7 +860,7 @@ Bar!';
 
 		$this->assertNotEmpty( $f );
 		$field = new BP_XProfile_Field( $f );
-		$this->assertEquals( 0, $field->is_default_option );
+		$this->assertSame( 0, $field->is_default_option );
 
 		$f = xprofile_insert_field( array(
 			'field_id' => $f,
@@ -879,7 +871,7 @@ Bar!';
 
 		$field2 = new BP_XProfile_Field( $f );
 
-		$this->assertEquals( 1, $field2->is_default_option );
+		$this->assertSame( 1, $field2->is_default_option );
 	}
 
 	/**
@@ -902,7 +894,7 @@ Bar!';
 		$field_groups = bp_profile_get_field_groups();
 
 		// assert!
-		$this->assertEquals( array( 1, $g1, $g3, $g2 ), wp_list_pluck( $field_groups, 'id' ) );
+		$this->assertSame( array( 1, $g1, $g3, $g2 ), wp_list_pluck( $field_groups, 'id' ) );
 	}
 
 	/**
@@ -946,7 +938,23 @@ Bar!';
 
 		// No more queries.
 		$field_2 = xprofile_get_field( $f );
-		$this->assertEquals( $field_1, $field_2 );
+		$this->assertInstanceOf( 'BP_XProfile_Field', $field_1 );
+		$this->assertInstanceOf( 'BP_XProfile_Field', $field_2 );
+
+		$field_1_properties = get_object_vars( $field_1 );
+		$field_2_properties = get_object_vars( $field_2 );
+		$type_1             = $field_1_properties['type_obj'];
+		$type_2             = $field_2_properties['type_obj'];
+		unset( $field_1_properties['type_obj'], $field_2_properties['type_obj'] );
+
+		$this->assertSame( $field_1_properties, $field_2_properties );
+		$this->assertSame( get_class( $type_1 ), get_class( $type_2 ) );
+
+		$type_1_properties = get_object_vars( $type_1 );
+		$type_2_properties = get_object_vars( $type_2 );
+		unset( $type_1_properties['field_obj'], $type_2_properties['field_obj'] );
+
+		$this->assertSame( $type_1_properties, $type_2_properties );
 		$this->assertSame( $num_queries, $wpdb->num_queries );
 	}
 
@@ -1162,10 +1170,10 @@ Bar!';
 		$this->assertTrue( $actual['done'] );
 
 		// Number of exported users.
-		$this->assertSame( 1, count( $actual['data'] ) );
+		$this->assertCount( 1, $actual['data'] );
 
 		// Number of exported user properties.
-		$this->assertSame( 3, count( $actual['data'][0]['data'] ) );
+		$this->assertCount( 3, $actual['data'][0]['data'] );
 	}
 
 	/**
@@ -1293,8 +1301,8 @@ Bar!';
 
 		$updated_u = get_user_by( 'id', $u->ID );
 
-		$this->assertEquals( 'Foo', $updated_u->first_name );
-		$this->assertEquals( 'Bar', $updated_u->last_name );
+		$this->assertSame( 'Foo', $updated_u->first_name );
+		$this->assertSame( 'Bar', $updated_u->last_name );
 	}
 
 	/**
@@ -1323,8 +1331,8 @@ Bar!';
 
 		$updated_u = get_user_by( 'id', $u->ID );
 
-		$this->assertEquals( 'foobar', $updated_u->first_name );
-		$this->assertEquals( '', $updated_u->last_name );
+		$this->assertSame( 'foobar', $updated_u->first_name );
+		$this->assertSame( '', $updated_u->last_name );
 	}
 
 	/**
@@ -1382,8 +1390,8 @@ Bar!';
 
 		$updated_u = get_user_by( 'id', $u->ID );
 
-		$this->assertEquals( 'Bar', $updated_u->first_name );
-		$this->assertEquals( 'Foo', $updated_u->last_name );
+		$this->assertSame( 'Bar', $updated_u->first_name );
+		$this->assertSame( 'Foo', $updated_u->last_name );
 	}
 
 	/**
@@ -1417,8 +1425,8 @@ Bar!';
 
 		$updated_u = get_user_by( 'id', $u->ID );
 
-		$this->assertEquals( 'barfoo', $updated_u->first_name );
-		$this->assertEquals( '', $updated_u->last_name );
+		$this->assertSame( 'barfoo', $updated_u->first_name );
+		$this->assertSame( '', $updated_u->last_name );
 	}
 
 	/**

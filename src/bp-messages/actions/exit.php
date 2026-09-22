@@ -15,7 +15,7 @@
 function bp_messages_action_exit_thread() {
 
 	if ( ! bp_is_messages_component() || bp_is_current_action( 'notices' ) || ! bp_is_action_variable( 'exit', 0 ) ) {
-		return false;
+		return;
 	}
 
 	$thread_id   = bp_action_variable( 1 );
@@ -26,14 +26,14 @@ function bp_messages_action_exit_thread() {
 		bp_core_redirect( $redirect );
 	} else {
 		if ( ! check_admin_referer( 'bp_messages_exit_thread' ) ) {
-			return false;
+			return;
 		}
 
 		// Exit message.
 		if ( ! bp_messages_exit_thread( $thread_id ) ) {
-			bp_core_add_message( __('There was an error exiting the conversation.', 'buddypress'), 'error' );
+			bp_core_add_message( __( 'There was an error exiting the conversation.', 'buddypress' ), 'error' );
 		} else {
-			bp_core_add_message( __('You have left the message thread.', 'buddypress') );
+			bp_core_add_message( __( 'You have left the message thread.', 'buddypress' ) );
 		}
 
 		bp_core_redirect( $redirect );

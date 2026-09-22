@@ -52,7 +52,7 @@ abstract class BP_Attachment {
 	 * @since 2.4.0 Add the $upload_dir_filter_args argument to the $arguments array
 	 *
 	 * @param array|string $args {
-	 *     Array of upload parameters.
+	 *     Optional. Array of upload parameters.
 	 *
 	 *     @type int    $original_max_filesize  Maximum file size in kilobytes. Defaults to php.ini settings.
 	 *     @type array  $allowed_mime_types     List of allowed file extensions (eg: array( 'jpg', 'gif', 'png' ) ).
@@ -153,8 +153,8 @@ abstract class BP_Attachment {
 	 *
 	 * @since 2.3.0
 	 *
-	 * @param array $param A list of error messages to add to BuddyPress core ones.
-	 * @return array $upload_errors The list of upload errors.
+	 * @param array $param Optional. A list of error messages to add to BuddyPress core ones.
+	 * @return array The list of upload errors.
 	 */
 	public function set_upload_error_strings( $param = array() ) {
 		/**
@@ -279,7 +279,7 @@ abstract class BP_Attachment {
 
 		// Restore WordPress Uploads data.
 		if ( ! empty( $upload_dir_filter ) ) {
-			remove_filter( 'upload_dir', $upload_dir_filter, 10 );
+			remove_filter( 'upload_dir', $upload_dir_filter );
 		}
 
 		// Finally return the uploaded file or the error.
@@ -299,7 +299,7 @@ abstract class BP_Attachment {
 		if (
 			function_exists( 'transliterator_transliterate' )
 			// wp_is_valid_utf8 is added in WP 6.9.
-			&& function_exists( 'wp_is_valid_utf8' ) ? wp_is_valid_utf8( $retval ) : seems_utf8( $retval )
+			&& function_exists( 'wp_is_valid_utf8' ) ? wp_is_valid_utf8( $retval ) : seems_utf8( $retval ) // phpcs:ignore WordPress.WP.DeprecatedFunctions.seems_utf8Found
 		) {
 			$retval = transliterator_transliterate( 'Any-Latin; Latin-ASCII; [\u0080-\u7fff] remove', $retval );
 
@@ -312,7 +312,7 @@ abstract class BP_Attachment {
 			if (
 				function_exists( 'iconv' )
 				// wp_is_valid_utf8 is added in WP 6.9.
-				&& function_exists( 'wp_is_valid_utf8' ) ? wp_is_valid_utf8( $retval ) : seems_utf8( $retval )
+				&& function_exists( 'wp_is_valid_utf8' ) ? wp_is_valid_utf8( $retval ) : seems_utf8( $retval ) // phpcs:ignore WordPress.WP.DeprecatedFunctions.seems_utf8Found
 			) {
 				$retval = iconv( 'UTF-8', 'ASCII//TRANSLIT//IGNORE', $retval );
 			}
@@ -359,7 +359,7 @@ abstract class BP_Attachment {
 	 *
 	 * @since 2.3.0
 	 *
-	 * @param array $file The temporary file attributes (before it has been moved).
+	 * @param array $file Optional. The temporary file attributes (before it has been moved).
 	 * @return array The file.
 	 */
 	public function validate_upload( $file = array() ) {
@@ -384,7 +384,7 @@ abstract class BP_Attachment {
 	 *
 	 *       regarding to context
 	 *
-	 * @param array $upload_dir The original Uploads dir.
+	 * @param array $upload_dir Optional. The original Uploads dir.
 	 * @return array The upload directory data.
 	 */
 	public function upload_dir_filter( $upload_dir = array() ) {
@@ -447,7 +447,7 @@ abstract class BP_Attachment {
 	 * @since 2.3.0
 	 *
 	 * @param array $args {
-	 *     Array of arguments for the crop method.
+	 *     Optional. Array of arguments for the crop method.
 	 *
 	 *     @type string $original_file The source file (absolute path) for the Attachment.
 	 *     @type int    $crop_x        The start x position to crop from.
@@ -629,12 +629,14 @@ abstract class BP_Attachment {
 
 		// Create the revision directory if it doesn't exist yet.
 		if ( ! is_dir( $revision_dir ) ) {
+			// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_mkdir
 			mkdir( $revision_dir );
 		}
 
 		$revision_name = wp_unique_filename( $revision_dir, $filename );
 		$revision_path = trailingslashit( $revision_dir ) . $revision_name;
 
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.rename_rename
 		if ( ! rename( $filepath, $revision_path ) ) {
 			return new WP_Error( 'adding_revision_failed', __( 'An unexpected error occured while adding the revision.', 'buddypress' ) );
 		}

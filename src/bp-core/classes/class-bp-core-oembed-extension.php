@@ -620,7 +620,7 @@ abstract class BP_Core_oEmbed_Extension {
 	 *
 	 * @see add_oembed_discovery_links()
 	 *
-	 * @param string $retval Current oEmbed endpoint URL.
+	 * @param string $retval Optional. Current oEmbed endpoint URL.
 	 * @return string
 	 */
 	public function filter_rest_url( $retval = '' ) {

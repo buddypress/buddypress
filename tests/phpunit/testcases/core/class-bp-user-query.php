@@ -20,7 +20,7 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 
 		$friends = is_array( $q->results ) ? array_values( $q->results ) : array();
 		$friend_ids = wp_list_pluck( $friends, 'ID' );
-		$this->assertEquals( $friend_ids, array( $u1 ) );
+		$this->assertSame( $friend_ids, array( $u1 ) );
 	}
 
 	/**
@@ -44,7 +44,7 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 
 		$friends = is_array( $q->results ) ? array_values( $q->results ) : array();
 		$friend_ids = wp_list_pluck( $friends, 'ID' );
-		$this->assertEquals( $friend_ids, array( $u2 ) );
+		$this->assertSame( $friend_ids, array( $u2 ) );
 	}
 
 	public function test_bp_user_query_friends_with_include_but_zero_friends() {
@@ -63,7 +63,7 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 
 		$friends = is_array( $q->results ) ? array_values( $q->results ) : array();
 		$friend_ids = wp_list_pluck( $friends, 'ID' );
-		$this->assertEquals( $friend_ids, array() );
+		$this->assertSame( $friend_ids, array() );
 	}
 
 	/**
@@ -130,10 +130,10 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 		) );
 
 		$users = is_array( $q->results ) ? array_values( $q->results ) : array();
-		$user_ids = wp_parse_id_list( wp_list_pluck( $users, 'ID' ) );
+		$user_ids = wp_list_pluck( $users, 'ID' );
 
 		$expected = array( $u4, $u3, $u2, $u1 );
-		$this->assertEquals( $expected, $user_ids );
+		$this->assertSame( $expected, $user_ids );
 	}
 
 	/**
@@ -156,8 +156,8 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 		) );
 
 		$users = is_array( $q->results ) ? array_values( $q->results ) : array();
-		$user_ids = wp_parse_id_list( wp_list_pluck( $users, 'ID' ) );
-		$this->assertEquals( array( $u1, $u2 ), $user_ids );
+		$user_ids = wp_list_pluck( $users, 'ID' );
+		$this->assertSame( array( $u1, $u2 ), $user_ids );
 	}
 
 	/**
@@ -182,8 +182,8 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 		) );
 
 		$users = is_array( $q->results ) ? array_values( $q->results ) : array();
-		$user_ids = wp_parse_id_list( wp_list_pluck( $users, 'ID' ) );
-		$this->assertEquals( array( $u1, $u2 ), $user_ids );
+		$user_ids = wp_list_pluck( $users, 'ID' );
+		$this->assertSame( array( $u1, $u2 ), $user_ids );
 	}
 
 
@@ -199,7 +199,7 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 			$found_user_id = $found_user->ID;
 		}
 
-		$this->assertEquals( $user_id, $found_user_id );
+		$this->assertSame( $user_id, $found_user_id );
 	}
 
 	public function test_bp_user_query_search_with_percent_sign() {
@@ -215,7 +215,7 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 			$found_user_id = $found_user->ID;
 		}
 
-		$this->assertEquals( $user_id, $found_user_id );
+		$this->assertSame( $user_id, $found_user_id );
 
 	}
 
@@ -232,7 +232,7 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 			$found_user_id = $found_user->ID;
 		}
 
-		$this->assertEquals( $user_id, $found_user_id );
+		$this->assertSame( $user_id, $found_user_id );
 	}
 
 	public function test_bp_user_query_search_with_ampersand_sign() {
@@ -248,7 +248,7 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 			$found_user_id = $found_user->ID;
 		}
 
-		$this->assertEquals( $user_id, $found_user_id );
+		$this->assertSame( $user_id, $found_user_id );
 
 	}
 
@@ -268,7 +268,7 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 			$found_user_id = $found_user->ID;
 		}
 
-		$this->assertEquals( $user_id, $found_user_id );
+		$this->assertSame( $user_id, $found_user_id );
 	}
 
 	public function test_bp_user_query_search_wildcards() {
@@ -292,11 +292,11 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 
 		$this->assertNotEmpty( $q1->results );
 		$q1 = array_pop( $q1->results );
-		$this->assertEquals( $u1, $q1->ID );
+		$this->assertSame( $u1, $q1->ID );
 
 		$this->assertNotEmpty( $q2->results );
 		$q2 = array_pop( $q2->results );
-		$this->assertEquals( $u2, $q2->ID );
+		$this->assertSame( $u2, $q2->ID );
 
 		$this->assertNotEmpty( $q3->results );
 		foreach ( $q3->results as $user ) {
@@ -320,10 +320,10 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 
 		$found_user_ids = null;
 		if ( ! empty( $q->results ) ) {
-			$found_user_ids = array_values( wp_parse_id_list( wp_list_pluck( $q->results, 'ID' ) ) );
+			$found_user_ids = array_values( wp_list_pluck( $q->results, 'ID' ) );
 		}
 
-		$this->assertEquals( array( $u2 ), $found_user_ids );
+		$this->assertSame( array( $u2 ), $found_user_ids );
 	}
 
 	/**
@@ -338,7 +338,7 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 
 		$found_user_ids = null;
 		if ( ! empty( $q->results ) ) {
-			$found_user_ids = array_values( wp_parse_id_list( wp_list_pluck( $q->results, 'ID' ) ) );
+			$found_user_ids = array_values( wp_list_pluck( $q->results, 'ID' ) );
 		}
 
 		$this->assertContains( $u1, $found_user_ids );
@@ -377,7 +377,7 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 		$found_user_ids = null;
 
 		if ( ! empty( $q->results ) ) {
-			$found_user_ids = array_values( wp_parse_id_list( wp_list_pluck( $q->results, 'ID' ) ) );
+			$found_user_ids = array_values( wp_list_pluck( $q->results, 'ID' ) );
 		}
 
 		// Do a assertNotContains because there are weird issues with user #1 as created by WP
@@ -412,7 +412,7 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 		$found_user_ids = null;
 
 		if ( ! empty( $q->results ) ) {
-			$found_user_ids = array_values( wp_parse_id_list( wp_list_pluck( $q->results, 'ID' ) ) );
+			$found_user_ids = array_values( wp_list_pluck( $q->results, 'ID' ) );
 		}
 
 		// Do a assertNotContains because there are weird issues with user #1 as created by WP
@@ -434,11 +434,11 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 			'meta_value'      => 'bar',
 		) );
 
-		$found_user_ids = array_values( wp_parse_id_list( wp_list_pluck( $q->results, 'ID' ) ) );
+		$found_user_ids = array_values( wp_list_pluck( $q->results, 'ID' ) );
 
 		// Do a assertNotContains because there are weird issues with user #1 as created by WP
 		$this->assertNotContains( $u1, $found_user_ids );
-		$this->assertEquals( array( $u2 ), $found_user_ids );
+		$this->assertSame( array( $u2 ), $found_user_ids );
 	}
 
 	/**
@@ -454,7 +454,7 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 			'meta_value'      => 'bar',
 		) );
 
-		$found_user_ids = array_values( wp_parse_id_list( wp_list_pluck( $q->results, 'ID' ) ) );
+		$found_user_ids = array_values( wp_list_pluck( $q->results, 'ID' ) );
 
 		$this->assertEmpty( $found_user_ids );
 	}
@@ -474,7 +474,7 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 		) );
 
 		$found = array_values( wp_list_pluck( $q->results, 'ID' ) );
-		$this->assertEquals( array( $users[1] ), $found );
+		$this->assertSame( array( $users[1] ), $found );
 	}
 
 	/**
@@ -492,7 +492,7 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 		) );
 
 		$found = array_values( wp_list_pluck( $q->results, 'ID' ) );
-		$this->assertEquals( array( $users[1] ), $found );
+		$this->assertSame( array( $users[1] ), $found );
 	}
 
 	/**
@@ -579,7 +579,7 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 		) );
 
 		$found = array_values( wp_list_pluck( $q->results, 'ID' ) );
-		$this->assertEquals( array( $users[1] ), $found );
+		$this->assertSame( array( $users[1] ), $found );
 	}
 
 	/**
@@ -597,7 +597,7 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 		) );
 
 		$found = array_values( wp_list_pluck( $q->results, 'ID' ) );
-		$this->assertEquals( array( $users[1] ), $found );
+		$this->assertSame( array( $users[1] ), $found );
 	}
 
 	/**
@@ -805,7 +805,7 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 			) )
 		) );
 
-		$this->assertEquals( $u2, $query->user_ids[0] );
+		$this->assertSame( $u2, $query->user_ids[0] );
 	}
 
 	/**
@@ -835,7 +835,7 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 			) )
 		) );
 
-		$this->assertEquals( $u2, $query->user_ids[0] );
+		$this->assertSame( $u2, $query->user_ids[0] );
 	}
 
 	/**
@@ -859,6 +859,6 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 			) )
 		) );
 
-		$this->assertEquals( $u1, $query->user_ids[0] );
+		$this->assertSame( $u1, $query->user_ids[0] );
 	}
 }

@@ -252,7 +252,7 @@ class BP_Tests_Blogs_Cache extends BP_UnitTestCase {
 		bp_blogs_total_blogs();
 
 		// check if function references cache or hits the DB by comparing query count
-		$this->assertEquals( $first_query_count, $wpdb->num_queries );
+		$this->assertSame( $first_query_count, $wpdb->num_queries );
 	}
 
 	/**
@@ -286,7 +286,7 @@ class BP_Tests_Blogs_Cache extends BP_UnitTestCase {
 		// delete a blog
 		wpmu_delete_blog( $b2 );
 
-		$this->assertEquals( 1, bp_blogs_total_blogs() );
+		$this->assertSame( 1, bp_blogs_total_blogs() );
 	}
 
 	/**

@@ -85,7 +85,7 @@ add_filter( 'wp_privacy_personal_data_exporters', 'bp_xprofile_register_personal
  *
  * @since 2.3.0
  *
- * @param mixed $field_options Options to sanitize.
+ * @param mixed $field_options Optional. Options to sanitize.
  * @return mixed
  */
 function bp_xprofile_sanitize_field_options( $field_options = '' ) {
@@ -101,7 +101,7 @@ function bp_xprofile_sanitize_field_options( $field_options = '' ) {
  *
  * @since 2.3.0
  *
- * @param mixed $field_default Field defaults to sanitize.
+ * @param mixed $field_default Optional. Field defaults to sanitize.
  * @return array|int
  */
 function bp_xprofile_sanitize_field_default( $field_default = '' ) {
@@ -122,7 +122,7 @@ function bp_xprofile_sanitize_field_default( $field_default = '' ) {
  * @param string                       $content  Content to filter.
  * @param BP_XProfile_ProfileData|null $data_obj Optional. The BP_XProfile_ProfileData object.
  * @param int|null                     $field_id Optional. The ID of the profile field.
- * @return string $content
+ * @return string
  */
 function xprofile_filter_kses( $content, $data_obj = null, $field_id = null ) {
 	global $allowedtags;
@@ -205,9 +205,9 @@ function xprofile_sanitize_data_value_before_display_from_get_field_data( $value
  * @since 1.2.6
  *
  * @param string      $field_value Field value being sanitized.
- * @param int         $field_id    Field ID being sanitized.
- * @param bool        $reserialize Whether to reserialize arrays before returning. Defaults to true.
- * @param object|null $data_obj    The BP_XProfile_ProfileData object.
+ * @param int         $field_id    Optional. Field ID being sanitized.
+ * @param bool        $reserialize Optional. Whether to reserialize arrays before returning. Defaults to true.
+ * @param object|null $data_obj    Optional. The BP_XProfile_ProfileData object.
  * @return string
  */
 function xprofile_sanitize_data_value_before_save( $field_value, $field_id = 0, $reserialize = true, $data_obj = null ) {
@@ -253,6 +253,7 @@ function xprofile_sanitize_data_value_before_save( $field_value, $field_id = 0, 
 		}
 
 		if ( ! empty( $reserialize ) ) {
+			// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_serialize -- Preserve the existing profile field storage format.
 			$filtered_field_value = serialize( $filtered_values );
 		} else {
 			$filtered_field_value = $filtered_values;
@@ -268,13 +269,13 @@ function xprofile_sanitize_data_value_before_save( $field_value, $field_id = 0, 
  * @since 1.0.0
  *
  * @param string $field_value XProfile field_value to be filtered.
- * @param string $field_type  XProfile field_type to be filtered.
- * @return false|string $field_value Filtered XProfile field_value. False on failure.
+ * @param string $field_type  Optional. XProfile field_type to be filtered.
+ * @return false|string Filtered XProfile field_value. False on failure.
  */
 function xprofile_filter_format_field_value( $field_value, $field_type = '' ) {
 
 	// Valid field values of 0 or '0' get caught by empty(), so we have an extra check for these. See #BP5731.
-	if ( ! isset( $field_value ) || empty( $field_value ) && ( '0' !== $field_value ) ) {
+	if ( ! isset( $field_value ) || ( empty( $field_value ) && '0' !== $field_value ) ) {
 		return false;
 	}
 
@@ -292,7 +293,7 @@ function xprofile_filter_format_field_value( $field_value, $field_type = '' ) {
  * @since 2.4.0 Added `$field_id` parameter.
  *
  * @param mixed      $field_value Field value.
- * @param string     $field_type  Field type.
+ * @param string     $field_type  Optional. Field type.
  * @param string|int $field_id    Optional. ID of the field.
  * @return mixed
  */
@@ -393,7 +394,7 @@ function bp_xprofile_escape_field_data( $value, $field_type, $field_id ) {
  * @since 1.1.0
  *
  * @param string $field_value Profile field data value.
- * @param string $field_type  Profile field type.
+ * @param string $field_type  Optional. Profile field type.
  * @return string|array
  */
 function xprofile_filter_link_profile_data( $field_value, $field_type = 'textbox' ) {
@@ -432,7 +433,7 @@ function xprofile_filter_link_profile_data( $field_value, $field_type = 'textbox
 
 		array_walk(
 			$values,
-			function ( &$value, $key ) use ( $field_type, $field ) {
+			function ( &$value ) use ( $field_type, $field ) {
 				$value = bp_xprofile_escape_field_data( $value, $field_type, $field->id );
 			}
 		);
@@ -447,18 +448,15 @@ function xprofile_filter_link_profile_data( $field_value, $field_type = 'textbox
 				$new_values[] = make_clickable( $value );
 
 				// Is not clickable.
+			// More than 5 spaces.
+			} elseif ( count( explode( ' ', $value ) ) > 5 ) {
+				$new_values[] = $value;
+
+			// Less than 5 spaces.
 			} else {
-
-				// More than 5 spaces.
-				if ( count( explode( ' ', $value ) ) > 5 ) {
-					$new_values[] = $value;
-
-					// Less than 5 spaces.
-				} else {
-					$query_arg    = bp_core_get_component_search_query_arg( 'members' );
-					$search_url   = add_query_arg( array( $query_arg => urlencode( $value ) ), bp_get_members_directory_permalink() );
-					$new_values[] = '<a href="' . esc_url( $search_url ) . '" rel="nofollow">' . $value . '</a>';
-				}
+				$query_arg    = bp_core_get_component_search_query_arg( 'members' );
+				$search_url   = add_query_arg( array( $query_arg => rawurlencode( $value ) ), bp_get_members_directory_permalink() );
+				$new_values[] = '<a href="' . esc_url( $search_url ) . '" rel="nofollow">' . $value . '</a>';
 			}
 		}
 
@@ -479,12 +477,12 @@ function xprofile_filter_link_profile_data( $field_value, $field_type = 'textbox
  * and swaps out user data with BP xprofile data, where available.
  *
  * @since 1.2.0
+ * @since 15.0.0 The `$post_id` parameter was removed since it was unused.
  *
  * @param array $comments Comments to filter in.
- * @param int   $post_id  Post ID the comments are for.
- * @return array $comments
+ * @return array
  */
-function xprofile_filter_comments( $comments, $post_id = 0 ) {
+function xprofile_filter_comments( $comments ) {
 
 	// Locate comment authors with WP accounts.
 	foreach ( (array) $comments as $comment ) {
@@ -499,7 +497,8 @@ function xprofile_filter_comments( $comments, $post_id = 0 ) {
 	}
 
 	// Pull up the xprofile fullname of each commenter.
-	if ( $fullnames = bp_core_get_user_displaynames( $user_ids ) ) {
+	$fullnames = bp_core_get_user_displaynames( $user_ids );
+	if ( $fullnames ) {
 		foreach ( (array) $fullnames as $user_id => $user_fullname ) {
 			$users[ $user_id ] = trim( stripslashes( $user_fullname ) );
 		}
@@ -673,7 +672,8 @@ function bp_xprofile_filter_meta_query( $q ) {
 
 	// Put quoted content back into the string.
 	if ( ! empty( $quoted_matches[0] ) ) {
-		for ( $i = 0; $i < count( $quoted_matches[0] ); $i++ ) {
+		$quoted_matches_count = count( $quoted_matches[0] );
+		for ( $i = 0; $i < $quoted_matches_count; $i++ ) {
 			$quote_pos = strpos( $q, '__QUOTE__' );
 			$q         = substr_replace( $q, $quoted_matches[0][ $i ], $quote_pos, 9 );
 		}
@@ -708,7 +708,7 @@ function bp_xprofile_register_personal_data_exporter( $exporters ) {
  *
  * @since 8.0.0
  *
- * @param string $field_selector The text to use as the input name/id attribute.
+ * @param string $field_selector Optional. The text to use as the input name/id attribute.
  * @return string                The text to use as the input name/id attribute.
  */
 function bp_get_the_profile_signup_field_input_name( $field_selector = '' ) {
@@ -727,7 +727,7 @@ function bp_get_the_profile_signup_field_input_name( $field_selector = '' ) {
  * @since 8.0.0
  * @access private
  *
- * @param array $args The xProfile loop's signup arguments.
+ * @param array $args Optional. The xProfile loop's signup arguments.
  * @return array The xProfile loop's signup arguments.
  */
 function _bp_xprofile_signup_do_backcompat( $args = array() ) {
@@ -748,8 +748,8 @@ function _bp_xprofile_signup_do_backcompat( $args = array() ) {
  * @since 8.0.0
  * @access private
  *
- * @param string $template      The located path for registration template.
- * @param string $template_name The needed template name.
+ * @param string $template      Optional. The located path for registration template.
+ * @param string $template_name Optional. The needed template name.
  */
 function _bp_xprofile_signup_check_backcompat( $template = '', $template_name = '' ) {
 	if ( 'members/register.php' !== $template_name ) {

@@ -52,7 +52,7 @@ function bp_is_update() {
  *
  * @since 1.6.0
  *
- * @param string $basename BuddyPress basename.
+ * @param string $basename Optional. BuddyPress basename.
  * @return bool True if activating BuddyPress, false if not.
  */
 function bp_is_activation( $basename = '' ) {
@@ -96,7 +96,7 @@ function bp_is_activation( $basename = '' ) {
  *
  * @since 1.6.0
  *
- * @param string $basename BuddyPress basename.
+ * @param string $basename Optional. BuddyPress basename.
  * @return bool True if deactivating BuddyPress, false if not.
  */
 function bp_is_deactivation( $basename = '' ) {
@@ -568,6 +568,7 @@ function bp_update_to_2_5() {
  * @since 2.7.0
  */
 function bp_update_to_2_7() {
+	// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode
 	bp_add_option( 'bp-emails-unsubscribe-salt', base64_encode( wp_generate_password( 64, true, true ) ) );
 
 	// Update post_titles
@@ -869,7 +870,7 @@ function bp_update_to_12_0() {
 			$nav_menu_item_ids = array();
 
 			// Do not check post slugs nor post types.
-			remove_filter( 'wp_unique_post_slug', 'bp_core_set_unique_directory_page_slug', 10 );
+			remove_filter( 'wp_unique_post_slug', 'bp_core_set_unique_directory_page_slug' );
 
 			// Update Directory pages post types.
 			foreach ( $directory_pages as $directory_page ) {

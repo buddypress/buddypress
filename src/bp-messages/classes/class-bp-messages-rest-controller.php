@@ -200,17 +200,10 @@ class BP_Messages_REST_Controller extends WP_REST_Controller {
 		);
 
 		if ( is_user_logged_in() ) {
-			$user = bp_rest_get_user( $request->get_param( 'user_id' ) );
-
-			if ( ! $user instanceof WP_User ) {
-				$retval = new WP_Error(
-					'bp_rest_invalid_id',
-					__( 'Invalid member ID.', 'buddypress' ),
-					array(
-						'status' => 404,
-					)
-				);
-			} elseif ( (int) bp_loggedin_user_id() === $user->ID || bp_current_user_can( 'bp_moderate' ) ) {
+			$user_id = $this->validate_requested_user_id( $request );
+			if ( is_wp_error( $user_id ) ) {
+				$retval = $user_id;
+			} elseif ( (int) bp_loggedin_user_id() === $user_id || bp_current_user_can( 'bp_moderate' ) ) {
 				$retval = true;
 			} else {
 				$retval = new WP_Error(
@@ -296,35 +289,58 @@ class BP_Messages_REST_Controller extends WP_REST_Controller {
 	 * @return true|WP_Error
 	 */
 	public function get_item_permissions_check( $request ) {
-		$error = new WP_Error(
+		$retval = new WP_Error(
 			'bp_rest_authorization_required',
-			__( 'Sorry, you are not allowed to see this thread.', 'buddypress' ),
+			__( 'Sorry, you are not allowed to perform this action.', 'buddypress' ),
 			array(
 				'status' => rest_authorization_required_code(),
 			)
 		);
 
-		$retval  = $error;
-		$user_id = bp_loggedin_user_id();
-		if ( ! empty( $request->get_param( 'user_id' ) ) ) {
-			$user_id = $request->get_param( 'user_id' );
-		}
-
-		$id = $request->get_param( 'id' );
-
+		// Must be logged in.
 		if ( is_user_logged_in() ) {
-			$thread = BP_Messages_Thread::is_valid( $id );
+			$thread_id = $request->get_param( 'id' );
 
-			if ( empty( $thread ) ) {
-				$retval = new WP_Error(
-					'bp_rest_invalid_id',
-					__( 'Sorry, this thread does not exist.', 'buddypress' ),
-					array(
-						'status' => 404,
-					)
-				);
-			} elseif ( bp_current_user_can( 'bp_moderate' ) || messages_check_thread_access( $id, $user_id ) ) {
-				$retval = true;
+			// Thread ID must be requested.
+			if ( ! empty( $thread_id ) ) {
+
+				// Get validity of thread.
+				$thread_valid = messages_is_valid_thread( $thread_id );
+
+				// Thread not valid.
+				if ( empty( $thread_valid ) ) {
+					$retval = new WP_Error(
+						'bp_rest_invalid_id',
+						__( 'Sorry, this thread does not exist.', 'buddypress' ),
+						array(
+							'status' => 404,
+						)
+					);
+
+				// Thread is valid.
+				} else {
+
+					// User ID.
+					$user_id = $this->validate_requested_user_id( $request );
+
+					// Thread participant.
+					if ( ! is_wp_error( $user_id ) ) {
+						$participant = (bool) messages_check_thread_access( $thread_id, $user_id );
+					}
+
+					// Invalid user.
+					if ( is_wp_error( $user_id ) ) {
+						$retval = $user_id;
+
+					// Moderators can access threads with valid thread participant.
+					} elseif ( bp_current_user_can( 'bp_moderate' ) && $participant ) {
+						$retval = true;
+
+					// Valid user must be thread participant.
+					} elseif ( $participant ) {
+						$retval = true;
+					}
+				}
 			}
 		}
 
@@ -451,10 +467,10 @@ class BP_Messages_REST_Controller extends WP_REST_Controller {
 	 */
 	public function update_item( $request ) {
 
-		// Updated user id.
-		$updated_user_id = bp_loggedin_user_id();
-		if ( ! empty( $request->get_param( 'user_id' ) ) ) {
-			$updated_user_id = $request->get_param( 'user_id' );
+		// User ID.
+		$updated_user_id = $this->validate_requested_user_id( $request );
+		if ( is_wp_error( $updated_user_id ) ) {
+			return $updated_user_id;
 		}
 
 		// Get the thread.
@@ -487,6 +503,18 @@ class BP_Messages_REST_Controller extends WP_REST_Controller {
 		}
 
 		$updated_message = wp_list_filter( $thread->messages, array( 'id' => $message_id ) );
+
+		// Invalid message ID.
+		if ( empty( $updated_message ) ) {
+			return new WP_Error(
+				'bp_rest_invalid_id',
+				__( 'Sorry, this message does not exist.', 'buddypress' ),
+				array(
+					'status' => 404,
+				)
+			);
+		}
+
 		$updated_message = reset( $updated_message );
 
 		/**
@@ -494,7 +522,7 @@ class BP_Messages_REST_Controller extends WP_REST_Controller {
 		 *
 		 * @since 15.0.0
 		 *
-		 * @param boolean             $value           Whether the user can edit the message meta.
+		 * @param bool                $value           Whether the user can edit the message meta.
 		 *                                             By default: only the sender and a community moderator can.
 		 * @param BP_Messages_Message $updated_message The updated message object.
 		 * @param WP_REST_Request     $request         Full details about the request.
@@ -688,9 +716,10 @@ class BP_Messages_REST_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response|WP_Error
 	 */
 	public function delete_item( $request ) {
-		$user_id = bp_loggedin_user_id();
-		if ( ! empty( $request->get_param( 'user_id' ) ) ) {
-			$user_id = $request->get_param( 'user_id' );
+		// User ID.
+		$user_id = $this->validate_requested_user_id( $request );
+		if ( is_wp_error( $user_id ) ) {
+			return $user_id;
 		}
 
 		// Get the thread before it's deleted.
@@ -1078,7 +1107,7 @@ class BP_Messages_REST_Controller extends WP_REST_Controller {
 	 * @since 15.0.0
 	 *
 	 * @param int $thread_id Thread ID.
-	 * @param int $user_id   User ID.
+	 * @param int $user_id   Optional. User ID.
 	 * @return BP_Messages_Thread|string
 	 */
 	public function get_thread_object( $thread_id, $user_id = 0 ) {
@@ -1088,7 +1117,7 @@ class BP_Messages_REST_Controller extends WP_REST_Controller {
 		}
 
 		// Validate the thread ID.
-		$thread_id = BP_Messages_Thread::is_valid( $thread_id );
+		$thread_id = messages_is_valid_thread( $thread_id );
 
 		if ( false === (bool) $thread_id ) {
 			return '';
@@ -1263,6 +1292,16 @@ class BP_Messages_REST_Controller extends WP_REST_Controller {
 
 		/**
 		 * Filters the method query arguments.
+		 *
+		 * The dynamic portion of the hook name, `$key`, refers to the REST API operation whose query arguments
+		 * are being filtered.
+		 *
+		 * Possible hook names include:
+		 *
+		 *  - `bp_rest_messages_get_item_query_arguments`
+		 *  - `bp_rest_messages_create_item_query_arguments`
+		 *  - `bp_rest_messages_update_item_query_arguments`
+		 *  - `bp_rest_messages_delete_item_query_arguments`
 		 *
 		 * @since 15.0.0
 		 *
@@ -1618,5 +1657,47 @@ class BP_Messages_REST_Controller extends WP_REST_Controller {
 		 * @param array $params Query params.
 		 */
 		return apply_filters( 'bp_rest_messages_collection_params', $params );
+	}
+
+	/**
+	 * Validate the requested user ID.
+	 *
+	 * Falls back to the logged in user ID if the requested user ID is empty or
+	 * if the current user doesn't have moderation capabilities.
+	 *
+	 * Returns a WP_Error if the requested user ID is invalid.
+	 *
+	 * @since 15.0.0
+	 *
+	 * @param WP_REST_Request $request Full details about the request.
+	 * @return WP_Error|int
+	 */
+	private function validate_requested_user_id( $request ) {
+
+		// Get the user ID from the request.
+		$retval = $request->get_param( 'user_id' );
+
+		// Maybe fallback/override user ID to logged in ID.
+		if ( empty( $retval ) || ! bp_current_user_can( 'bp_moderate' ) ) {
+			$retval = bp_loggedin_user_id();
+			$request->set_param( 'user_id', $retval );
+		}
+
+		// Get the user object.
+		$user = bp_rest_get_user( $retval );
+
+		// Requested user not valid.
+		if ( ! $user instanceof WP_User ) {
+			$retval = new WP_Error(
+				'bp_rest_invalid_id',
+				__( 'Invalid member ID.', 'buddypress' ),
+				array(
+					'status' => 404,
+				)
+			);
+		}
+
+		// Return ID or error.
+		return $retval;
 	}
 }

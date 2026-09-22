@@ -2,6 +2,8 @@
 /**
  * Customizer controls
  *
+ * @package BuddyPress
+ * @subpackage bp-nouveau
  * @since 3.0.0
  * @version 12.0.0
  */
@@ -20,6 +22,8 @@ defined( 'ABSPATH' ) || exit;
  */
 class BP_Nouveau_Nav_Customize_Control extends WP_Customize_Control {
 	/**
+	 * The control type.
+	 *
 	 * @var string
 	 */
 	public $type = '';

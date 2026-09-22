@@ -40,7 +40,7 @@ class BP_Tests_BP_Groups_Group_Query_TaxQuery extends BP_UnitTestCase {
 			)
 		);
 
-		$this->assertEquals( array( $g1 ), $groups['groups'] );
+		$this->assertSame( array( $g1 ), $groups['groups'] );
 	}
 
 	/**
