@@ -87,7 +87,7 @@ function bp_xprofile_action_settings() {
 		// add them to the list of IDs to save.
 		foreach ( $_POST as $posted_key => $posted_value ) {
 			preg_match( '/^field_([0-9]+)_visibility$/', $posted_key, $matches );
-			if ( ! empty( $matches[1] ) && ! in_array( $matches[1], $posted_field_ids ) ) {
+			if ( ! empty( $matches[1] ) && ! in_array( $matches[1], $posted_field_ids, true ) ) {
 				$posted_field_ids[] = $matches[1];
 			}
 		}

@@ -2,6 +2,8 @@
 /**
  * Messages template tags
  *
+ * @package BuddyPress
+ * @subpackage bp-nouveau
  * @since 3.0.0
  * @version 3.0.0
  */
@@ -91,7 +93,6 @@ function bp_nouveau_messages_member_interface() {
 	do_action( '_bp_nouveau_messages_print_placeholders' );
 
 	// Load the Private messages UI
-
 
 	/**
 	 * Fires after the member messages content.

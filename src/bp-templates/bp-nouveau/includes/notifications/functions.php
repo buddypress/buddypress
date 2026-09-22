@@ -2,6 +2,8 @@
 /**
  * Notifications functions
  *
+ * @package BuddyPress
+ * @subpackage bp-nouveau
  * @since 3.0.0
  * @version 3.1.0
  */
@@ -14,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.0.0
  *
- * @param  array  $scripts  The array of scripts to register
+ * @param  array $scripts  Optional. The array of scripts to register.
  * @return array  The same array with the specific notifications scripts.
  */
 function bp_nouveau_notifications_register_scripts( $scripts = array() ) {
@@ -23,13 +25,16 @@ function bp_nouveau_notifications_register_scripts( $scripts = array() ) {
 		return $scripts;
 	}
 
-	return array_merge( $scripts, array(
-		'bp-nouveau-notifications' => array(
-			'file'         => 'js/buddypress-notifications%s.js',
-			'dependencies' => array( 'bp-nouveau' ),
-			'footer'       => true,
-		),
-	) );
+	return array_merge(
+		$scripts,
+		array(
+			'bp-nouveau-notifications' => array(
+				'file'         => 'js/buddypress-notifications%s.js',
+				'dependencies' => array( 'bp-nouveau' ),
+				'footer'       => true,
+			),
+		)
+	);
 }
 
 /**
@@ -72,8 +77,8 @@ function bp_nouveau_notifications_init_filters() {
  *
  * @since 3.0.0
  *
- * @param  array  $args {
- *     Array of arguments.
+ * @param  array $args {
+ *    Optional. Array of arguments.
  *
  *     @type string      $id         The unique string to identify your "component action". Required.
  *     @type string      $label      The human readable notification type. Required.
@@ -111,7 +116,7 @@ function bp_nouveau_notifications_register_filter( $args = array() ) {
  *
  * @since 3.0.0
  *
- * @param  string $id  The notificication component action to get the filter of.
+ * @param  string $id  Optional. The notificication component action to get the filter of.
  *                     Leave empty to get all notifications filters.
  * @return array|false All or a specific notifications parameters. False if no match are found.
  */
@@ -136,7 +141,7 @@ function bp_nouveau_notifications_get_filters( $id = '' ) {
  *
  * @since 3.0.0
  *
- * @param  array  $filters The notifications filters to order.
+ * @param  array $filters Optional. The notifications filters to order.
  * @return array  The sorted filters.
  */
 function bp_nouveau_notifications_sort( $filters = array() ) {
@@ -158,7 +163,7 @@ function bp_nouveau_notifications_sort( $filters = array() ) {
 			$sorted_keys = array_keys( $sorted );
 
 			do {
-				$position += 1;
+				++$position;
 			} while ( in_array( $position, $sorted_keys, true ) );
 		}
 
@@ -174,11 +179,10 @@ function bp_nouveau_notifications_sort( $filters = array() ) {
  *
  * @since 3.0.0
  *
- * @param  string $link        The action link.
- * @param  string $bp_tooltip  The data-bp-attribute of the link.
- * @param  string $aria_label  The aria-label attribute of the link.
- * @param  string $dashicon    The dashicon class.
- * @return string              Link Output.
+ * @param  string $link        Optional. The action link.
+ * @param  string $bp_tooltip Optional. The data-bp-attribute of the link.
+ * @param  string $dashicon   Optional. The dashicon class.
+ * @return string             Link Output.
  */
 function bp_nouveau_notifications_dashiconified_link( $link = '', $bp_tooltip = '', $dashicon = '' ) {
 	preg_match( '/<a\s[^>]*>(.*)<\/a>/siU', $link, $match );

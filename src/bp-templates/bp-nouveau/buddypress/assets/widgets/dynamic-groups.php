@@ -8,6 +8,7 @@
  * @subpackage bp-nouveau
  * @version 9.0.0
  */
+
 ?>
 <script type="html/template" id="tmpl-bp-dynamic-groups-item">
 	<li class="vcard">

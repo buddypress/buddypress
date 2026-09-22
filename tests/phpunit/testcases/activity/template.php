@@ -127,7 +127,7 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 		// fixed in BP at some point
 		$ids = wp_list_pluck( $activities_template->activities, 'id' );
 
-		$this->assertEquals( array( $a1, $a2 ), $ids );
+		$this->assertSame( array( $a1, $a2 ), $ids );
 
 		$activities_template = null;
 
@@ -142,7 +142,7 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 
 		$ids = wp_list_pluck( $activities_template->activities, 'id' );
 
-		$this->assertEquals( array( $a1 ), $ids );
+		$this->assertSame( array( $a1 ), $ids );
 
 		$activities_template = null;
 	}
@@ -637,7 +637,7 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 		// Clean up!
 		$activities_template = $reset_activities_template;
 
-		$this->assertEquals( array( $a2, $a1 ), wp_list_pluck( $found, 'id' ) );
+		$this->assertSame( array( $a2, $a1 ), wp_list_pluck( $found, 'id' ) );
 	}
 
 	/**
@@ -687,7 +687,7 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 		// Clean up!
 		$activities_template = $reset_activities_template;
 
-		$this->assertEquals( array( $a2, $a1 ), wp_list_pluck( $found, 'id' ) );
+		$this->assertSame( array( $a2, $a1 ), wp_list_pluck( $found, 'id' ) );
 	}
 
 	/**
@@ -1278,7 +1278,7 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 		);
 
 		$ids = wp_list_pluck( $activities_template->activities, 'id' );
-		$this->assertEquals( $ids, array( $a1 ) );
+		$this->assertSame( $ids, array( $a1 ) );
 	}
 
 	/**
@@ -1315,7 +1315,7 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 		);
 		$ids = wp_list_pluck( $activities_template->activities, 'id' );
 
-		$this->assertEquals( array( $a1, $a2 ), wp_parse_id_list( $ids ) );
+		$this->assertSame( array( $a1, $a2 ), wp_parse_id_list( $ids ) );
 	}
 
 	/**
@@ -1352,7 +1352,7 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 		);
 		$ids = wp_list_pluck( $activities_template->activities, 'id' );
 
-		$this->assertEquals( array( $a1, $a2 ), wp_parse_id_list( $ids ) );
+		$this->assertSame( array( $a1, $a2 ), wp_parse_id_list( $ids ) );
 	}
 
 	/**
@@ -1385,7 +1385,7 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 		bp_has_activities( 'display_comments=0' );
 		$ids = wp_list_pluck( $activities_template->activities, 'id' );
 
-		$this->assertEquals( array( $a1, $a2 ), $ids );
+		$this->assertSame( array( $a1, $a2 ), $ids );
 	}
 
 	/**
@@ -1418,7 +1418,7 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 		bp_has_activities( 'display_comments=none' );
 		$ids = wp_list_pluck( $activities_template->activities, 'id' );
 
-		$this->assertEquals( array( $a1, $a2 ), $ids );
+		$this->assertSame( array( $a1, $a2 ), $ids );
 	}
 
 	/**
@@ -1557,7 +1557,7 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 			)
 		);
 
-		$this->assertEquals( array( $a3, $a2 ), wp_parse_id_list( wp_list_pluck( $activities_template->activities, 'id' ) ) );
+		$this->assertSame( array( $a3, $a2 ), wp_list_pluck( $activities_template->activities, 'id' ) );
 
 		// Clean up
 		$activities_template = null;
@@ -1802,12 +1802,8 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 	 * Integration test for 'date_query' param
 	 *
 	 * @group date_query
-	 * @requires PHP 5.3
 	 */
 	function test_bp_has_activities_with_date_query() {
-		if ( ! class_exists( 'WP_Date_Query' ) ) {
-			return;
-		}
 
 		$a1 = self::factory()->activity->create();
 		$a2 = self::factory()->activity->create(
@@ -1833,7 +1829,7 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 		);
 
 		$ids = wp_list_pluck( $activities_template->activities, 'id' );
-		$this->assertEquals( $ids, array( $a1 ) );
+		$this->assertSame( $ids, array( $a1 ) );
 	}
 
 	/**
@@ -1850,7 +1846,7 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 			)
 		);
 
-		$this->assertEquals( 5, $at->pag_page );
+		$this->assertSame( 5, $at->pag_page );
 
 		$_REQUEST = $request;
 	}
@@ -1869,7 +1865,7 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 			)
 		);
 
-		$this->assertEquals( 8, $at->pag_page );
+		$this->assertSame( 8, $at->pag_page );
 
 		$_REQUEST = $request;
 	}
@@ -1888,7 +1884,7 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 			)
 		);
 
-		$this->assertEquals( 14, $at->pag_num );
+		$this->assertSame( 14, $at->pag_num );
 
 		$_REQUEST = $request;
 	}
@@ -1907,7 +1903,7 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 			)
 		);
 
-		$this->assertEquals( 13, $at->pag_num );
+		$this->assertSame( 13, $at->pag_num );
 
 		$_REQUEST = $request;
 	}

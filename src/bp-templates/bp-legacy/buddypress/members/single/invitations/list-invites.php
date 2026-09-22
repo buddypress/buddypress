@@ -6,6 +6,7 @@
  * @subpackage bp-legacy
  * @version 8.0.0
  */
+
 ?>
 
 <?php if ( bp_has_members_invitations() ) : ?>
@@ -43,4 +44,5 @@
 
 	<p><?php esc_html_e( 'There are no invitations to display.', 'buddypress' ); ?></p>
 
-<?php endif;
+<?php
+endif;

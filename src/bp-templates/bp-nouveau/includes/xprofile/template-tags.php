@@ -1,7 +1,9 @@
 <?php
 /**
- * xProfile Template tags
+ * Template tags for xProfile.
  *
+ * @package BuddyPress
+ * @subpackage bp-nouveau
  * @since 3.0.0
  * @version 8.0.0
  */
@@ -74,7 +76,7 @@ function bp_nouveau_base_account_has_xprofile() {
  *
  * @since 8.0.0
  *
- * @param bool Whether to init an xProfile loop.
+ * @param bool $do_loop Optional. Whether to initialize an xProfile loop.
  * @return bool True if there are signup profile fields to display. False otherwise.
  */
 function bp_nouveau_has_signup_xprofile_fields( $do_loop = false ) {

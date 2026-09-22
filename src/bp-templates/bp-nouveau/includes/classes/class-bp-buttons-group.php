@@ -2,6 +2,8 @@
 /**
  * BP Buttons Group class.
  *
+ * @package BuddyPress
+ * @subpackage bp-nouveau
  * @since 3.0.0
  * @version 10.0.0
  */
@@ -29,7 +31,8 @@ class BP_Buttons_Group {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param array $args Optional array having the following parameters {
+	 * @param array $args {
+	 *     Optional. Optional array of button parameters.
 	 *     @type string $id                A string to use as the unique ID for the button. Required.
 	 *     @type int    $position          Where to insert the Button. Defaults to 99.
 	 *     @type string $component         The Component's the button is build for (eg: Activity, Groups..). Required.
@@ -55,9 +58,8 @@ class BP_Buttons_Group {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param array the list of buttons to sort.
-	 *
-	 * @return array the list of buttons sorted.
+	 * @param array $buttons List of buttons to sort.
+	 * @return array List of sorted buttons.
 	 */
 	public function sort( $buttons ) {
 		$sorted = array();
@@ -74,7 +76,7 @@ class BP_Buttons_Group {
 				$sorted_keys = array_keys( $sorted );
 
 				do {
-					$position += 1;
+					++$position;
 				} while ( in_array( $position, $sorted_keys, true ) );
 			}
 
@@ -90,7 +92,7 @@ class BP_Buttons_Group {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param bool $sort whether to sort the buttons or not.
+	 * @param bool $sort Optional. Whether to sort the buttons or not.
 	 *
 	 * @return array An array of HTML links.
 	 */

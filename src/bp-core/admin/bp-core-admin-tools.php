@@ -535,7 +535,7 @@ function bp_admin_invitations_table() {
  * @since 2.0.0
  *
  * @param string      $message    Feedback message.
- * @param string|bool $html_class Unused. Defaults to false.
+ * @param string|bool $html_class Optional. Unused. Defaults to false.
  * @return false|Closure
  */
 function bp_admin_tools_feedback( $message, $html_class = false ) {
@@ -694,21 +694,30 @@ function bp_admin_reinstall_emails() {
 		$switched = true;
 	}
 
-	$emails = get_posts(
-		array(
-			'fields'           => 'ids',
-			'post_status'      => 'publish',
-			'post_type'        => bp_get_email_post_type(),
-			'posts_per_page'   => 200,
-			'suppress_filters' => false,
-		)
-	);
+	do {
+		$emails = get_posts(
+			array(
+				'fields'           => 'ids',
+				'orderby'          => 'ID',
+				'order'            => 'ASC',
+				'post_status'      => 'publish',
+				'post_type'        => bp_get_email_post_type(),
+				// phpcs:ignore WordPress.WP.PostsPerPage.posts_per_page_posts_per_page -- Process email posts in bounded batches so large customized email sets complete.
+				'posts_per_page'   => 200,
+				'suppress_filters' => false,
+			)
+		);
 
-	if ( $emails ) {
 		foreach ( $emails as $email_id ) {
-			wp_trash_post( $email_id );
+			if ( ! wp_trash_post( $email_id ) ) {
+				if ( $switched ) {
+					restore_current_blog();
+				}
+
+				return array( 1, __( 'Emails could not be fully reinstalled because an existing email could not be deleted.', 'buddypress' ) );
+			}
 		}
-	}
+	} while ( $emails );
 
 	$email_tax_type = bp_get_email_tax_type();
 
@@ -764,7 +773,7 @@ add_action( 'network_admin_notices', 'bp_core_admin_notice_repopulate_blogs_resu
  *
  * @since 5.0.0
  *
- * @param  array $debug_info The Site's debug info.
+ * @param  array $debug_info Optional. The Site's debug info.
  * @return array             The Site's debug info, including the BuddyPress specific ones.
  */
 function bp_core_admin_debug_information( $debug_info = array() ) {
@@ -1150,7 +1159,7 @@ function bp_core_admin_debug_information_add_help_tab() {
 			esc_url( 'https://buddypress.org/support/' ),
 			esc_html__( 'BuddyPress Support Forums', 'buddypress' )
 		);
-		$bp_links     =  $bp_docs . $bp_forums;
+		$bp_links     = $bp_docs . $bp_forums;
 
 		$screen->set_help_sidebar( $help_sidebar . $bp_links );
 		wp_add_inline_script(

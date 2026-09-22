@@ -20,7 +20,7 @@ class BP_Tests_Members_Cache extends BP_UnitTestCase {
 		bp_core_get_total_member_count();
 
 		// check if function references cache or hits the DB by comparing query count
-		$this->assertEquals( $num_queries, $wpdb->num_queries );
+		$this->assertSame( $num_queries, $wpdb->num_queries );
 	}
 
 	/**

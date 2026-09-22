@@ -72,7 +72,8 @@ class BP_XProfile_Field_Type_Selectbox extends BP_XProfile_Field_Type {
 		<?php
 
 		/** This action is documented in bp-xprofile/bp-xprofile-classes */
-		do_action( bp_get_the_profile_field_errors_action() ); ?>
+		do_action( bp_get_the_profile_field_errors_action() );
+		?>
 
 		<select <?php $this->output_edit_field_html_elements( $raw_properties ); ?> aria-labelledby="<?php bp_the_profile_field_input_name(); ?>-1" aria-describedby="<?php bp_the_profile_field_input_name(); ?>-3">
 			<?php bp_the_profile_field_options( array( 'user_id' => $user_id ) ); ?>
@@ -107,7 +108,7 @@ class BP_XProfile_Field_Type_Selectbox extends BP_XProfile_Field_Type {
 		$html    = '<option value="">' . /* translators: no option picked in select box */ esc_html__( '----', 'buddypress' ) . '</option>';
 
 		if ( empty( $original_option_values ) && ! empty( $_POST[ 'field_' . $this->field_obj->id ] ) ) {
-			$original_option_values = sanitize_text_field(  $_POST[ 'field_' . $this->field_obj->id ] );
+			$original_option_values = sanitize_text_field( $_POST[ 'field_' . $this->field_obj->id ] );
 		}
 
 		$option_values = ( $original_option_values ) ? (array) $original_option_values : array();
@@ -117,7 +118,7 @@ class BP_XProfile_Field_Type_Selectbox extends BP_XProfile_Field_Type {
 			// Check for updated posted values, but errors preventing them from
 			// being saved first time.
 			foreach ( $option_values as $i => $option_value ) {
-				if ( isset( $_POST[ 'field_' . $this->field_obj->id ] ) && $_POST[ 'field_' . $this->field_obj->id ] != $option_value ) {
+				if ( isset( $_POST[ 'field_' . $this->field_obj->id ] ) && $_POST[ 'field_' . $this->field_obj->id ] !== $option_value ) {
 					if ( ! empty( $_POST[ 'field_' . $this->field_obj->id ] ) ) {
 						$option_values[ $i ] = sanitize_text_field( $_POST[ 'field_' . $this->field_obj->id ] );
 					}
@@ -129,7 +130,7 @@ class BP_XProfile_Field_Type_Selectbox extends BP_XProfile_Field_Type {
 			$allowed_options = xprofile_sanitize_data_value_before_save( $options[ $k ]->name, false, false );
 
 			// First, check to see whether the user-entered value matches.
-			if ( in_array( $allowed_options, $option_values ) ) {
+			if ( in_array( $allowed_options, $option_values, true ) ) {
 				$selected = ' selected="selected"';
 			}
 
@@ -168,10 +169,12 @@ class BP_XProfile_Field_Type_Selectbox extends BP_XProfile_Field_Type {
 	public function admin_field_html( array $raw_properties = array() ) {
 		?>
 
-		<label for="<?php bp_the_profile_field_input_name(); ?>" class="screen-reader-text"><?php
+		<label for="<?php bp_the_profile_field_input_name(); ?>" class="screen-reader-text">
+		<?php
 			/* translators: accessibility text */
 			esc_html_e( 'Select', 'buddypress' );
-		?></label>
+		?>
+		</label>
 		<select <?php $this->output_edit_field_html_elements( $raw_properties ); ?>>
 			<?php bp_the_profile_field_options(); ?>
 		</select>

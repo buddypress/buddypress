@@ -28,7 +28,7 @@ class BP_Activity_Activity {
 	 * @since 1.0.0
 	 * @var int
 	 */
-	var $id;
+	public $id;
 
 	/**
 	 * ID of the associated item.
@@ -36,7 +36,7 @@ class BP_Activity_Activity {
 	 * @since 1.0.0
 	 * @var int
 	 */
-	var $item_id;
+	public $item_id;
 
 	/**
 	 * ID of the associated secondary item.
@@ -44,7 +44,7 @@ class BP_Activity_Activity {
 	 * @since 1.0.0
 	 * @var int
 	 */
-	var $secondary_item_id;
+	public $secondary_item_id;
 
 	/**
 	 * ID of user associated with the activity item.
@@ -52,7 +52,7 @@ class BP_Activity_Activity {
 	 * @since 1.0.0
 	 * @var int
 	 */
-	var $user_id;
+	public $user_id;
 
 	/**
 	 * The primary URL for the activity in RSS feeds.
@@ -60,7 +60,7 @@ class BP_Activity_Activity {
 	 * @since 1.0.0
 	 * @var string
 	 */
-	var $primary_link = '';
+	public $primary_link = '';
 
 	/**
 	 * BuddyPress component the activity item relates to.
@@ -68,7 +68,7 @@ class BP_Activity_Activity {
 	 * @since 1.2.0
 	 * @var string
 	 */
-	var $component = '';
+	public $component = '';
 
 	/**
 	 * Activity type, eg 'new_blog_post'.
@@ -76,7 +76,7 @@ class BP_Activity_Activity {
 	 * @since 1.2.0
 	 * @var string
 	 */
-	var $type = '';
+	public $type = '';
 
 	/**
 	 * Description of the activity, eg 'Alex updated his profile.'.
@@ -84,7 +84,7 @@ class BP_Activity_Activity {
 	 * @since 1.2.0
 	 * @var string
 	 */
-	var $action = '';
+	public $action = '';
 
 	/**
 	 * The content of the activity item.
@@ -92,7 +92,7 @@ class BP_Activity_Activity {
 	 * @since 1.2.0
 	 * @var string
 	 */
-	var $content = '';
+	public $content = '';
 
 	/**
 	 * The date the activity item was recorded, in 'Y-m-d h:i:s' format.
@@ -100,7 +100,7 @@ class BP_Activity_Activity {
 	 * @since 1.0.0
 	 * @var string
 	 */
-	var $date_recorded = '';
+	public $date_recorded = '';
 
 	/**
 	 * Whether the item should be hidden in sitewide streams.
@@ -108,7 +108,7 @@ class BP_Activity_Activity {
 	 * @since 1.1.0
 	 * @var int
 	 */
-	var $hide_sitewide = 0;
+	public $hide_sitewide = 0;
 
 	/**
 	 * Node boundary start for activity or activity comment.
@@ -116,7 +116,7 @@ class BP_Activity_Activity {
 	 * @since 1.5.0
 	 * @var int
 	 */
-	var $mptt_left;
+	public $mptt_left;
 
 	/**
 	 * Node boundary end for activity or activity comment.
@@ -124,7 +124,7 @@ class BP_Activity_Activity {
 	 * @since 1.5.0
 	 * @var int
 	 */
-	var $mptt_right;
+	public $mptt_right;
 
 	/**
 	 * Whether this item is marked as spam.
@@ -132,7 +132,7 @@ class BP_Activity_Activity {
 	 * @since 1.6.0
 	 * @var int
 	 */
-	var $is_spam;
+	public $is_spam;
 
 	/**
 	 * Error holder.
@@ -161,9 +161,9 @@ class BP_Activity_Activity {
 	 */
 	public function __construct( $id = false ) {
 		// Instantiate errors object.
-		$this->errors = new WP_Error;
+		$this->errors = new WP_Error();
 
-		if ( !empty( $id ) ) {
+		if ( ! empty( $id ) ) {
 			$this->id = (int) $id;
 			$this->populate();
 		}
@@ -238,20 +238,20 @@ class BP_Activity_Activity {
 
 		$bp = buddypress();
 
-		$this->id                = apply_filters_ref_array( 'bp_activity_id_before_save',                array( $this->id,                &$this ) );
-		$this->item_id           = apply_filters_ref_array( 'bp_activity_item_id_before_save',           array( $this->item_id,           &$this ) );
+		$this->id                = apply_filters_ref_array( 'bp_activity_id_before_save', array( $this->id, &$this ) );
+		$this->item_id           = apply_filters_ref_array( 'bp_activity_item_id_before_save', array( $this->item_id, &$this ) );
 		$this->secondary_item_id = apply_filters_ref_array( 'bp_activity_secondary_item_id_before_save', array( $this->secondary_item_id, &$this ) );
-		$this->user_id           = apply_filters_ref_array( 'bp_activity_user_id_before_save',           array( $this->user_id,           &$this ) );
-		$this->primary_link      = apply_filters_ref_array( 'bp_activity_primary_link_before_save',      array( $this->primary_link,      &$this ) );
-		$this->component         = apply_filters_ref_array( 'bp_activity_component_before_save',         array( $this->component,         &$this ) );
-		$this->type              = apply_filters_ref_array( 'bp_activity_type_before_save',              array( $this->type,              &$this ) );
-		$this->action            = apply_filters_ref_array( 'bp_activity_action_before_save',            array( $this->action,            &$this ) );
-		$this->content           = apply_filters_ref_array( 'bp_activity_content_before_save',           array( $this->content,           &$this ) );
-		$this->date_recorded     = apply_filters_ref_array( 'bp_activity_date_recorded_before_save',     array( $this->date_recorded,     &$this ) );
-		$this->hide_sitewide     = apply_filters_ref_array( 'bp_activity_hide_sitewide_before_save',     array( $this->hide_sitewide,     &$this ) );
-		$this->mptt_left         = apply_filters_ref_array( 'bp_activity_mptt_left_before_save',         array( $this->mptt_left,         &$this ) );
-		$this->mptt_right        = apply_filters_ref_array( 'bp_activity_mptt_right_before_save',        array( $this->mptt_right,        &$this ) );
-		$this->is_spam           = apply_filters_ref_array( 'bp_activity_is_spam_before_save',           array( $this->is_spam,           &$this ) );
+		$this->user_id           = apply_filters_ref_array( 'bp_activity_user_id_before_save', array( $this->user_id, &$this ) );
+		$this->primary_link      = apply_filters_ref_array( 'bp_activity_primary_link_before_save', array( $this->primary_link, &$this ) );
+		$this->component         = apply_filters_ref_array( 'bp_activity_component_before_save', array( $this->component, &$this ) );
+		$this->type              = apply_filters_ref_array( 'bp_activity_type_before_save', array( $this->type, &$this ) );
+		$this->action            = apply_filters_ref_array( 'bp_activity_action_before_save', array( $this->action, &$this ) );
+		$this->content           = apply_filters_ref_array( 'bp_activity_content_before_save', array( $this->content, &$this ) );
+		$this->date_recorded     = apply_filters_ref_array( 'bp_activity_date_recorded_before_save', array( $this->date_recorded, &$this ) );
+		$this->hide_sitewide     = apply_filters_ref_array( 'bp_activity_hide_sitewide_before_save', array( $this->hide_sitewide, &$this ) );
+		$this->mptt_left         = apply_filters_ref_array( 'bp_activity_mptt_left_before_save', array( $this->mptt_left, &$this ) );
+		$this->mptt_right        = apply_filters_ref_array( 'bp_activity_mptt_right_before_save', array( $this->mptt_right, &$this ) );
+		$this->is_spam           = apply_filters_ref_array( 'bp_activity_is_spam_before_save', array( $this->is_spam, &$this ) );
 
 		/**
 		 * Fires before the current activity item gets saved.
@@ -422,7 +422,7 @@ class BP_Activity_Activity {
 				7 => 'show_hidden',
 				8 => 'exclude',
 				9 => 'in',
-				10 => 'spam'
+				10 => 'spam',
 			);
 
 			$args = bp_core_parse_args_array( $old_args_keys, $function_args );
@@ -459,11 +459,11 @@ class BP_Activity_Activity {
 		);
 
 		// Select conditions.
-		$select_sql = "SELECT DISTINCT a.id";
+		$select_sql = 'SELECT DISTINCT a.id';
 
-		$from_sql   = " FROM {$bp->activity->table_name} a";
+		$from_sql = " FROM {$bp->activity->table_name} a";
 
-		$join_sql   = '';
+		$join_sql = '';
 
 		// Where conditions.
 		$where_conditions = array();
@@ -495,8 +495,12 @@ class BP_Activity_Activity {
 		}
 
 		// Regular filtering.
-		if ( $r['filter'] && $filter_sql = self::get_filter_sql( $r['filter'] ) ) {
-			$where_conditions['filter_sql'] = $filter_sql;
+		if ( $r['filter'] ) {
+			$filter_sql = self::get_filter_sql( $r['filter'] );
+
+			if ( $filter_sql ) {
+				$where_conditions['filter_sql'] = $filter_sql;
+			}
 		}
 
 		// User IDs filtering.
@@ -544,15 +548,15 @@ class BP_Activity_Activity {
 		}
 
 		// Spam.
-		if ( 'ham_only' == $r['spam'] ) {
+		if ( 'ham_only' === $r['spam'] ) {
 			$where_conditions['spam_sql'] = 'a.is_spam = 0';
-		} elseif ( 'spam_only' == $r['spam'] ) {
+		} elseif ( 'spam_only' === $r['spam'] ) {
 			$where_conditions['spam_sql'] = 'a.is_spam = 1';
 		}
 
 		// Searching.
 		if ( $r['search_terms'] ) {
-			$search_terms_like = '%' . bp_esc_like( $r['search_terms'] ) . '%';
+			$search_terms_like              = '%' . bp_esc_like( $r['search_terms'] ) . '%';
 			$where_conditions['search_sql'] = $wpdb->prepare( 'a.content LIKE %s', $search_terms_like );
 
 			/**
@@ -577,24 +581,24 @@ class BP_Activity_Activity {
 			$sort = bp_esc_sql_order( $sort );
 		}
 
-		switch( $r['order_by'] ) {
-			case 'id' :
-			case 'user_id' :
-			case 'component' :
-			case 'type' :
-			case 'action' :
-			case 'content' :
-			case 'primary_link' :
-			case 'item_id' :
-			case 'secondary_item_id' :
-			case 'date_recorded' :
-			case 'hide_sitewide' :
-			case 'mptt_left' :
-			case 'mptt_right' :
-			case 'is_spam' :
+		switch ( $r['order_by'] ) {
+			case 'id':
+			case 'user_id':
+			case 'component':
+			case 'type':
+			case 'action':
+			case 'content':
+			case 'primary_link':
+			case 'item_id':
+			case 'secondary_item_id':
+			case 'date_recorded':
+			case 'hide_sitewide':
+			case 'mptt_left':
+			case 'mptt_right':
+			case 'is_spam':
 				break;
 
-			default :
+			default:
 				$r['order_by'] = 'date_recorded';
 				break;
 		}
@@ -602,18 +606,18 @@ class BP_Activity_Activity {
 
 		// Hide Hidden Items?
 		if ( ! $r['show_hidden'] ) {
-			$where_conditions['hidden_sql'] = "a.hide_sitewide = 0";
+			$where_conditions['hidden_sql'] = 'a.hide_sitewide = 0';
 		}
 
 		// Exclude specified items.
 		if ( ! empty( $r['exclude'] ) ) {
-			$exclude = implode( ',', wp_parse_id_list( $r['exclude'] ) );
+			$exclude                     = implode( ',', wp_parse_id_list( $r['exclude'] ) );
 			$where_conditions['exclude'] = "a.id NOT IN ({$exclude})";
 		}
 
 		// The specific ids to which you want to limit the query.
 		if ( ! empty( $r['in'] ) ) {
-			$in = implode( ',', wp_parse_id_list( $r['in'] ) );
+			$in                     = implode( ',', wp_parse_id_list( $r['in'] ) );
 			$where_conditions['in'] = "a.id IN ({$in})";
 		}
 
@@ -650,7 +654,7 @@ class BP_Activity_Activity {
 
 		// Build the excluded type sql part.
 		if ( ! empty( $excluded_types ) ) {
-			$not_in = "'" . implode( "', '", esc_sql( $excluded_types ) ) . "'";
+			$not_in                             = "'" . implode( "', '", esc_sql( $excluded_types ) ) . "'";
 			$where_conditions['excluded_types'] = "a.type NOT IN ({$not_in})";
 		}
 
@@ -684,7 +688,7 @@ class BP_Activity_Activity {
 		$join_sql = apply_filters( 'bp_activity_get_join_sql', $join_sql, $r, $select_sql, $from_sql, $where_sql );
 
 		// Sanitize page and per_page parameters.
-		$page     = absint( $r['page']     );
+		$page     = absint( $r['page'] );
 		$per_page = absint( $r['per_page'] );
 
 		$retval = array(
@@ -704,18 +708,18 @@ class BP_Activity_Activity {
 		 *
 		 * @since 2.0.0
 		 *
-		 * @param bool                 $value Whether to use legacy structure or not.
-		 * @param BP_Activity_Activity $value Current method being called.
-		 * @param array                $r     Parsed arguments passed into method.
+		 * @param bool   $use_legacy_activity_query Whether to use legacy structure or not.
+		 * @param string $method Current method being called.
+		 * @param array  $r     Parsed arguments passed into method.
 		 */
 		if ( ! $only_get_count && apply_filters( 'bp_use_legacy_activity_query', false, __METHOD__, $r ) ) {
 
 			// Legacy queries joined against the user table.
-			$select_sql = "SELECT DISTINCT a.*, u.user_email, u.user_nicename, u.user_login, u.display_name";
+			$select_sql = 'SELECT DISTINCT a.*, u.user_email, u.user_nicename, u.user_login, u.display_name';
 			$from_sql   = " FROM {$bp->activity->table_name} a LEFT JOIN {$wpdb->users} u ON a.user_id = u.ID";
 
 			if ( ! empty( $page ) && ! empty( $per_page ) ) {
-				$pag_sql = $wpdb->prepare( "LIMIT %d, %d", absint( ( $page - 1 ) * $per_page ), $per_page );
+				$pag_sql = $wpdb->prepare( 'LIMIT %d, %d', absint( ( $page - 1 ) * $per_page ), $per_page );
 
 				/** This filter is documented in bp-activity/bp-activity-classes.php */
 				$activity_sql = apply_filters( 'bp_activity_get_user_join_filter', "{$select_sql} {$from_sql} {$join_sql} {$where_sql} ORDER BY a.date_recorded {$sort}, a.id {$sort} {$pag_sql}", $select_sql, $from_sql, $where_sql, $sort, $pag_sql );
@@ -756,7 +760,7 @@ class BP_Activity_Activity {
 			if ( ! empty( $per_page ) && ! empty( $page ) ) {
 				// We query for $per_page + 1 items in order to
 				// populate the has_more_items flag.
-				$activity_ids_sql .= $wpdb->prepare( " LIMIT %d, %d", absint( ( $page - 1 ) * $per_page ), $per_page + 1 );
+				$activity_ids_sql .= $wpdb->prepare( ' LIMIT %d, %d', absint( ( $page - 1 ) * $per_page ), $per_page + 1 );
 			}
 
 			/**
@@ -871,7 +875,7 @@ class BP_Activity_Activity {
 				$total_activities = $r['max'];
 			}
 
-			$retval['total'] = $total_activities;
+			$retval['total'] = (int) $total_activities;
 		}
 
 		return $retval;
@@ -885,7 +889,7 @@ class BP_Activity_Activity {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @param array $activity_ids Array of activity IDs.
+	 * @param array $activity_ids Optional. Array of activity IDs.
 	 * @param bool  $cache_results Optional. Whether to cache activity information. Default true.
 	 * @return array
 	 */
@@ -1028,7 +1032,7 @@ class BP_Activity_Activity {
 	 * @since 2.0.0
 	 *
 	 * @param array $activities Array of activities.
-	 * @return array $activities Array of activities.
+	 * @return array Array of activities.
 	 */
 	protected static function prefetch_object_data( $activities ) {
 
@@ -1081,9 +1085,9 @@ class BP_Activity_Activity {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @param array $meta_query An array of meta_query filters. See the
+	 * @param array $meta_query Optional. An array of meta_query filters. See the
 	 *                          documentation for WP_Meta_Query for details.
-	 * @return array $sql_array 'join' and 'where' clauses.
+	 * @return array 'join' and 'where' clauses.
 	 */
 	public static function get_meta_query_sql( $meta_query = array() ) {
 		global $wpdb;
@@ -1122,7 +1126,7 @@ class BP_Activity_Activity {
 	 *
 	 * @since 2.1.0
 	 *
-	 * @param array $date_query An array of date_query parameters. See the
+	 * @param array $date_query Optional. An array of date_query parameters. See the
 	 *                          documentation for the first parameter of WP_Date_Query.
 	 * @return string
 	 */
@@ -1140,8 +1144,8 @@ class BP_Activity_Activity {
 	 *
 	 * @since 2.2.0
 	 *
-	 * @param  mixed $scope  The activity scope. Accepts string or array of scopes.
-	 * @param  array $r      Current activity arguments. Same as those of BP_Activity_Activity::get(),
+	 * @param  mixed $scope  Optional. The activity scope. Accepts string or array of scopes.
+	 * @param  array $r      Optional. Current activity arguments. Same as those of BP_Activity_Activity::get(),
 	 *                       but merged with defaults.
 	 * @return false|array 'sql' WHERE SQL string and 'override' activity args.
 	 */
@@ -1178,17 +1182,16 @@ class BP_Activity_Activity {
 			/**
 			 * Plugins can hook here to set their activity arguments for custom scopes.
 			 *
-			 * This is a dynamic filter based on the activity scope. eg:
-			 *   - 'bp_activity_set_groups_scope_args'
-			 *   - 'bp_activity_set_friends_scope_args'
-			 *
 			 * To see how this filter is used, plugin devs should check out:
-			 *   - bp_groups_filter_activity_scope() - used for 'groups' scope
-			 *   - bp_friends_filter_activity_scope() - used for 'friends' scope
+			 *
+			 *  - bp_groups_filter_activity_scope() - used for 'groups' scope
+			 *  - bp_friends_filter_activity_scope() - used for 'friends' scope
+			 *
+			 * The dynamic portion of the hook name, `$scope`, refers to the requested activity query scope.
 			 *
 			 * @since 2.2.0
 			 *
-			 * @param array {
+			 * @param array $scope_args {
 			 *     Activity query clauses.
 			 *     @type array {
 			 *         Activity arguments for your custom scope.
@@ -1259,7 +1262,7 @@ class BP_Activity_Activity {
 			'Use BP_Activity_Activity::get() with the "in" parameter instead.'
 		);
 
-		return BP_Activity_Activity::get( $max, $page, $per_page, $sort, false, false, $display_comments, false, false, $activity_ids );
+		return self::get( $max, $page, $per_page, $sort, false, false, $display_comments, false, false, $activity_ids );
 	}
 
 	/**
@@ -1385,6 +1388,7 @@ class BP_Activity_Activity {
 	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param array $args {
+	 *     Optional. An array of activity item deletion arguments.
 	 *     @int    $id                Optional. The ID of a specific item to delete.
 	 *     @string $action            Optional. The action to filter by.
 	 *     @string $content           Optional. The content to filter by.
@@ -1425,57 +1429,57 @@ class BP_Activity_Activity {
 
 		// ID.
 		if ( ! empty( $r['id'] ) ) {
-			$where_args[] = $wpdb->prepare( "id = %d", $r['id'] );
+			$where_args[] = $wpdb->prepare( 'id = %d', $r['id'] );
 		}
 
 		// User ID.
 		if ( ! empty( $r['user_id'] ) ) {
-			$where_args[] = $wpdb->prepare( "user_id = %d", $r['user_id'] );
+			$where_args[] = $wpdb->prepare( 'user_id = %d', $r['user_id'] );
 		}
 
 		// Action.
 		if ( ! empty( $r['action'] ) ) {
-			$where_args[] = $wpdb->prepare( "action = %s", $r['action'] );
+			$where_args[] = $wpdb->prepare( 'action = %s', $r['action'] );
 		}
 
 		// Content.
 		if ( ! empty( $r['content'] ) ) {
-			$where_args[] = $wpdb->prepare( "content = %s", $r['content'] );
+			$where_args[] = $wpdb->prepare( 'content = %s', $r['content'] );
 		}
 
 		// Component.
 		if ( ! empty( $r['component'] ) ) {
-			$where_args[] = $wpdb->prepare( "component = %s", $r['component'] );
+			$where_args[] = $wpdb->prepare( 'component = %s', $r['component'] );
 		}
 
 		// Type.
 		if ( ! empty( $r['type'] ) ) {
-			$where_args[] = $wpdb->prepare( "type = %s", $r['type'] );
+			$where_args[] = $wpdb->prepare( 'type = %s', $r['type'] );
 		}
 
 		// Primary Link.
 		if ( ! empty( $r['primary_link'] ) ) {
-			$where_args[] = $wpdb->prepare( "primary_link = %s", $r['primary_link'] );
+			$where_args[] = $wpdb->prepare( 'primary_link = %s', $r['primary_link'] );
 		}
 
 		// Item ID.
 		if ( ! empty( $r['item_id'] ) ) {
-			$where_args[] = $wpdb->prepare( "item_id = %d", $r['item_id'] );
+			$where_args[] = $wpdb->prepare( 'item_id = %d', $r['item_id'] );
 		}
 
 		// Secondary item ID.
 		if ( ! empty( $r['secondary_item_id'] ) ) {
-			$where_args[] = $wpdb->prepare( "secondary_item_id = %d", $r['secondary_item_id'] );
+			$where_args[] = $wpdb->prepare( 'secondary_item_id = %d', $r['secondary_item_id'] );
 		}
 
 		// Date Recorded.
 		if ( ! empty( $r['date_recorded'] ) ) {
-			$where_args[] = $wpdb->prepare( "date_recorded = %s", $r['date_recorded'] );
+			$where_args[] = $wpdb->prepare( 'date_recorded = %s', $r['date_recorded'] );
 		}
 
 		// Hidden sitewide.
 		if ( ! empty( $r['hide_sitewide'] ) ) {
-			$where_args[] = $wpdb->prepare( "hide_sitewide = %d", $r['hide_sitewide'] );
+			$where_args[] = $wpdb->prepare( 'hide_sitewide = %d', $r['hide_sitewide'] );
 		}
 
 		// Bail if no where arguments.
@@ -1524,7 +1528,7 @@ class BP_Activity_Activity {
 		if ( ! empty( $activity_ids ) ) {
 
 			// Delete all activity meta entries for activity items.
-			BP_Activity_Activity::delete_activity_meta_entries( $activity_ids );
+			self::delete_activity_meta_entries( $activity_ids );
 
 			// Setup empty array for comments.
 			$comment_ids = array();
@@ -1533,10 +1537,12 @@ class BP_Activity_Activity {
 			foreach ( $activity_ids as $activity_id ) {
 
 				// Attempt to delete comments.
-				$comments = BP_Activity_Activity::delete( array(
-					'type'    => 'activity_comment',
-					'item_id' => $activity_id
-				) );
+				$comments = self::delete(
+					array(
+						'type'    => 'activity_comment',
+						'item_id' => $activity_id,
+					)
+				);
 
 				// Merge IDs together.
 				if ( ! empty( $comments ) ) {
@@ -1565,8 +1571,8 @@ class BP_Activity_Activity {
 	 *
 	 * @deprecated 2.3.0
 	 *
-	 * @param array $activity_ids Activity IDs whose comments should be deleted.
-	 * @param bool  $delete_meta  Should we delete the activity meta items for these comments.
+	 * @param array $activity_ids Optional. Activity IDs whose comments should be deleted.
+	 * @param bool  $delete_meta  Optional. Should we delete the activity meta items for these comments.
 	 * @return bool
 	 */
 	public static function delete_activity_item_comments( $activity_ids = array(), $delete_meta = true ) {
@@ -1594,7 +1600,7 @@ class BP_Activity_Activity {
 	 *
 	 * @since 1.2.0
 	 *
-	 * @param array $activity_ids Activity IDs whose meta should be deleted.
+	 * @param array $activity_ids Optional. Activity IDs whose meta should be deleted.
 	 * @return bool
 	 */
 	public static function delete_activity_meta_entries( $activity_ids = array() ) {
@@ -1612,8 +1618,6 @@ class BP_Activity_Activity {
 	 *
 	 * @since 1.2.0
 	 *
-	 * @global wpdb $wpdb WordPress database object.
-	 *
 	 * @param array  $activities Activities to fetch comments for.
 	 * @param string $spam       Optional. 'ham_only' (default), 'spam_only' or 'all'.
 	 * @return array The updated activities with nested comments.
@@ -1623,14 +1627,14 @@ class BP_Activity_Activity {
 
 		// Now fetch the activity comments and parse them into the correct position in the activities array.
 		foreach ( (array) $activities as $activity ) {
-			$top_level_parent_id = 'activity_comment' == $activity->type ? $activity->item_id : 0;
-			$activity_comments[$activity->id] = BP_Activity_Activity::get_activity_comments( $activity->id, $activity->mptt_left, $activity->mptt_right, $spam, $top_level_parent_id );
+			$top_level_parent_id                = 'activity_comment' === $activity->type ? $activity->item_id : 0;
+			$activity_comments[ $activity->id ] = self::get_activity_comments( $activity->id, $activity->mptt_left, $activity->mptt_right, $spam, $top_level_parent_id );
 		}
 
 		// Merge the comments with the activity items.
 		foreach ( (array) $activities as $key => $activity ) {
-			if ( isset( $activity_comments[$activity->id] ) ) {
-				$activities[$key]->children = $activity_comments[$activity->id];
+			if ( isset( $activity_comments[ $activity->id ] ) ) {
+				$activities[ $key ]->children = $activity_comments[ $activity->id ];
 			}
 		}
 
@@ -1666,7 +1670,7 @@ class BP_Activity_Activity {
 		// We store the string 'none' to cache the fact that the
 		// activity item has no comments.
 		if ( 'none' === $comments_cache ) {
-			return false;
+			return $comments;
 
 			// A true cache miss.
 		} elseif ( empty( $comments_cache ) ) {
@@ -1675,19 +1679,21 @@ class BP_Activity_Activity {
 
 			// Select the user's fullname with the query.
 			if ( bp_is_active( 'xprofile' ) ) {
-				$fullname_select = ", pd.value as user_fullname";
-				$fullname_from = ", {$bp->profile->table_name_data} pd ";
-				$fullname_where = "AND pd.user_id = a.user_id AND pd.field_id = 1";
+				$fullname_select = ', pd.value as user_fullname';
+				$fullname_from   = ", {$bp->profile->table_name_data} pd ";
+				$fullname_where  = 'AND pd.user_id = a.user_id AND pd.field_id = 1';
 
 				// Prevent debug errors.
 			} else {
-				$fullname_select = $fullname_from = $fullname_where = '';
+				$fullname_where  = '';
+				$fullname_from   = $fullname_where;
+				$fullname_select = $fullname_from;
 			}
 
 			// Don't retrieve activity comments marked as spam.
-			if ( 'ham_only' == $spam ) {
+			if ( 'ham_only' === $spam ) {
 				$spam_sql = 'AND a.is_spam = 0';
-			} elseif ( 'spam_only' == $spam ) {
+			} elseif ( 'spam_only' === $spam ) {
 				$spam_sql = 'AND a.is_spam = 1';
 			} else {
 				$spam_sql = '';
@@ -1741,22 +1747,22 @@ class BP_Activity_Activity {
 				// If we have a reference on the parent.
 				if ( isset( $ref[ $d->secondary_item_id ] ) ) {
 					$ref[ $d->secondary_item_id ]->children[ $d->id ] = $d;
-					$ref[ $d->id ] =& $ref[ $d->secondary_item_id ]->children[ $d->id ];
+					$ref[ $d->id ]                                    =& $ref[ $d->secondary_item_id ]->children[ $d->id ];
 
 					// If we don't have a reference on the parent, put in the root level.
 				} else {
 					$comments[ $d->id ] = $d;
-					$ref[ $d->id ] =& $comments[ $d->id ];
+					$ref[ $d->id ]      =& $comments[ $d->id ];
 				}
 			}
 
 			// Calculate depth for each item.
 			foreach ( $ref as &$r ) {
-				$depth = 1;
+				$depth     = 1;
 				$parent_id = $r->secondary_item_id;
 
 				while ( $parent_id !== $r->item_id ) {
-					$depth++;
+					++$depth;
 
 					// When display_comments=stream, the parent comment may not be part of the
 					// returned results, so we manually fetch it.
@@ -1764,14 +1770,13 @@ class BP_Activity_Activity {
 						$direct_parent = new BP_Activity_Activity( $parent_id );
 						if ( isset( $direct_parent->secondary_item_id ) ) {
 							// If the direct parent is not an activity update, that means we've reached
-							// the parent activity item (eg. new_blog_post).
+							// the parent activity item (e.g. new_blog_post).
 							if ( 'activity_update' !== $direct_parent->type ) {
 								$parent_id = $r->item_id;
 
 							} else {
 								$parent_id = $direct_parent->secondary_item_id;
 							}
-
 						} else {
 							// Something went wrong.  Short-circuit the depth calculation.
 							$parent_id = $r->item_id;
@@ -1809,7 +1814,7 @@ class BP_Activity_Activity {
 	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param int $parent_id ID of an activity or activity comment.
-	 * @param int $left      Node boundary start for activity or activity comment.
+	 * @param int $left      Optional. Node boundary start for activity or activity comment.
 	 * @return int Right Node boundary of activity or activity comment.
 	 */
 	public static function rebuild_activity_comment_tree( $parent_id, $left = 1 ) {
@@ -1821,12 +1826,12 @@ class BP_Activity_Activity {
 		$right = intval( $left + 1 );
 
 		// Get all descendants of this node.
-		$comments    = BP_Activity_Activity::get_child_comments( $parent_id );
+		$comments    = self::get_child_comments( $parent_id );
 		$descendants = wp_list_pluck( $comments, 'id' );
 
 		// Loop the descendants and recalculate the left and right values.
 		foreach ( (array) $descendants as $descendant_id ) {
-			$right = BP_Activity_Activity::rebuild_activity_comment_tree( $descendant_id, $right );
+			$right = self::rebuild_activity_comment_tree( $descendant_id, $right );
 		}
 
 		// We've got the left value, and now that we've processed the children
@@ -1866,7 +1871,7 @@ class BP_Activity_Activity {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @param bool $skip_last_activity If true, components will not be
+	 * @param bool $skip_last_activity Optional. If true, components will not be
 	 *                                 included if the only activity type associated with them is
 	 *                                 'last_activity'. (Since 2.0.0, 'last_activity' is stored in
 	 *                                 the activity table, but these items are not full-fledged
@@ -1893,18 +1898,18 @@ class BP_Activity_Activity {
 	 * @since 1.0.0
 	 *
 	 * @param int $limit Optional. Number of items to fetch. Default: 35.
-	 * @return array $activity_feed List of activity items, with RSS data added.
+	 * @return array List of activity items, with RSS data added.
 	 */
 	public static function get_sitewide_items_for_feed( $limit = 35 ) {
 		$activities    = bp_activity_get_sitewide( array( 'max' => $limit ) );
 		$activity_feed = array();
 
 		for ( $i = 0, $count = count( $activities ); $i < $count; ++$i ) {
-			$title                            = explode( '<span', $activities[$i]['content'] );
-			$activity_feed[$i]['title']       = wp_strip_all_tags( $title[0] );
-			$activity_feed[$i]['link']        = $activities[$i]['primary_link'];
-			$activity_feed[$i]['description'] = @sprintf( $activities[$i]['content'], '' );
-			$activity_feed[$i]['pubdate']     = $activities[$i]['date_recorded'];
+			$title                              = explode( '<span', $activities[ $i ]['content'] );
+			$activity_feed[ $i ]['title']       = wp_strip_all_tags( $title[0] );
+			$activity_feed[ $i ]['link']        = $activities[ $i ]['primary_link'];
+			$activity_feed[ $i ]['description'] = @sprintf( $activities[ $i ]['content'], '' );
+			$activity_feed[ $i ]['pubdate']     = $activities[ $i ]['date_recorded'];
 		}
 
 		return $activity_feed;
@@ -1943,10 +1948,11 @@ class BP_Activity_Activity {
 		}
 
 		// Build IN operator sql syntax.
-		if ( count( $items_prepared ) )
+		if ( count( $items_prepared ) ) {
 			return sprintf( '%s IN ( %s )', trim( $field ), implode( ',', $items_prepared ) );
-		else
+		} else {
 			return false;
+		}
 	}
 
 	/**
@@ -1980,43 +1986,48 @@ class BP_Activity_Activity {
 
 		$filter_sql = array();
 
-		if ( !empty( $filter_array['user_id'] ) ) {
-			$user_sql = BP_Activity_Activity::get_in_operator_sql( 'a.user_id', $filter_array['user_id'] );
-			if ( !empty( $user_sql ) )
+		if ( ! empty( $filter_array['user_id'] ) ) {
+			$user_sql = self::get_in_operator_sql( 'a.user_id', $filter_array['user_id'] );
+			if ( ! empty( $user_sql ) ) {
 				$filter_sql[] = $user_sql;
+			}
 		}
 
-		if ( !empty( $filter_array['object'] ) ) {
-			$object_sql = BP_Activity_Activity::get_in_operator_sql( 'a.component', $filter_array['object'] );
-			if ( !empty( $object_sql ) )
+		if ( ! empty( $filter_array['object'] ) ) {
+			$object_sql = self::get_in_operator_sql( 'a.component', $filter_array['object'] );
+			if ( ! empty( $object_sql ) ) {
 				$filter_sql[] = $object_sql;
+			}
 		}
 
-		if ( !empty( $filter_array['action'] ) ) {
-			$action_sql = BP_Activity_Activity::get_in_operator_sql( 'a.type', $filter_array['action'] );
-			if ( ! empty( $action_sql ) )
+		if ( ! empty( $filter_array['action'] ) ) {
+			$action_sql = self::get_in_operator_sql( 'a.type', $filter_array['action'] );
+			if ( ! empty( $action_sql ) ) {
 				$filter_sql[] = $action_sql;
+			}
 		}
 
-		if ( !empty( $filter_array['primary_id'] ) ) {
-			$pid_sql = BP_Activity_Activity::get_in_operator_sql( 'a.item_id', $filter_array['primary_id'] );
-			if ( !empty( $pid_sql ) )
+		if ( ! empty( $filter_array['primary_id'] ) ) {
+			$pid_sql = self::get_in_operator_sql( 'a.item_id', $filter_array['primary_id'] );
+			if ( ! empty( $pid_sql ) ) {
 				$filter_sql[] = $pid_sql;
+			}
 		}
 
-		if ( !empty( $filter_array['secondary_id'] ) ) {
-			$sid_sql = BP_Activity_Activity::get_in_operator_sql( 'a.secondary_item_id', $filter_array['secondary_id'] );
-			if ( !empty( $sid_sql ) )
+		if ( ! empty( $filter_array['secondary_id'] ) ) {
+			$sid_sql = self::get_in_operator_sql( 'a.secondary_item_id', $filter_array['secondary_id'] );
+			if ( ! empty( $sid_sql ) ) {
 				$filter_sql[] = $sid_sql;
+			}
 		}
 
 		if ( ! empty( $filter_array['offset'] ) ) {
-			$sid_sql = absint( $filter_array['offset'] );
+			$sid_sql      = absint( $filter_array['offset'] );
 			$filter_sql[] = "a.id >= {$sid_sql}";
 		}
 
 		if ( ! empty( $filter_array['offset_lower'] ) ) {
-			$sid_sql = absint( $filter_array['offset_lower'] );
+			$sid_sql      = absint( $filter_array['offset_lower'] );
 			$filter_sql[] = "a.id <= {$sid_sql}";
 		}
 
@@ -2029,8 +2040,9 @@ class BP_Activity_Activity {
 			}
 		}
 
-		if ( empty( $filter_sql ) )
+		if ( empty( $filter_sql ) ) {
 			return false;
+		}
 
 		return join( ' AND ', $filter_sql );
 	}
@@ -2058,7 +2070,7 @@ class BP_Activity_Activity {
 	 * @since 1.2.0
 	 *
 	 * @param int $user_id The ID of the user whose favorites you're counting.
-	 * @return int $value A count of the user's favorites.
+	 * @return int A count of the user's favorites.
 	 */
 	public static function total_favorite_count( $user_id ) {
 
@@ -2108,5 +2120,43 @@ class BP_Activity_Activity {
 		$bp = buddypress();
 
 		return $wpdb->get_var( $wpdb->prepare( "UPDATE {$bp->activity->table_name} SET hide_sitewide = 1 WHERE user_id = %d", $user_id ) );
+	}
+
+	/**
+	 * Recursively find a comment object from a nested comment tree.
+	 *
+	 * @since 14.5.0
+	 *
+	 * @param array $comments  Array of comment objects with nested children.
+	 * @param int   $target_id The comment ID to find.
+	 * @return object|false The comment object if found, false otherwise.
+	 */
+	public static function find_comment_in_tree( $comments, $target_id ) {
+
+		if ( ! is_array( $comments ) ) {
+			return false;
+		}
+
+		foreach ( $comments as $comment_id => $comment ) {
+			// Skip items that are not a comment object.
+			if ( ! is_numeric( $comment_id ) || ! is_object( $comment ) ) {
+				continue;
+			}
+
+			if ( (int) $comment_id === (int) $target_id ) {
+				return $comment;
+			}
+
+			// Recurse into children if they exist.
+			if ( ! empty( $comment->children ) && is_array( $comment->children ) ) {
+				$found = self::find_comment_in_tree( $comment->children, $target_id );
+
+				if ( false !== $found ) {
+					return $found;
+				}
+			}
+		}
+
+		return false;
 	}
 }

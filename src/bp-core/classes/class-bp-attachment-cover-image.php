@@ -54,8 +54,8 @@ class BP_Attachment_Cover_Image extends BP_Attachment {
 	 *
 	 * @since 2.4.0
 	 *
-	 * @param array $allowed_types Array of allowed cover image types.
-	 * @return string $value Comma-separated list of allowed cover image types.
+	 * @param array $allowed_types Optional. Array of allowed cover image types.
+	 * @return string Comma-separated list of allowed cover image types.
 	 */
 	public static function get_cover_image_types( $allowed_types = array() ) {
 		$types = array_map( 'strtoupper', $allowed_types );
@@ -71,8 +71,8 @@ class BP_Attachment_Cover_Image extends BP_Attachment {
 	 *
 	 * @since 2.4.0
 	 *
-	 * @param array $file The temporary file attributes (before it has been moved).
-	 * @return array $file The file with extra errors if needed.
+	 * @param array $file Optional. The temporary file attributes (before it has been moved).
+	 * @return array The file with extra errors if needed.
 	 */
 	public function validate_upload( $file = array() ) {
 		// Bail if already an error.
@@ -98,8 +98,8 @@ class BP_Attachment_Cover_Image extends BP_Attachment {
 	 *
 	 * @since 2.4.0
 	 *
-	 * @param array $upload_dir The original Uploads dir.
-	 * @return array $value Upload data (path, url, basedir...).
+	 * @param array $upload_dir Optional. The original Uploads dir.
+	 * @return array Upload data (path, url, basedir...).
 	 */
 	public function upload_dir_filter( $upload_dir = array() ) {
 		return bp_attachments_cover_image_upload_dir();
@@ -110,8 +110,8 @@ class BP_Attachment_Cover_Image extends BP_Attachment {
 	 *
 	 * @since 2.4.0
 	 *
-	 * @param string $file       The absolute path to the file.
-	 * @param array  $dimensions Array of dimensions for the cover image.
+	 * @param string $file       Optional. The absolute path to the file.
+	 * @param array  $dimensions Optional. Array of dimensions for the cover image.
 	 * @return mixed
 	 */
 	public function fit( $file = '', $dimensions = array() ) {
@@ -179,7 +179,7 @@ class BP_Attachment_Cover_Image extends BP_Attachment {
 	 *
 	 * @since 2.4.0
 	 *
-	 * @param string $file The absolute path to the file.
+	 * @param string $file Optional. The absolute path to the file.
 	 * @return false|string
 	 */
 	public function generate_filename( $file = '' ) {

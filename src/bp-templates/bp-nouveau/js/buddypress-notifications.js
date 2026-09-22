@@ -54,8 +54,8 @@ window.bp = window.bp || {};
 			// Select all displayed notifications.
 			$( '#buddypress [data-bp-list="notifications"]' ).on( 'click', '#select-all-notifications', this.selectAll );
 
-			// Reset The filter before unload.
-			$( window ).on( 'unload', this.resetFilter );
+			// Reset The filter before leaving the page.
+			$( window ).on( 'pagehide', this.resetFilter );
 		},
 
 		/**

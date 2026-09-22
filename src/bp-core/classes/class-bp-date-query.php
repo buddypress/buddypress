@@ -53,8 +53,8 @@ class BP_Date_Query extends WP_Date_Query {
 	 * @see WP_Date_Query::__construct()
 	 *
 	 * @param array  $date_query  Date query arguments.
-	 * @param string $column      The DB column to query against.
-	 * @param bool   $prepend_and Whether to prepend the 'AND' operator to the WHERE SQL clause.
+	 * @param string $column      Optional. The DB column to query against.
+	 * @param bool   $prepend_and Optional. Whether to prepend the 'AND' operator to the WHERE SQL clause.
 	 */
 	public function __construct( $date_query, $column = '', $prepend_and = false ) {
 		if ( ! empty( $column ) ) {
@@ -79,7 +79,7 @@ class BP_Date_Query extends WP_Date_Query {
 	/**
 	 * Registers our date column with WP Date Query to pass validation.
 	 *
-	 * @param array $retval Current DB columns.
+	 * @param array $retval Optional. Current DB columns.
 	 * @return array
 	 */
 	public function register_date_column( $retval = array() ) {
@@ -120,9 +120,9 @@ class BP_Date_Query extends WP_Date_Query {
 	 *
 	 * @since 10.0.0
 	 *
-	 * @param  array  $date_query  Date query arguments.
-	 * @param  string $column      DB column to query against date.
-	 * @param  bool   $prepend_and Whether to prepend the 'AND' operator to the WHERE clause.
+	 * @param  array  $date_query  Optional. Date query arguments.
+	 * @param  string $column      Optional. DB column to query against date.
+	 * @param  bool   $prepend_and Optional. Whether to prepend the 'AND' operator to the WHERE clause.
 	 * @return string
 	 */
 	public static function get_where_sql( $date_query = array(), $column = '', $prepend_and = false ) {

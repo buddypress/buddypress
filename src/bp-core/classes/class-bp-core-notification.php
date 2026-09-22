@@ -80,7 +80,7 @@ class BP_Core_Notification {
 	/**
 	 * Constructor
 	 *
-	 * @param int $id ID for the notification.
+	 * @param int $id Optional. ID for the notification.
 	 */
 	public function __construct( $id = 0 ) {
 
@@ -161,8 +161,8 @@ class BP_Core_Notification {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @param int $user_id         ID to check access for.
-	 * @param int $notification_id Notification ID to check for.
+	 * @param int $user_id         Optional. ID to check access for.
+	 * @param int $notification_id Optional. Notification ID to check for.
 	 * @return string
 	 */
 	public static function check_access( $user_id = 0, $notification_id = 0 ) {
@@ -183,7 +183,7 @@ class BP_Core_Notification {
 	 * @global wpdb $wpdb WordPress database object
 	 *
 	 * @param int    $user_id User ID.
-	 * @param string $status 'is_new' or 'all'.
+	 * @param string $status Optional. 'is_new' or 'all'.
 	 * @return array Associative array
 	 */
 	public static function get_all_for_user( $user_id, $status = 'is_new' ) {
@@ -283,7 +283,7 @@ class BP_Core_Notification {
 	 *
 	 * @param int    $item_id           The item id that they notifications are to be for.
 	 * @param string $component_name    The component that the notifications are to be from.
-	 * @param string $component_action  The action that the notifications are to be from.
+	 * @param string $component_action  Optional. The action that the notifications are to be from.
 	 * @param int    $secondary_item_id Optional secondary item id that the notifications are to have.
 	 * @return mixed
 	 */

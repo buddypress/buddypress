@@ -2,6 +2,8 @@
 /**
  * BP Nouveau Notifications
  *
+ * @package BuddyPress
+ * @subpackage bp-nouveau
  * @since 3.0.0
  * @version 6.1.0
  */
@@ -34,7 +36,7 @@ class BP_Nouveau_Notifications {
 	 * @since 3.0.0
 	 */
 	protected function setup_globals() {
-		$this->dir = dirname( __FILE__ );
+		$this->dir = __DIR__;
 	}
 
 	/**
@@ -103,6 +105,7 @@ class BP_Nouveau_Notifications {
  * Launch the Notifications loader class.
  *
  * @since 3.0.0
+ * @param BP_Nouveau|null $bp_nouveau Optional. Nouveau instance.
  */
 function bp_nouveau_notifications( $bp_nouveau = null ) {
 	if ( is_null( $bp_nouveau ) ) {

@@ -11,15 +11,15 @@ class BP_Tests_Activity_Functions extends BP_UnitTestCase {
 	public function test_thumbnail_content_images() {
 		// No images
 		$post_content = 'foo bar';
-		$this->assertEquals( bp_activity_thumbnail_content_images( $post_content ), 'foo bar' );
+		$this->assertSame( bp_activity_thumbnail_content_images( $post_content ), 'foo bar' );
 
 		// Image first, no caption. See #BP4488
 		$post_content = '<img src="http://example.com/foo.jpg" alt="foo" width="40" height="40" class="alignnone size-full wp-image-236" /> foo bar';
-		$this->assertEquals( bp_activity_thumbnail_content_images( $post_content ), '<img src="http://example.com/foo.jpg" width="40" height="40" alt="Thumbnail" class="align-left thumbnail" /> foo bar' );
+		$this->assertSame( bp_activity_thumbnail_content_images( $post_content ), '<img src="http://example.com/foo.jpg" width="40" height="40" alt="Thumbnail" class="align-left thumbnail" /> foo bar' );
 
 		// Image first, caption. See #BP4488
 		$post_content = '[caption id="attachment_236" align="alignnone" width="40"]<img src="http://example.com/foo.jpg" alt="FOO!" width="40" height="40" class="size-full wp-image-236" /> FOO![/caption] Awesome.';
-		$this->assertEquals( bp_activity_thumbnail_content_images( $post_content ), '<img src="http://example.com/foo.jpg" width="40" height="40" alt="Thumbnail" class="align-left thumbnail" /> Awesome.' );
+		$this->assertSame( bp_activity_thumbnail_content_images( $post_content ), '<img src="http://example.com/foo.jpg" width="40" height="40" alt="Thumbnail" class="align-left thumbnail" /> Awesome.' );
 	}
 
 	/**
@@ -39,11 +39,12 @@ class BP_Tests_Activity_Functions extends BP_UnitTestCase {
 
 		// now fetch the deleted activity entries
 		$get = bp_activity_get( array(
-			'id' => $activity
+			'id'          => $activity,
+			'count_total' => true,
 		) );
 
 		// activities should equal zero
-		$this->assertEquals( 0, $get['total'] );
+		$this->assertSame( 0, $get['total'] );
 	}
 
 	/**
@@ -66,10 +67,10 @@ class BP_Tests_Activity_Functions extends BP_UnitTestCase {
 		bp_activity_delete( $criteria );
 
 		// now fetch the deleted activity entries
-		$get = bp_activity_get( $criteria );
+		$get = bp_activity_get( array_merge( $criteria, array( 'count_total' => true ) ) );
 
 		// activities should equal zero
-		$this->assertEquals( 0, $get['total'] );
+		$this->assertSame( 0, $get['total'] );
 	}
 
 	/**
@@ -92,10 +93,10 @@ class BP_Tests_Activity_Functions extends BP_UnitTestCase {
 		bp_activity_delete( $criteria );
 
 		// now fetch the deleted activity entries
-		$get = bp_activity_get( $criteria );
+		$get = bp_activity_get( array_merge( $criteria, array( 'count_total' => true ) ) );
 
 		// activities should equal zero
-		$this->assertEquals( 0, $get['total'] );
+		$this->assertSame( 0, $get['total'] );
 	}
 
 	/**
@@ -118,10 +119,10 @@ class BP_Tests_Activity_Functions extends BP_UnitTestCase {
 		bp_activity_delete( $criteria );
 
 		// now fetch the deleted activity entries
-		$get = bp_activity_get( $criteria );
+		$get = bp_activity_get( array_merge( $criteria, array( 'count_total' => true ) ) );
 
 		// activities should equal zero
-		$this->assertEquals( 0, $get['total'] );
+		$this->assertSame( 0, $get['total'] );
 	}
 
 	/**
@@ -214,11 +215,12 @@ class BP_Tests_Activity_Functions extends BP_UnitTestCase {
 		// now fetch the deleted activity entries
 		$get = bp_activity_get( array(
 			'in'               => array( $parent_activity, $comment_one, $comment_two ),
-			'display_comments' => 'stream'
+			'display_comments' => 'stream',
+			'count_total'      => true,
 		) );
 
 		// activities should equal zero
-		$this->assertEquals( 0, $get['total'] );
+		$this->assertSame( 0, $get['total'] );
 	}
 
 	/**
@@ -277,7 +279,7 @@ class BP_Tests_Activity_Functions extends BP_UnitTestCase {
 
 Bar!';
 		bp_activity_update_meta( $a, 'linebreak_test', $meta_value );
-		$this->assertEquals( $meta_value, bp_activity_get_meta( $a, 'linebreak_test' ) );
+		$this->assertSame( $meta_value, bp_activity_get_meta( $a, 'linebreak_test' ) );
 	}
 
 	/**
@@ -379,14 +381,7 @@ Bar!';
 		$a = self::factory()->activity->create();
 		bp_activity_add_meta( $a, 'foo', 'bar' );
 
-		// In earlier versions of WordPress, bp_activity_update_meta()
-		// returns true even on failure. However, we know that in these
-		// cases the update is failing as expected, so we skip this
-		// assertion just to keep our tests passing
-		// See https://core.trac.wordpress.org/ticket/24933
-		if ( version_compare( $GLOBALS['wp_version'], '3.7', '>=' ) ) {
-			$this->assertFalse( bp_activity_update_meta( $a, 'foo', 'bar2', 'baz' ) );
-		}
+		$this->assertFalse( bp_activity_update_meta( $a, 'foo', 'bar2', 'baz' ) );
 
 		$this->assertTrue( bp_activity_update_meta( $a, 'foo', 'bar2', 'bar' ) );
 	}
@@ -438,7 +433,7 @@ Bar!';
 			),
 		);
 
-		$this->assertEquals( $expected, bp_activity_get_meta( $a ) );
+		$this->assertSame( $expected, bp_activity_get_meta( $a ) );
 	}
 
 	/**
@@ -636,7 +631,7 @@ Bar!';
 			'user_nicename' => 'foo-bar-baz',
 		) );
 
-		$this->assertEquals( 'foo-bar-baz', bp_activity_get_user_mentionname( $u ) );
+		$this->assertSame( 'foo-bar-baz', bp_activity_get_user_mentionname( $u ) );
 
 		remove_filter( 'bp_is_username_compatibility_mode', '__return_false' );
 	}
@@ -657,8 +652,8 @@ Bar!';
 			'user_nicename' => 'foo-bar-baz',
 		) );
 
-		$this->assertEquals( 'foo-bar-baz', bp_activity_get_user_mentionname( $u1 ) );
-		$this->assertEquals( 'foo.bar.baz', bp_activity_get_user_mentionname( $u2 ) );
+		$this->assertSame( 'foo-bar-baz', bp_activity_get_user_mentionname( $u1 ) );
+		$this->assertSame( 'foo.bar.baz', bp_activity_get_user_mentionname( $u2 ) );
 
 		remove_filter( 'bp_is_username_compatibility_mode', '__return_true' );
 	}
@@ -674,7 +669,7 @@ Bar!';
 			'user_nicename' => 'foo-bar-baz',
 		) );
 
-		$this->assertEquals( $u, bp_activity_get_userid_from_mentionname( 'foo-bar-baz' ) );
+		$this->assertSame( $u, bp_activity_get_userid_from_mentionname( 'foo-bar-baz' ) );
 
 		remove_filter( 'bp_is_username_compatibility_mode', '__return_false' );
 	}
@@ -708,10 +703,10 @@ Bar!';
 			'user_nicename' => 'foo-bar-baz',
 		) );
 
-		$this->assertEquals( $u1, bp_activity_get_userid_from_mentionname( 'foo-bar-baz' ) );
-		$this->assertEquals( $u2, bp_activity_get_userid_from_mentionname( 'foo-bar-baz-1' ) );
-		$this->assertEquals( $u3, bp_activity_get_userid_from_mentionname( 'foo-bar-baz-2' ) );
-		$this->assertEquals( $u4, bp_activity_get_userid_from_mentionname( 'foo.bar.baz' ) );
+		$this->assertSame( $u1, bp_activity_get_userid_from_mentionname( 'foo-bar-baz' ) );
+		$this->assertSame( $u2, bp_activity_get_userid_from_mentionname( 'foo-bar-baz-1' ) );
+		$this->assertSame( $u3, bp_activity_get_userid_from_mentionname( 'foo-bar-baz-2' ) );
+		$this->assertSame( $u4, bp_activity_get_userid_from_mentionname( 'foo.bar.baz' ) );
 
 		remove_filter( 'bp_is_username_compatibility_mode', '__return_true' );
 	}
@@ -1393,7 +1388,7 @@ Bar!';
 		$u = self::factory()->user->create();
 		$a = self::factory()->activity->create();
 
-		bp_activity_delete_by_activity_id( $a );
+		bp_activity_delete( array( 'id' => $a ) );
 
 		$c = bp_activity_new_comment( array(
 			'activity_id' => $a,
@@ -1421,7 +1416,7 @@ Bar!';
 
 		$this->assertFalse( bp_activity_add_user_favorite( $a, $u ) );
 		$this->assertSame( array( $a ), bp_activity_get_user_favorites( $u ) );
-		$this->assertEquals( 1, bp_activity_get_meta( $a, 'favorite_count' ) );
+		$this->assertSame( '1', bp_activity_get_meta( $a, 'favorite_count' ) );
 
 		wp_set_current_user( $current_user );
 	}
@@ -1460,7 +1455,7 @@ Bar!';
 
 		// Removing for user 2 should fail
 		$this->assertFalse( bp_activity_remove_user_favorite( $a, $u2 ) );
-		$this->assertEquals( 1, bp_activity_get_meta( $a, 'favorite_count' ) );
+		$this->assertSame( '1', bp_activity_get_meta( $a, 'favorite_count' ) );
 
 		wp_set_current_user( $current_user );
 	}
@@ -1480,14 +1475,14 @@ Bar!';
 		// Only favorite for user 1
 		bp_activity_add_user_favorite( $a, $u1 );
 		$user_favorites = array( $a );
-		$this->assertEquals( $user_favorites, bp_activity_get_user_favorites( $u1 ) );
+		$this->assertSame( $user_favorites, bp_activity_get_user_favorites( $u1 ) );
 
 		// Adds something that is not an activity id.
 		bp_activity_add_user_favorite( 'not_an_activity_id', $u1 );
 
 		// The above shouldn't be added.
-		$this->assertEquals( $user_favorites, bp_activity_get_user_favorites( $u1 ) );
-		$this->assertEquals( 1, bp_activity_get_meta( $a, 'favorite_count' ) );
+		$this->assertSame( $user_favorites, bp_activity_get_user_favorites( $u1 ) );
+		$this->assertSame( '1', bp_activity_get_meta( $a, 'favorite_count' ) );
 
 		wp_set_current_user( $current_user );
 	}
@@ -1509,7 +1504,7 @@ Bar!';
 		) );
 
 		$this->assertInstanceOf( 'WP_Error', $activity );
-		$this->assertEquals( 'bp_activity_missing_content', $activity->get_error_code() );
+		$this->assertSame( 'bp_activity_missing_content', $activity->get_error_code() );
 	}
 
 	/**
@@ -1533,7 +1528,7 @@ Bar!';
 		) );
 
 		$this->assertInstanceOf( 'WP_Error', $activity );
-		$this->assertEquals( 'bp_activity_inactive_user', $activity->get_error_code() );
+		$this->assertSame( 'bp_activity_inactive_user', $activity->get_error_code() );
 	}
 
 	/**
@@ -1564,12 +1559,9 @@ Bar!';
 
 		$a = self::factory()->activity->create( $args );
 
-		$this->assertEquals( $a, bp_activity_get_activity_id( $args ) );
+		$this->assertSame( $a, bp_activity_get_activity_id( $args ) );
 	}
 
-	/**
-	 * @group bp_activity_delete_by_item_id
-	 */
 	public function test_bp_activity_delete_by_item_id() {
 		$args = array(
 			'user_id' => 5,
@@ -1581,7 +1573,7 @@ Bar!';
 
 		$a = self::factory()->activity->create( $args );
 
-		$this->assertTrue( bp_activity_delete_by_item_id( $args ) );
+		$this->assertTrue( bp_activity_delete( $args ) );
 
 		$found = bp_activity_get_specific( array(
 			'activity_ids' => array( $a ),
@@ -1859,7 +1851,7 @@ Bar!';
 		$this->assertTrue( $actual['done'] );
 
 		// Number of exported activity items.
-		$this->assertSame( 3, count( $actual['data'] ) );
+		$this->assertCount( 3, $actual['data'] );
 	}
 
 	/**

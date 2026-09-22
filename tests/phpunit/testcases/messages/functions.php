@@ -23,7 +23,7 @@ class BP_Tests_Messages_Functions extends BP_UnitTestCase {
 
 		// get unread count for $u2
 		wp_set_current_user( $u2 );
-		$this->assertEquals( 1, messages_get_unread_count( $u2 ) );
+		$this->assertSame( 1, messages_get_unread_count( $u2 ) );
 
 		// send another message and get recheck unread count
 		messages_new_message( array(
@@ -32,13 +32,13 @@ class BP_Tests_Messages_Functions extends BP_UnitTestCase {
 			'subject'    => 'A new message',
 			'content'    => 'Hey there!',
 		) );
-		$this->assertEquals( 2, messages_get_unread_count( $u2 ) );
+		$this->assertSame( 2, messages_get_unread_count( $u2 ) );
 
 		// mark one message as read
 		messages_mark_thread_read( $t1 );
 
 		// recheck unread count
-		$this->assertEquals( 1, messages_get_unread_count( $u2 ) );
+		$this->assertSame( 1, messages_get_unread_count( $u2 ) );
 	}
 
 	/**
@@ -46,6 +46,8 @@ class BP_Tests_Messages_Functions extends BP_UnitTestCase {
 	 *
 	 * @ticket BP9175
 	 * @group messages_new_message
+	 *
+	 * @param mixed $content Empty message content to test.
 	 */
 	public function test_messages_new_message_empty_content( $content ) {
 		$t1 = messages_new_message(
@@ -69,6 +71,8 @@ class BP_Tests_Messages_Functions extends BP_UnitTestCase {
 	 *
 	 * @ticket BP9175
 	 * @group messages_new_message
+	 *
+	 * @param string $content Irregular message content to test.
 	 */
 	public function test_messages_new_message_irregular_content( $content ) {
 		$t1 = messages_new_message( array(
@@ -133,6 +137,24 @@ class BP_Tests_Messages_Functions extends BP_UnitTestCase {
 	/**
 	 * @group messages_new_message
 	 */
+	public function test_messages_new_message_with_numeric_string_sender_id() {
+		$sender    = self::factory()->user->create();
+		$recipient = self::factory()->user->create();
+		$thread_id = messages_new_message( array(
+			'sender_id'  => (string) $sender,
+			'recipients' => array( $recipient, $sender ),
+			'subject'    => 'A new message',
+			'content'    => 'Hey there!',
+		) );
+
+		$this->assertIsInt( $thread_id );
+		$this->assertSame( 0, messages_get_unread_count( $sender ) );
+		$this->assertSame( 1, messages_get_unread_count( $recipient ) );
+	}
+
+	/**
+	 * @group messages_new_message
+	 */
 	public function test_messages_new_message_wp_error_generic() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -156,6 +178,8 @@ class BP_Tests_Messages_Functions extends BP_UnitTestCase {
 
 	/**
 	 * Helper method for test_messages_new_message_wp_error_generic().
+	 *
+	 * @param BP_Messages_Message $message Message object being saved.
 	 */
 	public function remove_recipients_before_save( $message ) {
 		$message->recipients = array();
@@ -221,7 +245,7 @@ class BP_Tests_Messages_Functions extends BP_UnitTestCase {
 		$this->assertTrue( $actual['done'] );
 
 		// Number of exported messages.
-		$this->assertSame( 3, count( $actual['data'] ) );
+		$this->assertCount( 3, $actual['data'] );
 	}
 
 	/**
@@ -279,6 +303,8 @@ class BP_Tests_Messages_Functions extends BP_UnitTestCase {
 		}
 
 		// Only messages sent by u1 should be exported.
-		$this->assertEquals( $expected, $actual );
+		sort( $expected );
+		sort( $actual );
+		$this->assertSame( $expected, $actual );
 	}
 }

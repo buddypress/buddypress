@@ -1,6 +1,6 @@
 <?php
 /**
- * BuddyPress Membersip Invitations
+ * BuddyPress Membership Invitations
  *
  * @package BuddyPress
  * @subpackage Members
@@ -16,8 +16,8 @@ defined( 'ABSPATH' ) || exit;
  * @since 8.0.0
  *
  * @param bool   $send       Whether or not to send the activation key.
- * @param int    $user_id    User ID to send activation key to.
- * @param string $user_email User email to send activation key to.
+ * @param int    $user_id    Optional. User ID to send activation key to.
+ * @param string $user_email Optional. User email to send activation key to.
  *
  * @return bool Whether or not to send the activation key.
  */
@@ -43,10 +43,8 @@ add_filter( 'bp_core_signup_send_activation_key', 'bp_members_invitations_cancel
  * - activate the user upon signup
  *
  * @since 8.0.0
- *
- * @param bool|WP_Error $user_id True on success, WP_Error on failure.
  */
-function bp_members_invitations_complete_signup( $user_id ) {
+function bp_members_invitations_complete_signup() {
 
 	// Check to see if this signup is the result of a valid invitation.
 	$invite = bp_get_members_invitation_from_request();
@@ -56,7 +54,7 @@ function bp_members_invitations_complete_signup( $user_id ) {
 
 	// User has already verified their email by responding to the invitation, so we can activate.
 	$signup = bp_members_get_signup_by( 'user_email', $invite->invitee_email );
-	$key = false;
+	$key    = false;
 	if ( ! empty( $signup->activation_key ) ) {
 		$key = $signup->activation_key;
 	}
@@ -79,6 +77,7 @@ function bp_members_invitations_complete_signup( $user_id ) {
 		$args          = array(
 			'id' => $invite->id,
 		);
+
 		$invites_class->accept_invitation( $args );
 
 		// If there were errors, add a message and redirect.
@@ -129,7 +128,7 @@ function bp_members_invitations_delete_optedout_invites( $optout ) {
 add_action( 'bp_optout_after_save', 'bp_members_invitations_delete_optedout_invites' );
 
 /**
- * If a user submits a site membership request, but there's a
+ * If a user submits a site membership request, but there's already a
  * sent invitation to her, bypass the manual approval of the request.
  *
  * @since 10.0.0
@@ -153,7 +152,7 @@ function bp_members_invitations_maybe_bypass_request_approval( $send, $details )
 	$invites = bp_members_invitations_get_invites(
 		array(
 			'invitee_email' => $details['user_email'],
-			'invite_sent'   => 'sent'
+			'invite_sent'   => 'sent',
 		)
 	);
 
@@ -179,7 +178,7 @@ add_filter( 'bp_members_membership_requests_bypass_manual_approval_multisite', '
  *
  * @since 12.0.0
  *
- * @param bool $access Whether the user can view member invitations screens.
+ * @return bool Whether the user can view member invitations screens.
  */
 function bp_members_invitations_user_can_view_screens() {
 	return bp_user_has_access() && bp_user_can( bp_displayed_user_id(), 'bp_members_invitations_view_screens' );
@@ -191,7 +190,7 @@ function bp_members_invitations_user_can_view_screens() {
  *
  * @since 12.0.0
  *
- * @param bool $access Whether the user can view member invitations send screen.
+ * @return bool Whether the user can view member invitations send screen.
  */
 function bp_members_invitations_user_can_view_send_screen() {
 	return bp_is_my_profile() && bp_user_can( bp_displayed_user_id(), 'bp_members_invitations_view_send_screen' );

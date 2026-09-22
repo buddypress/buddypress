@@ -21,7 +21,7 @@ class BP_Tests_BP_XProfile_Field_TestCases extends BP_UnitTestCase {
 		$f->save();
 
 		$f2 = new BP_XProfile_Field( $field );
-		$this->assertEquals( '0', $f2->can_delete );
+		$this->assertSame( 0, $f2->can_delete );
 	}
 
 	/**
@@ -54,7 +54,7 @@ class BP_Tests_BP_XProfile_Field_TestCases extends BP_UnitTestCase {
 			)
 		);
 
-		$this->assertEquals( $f2, xprofile_get_field_id_from_name( 'BuddyPress' ) );
+		$this->assertSame( $f2, xprofile_get_field_id_from_name( 'BuddyPress' ) );
 
 		// cleanup!
 		unset( $_POST['checkbox_option'] );
@@ -74,7 +74,7 @@ class BP_Tests_BP_XProfile_Field_TestCases extends BP_UnitTestCase {
 		$result = BP_XProfile_Field::admin_validate();
 
 		// Assert valid
-		$this->assertEquals( $result, true );
+		$this->assertTrue( $result );
 
 		// cleanup
 		unset(
@@ -103,7 +103,7 @@ class BP_Tests_BP_XProfile_Field_TestCases extends BP_UnitTestCase {
 		$result = BP_XProfile_Field::admin_validate();
 
 		// Assert valid
-		$this->assertEquals( $result, true );
+		$this->assertTrue( $result );
 
 		// cleanup
 		unset(
@@ -214,7 +214,7 @@ class BP_Tests_BP_XProfile_Field_TestCases extends BP_UnitTestCase {
 
 		// Cache call should miss; fresh data should be fetched.
 		$updated_fetched_field = xprofile_get_field( $field );
-		$this->assertEquals( $new_field_order, $updated_fetched_field->field_order );
+		$this->assertSame( $new_field_order, $updated_fetched_field->field_order );
 	}
 
 	/**

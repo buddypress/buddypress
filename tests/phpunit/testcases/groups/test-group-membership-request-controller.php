@@ -94,7 +94,7 @@ class BP_Tests_Group_Membership_Request_REST_Controller extends BP_Test_REST_Con
 		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$all_data = $response->get_data();
 		$this->assertTrue( 3 === count( $all_data ) );
@@ -172,7 +172,7 @@ class BP_Tests_Group_Membership_Request_REST_Controller extends BP_Test_REST_Con
 		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$all_data = $response->get_data();
 		$this->assertTrue( 2 === count( $all_data ) );
@@ -202,7 +202,7 @@ class BP_Tests_Group_Membership_Request_REST_Controller extends BP_Test_REST_Con
 		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$all_data = $response->get_data();
 		$this->assertTrue( 1 === count( $all_data ) );
@@ -317,7 +317,7 @@ class BP_Tests_Group_Membership_Request_REST_Controller extends BP_Test_REST_Con
 		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$data = $response->get_data();
 		$this->assertNotEmpty( $data );
@@ -421,7 +421,7 @@ class BP_Tests_Group_Membership_Request_REST_Controller extends BP_Test_REST_Con
 		);
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$data = $response->get_data();
 
@@ -447,7 +447,7 @@ class BP_Tests_Group_Membership_Request_REST_Controller extends BP_Test_REST_Con
 		);
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$data = $response->get_data();
 
@@ -583,7 +583,7 @@ class BP_Tests_Group_Membership_Request_REST_Controller extends BP_Test_REST_Con
 		$request->set_param( 'context', 'edit' );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$all_data = $response->get_data();
 		$this->assertNotEmpty( $all_data );
@@ -610,7 +610,7 @@ class BP_Tests_Group_Membership_Request_REST_Controller extends BP_Test_REST_Con
 		$request->set_param( 'context', 'edit' );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$all_data = $response->get_data();
 		$this->assertNotEmpty( $all_data );
@@ -694,11 +694,11 @@ class BP_Tests_Group_Membership_Request_REST_Controller extends BP_Test_REST_Con
 		$request->set_param( 'context', 'edit' );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$all_data = $response->get_data();
 		$this->assertTrue( $all_data['deleted'] );
-		$this->assertEquals( $request_id, $all_data['previous']['id'] );
+		$this->assertSame( $request_id, $all_data['previous']['id'] );
 	}
 
 	/**
@@ -719,11 +719,11 @@ class BP_Tests_Group_Membership_Request_REST_Controller extends BP_Test_REST_Con
 		$request->set_param( 'context', 'edit' );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$all_data = $response->get_data();
 		$this->assertTrue( $all_data['deleted'] );
-		$this->assertEquals( $request_id, $all_data['previous']['id'] );
+		$this->assertSame( $request_id, $all_data['previous']['id'] );
 	}
 
 	/**
@@ -744,11 +744,11 @@ class BP_Tests_Group_Membership_Request_REST_Controller extends BP_Test_REST_Con
 		$request->set_param( 'context', 'edit' );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$all_data = $response->get_data();
 		$this->assertTrue( $all_data['deleted'] );
-		$this->assertEquals( $request_id, $all_data['previous']['id'] );
+		$this->assertSame( $request_id, $all_data['previous']['id'] );
 	}
 
 	/**
@@ -799,7 +799,7 @@ class BP_Tests_Group_Membership_Request_REST_Controller extends BP_Test_REST_Con
 	 * @group get_item
 	 */
 	public function test_prepare_item() {
-		$this->markTestSkipped();
+		$this->markTestSkipped( 'Coverage for prepare_item_for_response() has not been implemented.' );
 	}
 
 	public function test_get_item_schema() {
@@ -808,7 +808,7 @@ class BP_Tests_Group_Membership_Request_REST_Controller extends BP_Test_REST_Con
 		$data       = $response->get_data();
 		$properties = $data['schema']['properties'];
 
-		$this->assertEquals( 7, count( $properties ) );
+		$this->assertCount( 7, $properties );
 		$this->assertArrayHasKey( 'user_id', $properties );
 		$this->assertArrayHasKey( 'date_modified', $properties );
 		$this->assertArrayHasKey( 'date_modified_gmt', $properties );
@@ -820,6 +820,6 @@ class BP_Tests_Group_Membership_Request_REST_Controller extends BP_Test_REST_Con
 		$response = $this->server->dispatch( $request );
 		$data     = $response->get_data();
 
-		$this->assertEquals( array( 'view', 'edit' ), $data['endpoints'][0]['args']['context']['enum'] );
+		$this->assertSame( array( 'view', 'edit' ), $data['endpoints'][0]['args']['context']['enum'] );
 	}
 }

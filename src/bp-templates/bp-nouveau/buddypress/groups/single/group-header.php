@@ -2,9 +2,12 @@
 /**
  * BuddyPress - Groups Header
  *
+ * @package BuddyPress
+ * @subpackage bp-nouveau
  * @since 3.0.0
  * @version 12.0.0
  */
+
 ?>
 
 <?php bp_get_template_part( 'groups/single/parts/header-item-actions' ); ?>

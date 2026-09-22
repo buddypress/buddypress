@@ -26,12 +26,10 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 		$u = self::factory()->user->create();
 		wp_set_current_user( $u );
 
-		self::factory()->group->create();
+		$group_id = self::factory()->group->create();
 
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
+		$this->assertSame( $u, groups_get_group( $group_id )->creator_id );
+		$this->assertNotFalse( groups_is_user_admin( $u, $group_id ) );
 	}
 
 	/**
@@ -44,7 +42,7 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 		$g = self::factory()->group->create( array( 'creator_id' => $u1 ) );
 
 		groups_join_group( $g, $u2 );
-		$this->assertEquals( 1, bp_get_user_meta( $u2, 'total_group_count', true ) );
+		$this->assertSame( '1', bp_get_user_meta( $u2, 'total_group_count', true ) );
 	}
 
 	/**
@@ -62,7 +60,7 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 		// Set the current user so the leave group request goes through.
 		wp_set_current_user( $u2 );
 		groups_leave_group( $g1, $u2 );
-		$this->assertEquals( 1, bp_get_user_meta( $u2, 'total_group_count', true ) );
+		$this->assertSame( '1', bp_get_user_meta( $u2, 'total_group_count', true ) );
 	}
 
 	/**
@@ -83,7 +81,7 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 
 		groups_ban_member( $u2, $g1 );
 
-		$this->assertEquals( 1, bp_get_user_meta( $u2, 'total_group_count', true ) );
+		$this->assertSame( '1', bp_get_user_meta( $u2, 'total_group_count', true ) );
 	}
 
 	/**
@@ -106,7 +104,7 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 
 		groups_unban_member( $u2, $g1 );
 
-		$this->assertEquals( 2, bp_get_user_meta( $u2, 'total_group_count', true ) );
+		$this->assertSame( '2', bp_get_user_meta( $u2, 'total_group_count', true ) );
 	}
 
 	/**
@@ -127,7 +125,7 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 
 		groups_accept_invite( $u1, $g );
 
-		$this->assertEquals( 1, bp_get_user_meta( $u1, 'total_group_count', true ) );
+		$this->assertSame( '1', bp_get_user_meta( $u1, 'total_group_count', true ) );
 	}
 
 	/**
@@ -149,7 +147,7 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 
 		groups_accept_membership_request( 0, $u1, $g );
 
-		$this->assertEquals( 1, bp_get_user_meta( $u1, 'total_group_count', true ) );
+		$this->assertSame( '1', bp_get_user_meta( $u1, 'total_group_count', true ) );
 
 		wp_set_current_user( $current_user );
 	}
@@ -172,7 +170,7 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 
 		groups_remove_member( $u2, $g1 );
 
-		$this->assertEquals( 1, bp_get_user_meta( $u2, 'total_group_count', true ) );
+		$this->assertSame( '1', bp_get_user_meta( $u2, 'total_group_count', true ) );
 	}
 
 	/**
@@ -185,7 +183,7 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 		$g = self::factory()->group->create( array( 'creator_id' => $u1 ) );
 
 		groups_join_group( $g, $u2 );
-		$this->assertEquals( 2, groups_get_total_member_count( $g ) );
+		$this->assertSame( 2, groups_get_total_member_count( $g ) );
 	}
 
 	/**
@@ -208,11 +206,11 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 
 		groups_join_group( $g1, $u2 );
 
-		$this->assertEquals( 2, groups_get_total_member_count( $g1 ) );
+		$this->assertSame( 2, groups_get_total_member_count( $g1 ) );
 
 		groups_leave_group( $g1, $u2 );
 
-		$this->assertEquals( 1, groups_get_total_member_count( $g1 ) );
+		$this->assertSame( 1, groups_get_total_member_count( $g1 ) );
 	}
 
 	/**
@@ -229,11 +227,11 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 		wp_set_current_user( $u1 );
 		buddypress()->is_item_admin = true;
 
-		$this->assertEquals( 2, groups_get_total_member_count( $g1 ) );
+		$this->assertSame( 2, groups_get_total_member_count( $g1 ) );
 
 		groups_ban_member( $u2, $g1 );
 
-		$this->assertEquals( 1, groups_get_total_member_count( $g1 ) );
+		$this->assertSame( 1, groups_get_total_member_count( $g1 ) );
 	}
 
 	/**
@@ -252,11 +250,11 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 
 		groups_ban_member( $u2, $g1 );
 
-		$this->assertEquals( 1, groups_get_total_member_count( $g1 ) );
+		$this->assertSame( 1, groups_get_total_member_count( $g1 ) );
 
 		groups_unban_member( $u2, $g1 );
 
-		$this->assertEquals( 2, groups_get_total_member_count( $g1 ) );
+		$this->assertSame( 2, groups_get_total_member_count( $g1 ) );
 	}
 
 	/**
@@ -274,11 +272,11 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 			'send_invite' => 1,
 		) );
 
-		$this->assertEquals( 1, groups_get_total_member_count( $g ) );
+		$this->assertSame( 1, groups_get_total_member_count( $g ) );
 
 		groups_accept_invite( $u2, $g );
 
-		$this->assertEquals( 2, groups_get_total_member_count( $g ) );
+		$this->assertSame( 2, groups_get_total_member_count( $g ) );
 	}
 
 	/**
@@ -296,7 +294,7 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 		) );
 		groups_accept_membership_request( 0, $u2, $g );
 
-		$this->assertEquals( 2, groups_get_total_member_count( $g ) );
+		$this->assertSame( 2, groups_get_total_member_count( $g ) );
 	}
 
 	/**
@@ -315,7 +313,7 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 
 		groups_remove_member( $u2, $g1 );
 
-		$this->assertEquals( 1, groups_get_total_member_count( $g1 ));
+		$this->assertSame( 1, groups_get_total_member_count( $g1 ));
 	}
 
 	/**
@@ -331,8 +329,8 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 		groups_join_group( $g1, $u2 );
 		groups_join_group( $g1, $u3 );
 
-		$this->assertEquals( 3, groups_get_total_member_count( $g1 ) );
-		$this->assertEquals( 3, BP_Groups_Group::get_total_member_count( $g1 ) );
+		$this->assertSame( 3, groups_get_total_member_count( $g1 ) );
+		$this->assertSame( 3, BP_Groups_Group::get_total_member_count( $g1 ) );
 
 		add_filter( 'bp_remove_user_data_on_delete_user_hook', '__return_true' );
 
@@ -341,8 +339,8 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 
 		remove_filter( 'bp_remove_user_data_on_delete_user_hook', '__return_true' );
 
-		$this->assertEquals( 2, groups_get_total_member_count( $g1 ) );
-		$this->assertEquals( 2, BP_Groups_Group::get_total_member_count( $g1 ) );
+		$this->assertSame( 2, groups_get_total_member_count( $g1 ) );
+		$this->assertSame( 2, BP_Groups_Group::get_total_member_count( $g1 ) );
 	}
 
 	/**
@@ -361,7 +359,7 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 
 		groups_join_group( $g1, $u2 );
 
-		$this->assertEquals( 1, groups_get_total_member_count( $g1 ) );
+		$this->assertSame( 1, groups_get_total_member_count( $g1 ) );
 	}
 
 	/**
@@ -386,7 +384,7 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 
 		groups_join_group( $g1, $u2 );
 
-		$this->assertEquals( 2, groups_get_total_member_count( $g1 ) );
+		$this->assertSame( 2, groups_get_total_member_count( $g1 ) );
 
 		wp_set_current_user( $current_user );
 	}
@@ -404,7 +402,7 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 		groups_join_group( $g1, $u2 );
 		bp_core_process_spammer_status( $u2, 'spam' );
 
-		$this->assertEquals( 1, groups_get_total_member_count( $g1 ) );
+		$this->assertSame( 1, groups_get_total_member_count( $g1 ) );
 	}
 
 	/**
@@ -429,7 +427,7 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 		remove_filter( 'bp_groups_total_member_count', array( $this, 'filter_bp_groups_total_member_count' ) );
 
 		$this->assertTrue( 1 === $this->did_group_member_count );
-		$this->assertEquals( count( $members ) + 1, groups_get_total_member_count( $g1 ) );
+		$this->assertSame( count( $members ) + 1, groups_get_total_member_count( $g1 ) );
 	}
 
 	public function filter_bp_groups_total_member_count( $count ) {
@@ -453,7 +451,7 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 			'date_created' => bp_core_current_time(),
 		) );
 
-		$this->assertEquals( 1, groups_get_total_member_count( $g ) );
+		$this->assertSame( 1, groups_get_total_member_count( $g ) );
 	}
 
 	/**
@@ -483,7 +481,7 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 Bar!';
 		groups_update_groupmeta( $g, 'linebreak_test', $meta_value );
 
-		$this->assertEquals( $meta_value, groups_get_groupmeta( $g, 'linebreak_test' ) );
+		$this->assertSame( $meta_value, groups_get_groupmeta( $g, 'linebreak_test' ) );
 	}
 
 	/**
@@ -544,14 +542,7 @@ Bar!';
 		$g = self::factory()->group->create();
 		groups_add_groupmeta( $g, 'foo', 'bar' );
 
-		// In earlier versions of WordPress, bp_activity_update_meta()
-		// returns true even on failure. However, we know that in these
-		// cases the update is failing as expected, so we skip this
-		// assertion just to keep our tests passing
-		// See https://core.trac.wordpress.org/ticket/24933
-		if ( version_compare( $GLOBALS['wp_version'], '3.7', '>=' ) ) {
-			$this->assertFalse( groups_update_groupmeta( $g, 'foo', 'bar2', 'baz' ) );
-		}
+		$this->assertFalse( groups_update_groupmeta( $g, 'foo', 'bar2', 'baz' ) );
 
 		$this->assertTrue( groups_update_groupmeta( $g, 'foo', 'bar2', 'bar' ) );
 	}
@@ -793,11 +784,11 @@ Bar!';
 		) );
 
 		// assert invite count
-		$this->assertEquals( 1, groups_get_invite_count_for_user( $u2 ) );
+		$this->assertSame( 1, groups_get_invite_count_for_user( $u2 ) );
 
 		// accept the invite and reassert
 		groups_accept_invite( $u2, $g );
-		$this->assertEquals( 0, groups_get_invite_count_for_user( $u2 ) );
+		$this->assertSame( 0, groups_get_invite_count_for_user( $u2 ) );
 	}
 
 	/**
@@ -812,7 +803,7 @@ Bar!';
 		groups_delete_group( $g1 );
 
 		$child = groups_get_group( array( 'group_id' => $g2 ) );
-		$this->assertEquals( 0, $child->parent_id );
+		$this->assertSame( 0, $child->parent_id );
 	}
 
 	/**
@@ -830,7 +821,7 @@ Bar!';
 		groups_delete_group( $g2 );
 
 		$child = groups_get_group( array( 'group_id' => $g3 ) );
-		$this->assertEquals( $g1, $child->parent_id );
+		$this->assertSame( $g1, $child->parent_id );
 	}
 
 	/**
@@ -841,7 +832,7 @@ Bar!';
 		$g1 = self::factory()->group->create();
 		$group = groups_get_group( $g1 );
 
-		$this->assertEquals( $g1, $group->id );
+		$this->assertSame( $g1, $group->id );
 	}
 
 	/**
@@ -852,7 +843,7 @@ Bar!';
 		$g1 = self::factory()->group->create();
 		$group = groups_get_group( (string) $g1 );
 
-		$this->assertEquals( $g1, $group->id );
+		$this->assertSame( $g1, $group->id );
 	}
 
 	/**
@@ -863,7 +854,7 @@ Bar!';
 		$g1 = self::factory()->group->create();
 		$group = groups_get_group( array( 'group_id' => $g1 ) );
 
-		$this->assertEquals( $g1, $group->id );
+		$this->assertSame( $g1, $group->id );
 	}
 
 	/**
@@ -874,7 +865,7 @@ Bar!';
 		$g1 = self::factory()->group->create();
 		$group = groups_get_group( 'group_id=' . $g1 );
 
-		$this->assertEquals( $g1, $group->id );
+		$this->assertSame( $g1, $group->id );
 	}
 
 	/**
@@ -951,7 +942,7 @@ Bar!';
 
 		$updated_group_object = groups_get_group( $g2 );
 
-		$this->assertNotEquals( $slug, $updated_group_object->slug );
+		$this->assertNotSame( $slug, $updated_group_object->slug );
 	}
 
 	/**
@@ -969,7 +960,7 @@ Bar!';
 
 		$updated_group_object = groups_get_group( $g1 );
 
-		$this->assertEquals( $slug, $updated_group_object->slug );
+		$this->assertSame( $slug, $updated_group_object->slug );
 	}
 
 	/**
@@ -987,7 +978,7 @@ Bar!';
 
 		$updated_group_object = groups_get_group( $g1 );
 
-		$this->assertEquals( $slug, $updated_group_object->slug );
+		$this->assertSame( $slug, $updated_group_object->slug );
 	}
 
 	/**

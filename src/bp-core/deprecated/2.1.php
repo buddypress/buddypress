@@ -61,6 +61,8 @@ function bp_admin_setting_callback_force_buddybar() {
  * @since 1.6.0
  * @deprecated 2.1.0
  * @access Private
+ *
+ * @param bool $value Optional. Setting value.
  */
 function bp_admin_sanitize_callback_force_buddybar( $value = false ) {
 	return $value ? 0 : 1;

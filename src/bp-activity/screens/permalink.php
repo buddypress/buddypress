@@ -11,22 +11,25 @@
  * Catch and route requests for single activity item permalinks.
  *
  * @since 1.2.0
- *
- * @return bool False on failure.
  */
 function bp_activity_action_permalink_router() {
 	// Not viewing activity.
 	if ( ! bp_is_activity_component() || ! bp_is_current_action( 'p' ) ) {
-		return false;
+		return;
 	}
 
 	// No activity to display.
 	if ( ! bp_action_variable( 0 ) || ! is_numeric( bp_action_variable( 0 ) ) ) {
-		return false;
+		return;
 	}
 
 	// Get the activity details.
-	$activity = bp_activity_get_specific( array( 'activity_ids' => bp_action_variable( 0 ), 'show_hidden' => true ) );
+	$activity = bp_activity_get_specific(
+		array(
+			'activity_ids' => bp_action_variable( 0 ),
+			'show_hidden' => true,
+		)
+	);
 
 	// 404 if activity does not exist.
 	if ( empty( $activity['activities'][0] ) ) {
@@ -41,17 +44,18 @@ function bp_activity_action_permalink_router() {
 	$path_chunks = bp_members_get_path_chunks( array( bp_get_activity_slug(), $activity->id ) );
 
 	// Redirect based on the type of activity.
-	if ( bp_is_active( 'groups' ) && $activity->component == buddypress()->groups->id ) {
+	if ( bp_is_active( 'groups' ) && $activity->component === buddypress()->groups->id ) {
 
 		// Activity is a user update.
 		if ( ! empty( $activity->user_id ) ) {
 			$redirect = bp_members_get_user_url( $activity->user_id, $path_chunks );
 
 		// Activity is something else.
+		// Set redirect to group activity stream.
 		} else {
+			$group = groups_get_group( $activity->item_id );
 
-			// Set redirect to group activity stream.
-			if ( $group = groups_get_group( $activity->item_id ) ) {
+			if ( $group ) {
 				$path_chunks = bp_groups_get_path_chunks( array( bp_get_activity_slug(), $activity->id ) );
 				$redirect    = bp_get_group_url( $group, $path_chunks );
 			}
@@ -82,7 +86,9 @@ function bp_activity_action_permalink_router() {
 	 *
 	 * @param array $value Array with url to redirect to and activity related to the redirect.
 	 */
-	if ( ! $redirect = apply_filters_ref_array( 'bp_activity_permalink_redirect_url', array( $redirect, &$activity ) ) ) {
+	$redirect = apply_filters_ref_array( 'bp_activity_permalink_redirect_url', array( $redirect, &$activity ) );
+
+	if ( ! $redirect ) {
 		bp_core_redirect( bp_get_root_url() );
 	}
 

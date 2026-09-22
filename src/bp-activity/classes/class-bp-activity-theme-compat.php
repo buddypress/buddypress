@@ -36,8 +36,9 @@ class BP_Activity_Theme_Compat {
 	public function is_activity() {
 
 		// Bail if not looking at a group.
-		if ( ! bp_is_activity_component() )
+		if ( ! bp_is_activity_component() ) {
 			return;
+		}
 
 		// Activity Directory.
 		if ( ! bp_displayed_user_id() && ! bp_current_action() ) {
@@ -46,15 +47,15 @@ class BP_Activity_Theme_Compat {
 			/** This action is documented in bp-activity/bp-activity-screens.php */
 			do_action( 'bp_activity_screen_index' );
 
-			add_filter( 'bp_get_buddypress_template',                array( $this, 'directory_template_hierarchy' ) );
+			add_filter( 'bp_get_buddypress_template', array( $this, 'directory_template_hierarchy' ) );
 			add_action( 'bp_template_include_reset_dummy_post_data', array( $this, 'directory_dummy_post' ) );
-			add_filter( 'bp_replace_the_content',                    array( $this, 'directory_content'    ) );
+			add_filter( 'bp_replace_the_content', array( $this, 'directory_content' ) );
 
 		// Single activity.
 		} elseif ( bp_is_single_activity() ) {
-			add_filter( 'bp_get_buddypress_template',                array( $this, 'single_template_hierarchy' ) );
+			add_filter( 'bp_get_buddypress_template', array( $this, 'single_template_hierarchy' ) );
 			add_action( 'bp_template_include_reset_dummy_post_data', array( $this, 'single_dummy_post' ) );
-			add_filter( 'bp_replace_the_content',                    array( $this, 'single_dummy_content'    ) );
+			add_filter( 'bp_replace_the_content', array( $this, 'single_dummy_content' ) );
 		}
 	}
 
@@ -67,8 +68,8 @@ class BP_Activity_Theme_Compat {
 	 *
 	 * @since 1.8.0
 	 *
-	 * @param string $templates The templates from bp_get_theme_compat_templates().
-	 * @return array $templates Array of custom templates to look for.
+	 * @param string[] $templates The templates from bp_get_theme_compat_templates().
+	 * @return string[] Array of custom templates to look for.
 	 */
 	public function directory_template_hierarchy( $templates ) {
 
@@ -77,11 +78,14 @@ class BP_Activity_Theme_Compat {
 		 *
 		 * @since 1.8.0
 		 *
-		 * @param array $index-directory Array holding template names to be merged into template list.
+		 * @param string[] $new_templates Array holding template names to be merged into the template list.
 		 */
-		$new_templates = apply_filters( 'bp_template_hierarchy_activity_directory', array(
-			'activity/index-directory.php'
-		) );
+		$new_templates = apply_filters(
+			'bp_template_hierarchy_activity_directory',
+			array(
+				'activity/index-directory.php',
+			)
+		);
 
 		// Merge new templates with existing stack
 		// @see bp_get_theme_compat_templates().
@@ -96,17 +100,19 @@ class BP_Activity_Theme_Compat {
 	 * @since 1.7.0
 	 */
 	public function directory_dummy_post() {
-		bp_theme_compat_reset_post( array(
-			'ID'             => 0,
-			'post_title'     => bp_get_directory_title( 'activity' ),
-			'post_author'    => 0,
-			'post_date'      => 0,
-			'post_content'   => '',
-			'post_type'      => 'page',
-			'post_status'    => 'publish',
-			'is_page'        => true,
-			'comment_status' => 'closed'
-		) );
+		bp_theme_compat_reset_post(
+			array(
+				'ID'             => 0,
+				'post_title'     => bp_get_directory_title( 'activity' ),
+				'post_author'    => 0,
+				'post_date'      => 0,
+				'post_content'   => '',
+				'post_type'      => 'page',
+				'post_status'    => 'publish',
+				'is_page'        => true,
+				'comment_status' => 'closed',
+			)
+		);
 	}
 
 	/**
@@ -128,7 +134,7 @@ class BP_Activity_Theme_Compat {
 	 * @since 1.8.0
 	 *
 	 * @param string $templates The templates from bp_get_theme_compat_templates().
-	 * @return array $templates Array of custom templates to look for.
+	 * @return array Array of custom templates to look for.
 	 */
 	public function single_template_hierarchy( $templates ) {
 
@@ -139,9 +145,12 @@ class BP_Activity_Theme_Compat {
 		 *
 		 * @param array $index Array holding template names to be merged into template list.
 		 */
-		$new_templates = apply_filters( 'bp_template_hierarchy_activity_single_item', array(
-			'activity/single/index.php'
-		) );
+		$new_templates = apply_filters(
+			'bp_template_hierarchy_activity_single_item',
+			array(
+				'activity/single/index.php',
+			)
+		);
 
 		// Merge new templates with existing stack
 		// @see bp_get_theme_compat_templates().
@@ -156,17 +165,19 @@ class BP_Activity_Theme_Compat {
 	 * @since 1.7.0
 	 */
 	public function single_dummy_post() {
-		bp_theme_compat_reset_post( array(
-			'ID'             => 0,
-			'post_title'     => __( 'Activity', 'buddypress' ),
-			'post_author'    => 0,
-			'post_date'      => 0,
-			'post_content'   => '',
-			'post_type'      => 'page',
-			'post_status'    => 'publish',
-			'is_page'        => true,
-			'comment_status' => 'closed'
-		) );
+		bp_theme_compat_reset_post(
+			array(
+				'ID'             => 0,
+				'post_title'     => __( 'Activity', 'buddypress' ),
+				'post_author'    => 0,
+				'post_date'      => 0,
+				'post_content'   => '',
+				'post_type'      => 'page',
+				'post_status'    => 'publish',
+				'is_page'        => true,
+				'comment_status' => 'closed',
+			)
+		);
 	}
 
 	/**

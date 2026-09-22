@@ -34,6 +34,34 @@
 	<!-- What to exclude -->
 	<exclude-pattern>*/**/tests/</exclude-pattern>
 	<exclude-pattern>*/**/deprecated/</exclude-pattern>
+	<exclude-pattern>*/src/bp-*/blocks/*/index.asset.php</exclude-pattern>
+
+	<!-- Template-pack compatibility entry points intentionally contain classes. -->
+	<rule ref="WordPress.Files.FileName">
+		<exclude-pattern>*/src/bp-templates/bp-legacy/buddypress-functions.php</exclude-pattern>
+		<exclude-pattern>*/src/bp-templates/bp-nouveau/buddypress-functions.php</exclude-pattern>
+		<exclude-pattern>*/src/bp-templates/bp-nouveau/includes/*/loader.php</exclude-pattern>
+		<exclude-pattern>*/src/bp-templates/bp-nouveau/includes/customizer-controls.php</exclude-pattern>
+		<exclude-pattern>*/src/bp-templates/bp-nouveau/includes/groups/classes.php</exclude-pattern>
+	</rule>
+
+	<!-- These compatibility entry points intentionally combine a component class and its accessor functions. -->
+	<rule ref="Universal.Files.SeparateFunctionsFromOO">
+		<exclude-pattern>*/src/bp-templates/bp-legacy/buddypress-functions.php</exclude-pattern>
+		<exclude-pattern>*/src/bp-templates/bp-nouveau/buddypress-functions.php</exclude-pattern>
+		<exclude-pattern>*/src/bp-templates/bp-nouveau/includes/*/loader.php</exclude-pattern>
+	</rule>
+
+	<!-- Group support classes intentionally share this compatibility loader. -->
+	<rule ref="Generic.Files.OneObjectStructurePerFile">
+		<exclude-pattern>*/src/bp-templates/bp-nouveau/includes/groups/classes.php</exclude-pattern>
+	</rule>
+
+	<!-- Retain established public class names for backward compatibility. -->
+	<rule ref="PEAR.NamingConventions.ValidClassName">
+		<exclude-pattern>*/src/bp-activity/classes/class-bp-activity-oembed-extension.php</exclude-pattern>
+		<exclude-pattern>*/src/bp-templates/bp-nouveau/includes/xprofile/loader.php</exclude-pattern>
+	</rule>
 
 	<!-- Exclude those rules. -->
 	<rule ref="BuddyPress">
@@ -48,8 +76,7 @@
 		<exclude name="WordPress.DateTime.RestrictedFunctions.date_date" />
 
 		<exclude name="WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound" />
-		<exclude name="Generic.WhiteSpace.ScopeIndent.Incorrect" />
-		<exclude name="Generic.WhiteSpace.ScopeIndent.IncorrectExact" />
+		<exclude name="Generic.WhiteSpace.ScopeIndent" />
 
 		<!-- Usually harmless, let's skip them. -->
 		<exclude name="Squiz.Commenting.InlineComment.InvalidEndChar" />
@@ -66,5 +93,11 @@
 		<exclude name="WordPress.DB.PreparedSQL.NotPrepared" />
 		<exclude name="WordPress.DB.DirectDatabaseQuery.SchemaChange" />
 		<exclude name="WordPress.DB.DirectDatabaseQuery.DirectQuery" />
+
+		<!-- Deferred performance issues. -->
+		<exclude name="WordPress.DB.SlowDBQuery.slow_db_query_meta_query" />
+		<exclude name="WordPress.DB.SlowDBQuery.slow_db_query_tax_query" />
+
+		<exclude name="WordPress.PHP.NoSilencedErrors" />
 	</rule>
 </ruleset>

@@ -21,7 +21,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 2.4.0 Added 'error_type' as an additional $args parameter.
  *
  * @param array|string $args {
- *     Array of arguments.
+ *     Optional. Array of arguments.
  *     @type int    $sender_id  Optional. ID of the user who is sending the
  *                              message. Default: ID of the logged-in user.
  *     @type int    $thread_id  Optional. ID of the parent thread. Leave blank to
@@ -56,6 +56,8 @@ function messages_new_message( $args = '' ) {
 		'messages_new_message'
 	);
 
+	$r['sender_id'] = (int) $r['sender_id'];
+
 	// Check if the message content is empty.
 	$content       = $r['content'];
 	$empty_content = false;
@@ -83,7 +85,7 @@ function messages_new_message( $args = '' ) {
 	}
 
 	// Create a new message object.
-	$message            = new BP_Messages_Message;
+	$message            = new BP_Messages_Message();
 	$message->thread_id = $r['thread_id'];
 	$message->sender_id = $r['sender_id'];
 	$message->subject   = $r['subject'];
@@ -166,7 +168,7 @@ function messages_new_message( $args = '' ) {
 
 		// Strip the sender from the recipient list, and unset them if they are
 		// not alone. If they are alone, let them talk to themselves.
-		$self_send = array_search( $r['sender_id'], $recipient_ids );
+		$self_send = array_search( $r['sender_id'], $recipient_ids, true );
 		if ( ! empty( $self_send ) && ( count( $recipient_ids ) > 1 ) ) {
 			unset( $recipient_ids[ $self_send ] );
 		}
@@ -183,7 +185,7 @@ function messages_new_message( $args = '' ) {
 
 		// Format this to match existing recipients.
 		foreach ( (array) $recipient_ids as $i => $recipient_id ) {
-			$message->recipients[ $i ]          = new stdClass;
+			$message->recipients[ $i ]          = new stdClass();
 			$message->recipients[ $i ]->user_id = $recipient_id;
 		}
 	}
@@ -230,7 +232,7 @@ function messages_send_notice( $subject, $message ) {
 		return false;
 	}
 
-	$notice            = new BP_Messages_Notice;
+	$notice            = new BP_Messages_Notice();
 	$notice->subject   = $subject;
 	$notice->message   = $message;
 	$notice->date_sent = bp_core_current_time();
@@ -262,7 +264,7 @@ function messages_send_notice( $subject, $message ) {
  *              was always assumed.
  *
  * @param int|array $thread_ids Thread ID or array of thread IDs.
- * @param int       $user_id    ID of the user to delete the threads for. Defaults
+ * @param int       $user_id    Optional. ID of the user to delete the threads for. Defaults
  *                              to the current logged-in user.
  * @return bool
  */
@@ -304,8 +306,8 @@ function messages_delete_thread( $thread_ids, $user_id = 0 ) {
 		 * @since 1.0.0
 		 * @since 2.7.0 The $user_id parameter was added.
 		 *
-		 * @param int|array Thread ID or array of thread IDs that were deleted.
-		 * @param int       ID of the user that the threads were deleted for.
+		 * @param int|array $thread_ids Thread ID or array of thread IDs that were deleted.
+		 * @param int       $user_id    ID of the user that the threads were deleted for.
 		 */
 		do_action( 'messages_delete_thread', $thread_ids, $user_id );
 
@@ -378,8 +380,8 @@ function messages_mark_thread_unread( $thread_id, $user_id = 0 ) {
  */
 function messages_add_callback_values( $recipients, $subject, $content ) {
 	@setcookie( 'bp_messages_send_to', $recipients, time() + 60 * 60 * 24, COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
-	@setcookie( 'bp_messages_subject', $subject,    time() + 60 * 60 * 24, COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
-	@setcookie( 'bp_messages_content', $content,    time() + 60 * 60 * 24, COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
+	@setcookie( 'bp_messages_subject', $subject, time() + 60 * 60 * 24, COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
+	@setcookie( 'bp_messages_content', $content, time() + 60 * 60 * 24, COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
 }
 
 /**
@@ -442,7 +444,7 @@ function messages_is_valid_thread( $thread_id ) {
  *
  * @global wpdb $wpdb WordPress database object.
  *
- * @param  int $message_id ID of the message.
+ * @param  int $message_id Optional. ID of the message.
  * @return int The ID of the thread if found, otherwise 0.
  */
 function messages_get_message_thread_id( $message_id = 0 ) {
@@ -467,9 +469,9 @@ function messages_get_message_thread_id( $message_id = 0 ) {
  * @see delete_metadata() for full documentation excluding $meta_type variable.
  *
  * @param int         $message_id ID of the message to have meta deleted for.
- * @param string|bool $meta_key   Meta key to delete. Default false.
- * @param string|bool $meta_value Meta value to delete. Default false.
- * @param bool        $delete_all Whether or not to delete all meta data.
+ * @param string|bool $meta_key   Optional. Meta key to delete. Default false.
+ * @param string|bool $meta_value Optional. Meta value to delete. Default false.
+ * @param bool        $delete_all Optional. Whether or not to delete all meta data.
  * @return bool
  */
 function bp_messages_delete_meta( $message_id, $meta_key = false, $meta_value = false, $delete_all = false ) {
@@ -514,8 +516,8 @@ function bp_messages_delete_meta( $message_id, $meta_key = false, $meta_value = 
  * @see get_metadata() for full documentation excluding $meta_type variable.
  *
  * @param int    $message_id ID of the message to retrieve meta for.
- * @param string $meta_key   Meta key to retrieve. Default empty string.
- * @param bool   $single     Whether or not to fetch all or a single value.
+ * @param string $meta_key   Optional. Meta key to retrieve. Default empty string.
+ * @param bool   $single     Optional. Whether or not to fetch all or a single value.
  * @return mixed
  */
 function bp_messages_get_meta( $message_id, $meta_key = '', $single = true ) {
@@ -536,7 +538,7 @@ function bp_messages_get_meta( $message_id, $meta_key = '', $single = true ) {
  * @param int         $message_id ID of the message to have meta deleted for.
  * @param string|bool $meta_key   Meta key to update.
  * @param string|bool $meta_value Meta value to update.
- * @param string      $prev_value If specified, only update existing metadata entries with
+ * @param string      $prev_value Optional. If specified, only update existing metadata entries with
  *                                the specified value. Otherwise, update all entries.
  * @return mixed
  */
@@ -558,7 +560,7 @@ function bp_messages_update_meta( $message_id, $meta_key, $meta_value, $prev_val
  * @param int         $message_id ID of the message to have meta deleted for.
  * @param string|bool $meta_key   Meta key to update.
  * @param string|bool $meta_value Meta value to update.
- * @param bool        $unique     Whether the specified metadata key should be
+ * @param bool        $unique     Optional. Whether the specified metadata key should be
  *                                unique for the object. If true, and the object
  *                                already has a value for the specified metadata key,
  *                                no change will be made.
@@ -580,7 +582,7 @@ function bp_messages_add_meta( $message_id, $meta_key, $meta_value, $unique = fa
  * @since 1.0.0
  *
  * @param array|BP_Messages_Message $raw_args {
- *     Array of arguments. Also accepts a BP_Messages_Message object.
+ *     Optional. Array of arguments. Also accepts a BP_Messages_Message object.
  *     @type array  $recipients    User IDs of recipients.
  *     @type string $email_subject Subject line of message.
  *     @type string $email_content Content of message.
@@ -601,6 +603,8 @@ function messages_notification_new_message( $raw_args = array() ) {
 	// Barf.
 	extract( $args );
 
+	$sender_id = (int) $sender_id;
+
 	if ( empty( $recipients ) ) {
 		return;
 	}
@@ -615,7 +619,7 @@ function messages_notification_new_message( $raw_args = array() ) {
 
 	// Send an email to each recipient.
 	foreach ( $recipients as $recipient ) {
-		if ( $sender_id == $recipient->user_id || 'no' == bp_get_user_meta( $recipient->user_id, 'notification_messages_new_message', true ) ) {
+		if ( $sender_id === $recipient->user_id || 'no' === bp_get_user_meta( $recipient->user_id, 'notification_messages_new_message', true ) ) {
 			continue;
 		}
 
@@ -630,20 +634,24 @@ function messages_notification_new_message( $raw_args = array() ) {
 			'notification_type' => 'messages-unread',
 		);
 
-		bp_send_email( 'messages-unread', $ud, array(
-			'tokens' => array(
-				'usermessage' => wp_strip_all_tags( stripslashes( $message ) ),
-				'message.url' => esc_url(
-					bp_members_get_user_url(
-						$recipient->user_id,
-						bp_members_get_path_chunks( array( bp_get_messages_slug(), 'view', array( $thread_id ) ) )
-					)
+		bp_send_email(
+			'messages-unread',
+			$ud,
+			array(
+				'tokens' => array(
+					'usermessage' => wp_strip_all_tags( stripslashes( $message ) ),
+					'message.url' => esc_url(
+						bp_members_get_user_url(
+							$recipient->user_id,
+							bp_members_get_path_chunks( array( bp_get_messages_slug(), 'view', array( $thread_id ) ) )
+						)
+					),
+					'sender.name' => $sender_name,
+					'usersubject' => sanitize_text_field( stripslashes( $subject ) ),
+					'unsubscribe' => esc_url( bp_email_get_unsubscribe_link( $unsubscribe_args ) ),
 				),
-				'sender.name' => $sender_name,
-				'usersubject' => sanitize_text_field( stripslashes( $subject ) ),
-				'unsubscribe' => esc_url( bp_email_get_unsubscribe_link( $unsubscribe_args ) ),
-			),
-		) );
+			)
+		);
 	}
 
 	/**
@@ -660,7 +668,7 @@ function messages_notification_new_message( $raw_args = array() ) {
 	 */
 	do_action( 'bp_messages_sent_notification_email', $recipients, '', '', $args );
 }
-add_action( 'messages_message_sent', 'messages_notification_new_message', 10 );
+add_action( 'messages_message_sent', 'messages_notification_new_message' );
 
 /**
  * Finds and exports personal data associated with an email address from the Messages tables.
@@ -687,13 +695,15 @@ function bp_messages_personal_data_exporter( $email_address, $page ) {
 		);
 	}
 
-	$user_threads = BP_Messages_Thread::get_current_threads_for_user( array(
-		'user_id' => $user->ID,
-		'box'     => 'sentbox',
-		'type'    => null,
-		'limit'   => $number,
-		'page'    => $page,
-	) );
+	$user_threads = BP_Messages_Thread::get_current_threads_for_user(
+		array(
+			'user_id' => $user->ID,
+			'box'     => 'sentbox',
+			'type'    => null,
+			'limit'   => $number,
+			'page'    => $page,
+		)
+	);
 
 	if ( empty( $user_threads ) ) {
 		return array(
@@ -764,9 +774,9 @@ function bp_messages_personal_data_exporter( $email_address, $page ) {
  *
  * @since 9.0.0
  *
- * @param int $user_id   ID of the user to dismiss the notice for.
+ * @param int $user_id   Optional. ID of the user to dismiss the notice for.
  *                       Defaults to the logged-in user.
- * @param int $notice_id ID of the notice to be dismissed.
+ * @param int $notice_id Optional. ID of the notice to be dismissed.
  *                       Defaults to the currently active notice.
  * @return bool False on failure, true if notice is dismissed
  *              (or was already dismissed).
@@ -819,7 +829,7 @@ function bp_messages_dismiss_sitewide_notice( $user_id = 0, $notice_id = 0 ) {
  * @since 10.0.0
  *
  * @param int|array $thread_ids Thread ID or array of thread IDs.
- * @param int       $user_id    ID of the user to delete the threads for. Defaults
+ * @param int       $user_id    Optional. ID of the user to delete the threads for. Defaults
  *                              to the current logged-in user.
  * @return bool
  */
@@ -860,8 +870,8 @@ function bp_messages_exit_thread( $thread_ids, $user_id = 0 ) {
 		 *
 		 * @since 10.0.0
 		 *
-		 * @param int|array Thread ID or array of thread IDs that were deleted.
-		 * @param int       ID of the user that the threads were deleted for.
+		 * @param int|array $thread_ids Thread ID or array of thread IDs that were exited.
+		 * @param int       $user_id    ID of the user who exited the threads.
 		 */
 		do_action( 'bp_messages_exit_thread', $thread_ids, $user_id );
 

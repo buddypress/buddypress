@@ -11,5 +11,5 @@
 defined( 'ABSPATH' ) || exit;
 
 if ( ! class_exists( 'BP_Component' ) ) {
-	require dirname( __FILE__ ) . '/classes/class-bp-component.php';
+	require __DIR__ . '/classes/class-bp-component.php';
 }

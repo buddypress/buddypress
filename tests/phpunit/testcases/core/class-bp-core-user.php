@@ -18,11 +18,11 @@ class BP_Tests_BP_Core_User_TestCases extends BP_UnitTestCase {
 		$exclude_qs = $u1 . ',junkstring,' . $u3;
 
 		$users = BP_Core_User::get_users( 'active', 0, 1, 0, false, false, true, $exclude_qs );
-		$user_ids = wp_parse_id_list( wp_list_pluck( $users['users'], 'id' ) );
+		$user_ids = wp_list_pluck( $users['users'], 'id' );
 
 		remove_filter( 'bp_use_legacy_user_query', '__return_true' );
 
-		$this->assertEquals( array( $u2 ), $user_ids );
+		$this->assertSame( array( $u2 ), $user_ids );
 	}
 
 	/**
@@ -42,11 +42,11 @@ class BP_Tests_BP_Core_User_TestCases extends BP_UnitTestCase {
 		);
 
 		$users = BP_Core_User::get_users( 'active', 0, 1, 0, false, false, true, $exclude_array );
-		$user_ids = wp_parse_id_list( wp_list_pluck( $users['users'], 'id' ) );
+		$user_ids = wp_list_pluck( $users['users'], 'id' );
 
 		remove_filter( 'bp_use_legacy_user_query', '__return_true' );
 
-		$this->assertEquals( array( $u2 ), $user_ids );
+		$this->assertSame( array( $u2 ), $user_ids );
 	}
 
 	/**
@@ -68,11 +68,11 @@ class BP_Tests_BP_Core_User_TestCases extends BP_UnitTestCase {
 		$include_qs = $u1 . ',junkstring,' . $u3;
 
 		$users = BP_Core_User::get_users( 'active', 0, 1, 0, $include_qs );
-		$user_ids = wp_parse_id_list( wp_list_pluck( $users['users'], 'id' ) );
+		$user_ids = wp_list_pluck( $users['users'], 'id' );
 
 		remove_filter( 'bp_use_legacy_user_query', '__return_true' );
 
-		$this->assertEquals( array( $u1, $u3 ), $user_ids );
+		$this->assertSame( array( $u1, $u3 ), $user_ids );
 	}
 
 	/**
@@ -101,12 +101,9 @@ class BP_Tests_BP_Core_User_TestCases extends BP_UnitTestCase {
 		$users = BP_Core_User::get_users( 'active', 0, 1, 0, $include_array );
 		$user_ids = wp_list_pluck( $users['users'], 'id' );
 
-		// typecast...ugh
-		$user_ids = array_map( 'intval', $user_ids );
-
 		remove_filter( 'bp_use_legacy_user_query', '__return_true' );
 
-		$this->assertEquals( array( $u1, $u3 ), $user_ids );
+		$this->assertSame( array( $u1, $u3 ), $user_ids );
 	}
 
 	/**
@@ -125,9 +122,9 @@ class BP_Tests_BP_Core_User_TestCases extends BP_UnitTestCase {
 		global $wpdb;
 
 		$q = BP_Core_User::get_users( 'alphabetical' );
-		$found = array_map( 'intval', wp_list_pluck( $q['users'], 'id' ) );
+		$found = wp_list_pluck( $q['users'], 'id' );
 
-		$this->assertEquals( array( $u2, $u1 ), $found );
+		$this->assertSame( array( $u2, $u1 ), $found );
 	}
 
 	/**
@@ -142,9 +139,10 @@ class BP_Tests_BP_Core_User_TestCases extends BP_UnitTestCase {
 		) );
 
 		$q = BP_Core_User::get_users_by_letter( 'b' );
-		$found = array_map( 'intval', wp_list_pluck( $q['users'], 'id' ) );
+		$found = wp_list_pluck( $q['users'], 'id' );
 
-		$this->assertEquals( array( $u2 ), $found );
+		$this->assertSame( array( $u2 ), $found );
+		$this->assertSame( 1, $q['total'] );
 	}
 
 	/**
@@ -159,9 +157,10 @@ class BP_Tests_BP_Core_User_TestCases extends BP_UnitTestCase {
 		) );
 
 		$q = BP_Core_User::search_users( 'ar' );
-		$found = array_map( 'intval', wp_list_pluck( $q['users'], 'id' ) );
+		$found = wp_list_pluck( $q['users'], 'id' );
 
-		$this->assertEquals( array( $u2 ), $found );
+		$this->assertSame( array( $u2 ), $found );
+		$this->assertSame( 1, $q['total'] );
 	}
 
 	public function test_get_specific_users() {
@@ -176,9 +175,10 @@ class BP_Tests_BP_Core_User_TestCases extends BP_UnitTestCase {
 		);
 
 		$users = BP_Core_User::get_specific_users( $include_array );
-		$user_ids = wp_parse_id_list( wp_list_pluck( $users['users'], 'id' ) );
+		$user_ids = wp_list_pluck( $users['users'], 'id' );
 
-		$this->assertEquals( array( $u1, $u3 ), $user_ids );
+		$this->assertSame( array( $u1, $u3 ), $user_ids );
+		$this->assertSame( 2, $users['total'] );
 	}
 
 	/**
@@ -193,7 +193,9 @@ class BP_Tests_BP_Core_User_TestCases extends BP_UnitTestCase {
 		$a = BP_Core_User::get_last_activity( $u );
 		$found = isset( $a[ $u ]['date_recorded'] ) ? $a[ $u ]['date_recorded'] : '';
 
-		$this->assertEquals( $time, $found );
+		$this->assertSame( $time, $found );
+		$this->assertSame( $u, $a[ $u ]['user_id'] );
+		$this->assertIsInt( $a[ $u ]['activity_id'] );
 	}
 
 	/**
@@ -295,12 +297,12 @@ class BP_Tests_BP_Core_User_TestCases extends BP_UnitTestCase {
 		BP_Core_User::update_last_activity( $u, $time );
 		$a = BP_Core_User::get_last_activity( $u );
 		$found = isset( $a[ $u ]['date_recorded'] ) ? $a[ $u ]['date_recorded'] : '';
-		$this->assertEquals( $time, $found );
+		$this->assertSame( $time, $found );
 
 		BP_Core_User::update_last_activity( $u, $time2 );
 		$a = BP_Core_User::get_last_activity( $u );
 		$found = isset( $a[ $u ]['date_recorded'] ) ? $a[ $u ]['date_recorded'] : '';
-		$this->assertEquals( $time2, $found );
+		$this->assertSame( $time2, $found );
 	}
 
 	/**
@@ -313,11 +315,11 @@ class BP_Tests_BP_Core_User_TestCases extends BP_UnitTestCase {
 		BP_Core_User::update_last_activity( $u, $time );
 		$a = BP_Core_User::get_last_activity( $u );
 		$found = isset( $a[ $u ]['date_recorded'] ) ? $a[ $u ]['date_recorded'] : '';
-		$this->assertEquals( $time, $found );
+		$this->assertSame( $time, $found );
 
 		BP_Core_User::delete_last_activity( $u );
 		$a = BP_Core_User::get_last_activity( $u );
 		$found = isset( $a[ $u ]['date_recorded'] ) ? $a[ $u ]['date_recorded'] : '';
-		$this->assertEquals( '', $found );
+		$this->assertSame( '', $found );
 	}
 }

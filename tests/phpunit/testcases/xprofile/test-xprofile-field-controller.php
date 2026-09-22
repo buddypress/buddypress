@@ -42,7 +42,7 @@ class BP_Tests_XProfile_Fields_REST_Controller extends BP_Test_REST_Controller_T
 		$response = $this->server->dispatch( $request );
 		$this->assertNotInstanceOf( 'WP_Error', $response );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$all_data = $response->get_data();
 		$this->assertNotEmpty( $all_data );
@@ -63,7 +63,7 @@ class BP_Tests_XProfile_Fields_REST_Controller extends BP_Test_REST_Controller_T
 		$response = $this->server->dispatch( $request );
 		$this->assertNotInstanceOf( 'WP_Error', $response );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$data = $response->get_data();
 		$this->assertNotEmpty( $data );
@@ -102,7 +102,7 @@ class BP_Tests_XProfile_Fields_REST_Controller extends BP_Test_REST_Controller_T
 		$response = $this->server->dispatch( $request );
 		$this->assertNotInstanceOf( 'WP_Error', $response );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$data = $response->get_data();
 		$this->assertNotEmpty( $data );
@@ -123,13 +123,13 @@ class BP_Tests_XProfile_Fields_REST_Controller extends BP_Test_REST_Controller_T
 		wp_set_current_user( $this->user );
 
 		$field = $this->endpoint->get_xprofile_field_object( $this->field_id );
-		$this->assertEquals( $this->field_id, $field->id );
+		$this->assertSame( $this->field_id, $field->id );
 
 		$request  = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '/%d', $field->id ) );
 		$response = $this->server->dispatch( $request );
 		$this->assertNotInstanceOf( 'WP_Error', $response );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$all_data = $response->get_data();
 
@@ -143,13 +143,13 @@ class BP_Tests_XProfile_Fields_REST_Controller extends BP_Test_REST_Controller_T
 	 */
 	public function test_get_public_item() {
 		$field = $this->endpoint->get_xprofile_field_object( $this->field_id );
-		$this->assertEquals( $this->field_id, $field->id );
+		$this->assertSame( $this->field_id, $field->id );
 
 		$request  = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '/%d', $field->id ) );
 		$response = $this->server->dispatch( $request );
 		$this->assertNotInstanceOf( 'WP_Error', $response );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$all_data = $response->get_data();
 
@@ -165,7 +165,7 @@ class BP_Tests_XProfile_Fields_REST_Controller extends BP_Test_REST_Controller_T
 		toggle_component_visibility();
 
 		$field = $this->endpoint->get_xprofile_field_object( $this->field_id );
-		$this->assertEquals( $this->field_id, $field->id );
+		$this->assertSame( $this->field_id, $field->id );
 
 		$request = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '/%d', $field->id ) );
 		$request->set_param( 'context', 'view' );
@@ -315,7 +315,7 @@ class BP_Tests_XProfile_Fields_REST_Controller extends BP_Test_REST_Controller_T
 		$response = $this->server->dispatch( $request );
 
 		$this->assertNotInstanceOf( 'WP_Error', $response );
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$object = $response->get_data();
 
@@ -387,7 +387,7 @@ class BP_Tests_XProfile_Fields_REST_Controller extends BP_Test_REST_Controller_T
 		$response = $this->server->dispatch( $request );
 		$this->assertNotInstanceOf( 'WP_Error', $response );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$all_data = $response->get_data();
 		$this->assertNotEmpty( $all_data );
@@ -445,7 +445,7 @@ class BP_Tests_XProfile_Fields_REST_Controller extends BP_Test_REST_Controller_T
 		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$all_data = $response->get_data();
 
@@ -557,7 +557,7 @@ class BP_Tests_XProfile_Fields_REST_Controller extends BP_Test_REST_Controller_T
 		$this->assertNotInstanceOf( 'WP_Error', $response );
 		$response = rest_ensure_response( $response );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$data = $response->get_data();
 
@@ -579,27 +579,27 @@ class BP_Tests_XProfile_Fields_REST_Controller extends BP_Test_REST_Controller_T
 	}
 
 	protected function check_field_data( $field, $data, $context = 'view' ) {
-		$this->assertEquals( $field->id, $data['id'] );
-		$this->assertEquals( $field->group_id, $data['group_id'] );
-		$this->assertEquals( $field->parent_id, $data['parent_id'] );
-		$this->assertEquals( $field->type, $data['type'] );
-		$this->assertEquals( $field->name, $data['name'] );
+		$this->assertSame( $field->id, $data['id'] );
+		$this->assertSame( $field->group_id, $data['group_id'] );
+		$this->assertSame( $field->parent_id, $data['parent_id'] );
+		$this->assertSame( $field->type, $data['type'] );
+		$this->assertSame( $field->name, $data['name'] );
 
 		if ( 'view' === $context ) {
-			$this->assertEquals( $field->description, $data['description']['rendered'] );
+			$this->assertSame( $field->description, $data['description']['rendered'] );
 		} else {
-			$this->assertEquals( $field->description, $data['description']['raw'] );
+			$this->assertSame( $field->description, $data['description']['raw'] );
 		}
 
-		$this->assertEquals( $field->is_required, $data['is_required'] );
-		$this->assertEquals( $field->can_delete, $data['can_delete'] );
-		$this->assertEquals( $field->field_order, $data['field_order'] );
-		$this->assertEquals( $field->option_order, $data['option_order'] );
-		$this->assertEquals( strtoupper( $field->order_by ), $data['order_by'] );
-		$this->assertEquals( $field->is_default_option, $data['is_default_option'] );
+		$this->assertSame( (bool) $field->is_required, $data['is_required'] );
+		$this->assertSame( (bool) $field->can_delete, $data['can_delete'] );
+		$this->assertSame( $field->field_order, $data['field_order'] );
+		$this->assertSame( $field->option_order, $data['option_order'] );
+		$this->assertSame( strtoupper( $field->order_by ), $data['order_by'] );
+		$this->assertSame( (bool) $field->is_default_option, $data['is_default_option'] );
 
 		if ( ! empty( $data['visibility_level'] ) ) {
-			$this->assertEquals( $field->visibility_level, $data['visibility_level'] );
+			$this->assertSame( $field->visibility_level, $data['visibility_level'] );
 		}
 	}
 
@@ -609,7 +609,7 @@ class BP_Tests_XProfile_Fields_REST_Controller extends BP_Test_REST_Controller_T
 		$data       = $response->get_data();
 		$properties = $data['schema']['properties'];
 
-		$this->assertEquals( 15, count( $properties ) );
+		$this->assertCount( 15, $properties );
 		$this->assertArrayHasKey( 'id', $properties );
 		$this->assertArrayHasKey( 'group_id', $properties );
 		$this->assertArrayHasKey( 'parent_id', $properties );
@@ -628,6 +628,6 @@ class BP_Tests_XProfile_Fields_REST_Controller extends BP_Test_REST_Controller_T
 	}
 
 	public function test_context_param() {
-		$this->markTestSkipped();
+		$this->markTestSkipped( 'Coverage for the collection route context argument has not been implemented.' );
 	}
 }

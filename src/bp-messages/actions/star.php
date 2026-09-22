@@ -31,11 +31,13 @@ function bp_messages_star_action_handler() {
 	}
 
 	// Mark the star.
-	bp_messages_star_set_action( array(
-		'action'     => bp_current_action(),
-		'message_id' => bp_action_variable(),
-		'bulk'       => (bool) bp_action_variable( 2 )
-	) );
+	bp_messages_star_set_action(
+		array(
+			'action'     => bp_current_action(),
+			'message_id' => bp_action_variable(),
+			'bulk'       => (bool) bp_action_variable( 2 ),
+		)
+	);
 
 	// Redirect back to previous screen.
 	$redirect = wp_get_referer();

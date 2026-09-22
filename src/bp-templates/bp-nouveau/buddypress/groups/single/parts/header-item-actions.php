@@ -2,9 +2,12 @@
 /**
  * BuddyPress - Groups Header item-actions.
  *
+ * @package BuddyPress
+ * @subpackage bp-nouveau
  * @since 3.0.0
  * @version 3.1.0
  */
+
 ?>
 <div id="item-actions" class="group-item-actions">
 
@@ -21,7 +24,7 @@
 
 		<?php
 		if ( bp_group_has_moderators() ) :
-			  bp_nouveau_group_hook( 'before', 'menu_mods' );
+				bp_nouveau_group_hook( 'before', 'menu_mods' );
 		?>
 
 			<dl class="moderators-lists">

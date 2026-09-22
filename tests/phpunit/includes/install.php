@@ -5,7 +5,13 @@
  * @todo Reuse the init/load code in init.php
  * @todo Support MULTIBLOG
  */
-error_reporting( E_ALL & ~E_DEPRECATED & ~E_STRICT );
+
+// E_STRICT is deprecated as of PHP 8.4.
+if (PHP_VERSION_ID >= 70400) {
+	error_reporting(E_ALL & ~E_DEPRECATED);
+} else {
+	error_reporting(E_ALL & ~E_DEPRECATED & ~E_STRICT);
+}
 
 $config_file_path = $argv[1];
 $tests_dir_path = $argv[2];

@@ -24,7 +24,7 @@ function bp_settings_action_capabilities() {
 
 	// Bail if not in settings.
 	if ( ! bp_is_settings_component() || ! bp_is_current_action( 'capabilities' ) ) {
-		return false;
+		return;
 	}
 
 	// 404 if there are any additional action variables attached

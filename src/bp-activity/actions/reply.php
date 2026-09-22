@@ -11,22 +11,20 @@
  * Post new activity comment.
  *
  * @since 1.2.0
- *
- * @return bool False on failure.
  */
 function bp_activity_action_post_comment() {
 	if ( ! is_user_logged_in() || ! bp_is_activity_component() || ! bp_is_current_action( 'reply' ) ) {
-		return false;
+		return;
 	}
 
 	if ( ! isset( $_POST['comment_form_id'] ) ) {
-		return false;
+		return;
 	}
 
 	$activity_id = absint( wp_unslash( $_POST['comment_form_id'] ) );
 
 	if ( ! isset( $activity_id ) ) {
-		return false;
+		return;
 	}
 
 	// Check the nonce.
@@ -48,7 +46,7 @@ function bp_activity_action_post_comment() {
 	 *
 	 * @param string $value Comment content being posted.
 	 */
-	$content = apply_filters( 'bp_activity_post_comment_content', $_POST['ac_input_' . $activity_id] );
+	$content = apply_filters( 'bp_activity_post_comment_content', $_POST[ 'ac_input_' . $activity_id ] );
 
 	if ( empty( $content ) ) {
 		bp_core_add_message( __( 'Please do not leave the comment area blank.', 'buddypress' ), 'error' );
@@ -65,7 +63,7 @@ function bp_activity_action_post_comment() {
 		array(
 			'content'     => $content,
 			'activity_id' => $activity_id,
-			'parent_id'   => false
+			'parent_id'   => false,
 		)
 	);
 

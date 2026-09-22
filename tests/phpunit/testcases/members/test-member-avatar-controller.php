@@ -29,7 +29,7 @@ class BP_Tests_Member_Avatar_REST_Controller extends BP_Test_REST_Controller_Tes
 	 * @group get_items
 	 */
 	public function test_get_items() {
-		$this->markTestSkipped();
+		$this->markTestSkipped( 'This endpoint has no collection route or get_items() method.' );
 	}
 
 	/**
@@ -44,7 +44,7 @@ class BP_Tests_Member_Avatar_REST_Controller extends BP_Test_REST_Controller_Tes
 		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$all_data = $response->get_data();
 		$this->assertNotEmpty( $all_data );
@@ -73,7 +73,7 @@ class BP_Tests_Member_Avatar_REST_Controller extends BP_Test_REST_Controller_Tes
 		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$all_data = $response->get_data();
 		$this->assertNotEmpty( $all_data );
@@ -95,10 +95,6 @@ class BP_Tests_Member_Avatar_REST_Controller extends BP_Test_REST_Controller_Tes
 	 * @group create_item
 	 */
 	public function test_create_item() {
-		if ( 4.9 > (float) $GLOBALS['wp_version'] ) {
-			$this->markTestSkipped();
-		}
-
 		$reset_files = $_FILES;
 		$reset_post  = $_POST;
 
@@ -216,14 +212,14 @@ class BP_Tests_Member_Avatar_REST_Controller extends BP_Test_REST_Controller_Tes
 	 * @group update_item
 	 */
 	public function test_update_item() {
-		$this->markTestSkipped();
+		$this->markTestSkipped( 'This endpoint does not support updating member avatars.' );
 	}
 
 	/**
 	 * @group delete_item
 	 */
 	public function test_delete_item() {
-		$this->markTestSkipped();
+		$this->markTestSkipped( 'Coverage for deleting member avatars has not been implemented.' );
 	}
 
 	/**
@@ -263,7 +259,7 @@ class BP_Tests_Member_Avatar_REST_Controller extends BP_Test_REST_Controller_Tes
 	 * @group prepare_item
 	 */
 	public function test_prepare_item() {
-		$this->markTestSkipped();
+		$this->markTestSkipped( 'Coverage for prepare_item_for_response() has not been implemented.' );
 	}
 
 	public function test_get_item_schema() {
@@ -272,7 +268,7 @@ class BP_Tests_Member_Avatar_REST_Controller extends BP_Test_REST_Controller_Tes
 		$data       = $response->get_data();
 		$properties = $data['schema']['properties'];
 
-		$this->assertEquals( 2, count( $properties ) );
+		$this->assertCount( 2, $properties );
 		$this->assertArrayHasKey( 'full', $properties );
 		$this->assertArrayHasKey( 'thumb', $properties );
 	}
@@ -282,7 +278,7 @@ class BP_Tests_Member_Avatar_REST_Controller extends BP_Test_REST_Controller_Tes
 		$request  = new WP_REST_Request( 'OPTIONS', sprintf( $this->endpoint_url . '/%d/avatar', $this->user ) );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$data = $response->get_data();
 

@@ -129,9 +129,9 @@ class BP_Core_User {
 	/**
 	 * Class constructor.
 	 *
-	 * @param integer $user_id         The ID for the user being queried.
-	 * @param bool    $populate_extras Optional. Whether to fetch extra information such as
-	 *                                 group/friendship counts or not. Default: false.
+	 * @param int  $user_id         The ID for the user being queried.
+	 * @param bool $populate_extras Optional. Whether to fetch extra information such as
+	 *                              group/friendship counts or not. Default: false.
 	 */
 	public function __construct( $user_id, $populate_extras = false ) {
 		if ( ! empty( $user_id ) ) {
@@ -247,6 +247,8 @@ class BP_Core_User {
 	 *
 	 * Since BuddyPress 1.7, use {@link BP_User_Query} instead.
 	 *
+	 * @since 15.0.0 The `$include` parameter was renamed to `$include_ids`.
+	 *
 	 * @deprecated 1.7.0 Use {@link BP_User_Query}.
 	 *
 	 * @global wpdb $wpdb WordPress database object.
@@ -255,18 +257,18 @@ class BP_Core_User {
 	 *      are used there in the same way.
 	 *
 	 * @param string      $type            See {@link BP_User_Query}.
-	 * @param int         $limit           See {@link BP_User_Query}. Default: 0.
-	 * @param int         $page            See {@link BP_User_Query}. Default: 1.
-	 * @param int         $user_id         See {@link BP_User_Query}. Default: 0.
-	 * @param mixed       $include         See {@link BP_User_Query}. Default: false.
-	 * @param string|bool $search_terms    See {@link BP_User_Query}.
+	 * @param int         $limit           Optional. See {@link BP_User_Query}. Default: 0.
+	 * @param int         $page            Optional. See {@link BP_User_Query}. Default: 1.
+	 * @param int         $user_id         Optional. See {@link BP_User_Query}. Default: 0.
+	 * @param mixed       $include_ids     Optional. See {@link BP_User_Query}. Default: false.
+	 * @param string|bool $search_terms    Optional. See {@link BP_User_Query}.
 	 *                                     Default: false.
-	 * @param bool        $populate_extras See {@link BP_User_Query}.
+	 * @param bool        $populate_extras Optional. See {@link BP_User_Query}.
 	 *                                     Default: true.
-	 * @param mixed       $exclude         See {@link BP_User_Query}. Default: false.
-	 * @param string|bool $meta_key        See {@link BP_User_Query}.
+	 * @param mixed       $exclude         Optional. See {@link BP_User_Query}. Default: false.
+	 * @param string|bool $meta_key        Optional. See {@link BP_User_Query}.
 	 *                                     Default: false.
-	 * @param string|bool $meta_value      See {@link BP_User_Query}.
+	 * @param string|bool $meta_value      Optional. See {@link BP_User_Query}.
 	 *                                     Default: false.
 	 * @return false|array {
 	 *     @type int   $total_users Total number of users matched by query
@@ -275,7 +277,7 @@ class BP_Core_User {
 	 *                              query params.
 	 * }
 	 */
-	public static function get_users( $type, $limit = 0, $page = 1, $user_id = 0, $include = false, $search_terms = false, $populate_extras = true, $exclude = false, $meta_key = false, $meta_value = false ) {
+	public static function get_users( $type, $limit = 0, $page = 1, $user_id = 0, $include_ids = false, $search_terms = false, $populate_extras = true, $exclude = false, $meta_key = false, $meta_value = false ) {
 		global $wpdb;
 
 		_deprecated_function( __METHOD__, '1.7', 'BP_User_Query' );
@@ -345,13 +347,13 @@ class BP_Core_User {
 			$sql['where_exclude'] = "AND u.ID NOT IN ({$exclude})";
 		}
 
-		// Passing an $include value of 0 or '0' will necessarily result in an empty set
+		// Passing an $include_ids value of 0 or '0' will necessarily result in an empty set
 		// returned. The default value of false will hit the 'else' clause.
-		if ( 0 === $include || '0' === $include ) {
+		if ( 0 === $include_ids || '0' === $include_ids ) {
 			$sql['where_users'] = 'AND 0 = 1';
-		} elseif ( ! empty( $include ) ) {
-				$include            = implode( ',', wp_parse_id_list( $include ) );
-				$sql['where_users'] = "AND u.ID IN ({$include})";
+		} elseif ( ! empty( $include_ids ) ) {
+				$include_ids        = implode( ',', wp_parse_id_list( $include_ids ) );
+				$sql['where_users'] = "AND u.ID IN ({$include_ids})";
 		} elseif ( ! empty( $user_id ) && bp_is_active( 'friends' ) ) {
 			$friend_ids = friends_get_friend_user_ids( $user_id );
 
@@ -414,6 +416,10 @@ class BP_Core_User {
 		$paged_users_sql = apply_filters( 'bp_core_get_paged_users_sql', join( ' ', (array) $sql ), $sql );
 		$paged_users     = $wpdb->get_results( $paged_users_sql );
 
+		foreach ( $paged_users as $user ) {
+			$user->id = (int) $user->id;
+		}
+
 		// Re-jig the SQL so we can get the total user count.
 		unset( $sql['select_main'] );
 
@@ -463,7 +469,7 @@ class BP_Core_User {
 
 		return array(
 			'users' => $paged_users,
-			'total' => $total_users,
+			'total' => (int) $total_users,
 		);
 	}
 
@@ -473,11 +479,11 @@ class BP_Core_User {
 	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param string   $letter          The letter the users names are to start with.
-	 * @param int|null $limit           The number of users we wish to retrive.
-	 * @param int      $page            The page number we are currently on, used in conjunction
+	 * @param int|null $limit           Optional. The number of users we wish to retrive.
+	 * @param int      $page            Optional. The page number we are currently on, used in conjunction
 	 *                                  with $limit to get the start position for the limit.
-	 * @param bool     $populate_extras If we should populate extra user fields.
-	 * @param string   $exclude         Comma-separated IDs of users whose results
+	 * @param bool     $populate_extras Optional. If we should populate extra user fields.
+	 * @param string   $exclude         Optional. Comma-separated IDs of users whose results
 	 *                                  aren't to be fetched.
 	 * @return false|array False on error, otherwise associative array of results.
 	 */
@@ -540,7 +546,8 @@ class BP_Core_User {
 		 */
 		$user_ids = array();
 		foreach ( (array) $paged_users as $user ) {
-			$user_ids[] = (int) $user->id;
+			$user->id   = (int) $user->id;
+			$user_ids[] = $user->id;
 		}
 
 		// Add additional data to the returned results.
@@ -550,7 +557,7 @@ class BP_Core_User {
 
 		return array(
 			'users' => $paged_users,
-			'total' => $total_users,
+			'total' => (int) $total_users,
 		);
 	}
 
@@ -563,9 +570,9 @@ class BP_Core_User {
 	 *
 	 * @param array    $user_ids        The user IDs of the users who we wish to
 	 *                                  fetch information on.
-	 * @param int|null $limit           The limit of results we want.
-	 * @param int      $page            The page we are on for pagination.
-	 * @param bool     $populate_extras If we should populate extra user fields.
+	 * @param int|null $limit           Optional. The limit of results we want.
+	 * @param int      $page            Optional. The page we are on for pagination.
+	 * @param bool     $populate_extras Optional. If we should populate extra user fields.
 	 * @return array Associative array.
 	 */
 	public static function get_specific_users( $user_ids, $limit = null, $page = 1, $populate_extras = true ) {
@@ -636,6 +643,10 @@ class BP_Core_User {
 		$total_users = $wpdb->get_var( $total_users_sql );
 		$paged_users = $wpdb->get_results( $paged_users_sql );
 
+		foreach ( $paged_users as $user ) {
+			$user->id = (int) $user->id;
+		}
+
 		/**
 		 * Lets fetch some other useful data in a separate queries, this will be
 		 * faster than querying the data for every user in a list. We can't add
@@ -651,7 +662,7 @@ class BP_Core_User {
 
 		return array(
 			'users' => $paged_users,
-			'total' => $total_users,
+			'total' => (int) $total_users,
 		);
 	}
 
@@ -662,9 +673,9 @@ class BP_Core_User {
 	 *
 	 * @param string   $search_terms    The terms to search the profile table
 	 *                                  value column for.
-	 * @param int|null $limit           The limit of results we want.
-	 * @param int      $page            The page we are on for pagination.
-	 * @param boolean  $populate_extras If we should populate extra user fields.
+	 * @param int|null $limit           Optional. The limit of results we want.
+	 * @param int      $page            Optional. The page we are on for pagination.
+	 * @param bool     $populate_extras Optional. If we should populate extra user fields.
 	 * @return array Associative array.
 	 */
 	public static function search_users( $search_terms, $limit = null, $page = 1, $populate_extras = true ) {
@@ -699,6 +710,10 @@ class BP_Core_User {
 		$total_users = $wpdb->get_var( $total_users_sql );
 		$paged_users = $wpdb->get_results( $paged_users_sql );
 
+		foreach ( $paged_users as $user ) {
+			$user->id = (int) $user->id;
+		}
+
 		/**
 		 * Lets fetch some other useful data in a separate queries, this will be faster than querying the data for every user in a list.
 		 * We can't add these to the main query above since only users who have this information will be returned (since the much of the data is in usermeta and won't support any type of directional join)
@@ -714,7 +729,7 @@ class BP_Core_User {
 
 		return array(
 			'users' => $paged_users,
-			'total' => $total_users,
+			'total' => (int) $total_users,
 		);
 	}
 
@@ -727,7 +742,7 @@ class BP_Core_User {
 	 *
 	 * @param array       $paged_users An array of stdClass containing the users.
 	 * @param string      $user_ids    The user ids to select information about.
-	 * @param string|bool $type        The type of fields we wish to get.
+	 * @param string|bool $type        Optional. The type of fields we wish to get.
 	 * @return mixed False on error, otherwise associative array of results.
 	 */
 	public static function get_user_extras( &$paged_users, &$user_ids, $type = false ) {
@@ -747,6 +762,8 @@ class BP_Core_User {
 			$names = $wpdb->get_results( $wpdb->prepare( "SELECT pd.user_id as id, pd.value as fullname FROM {$bp->profile->table_name_fields} pf, {$bp->profile->table_name_data} pd WHERE pf.id = pd.field_id AND pf.name = %s AND pd.user_id IN ( {$user_ids} )", bp_xprofile_fullname_field_name() ) );
 			for ( $i = 0, $count = count( $paged_users ); $i < $count; ++$i ) {
 				foreach ( (array) $names as $name ) {
+					$name->id = (int) $name->id;
+
 					if ( $name->id === $paged_users[ $i ]->id ) {
 						$paged_users[ $i ]->fullname = $name->fullname;
 					}
@@ -759,6 +776,8 @@ class BP_Core_User {
 			$friend_count = $wpdb->get_results( $wpdb->prepare( "SELECT user_id as id, meta_value as total_friend_count FROM {$wpdb->usermeta} WHERE meta_key = %s AND user_id IN ( {$user_ids} )", bp_get_user_meta_key( 'total_friend_count' ) ) );
 			for ( $i = 0, $count = count( $paged_users ); $i < $count; ++$i ) {
 				foreach ( (array) $friend_count as $fcount ) {
+					$fcount->id = (int) $fcount->id;
+
 					if ( $fcount->id === $paged_users[ $i ]->id ) {
 						$paged_users[ $i ]->total_friend_count = (int) $fcount->total_friend_count;
 					}
@@ -771,8 +790,11 @@ class BP_Core_User {
 			$friend_status = $wpdb->get_results( $wpdb->prepare( "SELECT initiator_user_id, friend_user_id, is_confirmed FROM {$bp->friends->table_name} WHERE (initiator_user_id = %d AND friend_user_id IN ( {$user_ids} ) ) OR (initiator_user_id IN ( {$user_ids} ) AND friend_user_id = %d )", bp_loggedin_user_id(), bp_loggedin_user_id() ) );
 			for ( $i = 0, $count = count( $paged_users ); $i < $count; ++$i ) {
 				foreach ( (array) $friend_status as $status ) {
+					$status->initiator_user_id = (int) $status->initiator_user_id;
+					$status->friend_user_id    = (int) $status->friend_user_id;
+
 					if ( $status->initiator_user_id === $paged_users[ $i ]->id || $status->friend_user_id === $paged_users[ $i ]->id ) {
-						$paged_users[ $i ]->is_friend = $status->is_confirmed;
+						$paged_users[ $i ]->is_friend = (int) $status->is_confirmed;
 					}
 				}
 			}
@@ -794,6 +816,8 @@ class BP_Core_User {
 		$user_update = $wpdb->get_results( $wpdb->prepare( "SELECT user_id as id, meta_value as latest_update FROM {$wpdb->usermeta} WHERE meta_key = %s AND user_id IN ( {$user_ids} )", bp_get_user_meta_key( 'bp_latest_update' ) ) );
 		for ( $i = 0, $count = count( $paged_users ); $i < $count; ++$i ) {
 			foreach ( (array) $user_update as $update ) {
+				$update->id = (int) $update->id;
+
 				if ( $update->id === $paged_users[ $i ]->id ) {
 					$paged_users[ $i ]->latest_update = $update->latest_update;
 				}
@@ -846,9 +870,9 @@ class BP_Core_User {
 				wp_cache_set(
 					$last_activity->user_id,
 					array(
-						'user_id'       => $last_activity->user_id,
+						'user_id'       => (int) $last_activity->user_id,
 						'date_recorded' => $last_activity->date_recorded,
-						'activity_id'   => $last_activity->id,
+						'activity_id'   => (int) $last_activity->id,
 					),
 					'bp_last_activity'
 				);
@@ -860,10 +884,10 @@ class BP_Core_User {
 		foreach ( $user_ids as $user_id ) {
 			$retval[ $user_id ] = wp_cache_get( $user_id, 'bp_last_activity' );
 
-			if ( isset( $retval['user_id'] ) ) {
+			if ( isset( $retval[ $user_id ]['user_id'] ) ) {
 				$retval[ $user_id ]['user_id'] = (int) $retval[ $user_id ]['user_id'];
 			}
-			if ( isset( $retval['activity_id'] ) ) {
+			if ( isset( $retval[ $user_id ]['activity_id'] ) ) {
 				$retval[ $user_id ]['activity_id'] = (int) $retval[ $user_id ]['activity_id'];
 			}
 		}

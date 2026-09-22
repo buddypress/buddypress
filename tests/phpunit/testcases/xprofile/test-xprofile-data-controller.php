@@ -33,7 +33,7 @@ class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Tes
 	 * @group get_items
 	 */
 	public function test_get_items() {
-		$this->markTestSkipped();
+		$this->markTestSkipped( 'This endpoint has no collection route or get_items() method.' );
 	}
 
 	/**
@@ -48,12 +48,12 @@ class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Tes
 		$response = $this->server->dispatch( $request );
 		$this->assertNotInstanceOf( 'WP_Error', $response );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$all_data = $response->get_data();
 
 		$this->assertNotEmpty( $all_data );
-		$this->assertEquals( $all_data['value']['unserialized'], array( 'foo' ) );
+		$this->assertSame( $all_data['value']['unserialized'], array( 'foo' ) );
 	}
 
 	/**
@@ -82,7 +82,7 @@ class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Tes
 		$request = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '/%d/data/%d', $f, $this->user ) );
 		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
-		$this->assertEquals( 403, $response->get_status() );
+		$this->assertSame( 403, $response->get_status() );
 	}
 
 	/**
@@ -141,12 +141,12 @@ class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Tes
 		$response = $this->server->dispatch( $request );
 
 		$this->assertNotInstanceOf( 'WP_Error', $response );
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$data = $response->get_data();
 
 		$this->assertNotEmpty( $data );
-		$this->assertEquals( $data['value']['unserialized'], array( 'Field', 'Value' ) );
+		$this->assertSame( $data['value']['unserialized'], array( 'Field', 'Value' ) );
 	}
 
 	/**
@@ -198,12 +198,12 @@ class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Tes
 		$response = $this->server->dispatch( $request );
 
 		$this->assertNotInstanceOf( 'WP_Error', $response );
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$data = $response->get_data();
 
 		$this->assertNotEmpty( $data );
-		$this->assertEquals( $data['value']['unserialized'], array( 'Option 1', 'Option 2' ) );
+		$this->assertSame( $data['value']['unserialized'], array( 'Option 1', 'Option 2' ) );
 	}
 
 	/**
@@ -275,7 +275,7 @@ class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Tes
 		$data = $response->get_data();
 
 		$this->assertNotEmpty( $data );
-		$this->assertEquals( $data['value']['unserialized'], array() );
+		$this->assertSame( $data['value']['unserialized'], array() );
 	}
 
 	/**
@@ -320,13 +320,13 @@ class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Tes
 		$response = $this->server->dispatch( $request );
 
 		$this->assertNotInstanceOf( 'WP_Error', $response );
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$data = $response->get_data();
 		$this->assertNotEmpty( $data );
 
-		$this->assertEquals( $data['value']['unserialized'], array( "I don\'t travel often" ) );
-		$this->assertEquals( $data['value']['raw'], "a:1:{i:0;s:21:\"I don\\'t travel often\";}" );
+		$this->assertSame( $data['value']['unserialized'], array( "I don\'t travel often" ) );
+		$this->assertSame( $data['value']['raw'], "a:1:{i:0;s:21:\"I don\\'t travel often\";}" );
 	}
 
 	/**
@@ -372,13 +372,13 @@ class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Tes
 		$response = $this->server->dispatch( $request );
 
 		$this->assertNotInstanceOf( 'WP_Error', $response );
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$data = $response->get_data();
 		$this->assertNotEmpty( $data );
 
-		$this->assertEquals( $data['value']['unserialized'], array( "I don\'t travel often" ) );
-		$this->assertEquals( $data['value']['raw'], "a:1:{i:0;s:21:\"I don\\'t travel often\";}" );
+		$this->assertSame( $data['value']['unserialized'], array( "I don\'t travel often" ) );
+		$this->assertSame( $data['value']['raw'], "a:1:{i:0;s:21:\"I don\\'t travel often\";}" );
 	}
 
 	/**
@@ -403,13 +403,13 @@ class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Tes
 		$response = $this->server->dispatch( $request );
 
 		$this->assertNotInstanceOf( 'WP_Error', $response );
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$data = $response->get_data();
 		$this->assertNotEmpty( $data );
 
-		$this->assertEquals( $data['value']['unserialized'][0], $params['value'] );
-		$this->assertEquals( $data['value']['raw'], 'textbox field' );
+		$this->assertSame( $data['value']['unserialized'][0], $params['value'] );
+		$this->assertSame( $data['value']['raw'], 'textbox field' );
 	}
 
 	/**
@@ -439,7 +439,7 @@ class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Tes
 		$data = $response->get_data();
 
 		$this->assertNotEmpty( $data );
-		$this->assertEquals( $data['value']['raw'], "I don't travel often" );
+		$this->assertSame( $data['value']['raw'], "I don't travel often" );
 
 		$request = new WP_REST_Request( 'POST', sprintf( $this->endpoint_url . '/%d/data/%d', $field_id, $this->user ) );
 		$request->set_param( 'context', 'edit' );
@@ -452,7 +452,7 @@ class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Tes
 		$data = $response->get_data();
 
 		$this->assertNotEmpty( $data );
-		$this->assertEquals( $data['value']['raw'], "I don't travel often" );
+		$this->assertSame( $data['value']['raw'], "I don't travel often" );
 	}
 
 	/**
@@ -487,13 +487,13 @@ class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Tes
 		$response = $this->server->dispatch( $request );
 
 		$this->assertNotInstanceOf( 'WP_Error', $response );
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$data = $response->get_data();
 		$this->assertNotEmpty( $data );
 
-		$this->assertEquals( $data['value']['unserialized'][0], 'select box' );
-		$this->assertEquals( $data['value']['raw'], 'select box' );
+		$this->assertSame( $data['value']['unserialized'][0], 'select box' );
+		$this->assertSame( $data['value']['raw'], 'select box' );
 	}
 
 	/**
@@ -584,7 +584,7 @@ class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Tes
 	 * @group create_item
 	 */
 	public function test_create_item() {
-		$this->markTestSkipped();
+		$this->markTestSkipped( 'POST requests are handled by update_item(); no create_item() method exists.' );
 	}
 
 	/**
@@ -603,7 +603,7 @@ class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Tes
 		$response = $this->server->dispatch( $request );
 
 		$this->assertNotInstanceOf( 'WP_Error', $response );
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$data = $response->get_data();
 		$this->assertNotEmpty( $data );
@@ -637,7 +637,7 @@ class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Tes
 		$response = $this->server->dispatch( $request );
 		$this->assertNotInstanceOf( 'WP_Error', $response );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$data = $response->get_data();
 		$this->assertNotEmpty( $data );
@@ -712,12 +712,12 @@ class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Tes
 		$response = $this->server->dispatch( $request );
 		$this->assertNotInstanceOf( 'WP_Error', $response );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$all_data = $response->get_data();
 		$this->assertNotEmpty( $all_data );
 
-		$this->assertEquals( $all_data['value']['unserialized'], array( 'foo' ) );
+		$this->assertSame( $all_data['value']['unserialized'], array( 'foo' ) );
 	}
 
 	/**
@@ -772,7 +772,7 @@ class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Tes
 	protected function check_create_field_response( $response ) {
 		$this->assertNotInstanceOf( 'WP_Error', $response );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$data = $response->get_data();
 
@@ -792,14 +792,14 @@ class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Tes
 	}
 
 	protected function check_field_data( $field_data, $data ) {
-		$this->assertEquals( $field_data->field_id, $data['field_id'] );
-		$this->assertEquals( $field_data->user_id, $data['user_id'] );
-		$this->assertEquals( (array) $field_data->value, $data['value']['unserialized'] );
-		$this->assertEquals(
+		$this->assertSame( $field_data->field_id, $data['field_id'] );
+		$this->assertSame( $field_data->user_id, $data['user_id'] );
+		$this->assertSame( (array) $field_data->value, $data['value']['unserialized'] );
+		$this->assertSame(
 			bp_rest_prepare_date_response( $field_data->last_updated, get_date_from_gmt( $field_data->last_updated ) ),
 			$data['last_updated']
 		);
-		$this->assertEquals( bp_rest_prepare_date_response( $field_data->last_updated ), $data['last_updated_gmt'] );
+		$this->assertSame( bp_rest_prepare_date_response( $field_data->last_updated ), $data['last_updated_gmt'] );
 	}
 
 	public function test_get_item_schema() {
@@ -808,7 +808,7 @@ class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Tes
 		$data       = $response->get_data();
 		$properties = $data['schema']['properties'];
 
-		$this->assertEquals( 7, count( $properties ) );
+		$this->assertCount( 7, $properties );
 		$this->assertArrayHasKey( 'id', $properties );
 		$this->assertArrayHasKey( 'field_id', $properties );
 		$this->assertArrayHasKey( 'user_id', $properties );
@@ -818,6 +818,6 @@ class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Tes
 	}
 
 	public function test_context_param() {
-		$this->markTestSkipped();
+		$this->markTestSkipped( 'The single-item route does not declare a context argument.' );
 	}
 }

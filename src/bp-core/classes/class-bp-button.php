@@ -232,7 +232,7 @@ class BP_Button {
 	 *
 	 * @since 1.2.6
 	 *
-	 * @param array|string $args See `BP_Button`.
+	 * @param array|string $args Optional. See `BP_Button`.
 	 */
 	public function __construct( $args = '' ) {
 
@@ -392,7 +392,7 @@ class BP_Button {
 	 *
 	 * @since 2.7.0.
 	 *
-	 * @param  array $r See {@see BP_Button} class for full documentation.
+	 * @param  array $r Optional. See {@see BP_Button} class for full documentation.
 	 * @return array
 	 */
 	protected function backward_compatibility_args( $r = array() ) {

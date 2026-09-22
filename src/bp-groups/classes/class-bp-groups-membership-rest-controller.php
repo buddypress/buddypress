@@ -738,7 +738,7 @@ class BP_Groups_Membership_REST_Controller extends WP_REST_Controller {
 		 *
 		 * @since 15.0.0
 		 *
-		 * @param array $          links         The prepared links of the REST response.
+		 * @param array            $links        The prepared links of the REST response.
 		 * @param BP_Groups_Member $group_member Group member object.
 		 */
 		return apply_filters( 'bp_rest_group_members_prepare_links', $links, $group_member );
@@ -805,6 +805,16 @@ class BP_Groups_Membership_REST_Controller extends WP_REST_Controller {
 
 		/**
 		 * Filters the method query arguments.
+		 *
+		 * The dynamic portion of the hook name, `$key`, refers to the REST API operation whose query arguments
+		 * are being filtered.
+		 *
+		 * Possible hook names include:
+		 *
+		 *  - `bp_rest_group_members_get_item_query_arguments`
+		 *  - `bp_rest_group_members_create_item_query_arguments`
+		 *  - `bp_rest_group_members_update_item_query_arguments`
+		 *  - `bp_rest_group_members_delete_item_query_arguments`
 		 *
 		 * @since 15.0.0
 		 *

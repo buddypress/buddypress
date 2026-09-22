@@ -22,8 +22,6 @@ class BP_XProfile_User_Admin {
 	 * Setup xProfile User Admin.
 	 *
 	 * @since 2.0.0
-	 *
-	 * @return BP_XProfile_User_Admin
 	 */
 	public static function register_xprofile_user_admin() {
 
@@ -35,10 +33,8 @@ class BP_XProfile_User_Admin {
 		$bp = buddypress();
 
 		if ( empty( $bp->profile->admin ) ) {
-			$bp->profile->admin = new self;
+			$bp->profile->admin = new self();
 		}
-
-		return $bp->profile->admin;
 	}
 
 	/**
@@ -61,7 +57,7 @@ class BP_XProfile_User_Admin {
 		add_action( 'bp_members_admin_xprofile_metabox', array( $this, 'register_metaboxes' ), 10, 3 );
 
 		// Saves the profile actions for user ( profile fields ).
-		add_action( 'bp_members_admin_update_user',      array( $this, 'user_admin_load'    ), 10, 4 );
+		add_action( 'bp_members_admin_update_user', array( $this, 'user_admin_load' ), 10, 4 );
 	}
 
 	/**
@@ -69,9 +65,9 @@ class BP_XProfile_User_Admin {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param int         $user_id       ID of the user being edited.
-	 * @param string      $screen_id     Screen ID to load the metabox in.
-	 * @param object|null $stats_metabox Context and priority for the stats metabox.
+	 * @param int         $user_id       Optional. ID of the user being edited.
+	 * @param string      $screen_id     Optional. Screen ID to load the metabox in.
+	 * @param object|null $stats_metabox Optional. Context and priority for the stats metabox.
 	 */
 	public function register_metaboxes( $user_id = 0, $screen_id = '', $stats_metabox = null ) {
 
@@ -98,7 +94,8 @@ class BP_XProfile_User_Admin {
 		if ( ! bp_is_user_spammer( $user_id ) && bp_has_profile( $profile_args ) ) {
 
 			// Loop through field groups and add a metabox for each one.
-			while ( bp_profile_groups() ) : bp_the_profile_group();
+			while ( bp_profile_groups() ) :
+				bp_the_profile_group();
 				add_meta_box(
 					'bp_xprofile_user_admin_fields_' . sanitize_key( bp_get_the_profile_group_slug() ),
 					esc_html( bp_get_the_profile_group_name() ),
@@ -109,7 +106,6 @@ class BP_XProfile_User_Admin {
 					array( 'profile_group_id' => bp_get_the_profile_group_id() )
 				);
 			endwhile;
-
 
 		} else {
 			// If member is already a spammer, show a generic metabox.
@@ -133,10 +129,10 @@ class BP_XProfile_User_Admin {
 	 * @since 2.0.0
 	 * @since 6.0.0 The `delete_avatar` action is now managed into BP_Members_Admin::user_admin_load().
 	 *
-	 * @param string $doaction    Action being run.
-	 * @param int    $user_id     ID for the user whose profile is being saved.
-	 * @param array  $request     Request being made.
-	 * @param string $redirect_to Where to redirect user to.
+	 * @param string $doaction    Optional. Action being run.
+	 * @param int    $user_id     Optional. ID for the user whose profile is being saved.
+	 * @param array  $request     Optional. Request being made.
+	 * @param string $redirect_to Optional. Where to redirect user to.
 	 */
 	public function user_admin_load( $doaction = '', $user_id = 0, $request = array(), $redirect_to = '' ) {
 
@@ -183,9 +179,9 @@ class BP_XProfile_User_Admin {
 			$errors = false;
 
 			// Now we've checked for required fields, let's save the values.
-			$old_values = $new_values = array();
+			$new_values = array();
+			$old_values = $new_values;
 			foreach ( (array) $posted_field_ids as $field_id ) {
-
 				/*
 				 * Certain types of fields (checkboxes, multiselects) may come
 				 * through empty. Save them as an empty array so that they don't
@@ -194,6 +190,7 @@ class BP_XProfile_User_Admin {
 				$value = isset( $_POST[ 'field_' . $field_id ] ) ? $_POST[ 'field_' . $field_id ] : '';
 
 				$visibility_level = ! empty( $_POST[ 'field_' . $field_id . '_visibility' ] ) ? $_POST[ 'field_' . $field_id . '_visibility' ] : 'public';
+
 				/*
 				 * Save the old and new values. They will be
 				 * passed to the filter and used to determine
@@ -246,7 +243,7 @@ class BP_XProfile_User_Admin {
 
 			// Set the feedback messages.
 			if ( ! empty( $errors ) ) {
-				$redirect_to = add_query_arg( 'error',   '3', $redirect_to );
+				$redirect_to = add_query_arg( 'error', '3', $redirect_to );
 			} else {
 				$redirect_to = add_query_arg( 'updated', '1', $redirect_to );
 			}
@@ -260,8 +257,8 @@ class BP_XProfile_User_Admin {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param WP_User|null $user The WP_User object for the user being edited.
-	 * @param array        $args Array of arguments for metaboxes.
+	 * @param WP_User|null $user Optional. The WP_User object for the user being edited.
+	 * @param array        $args Optional. Array of arguments for metaboxes.
 	 */
 	public function user_admin_profile_metaboxes( $user = null, $args = array() ) {
 
@@ -292,7 +289,8 @@ class BP_XProfile_User_Admin {
 		}
 
 		// Loop through profile groups & fields.
-		while ( bp_profile_groups() ) : bp_the_profile_group(); ?>
+		while ( bp_profile_groups() ) :
+			bp_the_profile_group(); ?>
 
 			<input type="hidden" name="field_ids[]" id="<?php echo esc_attr( 'field_ids_' . bp_get_the_profile_group_slug() ); ?>" value="<?php echo esc_attr( bp_get_the_profile_group_field_ids() ); ?>" />
 
@@ -302,7 +300,10 @@ class BP_XProfile_User_Admin {
 
 			<?php endif; ?>
 
-			<?php while ( bp_profile_fields() ) : bp_the_profile_field(); ?>
+			<?php
+			while ( bp_profile_fields() ) :
+				bp_the_profile_field();
+				?>
 
 				<div<?php bp_field_css_class( 'bp-profile-field' ); ?>>
 					<fieldset>
@@ -319,12 +320,14 @@ class BP_XProfile_User_Admin {
 					 */
 					do_action( 'bp_custom_profile_edit_fields_pre_visibility' );
 
-					$can_change_visibility = bp_current_user_can( 'bp_xprofile_change_field_visibility' ); ?>
+					$can_change_visibility = bp_current_user_can( 'bp_xprofile_change_field_visibility' );
+					?>
 
 					<p class="field-visibility-settings-<?php echo $can_change_visibility ? 'toggle' : 'notoggle'; ?>" id="field-visibility-settings-toggle-<?php bp_the_profile_field_id(); ?>"><span id="<?php bp_the_profile_field_input_name(); ?>-2">
 
 						<?php
 						printf(
+							/* translators: %s: level of visibility */
 							esc_html__( 'This field can be seen by: %s', 'buddypress' ),
 							'<span class="current-visibility-level">' . esc_html( bp_get_the_profile_field_visibility_level_label() ) . '</span>'
 						);
@@ -340,7 +343,7 @@ class BP_XProfile_User_Admin {
 
 					<?php if ( $can_change_visibility ) : ?>
 
-						<div class="field-visibility-settings" id="field-visibility-settings-<?php bp_the_profile_field_id() ?>">
+						<div class="field-visibility-settings" id="field-visibility-settings-<?php bp_the_profile_field_id(); ?>">
 							<fieldset>
 								<legend><?php esc_html_e( 'Who can see this field?', 'buddypress' ); ?></legend>
 
@@ -359,14 +362,16 @@ class BP_XProfile_User_Admin {
 					 *
 					 * @since 1.1.0
 					 */
-					do_action( 'bp_custom_profile_edit_fields' ); ?>
+					do_action( 'bp_custom_profile_edit_fields' );
+					?>
 
 					</fieldset>
 				</div>
 
 			<?php endwhile; // End bp_profile_fields(). ?>
 
-		<?php endwhile; // End bp_profile_groups.
+		<?php
+		endwhile; // End bp_profile_groups.
 	}
 
 	/**
@@ -374,13 +379,20 @@ class BP_XProfile_User_Admin {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param WP_User|null $user The WP_User object for the user being edited.
+	 * @param WP_User|null $user Optional. The WP_User object for the user being edited.
 	 */
 	public function user_admin_spammer_metabox( $user = null ) {
 	?>
-		<p><?php printf( esc_html__( '%s has been marked as a spammer. All BuddyPress data associated with the user has been removed', 'buddypress' ), esc_html( bp_core_get_user_displayname( $user->ID ) ) ) ;?></p>
+		<p>
+			<?php
+			printf(
+				/* translators: %s: member name */
+				esc_html__( '%s has been marked as a spammer. All BuddyPress data associated with the user has been removed', 'buddypress' ),
+				esc_html( bp_core_get_user_displayname( $user->ID ) )
+			);
+			?>
+		</p>
 	<?php
 	}
-
 }
 endif; // End class_exists check.

@@ -107,23 +107,24 @@ class BP_LoggedIn_User {
 				return WP_User::get_data_by( 'id', get_current_user_id() );
 
 			case 'fullname':
-				$current_user_id = get_current_user_id();
+				$current_user_id      = get_current_user_id();
+				$disable_profile_sync = bp_disable_profile_sync();
 
 				/**
-				* When profile sync is disabled, display_name may diverge from the xprofile
-				* fullname field value, and the xprofile field should take precedence.
-				*/
+				 * When profile sync is disabled, display_name may diverge from the xprofile
+				 * fullname field value, and the xprofile field should take precedence.
+				 */
 				$retval = '';
-				if ( bp_disable_profile_sync() ) {
+				if ( $disable_profile_sync && bp_is_active( 'xprofile' ) ) {
 					$retval = xprofile_get_field_data( bp_xprofile_fullname_field_name(), $current_user_id );
 				}
 
 				/**
 				 * Common case: If BP profile and WP profiles are synced,
 				 * then we use the WP value.
-				 * This is also used if the xprofile field data is preferred, but empty.
+				 * This is also used if the xprofile field data is preferred, but empty or the component is disabled.
 				 */
-				if ( ! bp_disable_profile_sync() || ! $retval ) {
+				if ( ! $disable_profile_sync || ! $retval ) {
 					$retval = bp_core_get_user_displayname( $current_user_id );
 				}
 
@@ -138,7 +139,7 @@ class BP_LoggedIn_User {
 
 			default:
 				return isset( $this->{$key} ) ? $this->{$key} : null;
-		 }
+		}
 	}
 
 	/**

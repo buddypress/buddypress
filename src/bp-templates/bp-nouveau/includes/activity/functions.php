@@ -2,6 +2,8 @@
 /**
  * Activity functions
  *
+ * @package BuddyPress
+ * @subpackage bp-nouveau
  * @since 3.0.0
  * @version 12.0.0
  */
@@ -14,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.0.0
  *
- * @param array $scripts  The array of scripts to register.
+ * @param array $scripts  Optional. The array of scripts to register.
  *
  * @return array The same array with the specific activity scripts.
  */
@@ -23,18 +25,21 @@ function bp_nouveau_activity_register_scripts( $scripts = array() ) {
 		return $scripts;
 	}
 
-	return array_merge( $scripts, array(
-		'bp-nouveau-activity' => array(
-			'file'         => 'js/buddypress-activity%s.js',
-			'dependencies' => array( 'bp-nouveau' ),
-			'footer'       => true,
-		),
-		'bp-nouveau-activity-post-form' => array(
-			'file'         => 'js/buddypress-activity-post-form%s.js',
-			'dependencies' => array( 'bp-nouveau', 'bp-nouveau-activity', 'json2', 'wp-backbone' ),
-			'footer'       => true,
-		),
-	) );
+	return array_merge(
+		$scripts,
+		array(
+			'bp-nouveau-activity' => array(
+				'file'         => 'js/buddypress-activity%s.js',
+				'dependencies' => array( 'bp-nouveau' ),
+				'footer'       => true,
+			),
+			'bp-nouveau-activity-post-form' => array(
+				'file'         => 'js/buddypress-activity-post-form%s.js',
+				'dependencies' => array( 'bp-nouveau', 'bp-nouveau-activity', 'json2', 'wp-backbone' ),
+				'footer'       => true,
+			),
+		)
+	);
 }
 
 /**
@@ -55,7 +60,7 @@ function bp_nouveau_activity_enqueue_scripts() {
  *
  * @since 3.0.0
  *
- * @param array $params Associative array containing the JS Strings needed by scripts.
+ * @param array $params Optional. Associative array containing the JS Strings needed by scripts.
  *
  * @return array The same array with specific strings for the Activity Post form UI if needed.
  */
@@ -77,23 +82,28 @@ function bp_nouveau_activity_localize_scripts( $params = array() ) {
 	$user_displayname = bp_get_loggedin_user_fullname();
 
 	if ( buddypress()->avatar->show_avatars ) {
-		$width  = bp_core_avatar_thumb_width();
-		$height = bp_core_avatar_thumb_height();
-		$activity_params = array_merge( $activity_params, array(
-			'avatar_url'    => bp_get_loggedin_user_avatar( array(
-				'width'  => $width,
-				'height' => $height,
-				'html'   => false,
-			) ),
-			'avatar_width'  => $width,
-			'avatar_height' => $height,
-			'user_domain'   => bp_loggedin_user_url(),
-			'avatar_alt'    => sprintf(
-				/* translators: %s: member name */
-				__( 'Profile photo of %s', 'buddypress' ),
-				$user_displayname
-			),
-		) );
+		$width           = bp_core_avatar_thumb_width();
+		$height          = bp_core_avatar_thumb_height();
+		$activity_params = array_merge(
+			$activity_params,
+			array(
+				'avatar_url'    => bp_get_loggedin_user_avatar(
+					array(
+						'width'  => $width,
+						'height' => $height,
+						'html'   => false,
+					)
+				),
+				'avatar_width'  => $width,
+				'avatar_height' => $height,
+				'user_domain'   => bp_loggedin_user_url(),
+				'avatar_alt'    => sprintf(
+					/* translators: %s: member name */
+					__( 'Profile photo of %s', 'buddypress' ),
+					$user_displayname
+				),
+			)
+		);
 	}
 
 	/**
@@ -144,7 +154,12 @@ function bp_nouveau_activity_localize_scripts( $params = array() ) {
 		);
 
 		// the groups component is active & the current user is at least a member of 1 group
-		if ( bp_is_active( 'groups' ) && bp_has_groups( array( 'user_id' => bp_loggedin_user_id(), 'max' => 1 ) ) ) {
+		if ( bp_is_active( 'groups' ) && bp_has_groups(
+			array(
+				'user_id' => bp_loggedin_user_id(),
+				'max' => 1,
+			)
+		) ) {
 			$activity_objects['group'] = array(
 				'text'                     => __( 'Post in: Group', 'buddypress' ),
 				'autocomplete_placeholder' => __( 'Start typing the group name...', 'buddypress' ),
@@ -163,7 +178,11 @@ function bp_nouveau_activity_localize_scripts( $params = array() ) {
 	}
 
 	$activity_strings = array(
-		'whatsnewPlaceholder' => sprintf( __( "What's new, %s?", 'buddypress' ), bp_get_user_firstname( $user_displayname ) ),
+		'whatsnewPlaceholder' => sprintf(
+			/* translators: %s: member name */
+			__( "What's new, %s?", 'buddypress' ),
+			bp_get_user_firstname( $user_displayname )
+		),
 		'whatsnewLabel'       => __( 'Post what\'s new', 'buddypress' ),
 		'whatsnewpostinLabel' => __( 'Post in', 'buddypress' ),
 		'postUpdateButton'    => __( 'Post Update', 'buddypress' ),
@@ -189,6 +208,8 @@ function bp_nouveau_activity_localize_scripts( $params = array() ) {
 }
 
 /**
+ * Gets the Activity directory navigation items.
+ *
  * @since 3.0.0
  */
 function bp_nouveau_get_activity_directory_nav_items() {
@@ -240,7 +261,7 @@ function bp_nouveau_get_activity_directory_nav_items() {
 				'component' => 'activity',
 				'slug'      => 'friends', // slug is used because BP_Core_Nav requires it, but it's the scope
 				'li_class'  => array( 'dynamic' ),
-				'link'      =>  bp_loggedin_user_url( bp_members_get_path_chunks( array( $activity_slug, bp_nouveau_get_component_slug( 'friends' ) ) ) ),
+				'link'      => bp_loggedin_user_url( bp_members_get_path_chunks( array( $activity_slug, bp_nouveau_get_component_slug( 'friends' ) ) ) ),
 				'text'      => __( 'My Friends', 'buddypress' ),
 				'count'     => '',
 				'position'  => 15,
@@ -310,9 +331,9 @@ function bp_nouveau_get_activity_directory_nav_items() {
  *
  * @since 3.0.0
  *
- * @param string $output  HTML output
+ * @param string $output  Optional. HTML output.
  * @param array  $filters Optional.
- * @param string $context
+ * @param string $context Optional. Activity scope context.
  *
  * @return array
  */
@@ -335,7 +356,7 @@ function bp_nouveau_get_activity_filters() {
 
 	$filters_data = bp_get_activity_show_filters();
 
-	remove_filter( 'bp_get_activity_show_filters', 'bp_nouveau_get_activity_filters_array', 10, 3 );
+	remove_filter( 'bp_get_activity_show_filters', 'bp_nouveau_get_activity_filters_array' );
 
 	$action = '';
 	if ( 'group' === $filters_data['context'] ) {
@@ -356,7 +377,11 @@ function bp_nouveau_get_activity_filters() {
 }
 
 /**
+ * Adds secondary avatars to activity actions.
+ *
  * @since 3.0.0
+ * @param string               $action   Activity action HTML.
+ * @param BP_Activity_Activity $activity Activity object.
  */
 function bp_nouveau_activity_secondary_avatars( $action, $activity ) {
 	switch ( $activity->component ) {
@@ -378,7 +403,10 @@ function bp_nouveau_activity_secondary_avatars( $action, $activity ) {
 }
 
 /**
+ * Adds the newest class to Activity scope navigation items.
+ *
  * @since 3.0.0
+ * @param string $classes Optional. Classes for the activity scope item.
  */
 function bp_nouveau_activity_scope_newest_class( $classes = '' ) {
 	if ( ! is_user_logged_in() ) {
@@ -524,20 +552,23 @@ function bp_nouveau_activity_notification_filters() {
  * @return array the controls to add.
  */
 function bp_nouveau_activity_customizer_controls( $controls = array() ) {
-	return array_merge( $controls, array(
-		'act_dir_layout' => array(
-			'label'      => __( 'Use column navigation for the Activity directory.', 'buddypress' ),
-			'section'    => 'bp_nouveau_dir_layout',
-			'settings'   => 'bp_nouveau_appearance[activity_dir_layout]',
-			'type'       => 'checkbox',
-		),
-		'act_dir_tabs' => array(
-			'label'      => __( 'Use tab styling for Activity directory navigation.', 'buddypress' ),
-			'section'    => 'bp_nouveau_dir_layout',
-			'settings'   => 'bp_nouveau_appearance[activity_dir_tabs]',
-			'type'       => 'checkbox',
-		),
-	) );
+	return array_merge(
+		$controls,
+		array(
+			'act_dir_layout' => array(
+				'label'      => __( 'Use column navigation for the Activity directory.', 'buddypress' ),
+				'section'    => 'bp_nouveau_dir_layout',
+				'settings'   => 'bp_nouveau_appearance[activity_dir_layout]',
+				'type'       => 'checkbox',
+			),
+			'act_dir_tabs' => array(
+				'label'      => __( 'Use tab styling for Activity directory navigation.', 'buddypress' ),
+				'section'    => 'bp_nouveau_dir_layout',
+				'settings'   => 'bp_nouveau_appearance[activity_dir_tabs]',
+				'type'       => 'checkbox',
+			),
+		)
+	);
 }
 
 /**
@@ -545,7 +576,7 @@ function bp_nouveau_activity_customizer_controls( $controls = array() ) {
  *
  * @since 7.0.0
  *
- * @param string $read_more The read more text.
+ * @param string $read_more Optional. The read more text.
  * @return string The read more text without brackets.
  */
 function bp_nouveau_activity_excerpt_append_text( $read_more = '' ) {

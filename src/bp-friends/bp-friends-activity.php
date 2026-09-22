@@ -25,9 +25,9 @@ defined( 'ABSPATH' ) || exit;
  *      return values.
  *
  * @param array|string $args {
- *     An array of arguments for the new activity item. Accepts all parameters
- *     of {@link bp_activity_add()}. The one difference is the following
- *     argument, which has a different default here:
+ *     Optional. An array of arguments for the new activity item. Accepts all parameters
+ *     of {@link bp_activity_add()}. The following argument has a different
+ *     default.
  *     @type string $component Default: the id of your Friends component
  *                             (usually 'friends').
  * }
@@ -68,8 +68,7 @@ function friends_record_activity( $args = '' ) {
  *     @type int    $item_id ID of the 'item' associated with the activity item.
  *                           For Friends activity items, this is usually the user ID of one
  *                           of the friends.
- *     @type string $type    The 'type' of the activity item (eg
- *                           'friendship_accepted').
+ *     @type string $type    The 'type' of the activity item (e.g.: 'friendship_accepted').
  *     @type int    $user_id ID of the user associated with the activity item.
  * }
  */
@@ -78,25 +77,28 @@ function friends_delete_activity( $args ) {
 		return;
 	}
 
-	bp_activity_delete_by_item_id( array(
-		'component' => buddypress()->friends->id,
-		'item_id'   => $args['item_id'],
-		'type'      => $args['type'],
-		'user_id'   => $args['user_id'],
-	) );
+	$r = bp_parse_args(
+		$args,
+		array(
+			'component' => buddypress()->friends->id,
+			'item_id'   => false,
+			'type'      => false,
+			'user_id'   => false,
+		)
+	);
+
+	bp_activity_delete( $r );
 }
 
 /**
  * Register the activity actions for bp-friends.
  *
  * @since 1.1.0
- *
- * @return bool False if activity component is not active.
  */
 function friends_register_activity_actions() {
 
 	if ( ! bp_is_active( 'activity' ) ) {
-		return false;
+		return;
 	}
 
 	$bp = buddypress();
@@ -153,7 +155,22 @@ function bp_friends_format_activity_action_friendship_accepted( $action, $activi
 	// avoid having to build this object if it's not necessary.
 	if ( has_filter( 'friends_activity_friendship_accepted_action' ) ) {
 		$friendship = new BP_Friends_Friendship( $activity->item_id );
-		$action     = apply_filters( 'friends_activity_friendsip_accepted_action', $action, $friendship );
+
+		/**
+		 * Filters the 'friendship_accepted' activity action format.
+		 *
+		 * @since 2.0.0
+		 * @deprecated 15.0.0
+		 *
+		 * @param string                $action     String text for the 'friendship_accepted' action.
+		 * @param BP_Friends_Friendship $friendship Friendship object.
+		 */
+		$action = apply_filters_deprecated(
+			'friends_activity_friendship_accepted_action',
+			array( $action, $friendship ),
+			'15.0.0',
+			'bp_friends_format_activity_action_friendship_accepted'
+		);
 	}
 
 	/**
@@ -188,7 +205,22 @@ function bp_friends_format_activity_action_friendship_created( $action, $activit
 	// avoid having to build this object if it's not necessary.
 	if ( has_filter( 'friends_activity_friendship_accepted_action' ) ) {
 		$friendship = new BP_Friends_Friendship( $activity->item_id );
-		$action     = apply_filters( 'friends_activity_friendsip_accepted_action', $action, $friendship );
+
+		/**
+		 * Filters the 'friendship_created' activity action format.
+		 *
+		 * @since 2.0.0
+		 * @deprecated 15.0.0
+		 *
+		 * @param string                $action     String text for the 'friendship_created' action.
+		 * @param BP_Friends_Friendship $friendship Friendship object.
+		 */
+		$action = apply_filters_deprecated(
+			'friends_activity_friendship_accepted_action',
+			array( $action, $friendship ),
+			'15.0.0',
+			'bp_friends_format_activity_action_friendship_created'
+		);
 	}
 
 	/**
@@ -229,11 +261,13 @@ function bp_friends_prefetch_activity_object_data( $activities ) {
 
 	if ( ! empty( $friend_ids ) ) {
 		// Fire a user query to prime user caches.
-		new BP_User_Query( array(
-			'user_ids'          => $friend_ids,
-			'populate_extras'   => false,
-			'update_meta_cache' => false,
-		) );
+		new BP_User_Query(
+			array(
+				'user_ids'          => $friend_ids,
+				'populate_extras'   => false,
+				'update_meta_cache' => false,
+			)
+		);
 	}
 
 	return $activities;
@@ -247,8 +281,8 @@ add_filter( 'bp_activity_prefetch_object_data', 'bp_friends_prefetch_activity_ob
  *
  * @since 2.2.0
  *
- * @param array $retval Empty array by default.
- * @param array $filter Current activity arguments.
+ * @param array $retval Optional. Empty array by default.
+ * @param array $filter Optional. Current activity arguments.
  * @return array
  */
 function bp_friends_filter_activity_scope( $retval = array(), $filter = array() ) {
@@ -300,8 +334,8 @@ add_filter( 'bp_activity_set_friends_scope_args', 'bp_friends_filter_activity_sc
  *
  * @since 2.2.0
  *
- * @param array $retval Empty array by default.
- * @param array $filter Current activity arguments.
+ * @param array $retval Optional. Empty array by default.
+ * @param array $filter Optional. Current activity arguments.
  * @return array
  */
 function bp_friends_filter_activity_just_me_scope( $retval = array(), $filter = array() ) {
@@ -386,12 +420,14 @@ function bp_friends_friendship_accepted_activity( $friendship_id, $initiator_use
 	}
 
 	// Record in activity streams for the initiator.
-	friends_record_activity( array(
-		'user_id'           => $initiator_user_id,
-		'type'              => 'friendship_created',
-		'item_id'           => $friendship_id,
-		'secondary_item_id' => $friend_user_id,
-	) );
+	friends_record_activity(
+		array(
+			'user_id'           => $initiator_user_id,
+			'type'              => 'friendship_created',
+			'item_id'           => $friendship_id,
+			'secondary_item_id' => $friend_user_id,
+		)
+	);
 }
 add_action( 'friends_friendship_accepted', 'bp_friends_friendship_accepted_activity', 10, 3 );
 
@@ -400,7 +436,7 @@ add_action( 'friends_friendship_accepted', 'bp_friends_friendship_accepted_activ
  *
  * @since 2.5.0
  *
- * @param int $user_id The ID of the user being deleted.
+ * @param int $user_id Optional. The ID of the user being deleted.
  */
 function bp_friends_delete_activity_on_user_delete( $user_id = 0 ) {
 	if ( ! bp_is_active( 'activity' ) ) {

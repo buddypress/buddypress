@@ -79,7 +79,7 @@ function bp_get_template_part( $slug, $name = null, $args = array() ) {
  * @see bp_get_template_part() for full documentation.
  *
  * @param string      $slug Template slug.
- * @param string|null $name Template name.
+ * @param string|null $name Optional. Template name.
  * @param array       $args Optional. Extra args to pass to locate_template().
  * @return false|string
  */
@@ -156,16 +156,17 @@ function bp_get_dynamic_template_part( $template = '', $type = 'js', $tokens = a
  *
  * @since 1.7.0
  * @since 7.0.0 Added `$args` parameter.
+ * @since 15.0.0 The `$require_once` parameter was renamed to `$load_once`.
  *
  * @param string|array $template_names Template file(s) to search for, in order.
  * @param bool         $load           Optional. If true, the template file will be loaded when
  *                                     found. If false, the path will be returned. Default: false.
- * @param bool         $require_once   Optional. Whether to require_once or require. Has
+ * @param bool         $load_once      Optional. Whether to require_once or require. Has
  *                                     no effect if $load is false. Default: true.
  * @param array        $args           Optional. Extra args to pass to locate_template().
  * @return string The template filename if one is located.
  */
-function bp_locate_template( $template_names, $load = false, $require_once = true, $args = array() ) {
+function bp_locate_template( $template_names, $load = false, $load_once = true, $args = array() ) {
 
 	// Bail when there are no templates to locate.
 	if ( empty( $template_names ) ) {
@@ -210,7 +211,7 @@ function bp_locate_template( $template_names, $load = false, $require_once = tru
 	 * If you want to override a specific template part, please either filter
 	 * 'bp_get_template_part' or add a new location to the template stack.
 	 */
-	do_action( 'bp_locate_template', $located, $template_name, $template_names, $template_locations, $load, $require_once, $args );
+	do_action( 'bp_locate_template', $located, $template_name, $template_names, $template_locations, $load, $load_once, $args );
 
 	/**
 	 * Filter here to allow/disallow template loading.
@@ -222,7 +223,7 @@ function bp_locate_template( $template_names, $load = false, $require_once = tru
 	$load_template = (bool) apply_filters( 'bp_locate_template_and_load', true );
 
 	if ( $load_template && $load && ! empty( $located ) ) {
-		load_template( $located, $require_once, $args );
+		load_template( $located, $load_once, $args );
 	}
 
 	return $located;
@@ -253,7 +254,8 @@ function bp_locate_template_asset( $filename ) {
 
 	// Set up data array.
 	$data         = array();
-	$data['file'] = $data['uri'] = $located;
+	$data['uri']  = $located;
+	$data['file'] = $data['uri'];
 
 	$find = array(
 		get_theme_root(),
@@ -280,7 +282,7 @@ function bp_locate_template_asset( $filename ) {
  *
  * @since 1.7.0
  *
- * @param string $location_callback Callback function that returns the stack location.
+ * @param string $location_callback Optional. Callback function that returns the stack location.
  * @param int    $priority          Optional. The priority parameter as passed to
  *                                  add_filter(). Default: 10.
  * @return bool See {@link add_filter()}.
@@ -303,7 +305,7 @@ function bp_register_template_stack( $location_callback = '', $priority = 10 ) {
  *
  * @see bp_register_template_stack()
  *
- * @param string $location_callback Callback function that returns the stack location.
+ * @param string $location_callback Optional. Callback function that returns the stack location.
  * @param int    $priority          Optional. The priority parameter passed to
  *                                  {@link bp_register_template_stack()}. Default: 10.
  * @return bool See {@link remove_filter()}.
@@ -396,10 +398,10 @@ function bp_get_template_stack() {
  * @see bp_get_template_part() for a description of $slug, $name and $args params.
  *
  * @param string      $slug See {@link bp_get_template_part()}.
- * @param string|null $name See {@link bp_get_template_part()}.
- * @param bool        $ret  If true, template content will be echoed. If false,
+ * @param string|null $name Optional. See {@link bp_get_template_part()}.
+ * @param bool        $ret  Optional. If true, template content will be echoed. If false,
  *                          returned. Default: true.
- * @param array       $args See {@link bp_get_template_part()}.
+ * @param array       $args Optional. See {@link bp_get_template_part()}.
  * @return string|null If $echo, returns the template content.
  */
 function bp_buffer_template_part( $slug, $name = null, $ret = true, $args = array() ) {
@@ -449,8 +451,8 @@ function bp_get_query_template( $type, $templates = array() ) {
 	/**
 	 * Filters possible file paths to check for for a template.
 	 *
-	 * This is a variable filter based on the type passed into
-	 * bp_get_query_template.
+	 * The dynamic portion of the hook name, `$type`, refers to the sanitized template type passed to
+	 * `bp_get_query_template()`.
 	 *
 	 * @since 1.7.0
 	 *
@@ -478,8 +480,8 @@ function bp_get_query_template( $type, $templates = array() ) {
 	/**
 	 * Filters the path to a template file.
 	 *
-	 * This is a variable filter based on the type passed into
-	 * bp_get_query_template.
+	 * The dynamic portion of the hook name, `$type`, refers to the sanitized template type passed to
+	 * `bp_get_query_template()`.
 	 *
 	 * @since 1.7.0
 	 *
@@ -493,7 +495,7 @@ function bp_get_query_template( $type, $templates = array() ) {
  *
  * @since 1.7.0
  *
- * @param array $templates Templates we are looking for.
+ * @param array $templates Optional. Templates we are looking for.
  * @return array Possible subfolders to look in.
  */
 function bp_get_template_locations( $templates = array() ) {
@@ -519,7 +521,7 @@ function bp_get_template_locations( $templates = array() ) {
  *
  * @since 1.7.0
  *
- * @param array $stacks Array of template locations.
+ * @param array $stacks Optional. Array of template locations.
  * @return array Array of all template locations registered so far.
  */
 function bp_add_template_stack_locations( $stacks = array() ) {
@@ -593,7 +595,7 @@ function bp_parse_query( $posts_query ) {
 
 			$url_query_chunks = bp_parse_args( $GLOBALS['wp']->query_string, array() );
 			$directory        = key( $url_query_chunks );
-			if ( isset( $bp_directories[ $directory ] ) ) {
+			if ( isset( $directory, $bp_directories[ $directory ] ) ) {
 				$url_query_chunks[ $directory ] = $bp_directories[ $directory ];
 			}
 
@@ -656,8 +658,8 @@ function bp_parse_ajax_referer_query( $referer_query ) {
  *
  * @global WP $wp WordPress main instance.
  *
- * @param string   $bp_request A specific BuddyPress request.
- * @param WP_Query $query The WordPress query object.
+ * @param string   $bp_request Optional. A specific BuddyPress request.
+ * @param WP_Query $query Optional. The WordPress query object.
  * @return true
  */
 function bp_reset_query( $bp_request = '', $query = null ) {
@@ -734,7 +736,7 @@ function bp_reset_query( $bp_request = '', $query = null ) {
  *
  * @since 1.7.0
  *
- * @param string $template The path to the template file that is being used.
+ * @param string $template Optional. The path to the template file that is being used.
  * @return string The path to the template file that is being used.
  */
 function bp_template_include_theme_supports( $template = '' ) {
@@ -770,7 +772,7 @@ function bp_template_include_theme_supports( $template = '' ) {
  *
  * @since 1.8.0
  *
- * @param mixed $template Default: false.
+ * @param mixed $template Optional. Default: false.
  * @return mixed False if empty. Template name if template included.
  */
 function bp_set_template_included( $template = false ) {

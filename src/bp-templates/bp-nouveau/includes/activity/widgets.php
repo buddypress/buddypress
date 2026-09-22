@@ -2,6 +2,8 @@
 /**
  * BP Nouveau Activity widgets
  *
+ * @package BuddyPress
+ * @subpackage bp-nouveau
  * @since 3.0.0
  * @version 8.0.0
  * @deprecated 12.0.0

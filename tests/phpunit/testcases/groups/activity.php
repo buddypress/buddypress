@@ -299,12 +299,15 @@ class BP_Tests_Groups_Activity extends BP_UnitTestCase {
 
 		groups_post_update( $activity_args );
 
-		remove_filter( 'bp_before_groups_record_activity_parse_args', array( $this, 'groups_post_update_args' ), 10, 1 );
+		remove_filter( 'bp_before_groups_record_activity_parse_args', array( $this, 'groups_post_update_args' ) );
 
 		$expected = array_merge( $activity_args, array( 'item_id' => $g ) );
 		unset( $expected['group_id'] );
 
-		$this->assertEquals( $expected, $this->groups_post_update_args );
+		ksort( $expected );
+		ksort( $this->groups_post_update_args );
+
+		$this->assertSame( $expected, $this->groups_post_update_args );
 	}
 
 	/**
