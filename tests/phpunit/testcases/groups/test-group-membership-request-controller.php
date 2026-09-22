@@ -799,7 +799,7 @@ class BP_Tests_Group_Membership_Request_REST_Controller extends BP_Test_REST_Con
 	 * @group get_item
 	 */
 	public function test_prepare_item() {
-		$this->markTestSkipped();
+		$this->markTestSkipped( 'Coverage for prepare_item_for_response() has not been implemented.' );
 	}
 
 	public function test_get_item_schema() {

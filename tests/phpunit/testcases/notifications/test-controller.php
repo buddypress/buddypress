@@ -244,8 +244,6 @@ class BP_Tests_Notifications_REST_Controller extends BP_Test_REST_Controller_Tes
 	public function test_get_embedded_blog_from_notification_item() {
 		$this->skipWithoutMultisite();
 
-		$this->markTestSkipped( 'Test is failing due to another test resetting the blog.' );
-
 		$blog_title = 'The Foo Bar Blog';
 
 		wp_set_current_user( $this->user );

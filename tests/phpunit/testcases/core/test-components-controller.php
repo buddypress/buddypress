@@ -222,14 +222,14 @@ class BP_Tests_Components_REST_Controller extends BP_Test_REST_Controller_Testca
 	 * @group get_item
 	 */
 	public function test_get_item() {
-		$this->markTestSkipped();
+		$this->markTestSkipped( 'This endpoint has no single-item get_item() route.' );
 	}
 
 	/**
 	 * @group create_item
 	 */
 	public function test_create_item() {
-		$this->markTestSkipped();
+		$this->markTestSkipped( 'This endpoint does not support creating components.' );
 	}
 
 	/**
@@ -377,11 +377,11 @@ class BP_Tests_Components_REST_Controller extends BP_Test_REST_Controller_Testca
 	 * @group delete_item
 	 */
 	public function test_delete_item() {
-		$this->markTestSkipped();
+		$this->markTestSkipped( 'This endpoint does not support deleting components.' );
 	}
 
 	public function test_prepare_item() {
-		$this->markTestSkipped();
+		$this->markTestSkipped( 'Coverage for prepare_item_for_response() has not been implemented.' );
 	}
 
 	protected function check_component_data( $component, $data ) {

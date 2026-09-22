@@ -875,7 +875,7 @@ class BP_Tests_Group_Invites_REST_Controller extends BP_Test_REST_Controller_Tes
 	 * @group get_item
 	 */
 	public function test_prepare_item() {
-		$this->markTestSkipped();
+		$this->markTestSkipped( 'Coverage for prepare_item_for_response() has not been implemented.' );
 	}
 
 	protected function check_invited_user_data( $user, $data ) {

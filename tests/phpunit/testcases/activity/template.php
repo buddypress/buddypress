@@ -1802,12 +1802,8 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 	 * Integration test for 'date_query' param
 	 *
 	 * @group date_query
-	 * @requires PHP 5.3
 	 */
 	function test_bp_has_activities_with_date_query() {
-		if ( ! class_exists( 'WP_Date_Query' ) ) {
-			return;
-		}
 
 		$a1 = self::factory()->activity->create();
 		$a2 = self::factory()->activity->create(

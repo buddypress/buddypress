@@ -381,8 +381,8 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 	 * @group avatars
 	 */
 	public function test_bp_attachment_avatar_shrink() {
-		if ( false === _wp_image_editor_choose() || version_compare( phpversion(), '7.0' , '<' ) ) {
-			$this->markTestSkipped( 'This test requires PHP >= 7.0 and to have a valid image editor that is compatible with WordPress.' );
+		if ( false === _wp_image_editor_choose() ) {
+			$this->markTestSkipped( 'This test requires a valid image editor that is compatible with WordPress.' );
 		}
 
 		$image = BP_TESTS_DIR . 'assets/upside-down.jpg';
@@ -414,8 +414,8 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 	 * @group add_revision
 	 */
 	public function test_bp_attachment_add_revision() {
-		if ( false === _wp_image_editor_choose() || version_compare( phpversion(), '7.0' , '<' ) ) {
-			$this->markTestSkipped( 'This test requires PHP >= 7.0 and to have a valid image editor that is compatible with WordPress.' );
+		if ( false === _wp_image_editor_choose() ) {
+			$this->markTestSkipped( 'This test requires a valid image editor that is compatible with WordPress.' );
 		}
 
 		$image = BP_TESTS_DIR . 'assets/upside-down.jpg';
@@ -453,8 +453,8 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 	 * @group avatars
 	 */
 	public function test_bp_attachment_add_avatar_history() {
-		if ( false === _wp_image_editor_choose() || version_compare( phpversion(), '7.0' , '<' ) ) {
-			$this->markTestSkipped( 'This test requires PHP >= 7.0 and to have a valid image editor that is compatible with WordPress.' );
+		if ( false === _wp_image_editor_choose() ) {
+			$this->markTestSkipped( 'This test requires a valid image editor that is compatible with WordPress.' );
 		}
 
 		$image = BP_TESTS_DIR . 'assets/upside-down.jpg';
@@ -546,8 +546,8 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 	 * @group cover_images
 	 */
 	public function test_bp_attachment_get_image_data() {
-		if ( ! is_callable( 'exif_read_data' ) || version_compare( phpversion(), '7.0' , '<' ) ) {
-			$this->markTestSkipped( 'This test requires PHP >= 7.0 and to be compiled with EXIF support.' );
+		if ( ! is_callable( 'exif_read_data' ) ) {
+			$this->markTestSkipped( 'This test requires PHP to be compiled with EXIF support.' );
 		}
 
 		$image_data = BP_Attachment::get_image_data( BP_TESTS_DIR . 'assets/upside-down.jpg' );
