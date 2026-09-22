@@ -1234,11 +1234,11 @@ function bp_activity_admin_index() {
 				<?php echo esc_html_x( 'Activity', 'Admin SWA page', 'buddypress' ); ?>
 			<?php endif; ?>
 
-			<?php if ( ! empty( $_REQUEST['s'] ) ) : ?>
+			<?php if ( ! empty( $_REQUEST['s'] ) && is_string( $_REQUEST['s'] ) ) : ?>
 				<span class="subtitle">
 					<?php
 					/* translators: %s: the activity search terms */
-					printf( esc_html__( 'Search results for &#8220;%s&#8221;', 'buddypress' ), esc_html( wp_html_excerpt( stripslashes( $_REQUEST['s'] ), 50 ) ) );
+					printf( esc_html__( 'Search results for &#8220;%s&#8221;', 'buddypress' ), esc_html( wp_html_excerpt( wp_unslash( $_REQUEST['s'] ), 50 ) ) );
 					?>
 				</span>
 			<?php endif; ?>

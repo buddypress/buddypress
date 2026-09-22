@@ -234,8 +234,8 @@ function bp_has_activities( $args = '' ) {
 
 	$search_terms_default = false;
 	$search_query_arg     = bp_core_get_component_search_query_arg( 'activity' );
-	if ( ! empty( $_REQUEST[ $search_query_arg ] ) ) {
-		$search_terms_default = stripslashes( $_REQUEST[ $search_query_arg ] );
+	if ( ! empty( $_REQUEST[ $search_query_arg ] ) && is_string( $_REQUEST[ $search_query_arg ] ) ) {
+		$search_terms_default = wp_unslash( $_REQUEST[ $search_query_arg ] );
 	}
 
 	/*
@@ -302,8 +302,8 @@ function bp_has_activities( $args = '' ) {
 	}
 
 	// Search terms.
-	if ( ! empty( $_REQUEST['s'] ) && empty( $r['search_terms'] ) ) {
-		$r['search_terms'] = $_REQUEST['s'];
+	if ( ! empty( $_REQUEST['s'] ) && is_string( $_REQUEST['s'] ) && empty( $r['search_terms'] ) ) {
+		$r['search_terms'] = wp_unslash( $_REQUEST['s'] );
 	}
 
 	// Do not exceed the maximum per page.
