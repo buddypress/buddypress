@@ -27,7 +27,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 	 *
 	 * @since 1.6.0
 	 *
-	 * @var string $view
+	 * @var string
 	 */
 	public $view = 'all';
 
@@ -36,7 +36,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 	 *
 	 * @since 1.6.0
 	 *
-	 * @var int $spam_count
+	 * @var int
 	 */
 	public $spam_count = 0;
 
@@ -45,7 +45,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 	 *
 	 * @since 6.0.0
 	 *
-	 * @var int $all_count
+	 * @var int
 	 */
 	public $all_count = 0;
 
@@ -54,7 +54,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 	 *
 	 * @since 1.6.0
 	 *
-	 * @var array $activity_user_id
+	 * @var array
 	 */
 	protected $activity_user_id = array();
 
@@ -65,7 +65,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 	 *
 	 * @since 2.2.2
 	 *
-	 * @var bool $disable_blogforum_comments
+	 * @var bool
 	 */
 	public $disable_blogforum_comments = false;
 

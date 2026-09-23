@@ -26,7 +26,7 @@ class BP_Members_Admin {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @var string $admin_dir
+	 * @var string
 	 */
 	public $admin_dir = '';
 
@@ -37,7 +37,7 @@ class BP_Members_Admin {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @var string $admin_url
+	 * @var string
 	 */
 	public $admin_url = '';
 
@@ -46,7 +46,7 @@ class BP_Members_Admin {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @var string $css_url
+	 * @var string
 	 */
 	public $css_url = '';
 

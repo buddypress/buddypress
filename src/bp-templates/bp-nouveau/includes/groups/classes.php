@@ -422,7 +422,7 @@ class BP_Nouveau_Group_Meta {
 	 *
 	 * @since 7.0.0
 	 *
-	 * @var string $meta The template meta used in Groups loop.
+	 * @var string The template meta used in Groups loop.
 	 */
 	public $meta = '';
 

@@ -22,7 +22,7 @@ class BP_Groups_Member_Suggestions extends BP_Members_Suggestions {
 	 *
 	 * @since 2.1.0
 	 *
-	 * @var array $args {
+	 * @var array {
 	 *     @type int    $group_id     Positive integers will restrict the search to members in that group.
 	 *                                Negative integers will restrict the search to members in every other group.
 	 *     @type int    $limit        Maximum number of results to display. Default: 16.
