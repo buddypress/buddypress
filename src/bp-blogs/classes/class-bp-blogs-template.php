@@ -20,12 +20,16 @@ class BP_Blogs_Template {
 	/**
 	 * The loop iterator.
 	 *
+	 * @since 1.2.0
+	 *
 	 * @var int
 	 */
 	public $current_blog = -1;
 
 	/**
 	 * The number of blogs returned by the paged query.
+	 *
+	 * @since 1.2.0
 	 *
 	 * @var int
 	 */
@@ -34,12 +38,16 @@ class BP_Blogs_Template {
 	/**
 	 * Array of blogs located by the query..
 	 *
+	 * @since 1.2.0
+	 *
 	 * @var array
 	 */
 	public $blogs = array();
 
 	/**
 	 * The blog object currently being iterated on.
+	 *
+	 * @since 1.2.0
 	 *
 	 * @var object
 	 */
@@ -48,12 +56,16 @@ class BP_Blogs_Template {
 	/**
 	 * A flag for whether the loop is currently being iterated.
 	 *
+	 * @since 1.2.0
+	 *
 	 * @var bool
 	 */
 	public $in_the_loop = false;
 
 	/**
 	 * The page number being requested.
+	 *
+	 * @since 1.2.0
 	 *
 	 * @var int
 	 */
@@ -62,12 +74,16 @@ class BP_Blogs_Template {
 	/**
 	 * The number of items being requested per page.
 	 *
+	 * @since 1.2.0
+	 *
 	 * @var int
 	 */
 	public $pag_num = 20;
 
 	/**
 	 * An HTML string containing pagination links.
+	 *
+	 * @since 1.2.0
 	 *
 	 * @var string
 	 */
@@ -76,12 +92,16 @@ class BP_Blogs_Template {
 	/**
 	 * URL argument used for the pagination param.
 	 *
+	 * @since 2.2.0
+	 *
 	 * @var string
 	 */
 	public $pag_arg;
 
 	/**
 	 * The total number of blogs matching the query parameters.
+	 *
+	 * @since 1.2.0
 	 *
 	 * @var int
 	 */

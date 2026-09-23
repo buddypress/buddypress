@@ -22,6 +22,7 @@ class BP_Nouveau_Activity {
 	 * Nouveau Activity directory.
 	 *
 	 * @since 3.0.0
+	 *
 	 * @var string
 	 */
 	public $dir = '';
@@ -30,6 +31,7 @@ class BP_Nouveau_Activity {
 	 * RSS feed link data.
 	 *
 	 * @since 3.0.0
+	 *
 	 * @var string
 	 */
 	public $current_rss_feed = array();

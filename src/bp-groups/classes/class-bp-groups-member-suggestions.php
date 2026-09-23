@@ -21,6 +21,7 @@ class BP_Groups_Member_Suggestions extends BP_Members_Suggestions {
 	 * Default arguments for this suggestions service.
 	 *
 	 * @since 2.1.0
+	 *
 	 * @var array $args {
 	 *     @type int    $group_id     Positive integers will restrict the search to members in that group.
 	 *                                Negative integers will restrict the search to members in every other group.

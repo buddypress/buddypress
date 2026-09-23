@@ -24,6 +24,8 @@ abstract class BP_Attachment {
 	/**
 	 * The file being uploaded.
 	 *
+	 * @since 2.3.0
+	 *
 	 * @var array
 	 */
 	public $attachment = array();
@@ -31,6 +33,8 @@ abstract class BP_Attachment {
 	/**
 	 * The default args to be merged with the
 	 * ones passed by the child class.
+	 *
+	 * @since 2.3.0
 	 *
 	 * @var array
 	 */

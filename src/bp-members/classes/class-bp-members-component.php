@@ -24,6 +24,7 @@ class BP_Members_Component extends BP_Component {
 	 * @see bp_register_member_type()
 	 *
 	 * @since 2.2.0
+	 *
 	 * @var array
 	 */
 	public $types = array();
@@ -32,6 +33,7 @@ class BP_Members_Component extends BP_Component {
 	 * Main nav arguments.
 	 *
 	 * @since 2.2.0
+	 *
 	 * @var array
 	 */
 	public $main_nav = array();
@@ -40,6 +42,7 @@ class BP_Members_Component extends BP_Component {
 	 * Main nav arguments.
 	 *
 	 * @since 2.2.0
+	 *
 	 * @var array
 	 */
 	public $sub_nav = array();
@@ -48,6 +51,7 @@ class BP_Members_Component extends BP_Component {
 	 * Nav for the members component.
 	 *
 	 * @since 2.2.0
+	 *
 	 * @var BP_Core_Nav
 	 */
 	public $nav;
@@ -56,12 +60,15 @@ class BP_Members_Component extends BP_Component {
 	 * Member admin.
 	 *
 	 * @since 2.0.0
+	 *
 	 * @var BP_Members_Admin
 	 */
 	public $admin;
 
 	/**
 	 * Invitations.
+	 *
+	 * @since 8.0.0
 	 *
 	 * @var stdClass
 	 */

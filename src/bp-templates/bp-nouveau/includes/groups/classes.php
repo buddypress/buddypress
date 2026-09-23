@@ -22,6 +22,7 @@ class BP_Nouveau_Group_Invite_Query extends BP_User_Query {
 	 * Array of group member ids, cached to prevent redundant lookups
 	 *
 	 * @var null|array Null if not yet defined, otherwise an array of ints
+	 *
 	 * @since 3.0.0
 	 */
 	protected $group_member_ids;
@@ -186,6 +187,7 @@ class BP_Nouveau_Customizer_Group_Nav extends BP_Core_Nav {
 	 * The group being requested.
 	 *
 	 * @since 3.0.0
+	 *
 	 * @var BP_Groups_Group
 	 */
 	public $group = null;
@@ -419,6 +421,7 @@ class BP_Nouveau_Group_Meta {
 	 * Used to get the template meta used in Groups loop.
 	 *
 	 * @since 7.0.0
+	 *
 	 * @var string $meta The template meta used in Groups loop.
 	 */
 	public $meta = '';

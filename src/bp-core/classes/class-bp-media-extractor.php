@@ -46,6 +46,7 @@ class BP_Media_Extractor {
 	 * Media type.
 	 *
 	 * @since 2.3.0
+	 *
 	 * @var int
 	 */
 	const ALL        = 255;

@@ -25,6 +25,7 @@ class BP_Activity_Query extends BP_Recursive_Query {
 	 * See {@see BP_Activity_Query::__construct()} for information on query arguments.
 	 *
 	 * @since 2.2.0
+	 *
 	 * @var array
 	 */
 	public $queries = array();
@@ -33,6 +34,7 @@ class BP_Activity_Query extends BP_Recursive_Query {
 	 * Table alias.
 	 *
 	 * @since 2.2.0
+	 *
 	 * @var string
 	 */
 	public $table_alias = '';
@@ -43,6 +45,7 @@ class BP_Activity_Query extends BP_Recursive_Query {
 	 * See the 'wp_bp_activity' DB table schema.
 	 *
 	 * @since 2.2.0
+	 *
 	 * @var array
 	 */
 	public $db_columns = array(
