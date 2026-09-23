@@ -139,7 +139,7 @@ function bp_activity_screen_single_activity_permalink() {
 	$has_access = bp_activity_user_can_read( $activity );
 
 	// If activity author does not match displayed user, block access.
-	// More info:https://buddypress.trac.wordpress.org/ticket/7048#comment:28
+	// More info:https://buddypress.trac.wordpress.org/ticket/7048#comment:28.
 	if ( true === $has_access && bp_displayed_user_id() !== $activity->user_id ) {
 		$has_access = false;
 	}

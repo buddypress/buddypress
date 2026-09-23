@@ -557,7 +557,7 @@ class BP_Messages_Thread {
 
 		$bp = buddypress();
 
-		// Mark messages as deleted
+		// Mark messages as deleted.
 		$wpdb->query( $wpdb->prepare( "UPDATE {$bp->messages->table_name_recipients} SET is_deleted = 1 WHERE thread_id = %d AND user_id = %d", $thread_id, $user_id ) );
 
 		// Get the message ids in order to pass to the action.
@@ -660,7 +660,7 @@ class BP_Messages_Thread {
 
 		$bp = buddypress();
 
-		// Delete the user from messages recipients
+		// Delete the user from messages recipients.
 		$exited = $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->messages->table_name_recipients} WHERE thread_id = %d AND user_id = %d", $thread_id, $user_id ) );
 
 		// Bail if the user wasn't removed from the recipients list.

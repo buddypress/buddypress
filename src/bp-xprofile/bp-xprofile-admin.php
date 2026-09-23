@@ -824,7 +824,7 @@ function xprofile_admin_delete_field( $field_id, $field_type = 'field', $delete_
 	if ( in_array( $mode, array( 'delete_field', 'delete_option' ), true ) ) {
 		xprofile_admin_delete_field_screen( $field_id, $field_type );
 
-	// Handle the deletion of field
+	// Handle the deletion of field.
 	} else {
 		$field = xprofile_get_field( $field_id, null, false );
 

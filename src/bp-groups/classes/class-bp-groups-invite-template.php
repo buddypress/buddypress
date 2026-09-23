@@ -257,7 +257,7 @@ class BP_Groups_Invite_Template {
 			 */
 			do_action( 'group_invitation_loop_end', $this );
 
-			// Do some cleaning up after the loop
+			// Do some cleaning up after the loop.
 			$this->rewind_invites();
 		}
 
@@ -346,10 +346,10 @@ class BP_Groups_Invite_Template {
 
 		$this->invite->user->total_blogs = null;
 
-		// Global'ed in bp_group_has_invites()
+		// Global'ed in bp_group_has_invites().
 		$this->invite->group_id = $group_id;
 
-		// loop has just started
+		// loop has just started.
 		if ( 0 === $this->current_invite ) {
 
 			/**

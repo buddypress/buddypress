@@ -30,7 +30,7 @@
 
 switch ( bp_current_action() ) :
 
-	// Home/My Groups
+	// Home/My Groups.
 	case 'my-groups':
 		bp_nouveau_member_hook( 'before', 'groups_content' );
 		?>
@@ -45,12 +45,12 @@ switch ( bp_current_action() ) :
 		bp_nouveau_member_hook( 'after', 'groups_content' );
 		break;
 
-	// Group Invitations
+	// Group Invitations.
 	case 'invites':
 		bp_get_template_part( 'members/single/groups/invites' );
 		break;
 
-	// Any other
+	// Any other.
 	default:
 		bp_get_template_part( 'members/single/plugins' );
 		break;

@@ -150,7 +150,7 @@ function xprofile_filter_kses( $content, $data_obj = null, $field_id = null ) {
 			'p'    => array(),
 		);
 
-		// Allow style attributes on certain elements for capable users
+		// Allow style attributes on certain elements for capable users.
 		if ( bp_current_user_can( 'unfiltered_html' ) ) {
 			$richtext_tags['span'] = array( 'style' => 1 );
 			$richtext_tags['p']    = array( 'style' => 1 );
@@ -217,7 +217,7 @@ function xprofile_sanitize_data_value_before_save( $field_value, $field_id = 0, 
 		return $field_value;
 	}
 
-	// Force reserialization if serialized (avoids mutation, retains integrity)
+	// Force reserialization if serialized (avoids mutation, retains integrity).
 	if ( is_serialized( $field_value ) && ( false === $reserialize ) ) {
 		$reserialize = true;
 	}

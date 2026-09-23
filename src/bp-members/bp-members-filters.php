@@ -346,7 +346,7 @@ function bp_members_invitations_get_registration_welcome_message() {
 	// Check if the user is already a site member.
 	$maybe_user = get_user_by( 'email', $invite->invitee_email );
 
-	// This user is already a member
+	// This user is already a member.
 	if ( $maybe_user ) {
 		$message = sprintf(
 			/* translators: %s: The log in link `<a href="login_url">log in</a>` */

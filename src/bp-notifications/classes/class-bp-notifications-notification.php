@@ -1387,10 +1387,10 @@ class BP_Notifications_Notification {
 			$from_sql
 		);
 
-		// GROUP
+		// GROUP.
 		$group_sql = 'GROUP BY user_id, component_name, component_action';
 
-		// SORT
+		// SORT.
 		$order_sql = 'ORDER BY date_notified desc';
 
 		// Concatenate query parts.

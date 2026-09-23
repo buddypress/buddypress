@@ -114,10 +114,10 @@ class BP_Nouveau_Activity {
 		// Register customizer controls.
 		add_filter( 'bp_nouveau_customizer_controls', 'bp_nouveau_activity_customizer_controls', 10, 1 );
 
-		// Register activity scripts
+		// Register activity scripts.
 		add_filter( 'bp_nouveau_register_scripts', 'bp_nouveau_activity_register_scripts', 10, 1 );
 
-		// Localize Scripts
+		// Localize Scripts.
 		add_filter( 'bp_core_get_js_strings', 'bp_nouveau_activity_localize_scripts', 10, 1 );
 
 		add_filter( 'bp_get_activity_action_pre_meta', 'bp_nouveau_activity_secondary_avatars', 10, 2 );

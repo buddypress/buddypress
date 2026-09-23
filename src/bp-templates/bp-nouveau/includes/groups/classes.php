@@ -113,10 +113,10 @@ class BP_Nouveau_Group_Invite_Query extends BP_User_Query {
 
 		/** WHERE clauses */
 
-		// Group id
+		// Group id.
 		$sql['where'][] = $wpdb->prepare( 'group_id = %d', $this->query_vars['group_id'] );
 
-		// Join the query part
+		// Join the query part.
 		$sql['where'] = ! empty( $sql['where'] ) ? 'WHERE ' . implode( ' AND ', $sql['where'] ) : '';
 
 		/** ORDER BY clause */
@@ -336,7 +336,7 @@ class BP_Nouveau_Customizer_Group_Nav extends BP_Core_Nav {
 			$nav_items['members'] = $members_nav;
 		}
 
-		// Required params
+		// Required params.
 		$required_params = array(
 			'slug'              => true,
 			'name'              => true,
@@ -404,7 +404,7 @@ class BP_Nouveau_Customizer_Group_Nav extends BP_Core_Nav {
 	 * @return array the nav items ordered.
 	 */
 	public function get_group_nav() {
-		// Eventually reset the order
+		// Eventually reset the order.
 		bp_nouveau_set_nav_item_order( $this, bp_nouveau_get_appearance_settings( 'group_nav_order' ), $this->group->slug );
 
 		return $this->get_secondary( array( 'parent_slug' => $this->group->slug ) );

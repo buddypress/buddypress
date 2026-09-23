@@ -30,34 +30,34 @@ do_action( 'bp_before_profile_content' );
 <?php
 switch ( bp_current_action() ) :
 
-	// Edit
+	// Edit.
 	case 'edit':
 		bp_get_template_part( 'members/single/profile/edit' );
 		break;
 
-	// Change Avatar
+	// Change Avatar.
 	case 'change-avatar':
 		bp_get_template_part( 'members/single/profile/change-avatar' );
 		break;
 
-	// Change Cover Image
+	// Change Cover Image.
 	case 'change-cover-image':
 		bp_get_template_part( 'members/single/profile/change-cover-image' );
 		break;
 
-	// Compose
+	// Compose.
 	case 'public':
-		// Display XProfile
+		// Display XProfile.
 		if ( bp_is_active( 'xprofile' ) ) {
 			bp_get_template_part( 'members/single/profile/profile-loop' );
 		} else {
-			// Display WordPress profile (fallback)
+			// Display WordPress profile (fallback).
 			bp_get_template_part( 'members/single/profile/profile-wp' );
 		}
 
 		break;
 
-	// Any other
+	// Any other.
 	default:
 		bp_get_template_part( 'members/single/plugins' );
 		break;
