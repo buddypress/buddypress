@@ -184,7 +184,7 @@ class BP_Messages_Message {
 
 		$this->id = $wpdb->insert_id;
 
-		// For new threads fetch the thread_id that was generated during the insert query
+		// For new threads fetch the thread_id that was generated during the insert query.
 		if ( $new_thread ) {
 			$this->thread_id = (int) $wpdb->get_var( $wpdb->prepare( "SELECT thread_id FROM {$bp->messages->table_name_messages} WHERE id=%d", $this->id ) );
 		}

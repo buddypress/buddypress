@@ -532,7 +532,7 @@ function bp_nouveau_ajax_post_update() {
 	if ( ! empty( $_POST['object'] ) ) {
 		$object = sanitize_key( $_POST['object'] );
 
-	// If the object is not set and we're in a group, set the item id and the object
+	// If the object is not set and we're in a group, set the item id and the object.
 	} elseif ( bp_is_group() ) {
 		$item_id = bp_get_current_group_id();
 		$object  = 'group';
@@ -676,7 +676,7 @@ function bp_nouveau_ajax_spam_activity() {
 	/** This action is documented in bp-activity/bp-activity-actions.php */
 	do_action( 'bp_activity_action_spam_activity', $activity->id, $activity->user_id );
 
-	// Prepare the successfull reply
+	// Prepare the successfull reply.
 	$response = array( 'spammed' => $activity->id );
 
 	// If on a single activity redirect to user's home.
@@ -685,6 +685,6 @@ function bp_nouveau_ajax_spam_activity() {
 		bp_core_add_message( __( 'This activity has been marked as spam and is no longer visible.', 'buddypress' ) );
 	}
 
-	// Send the json reply
+	// Send the json reply.
 	wp_send_json_success( $response );
 }

@@ -148,7 +148,7 @@ function bp_nouveau_activity_hook( $when = '', $suffix = '' ) {
 		$hook[] = $when;
 	}
 
-	// It's a activity entry hook
+	// It's a activity entry hook.
 	$hook[] = 'activity';
 
 	if ( $suffix ) {
@@ -344,7 +344,7 @@ function bp_nouveau_activity_entry_buttons( $args = array() ) {
 				),
 			);
 
-			// If button element set add url link to data-attr
+			// If button element set add url link to data-attr.
 			if ( 'button' === $button_element ) {
 				$buttons['activity_conversation']['button_attr']['data-bp-url'] = bp_get_activity_thread_permalink();
 			} else {
@@ -378,7 +378,7 @@ function bp_nouveau_activity_entry_buttons( $args = array() ) {
 				),
 			);
 
-			// If button element set add href link to data-attr
+			// If button element set add href link to data-attr.
 			if ( 'button' === $button_element ) {
 				$buttons['activity_conversation']['button_attr']['data-bp-url'] = bp_get_activity_comment_link();
 			} else {
@@ -389,7 +389,7 @@ function bp_nouveau_activity_entry_buttons( $args = array() ) {
 
 		if ( bp_activity_can_favorite() ) {
 
-			// If button element set attr needs to be data-* else 'href'
+			// If button element set attr needs to be data-* else 'href'.
 			if ( 'button' === $button_element ) {
 				$key = 'data-bp-nonce';
 			} else {
@@ -490,7 +490,7 @@ function bp_nouveau_activity_entry_buttons( $args = array() ) {
 				'link_href'       => bp_get_activity_delete_url(),
 			);
 
-			// If button element set add nonce link to data-attr attr
+			// If button element set add nonce link to data-attr attr.
 			if ( 'button' === $button_element ) {
 				$delete_args['data-attr'] = bp_get_activity_delete_url();
 				$delete_args['link_href'] = '';
@@ -518,7 +518,7 @@ function bp_nouveau_activity_entry_buttons( $args = array() ) {
 			'link_text'  => sprintf( '<span class="bp-screen-reader-text">%s</span>', esc_html( $delete_args['data_bp_tooltip'] ) ),
 		);
 
-		// Add the Spam Button if supported
+		// Add the Spam Button if supported.
 		if ( bp_is_akismet_active() && isset( buddypress()->activity->akismet ) && bp_activity_user_can_mark_spam() ) {
 			$buttons['activity_spam'] = array(
 				'id'                => 'activity_spam',
@@ -576,12 +576,12 @@ function bp_nouveau_activity_entry_buttons( $args = array() ) {
 			return array();
 		}
 
-		// It's the first entry of the loop, so build the Group and sort it
+		// It's the first entry of the loop, so build the Group and sort it.
 		if ( ! isset( bp_nouveau()->activity->entry_buttons ) || ! is_a( bp_nouveau()->activity->entry_buttons, 'BP_Buttons_Group' ) ) {
 			$sort                                 = true;
 			bp_nouveau()->activity->entry_buttons = new BP_Buttons_Group( $buttons_group );
 
-		// It's not the first entry, the order is set, we simply need to update the Buttons Group
+		// It's not the first entry, the order is set, we simply need to update the Buttons Group.
 		} else {
 			$sort = false;
 			bp_nouveau()->activity->entry_buttons->update( $buttons_group );
@@ -593,12 +593,12 @@ function bp_nouveau_activity_entry_buttons( $args = array() ) {
 			return array();
 		}
 
-		// Remove the Comment button if the user can't comment
+		// Remove the Comment button if the user can't comment.
 		if ( ! bp_activity_can_comment() && $activity_type !== 'activity_comment' ) {
 			unset( $return['activity_conversation'] );
 		}
 
-		// Remove the Delete button if the user can't delete
+		// Remove the Delete button if the user can't delete.
 		if ( ! bp_activity_user_can_delete() ) {
 			unset( $return['activity_delete'] );
 		}
@@ -864,7 +864,7 @@ function bp_nouveau_activity_comment_buttons( $args = array() ) {
 			),
 		);
 
-		// If button element set add nonce link to data-attr attr
+		// If button element set add nonce link to data-attr attr.
 		if ( 'button' === $button_element ) {
 			$buttons['activity_comment_reply']['button_attr']['data-bp-act-reply-nonce']         = sprintf( '#acomment-%s', $activity_comment_id );
 			$buttons['activity_comment_delete']['button_attr']['data-bp-act-reply-delete-nonce'] = bp_get_activity_comment_delete_link();
@@ -873,7 +873,7 @@ function bp_nouveau_activity_comment_buttons( $args = array() ) {
 			$buttons['activity_comment_delete']['button_attr']['href'] = bp_get_activity_comment_delete_link();
 		}
 
-		// Add the Spam Button if supported
+		// Add the Spam Button if supported.
 		if ( bp_is_akismet_active() && isset( buddypress()->activity->akismet ) && bp_activity_user_can_mark_spam() ) {
 			$buttons['activity_comment_spam'] = array(
 				'id'                => 'activity_comment_spam',
@@ -891,7 +891,7 @@ function bp_nouveau_activity_comment_buttons( $args = array() ) {
 				),
 			);
 
-			// If button element set add nonce link to data-attr attr
+			// If button element set add nonce link to data-attr attr.
 			if ( 'button' === $button_element ) {
 				$data_element = 'data-bp-act-spam-nonce';
 			} else {
@@ -929,12 +929,12 @@ function bp_nouveau_activity_comment_buttons( $args = array() ) {
 			return $buttons;
 		}
 
-		// It's the first comment of the loop, so build the Group and sort it
+		// It's the first comment of the loop, so build the Group and sort it.
 		if ( ! isset( bp_nouveau()->activity->comment_buttons ) || ! is_a( bp_nouveau()->activity->comment_buttons, 'BP_Buttons_Group' ) ) {
 			$sort                                   = true;
 			bp_nouveau()->activity->comment_buttons = new BP_Buttons_Group( $buttons_group );
 
-		// It's not the first comment, the order is set, we simply need to update the Buttons Group
+		// It's not the first comment, the order is set, we simply need to update the Buttons Group.
 		} else {
 			$sort = false;
 			bp_nouveau()->activity->comment_buttons->update( $buttons_group );

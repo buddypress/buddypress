@@ -259,7 +259,7 @@ class BP_Members_Admin {
 	private function setup_globals() {
 		$bp = buddypress();
 
-		// Paths and URLs
+		// Paths and URLs.
 		$this->admin_dir = trailingslashit( $bp->plugin_dir . 'bp-members/admin' ); // Admin path.
 		$this->admin_url = trailingslashit( $bp->plugin_url . 'bp-members/admin' ); // Admin URL.
 		$this->css_url   = trailingslashit( $this->admin_url . 'css' ); // Admin CSS URL.

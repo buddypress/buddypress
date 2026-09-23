@@ -82,11 +82,11 @@ function bp_nouveau_ajax_addremove_friend() {
 		wp_send_json_error( $response );
 	}
 
-	// Use default nonce
+	// Use default nonce.
 	$nonce = $_POST['nonce'];
 	$check = 'bp_nouveau_friends';
 
-	// Use a specific one for actions needed it
+	// Use a specific one for actions needed it.
 	if ( ! empty( $_POST['_wpnonce'] ) && ! empty( $_POST['action'] ) ) {
 		$nonce = $_POST['_wpnonce'];
 		$check = $_POST['action'];
@@ -139,7 +139,7 @@ function bp_nouveau_ajax_addremove_friend() {
 			);
 		}
 
-	// Rejecting a friendship
+	// Rejecting a friendship.
 	} elseif ( ! empty( $_POST['action'] ) && 'friends_reject_friendship' === $_POST['action'] ) {
 		if ( ! friends_reject_friendship( $friend_id ) ) {
 			wp_send_json_error(

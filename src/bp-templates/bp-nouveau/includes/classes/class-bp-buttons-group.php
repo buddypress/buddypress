@@ -73,7 +73,7 @@ class BP_Buttons_Group {
 				$position = (int) $button['position'];
 			}
 
-			// If position is already taken, move to the first next available
+			// If position is already taken, move to the first next available.
 			if ( isset( $sorted[ $position ] ) ) {
 				$sorted_keys = array_keys( $sorted );
 
@@ -181,14 +181,14 @@ class BP_Buttons_Group {
 			'buttons_group_constructor'
 		);
 
-		// Just don't set the button if a param is missing
+		// Just don't set the button if a param is missing.
 		if ( empty( $r['id'] ) || empty( $r['component'] ) || empty( $r['link_text'] ) ) {
 			return false;
 		}
 
 		$r['id'] = sanitize_key( $r['id'] );
 
-		// If the button already exist don't add it
+		// If the button already exist don't add it.
 		if ( isset( $this->group[ $r['id'] ] ) ) {
 			return false;
 		}

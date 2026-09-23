@@ -36,7 +36,7 @@ function bp_nouveau_ajax_querystring( $query_string, $component ) {
 		return '';
 	}
 
-	// Default query
+	// Default query.
 	$post_query = array(
 		'filter'       => '',
 		'scope'        => 'all',
@@ -52,11 +52,11 @@ function bp_nouveau_ajax_querystring( $query_string, $component ) {
 			'nouveau_ajax_querystring'
 		);
 
-		// Make sure to transport the scope, filter etc.. in HeartBeat Requests
+		// Make sure to transport the scope, filter etc.. in HeartBeat Requests.
 		if ( ! empty( $post_query['data']['bp_heartbeat'] ) ) {
 			$bp_heartbeat = $post_query['data']['bp_heartbeat'];
 
-			// Remove heartbeat specific vars
+			// Remove heartbeat specific vars.
 			$post_query = array_diff_key(
 				bp_parse_args(
 					$bp_heartbeat,
@@ -75,7 +75,7 @@ function bp_nouveau_ajax_querystring( $query_string, $component ) {
 		}
 	}
 
-	// Init the query string
+	// Init the query string.
 	$qs = array();
 
 	// Activity stream filtering on action.
@@ -88,7 +88,7 @@ function bp_nouveau_ajax_querystring( $query_string, $component ) {
 		}
 	}
 
-	// Sort the notifications if needed
+	// Sort the notifications if needed.
 	if ( ! empty( $post_query['extras'] ) && 'notifications' === $component ) {
 		$qs[] = 'sort_order=' . $post_query['extras'];
 	}
@@ -128,7 +128,7 @@ function bp_nouveau_ajax_querystring( $query_string, $component ) {
 		$qs[] = 'search_terms=' . rawurlencode( $_POST['search_terms'] );
 	}
 
-	// Specific to messages
+	// Specific to messages.
 	if ( 'messages' === $component ) {
 		if ( ! empty( $post_query['box'] ) ) {
 			$qs[] = 'box=' . $post_query['box'];
@@ -147,7 +147,7 @@ function bp_nouveau_ajax_querystring( $query_string, $component ) {
 	// Now pass the querystring to override default values.
 	$query_string = empty( $qs ) ? '' : join( '&', (array) $qs );
 
-	// List the variables for the filter
+	// List the variables for the filter.
 	list( $filter, $scope, $page, $search_terms, $extras ) = array_values( $post_query );
 
 	/**
@@ -235,7 +235,7 @@ function bp_nouveau_ajax_button( $output = '', $button = null, $before = '', $af
 	);
 	$output = $output->contents();
 
-	// Add span bp-screen-reader-text class
+	// Add span bp-screen-reader-text class.
 	return $before . $output . $after;
 }
 
@@ -563,7 +563,7 @@ function bp_nouveau_get_component_filters( $context = '', $component = '' ) {
 		} elseif ( bp_is_group() ) {
 			$context = 'group';
 
-		// Defaults to directory
+		// Defaults to directory.
 		} else {
 			$context = 'directory';
 		}
@@ -596,7 +596,7 @@ function bp_nouveau_get_component_filters( $context = '', $component = '' ) {
 	} elseif ( 'activity' === $component ) {
 		$filters = bp_nouveau_get_activity_filters();
 
-		// Specific case for the activity dropdown
+		// Specific case for the activity dropdown.
 		$filters = array_merge( array( '-1' => __( '&mdash; Everything &mdash;', 'buddypress' ) ), $filters );
 	} elseif ( 'groups' === $component ) {
 		$filters = bp_nouveau_get_groups_filters( $context );
@@ -641,11 +641,11 @@ function bp_nouveau_get_temporary_setting( $option = '', $retval = false ) {
 			$retval[ $k ] = $setting;
 		}
 
-	// Used when it's an early regular request
+	// Used when it's an early regular request.
 	} elseif ( isset( $temporary_setting[ 'bp_nouveau_appearance[' . $option . ']' ] ) ) {
 		$retval = $temporary_setting[ 'bp_nouveau_appearance[' . $option . ']' ];
 
-	// Used when it's an ajax request
+	// Used when it's an ajax request.
 	} elseif ( isset( $_POST['customized'][ 'bp_nouveau_appearance_' . $option ] ) ) {
 		$retval = $_POST['customized'][ 'bp_nouveau_appearance_' . $option ];
 	}
@@ -681,7 +681,7 @@ function bp_nouveau_get_appearance_settings( $option = '' ) {
 
 	if ( bp_is_active( 'activity' ) ) {
 		$default_args['activity_dir_layout'] = 0;
-		$default_args['activity_dir_tabs']   = 0; // default = no tabs
+		$default_args['activity_dir_tabs']   = 0; // default = no tabs.
 	}
 
 	if ( bp_is_active( 'groups' ) ) {

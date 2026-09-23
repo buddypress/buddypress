@@ -258,7 +258,7 @@ class BP_Members_Component extends BP_Component {
 			// The domain for the user currently being displayed.
 			$bp->displayed_user->domain = bp_members_get_user_url( $user_id );
 
-			// If A user is displayed, check if there is a front template
+			// If A user is displayed, check if there is a front template.
 			if ( bp_get_displayed_user() ) {
 				$bp->displayed_user->front_template = bp_displayed_user_get_front_template();
 			}
@@ -463,7 +463,7 @@ class BP_Members_Component extends BP_Component {
 	 *                        description.
 	 */
 	public function register_nav( $main_nav = array(), $sub_nav = array() ) {
-		// Set slug to profile in case the xProfile component is not active
+		// Set slug to profile in case the xProfile component is not active.
 		$slug = bp_get_profile_slug();
 
 		$main_nav = array(
@@ -559,7 +559,7 @@ class BP_Members_Component extends BP_Component {
 			);
 		}
 
-		// Edit Cover Image
+		// Edit Cover Image.
 		if ( bp_displayed_user_use_cover_image_header() ) {
 			$wp_admin_nav[] = array(
 				'parent'   => 'my-account-' . $admin_bar_menu_id,

@@ -160,7 +160,7 @@ do_action( 'bp_before_create_group_page' ); ?>
 
 				</fieldset>
 
-				<?php // Group type selection ?>
+				<?php // Group type selection. ?>
 				<?php $group_types = bp_groups_get_group_types( array( 'show_in_create_screen' => true ), 'objects' ); ?>
 				<?php if ( $group_types ) : ?>
 

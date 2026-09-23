@@ -40,7 +40,7 @@ class BP_Members_Invitation_Manager extends BP_Invitation_Manager {
 	 * @return bool
 	 */
 	public function run_send_action( BP_Invitation $invitation ) {
-		// Notify site admins of the pending request
+		// Notify site admins of the pending request.
 		if ( 'request' === $invitation->type ) {
 			// Coming soon to a BuddyPress near you!
 			return true;
@@ -110,7 +110,7 @@ class BP_Members_Invitation_Manager extends BP_Invitation_Manager {
 				$new_user = get_user_by( 'email', $invite->invitee_email );
 				bp_update_user_meta( $new_user->ID, 'accepted_members_invitation', $invite->id );
 
-				// We will mark all invitations to this user as "accepted."
+				// We will mark all invitations to this user as "accepted.".
 				if ( ! empty( $invite->invitee_email ) ) {
 					$args = array(
 						'invitee_email' => $invite->invitee_email,

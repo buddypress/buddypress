@@ -205,14 +205,14 @@ function bp_has_notifications( $args = '' ) {
 		$user_id = bp_loggedin_user_id();
 	}
 
-	// Set the component action (by default false to get all actions)
+	// Set the component action (by default false to get all actions).
 	$component_action = false;
 
 	if ( isset( $_REQUEST['type'] ) && is_string( $_REQUEST['type'] ) ) {
 		$component_action = sanitize_key( wp_unslash( $_REQUEST['type'] ) );
 	}
 
-	// Set the search terms (by default an empty string to get all notifications)
+	// Set the search terms (by default an empty string to get all notifications).
 	$search_terms = '';
 
 	if ( isset( $_REQUEST['s'] ) && is_string( $_REQUEST['s'] ) ) {
