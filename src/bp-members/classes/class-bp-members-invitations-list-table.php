@@ -23,6 +23,7 @@ class BP_Members_Invitations_List_Table extends WP_Users_List_Table {
 	 * E.g. "All", "Pending", "Sent", "Unsent"...
 	 *
 	 * @since 8.0.0
+	 *
 	 * @var string[]
 	 */
 	public $active_filters = array();
@@ -31,6 +32,7 @@ class BP_Members_Invitations_List_Table extends WP_Users_List_Table {
 	 * Invitation counts.
 	 *
 	 * @since 8.0.0
+	 *
 	 * @var int
 	 */
 	public $total_items = 0;

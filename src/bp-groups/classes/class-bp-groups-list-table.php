@@ -26,6 +26,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 	 * E.g. "All", "Pending", "Approved", "Spam"...
 	 *
 	 * @since 1.7.0
+	 *
 	 * @var string
 	 */
 	public $view = 'all';
@@ -34,6 +35,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 	 * Group counts for each group type.
 	 *
 	 * @since 1.7.0
+	 *
 	 * @var int
 	 */
 	public $group_counts = 0;
@@ -41,7 +43,9 @@ class BP_Groups_List_Table extends WP_List_Table {
 	/**
 	 * Multidimensional array of group visibility (status) types and their groups.
 	 *
+	 * @since 2.7.0
 	 * @link https://buddypress.trac.wordpress.org/ticket/6277
+	 *
 	 * @var array
 	 */
 	public $group_type_ids = array();
@@ -302,7 +306,6 @@ class BP_Groups_List_Table extends WP_List_Table {
 	 * Extra controls to be displayed between bulk actions and pagination
 	 *
 	 * @since 2.7.0
-	 * @access protected
 	 *
 	 * @param string $which Position of the controls: top or bottom.
 	 */

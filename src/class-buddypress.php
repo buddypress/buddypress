@@ -29,7 +29,10 @@ class BuddyPress {
 	 * plugins from tampering with essential information indirectly, which
 	 * would cause issues later.
 	 *
+	 * @since 1.6.0
+	 *
 	 * @see BuddyPress::setup_globals()
+	 *
 	 * @var array
 	 */
 	private $data;
@@ -39,12 +42,16 @@ class BuddyPress {
 	/**
 	 * Primary BuddyPress navigation.
 	 *
+	 * @since 1.6.0
+	 *
 	 * @var BP_Core_BP_Nav_BackCompat
 	 */
 	public $bp_nav;
 
 	/**
 	 * Options for the BuddyPress navigation.
+	 *
+	 * @since 1.6.0
 	 *
 	 * @var BP_Core_BP_Options_Nav_BackCompat
 	 */
@@ -55,6 +62,8 @@ class BuddyPress {
 	 *
 	 * The unfiltered URI broken down into chunks.
 	 *
+	 * @since 1.6.0
+	 *
 	 * @var array
 	 */
 	public $unfiltered_uri = array();
@@ -62,14 +71,19 @@ class BuddyPress {
 	/**
 	 * The canonical URI stack.
 	 *
+	 * @since 1.6.0
+	 *
 	 * @see bp_redirect_canonical()
 	 * @see bp_core_new_nav_item()
+	 *
 	 * @var array
 	 */
 	public $canonical_stack = array();
 
 	/**
 	 * Current action variables.
+	 *
+	 * @since 1.6.0
 	 *
 	 * @var array
 	 */
@@ -78,12 +92,16 @@ class BuddyPress {
 	/**
 	 * Current member directory type.
 	 *
+	 * @since 2.3.0
+	 *
 	 * @var string
 	 */
 	public $current_member_type = '';
 
 	/**
 	 * BuddyPress required components (core, members).
+	 *
+	 * @since 1.7.0
 	 *
 	 * @var array
 	 */
@@ -92,12 +110,16 @@ class BuddyPress {
 	/**
 	 * BuddyPress loaded components.
 	 *
+	 * @since 1.7.0
+	 *
 	 * @var array
 	 */
 	public $loaded_components = array();
 
 	/**
 	 * BuddyPress active components.
+	 *
+	 * @since 1.7.0
 	 *
 	 * @var array
 	 */
@@ -107,6 +129,7 @@ class BuddyPress {
 	 * Whether autoload is in use.
 	 *
 	 * @since 2.5.0
+	 *
 	 * @var bool
 	 */
 	public $do_autoload = true;
@@ -115,6 +138,7 @@ class BuddyPress {
 	 * Activity component.
 	 *
 	 * @since 1.6.0
+	 *
 	 * @var BP_Activity_Component
 	 */
 	public $activity;
@@ -123,6 +147,7 @@ class BuddyPress {
 	 * Blogs component.
 	 *
 	 * @since 1.5.0
+	 *
 	 * @var BP_Blogs_Component
 	 */
 	public $blogs;
@@ -131,6 +156,7 @@ class BuddyPress {
 	 * Core component.
 	 *
 	 * @since 1.6.0
+	 *
 	 * @var BP_Core
 	 */
 	public $core;
@@ -139,6 +165,7 @@ class BuddyPress {
 	 * Forums component.
 	 *
 	 * @since 1.5.0
+	 *
 	 * @var BP_Forums_Component
 	 */
 	public $forums;
@@ -147,6 +174,7 @@ class BuddyPress {
 	 * Friends component.
 	 *
 	 * @since 1.6.0
+	 *
 	 * @var BP_Friends_Component
 	 */
 	public $friends;
@@ -155,6 +183,7 @@ class BuddyPress {
 	 * Groups component.
 	 *
 	 * @since 1.5.0
+	 *
 	 * @var BP_Groups_Component
 	 */
 	public $groups;
@@ -163,6 +192,7 @@ class BuddyPress {
 	 * Members component.
 	 *
 	 * @since 1.5.0
+	 *
 	 * @var BP_Members_Component
 	 */
 	public $members;
@@ -171,6 +201,7 @@ class BuddyPress {
 	 * Messages component.
 	 *
 	 * @since 1.5.0
+	 *
 	 * @var BP_Messages_Component
 	 */
 	public $messages;
@@ -179,6 +210,7 @@ class BuddyPress {
 	 * Notifications component.
 	 *
 	 * @since 1.9.0
+	 *
 	 * @var BP_Notifications_Component
 	 */
 	public $notifications;
@@ -187,6 +219,7 @@ class BuddyPress {
 	 * Settings component.
 	 *
 	 * @since 1.6.0
+	 *
 	 * @var BP_Settings_Component
 	 */
 	public $settings;
@@ -195,6 +228,7 @@ class BuddyPress {
 	 * XProfile component.
 	 *
 	 * @since 1.6.0
+	 *
 	 * @var BP_XProfile_Component
 	 */
 	public $profile;
@@ -215,6 +249,8 @@ class BuddyPress {
 	 *
 	 * Overloads default options retrieved from get_option().
 	 *
+	 * @since 1.6.0
+	 *
 	 * @var array
 	 */
 	public $options = array();
@@ -233,10 +269,9 @@ class BuddyPress {
 	 *
 	 * @since 1.7.0
 	 *
-	 * @static object $instance
 	 * @see buddypress()
 	 *
-	 * @return BuddyPress|null The one true BuddyPress.
+	 * @return BuddyPress The one true BuddyPress.
 	 */
 	public static function instance() {
 
@@ -477,7 +512,9 @@ class BuddyPress {
 
 		/**
 		 * The primary toolbar ID.
-		*
+		 *
+		 * @since 1.6.0
+		 *
 		 * @var string The primary toolbar ID.
 		 */
 		$this->my_account_menu_id = '';
@@ -486,14 +523,18 @@ class BuddyPress {
 
 		/**
 		 * The current offset of the URI.
-		*
+		 *
+		 * @since 1.6.0
+		 *
 		 * @var int The current offset of the URI.
 		 */
 		$this->unfiltered_uri_offset = 0;
 
 		/**
 		 * Whether status headers have already been sent.
-		*
+		 *
+		 * @since 1.6.0
+		 *
 		 * @var bool Are status headers already sent?
 		 */
 		$this->no_status_set = false;
@@ -502,28 +543,36 @@ class BuddyPress {
 
 		/**
 		 * The current BuddyPress component.
-		*
+		 *
+		 * @since 1.6.0
+		 *
 		 * @var string Name of the current BuddyPress component (primary).
 		 */
 		$this->current_component = '';
 
 		/**
 		 * The current BuddyPress item.
-		*
+		 *
+		 * @since 1.6.0
+		 *
 		 * @var string Name of the current BuddyPress item (secondary).
 		 */
 		$this->current_item = '';
 
 		/**
 		 * The current BuddyPress action.
-		*
+		 *
+		 * @since 1.6.0
+		 *
 		 * @var string Name of the current BuddyPress action (tertiary).
 		 */
 		$this->current_action = '';
 
 		/**
 		 * Whether a single BuddyPress item is displayed.
-		*
+		 *
+		 * @since 1.6.0
+		 *
 		 * @var bool Displaying custom 2nd level navigation menu (I.E a group).
 		 */
 		$this->is_single_item = false;
@@ -535,7 +584,7 @@ class BuddyPress {
 		 *
 		 * @since 1.5.0
 		 *
-		 * @const constant BP_ROOT_BLOG BuddyPress Root blog ID.
+		 * @param int $bp_root_blog BuddyPress Root blog ID.
 		 */
 		$this->root_blog_id = (int) apply_filters( 'bp_get_root_blog_id', BP_ROOT_BLOG );
 
@@ -589,7 +638,7 @@ class BuddyPress {
 		 *
 		 * @since 11.0.0
 		 *
-		 * @param bool $value True if PHPUnit tests are running, false otherwise.
+		 * @var bool True if PHPUnit tests are running, false otherwise.
 		 */
 		$this->is_phpunit_running = function_exists( 'tests_add_filter' );
 	}
@@ -672,12 +721,11 @@ class BuddyPress {
 			}
 		}
 
-		// Load wp-cli module if PHP 5.6+.
+		// Load wp-cli module.
 		if (
 			defined( 'WP_CLI' )
 			&& ! class_exists( 'Buddypress\CLI\Command\BuddypressCommand' )
-			&& file_exists( $this->plugin_dir . 'cli/wp-cli-bp.php' )
-			&& version_compare( phpversion(), '5.6.0', '>=' ) ) {
+			&& file_exists( $this->plugin_dir . 'cli/wp-cli-bp.php' ) ) {
 			require $this->plugin_dir . 'cli/wp-cli-bp.php';
 		}
 	}

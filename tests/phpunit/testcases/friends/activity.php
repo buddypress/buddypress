@@ -226,14 +226,9 @@ class BP_Tests_Friends_Activity extends BP_UnitTestCase {
 
 		bp_activity_remove_all_user_data( $u1 );
 		wp_cache_delete( $u1, 'bp_last_activity' );
-		wp_delete_user( $u1 );
+		$this->assertTrue( wp_delete_user( $u1 ) );
 
 		wp_set_current_user( $old_user );
-
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
 	}
 }
 

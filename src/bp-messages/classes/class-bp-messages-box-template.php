@@ -19,12 +19,16 @@ class BP_Messages_Box_Template {
 	/**
 	 * The loop iterator.
 	 *
+	 * @since 1.5.0
+	 *
 	 * @var int
 	 */
 	public $current_thread = -1;
 
 	/**
 	 * The number of threads returned by the paged query.
+	 *
+	 * @since 1.5.0
 	 *
 	 * @var int
 	 */
@@ -33,12 +37,16 @@ class BP_Messages_Box_Template {
 	/**
 	 * Total number of threads matching the query params.
 	 *
+	 * @since 1.5.0
+	 *
 	 * @var int
 	 */
 	public $total_thread_count = 0;
 
 	/**
 	 * Total number of threads available to iterate on.
+	 *
+	 * @since 1.5.0
 	 *
 	 * @var int
 	 */
@@ -47,12 +55,16 @@ class BP_Messages_Box_Template {
 	/**
 	 * Array of threads located by the query.
 	 *
+	 * @since 1.5.0
+	 *
 	 * @var array
 	 */
 	public $threads = array();
 
 	/**
 	 * The thread object currently being iterated on.
+	 *
+	 * @since 1.5.0
 	 *
 	 * @var BP_Messages_Thread|bool
 	 */
@@ -61,12 +73,16 @@ class BP_Messages_Box_Template {
 	/**
 	 * A flag for whether the loop is currently being iterated.
 	 *
+	 * @since 1.5.0
+	 *
 	 * @var bool
 	 */
 	public $in_the_loop = false;
 
 	/**
 	 * User ID of the current inbox.
+	 *
+	 * @since 1.5.0
 	 *
 	 * @var int
 	 */
@@ -75,12 +91,16 @@ class BP_Messages_Box_Template {
 	/**
 	 * The current "box" view ('notices', 'sentbox', 'inbox').
 	 *
+	 * @since 1.5.0
+	 *
 	 * @var string
 	 */
 	public $box = 'inbox';
 
 	/**
 	 * The page number being requested.
+	 *
+	 * @since 1.5.0
 	 *
 	 * @var int
 	 */
@@ -89,12 +109,16 @@ class BP_Messages_Box_Template {
 	/**
 	 * The number of items (threads) being requested per page.
 	 *
+	 * @since 1.5.0
+	 *
 	 * @var int
 	 */
 	public $pag_num = 10;
 
 	/**
 	 * An HTML string containing pagination links.
+	 *
+	 * @since 1.5.0
 	 *
 	 * @var string
 	 */
@@ -103,6 +127,8 @@ class BP_Messages_Box_Template {
 	/**
 	 * URL argument used for the pagination param.
 	 *
+	 * @since 2.2.0
+	 *
 	 * @var string
 	 */
 	public $pag_arg = '';
@@ -110,12 +136,16 @@ class BP_Messages_Box_Template {
 	/**
 	 * Search terms for limiting the thread query.
 	 *
+	 * @since 1.5.0
+	 *
 	 * @var string
 	 */
 	public $search_terms = '';
 
 	/**
 	 * Type of messages to return. Values: 'all', 'read', 'unread'.
+	 *
+	 * @since 1.5.0
 	 *
 	 * @var string
 	 */

@@ -22,14 +22,14 @@ class BP_Tests_Member_Cover_REST_Controller extends BP_Test_REST_Controller_Test
 	 * @group get_items
 	 */
 	public function test_get_items() {
-		$this->markTestSkipped();
+		$this->markTestSkipped( 'This endpoint has no collection route or get_items() method.' );
 	}
 
 	/**
 	 * @group get_item
 	 */
 	public function test_get_item() {
-		$this->markTestSkipped();
+		$this->markTestSkipped( 'Coverage for retrieving a member cover image has not been implemented.' );
 	}
 
 	/**
@@ -67,7 +67,7 @@ class BP_Tests_Member_Cover_REST_Controller extends BP_Test_REST_Controller_Test
 	 * @group create_item
 	 */
 	public function test_create_item() {
-		$this->markTestSkipped();
+		$this->markTestSkipped( 'Coverage for creating a member cover image has not been implemented.' );
 	}
 
 	/**
@@ -139,14 +139,14 @@ class BP_Tests_Member_Cover_REST_Controller extends BP_Test_REST_Controller_Test
 	 * @group update_item
 	 */
 	public function test_update_item() {
-		$this->markTestSkipped();
+		$this->markTestSkipped( 'This endpoint does not support updating member cover images.' );
 	}
 
 	/**
 	 * @group delete_item
 	 */
 	public function test_delete_item() {
-		$this->markTestSkipped();
+		$this->markTestSkipped( 'Coverage for deleting a member cover image has not been implemented.' );
 	}
 
 	/**
@@ -202,7 +202,7 @@ class BP_Tests_Member_Cover_REST_Controller extends BP_Test_REST_Controller_Test
 	 * @group prepare_item
 	 */
 	public function test_prepare_item() {
-		$this->markTestSkipped();
+		$this->markTestSkipped( 'Coverage for prepare_item_for_response() has not been implemented.' );
 	}
 
 	public function test_get_item_schema() {

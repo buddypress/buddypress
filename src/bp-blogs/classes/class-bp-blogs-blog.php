@@ -24,6 +24,8 @@ class BP_Blogs_Blog {
 	/**
 	 * Site ID.
 	 *
+	 * @since 1.0.0
+	 *
 	 * @var int|null
 	 */
 	public $id;
@@ -31,12 +33,16 @@ class BP_Blogs_Blog {
 	/**
 	 * User ID.
 	 *
+	 * @since 1.0.0
+	 *
 	 * @var int
 	 */
 	public $user_id;
 
 	/**
 	 * Blog ID.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @var int
 	 */

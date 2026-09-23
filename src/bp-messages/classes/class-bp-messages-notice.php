@@ -23,12 +23,16 @@ class BP_Messages_Notice {
 	/**
 	 * The notice ID.
 	 *
+	 * @since 1.0.0
+	 *
 	 * @var int|null
 	 */
 	public $id = null;
 
 	/**
 	 * The subject line for the notice.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @var string
 	 */
@@ -37,6 +41,8 @@ class BP_Messages_Notice {
 	/**
 	 * The content of the notice.
 	 *
+	 * @since 1.0.0
+	 *
 	 * @var string
 	 */
 	public $message;
@@ -44,12 +50,16 @@ class BP_Messages_Notice {
 	/**
 	 * The date the notice was created.
 	 *
+	 * @since 1.0.0
+	 *
 	 * @var string
 	 */
 	public $date_sent;
 
 	/**
 	 * Whether the notice is active or not.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @var int
 	 */

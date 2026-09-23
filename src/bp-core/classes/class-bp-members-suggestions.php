@@ -24,7 +24,8 @@ class BP_Members_Suggestions extends BP_Suggestions {
 	 * Default arguments for this suggestions service.
 	 *
 	 * @since 2.1.0
-	 * @var array $args {
+	 *
+	 * @var array {
 	 *     @type int    $limit        Maximum number of results to display. Default: 16.
 	 *     @type bool   $only_friends If true, only match the current user's friends. Default: false.
 	 *     @type string $term         The suggestion service will try to find results that contain this string.

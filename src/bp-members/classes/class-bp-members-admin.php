@@ -24,7 +24,9 @@ class BP_Members_Admin {
 	/**
 	 * Path to the BP Members Admin directory.
 	 *
-	 * @var string $admin_dir
+	 * @since 2.0.0
+	 *
+	 * @var string
 	 */
 	public $admin_dir = '';
 
@@ -33,19 +35,25 @@ class BP_Members_Admin {
 	/**
 	 * URL to the BP Members Admin directory.
 	 *
-	 * @var string $admin_url
+	 * @since 2.0.0
+	 *
+	 * @var string
 	 */
 	public $admin_url = '';
 
 	/**
 	 * URL to the BP Members Admin CSS directory.
 	 *
-	 * @var string $css_url
+	 * @since 2.0.0
+	 *
+	 * @var string
 	 */
 	public $css_url = '';
 
 	/**
 	 * URL to the BP Members Admin JS directory.
+	 *
+	 * @since 2.0.0
 	 *
 	 * @var string
 	 */
@@ -57,6 +65,7 @@ class BP_Members_Admin {
 	 * Support forum link.
 	 *
 	 * @since 14.0.0
+	 *
 	 * @var string
 	 */
 	private $bp_forum = '';
@@ -65,6 +74,7 @@ class BP_Members_Admin {
 	 * Redirect.
 	 *
 	 * @since 2.0.0
+	 *
 	 * @var string
 	 */
 	public $redirect;
@@ -73,6 +83,7 @@ class BP_Members_Admin {
 	 * Screen id for edit user's profile page.
 	 *
 	 * @since 2.0.0
+	 *
 	 * @var string
 	 */
 	public $user_page = '';
@@ -81,6 +92,7 @@ class BP_Members_Admin {
 	 * User capability.
 	 *
 	 * @since 2.0.0
+	 *
 	 * @var string
 	 */
 	public $capability;
@@ -89,6 +101,7 @@ class BP_Members_Admin {
 	 * Show Profile Screen id.
 	 *
 	 * @since 2.0.0
+	 *
 	 * @var string
 	 */
 	public $user_profile;
@@ -97,6 +110,7 @@ class BP_Members_Admin {
 	 * Current user ID.
 	 *
 	 * @since 2.0.0
+	 *
 	 * @var int
 	 */
 	public $current_user_id;
@@ -105,6 +119,7 @@ class BP_Members_Admin {
 	 * User ID being edited.
 	 *
 	 * @since 2.0.0
+	 *
 	 * @var int
 	 */
 	public $user_id = 0;
@@ -113,6 +128,7 @@ class BP_Members_Admin {
 	 * Is a member editing their own profile.
 	 *
 	 * @since 2.0.0
+	 *
 	 * @var bool
 	 */
 	public $is_self_profile = false;
@@ -121,6 +137,7 @@ class BP_Members_Admin {
 	 * The screen ids to load specific css for.
 	 *
 	 * @since 2.0.0
+	 *
 	 * @var array
 	 */
 	public $screen_id = array();
@@ -129,6 +146,7 @@ class BP_Members_Admin {
 	 * The stats metabox default position.
 	 *
 	 * @since 2.0.0
+	 *
 	 * @var stdClass
 	 */
 	public $stats_metabox;
@@ -137,6 +155,7 @@ class BP_Members_Admin {
 	 * Edit user's profile args.
 	 *
 	 * @since 2.0.0
+	 *
 	 * @var array
 	 */
 	public $edit_profile_args;
@@ -145,6 +164,7 @@ class BP_Members_Admin {
 	 * Edit user's profile URL.
 	 *
 	 * @since 2.0.0
+	 *
 	 * @var string
 	 */
 	public $edit_profile_url = '';
@@ -153,6 +173,7 @@ class BP_Members_Admin {
 	 * Edit URL.
 	 *
 	 * @since 2.0.0
+	 *
 	 * @var string
 	 */
 	public $edit_url = '';
@@ -161,6 +182,7 @@ class BP_Members_Admin {
 	 * Users page.
 	 *
 	 * @since 2.0.0
+	 *
 	 * @var string
 	 */
 	public $users_page = '';
@@ -169,6 +191,7 @@ class BP_Members_Admin {
 	 * Signups page.
 	 *
 	 * @since 2.0.0
+	 *
 	 * @var string
 	 */
 	public $signups_page = '';
@@ -177,6 +200,7 @@ class BP_Members_Admin {
 	 * Users URL.
 	 *
 	 * @since 2.0.0
+	 *
 	 * @var string
 	 */
 	public $users_url;
@@ -185,6 +209,7 @@ class BP_Members_Admin {
 	 * Users screen.
 	 *
 	 * @since 2.0.0
+	 *
 	 * @var string
 	 */
 	public $users_screen;
@@ -193,6 +218,7 @@ class BP_Members_Admin {
 	 * Members' Invite Page.
 	 *
 	 * @since 2.0.0
+	 *
 	 * @var string
 	 */
 	public $members_invites_page = '';
@@ -201,6 +227,7 @@ class BP_Members_Admin {
 	 * Status of BuddyPress network.
 	 *
 	 * @since 2.0.0
+	 *
 	 * @var bool
 	 */
 	public $subsite_activated;
@@ -209,6 +236,7 @@ class BP_Members_Admin {
 	 * Tools menu.
 	 *
 	 * @since 2.0.0
+	 *
 	 * @var string
 	 */
 	public $tools_parent = 'tools.php';

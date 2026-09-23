@@ -210,11 +210,9 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 	 * @group create_item
 	 */
 	public function test_creating_multiple_pending_accounts_with_different_usernames() {
-		$this->markTestIncomplete( 'This test is flaky on CI environments. Needs investigation.' );
-
 		$request = new WP_REST_Request( 'POST', $this->endpoint_url );
 
-		$params = $this->set_signup_data( array( 'user_login' => 'user1' ) );
+		$params = $this->set_signup_data( array( 'user_login' => 'signup-test-user-one' ) );
 		$request->set_body_params( $params );
 		$request->set_param( 'context', 'edit' );
 		$response = $this->server->dispatch( $request );
@@ -228,7 +226,7 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 		$this->assertTrue( ! isset( $signup['activation_key'] ) );
 
 		// Test with the same email.
-		$params = $this->set_signup_data( array( 'user_login' => 'user2' ) );
+		$params = $this->set_signup_data( array( 'user_login' => 'signup-test-user-two' ) );
 		$request->set_body_params( $params );
 		$request->set_param( 'context', 'edit' );
 		$response = $this->server->dispatch( $request );
@@ -236,7 +234,7 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 		$this->assertErrorResponse( 'bp_rest_signup_validation_failed', $response, 500, 'This user\'s email is already registered.' );
 
 		// Test with a different email.
-		$params = $this->set_signup_data( array( 'user_login' => 'user2', 'user_email' => 'user2@example.com' ) );
+		$params = $this->set_signup_data( array( 'user_login' => 'signup-test-user-two', 'user_email' => 'signup-test-user-two@example.com' ) );
 		$request->set_body_params( $params );
 		$request->set_param( 'context', 'edit' );
 		$response = $this->server->dispatch( $request );

@@ -22,6 +22,7 @@ class BP_Friends_Friendship {
 	 * ID of the friendship.
 	 *
 	 * @since 1.0.0
+	 *
 	 * @var int
 	 */
 	public $id;
@@ -30,6 +31,7 @@ class BP_Friends_Friendship {
 	 * User ID of the friendship initiator.
 	 *
 	 * @since 1.0.0
+	 *
 	 * @var int
 	 */
 	public $initiator_user_id;
@@ -38,6 +40,7 @@ class BP_Friends_Friendship {
 	 * User ID of the 'friend' - the one invited to the friendship.
 	 *
 	 * @since 1.0.0
+	 *
 	 * @var int
 	 */
 	public $friend_user_id;
@@ -46,6 +49,7 @@ class BP_Friends_Friendship {
 	 * Has the friendship been confirmed/accepted?
 	 *
 	 * @since 1.0.0
+	 *
 	 * @var int
 	 */
 	public $is_confirmed;
@@ -56,6 +60,7 @@ class BP_Friends_Friendship {
 	 * Not currently used by BuddyPress.
 	 *
 	 * @since 1.0.0
+	 *
 	 * @var int
 	 */
 	public $is_limited;
@@ -64,6 +69,7 @@ class BP_Friends_Friendship {
 	 * Date the friendship was created.
 	 *
 	 * @since 1.0.0
+	 *
 	 * @var string
 	 */
 	public $date_created;
@@ -74,6 +80,7 @@ class BP_Friends_Friendship {
 	 * Not currently used in BuddyPress.
 	 *
 	 * @since 1.0.0
+	 *
 	 * @var bool
 	 */
 	public $is_request;
@@ -82,6 +89,7 @@ class BP_Friends_Friendship {
 	 * Should additional friend details be queried?
 	 *
 	 * @since 1.0.0
+	 *
 	 * @var bool
 	 */
 	public $populate_friend_details;
@@ -90,6 +98,7 @@ class BP_Friends_Friendship {
 	 * Details about the friend.
 	 *
 	 * @since 1.0.0
+	 *
 	 * @var BP_Core_User
 	 */
 	public $friend;

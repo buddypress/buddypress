@@ -302,7 +302,7 @@ class BP_Tests_Blogs_REST_Controller extends BP_Test_REST_Controller_Testcase {
 	 */
 	public function test_update_item() {
 		$this->skipWithoutMultisite();
-		$this->markTestSkipped();
+		$this->markTestSkipped( 'This endpoint does not support updating blogs.' );
 	}
 
 	/**
@@ -310,7 +310,7 @@ class BP_Tests_Blogs_REST_Controller extends BP_Test_REST_Controller_Testcase {
 	 */
 	public function test_delete_item() {
 		$this->skipWithoutMultisite();
-		$this->markTestSkipped();
+		$this->markTestSkipped( 'This endpoint does not support deleting blogs.' );
 	}
 
 	/**
@@ -318,7 +318,7 @@ class BP_Tests_Blogs_REST_Controller extends BP_Test_REST_Controller_Testcase {
 	 */
 	public function test_prepare_item() {
 		$this->skipWithoutMultisite();
-		$this->markTestSkipped();
+		$this->markTestSkipped( 'Coverage for prepare_item_for_response() has not been implemented.' );
 	}
 
 	protected function set_blog_data( $args = array() ) {

@@ -22,6 +22,8 @@ class BP_Buttons_Group {
 	/**
 	 * The parameters of the Group of buttons
 	 *
+	 * @since 3.0.0
+	 *
 	 * @var array
 	 */
 	protected $group = array();

@@ -25,6 +25,7 @@ class BP_Messages_Component extends BP_Component {
 	 * this is set to false, in which any matching users will be returned.
 	 *
 	 * @since 1.5.0
+	 *
 	 * @var bool
 	 */
 	public $autocomplete_all;

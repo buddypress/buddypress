@@ -19,12 +19,16 @@ class BP_Messages_Message {
 	/**
 	 * ID of the message.
 	 *
+	 * @since 1.0.0
+	 *
 	 * @var int
 	 */
 	public $id;
 
 	/**
 	 * ID of the message thread.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @var int
 	 */
@@ -33,12 +37,16 @@ class BP_Messages_Message {
 	/**
 	 * ID of the sender.
 	 *
+	 * @since 1.0.0
+	 *
 	 * @var int
 	 */
 	public $sender_id;
 
 	/**
 	 * Subject line of the message.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @var string
 	 */
@@ -47,6 +55,8 @@ class BP_Messages_Message {
 	/**
 	 * Content of the message.
 	 *
+	 * @since 1.0.0
+	 *
 	 * @var string
 	 */
 	public $message;
@@ -54,12 +64,16 @@ class BP_Messages_Message {
 	/**
 	 * Date the message was sent.
 	 *
+	 * @since 1.0.0
+	 *
 	 * @var string
 	 */
 	public $date_sent;
 
 	/**
 	 * Message recipients.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @var array
 	 */

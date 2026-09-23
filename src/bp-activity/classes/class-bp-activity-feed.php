@@ -45,6 +45,7 @@ class BP_Activity_Feed {
 	 * @see BP_Feed::__construct() This is where $data is added.
 	 *
 	 * @since 1.8.0
+	 *
 	 * @var array
 	 */
 	protected $data;

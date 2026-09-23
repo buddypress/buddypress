@@ -20,6 +20,7 @@ class BP_Groups_Invite_Template {
 	 * Current invitation position in the loop.
 	 *
 	 * @since 1.1.0
+	 *
 	 * @var int
 	 */
 	public $current_invite = -1;
@@ -28,6 +29,7 @@ class BP_Groups_Invite_Template {
 	 * Number of invitations in the loop.
 	 *
 	 * @since 1.1.0
+	 *
 	 * @var int
 	 */
 	public $invite_count;
@@ -36,6 +38,7 @@ class BP_Groups_Invite_Template {
 	 * Group invitations in the loop.
 	 *
 	 * @since 1.1.0
+	 *
 	 * @var array
 	 */
 	public $invites;
@@ -44,6 +47,7 @@ class BP_Groups_Invite_Template {
 	 * Current group invitation in the loop.
 	 *
 	 * @since 1.1.0
+	 *
 	 * @var object
 	 */
 	public $invite;
@@ -52,6 +56,7 @@ class BP_Groups_Invite_Template {
 	 * List of invites found and their respective data.
 	 *
 	 * @since 1.1.0
+	 *
 	 * @var array
 	 */
 	public $invite_data = array();
@@ -60,6 +65,7 @@ class BP_Groups_Invite_Template {
 	 * Whether the loop is active.
 	 *
 	 * @since 1.1.0
+	 *
 	 * @var bool
 	 */
 	public $in_the_loop;
@@ -68,6 +74,7 @@ class BP_Groups_Invite_Template {
 	 * Current pagination page.
 	 *
 	 * @since 1.1.0
+	 *
 	 * @var int
 	 */
 	public $pag_page;
@@ -76,6 +83,7 @@ class BP_Groups_Invite_Template {
 	 * Number of invitations per pagination page.
 	 *
 	 * @since 1.1.0
+	 *
 	 * @var int
 	 */
 	public $pag_num;
@@ -84,6 +92,7 @@ class BP_Groups_Invite_Template {
 	 * Pagination links.
 	 *
 	 * @since 1.1.0
+	 *
 	 * @var string
 	 */
 	public $pag_links;
@@ -92,6 +101,7 @@ class BP_Groups_Invite_Template {
 	 * URL argument used for the pagination param.
 	 *
 	 * @since 1.1.0
+	 *
 	 * @var string
 	 */
 	public $pag_arg;
@@ -100,6 +110,7 @@ class BP_Groups_Invite_Template {
 	 * Total number of invitations.
 	 *
 	 * @since 1.1.0
+	 *
 	 * @var int
 	 */
 	public $total_invite_count;

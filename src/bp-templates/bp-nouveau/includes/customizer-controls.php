@@ -24,6 +24,8 @@ class BP_Nouveau_Nav_Customize_Control extends WP_Customize_Control {
 	/**
 	 * The control type.
 	 *
+	 * @since 3.0.0
+	 *
 	 * @var string
 	 */
 	public $type = '';

@@ -38,14 +38,14 @@ class BP_Tests_Group_Cover_REST_Controller extends BP_Test_REST_Controller_Testc
 	 * @group get_items
 	 */
 	public function test_get_items() {
-		$this->markTestSkipped();
+		$this->markTestSkipped( 'This endpoint has no collection route or get_items() method.' );
 	}
 
 	/**
 	 * @group get_item
 	 */
 	public function test_get_item() {
-		$this->markTestSkipped();
+		$this->markTestSkipped( 'Coverage for retrieving a group cover image has not been implemented.' );
 	}
 
 	/**
@@ -84,17 +84,13 @@ class BP_Tests_Group_Cover_REST_Controller extends BP_Test_REST_Controller_Testc
 	 * @group create_item
 	 */
 	public function test_create_item() {
-		$this->markTestSkipped();
+		$this->markTestSkipped( 'Coverage for creating a group cover image has not been implemented.' );
 	}
 
 	/**
 	 * @group create_item
 	 */
 	public function test_create_item_no_valid_image_directory() {
-		if ( 4.9 > (float) $GLOBALS['wp_version'] ) {
-			$this->markTestSkipped();
-		}
-
 		wp_set_current_user( $this->user );
 		$reset_files = $_FILES;
 
@@ -119,10 +115,6 @@ class BP_Tests_Group_Cover_REST_Controller extends BP_Test_REST_Controller_Testc
 	 * @group create_item
 	 */
 	public function test_create_item_image_upload_disabled() {
-		if ( 4.9 > (float) $GLOBALS['wp_version'] ) {
-			$this->markTestSkipped();
-		}
-
 		wp_set_current_user( $this->user );
 		$reset_files = $_FILES;
 
@@ -194,14 +186,14 @@ class BP_Tests_Group_Cover_REST_Controller extends BP_Test_REST_Controller_Testc
 	 * @group update_item
 	 */
 	public function test_update_item() {
-		$this->markTestSkipped();
+		$this->markTestSkipped( 'This endpoint does not support updating group cover images.' );
 	}
 
 	/**
 	 * @group delete_item
 	 */
 	public function test_delete_item() {
-		$this->markTestSkipped();
+		$this->markTestSkipped( 'Coverage for deleting a group cover image has not been implemented.' );
 	}
 
 	/**
@@ -253,7 +245,7 @@ class BP_Tests_Group_Cover_REST_Controller extends BP_Test_REST_Controller_Testc
 	 * @group prepare_item
 	 */
 	public function test_prepare_item() {
-		$this->markTestSkipped();
+		$this->markTestSkipped( 'Coverage for prepare_item_for_response() has not been implemented.' );
 	}
 
 	public function test_get_item_schema() {

@@ -26,7 +26,8 @@ class BP_Activity_List_Table extends WP_List_Table {
 	 * E.g. "all", "pending", "approved", "spam"...
 	 *
 	 * @since 1.6.0
-	 * @var string $view
+	 *
+	 * @var string
 	 */
 	public $view = 'all';
 
@@ -34,7 +35,8 @@ class BP_Activity_List_Table extends WP_List_Table {
 	 * How many activity items have been marked as spam.
 	 *
 	 * @since 1.6.0
-	 * @var int $spam_count
+	 *
+	 * @var int
 	 */
 	public $spam_count = 0;
 
@@ -42,7 +44,8 @@ class BP_Activity_List_Table extends WP_List_Table {
 	 * Total number of activities.
 	 *
 	 * @since 6.0.0
-	 * @var int $all_count
+	 *
+	 * @var int
 	 */
 	public $all_count = 0;
 
@@ -50,7 +53,8 @@ class BP_Activity_List_Table extends WP_List_Table {
 	 * Store activity-to-user-ID mappings for use in the In Response To column.
 	 *
 	 * @since 1.6.0
-	 * @var array $activity_user_id
+	 *
+	 * @var array
 	 */
 	protected $activity_user_id = array();
 
@@ -60,7 +64,8 @@ class BP_Activity_List_Table extends WP_List_Table {
 	 * @link https://buddypress.trac.wordpress.org/ticket/6277
 	 *
 	 * @since 2.2.2
-	 * @var bool $disable_blogforum_comments
+	 *
+	 * @var bool
 	 */
 	public $disable_blogforum_comments = false;
 

@@ -33,7 +33,7 @@ class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Tes
 	 * @group get_items
 	 */
 	public function test_get_items() {
-		$this->markTestSkipped();
+		$this->markTestSkipped( 'This endpoint has no collection route or get_items() method.' );
 	}
 
 	/**
@@ -584,7 +584,7 @@ class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Tes
 	 * @group create_item
 	 */
 	public function test_create_item() {
-		$this->markTestSkipped();
+		$this->markTestSkipped( 'POST requests are handled by update_item(); no create_item() method exists.' );
 	}
 
 	/**
@@ -818,6 +818,6 @@ class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Tes
 	}
 
 	public function test_context_param() {
-		$this->markTestSkipped();
+		$this->markTestSkipped( 'The single-item route does not declare a context argument.' );
 	}
 }
