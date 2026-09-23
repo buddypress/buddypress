@@ -672,12 +672,11 @@ class BuddyPress {
 			}
 		}
 
-		// Load wp-cli module if PHP 5.6+.
+		// Load wp-cli module.
 		if (
 			defined( 'WP_CLI' )
 			&& ! class_exists( 'Buddypress\CLI\Command\BuddypressCommand' )
-			&& file_exists( $this->plugin_dir . 'cli/wp-cli-bp.php' )
-			&& version_compare( phpversion(), '5.6.0', '>=' ) ) {
+			&& file_exists( $this->plugin_dir . 'cli/wp-cli-bp.php' ) ) {
 			require $this->plugin_dir . 'cli/wp-cli-bp.php';
 		}
 	}
