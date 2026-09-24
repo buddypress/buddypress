@@ -26,6 +26,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 	 * E.g. "All", "Pending", "Approved", "Spam"...
 	 *
 	 * @since 1.7.0
+	 *
 	 * @var string
 	 */
 	public $view = 'all';
@@ -34,6 +35,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 	 * Group counts for each group type.
 	 *
 	 * @since 1.7.0
+	 *
 	 * @var int
 	 */
 	public $group_counts = 0;
@@ -41,7 +43,9 @@ class BP_Groups_List_Table extends WP_List_Table {
 	/**
 	 * Multidimensional array of group visibility (status) types and their groups.
 	 *
+	 * @since 2.7.0
 	 * @link https://buddypress.trac.wordpress.org/ticket/6277
+	 *
 	 * @var array
 	 */
 	public $group_type_ids = array();
@@ -156,7 +160,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 			$this->group_counts[ $group_type ] = count( $group_ids );
 		}
 
-		// Group types
+		// Group types.
 		$group_type = false;
 		if ( isset( $_GET['bp-group-type'] ) && null !== bp_groups_get_group_type_object( $_GET['bp-group-type'] ) ) {
 			$group_type = $_GET['bp-group-type'];
@@ -302,7 +306,6 @@ class BP_Groups_List_Table extends WP_List_Table {
 	 * Extra controls to be displayed between bulk actions and pagination
 	 *
 	 * @since 2.7.0
-	 * @access protected
 	 *
 	 * @param string $which Position of the controls: top or bottom.
 	 */
@@ -827,7 +830,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 		return apply_filters( 'bp_groups_admin_get_group_custom_column', '', $column_name, $item );
 	}
 
-	// Group Types
+	// Group Types.
 
 	/**
 	 * Add group type column to the WordPress admin groups list table.

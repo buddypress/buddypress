@@ -20,6 +20,7 @@ class BP_Groups_Membership_Requests_Template {
 	 * Current membership request position in the loop.
 	 *
 	 * @since 1.0.0
+	 *
 	 * @var int
 	 */
 	public $current_request = -1;
@@ -28,6 +29,7 @@ class BP_Groups_Membership_Requests_Template {
 	 * Number of membership requests in the loop.
 	 *
 	 * @since 1.0.0
+	 *
 	 * @var int
 	 */
 	public $request_count;
@@ -36,6 +38,7 @@ class BP_Groups_Membership_Requests_Template {
 	 * Membership requests in the loop.
 	 *
 	 * @since 1.0.0
+	 *
 	 * @var array
 	 */
 	public $requests;
@@ -44,6 +47,7 @@ class BP_Groups_Membership_Requests_Template {
 	 * Current membership request in the loop.
 	 *
 	 * @since 1.0.0
+	 *
 	 * @var object
 	 */
 	public $request;
@@ -51,7 +55,8 @@ class BP_Groups_Membership_Requests_Template {
 	/**
 	 * Whether the loop is active.
 	 *
-	 * @sine 1.0.0
+	 * @since 1.0.0
+	 *
 	 * @var bool
 	 */
 	public $in_the_loop;
@@ -60,6 +65,7 @@ class BP_Groups_Membership_Requests_Template {
 	 * Current pagination page.
 	 *
 	 * @since 1.0.0
+	 *
 	 * @var int
 	 */
 	public $pag_page;
@@ -68,6 +74,7 @@ class BP_Groups_Membership_Requests_Template {
 	 * Number of membership requests per pagination page.
 	 *
 	 * @since 1.0.0
+	 *
 	 * @var int
 	 */
 	public $pag_num;
@@ -76,6 +83,7 @@ class BP_Groups_Membership_Requests_Template {
 	 * Pagination links.
 	 *
 	 * @since 1.0.0
+	 *
 	 * @var array|string|null
 	 */
 	public $pag_links;
@@ -83,7 +91,8 @@ class BP_Groups_Membership_Requests_Template {
 	/**
 	 * URL argument used for the pagination param.
 	 *
-	 * @since 1.0.0
+	 * @since 2.2.0
+	 *
 	 * @var string
 	 */
 	public $pag_arg;
@@ -92,6 +101,7 @@ class BP_Groups_Membership_Requests_Template {
 	 * Total number of membership requests.
 	 *
 	 * @since 1.0.0
+	 *
 	 * @var int
 	 */
 	public $total_request_count;

@@ -80,16 +80,16 @@ class BP_Nouveau_Messages {
 
 		add_action( $hook, 'bp_nouveau_push_sitewide_notices', 99 );
 
-		// Messages
+		// Messages.
 		add_action( 'bp_messages_setup_nav', 'bp_nouveau_messages_adjust_nav' );
 
-		// Remove deprecated scripts
+		// Remove deprecated scripts.
 		remove_action( 'bp_enqueue_scripts', 'messages_add_autocomplete_js' );
 
-		// Enqueue the scripts for the new UI
+		// Enqueue the scripts for the new UI.
 		add_action( 'bp_nouveau_enqueue_scripts', 'bp_nouveau_messages_enqueue_scripts' );
 
-		// Register the Messages Notifications filters
+		// Register the Messages Notifications filters.
 		add_action( 'bp_nouveau_notifications_init_filters', 'bp_nouveau_messages_notification_filters' );
 	}
 

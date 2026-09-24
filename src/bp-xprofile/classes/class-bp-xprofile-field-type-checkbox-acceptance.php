@@ -32,6 +32,7 @@ class BP_XProfile_Field_Type_Checkbox_Acceptance extends BP_XProfile_Field_Type 
 	 * Supported features for the Checkbox Acceptance field type.
 	 *
 	 * @since 8.0.0
+	 *
 	 * @var bool[] The WordPress field supported features.
 	 */
 	public static $supported_features = array(

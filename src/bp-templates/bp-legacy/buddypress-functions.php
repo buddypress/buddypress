@@ -78,9 +78,9 @@ class BP_Legacy extends BP_Theme_Compat {
 
 		/** Scripts */
 
-		add_action( 'bp_enqueue_community_scripts', array( $this, 'enqueue_styles' ) ); // Enqueue theme CSS
-		add_action( 'bp_enqueue_community_scripts', array( $this, 'enqueue_scripts' ) ); // Enqueue theme JS
-		add_action( 'bp_enqueue_community_scripts', array( $this, 'localize_scripts' ) ); // Enqueue theme script localization
+		add_action( 'bp_enqueue_community_scripts', array( $this, 'enqueue_styles' ) ); // Enqueue theme CSS.
+		add_action( 'bp_enqueue_community_scripts', array( $this, 'enqueue_scripts' ) ); // Enqueue theme JS.
+		add_action( 'bp_enqueue_community_scripts', array( $this, 'localize_scripts' ) ); // Enqueue theme script localization.
 
 		// Body no-js class.
 		add_filter( 'body_class', array( $this, 'add_nojs_body_class' ), 20, 1 );
@@ -751,7 +751,7 @@ function bp_legacy_theme_ajax_querystring( $query_string, $component ) {
 		if ( bp_is_active( 'activity' ) ) {
 			$actions = bp_activity_get_actions_for_context();
 
-			// Handle multiple actions (eg. 'friendship_accepted,friendship_created')
+			// Handle multiple actions (eg. 'friendship_accepted,friendship_created').
 			$action_filter = explode( ',', $bp_cookie[ 'bp-' . $component . '-filter' ] );
 
 			// See if action filter matches registered actions. If so, add it to qs.
@@ -1041,7 +1041,7 @@ function bp_legacy_theme_post_update() {
 	if ( ! empty( $_POST['object'] ) ) {
 		$object = sanitize_key( $_POST['object'] );
 
-	// If the object is not set and we're in a group, set the item id and the object
+	// If the object is not set and we're in a group, set the item id and the object.
 	} elseif ( bp_is_group() ) {
 		$item_id = bp_get_current_group_id();
 		$object  = 'groups';

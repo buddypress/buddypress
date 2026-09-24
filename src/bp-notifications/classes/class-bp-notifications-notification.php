@@ -26,6 +26,7 @@ class BP_Notifications_Notification {
 	 * The notification ID.
 	 *
 	 * @since 1.9.0
+	 *
 	 * @var int
 	 */
 	public $id;
@@ -34,6 +35,7 @@ class BP_Notifications_Notification {
 	 * The ID of the item associated with the notification.
 	 *
 	 * @since 1.9.0
+	 *
 	 * @var int
 	 */
 	public $item_id;
@@ -42,6 +44,7 @@ class BP_Notifications_Notification {
 	 * The ID of the secondary item associated with the notification.
 	 *
 	 * @since 1.9.0
+	 *
 	 * @var int|null
 	 */
 	public $secondary_item_id = null;
@@ -50,6 +53,7 @@ class BP_Notifications_Notification {
 	 * The ID of the user the notification is associated with.
 	 *
 	 * @since 1.9.0
+	 *
 	 * @var int
 	 */
 	public $user_id;
@@ -58,6 +62,7 @@ class BP_Notifications_Notification {
 	 * The name of the component that the notification is for.
 	 *
 	 * @since 1.9.0
+	 *
 	 * @var string
 	 */
 	public $component_name;
@@ -66,6 +71,7 @@ class BP_Notifications_Notification {
 	 * The component action which the notification is related to.
 	 *
 	 * @since 1.9.0
+	 *
 	 * @var string
 	 */
 	public $component_action;
@@ -74,6 +80,7 @@ class BP_Notifications_Notification {
 	 * The date the notification was created.
 	 *
 	 * @since 1.9.0
+	 *
 	 * @var string
 	 */
 	public $date_notified;
@@ -82,6 +89,7 @@ class BP_Notifications_Notification {
 	 * Is the notification new, or has it already been read.
 	 *
 	 * @since 1.9.0
+	 *
 	 * @var bool
 	 */
 	public $is_new;
@@ -90,6 +98,7 @@ class BP_Notifications_Notification {
 	 * Columns in the notifications table.
 	 *
 	 * @since 9.1.0
+	 *
 	 * @var array
 	 */
 	public static $columns = array(
@@ -1378,10 +1387,10 @@ class BP_Notifications_Notification {
 			$from_sql
 		);
 
-		// GROUP
+		// GROUP.
 		$group_sql = 'GROUP BY user_id, component_name, component_action';
 
-		// SORT
+		// SORT.
 		$order_sql = 'ORDER BY date_notified desc';
 
 		// Concatenate query parts.

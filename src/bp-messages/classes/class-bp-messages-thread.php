@@ -22,6 +22,7 @@ class BP_Messages_Thread {
 	 * The message thread ID.
 	 *
 	 * @since 1.0.0
+	 *
 	 * @var int
 	 */
 	public $thread_id;
@@ -30,6 +31,7 @@ class BP_Messages_Thread {
 	 * The current messages in the message thread.
 	 *
 	 * @since 1.0.0
+	 *
 	 * @var array
 	 */
 	public $messages;
@@ -38,6 +40,7 @@ class BP_Messages_Thread {
 	 * The current messages count in the message thread.
 	 *
 	 * @since 12.0.0
+	 *
 	 * @var int
 	 */
 	public $messages_total_count;
@@ -46,6 +49,7 @@ class BP_Messages_Thread {
 	 * The current recipients in the message thread.
 	 *
 	 * @since 1.0.0
+	 *
 	 * @var array
 	 */
 	public $recipients;
@@ -54,6 +58,7 @@ class BP_Messages_Thread {
 	 * The user ID of the sender of the message thread.
 	 *
 	 * @since 1.2.0
+	 *
 	 * @var int
 	 */
 	public $sender_id;
@@ -62,6 +67,7 @@ class BP_Messages_Thread {
 	 * The user IDs of all messages in the message thread.
 	 *
 	 * @since 1.2.0
+	 *
 	 * @var array
 	 */
 	public $sender_ids;
@@ -70,6 +76,7 @@ class BP_Messages_Thread {
 	 * The unread count for the logged-in user.
 	 *
 	 * @since 1.2.0
+	 *
 	 * @var int
 	 */
 	public $unread_count;
@@ -78,6 +85,7 @@ class BP_Messages_Thread {
 	 * The content of the last message in this thread.
 	 *
 	 * @since 1.2.0
+	 *
 	 * @var string
 	 */
 	public $last_message_content;
@@ -86,6 +94,7 @@ class BP_Messages_Thread {
 	 * The date of the last message in this thread.
 	 *
 	 * @since 1.2.0
+	 *
 	 * @var string
 	 */
 	public $last_message_date;
@@ -94,6 +103,7 @@ class BP_Messages_Thread {
 	 * The ID of the last message in this thread.
 	 *
 	 * @since 1.2.0
+	 *
 	 * @var int
 	 */
 	public $last_message_id;
@@ -102,6 +112,7 @@ class BP_Messages_Thread {
 	 * The subject of the last message in this thread.
 	 *
 	 * @since 1.2.0
+	 *
 	 * @var string
 	 */
 	public $last_message_subject;
@@ -110,6 +121,7 @@ class BP_Messages_Thread {
 	 * The user ID of the author of the last message in this thread.
 	 *
 	 * @since 1.2.0
+	 *
 	 * @var int
 	 */
 	public $last_sender_id;
@@ -118,6 +130,7 @@ class BP_Messages_Thread {
 	 * Sort order of the messages in this thread (ASC or DESC).
 	 *
 	 * @since 1.5.0
+	 *
 	 * @var string
 	 */
 	public $messages_order;
@@ -544,7 +557,7 @@ class BP_Messages_Thread {
 
 		$bp = buddypress();
 
-		// Mark messages as deleted
+		// Mark messages as deleted.
 		$wpdb->query( $wpdb->prepare( "UPDATE {$bp->messages->table_name_recipients} SET is_deleted = 1 WHERE thread_id = %d AND user_id = %d", $thread_id, $user_id ) );
 
 		// Get the message ids in order to pass to the action.
@@ -647,7 +660,7 @@ class BP_Messages_Thread {
 
 		$bp = buddypress();
 
-		// Delete the user from messages recipients
+		// Delete the user from messages recipients.
 		$exited = $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->messages->table_name_recipients} WHERE thread_id = %d AND user_id = %d", $thread_id, $user_id ) );
 
 		// Bail if the user wasn't removed from the recipients list.

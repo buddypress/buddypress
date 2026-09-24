@@ -21,6 +21,7 @@ abstract class BP_XProfile_Field_Type_WordPress extends BP_XProfile_Field_Type {
 	 * The usermeta key for the WordPress field.
 	 *
 	 * @since 8.0.0
+	 *
 	 * @var string The meta key name of this WordPress field.
 	 */
 	public $wp_user_key = '';
@@ -29,6 +30,7 @@ abstract class BP_XProfile_Field_Type_WordPress extends BP_XProfile_Field_Type {
 	 * The WordPress supported user keys.
 	 *
 	 * @since 8.0.0
+	 *
 	 * @var string[] The WordPress supported user keys.
 	 */
 	public $supported_keys = array();
@@ -48,6 +50,7 @@ abstract class BP_XProfile_Field_Type_WordPress extends BP_XProfile_Field_Type {
 	 * Supported features for the WordPress field type.
 	 *
 	 * @since 8.0.0
+	 *
 	 * @var bool[] The WordPress field supported features.
 	 */
 	public static $supported_features = array(

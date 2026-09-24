@@ -30,6 +30,7 @@ class BP_Admin {
 	 * Path to the BuddyPress admin directory.
 	 *
 	 * @since 1.6.0
+	 *
 	 * @var string
 	 */
 	public $admin_dir = '';
@@ -40,6 +41,7 @@ class BP_Admin {
 	 * URL to the BuddyPress admin directory.
 	 *
 	 * @since 1.6.0
+	 *
 	 * @var string
 	 */
 	public $admin_url = '';
@@ -48,6 +50,7 @@ class BP_Admin {
 	 * URL to the BuddyPress images directory.
 	 *
 	 * @since 1.6.0
+	 *
 	 * @var string
 	 */
 	public $images_url = '';
@@ -56,6 +59,7 @@ class BP_Admin {
 	 * URL to the BuddyPress admin CSS directory.
 	 *
 	 * @since 1.6.0
+	 *
 	 * @var string
 	 */
 	public $css_url = '';
@@ -64,6 +68,7 @@ class BP_Admin {
 	 * URL to the BuddyPress admin JS directory.
 	 *
 	 * @since 1.6.0
+	 *
 	 * @var string
 	 */
 	public $js_url = '';
@@ -74,6 +79,7 @@ class BP_Admin {
 	 * Notices used for user feedback, like saving settings.
 	 *
 	 * @since 1.9.0
+	 *
 	 * @var array
 	 */
 	public $notices = array();
@@ -82,6 +88,7 @@ class BP_Admin {
 	 * BuddyPress admin screens nav tabs.
 	 *
 	 * @since 10.0.0
+	 *
 	 * @var array
 	 */
 	public $nav_tabs = array();
@@ -90,6 +97,7 @@ class BP_Admin {
 	 * BuddyPress admin active nav tab.
 	 *
 	 * @since 10.0.0
+	 *
 	 * @var string
 	 */
 	public $active_nav_tab = '';
@@ -98,6 +106,7 @@ class BP_Admin {
 	 * BuddyPress admin screens submenu pages.
 	 *
 	 * @since 10.0.0
+	 *
 	 * @var array
 	 */
 	public $submenu_pages = array();
@@ -106,6 +115,7 @@ class BP_Admin {
 	 * The current BP Admin screen being displayed.
 	 *
 	 * @since 15.0.0
+	 *
 	 * @var array
 	 */
 	public $current_screen = '';

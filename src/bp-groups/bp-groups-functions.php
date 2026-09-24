@@ -1104,7 +1104,7 @@ function bp_get_user_groups( $user_id, $args = array() ) {
 
 	$user_id = intval( $user_id );
 
-	// Standard memberships
+	// Standard memberships.
 	$membership_ids = wp_cache_get( $user_id, 'bp_groups_memberships_for_user' );
 	if ( false === $membership_ids ) {
 		$membership_ids = BP_Groups_Member::get_membership_ids_for_user( $user_id );
@@ -1121,7 +1121,7 @@ function bp_get_user_groups( $user_id, $args = array() ) {
 		}
 	}
 
-	// Prime the invitations- and requests-as-memberships cache
+	// Prime the invitations- and requests-as-memberships cache.
 	$invitation_ids = array();
 	if ( true !== $r['is_confirmed'] || false !== $r['invite_sent'] ) {
 		$invitation_ids = groups_get_invites(
@@ -2873,7 +2873,7 @@ function bp_get_group_type_tax_labels() {
 		'bp_get_group_type_tax_labels',
 		array(
 
-			// General labels
+			// General labels.
 			'name'                          => _x( 'Group Types', 'Group type taxonomy name', 'buddypress' ),
 			'singular_name'                 => _x( 'Group Type', 'Group type taxonomy singular name', 'buddypress' ),
 			'search_items'                  => _x( 'Search Group Types', 'Group type taxonomy search items label', 'buddypress' ),
@@ -2985,17 +2985,17 @@ add_action( 'bp_register_taxonomies', 'bp_groups_register_group_types' );
 function bp_get_group_type_metadata_schema( $schema = array(), $taxonomy = '' ) {
 	if ( bp_get_group_type_tax_name() === $taxonomy ) {
 
-		// Directory
+		// Directory.
 		if ( isset( $schema['bp_type_has_directory']['description'] ) ) {
 			$schema['bp_type_has_directory']['description'] = __( 'Make a list of groups matching this type available on the groups directory.', 'buddypress' );
 		}
 
-		// Slug
+		// Slug.
 		if ( isset( $schema['bp_type_directory_slug']['description'] ) ) {
 			$schema['bp_type_directory_slug']['description'] = __( 'Enter if you want the type slug to be different from its ID.', 'buddypress' );
 		}
 
-		// Create
+		// Create.
 		$schema['bp_type_show_in_create_screen'] = array(
 			'description'       => __( 'Show during group creation, and when a group admin is on the group&rsquo;s settings page.', 'buddypress' ),
 			'type'              => 'boolean',
@@ -3003,7 +3003,7 @@ function bp_get_group_type_metadata_schema( $schema = array(), $taxonomy = '' ) 
 			'sanitize_callback' => 'absint',
 		);
 
-		// List
+		// List.
 		$schema['bp_type_show_in_list'] = array(
 			'description'       => __( 'Show where group types may be listed, like in the group header.', 'buddypress' ),
 			'type'              => 'boolean',

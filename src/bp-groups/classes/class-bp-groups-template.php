@@ -22,6 +22,7 @@ class BP_Groups_Template {
 	 * The loop iterator.
 	 *
 	 * @since 1.2.0
+	 *
 	 * @var int
 	 */
 	public $current_group = -1;
@@ -30,6 +31,7 @@ class BP_Groups_Template {
 	 * The number of groups returned by the paged query.
 	 *
 	 * @since 1.2.0
+	 *
 	 * @var int
 	 */
 	public $group_count;
@@ -38,6 +40,7 @@ class BP_Groups_Template {
 	 * Array of groups located by the query.
 	 *
 	 * @since 1.2.0
+	 *
 	 * @var array
 	 */
 	public $groups;
@@ -46,6 +49,7 @@ class BP_Groups_Template {
 	 * The group object currently being iterated on.
 	 *
 	 * @since 1.2.0
+	 *
 	 * @var object
 	 */
 	public $group;
@@ -54,6 +58,7 @@ class BP_Groups_Template {
 	 * A flag for whether the loop is currently being iterated.
 	 *
 	 * @since 1.2.0
+	 *
 	 * @var bool
 	 */
 	public $in_the_loop;
@@ -62,6 +67,7 @@ class BP_Groups_Template {
 	 * The page number being requested.
 	 *
 	 * @since 1.2.0
+	 *
 	 * @var string
 	 */
 	public $pag_page;
@@ -70,6 +76,7 @@ class BP_Groups_Template {
 	 * The number of items being requested per page.
 	 *
 	 * @since 1.2.0
+	 *
 	 * @var string
 	 */
 	public $pag_num;
@@ -78,6 +85,7 @@ class BP_Groups_Template {
 	 * URL argument used for the pagination param.
 	 *
 	 * @since 1.2.0
+	 *
 	 * @var string
 	 */
 	public $pag_arg;
@@ -86,6 +94,7 @@ class BP_Groups_Template {
 	 * An HTML string containing pagination links.
 	 *
 	 * @since 1.2.0
+	 *
 	 * @var string
 	 */
 	public $pag_links;
@@ -94,6 +103,7 @@ class BP_Groups_Template {
 	 * The total number of groups matching the query parameters.
 	 *
 	 * @since 1.2.0
+	 *
 	 * @var int
 	 */
 	public $total_group_count;
@@ -102,6 +112,7 @@ class BP_Groups_Template {
 	 * Whether the template loop is for a single group page.
 	 *
 	 * @since 1.2.0
+	 *
 	 * @var bool
 	 */
 	public $single_group = false;
@@ -110,6 +121,7 @@ class BP_Groups_Template {
 	 * Field to sort by.
 	 *
 	 * @since 1.2.0
+	 *
 	 * @var string
 	 */
 	public $sort_by;
@@ -118,6 +130,7 @@ class BP_Groups_Template {
 	 * Sort order.
 	 *
 	 * @since 1.2.0
+	 *
 	 * @var string
 	 */
 	public $order;

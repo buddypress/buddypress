@@ -90,7 +90,7 @@ function bp_nouveau_blogs_create_hook( $when = '', $suffix = '' ) {
 		$hook[] = $when;
 	}
 
-	// It's a create a blog hook
+	// It's a create a blog hook.
 	$hook[] = 'create_blog';
 
 	if ( $suffix ) {
@@ -115,7 +115,7 @@ function bp_nouveau_blogs_confirm_hook( $when = '', $suffix = '' ) {
 		$hook[] = $when;
 	}
 
-	// It's a create a blog hook
+	// It's a create a blog hook.
 	$hook[] = 'blog_confirmed';
 
 	if ( $suffix ) {
@@ -273,12 +273,12 @@ function bp_nouveau_blogs_loop_buttons( $args = array() ) {
 			return array();
 		}
 
-		// It's the first entry of the loop, so build the Group and sort it
+		// It's the first entry of the loop, so build the Group and sort it.
 		if ( ! isset( bp_nouveau()->blogs->group_buttons ) || ! is_a( bp_nouveau()->blogs->group_buttons, 'BP_Buttons_Group' ) ) {
 			$sort                              = true;
 			bp_nouveau()->blogs->group_buttons = new BP_Buttons_Group( $buttons_group );
 
-		// It's not the first entry, the order is set, we simply need to update the Buttons Group
+		// It's not the first entry, the order is set, we simply need to update the Buttons Group.
 		} else {
 			$sort = false;
 			bp_nouveau()->blogs->group_buttons->update( $buttons_group );

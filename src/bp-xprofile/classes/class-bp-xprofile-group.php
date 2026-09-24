@@ -22,6 +22,7 @@ class BP_XProfile_Group {
 	 * Field group ID.
 	 *
 	 * @since 1.1.0
+	 *
 	 * @var int ID of field group.
 	 */
 	public $id = null;
@@ -30,6 +31,7 @@ class BP_XProfile_Group {
 	 * Field group name.
 	 *
 	 * @since 1.1.0
+	 *
 	 * @var string Name of field group.
 	 */
 	public $name;
@@ -38,6 +40,7 @@ class BP_XProfile_Group {
 	 * Field group Description.
 	 *
 	 * @since 1.1.0
+	 *
 	 * @var string Description of field group.
 	 */
 	public $description;
@@ -46,6 +49,7 @@ class BP_XProfile_Group {
 	 * Group deletion boolean.
 	 *
 	 * @since 1.1.0
+	 *
 	 * @var bool Can this group be deleted?
 	 */
 	public $can_delete;
@@ -54,6 +58,7 @@ class BP_XProfile_Group {
 	 * Group order.
 	 *
 	 * @since 1.1.0
+	 *
 	 * @var int Group order relative to other groups.
 	 */
 	public $group_order;
@@ -62,6 +67,7 @@ class BP_XProfile_Group {
 	 * Group fields.
 	 *
 	 * @since 1.1.0
+	 *
 	 * @var array Fields of group.
 	 */
 	public $fields;

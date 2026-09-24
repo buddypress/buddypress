@@ -54,7 +54,7 @@ if ( ! did_action( '_bp_nouveau_messages_print_placeholders' ) ) {
 
 <script type="text/html" id="tmpl-bp-messages-editor">
 	<?php
-	// Add a temporary filter on editor buttons
+	// Add a temporary filter on editor buttons.
 	add_filter( 'mce_buttons', 'bp_nouveau_messages_mce_buttons', 10, 1 );
 
 	wp_editor(
@@ -72,7 +72,7 @@ if ( ! did_action( '_bp_nouveau_messages_print_placeholders' ) ) {
 		)
 	);
 
-	// Remove the temporary filter on editor buttons
+	// Remove the temporary filter on editor buttons.
 	remove_filter( 'mce_buttons', 'bp_nouveau_messages_mce_buttons' );
 	?>
 </script>

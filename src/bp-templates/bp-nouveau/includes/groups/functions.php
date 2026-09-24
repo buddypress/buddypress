@@ -63,7 +63,7 @@ function bp_nouveau_groups_register_scripts( $scripts = array() ) {
  * @since 3.0.0
  */
 function bp_nouveau_groups_enqueue_scripts() {
-	// Neutralize Ajax when using BuddyPress Groups & member widgets on default front page
+	// Neutralize Ajax when using BuddyPress Groups & member widgets on default front page.
 	if ( bp_is_group_home() && bp_nouveau_get_appearance_settings( 'group_front_page' ) ) {
 		wp_add_inline_style(
 			'bp-nouveau',
@@ -141,7 +141,7 @@ function bp_nouveau_groups_localize_scripts( $params = array() ) {
 
 	$show_pending = bp_group_has_invites( array( 'user_id' => 'any' ) ) && ! bp_is_group_create();
 
-	// Init the Group invites nav
+	// Init the Group invites nav.
 	$invites_nav = array(
 		'members' => array(
 			'id'      => 'members',
@@ -244,7 +244,7 @@ function bp_nouveau_prepare_group_potential_invites_for_js( $user ) {
 		'can_invite' => 'invited' !== $scope,
 	);
 
-	// Do extra queries only if needed
+	// Do extra queries only if needed.
 	if ( 'invited' === $scope ) {
 		$response['is_sent'] = (bool) groups_check_user_has_invite( $user->ID, bp_get_current_group_id() );
 		$inviter_ids         = bp_nouveau_groups_get_inviter_ids( $user->ID, bp_get_current_group_id() );
@@ -587,7 +587,7 @@ function bp_nouveau_get_groups_directory_nav_items() {
 
 	$nav_items['all'] = array(
 		'component' => 'groups',
-		'slug'      => 'all', // slug is used because BP_Core_Nav requires it, but it's the scope
+		'slug'      => 'all', // slug is used because BP_Core_Nav requires it, but it's the scope.
 		'li_class'  => array( 'selected' ),
 		'link'      => bp_get_groups_directory_url(),
 		'text'      => __( 'All Groups', 'buddypress' ),
@@ -598,11 +598,11 @@ function bp_nouveau_get_groups_directory_nav_items() {
 	if ( is_user_logged_in() ) {
 		$my_groups_count = bp_get_total_group_count_for_user( bp_loggedin_user_id() );
 
-		// If the user has groups create a nav item
+		// If the user has groups create a nav item.
 		if ( $my_groups_count ) {
 			$nav_items['personal'] = array(
 				'component' => 'groups',
-				'slug'      => 'personal', // slug is used because BP_Core_Nav requires it, but it's the scope
+				'slug'      => 'personal', // slug is used because BP_Core_Nav requires it, but it's the scope.
 				'li_class'  => array(),
 				'link'      => bp_loggedin_user_url( bp_members_get_path_chunks( array( bp_nouveau_get_component_slug( 'groups' ), 'my-groups' ) ) ),
 				'text'      => __( 'My Groups', 'buddypress' ),
@@ -611,11 +611,11 @@ function bp_nouveau_get_groups_directory_nav_items() {
 			);
 		}
 
-		// If the user can create groups, add the create nav
+		// If the user can create groups, add the create nav.
 		if ( bp_user_can_create_groups() ) {
 			$nav_items['create'] = array(
 				'component' => 'groups',
-				'slug'      => 'create', // slug is used because BP_Core_Nav requires it, but it's the scope
+				'slug'      => 'create', // slug is used because BP_Core_Nav requires it, but it's the scope.
 				'li_class'  => array( 'no-ajax', 'group-create', 'create-button' ),
 				'link'      => bp_groups_get_create_url(),
 				'text'      => __( 'Create a Group', 'buddypress' ),
@@ -625,7 +625,7 @@ function bp_nouveau_get_groups_directory_nav_items() {
 		}
 	}
 
-	// Check for the deprecated hook :
+	// Check for the deprecated hook :.
 	$extra_nav_items = bp_nouveau_parse_hooked_dir_nav( 'bp_groups_directory_group_filter', 'groups', 20 );
 
 	if ( ! empty( $extra_nav_items ) ) {
@@ -742,7 +742,7 @@ function bp_nouveau_groups_front_page_description() {
 	// This check is a problem it needs to be used in templates but returns true even if not on the front page
 	// return false on this if we are not displaying the front page 'bp_is_group_home()'
 	// This may well be a bad approach to re-think ~hnla.
-	// @todo
+	// @todo.
 	return ! empty( $group_settings['group_front_page'] ) && ! empty( $group_settings['group_front_description'] ) && bp_is_group_home();
 }
 
@@ -1007,7 +1007,7 @@ function bp_nouveau_group_locate_template_part( $template = '' ) {
 		return '';
 	}
 
-	// Use a global to avoid requesting the hierarchy for each template
+	// Use a global to avoid requesting the hierarchy for each template.
 	if ( ! isset( $bp_nouveau->groups->current_group_hierarchy ) ) {
 		$bp_nouveau->groups->current_group_hierarchy = array(
 			'groups/single/%s-id-' . (int) $current_group->id . '.php',
@@ -1035,10 +1035,10 @@ function bp_nouveau_group_locate_template_part( $template = '' ) {
 		);
 	}
 
-	// Init the templates
+	// Init the templates.
 	$templates = array();
 
-	// Loop in the hierarchy to fill it for the requested template part
+	// Loop in the hierarchy to fill it for the requested template part.
 	foreach ( $bp_nouveau->groups->current_group_hierarchy as $part ) {
 		$templates[] = sprintf( $part, sanitize_file_name( $template ) );
 	}

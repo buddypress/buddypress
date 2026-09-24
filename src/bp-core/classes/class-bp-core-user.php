@@ -28,12 +28,16 @@ class BP_Core_User {
 	/**
 	 * ID of the user which the object relates to.
 	 *
+	 * @since 1.0.0
+	 *
 	 * @var integer
 	 */
 	public $id;
 
 	/**
 	 * The URL to the full size of the avatar for the user.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @var string
 	 */
@@ -42,12 +46,16 @@ class BP_Core_User {
 	/**
 	 * The URL to the thumb size of the avatar for the user.
 	 *
+	 * @since 1.0.0
+	 *
 	 * @var string
 	 */
 	public $avatar_thumb;
 
 	/**
 	 * The URL to the mini size of the avatar for the user.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @var string
 	 */
@@ -56,12 +64,16 @@ class BP_Core_User {
 	/**
 	 * The full name of the user.
 	 *
+	 * @since 1.0.0
+	 *
 	 * @var string
 	 */
 	public $fullname;
 
 	/**
 	 * The email for the user.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @var string
 	 */
@@ -70,12 +82,16 @@ class BP_Core_User {
 	/**
 	 * The absolute url for the user's profile.
 	 *
+	 * @since 1.0.0
+	 *
 	 * @var string
 	 */
 	public $user_url;
 
 	/**
 	 * The HTML for the user link, with the link text being the user's full name.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @var string
 	 */
@@ -86,6 +102,8 @@ class BP_Core_User {
 	 *
 	 * Example: "active 2 hours and 50 minutes ago"
 	 *
+	 * @since 1.0.0
+	 *
 	 * @var string
 	 */
 	public $last_active;
@@ -95,12 +113,16 @@ class BP_Core_User {
 	/**
 	 * The total number of "Friends" the user has on site.
 	 *
+	 * @since 1.0.0
+	 *
 	 * @var integer
 	 */
 	public $total_friends;
 
 	/**
 	 * The total number of blog posts published by the user.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @var integer
 	 * @deprecated No longer used
@@ -112,6 +134,8 @@ class BP_Core_User {
 	 *
 	 * Example: "1 group", "2 groups"
 	 *
+	 * @since 1.0.0
+	 *
 	 * @var string
 	 */
 	public $total_groups;
@@ -120,6 +144,7 @@ class BP_Core_User {
 	 * Profile information for the specific user.
 	 *
 	 * @since 1.2.0
+	 *
 	 * @var array
 	 */
 	public $profile_data;

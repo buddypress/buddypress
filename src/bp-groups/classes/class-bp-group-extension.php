@@ -98,6 +98,7 @@ class BP_Group_Extension {
 	 * Information about this extension's screens.
 	 *
 	 * @since 1.8.0
+	 *
 	 * @var array
 	 */
 	public $screens = array();
@@ -106,6 +107,7 @@ class BP_Group_Extension {
 	 * The name of the extending class.
 	 *
 	 * @since 1.8.0
+	 *
 	 * @var string
 	 */
 	public $class_name = '';
@@ -114,6 +116,7 @@ class BP_Group_Extension {
 	 * A ReflectionClass object of the current extension.
 	 *
 	 * @since 1.8.0
+	 *
 	 * @var ReflectionClass
 	 */
 	public $class_reflection = null;
@@ -122,6 +125,7 @@ class BP_Group_Extension {
 	 * Parsed configuration parameters for the extension.
 	 *
 	 * @since 1.8.0
+	 *
 	 * @var array
 	 */
 	public $params = array();
@@ -130,6 +134,7 @@ class BP_Group_Extension {
 	 * Raw config params, as passed by the extending class.
 	 *
 	 * @since 2.1.0
+	 *
 	 * @var array
 	 */
 	public $params_raw = array();
@@ -138,6 +143,7 @@ class BP_Group_Extension {
 	 * The ID of the current group.
 	 *
 	 * @since 1.8.0
+	 *
 	 * @var int
 	 */
 	public $group_id = 0;
@@ -146,6 +152,7 @@ class BP_Group_Extension {
 	 * The slug of the current extension.
 	 *
 	 * @since 1.1.0
+	 *
 	 * @var string
 	 */
 	public $slug = '';
@@ -154,6 +161,7 @@ class BP_Group_Extension {
 	 * The translatable name of the current extension.
 	 *
 	 * @since 1.1.0
+	 *
 	 * @var string
 	 */
 	public $name = '';
@@ -162,6 +170,7 @@ class BP_Group_Extension {
 	 * The visibility of the extension tab. 'public' or 'private'.
 	 *
 	 * @since 1.1.0
+	 *
 	 * @var string
 	 */
 	public $visibility = 'public';
@@ -170,6 +179,7 @@ class BP_Group_Extension {
 	 * The numeric position of the main nav item.
 	 *
 	 * @since 1.1.0
+	 *
 	 * @var int
 	 */
 	public $nav_item_position = 81;
@@ -178,6 +188,7 @@ class BP_Group_Extension {
 	 * Whether to show the nav item.
 	 *
 	 * @since 1.1.0
+	 *
 	 * @var bool
 	 */
 	public $enable_nav_item = true;
@@ -186,6 +197,7 @@ class BP_Group_Extension {
 	 * Whether the current user should see the navigation item.
 	 *
 	 * @since 2.1.0
+	 *
 	 * @var bool
 	 */
 	public $user_can_see_nav_item;
@@ -194,6 +206,7 @@ class BP_Group_Extension {
 	 * The Callback function to use before showing the navigation item.
 	 *
 	 * @since 12.0.0
+	 *
 	 * @var string
 	 */
 	public $show_tab_callback = '';
@@ -202,6 +215,7 @@ class BP_Group_Extension {
 	 * Whether the current user can visit the tab.
 	 *
 	 * @since 2.1.0
+	 *
 	 * @var bool
 	 */
 	public $user_can_visit;
@@ -210,6 +224,7 @@ class BP_Group_Extension {
 	 * The text of the nav item. Defaults to self::name.
 	 *
 	 * @since 1.1.0
+	 *
 	 * @var string
 	 */
 	public $nav_item_name = '';
@@ -220,6 +235,7 @@ class BP_Group_Extension {
 	 * Default: 'groups_custom_group_boxes'.
 	 *
 	 * @since 1.1.0
+	 *
 	 * @var string
 	 */
 	public $display_hook = 'groups_custom_group_boxes';
@@ -230,6 +246,7 @@ class BP_Group_Extension {
 	 * Default: 'groups/single/plugins'.
 	 *
 	 * @since 1.1.0
+	 *
 	 * @var string
 	 */
 	public $template_file = 'groups/single/plugins';
@@ -238,6 +255,7 @@ class BP_Group_Extension {
 	 * The template file.
 	 *
 	 * @since 1.1.0
+	 *
 	 * @var string
 	 */
 	public $edit_screen_template;
@@ -248,6 +266,7 @@ class BP_Group_Extension {
 	 * Has the extension been initialized?
 	 *
 	 * @since 1.8.0
+	 *
 	 * @var bool
 	 */
 	protected $initialized = false;
@@ -256,6 +275,7 @@ class BP_Group_Extension {
 	 * Extension properties as set by legacy extensions.
 	 *
 	 * @since 1.8.0
+	 *
 	 * @var array
 	 */
 	protected $legacy_properties = array();
@@ -267,6 +287,7 @@ class BP_Group_Extension {
 	 * then converted to match the new format for params.
 	 *
 	 * @since 1.8.0
+	 *
 	 * @var array
 	 */
 	protected $legacy_properties_converted = array();
@@ -275,6 +296,7 @@ class BP_Group_Extension {
 	 * Redirect location as defined by post-edit save callback.
 	 *
 	 * @since 2.1.0
+	 *
 	 * @var string
 	 */
 	protected $post_save_redirect;
@@ -283,6 +305,7 @@ class BP_Group_Extension {
 	 * Miscellaneous data as set by the __set() magic method.
 	 *
 	 * @since 1.8.0
+	 *
 	 * @var array
 	 */
 	protected $data = array();
@@ -1088,7 +1111,7 @@ class BP_Group_Extension {
 	 */
 	public function user_can_see_nav_item() {
 
-		// Always allow moderators to see nav items, even if explicitly 'noone'
+		// Always allow moderators to see nav items, even if explicitly 'noone'.
 		if ( ( 'noone' !== $this->params['show_tab'] ) && bp_current_user_can( 'bp_moderate' ) ) {
 			return true;
 		}
@@ -1109,7 +1132,7 @@ class BP_Group_Extension {
 	 */
 	public function user_can_visit() {
 
-		// Always allow moderators to visit a tab, even if explicitly 'noone'
+		// Always allow moderators to visit a tab, even if explicitly 'noone'.
 		if ( ( 'noone' !== $this->params['access'] ) && bp_current_user_can( 'bp_moderate' ) ) {
 			return true;
 		}

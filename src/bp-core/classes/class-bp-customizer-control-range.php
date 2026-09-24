@@ -19,6 +19,8 @@ class BP_Customizer_Control_Range extends WP_Customize_Control {
 	/**
 	 * Control type.
 	 *
+	 * @since 2.5.0
+	 *
 	 * @var string
 	 */
 	public $type = 'range';

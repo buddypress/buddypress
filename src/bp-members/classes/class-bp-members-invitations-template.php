@@ -23,6 +23,7 @@ class BP_Members_Invitations_Template {
 	 * The loop iterator.
 	 *
 	 * @since 8.0.0
+	 *
 	 * @var int
 	 */
 	public $current_invitation = -1;
@@ -31,6 +32,7 @@ class BP_Members_Invitations_Template {
 	 * The number of invitations returned by the paged query.
 	 *
 	 * @since 8.0.0
+	 *
 	 * @var int
 	 */
 	public $current_invitation_count;
@@ -39,6 +41,7 @@ class BP_Members_Invitations_Template {
 	 * Total number of invitations matching the query.
 	 *
 	 * @since 8.0.0
+	 *
 	 * @var int
 	 */
 	public $total_invitation_count;
@@ -47,6 +50,7 @@ class BP_Members_Invitations_Template {
 	 * Array of network invitations located by the query.
 	 *
 	 * @since 8.0.0
+	 *
 	 * @var array
 	 */
 	public $invitations;
@@ -55,6 +59,7 @@ class BP_Members_Invitations_Template {
 	 * The invitation object currently being iterated on.
 	 *
 	 * @since 8.0.0
+	 *
 	 * @var object
 	 */
 	public $invitation;
@@ -63,6 +68,7 @@ class BP_Members_Invitations_Template {
 	 * A flag for whether the loop is currently being iterated.
 	 *
 	 * @since 8.0.0
+	 *
 	 * @var bool
 	 */
 	public $in_the_loop;
@@ -71,6 +77,7 @@ class BP_Members_Invitations_Template {
 	 * The ID of the user to whom the displayed invitations were sent.
 	 *
 	 * @since 8.0.0
+	 *
 	 * @var int
 	 */
 	public $user_id;
@@ -79,6 +86,7 @@ class BP_Members_Invitations_Template {
 	 * The ID of the user to whom the displayed invitations belong.
 	 *
 	 * @since 8.0.0
+	 *
 	 * @var int
 	 */
 	public $inviter_id;
@@ -87,6 +95,7 @@ class BP_Members_Invitations_Template {
 	 * The page number being requested.
 	 *
 	 * @since 8.0.0
+	 *
 	 * @var int
 	 */
 	public $pag_page;
@@ -95,6 +104,7 @@ class BP_Members_Invitations_Template {
 	 * The $_GET argument used in URLs for determining pagination.
 	 *
 	 * @since 8.0.0
+	 *
 	 * @var int
 	 */
 	public $pag_arg;
@@ -103,6 +113,7 @@ class BP_Members_Invitations_Template {
 	 * The number of items to display per page of results.
 	 *
 	 * @since 8.0.0
+	 *
 	 * @var int
 	 */
 	public $pag_num;
@@ -111,6 +122,7 @@ class BP_Members_Invitations_Template {
 	 * An HTML string containing pagination links.
 	 *
 	 * @since 8.0.0
+	 *
 	 * @var string
 	 */
 	public $pag_links;
@@ -119,6 +131,7 @@ class BP_Members_Invitations_Template {
 	 * A string to match against.
 	 *
 	 * @since 8.0.0
+	 *
 	 * @var string
 	 */
 	public $search_terms;
@@ -127,6 +140,7 @@ class BP_Members_Invitations_Template {
 	 * A database column to order the results by.
 	 *
 	 * @since 8.0.0
+	 *
 	 * @var string
 	 */
 	public $order_by;
@@ -135,6 +149,7 @@ class BP_Members_Invitations_Template {
 	 * The direction to sort the results (ASC or DESC).
 	 *
 	 * @since 8.0.0
+	 *
 	 * @var string
 	 */
 	public $sort_order;
@@ -143,6 +158,7 @@ class BP_Members_Invitations_Template {
 	 * Array of variables used in this invitation query.
 	 *
 	 * @since 8.0.0
+	 *
 	 * @var array
 	 */
 	public $query_vars;

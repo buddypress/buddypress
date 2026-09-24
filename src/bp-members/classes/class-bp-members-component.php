@@ -24,6 +24,7 @@ class BP_Members_Component extends BP_Component {
 	 * @see bp_register_member_type()
 	 *
 	 * @since 2.2.0
+	 *
 	 * @var array
 	 */
 	public $types = array();
@@ -32,6 +33,7 @@ class BP_Members_Component extends BP_Component {
 	 * Main nav arguments.
 	 *
 	 * @since 2.2.0
+	 *
 	 * @var array
 	 */
 	public $main_nav = array();
@@ -40,6 +42,7 @@ class BP_Members_Component extends BP_Component {
 	 * Main nav arguments.
 	 *
 	 * @since 2.2.0
+	 *
 	 * @var array
 	 */
 	public $sub_nav = array();
@@ -48,6 +51,7 @@ class BP_Members_Component extends BP_Component {
 	 * Nav for the members component.
 	 *
 	 * @since 2.2.0
+	 *
 	 * @var BP_Core_Nav
 	 */
 	public $nav;
@@ -56,12 +60,15 @@ class BP_Members_Component extends BP_Component {
 	 * Member admin.
 	 *
 	 * @since 2.0.0
+	 *
 	 * @var BP_Members_Admin
 	 */
 	public $admin;
 
 	/**
 	 * Invitations.
+	 *
+	 * @since 8.0.0
 	 *
 	 * @var stdClass
 	 */
@@ -251,7 +258,7 @@ class BP_Members_Component extends BP_Component {
 			// The domain for the user currently being displayed.
 			$bp->displayed_user->domain = bp_members_get_user_url( $user_id );
 
-			// If A user is displayed, check if there is a front template
+			// If A user is displayed, check if there is a front template.
 			if ( bp_get_displayed_user() ) {
 				$bp->displayed_user->front_template = bp_displayed_user_get_front_template();
 			}
@@ -456,7 +463,7 @@ class BP_Members_Component extends BP_Component {
 	 *                        description.
 	 */
 	public function register_nav( $main_nav = array(), $sub_nav = array() ) {
-		// Set slug to profile in case the xProfile component is not active
+		// Set slug to profile in case the xProfile component is not active.
 		$slug = bp_get_profile_slug();
 
 		$main_nav = array(
@@ -552,7 +559,7 @@ class BP_Members_Component extends BP_Component {
 			);
 		}
 
-		// Edit Cover Image
+		// Edit Cover Image.
 		if ( bp_displayed_user_use_cover_image_header() ) {
 			$wp_admin_nav[] = array(
 				'parent'   => 'my-account-' . $admin_bar_menu_id,

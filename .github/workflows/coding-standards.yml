@@ -30,6 +30,9 @@ jobs:
       - name: Install dependencies
         uses: ramsey/composer-install@v3
 
+      - name: Run PHPCS
+        run: composer phpcs
+
       - name: Run PHPCS Escape
         run: composer phpcs-escape
 

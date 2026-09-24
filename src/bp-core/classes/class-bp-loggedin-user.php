@@ -33,6 +33,7 @@ class BP_LoggedIn_User {
 	 * The ID of the logged-in user.
 	 *
 	 * @since 15.0.0
+	 *
 	 * @var int
 	 */
 	protected $id;
@@ -41,6 +42,7 @@ class BP_LoggedIn_User {
 	 * The logged-in user's data from the matching wp_users row.
 	 *
 	 * @since 15.0.0
+	 *
 	 * @var array
 	 */
 	protected $userdata = array();
@@ -49,6 +51,7 @@ class BP_LoggedIn_User {
 	 * Whether the logged-in user is a network admin or not.
 	 *
 	 * @since 15.0.0
+	 *
 	 * @var bool
 	 */
 	protected $is_super_admin = false;
@@ -57,6 +60,7 @@ class BP_LoggedIn_User {
 	 * Whether the logged-in user is a site admin or not.
 	 *
 	 * @since 15.0.0
+	 *
 	 * @var bool
 	 */
 	protected $is_site_admin = false;
@@ -65,6 +69,7 @@ class BP_LoggedIn_User {
 	 * The logged-in user's display name.
 	 *
 	 * @since 15.0.0
+	 *
 	 * @var string
 	 */
 	protected $fullname = '';
@@ -73,6 +78,7 @@ class BP_LoggedIn_User {
 	 * The logged-in user's profile URL.
 	 *
 	 * @since 15.0.0
+	 *
 	 * @var string
 	 */
 	protected $domain = '';

@@ -97,7 +97,7 @@
 		elseif ( bp_is_user_settings() ) :
 			bp_get_template_part( 'members/single/settings' );
 
-		// If nothing sticks, load a generic template
+		// If nothing sticks, load a generic template.
 		else :
 			bp_get_template_part( 'members/single/plugins' );
 

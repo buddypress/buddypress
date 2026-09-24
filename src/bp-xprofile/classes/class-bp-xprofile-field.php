@@ -22,6 +22,7 @@ class BP_XProfile_Field {
 	 * Field ID.
 	 *
 	 * @since 1.0.0
+	 *
 	 * @var int
 	 */
 	public $id;
@@ -30,6 +31,7 @@ class BP_XProfile_Field {
 	 * Field group ID.
 	 *
 	 * @since 1.0.0
+	 *
 	 * @var int
 	 */
 	public $group_id;
@@ -38,6 +40,7 @@ class BP_XProfile_Field {
 	 * Field parent ID.
 	 *
 	 * @since 1.0.0
+	 *
 	 * @var int
 	 */
 	public $parent_id;
@@ -46,6 +49,7 @@ class BP_XProfile_Field {
 	 * Field type.
 	 *
 	 * @since 1.0.0
+	 *
 	 * @var string
 	 */
 	public $type = '';
@@ -54,6 +58,7 @@ class BP_XProfile_Field {
 	 * Field name.
 	 *
 	 * @since 1.0.0
+	 *
 	 * @var string
 	 */
 	public $name = '';
@@ -62,6 +67,7 @@ class BP_XProfile_Field {
 	 * Field description.
 	 *
 	 * @since 1.0.0
+	 *
 	 * @var string
 	 */
 	public $description = '';
@@ -70,6 +76,7 @@ class BP_XProfile_Field {
 	 * Required field?
 	 *
 	 * @since 1.0.0
+	 *
 	 * @var bool
 	 */
 	public $is_required;
@@ -78,6 +85,7 @@ class BP_XProfile_Field {
 	 * Deletable field?
 	 *
 	 * @since 1.0.0
+	 *
 	 * @var int
 	 */
 	public $can_delete = '1';
@@ -86,6 +94,7 @@ class BP_XProfile_Field {
 	 * Field position.
 	 *
 	 * @since 1.0.0
+	 *
 	 * @var int
 	 */
 	public $field_order;
@@ -94,6 +103,7 @@ class BP_XProfile_Field {
 	 * Option order.
 	 *
 	 * @since 1.0.0
+	 *
 	 * @var int
 	 */
 	public $option_order;
@@ -102,6 +112,7 @@ class BP_XProfile_Field {
 	 * Order child fields.
 	 *
 	 * @since 1.0.0
+	 *
 	 * @var string
 	 */
 	public $order_by = '';
@@ -110,6 +121,7 @@ class BP_XProfile_Field {
 	 * Is this the default option?
 	 *
 	 * @since 1.0.0
+	 *
 	 * @var bool
 	 */
 	public $is_default_option;
@@ -118,6 +130,7 @@ class BP_XProfile_Field {
 	 * Field data visibility.
 	 *
 	 * @since 1.0.0
+	 *
 	 * @var string
 	 */
 	public $visibility;
@@ -127,6 +140,7 @@ class BP_XProfile_Field {
 	 *
 	 * @since 1.9.0
 	 * @since 2.4.0 Property marked protected. Now accessible by magic method or by `get_default_visibility()`.
+	 *
 	 * @var string
 	 */
 	protected $default_visibility;
@@ -136,6 +150,7 @@ class BP_XProfile_Field {
 	 *
 	 * @since 2.3.0
 	 * @since 2.4.0 Property marked protected. Now accessible by magic method or by `get_allow_custom_visibility()`.
+	 *
 	 * @var string
 	 */
 	protected $allow_custom_visibility;
@@ -144,6 +159,7 @@ class BP_XProfile_Field {
 	 * Whether values from this field are autolinked to directory searches.
 	 *
 	 * @since 2.5.0
+	 *
 	 * @var bool
 	 */
 	public $do_autolink;
@@ -152,6 +168,7 @@ class BP_XProfile_Field {
 	 * The signup position of the field into the signups form.
 	 *
 	 * @since 8.0.0
+	 *
 	 * @var int
 	 */
 	public $signup_position;
@@ -160,6 +177,7 @@ class BP_XProfile_Field {
 	 * Field type option.
 	 *
 	 * @since 2.0.0
+	 *
 	 * @var BP_XProfile_Field_Type Field type object used for validation.
 	 */
 	public $type_obj = null;
@@ -168,6 +186,7 @@ class BP_XProfile_Field {
 	 * Field data for user ID.
 	 *
 	 * @since 2.0.0
+	 *
 	 * @var BP_XProfile_ProfileData Field data for user ID.
 	 */
 	public $data;
@@ -176,6 +195,7 @@ class BP_XProfile_Field {
 	 * Member types to which the profile field should be applied.
 	 *
 	 * @since 2.4.0
+	 *
 	 * @var array Array of member types.
 	 */
 	protected $member_types;
@@ -1464,7 +1484,7 @@ class BP_XProfile_Field {
 	 */
 	private function submit_metabox( $button_text = '' ) {
 
-		// Setup the URL for deleting
+		// Setup the URL for deleting.
 		$users_url  = bp_get_admin_url( 'users.php' );
 		$cancel_url = add_query_arg(
 			array(

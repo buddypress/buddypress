@@ -19,6 +19,7 @@ class BP_Groups_Member {
 	 * ID of the membership.
 	 *
 	 * @since 1.6.0
+	 *
 	 * @var int
 	 */
 	public $id;
@@ -27,6 +28,7 @@ class BP_Groups_Member {
 	 * ID of the group associated with the membership.
 	 *
 	 * @since 1.6.0
+	 *
 	 * @var int
 	 */
 	public $group_id;
@@ -35,6 +37,7 @@ class BP_Groups_Member {
 	 * ID of the user associated with the membership.
 	 *
 	 * @since 1.6.0
+	 *
 	 * @var int
 	 */
 	public $user_id;
@@ -43,6 +46,7 @@ class BP_Groups_Member {
 	 * ID of the user whose invitation initiated the membership.
 	 *
 	 * @since 1.6.0
+	 *
 	 * @var int
 	 */
 	public $inviter_id;
@@ -51,6 +55,7 @@ class BP_Groups_Member {
 	 * Whether the member is an admin of the group.
 	 *
 	 * @since 1.6.0
+	 *
 	 * @var int
 	 */
 	public $is_admin;
@@ -59,6 +64,7 @@ class BP_Groups_Member {
 	 * Whether the member is a mod of the group.
 	 *
 	 * @since 1.6.0
+	 *
 	 * @var int
 	 */
 	public $is_mod;
@@ -67,6 +73,7 @@ class BP_Groups_Member {
 	 * Whether the member is banned from the group.
 	 *
 	 * @since 1.6.0
+	 *
 	 * @var int
 	 */
 	public $is_banned;
@@ -77,6 +84,7 @@ class BP_Groups_Member {
 	 * Eg, 'Group Admin'.
 	 *
 	 * @since 1.6.0
+	 *
 	 * @var int
 	 */
 	public $user_title;
@@ -87,6 +95,7 @@ class BP_Groups_Member {
 	 * This value is updated when, eg, invitations are accepted.
 	 *
 	 * @since 1.6.0
+	 *
 	 * @var string
 	 */
 	public $date_modified;
@@ -95,6 +104,7 @@ class BP_Groups_Member {
 	 * Whether the membership has been confirmed.
 	 *
 	 * @since 1.6.0
+	 *
 	 * @var int
 	 */
 	public $is_confirmed;
@@ -106,6 +116,7 @@ class BP_Groups_Member {
 	 * include when requesting membership to a private group.
 	 *
 	 * @since 1.6.0
+	 *
 	 * @var string
 	 */
 	public $comments;
@@ -119,6 +130,7 @@ class BP_Groups_Member {
 	 * invitee has not yet been notified.
 	 *
 	 * @since 1.6.0
+	 *
 	 * @var int
 	 */
 	public $invite_sent;
@@ -127,6 +139,7 @@ class BP_Groups_Member {
 	 * WP_User object representing the membership's user.
 	 *
 	 * @since 1.6.0
+	 *
 	 * @var WP_User
 	 */
 	protected $user;

@@ -755,7 +755,7 @@ function bp_activity_type_supports( $activity_type = '', $feature = '' ) {
 				$bp->activity->track = bp_activity_get_post_types_tracking_args();
 			}
 
-			// Post Type activities
+			// Post Type activities.
 			if ( ! empty( $bp->activity->track[ $activity_type ] ) ) {
 				if ( isset( $bp->activity->track[ $activity_type ]->activity_comment ) ) {
 					$retval = $bp->activity->track[ $activity_type ]->activity_comment;
@@ -766,7 +766,7 @@ function bp_activity_type_supports( $activity_type = '', $feature = '' ) {
 					$retval = $bp->activity->track[ $activity_type ]->comments_tracking && ! bp_disable_blogforum_comments();
 				}
 
-			// Retired Forums component
+			// Retired Forums component.
 			} elseif ( 'new_forum_topic' === $activity_type || 'new_forum_post' === $activity_type ) {
 				$retval = ! bp_disable_blogforum_comments();
 
@@ -1432,7 +1432,7 @@ function bp_activity_remove_all_user_data( $user_id = 0 ) {
 	bp_delete_user_meta( $user_id, 'bp_latest_update' );
 	bp_delete_user_meta( $user_id, 'bp_favorite_activities' );
 
-	// Execute additional code
+	// Execute additional code.
 	do_action( 'bp_activity_remove_data', $user_id ); // Deprecated! Do not use!
 
 	/**
