@@ -125,8 +125,8 @@ class BP_Groups_List_Table extends WP_List_Table {
 		}
 
 		// Are we doing a search?
-		if ( ! empty( $_REQUEST['s'] ) ) {
-			$search_terms = $_REQUEST['s'];
+		if ( ! empty( $_REQUEST['s'] ) && is_string( $_REQUEST['s'] ) ) {
+			$search_terms = wp_unslash( $_REQUEST['s'] );
 
 			// Set the view as a search request.
 			$this->view = 'search';

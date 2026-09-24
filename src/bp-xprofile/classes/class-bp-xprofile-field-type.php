@@ -382,10 +382,19 @@ abstract class BP_XProfile_Field_Type {
 				// for a submitted form (e.g. on the "new field" screen).
 				if ( empty( $options ) ) {
 
-					$options = array();
-					$i       = 1;
+					$options        = array();
+					$i              = 1;
+					$posted_options = array();
 
-					while ( isset( $_POST[ $type . '_option' ][ $i ] ) ) {
+					if ( isset( $_POST[ $type . '_option' ] ) && is_array( $_POST[ $type . '_option' ] ) ) {
+						$posted_options = wp_unslash( $_POST[ $type . '_option' ] );
+					}
+
+					while ( isset( $posted_options[ $i ] ) ) {
+						if ( ! is_string( $posted_options[ $i ] ) ) {
+							++$i;
+							continue;
+						}
 
 						// Multiselectbox and checkboxes support MULTIPLE default options; all other core types support only ONE.
 						if ( $current_type_obj->supports_options && ! $current_type_obj->supports_multiple_defaults && isset( $_POST[ "isDefault_{$type}_option" ][ $i ] ) && (int) $_POST[ "isDefault_{$type}_option" ] === $i ) {
@@ -400,7 +409,7 @@ abstract class BP_XProfile_Field_Type {
 						$options[] = (object) array(
 							'id'                => -1,
 							'is_default_option' => $is_default_option,
-							'name'              => sanitize_text_field( stripslashes( $_POST[ $type . '_option' ][ $i ] ) ),
+							'name'              => sanitize_text_field( $posted_options[ $i ] ),
 						);
 
 						++$i;
