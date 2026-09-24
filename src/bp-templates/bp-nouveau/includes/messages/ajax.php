@@ -113,12 +113,12 @@ function bp_nouveau_ajax_messages_send_message() {
 		'type'     => 'error',
 	);
 
-	// Verify nonce
+	// Verify nonce.
 	if ( empty( $_POST['nonce'] ) || ! wp_verify_nonce( $_POST['nonce'], 'messages_send_message' ) ) {
 		wp_send_json_error( $response );
 	}
 
-	// Validate subject and message content
+	// Validate subject and message content.
 	if ( empty( $_POST['subject'] ) || empty( $_POST['message_content'] ) ) {
 		if ( empty( $_POST['subject'] ) ) {
 			$response['feedback'] = __( 'Your message was not sent. Please enter a subject line.', 'buddypress' );
@@ -129,14 +129,14 @@ function bp_nouveau_ajax_messages_send_message() {
 		wp_send_json_error( $response );
 	}
 
-	// Validate recipients
+	// Validate recipients.
 	if ( empty( $_POST['send_to'] ) || ! is_array( $_POST['send_to'] ) ) {
 		$response['feedback'] = __( 'Your message was not sent. Please enter at least one username.', 'buddypress' );
 
 		wp_send_json_error( $response );
 	}
 
-	// Trim @ from usernames
+	// Trim @ from usernames.
 	/**
 	 * Filters the results of trimming of `@` characters from usernames for who is set to receive a message.
 	 *
@@ -261,7 +261,7 @@ function bp_nouveau_ajax_messages_send_reply() {
 		'type'     => 'error',
 	);
 
-	// Verify nonce
+	// Verify nonce.
 	if ( empty( $_POST['nonce'] ) || ! wp_verify_nonce( $_POST['nonce'], 'messages_send_message' ) ) {
 		wp_send_json_error( $response );
 	}
@@ -475,7 +475,7 @@ function bp_nouveau_ajax_get_user_message_threads() {
 			$star_link_data                       = explode( '/', $star_link );
 			$threads->threads[ $i ]['is_starred'] = array_search( 'unstar', $star_link_data, true );
 
-			// Defaults to last
+			// Defaults to last.
 			$sm_id = $last_message_id;
 
 			if ( $threads->threads[ $i ]['is_starred'] ) {
@@ -542,10 +542,10 @@ function bp_nouveau_ajax_messages_thread_read() {
 		wp_send_json_error();
 	}
 
-	// Mark thread as read
+	// Mark thread as read.
 	messages_mark_thread_read( $thread_id );
 
-	// Mark latest message as read
+	// Mark latest message as read.
 	if ( bp_is_active( 'notifications' ) ) {
 		bp_notifications_mark_notifications_by_item_id( bp_loggedin_user_id(), (int) $message_id, buddypress()->messages->id, 'new_message' );
 	}
@@ -770,7 +770,7 @@ function bp_nouveau_ajax_star_thread_messages() {
 	$ids      = wp_parse_id_list( $_POST['id'] );
 	$messages = array();
 
-	// Use global nonce for bulk actions involving more than one id
+	// Use global nonce for bulk actions involving more than one id.
 	if ( 1 !== count( $ids ) ) {
 		if ( empty( $_POST['nonce'] ) || ! wp_verify_nonce( $_POST['nonce'], 'bp_nouveau_messages' ) ) {
 			wp_send_json_error( $response );
@@ -807,7 +807,7 @@ function bp_nouveau_ajax_star_thread_messages() {
 			);
 		}
 
-	// Use global star nonce for bulk actions involving one id or regular action
+	// Use global star nonce for bulk actions involving one id or regular action.
 	} else {
 		$id = reset( $ids );
 
@@ -896,10 +896,10 @@ function bp_nouveau_ajax_readunread_thread_messages() {
 		}
 
 		if ( 'unread' === $action ) {
-			// Mark unread
+			// Mark unread.
 			messages_mark_thread_unread( $thread_id );
 		} else {
-			// Mark read
+			// Mark read.
 			messages_mark_thread_read( $thread_id );
 		}
 

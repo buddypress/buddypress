@@ -1484,7 +1484,7 @@ class BP_XProfile_Field {
 	 */
 	private function submit_metabox( $button_text = '' ) {
 
-		// Setup the URL for deleting
+		// Setup the URL for deleting.
 		$users_url  = bp_get_admin_url( 'users.php' );
 		$cancel_url = add_query_arg(
 			array(

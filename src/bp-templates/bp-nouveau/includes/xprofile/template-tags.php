@@ -26,7 +26,7 @@ function bp_nouveau_xprofile_hook( $when = '', $suffix = '' ) {
 		$hook[] = $when;
 	}
 
-	// It's a xprofile hook
+	// It's a xprofile hook.
 	$hook[] = 'profile';
 
 	if ( $suffix ) {

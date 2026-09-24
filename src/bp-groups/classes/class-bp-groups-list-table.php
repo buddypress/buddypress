@@ -160,7 +160,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 			$this->group_counts[ $group_type ] = count( $group_ids );
 		}
 
-		// Group types
+		// Group types.
 		$group_type = false;
 		if ( isset( $_GET['bp-group-type'] ) && null !== bp_groups_get_group_type_object( $_GET['bp-group-type'] ) ) {
 			$group_type = $_GET['bp-group-type'];
@@ -830,7 +830,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 		return apply_filters( 'bp_groups_admin_get_group_custom_column', '', $column_name, $item );
 	}
 
-	// Group Types
+	// Group Types.
 
 	/**
 	 * Add group type column to the WordPress admin groups list table.

@@ -141,7 +141,7 @@ class BP_Messages_Notices_Admin {
 			}
 		}
 
-		// Catch activation/deactivation/delete requests
+		// Catch activation/deactivation/delete requests.
 		if ( ! empty( $_GET['notice_id'] ) && ! empty( $_GET['notice_action'] ) ) {
 			$notice_id = absint( $_GET['notice_id'] );
 

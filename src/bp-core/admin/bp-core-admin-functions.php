@@ -990,7 +990,7 @@ function bp_core_add_contextual_help_content( $tab = '' ) {
  */
 function bp_admin_separator() {
 
-	// Default to always adding
+	// Default to always adding.
 	$add = true;
 
 	// Skip if BuddyPress is not network activated and viewing network admin.
@@ -1013,10 +1013,10 @@ function bp_admin_separator() {
 		$add = false;
 	}
 
-	// Force on Site Admin if BuddyPress Core post-types are registered
+	// Force on Site Admin if BuddyPress Core post-types are registered.
 	if ( is_blog_admin() && bp_current_user_can( 'bp_moderate' ) ) {
 
-		// See: BP_Core::register_post_types()
+		// See: BP_Core::register_post_types().
 		if ( post_type_exists( bp_get_email_post_type() ) || post_type_exists( 'buddypress' ) ) {
 			$add = true;
 		}
@@ -1031,14 +1031,14 @@ function bp_admin_separator() {
 	 */
 	$add = (bool) apply_filters( 'bp_admin_separator', $add );
 
-	// Bail if a separator is not necessary
+	// Bail if a separator is not necessary.
 	if ( false === $add ) {
 		return;
 	}
 
 	global $menu;
 
-	// Append a separator to the end of the global menu array
+	// Append a separator to the end of the global menu array.
 	$menu[] = array( '', 'read', 'separator-buddypress', '', 'wp-menu-separator buddypress' );
 }
 

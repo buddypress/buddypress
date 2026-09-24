@@ -78,14 +78,14 @@ function bp_nouveau_ajax_object_template_loader() {
 			case 'mentions':
 				$feed_url = bp_loggedin_user_url( bp_members_get_path_chunks( array( bp_nouveau_get_component_slug( 'activity' ), 'mentions', array( 'feed' ) ) ) );
 
-				// Get user new mentions
+				// Get user new mentions.
 				$new_mentions = bp_get_user_meta( bp_loggedin_user_id(), 'bp_new_mentions', true );
 
-				// If we have some, include them into the returned json before deleting them
+				// If we have some, include them into the returned json before deleting them.
 				if ( is_array( $new_mentions ) ) {
 					$result['new_mentions'] = $new_mentions;
 
-					// Clear new mentions
+					// Clear new mentions.
 					bp_activity_clear_new_mentions( bp_loggedin_user_id() );
 				}
 

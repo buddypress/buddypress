@@ -84,7 +84,7 @@ function bp_nouveau_groups_create_hook( $when = '', $suffix = '' ) {
 		$hook[] = $when;
 	}
 
-	// It's a create group hook
+	// It's a create group hook.
 	$hook[] = 'create_group';
 
 	if ( $suffix ) {
@@ -109,7 +109,7 @@ function bp_nouveau_group_hook( $when = '', $suffix = '' ) {
 		$hook[] = $when;
 	}
 
-	// It's a group hook
+	// It's a group hook.
 	$hook[] = 'group';
 
 	if ( $suffix ) {
@@ -306,7 +306,7 @@ function bp_nouveau_group_manage_screen() {
 			 */
 			do_action( 'groups_custom_edit_steps' );
 
-		// Else use the group create hook
+		// Else use the group create hook.
 		} else {
 			/**
 			 * Fires inside the group admin template.
@@ -383,7 +383,7 @@ function bp_nouveau_group_manage_screen() {
 			if ( ! $is_group_create ) {
 				$output = sprintf( '<p><input type="submit" value="%s" id="save" name="save" /></p>', esc_attr__( 'Save Changes', 'buddypress' ) );
 
-				// Specific case for the delete group screen
+				// Specific case for the delete group screen.
 				if ( 'delete-group' === $screen_id ) {
 					$output = sprintf(
 						'<div class="submit">
@@ -436,7 +436,7 @@ function bp_nouveau_group_manage_screen() {
 				);
 			}
 
-			// Set the output for the buttons
+			// Set the output for the buttons.
 			$output = sprintf( '<div class="submit" id="previous-next">%s</div>', $creation_step_buttons );
 		}
 
@@ -713,20 +713,20 @@ function bp_nouveau_groups_manage_members_buttons( $args = array() ) {
 			$button_element = 'a';
 		}
 
-		// If we pass through parent classes add them to $button array
+		// If we pass through parent classes add them to $button array.
 		$parent_class = '';
 		if ( ! empty( $args['parent_attr']['class'] ) ) {
 			$parent_class = $args['parent_attr']['class'];
 		}
 
-		// Invite buttons on member's invites screen
+		// Invite buttons on member's invites screen.
 		if ( 'invite' === $type ) {
-			// Don't show button if not logged in or previously banned
+			// Don't show button if not logged in or previously banned.
 			if ( ! is_user_logged_in() || bp_group_is_user_banned( $group ) || empty( $group->status ) ) {
 				return $buttons;
 			}
 
-			// Setup Accept button attributes
+			// Setup Accept button attributes.
 			$buttons['accept_invite'] = array(
 				'id'                => 'accept_invite',
 				'position'          => 5,
@@ -746,14 +746,14 @@ function bp_nouveau_groups_manage_members_buttons( $args = array() ) {
 				),
 			);
 
-			// If button element set add nonce link to data-attr attr
+			// If button element set add nonce link to data-attr attr.
 			if ( 'button' === $button_element ) {
 				$buttons['accept_invite']['button_attr']['data-bp-nonce'] = esc_url( bp_get_group_accept_invite_link() );
 			} else {
 				$buttons['accept_invite']['button_attr']['href'] = esc_url( bp_get_group_accept_invite_link() );
 			}
 
-			// Setup Reject button attributes
+			// Setup Reject button attributes.
 			$buttons['reject_invite'] = array(
 				'id'                => 'reject_invite',
 				'position'          => 15,
@@ -773,16 +773,16 @@ function bp_nouveau_groups_manage_members_buttons( $args = array() ) {
 				),
 			);
 
-			// If button element set add nonce link to formaction attr
+			// If button element set add nonce link to formaction attr.
 			if ( 'button' === $button_element ) {
 				$buttons['reject_invite']['button_attr']['data-bp-nonce'] = esc_url( bp_get_group_reject_invite_link() );
 			} else {
 				$buttons['reject_invite']['button_attr']['href'] = esc_url( bp_get_group_reject_invite_link() );
 			}
 
-		// Request button for the group's manage screen
+		// Request button for the group's manage screen.
 		} elseif ( 'request' === $type ) {
-			// Setup Accept button attributes
+			// Setup Accept button attributes.
 			$buttons['group_membership_accept'] = array(
 				'id'                => 'group_membership_accept',
 				'position'          => 5,
@@ -802,7 +802,7 @@ function bp_nouveau_groups_manage_members_buttons( $args = array() ) {
 				),
 			);
 
-			// If button element set add nonce link to data-attr attr
+			// If button element set add nonce link to data-attr attr.
 			if ( 'button' === $button_element ) {
 				$buttons['group_membership_accept']['button_attr']['data-bp-nonce'] = esc_url( bp_get_group_request_accept_link() );
 			} else {
@@ -828,7 +828,7 @@ function bp_nouveau_groups_manage_members_buttons( $args = array() ) {
 				),
 			);
 
-			// If button element set add nonce link to data-attr attr
+			// If button element set add nonce link to data-attr attr.
 			if ( 'button' === $button_element ) {
 				$buttons['group_membership_reject']['button_attr']['data-bp-nonce'] = esc_url( bp_get_group_request_reject_link() );
 			} else {
@@ -956,7 +956,7 @@ function bp_nouveau_groups_manage_members_buttons( $args = array() ) {
 				$buttons['remove_member']['button_attr']['href'] = bp_get_group_member_remove_link( $user_id );
 			}
 
-		// Membership button on groups loop or single group's header
+		// Membership button on groups loop or single group's header.
 		} else {
 			$button_args = bp_groups_get_group_join_button_args( $group );
 
@@ -1020,12 +1020,12 @@ function bp_nouveau_groups_manage_members_buttons( $args = array() ) {
 			return array();
 		}
 
-		// It's the first entry of the loop, so build the Group and sort it
+		// It's the first entry of the loop, so build the Group and sort it.
 		if ( ! isset( bp_nouveau()->groups->group_buttons ) || ! is_a( bp_nouveau()->groups->group_buttons, 'BP_Buttons_Group' ) ) {
 			$sort                               = true;
 			bp_nouveau()->groups->group_buttons = new BP_Buttons_Group( $buttons_group );
 
-		// It's not the first entry, the order is set, we simply need to update the Buttons Group
+		// It's not the first entry, the order is set, we simply need to update the Buttons Group.
 		} else {
 			$sort = false;
 			bp_nouveau()->groups->group_buttons->update( $buttons_group );
@@ -1273,11 +1273,11 @@ function bp_nouveau_group_template_part() {
 	} elseif ( $bp_is_group_home && false !== bp_groups_get_front_template() ) {
 		bp_groups_front_template_part();
 
-	// Otherwise use BP_Nouveau template hierarchy
+	// Otherwise use BP_Nouveau template hierarchy.
 	} else {
 		$template = 'plugins';
 
-		// the home page
+		// the home page.
 		if ( $bp_is_group_home ) {
 			if ( bp_is_active( 'activity' ) ) {
 				$template = 'activity';
@@ -1285,7 +1285,7 @@ function bp_nouveau_group_template_part() {
 				$template = 'members';
 			}
 
-		// Not the home page
+		// Not the home page.
 		} elseif ( bp_is_group_admin_page() ) {
 			$template = 'admin';
 		} elseif ( bp_is_group_activity() ) {
@@ -1328,7 +1328,7 @@ function bp_nouveau_group_header_template_part() {
 	 */
 	do_action( 'bp_before_group_header' );
 
-	// Get the template part for the header
+	// Get the template part for the header.
 	bp_nouveau_group_get_template_part( $template );
 
 	/**

@@ -106,11 +106,11 @@ function bp_nouveau_ajax_joinleave_group() {
 		wp_send_json_error( $response );
 	}
 
-	// Use default nonce
+	// Use default nonce.
 	$nonce = $_POST['nonce'];
 	$check = 'bp_nouveau_groups';
 
-	// Use a specific one for actions needed it
+	// Use a specific one for actions needed it.
 	if ( ! empty( $_POST['_wpnonce'] ) && ! empty( $_POST['action'] ) ) {
 		$nonce = $_POST['_wpnonce'];
 		$check = $_POST['action'];
@@ -140,7 +140,7 @@ function bp_nouveau_ajax_joinleave_group() {
 		wp_send_json_error( $response );
 	}
 
-	// Validate and get the group
+	// Validate and get the group.
 	$group = groups_get_group( array( 'group_id' => $group_id ) );
 
 	if ( empty( $group->id ) ) {
@@ -174,7 +174,7 @@ function bp_nouveau_ajax_joinleave_group() {
 					);
 				}
 
-				// User is now a member of the group
+				// User is now a member of the group.
 				$group->is_member = '1';
 
 				$response = array(
@@ -231,7 +231,7 @@ function bp_nouveau_ajax_joinleave_group() {
 					'type'     => 'error',
 				);
 			} else {
-				// User is now a member of the group
+				// User is now a member of the group.
 				$group->is_member = '1';
 
 				$response = array(
@@ -257,7 +257,7 @@ function bp_nouveau_ajax_joinleave_group() {
 						'type'     => 'error',
 					);
 				} else {
-					// Request is pending
+					// Request is pending.
 					$group->is_pending = '1';
 
 					$response = array(
@@ -278,7 +278,7 @@ function bp_nouveau_ajax_joinleave_group() {
 						'type'     => 'error',
 					);
 				} else {
-					// User is no more a member of the group
+					// User is no more a member of the group.
 					$group->is_member = '0';
 					$bp               = buddypress();
 
@@ -329,11 +329,11 @@ function bp_nouveau_ajax_get_users_to_invite() {
 		wp_send_json_error( $response );
 	}
 
-	// Use default nonce
+	// Use default nonce.
 	$nonce = $_POST['nonce'];
 	$check = 'bp_nouveau_groups';
 
-	// Use a specific one for actions needed it
+	// Use a specific one for actions needed it.
 	if ( ! empty( $_POST['_wpnonce'] ) && ! empty( $_POST['action'] ) ) {
 		$nonce = $_POST['_wpnonce'];
 		$check = $_POST['action'];
@@ -428,7 +428,7 @@ function bp_nouveau_ajax_get_users_to_invite() {
 	$potential_invites->users = array_map( 'bp_nouveau_prepare_group_potential_invites_for_js', array_values( $potential_invites->users ) );
 	$potential_invites->users = array_filter( $potential_invites->users );
 
-	// Set a message to explain use of the current scope
+	// Set a message to explain use of the current scope.
 	$potential_invites->feedback = $message;
 
 	unset( $bp->groups->invites_scope );
@@ -447,7 +447,7 @@ function bp_nouveau_ajax_send_group_invites() {
 		'type'     => 'error',
 	);
 
-	// Verify nonce
+	// Verify nonce.
 	if ( empty( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], 'groups_send_invites' ) ) {
 		wp_send_json_error( $response );
 	}
@@ -467,7 +467,7 @@ function bp_nouveau_ajax_send_group_invites() {
 		wp_send_json_error( $response );
 	}
 
-	// For feedback
+	// For feedback.
 	$invited           = array();
 	$is_friends_active = bp_is_active( 'friends' );
 
@@ -540,7 +540,7 @@ function bp_nouveau_ajax_remove_group_invite() {
 		'type'     => 'error',
 	);
 
-	// Verify nonce
+	// Verify nonce.
 	if ( empty( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], 'groups_invite_uninvite_user' ) ) {
 		wp_send_json_error( $response );
 	}
