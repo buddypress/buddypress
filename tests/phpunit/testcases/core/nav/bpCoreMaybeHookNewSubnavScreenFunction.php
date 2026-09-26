@@ -47,7 +47,6 @@ class BP_Tests_Core_Nav_BpCoreMaybeHookNewSubnavScreenFunction extends BP_UnitTe
 	}
 
 	public function test_user_has_access_false_user_logged_out() {
-		$old_current_user = get_current_user_id();
 		wp_set_current_user( 0 );
 
 		$subnav_item = array(
@@ -61,12 +60,10 @@ class BP_Tests_Core_Nav_BpCoreMaybeHookNewSubnavScreenFunction extends BP_UnitTe
 
 		$this->assertSame( $expected, bp_core_maybe_hook_new_subnav_screen_function( $subnav_item ) );
 
-		wp_set_current_user( $old_current_user );
 	}
 
 	public function test_user_has_access_false_user_logged_in_my_profile() {
 		$u = self::factory()->user->create();
-		$old_current_user = get_current_user_id();
 		wp_set_current_user( $u );
 		$this->set_permalink_structure( '/%postname%/' );
 
@@ -81,7 +78,6 @@ class BP_Tests_Core_Nav_BpCoreMaybeHookNewSubnavScreenFunction extends BP_UnitTe
 		$this->assertSame( 'failure', $found['status'] );
 		$this->assertSame( bp_members_get_user_url( $u ), $found['redirect_args']['root'] );
 
-		wp_set_current_user( $old_current_user );
 	}
 
 	public function test_user_has_access_false_user_logged_in_others_profile_default_component_accessible() {
@@ -168,7 +164,6 @@ class BP_Tests_Core_Nav_BpCoreMaybeHookNewSubnavScreenFunction extends BP_UnitTe
 	public function test_user_has_access_false_user_logged_in_group() {
 		$u = self::factory()->user->create();
 		$g = self::factory()->group->create();
-		$old_current_user = get_current_user_id();
 		wp_set_current_user( $u );
 		$this->set_permalink_structure( '/%postname%/' );
 
@@ -185,15 +180,11 @@ class BP_Tests_Core_Nav_BpCoreMaybeHookNewSubnavScreenFunction extends BP_UnitTe
 		$found = bp_core_maybe_hook_new_subnav_screen_function( $subnav_item );
 		$this->assertSame( 'failure', $found['status'] );
 		$this->assertSame( bp_get_group_url( $group ), $found['redirect_args']['root'] );
-
-		// Clean up
-		wp_set_current_user( $old_current_user );
 	}
 
 	public function test_user_has_access_false_user_logged_in_group_no_redirect_url_provided() {
 		$u = self::factory()->user->create();
 		$g = self::factory()->group->create();
-		$old_current_user = get_current_user_id();
 		wp_set_current_user( $u );
 
 		$group = groups_get_group( $g );
@@ -208,8 +199,5 @@ class BP_Tests_Core_Nav_BpCoreMaybeHookNewSubnavScreenFunction extends BP_UnitTe
 		$found = bp_core_maybe_hook_new_subnav_screen_function( $subnav_item );
 		$this->assertSame( 'failure', $found['status'] );
 		$this->assertSame( bp_get_root_url(), $found['redirect_args']['root'] );
-
-		// Clean up
-		wp_set_current_user( $old_current_user );
 	}
 }

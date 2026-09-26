@@ -279,7 +279,6 @@ class BP_Tests_Messages_Template extends BP_UnitTestCase {
 		) );
 
 		// set user to anonymous
-		$old_current_user = get_current_user_id();
 		wp_set_current_user( 0 );
 
 		// now, do the message thread query
@@ -290,7 +289,6 @@ class BP_Tests_Messages_Template extends BP_UnitTestCase {
 		$this->assertSame( 0, $messages_template->thread_count );
 		$this->assertEmpty( $messages_template->threads );
 
-		wp_set_current_user( $old_current_user );
 	}
 
 	/**
