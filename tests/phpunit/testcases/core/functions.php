@@ -875,7 +875,7 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 		}
 
 		$bp = buddypress();
-		$reset_current_site = isset( $GLOBALS['current_site'] ) ? $GLOBALS['current_site'] : null;
+		$reset_current_site = $GLOBALS['current_site'] ?? null;
 		$reset_bp_pages = $bp->pages;
 		$reset_bp_active_components = $bp->active_components;
 		$reset_option = bp_get_option( 'bp-pages' );

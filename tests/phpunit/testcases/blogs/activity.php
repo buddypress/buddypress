@@ -623,7 +623,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 	public function test_bp_blogs_new_blog_comment_query_backpat() {
 		$old_user = get_current_user_id();
 		$u        = self::factory()->user->create();
-		$reset_at = isset( $GLOBALS['activities_template'] ) ? $GLOBALS['activities_template'] : null;
+		$reset_at = $GLOBALS['activities_template'] ?? null;
 
 		wp_set_current_user( $u );
 
@@ -682,7 +682,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 	public function test_bp_blogs_new_blog_comment_query_backpat_with_array_of_actions() {
 		$old_user = get_current_user_id();
 		$u        = self::factory()->user->create();
-		$reset_at = isset( $GLOBALS['activities_template'] ) ? $GLOBALS['activities_template'] : null;
+		$reset_at = $GLOBALS['activities_template'] ?? null;
 
 		wp_set_current_user( $u );
 
