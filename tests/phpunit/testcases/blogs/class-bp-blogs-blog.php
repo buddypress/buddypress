@@ -173,7 +173,7 @@ class BP_Tests_BP_Blogs_Blog_TestCases extends BP_UnitTestCase {
 
 		/* Random */
 		$blogs = BP_Blogs_Blog::get( [ 'type' => 'random', 'user_id' => $u ] );
-		$this->assertTrue( 2 == count( $blogs['blogs'] ) );
+		$this->assertCount( 2, $blogs['blogs'] );
 
 		wp_set_current_user( $old_user );
 	}

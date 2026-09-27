@@ -385,7 +385,7 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 		$this->assertStringContainsString( $multiple, $format_tests['array_multiple']['text'] );
 
 		// Check filters
-		$this->assertTrue( 4 === count( $this->test_format_filter ) );
+		$this->assertCount( 4, $this->test_format_filter );
 	}
 
 	public function format_notification_filter( $return ) {

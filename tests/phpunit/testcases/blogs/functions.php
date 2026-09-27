@@ -798,7 +798,7 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 			'search_terms'     => 'activity comment should be unique',
 		) );
 
-		$this->assertTrue( count( $activities['activities'] ) === 1, 'An activity comment should be unique' );
+		$this->assertCount( 1, $activities['activities'], 'An activity comment should be unique' );
 
 		$this->assertTrue( 2 === $this->activity_saved_comment_count, 'An activity comment should be saved only twice' );
 		$this->assertTrue( 1 === $this->comment_saved_count, 'A comment should be saved only once' );
