@@ -112,21 +112,23 @@ class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Tes
 			)
 		);
 
-		xprofile_insert_field(
+		$this->bp::factory()->xprofile_field->create(
 			array(
 				'field_group_id' => $this->group_id,
 				'parent_id'      => $field_id,
 				'type'           => 'option',
 				'name'           => 'Field',
+				'description'    => '',
 			)
 		);
 
-		xprofile_insert_field(
+		$this->bp::factory()->xprofile_field->create(
 			array(
 				'field_group_id' => $this->group_id,
 				'parent_id'      => $field_id,
 				'type'           => 'option',
 				'name'           => 'Value',
+				'description'    => '',
 			)
 		);
 
@@ -160,30 +162,33 @@ class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Tes
 			)
 		);
 
-		xprofile_insert_field(
+		$this->bp::factory()->xprofile_field->create(
 			array(
 				'field_group_id' => $this->group_id,
 				'parent_id'      => $field_id,
 				'type'           => 'option',
 				'name'           => 'Option 1',
+				'description'    => '',
 			)
 		);
 
-		xprofile_insert_field(
+		$this->bp::factory()->xprofile_field->create(
 			array(
 				'field_group_id' => $this->group_id,
 				'parent_id'      => $field_id,
 				'type'           => 'option',
 				'name'           => 'Option 2',
+				'description'    => '',
 			)
 		);
 
-		xprofile_insert_field(
+		$this->bp::factory()->xprofile_field->create(
 			array(
 				'field_group_id' => $this->group_id,
 				'parent_id'      => $field_id,
 				'type'           => 'option',
 				'name'           => 'Option 3',
+				'description'    => '',
 			)
 		);
 
@@ -217,12 +222,13 @@ class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Tes
 			)
 		);
 
-		xprofile_insert_field(
+		$this->bp::factory()->xprofile_field->create(
 			array(
 				'field_group_id' => $this->group_id,
 				'parent_id'      => $field_id,
 				'type'           => 'option',
 				'name'           => 'Option 1',
+				'description'    => '',
 			)
 		);
 
@@ -250,12 +256,13 @@ class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Tes
 			)
 		);
 
-		xprofile_insert_field(
+		$this->bp::factory()->xprofile_field->create(
 			array(
 				'field_group_id' => $this->group_id,
 				'parent_id'      => $field_id,
 				'type'           => 'option',
 				'name'           => 'Option 1',
+				'description'    => '',
 			)
 		);
 
@@ -290,21 +297,23 @@ class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Tes
 				'field_group_id' => $this->group_id,
 			)
 		);
-		xprofile_insert_field(
+		$this->bp::factory()->xprofile_field->create(
 			array(
 				'field_group_id' => $this->group_id,
 				'parent_id'      => $field_id,
 				'type'           => 'option',
 				'name'           => 'Option 1',
+				'description'    => '',
 			)
 		);
 
-		xprofile_insert_field(
+		$this->bp::factory()->xprofile_field->create(
 			array(
 				'field_group_id' => $this->group_id,
 				'parent_id'      => $field_id,
 				'type'           => 'option',
 				'name'           => "I don't travel often",
+				'description'    => '',
 			)
 		);
 

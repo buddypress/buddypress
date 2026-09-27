@@ -1409,7 +1409,6 @@ Bar!';
 		$a = self::factory()->activity->create();
 
 		// bp_activity_add_user_favorite() requires a logged-in user.
-		$current_user = bp_loggedin_user_id();
 		wp_set_current_user( $u );
 
 		$this->assertTrue( bp_activity_add_user_favorite( $a, $u ) );
@@ -1418,7 +1417,6 @@ Bar!';
 		$this->assertSame( array( $a ), bp_activity_get_user_favorites( $u ) );
 		$this->assertSame( '1', bp_activity_get_meta( $a, 'favorite_count' ) );
 
-		wp_set_current_user( $current_user );
 	}
 
 	/**
@@ -1430,11 +1428,9 @@ Bar!';
 		$a = self::factory()->activity->create();
 
 		// bp_activity_add_user_favorite() requires a logged-in user.
-		$current_user = bp_loggedin_user_id();
 		wp_set_current_user( $u );
 		$this->assertTrue( bp_activity_add_user_favorite( $a, $u ) );
 
-		wp_set_current_user( $current_user );
 	}
 
 	/**
@@ -1447,7 +1443,6 @@ Bar!';
 		$a = self::factory()->activity->create();
 
 		// bp_activity_add_user_favorite() requires a logged-in user.
-		$current_user = bp_loggedin_user_id();
 		wp_set_current_user( $u1 );
 
 		// Only favorite for user 1
@@ -1457,7 +1452,6 @@ Bar!';
 		$this->assertFalse( bp_activity_remove_user_favorite( $a, $u2 ) );
 		$this->assertSame( '1', bp_activity_get_meta( $a, 'favorite_count' ) );
 
-		wp_set_current_user( $current_user );
 	}
 
 	/**
@@ -1469,7 +1463,6 @@ Bar!';
 		$a = self::factory()->activity->create();
 
 		// bp_activity_add_user_favorite() requires a logged-in user.
-		$current_user = bp_loggedin_user_id();
 		wp_set_current_user( $u1 );
 
 		// Only favorite for user 1
@@ -1484,7 +1477,6 @@ Bar!';
 		$this->assertSame( $user_favorites, bp_activity_get_user_favorites( $u1 ) );
 		$this->assertSame( '1', bp_activity_get_meta( $a, 'favorite_count' ) );
 
-		wp_set_current_user( $current_user );
 	}
 
 	/**

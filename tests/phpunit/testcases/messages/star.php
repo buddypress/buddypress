@@ -111,7 +111,6 @@ class BP_Tests_Messages_Star_ extends BP_UnitTestCase {
 	 * @group bp_messages_filter_starred_message_threads
 	 */
 	public function test_get_starred_threads_should_not_include_deleted_thread() {
-		$old_current_user = get_current_user_id();
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
 
@@ -166,9 +165,6 @@ class BP_Tests_Messages_Star_ extends BP_UnitTestCase {
 		// assert that second thread isn't in starred thread loop
 		$thread_ids = wp_list_pluck( $messages_template->threads, 'thread_id' );
 		$this->assertFalse( in_array( $t2, $thread_ids ) );
-
-		// reset
-		wp_set_current_user( $old_current_user );
 	}
 
 	/**

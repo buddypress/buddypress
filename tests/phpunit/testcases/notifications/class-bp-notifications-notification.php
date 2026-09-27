@@ -329,11 +329,11 @@ class BP_Tests_BP_Notifications_Notification_TestCases extends BP_UnitTestCase {
 			'allow_duplicate' => true,
 		];
 
-		$n1 = bp_notifications_add_notification( $args );
+		$n1 = self::factory()->notification->create( $args );
 
 		bp_notifications_add_meta( $n1, $meta_key, 'bar' );
 
-		$n2 = bp_notifications_add_notification( $args );
+		$n2 = self::factory()->notification->create( $args );
 
 		$found_1 = BP_Notifications_Notification::get(
 			[
@@ -377,10 +377,10 @@ class BP_Tests_BP_Notifications_Notification_TestCases extends BP_UnitTestCase {
 			'allow_duplicate' => true,
 		];
 
-		$n1 = bp_notifications_add_notification( $args );
-		$n2 = bp_notifications_add_notification( $args );
-		$n3 = bp_notifications_add_notification( $args );
-		$n4 = bp_notifications_add_notification( $args );
+		$n1 = self::factory()->notification->create( $args );
+		$n2 = self::factory()->notification->create( $args );
+		$n3 = self::factory()->notification->create( $args );
+		$n4 = self::factory()->notification->create( $args );
 
 		bp_notifications_add_meta( $n1, $meta_key, 'bar' );
 		bp_notifications_add_meta( $n2, $meta_key, 'bar' );

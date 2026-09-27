@@ -158,11 +158,13 @@ class BP_Tests_Friends_Activity extends BP_UnitTestCase {
 		$users[] = self::factory()->user->create();
 
 		foreach( $users as $u ) {
-			bp_activity_add( array(
+			self::factory()->activity->create( array(
 				'user_id'       => $u,
 				'item_id'       => $friendship_id,
 				'type'          => 'friendship_created',
 				'component'     => buddypress()->friends->id,
+				'content'       => '',
+				'primary_link'  => '',
 				'hide_sitewide' => true,
 			) );
 		}

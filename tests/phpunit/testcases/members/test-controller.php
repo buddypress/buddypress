@@ -420,7 +420,6 @@ class BP_Tests_Members_REST_Controller extends BP_Test_REST_Controller_Testcase 
 		$u2 = static::factory()->user->create();
 
 		// Set current user.
-		$current_user = get_current_user_id();
 		wp_set_current_user( $u1 );
 
 		$a1 = bp_activity_post_update(
@@ -453,7 +452,6 @@ class BP_Tests_Members_REST_Controller extends BP_Test_REST_Controller_Testcase 
 		$this->assertSame( $member['latest_update']['id'], $a1 );
 		$this->assertSame( 1, $member['total_friend_count'] );
 
-		wp_set_current_user( $current_user );
 	}
 
 	/**
@@ -461,7 +459,6 @@ class BP_Tests_Members_REST_Controller extends BP_Test_REST_Controller_Testcase 
 	 */
 	public function test_get_item_me_extras() {
 		// Set current user.
-		$current_user = get_current_user_id();
 		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'GET', $this->endpoint_url . '/me' );
@@ -479,7 +476,6 @@ class BP_Tests_Members_REST_Controller extends BP_Test_REST_Controller_Testcase 
 
 		$this->assertSame( 'right now', $me['last_activity']['timediff'] );
 
-		wp_set_current_user( $current_user );
 	}
 
 	/**
