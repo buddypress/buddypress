@@ -1495,7 +1495,7 @@ Bar!';
 			'error_type' => 'wp_error',
 		) );
 
-		$this->assertInstanceOf( 'WP_Error', $activity );
+		$this->assertWPError( $activity );
 		$this->assertSame( 'bp_activity_missing_content', $activity->get_error_code() );
 	}
 
@@ -1519,7 +1519,7 @@ Bar!';
 			'error_type' => 'wp_error',
 		) );
 
-		$this->assertInstanceOf( 'WP_Error', $activity );
+		$this->assertWPError( $activity );
 		$this->assertSame( 'bp_activity_inactive_user', $activity->get_error_code() );
 	}
 

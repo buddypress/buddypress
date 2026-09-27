@@ -18,6 +18,6 @@ class BP_Tests_Core_Filters extends BP_UnitTestCase {
 
 		$site_data = wpmu_validate_blog_signup( 'members', 'Members', $u );
 
-		$this->assertTrue( is_wp_error( $site_data['errors'] ), 'On MS subdomain installs, a new site should not be able to use a component slug' );
+		$this->assertWPError( $site_data['errors'], 'On MS subdomain installs, a new site should not be able to use a component slug' );
 	}
 }
