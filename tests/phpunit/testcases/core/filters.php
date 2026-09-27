@@ -3,7 +3,6 @@
 /**
  * @group core
  */
-
 class BP_Tests_Core_Filters extends BP_UnitTestCase {
 	/**
 	 * @group bp_core_components_subdirectory_reserved_names

@@ -7,7 +7,6 @@
 class BP_Tests_Members_Cache extends BP_UnitTestCase {
 	/**
 	 * @group bp_core_get_total_member_count
-	 * @group cache
 	 */
 	public function test_bp_core_get_total_member_count_should_respect_cached_value_of_0() {
 		global $wpdb;

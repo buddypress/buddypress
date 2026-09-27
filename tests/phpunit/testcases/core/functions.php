@@ -3,7 +3,6 @@
 /**
  * @group core
  */
-
 class BP_Tests_Core_Functions extends BP_UnitTestCase {
 	protected $bp_initial_version;
 

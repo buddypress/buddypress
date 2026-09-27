@@ -4,7 +4,6 @@
  * @group notifications
  * @group template
  */
-
 class BP_Tests_Notifications_BPNotificationsTemplate extends BP_UnitTestCase {
 	/**
 	 * @group pagination

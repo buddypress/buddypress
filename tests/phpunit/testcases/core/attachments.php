@@ -3,7 +3,6 @@
 /**
  * @group core
  */
-
 class BP_Tests_Core_Attachments extends BP_UnitTestCase {
 	/**
 	 * @group bp_attachments_list_directory_files

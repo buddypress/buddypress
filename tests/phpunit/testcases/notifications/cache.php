@@ -6,9 +6,6 @@
  */
 class BP_Tests_Notifications_Cache extends BP_UnitTestCase {
 
-	/**
-	 * @group cache
-	 */
 	public function test_cache_invalidation_all_for_user_on_save() {
 		$u = self::factory()->user->create();
 
@@ -39,9 +36,6 @@ class BP_Tests_Notifications_Cache extends BP_UnitTestCase {
 		$this->assertFalse( wp_cache_get( $u, 'bp_notifications_unread_count' ) );
 	}
 
-	/**
-	 * @group cache
-	 */
 	public function test_cache_invalidation_all_for_user_on_delete() {
 		$u  = self::factory()->user->create();
 		$n1 = self::factory()->notification->create( array(
@@ -66,9 +60,6 @@ class BP_Tests_Notifications_Cache extends BP_UnitTestCase {
 		$this->assertFalse( wp_cache_get( $u, 'bp_notifications_unread_count' ) );
 	}
 
-	/**
-	 * @group cache
-	 */
 	public function test_cache_invalidation_all_for_user_on_update_user_id() {
 		$u = self::factory()->user->create();
 
@@ -97,9 +88,6 @@ class BP_Tests_Notifications_Cache extends BP_UnitTestCase {
 		$this->assertFalse( wp_cache_get( $u, 'bp_notifications_unread_count' ) );
 	}
 
-	/**
-	 * @group cache
-	 */
 	public function test_cache_invalidation_all_for_user_on_update_id() {
 		$u  = self::factory()->user->create();
 		$n1 = self::factory()->notification->create( array(
@@ -196,7 +184,6 @@ class BP_Tests_Notifications_Cache extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group cache
 	 * @ticket BP8637
 	 */
 	public function test_bp_notifications_clear_all_for_user_cache_before_update() {
@@ -243,7 +230,6 @@ class BP_Tests_Notifications_Cache extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group cache
 	 * @ticket BP8642
 	 */
 	public function test_bp_notifications_clear_all_for_user_cache_before_update_when_marked_unread() {
@@ -277,7 +263,6 @@ class BP_Tests_Notifications_Cache extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group cache
 	 * @ticket BP8637
 	 */
 	public function test_bp_notifications_clear_all_for_user_cache_before_delete() {
@@ -329,7 +314,6 @@ class BP_Tests_Notifications_Cache extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group cache
 	 * @ticket BP8637
 	 */
 	public function test_bp_notifications_clear_all_for_user_cache_before_update_when_item_ids() {
@@ -371,7 +355,6 @@ class BP_Tests_Notifications_Cache extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group cache
 	 * @ticket BP8642
 	 */
 	public function test_bp_notifications_clear_all_for_user_cache_before_update_when_item_ids_and_marked_unread() {
@@ -419,7 +402,6 @@ class BP_Tests_Notifications_Cache extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group cache
 	 * @ticket BP8637
 	 */
 	public function test_bp_notifications_clear_all_for_user_cache_before_delete_when_item_ids() {
