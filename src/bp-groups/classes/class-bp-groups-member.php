@@ -227,9 +227,10 @@ class BP_Groups_Member {
 	 */
 	public function __get( $key ) {
 		if ( $key === 'user' ) {
-			// @todo fix this.
-			return $this->get_user_object( $this->user_id );
+			return $this->get_user_object();
 		}
+
+		return null;
 	}
 
 	/**
