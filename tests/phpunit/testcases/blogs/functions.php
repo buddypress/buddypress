@@ -658,7 +658,6 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 	 * @group post_type_comment_activities
 	 */
 	public function test_bp_blogs_post_type_remove_comment() {
-		$old_user = get_current_user_id();
 		$u = self::factory()->user->create();
 		wp_set_current_user( $u );
 		$userdata = get_userdata( $u );
