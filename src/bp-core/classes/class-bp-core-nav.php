@@ -17,6 +17,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 2.6.0
  */
+#[AllowDynamicProperties]
 class BP_Core_Nav {
 
 	/**
