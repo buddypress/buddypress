@@ -402,7 +402,6 @@ class BP_Groups_Component extends BP_Component {
 
 			// Set group type if available.
 			if ( bp_is_current_action( bp_get_groups_group_type_base() ) && bp_action_variable() ) {
-				$matched_type  = '';
 				$matched_types = bp_groups_get_group_types(
 					array(
 						'has_directory'  => true,
@@ -813,7 +812,7 @@ class BP_Groups_Component extends BP_Component {
 					unset( $manage_screens['membership-requests'] );
 				}
 
-				foreach ( $manage_screens as $manage_screen_id => $manage_sub_nav_item ) {
+				foreach ( $manage_screens as $manage_sub_nav_item ) {
 					$sub_nav[] = array_merge( $manage_sub_nav_item, $default_params );
 				}
 			}

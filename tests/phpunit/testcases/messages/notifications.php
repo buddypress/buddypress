@@ -244,7 +244,7 @@ class BP_Tests_Messages_Notifications extends BP_UnitTestCase {
 			'item_id'
 		);
 
-		$test = bp_messages_message_delete_notifications( $m1->thread_id, $message_ids );
+		bp_messages_message_delete_notifications( $m1->thread_id, $message_ids );
 
 		$deleted = BP_Notifications_Notification::get(
 			array(

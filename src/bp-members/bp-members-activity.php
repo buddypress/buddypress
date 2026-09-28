@@ -241,7 +241,7 @@ function bp_members_new_avatar_activity( $user_id = 0, $type = '', $crop_data = 
 	}
 
 	// Add the activity.
-	$activity_id = bp_activity_add(
+	bp_activity_add(
 		array(
 			'user_id'       => $user_id,
 			'component'     => $bp->members->id,

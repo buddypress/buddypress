@@ -233,7 +233,7 @@ class BP_Messages_Thread {
 		// Messages total count.
 		$this->messages_total_count = self::get_total_thread_message_count( $this->thread_id );
 
-		foreach ( (array) $this->messages as $key => $message ) {
+		foreach ( (array) $this->messages as $message ) {
 			$this->sender_ids[ $message->sender_id ] = $message->sender_id;
 		}
 

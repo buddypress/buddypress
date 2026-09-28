@@ -2950,7 +2950,7 @@ function bp_nav_menu_get_loggedin_pages() {
 			unset( $members_navigation['members'] );
 		}
 
-		foreach ( $members_navigation as $component_id => $member_navigation ) {
+		foreach ( $members_navigation as $member_navigation ) {
 			if ( ! isset( $member_navigation['main_nav'] ) ) {
 				continue;
 			}

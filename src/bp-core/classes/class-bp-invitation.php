@@ -495,7 +495,7 @@ class BP_Invitation {
 		// Order by.
 		if ( ! empty( $args['order_by'] ) ) {
 			$order_by_clean = array();
-			foreach ( (array) $args['order_by'] as $key => $value ) {
+			foreach ( (array) $args['order_by'] as $value ) {
 				if ( in_array( $value, self::$columns, true ) ) {
 					$order_by_clean[] = $value;
 				}

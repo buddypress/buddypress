@@ -101,9 +101,9 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 	 * @group get
 	 */
 	public function test_get_with_offset() {
-		$s1 = self::factory()->signup->create();
+		self::factory()->signup->create();
 		$s2 = self::factory()->signup->create();
-		$s3 = self::factory()->signup->create();
+		self::factory()->signup->create();
 
 		$ss = BP_Signup::get( array(
 			'offset' => 1,
@@ -117,7 +117,7 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 	 * @group get
 	 */
 	public function test_get_with_number() {
-		$s1 = self::factory()->signup->create();
+		self::factory()->signup->create();
 		$s2 = self::factory()->signup->create();
 		$s3 = self::factory()->signup->create();
 
@@ -136,8 +136,8 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 		$s1 = self::factory()->signup->create( array(
 			'user_email' => 'fghij@example.com',
 		) );
-		$s2 = self::factory()->signup->create();
-		$s3 = self::factory()->signup->create();
+		self::factory()->signup->create();
+		self::factory()->signup->create();
 
 		$ss = BP_Signup::get( array(
 			'usersearch' => 'ghi',
@@ -250,7 +250,7 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 	 */
 	public function test_get_with_include() {
 		$s1 = self::factory()->signup->create();
-		$s2 = self::factory()->signup->create();
+		self::factory()->signup->create();
 		$s3 = self::factory()->signup->create();
 
 		$ss = BP_Signup::get( array(
@@ -266,13 +266,13 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 	 * @group get
 	 */
 	public function test_get_with_activation_key() {
-		$s1 = self::factory()->signup->create( array(
+		self::factory()->signup->create( array(
 			'activation_key' => 'foo',
 		) );
 		$s2 = self::factory()->signup->create( array(
 			'activation_key' => 'bar',
 		) );
-		$s3 = self::factory()->signup->create( array(
+		self::factory()->signup->create( array(
 			'activation_key' => 'baz',
 		) );
 
@@ -288,13 +288,13 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 	 * @group get
 	 */
 	public function test_get_with_user_login() {
-		$s1 = self::factory()->signup->create( array(
+		self::factory()->signup->create( array(
 			'user_login' => 'aaaafoo',
 		) );
 		$s2 = self::factory()->signup->create( array(
 			'user_login' => 'zzzzfoo',
 		) );
-		$s3 = self::factory()->signup->create( array(
+		self::factory()->signup->create( array(
 			'user_login' => 'jjjjfoo',
 		) );
 

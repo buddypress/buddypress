@@ -87,7 +87,6 @@ class BP_XProfile_Field_Type_Checkbox_Acceptance extends BP_XProfile_Field_Type 
 	 */
 	public function edit_field_html( array $raw_properties = array() ) {
 		$user_id   = bp_displayed_user_id();
-		$required  = false;
 		$default_r = array();
 
 		if ( isset( $raw_properties['user_id'] ) ) {
@@ -97,7 +96,6 @@ class BP_XProfile_Field_Type_Checkbox_Acceptance extends BP_XProfile_Field_Type 
 
 		if ( bp_get_the_profile_field_is_required() ) {
 			$default_r['required'] = 'required'; // HTML5 required attribute.
-			$required              = true;
 		}
 
 		$r = bp_parse_args(

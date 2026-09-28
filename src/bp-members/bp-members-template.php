@@ -2239,7 +2239,7 @@ function bp_displayed_user_username() {
 	 * @return string
 	 */
 	function bp_get_displayed_user_username() {
-		$bp = buddypress();
+		buddypress();
 
 		if ( bp_displayed_user_id() ) {
 			$username = bp_members_get_user_slug( bp_displayed_user_id() );
@@ -2273,7 +2273,7 @@ function bp_loggedin_user_username() {
 	 * @return string
 	 */
 	function bp_get_loggedin_user_username() {
-		$bp = buddypress();
+		buddypress();
 
 		if ( bp_loggedin_user_id() ) {
 			$username = bp_members_get_user_slug( bp_loggedin_user_id() );

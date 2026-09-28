@@ -568,11 +568,11 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 		$t1 = $message->thread_id;
 
 		$thread = new BP_Messages_Thread( $t1 );
-		$recipients = $thread->get_recipients();
+		$thread->get_recipients();
 
 		// Verify that the cache is populated.
 		$num_queries = $wpdb->num_queries;
-		$recipients_cached = $thread->get_recipients();
+		$thread->get_recipients();
 		$this->assertSame( $num_queries, $wpdb->num_queries );
 
 		// Mark thread as read

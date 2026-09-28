@@ -247,8 +247,7 @@ function bp_members_admin_bar_notifications_dropdown( $notifications = array(), 
  * @return bool
  */
 function bp_members_admin_bar_notifications_menu() {
-	$admins_notifications = array();
-	$capability           = 'manage_options';
+	$capability = 'manage_options';
 
 	if ( bp_core_do_network_admin() ) {
 		$capability = 'manage_network_options';

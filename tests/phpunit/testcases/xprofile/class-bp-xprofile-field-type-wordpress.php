@@ -28,7 +28,7 @@ class BP_Tests_XProfile_Field_Type_WordPress extends BP_UnitTestCase {
 		// Set the WP User Key.
 		bp_xprofile_update_meta( $field_id, 'field', 'wp_user_key', 'last_name' );
 
-		$field_data = xprofile_set_field_data( $field_id, $user_id, 'bar' );
+		xprofile_set_field_data( $field_id, $user_id, 'bar' );
 
 		$user = get_user_by( 'id', $user_id );
 

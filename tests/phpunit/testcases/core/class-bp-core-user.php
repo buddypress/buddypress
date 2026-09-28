@@ -58,7 +58,7 @@ class BP_Tests_BP_Core_User_TestCases extends BP_UnitTestCase {
 		$u1 = self::factory()->user->create( array(
 			'last_activity' => gmdate( 'Y-m-d H:i:s' ),
 		) );
-		$u2 = self::factory()->user->create( array(
+		self::factory()->user->create( array(
 			'last_activity' => gmdate( 'Y-m-d H:i:s', time() - 1000 ),
 		) );
 		$u3 = self::factory()->user->create( array(
@@ -84,7 +84,7 @@ class BP_Tests_BP_Core_User_TestCases extends BP_UnitTestCase {
 		$u1 = self::factory()->user->create( array(
 			'last_activity' => gmdate( 'Y-m-d H:i:s' ),
 		) );
-		$u2 = self::factory()->user->create( array(
+		self::factory()->user->create( array(
 			'last_activity' => gmdate( 'Y-m-d H:i:s', time() - 1000 ),
 		) );
 		$u3 = self::factory()->user->create( array(
@@ -131,7 +131,7 @@ class BP_Tests_BP_Core_User_TestCases extends BP_UnitTestCase {
 	 * @group get_users_by_letter
 	 */
 	public function test_get_users_by_letter() {
-		$u1 = self::factory()->user->create( array(
+		self::factory()->user->create( array(
 			'display_name' => 'foo',
 		) );
 		$u2 = self::factory()->user->create( array(

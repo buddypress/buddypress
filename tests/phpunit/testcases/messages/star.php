@@ -28,7 +28,6 @@ class BP_Tests_Messages_Star_ extends BP_UnitTestCase {
 			'content'    => "That's a spoon",
 		) );
 
-		$m1 = $message_1->id;
 		$m2 = $message_2->id;
 
 		// star the second message
