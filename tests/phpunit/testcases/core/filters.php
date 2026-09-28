@@ -9,7 +9,9 @@ class BP_Tests_Core_Filters extends BP_UnitTestCase {
 	 * @ticket 8187
 	 */
 	public function test_bp_core_components_subdirectory_reserved_names() {
-		if ( ! is_multisite() || is_subdomain_install() ) {
+		$this->skipWithoutMultisite();
+
+		if ( is_subdomain_install() ) {
 			$this->markTestSkipped();
 		}
 

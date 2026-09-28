@@ -869,7 +869,9 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 	 * @ticket BP8187
 	 */
 	public function test_bp_core_add_page_mappings_in_multisite_subdirectory() {
-		if ( ! is_multisite() || is_subdomain_install() ) {
+		$this->skipWithoutMultisite();
+
+		if ( is_subdomain_install() ) {
 			$this->markTestSkipped();
 		}
 

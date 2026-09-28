@@ -29,9 +29,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 	 * @group bp_blogs_format_activity_action_new_blog
 	 */
 	public function test_bp_blogs_format_activity_action_new_blog() {
-		if ( ! is_multisite() ) {
-			$this->markTestSkipped();
-		}
+		$this->skipWithoutMultisite();
 
 		$b = self::factory()->blog->create();
 		$u = self::factory()->user->create();
@@ -54,9 +52,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 	 * @group bp_blogs_format_activity_action_new_blog_post
 	 */
 	public function test_bp_blogs_format_activity_action_new_blog_post_nonms() {
-		if ( is_multisite() ) {
-			$this->markTestSkipped();
-		}
+		$this->skipWithMultisite();
 
 		$u = self::factory()->user->create();
 		$p = self::factory()->post->create( array(
@@ -83,9 +79,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 	 * @group bp_blogs_format_activity_action_new_blog_post
 	 */
 	public function test_bp_blogs_format_activity_action_new_blog_post_ms_rootblog() {
-		if ( ! is_multisite() ) {
-			$this->markTestSkipped();
-		}
+		$this->skipWithoutMultisite();
 
 		$u = self::factory()->user->create();
 		$p = self::factory()->post->create( array(
@@ -114,9 +108,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 	 * @group bp_blogs_format_activity_action_new_blog_post
 	 */
 	public function test_bp_blogs_format_activity_action_new_blog_post_ms_nonrootblog() {
-		if ( ! is_multisite() ) {
-			$this->markTestSkipped();
-		}
+		$this->skipWithoutMultisite();
 
 		$b = self::factory()->blog->create();
 		$u = self::factory()->user->create();
@@ -152,9 +144,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 	 * @group post_type_comment_activities
 	 */
 	public function test_bp_blogs_format_activity_action_new_blog_comment_ms_nonrootblog() {
-		if ( ! is_multisite() ) {
-			$this->markTestSkipped();
-		}
+		$this->skipWithoutMultisite();
 
 		$b = self::factory()->blog->create();
 		$u = self::factory()->user->create();
@@ -197,9 +187,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 	public function test_bp_blogs_update_post_title_activity_meta_should_not_be_the_same_for_same_comment_id() {
 		global $wpdb;
 
-		if ( ! is_multisite() ) {
-			$this->markTestSkipped();
-		}
+		$this->skipWithoutMultisite();
 
 		$b1 = self::factory()->blog->create();
 		$b2 = self::factory()->blog->create();
