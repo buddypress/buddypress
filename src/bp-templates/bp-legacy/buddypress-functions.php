@@ -1208,7 +1208,7 @@ function bp_legacy_theme_delete_activity() {
 		exit( '-1' );
 	}
 
-	/** This action is documented in bp-activity/bp-activity-actions.php */
+	/** This action is documented in bp-activity/actions/delete.php */
 	do_action( 'bp_activity_before_action_delete_activity', $activity->id, $activity->user_id );
 
 	if ( ! bp_activity_delete(
@@ -1220,7 +1220,7 @@ function bp_legacy_theme_delete_activity() {
 		exit( '-1<div id="message" class="error bp-ajax-message"><p>' . esc_html__( 'There was a problem when deleting. Please try again.', 'buddypress' ) . '</p></div>' );
 	}
 
-	/** This action is documented in bp-activity/bp-activity-actions.php */
+	/** This action is documented in bp-activity/actions/delete.php */
 	do_action( 'bp_activity_action_delete_activity', $activity->id, $activity->user_id );
 	exit;
 }
@@ -1253,14 +1253,14 @@ function bp_legacy_theme_delete_activity_comment() {
 		exit( '-1' );
 	}
 
-	/** This action is documented in bp-activity/bp-activity-actions.php */
+	/** This action is documented in bp-activity/actions/delete.php */
 	do_action( 'bp_activity_before_action_delete_activity', $_POST['id'], $comment->user_id );
 
 	if ( ! bp_activity_delete_comment( $comment->item_id, $comment->id ) ) {
 		exit( '-1<div id="message" class="error bp-ajax-message"><p>' . esc_html__( 'There was a problem when deleting. Please try again.', 'buddypress' ) . '</p></div>' );
 	}
 
-	/** This action is documented in bp-activity/bp-activity-actions.php */
+	/** This action is documented in bp-activity/actions/delete.php */
 	do_action( 'bp_activity_action_delete_activity', $_POST['id'], $comment->user_id );
 	exit;
 }
@@ -1301,14 +1301,14 @@ function bp_legacy_theme_spam_activity() {
 	// Check nonce.
 	check_admin_referer( 'bp_activity_akismet_spam_' . $activity->id );
 
-	/** This action is documented in bp-activity/bp-activity-actions.php */
+	/** This action is documented in bp-activity/actions/spam.php */
 	do_action( 'bp_activity_before_action_spam_activity', $activity->id, $activity );
 
 	// Mark as spam.
 	bp_activity_mark_as_spam( $activity );
 	$activity->save();
 
-	/** This action is documented in bp-activity/bp-activity-actions.php */
+	/** This action is documented in bp-activity/actions/spam.php */
 	do_action( 'bp_activity_action_spam_activity', $activity->id, $activity->user_id );
 	exit;
 }

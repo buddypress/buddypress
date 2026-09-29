@@ -229,7 +229,7 @@ function bp_nouveau_ajax_delete_activity() {
 		wp_send_json_error( $response );
 	}
 
-	/** This action is documented in bp-activity/bp-activity-actions.php */
+	/** This action is documented in bp-activity/actions/delete.php */
 	do_action( 'bp_activity_before_action_delete_activity', $activity->id, $activity->user_id );
 
 	// Deleting an activity comment.
@@ -269,7 +269,7 @@ function bp_nouveau_ajax_delete_activity() {
 		);
 	}
 
-	/** This action is documented in bp-activity/bp-activity-actions.php */
+	/** This action is documented in bp-activity/actions/delete.php */
 	do_action( 'bp_activity_action_delete_activity', $activity->id, $activity->user_id );
 
 	// If on a single activity redirect to user's home.
@@ -666,14 +666,14 @@ function bp_nouveau_ajax_spam_activity() {
 		wp_send_json_error( $response );
 	}
 
-	/** This action is documented in bp-activity/bp-activity-actions.php */
+	/** This action is documented in bp-activity/actions/spam.php */
 	do_action( 'bp_activity_before_action_spam_activity', $activity->id, $activity );
 
 	// Mark as spam.
 	bp_activity_mark_as_spam( $activity );
 	$activity->save();
 
-	/** This action is documented in bp-activity/bp-activity-actions.php */
+	/** This action is documented in bp-activity/actions/spam.php */
 	do_action( 'bp_activity_action_spam_activity', $activity->id, $activity->user_id );
 
 	// Prepare the successfull reply.

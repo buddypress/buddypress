@@ -317,7 +317,7 @@ function bp_notifications_get_notifications_for_user( $user_id, $format = 'strin
 				// Return an array of content strings.
 			} else {
 
-				/** This filters is documented in bp-notifications/bp-notifications-functions.php */
+				/** This filter is documented in bp-notifications/bp-notifications-functions.php */
 				$renderable[] = apply_filters_ref_array( 'bp_notifications_get_notifications_for_user', $ref_array );
 			}
 		}

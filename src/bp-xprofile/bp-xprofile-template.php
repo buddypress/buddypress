@@ -1152,6 +1152,7 @@ function bp_get_profile_group_tabs() {
 		$link = bp_displayed_user_url( bp_members_get_path_chunks( array( bp_get_profile_slug(), 'edit', array( 'group', $groups[ $i ]->id ) ) ) );
 
 		// Add tab to end of tabs array.
+		/** This filter is documented in bp-xprofile/bp-xprofile-template.php */
 		$tabs[] = sprintf(
 			'<li %1$s><a href="%2$s">%3$s</a></li>',
 			$selected,

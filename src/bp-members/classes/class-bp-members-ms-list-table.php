@@ -376,7 +376,7 @@ class BP_Members_MS_List_Table extends WP_MS_Users_List_Table {
 			$actions['delete'] = sprintf( '<a href="%1$s" class="delete">%2$s</a>', esc_url( $delete_link ), esc_html__( 'Delete', 'buddypress' ) );
 		}
 
-		/** This filter is documented in bp-members/admin/bp-members-classes.php */
+		/** This filter is documented in bp-members/classes/class-bp-members-list-table.php */
 		$actions = apply_filters( 'bp_members_ms_signup_row_actions', $actions, $signup_object );
 
 		// BuddyPress relies on WordPress's `WP_MS_Users_List_Table::row_actions()`.

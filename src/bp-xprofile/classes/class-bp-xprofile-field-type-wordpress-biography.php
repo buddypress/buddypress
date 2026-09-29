@@ -108,7 +108,7 @@ class BP_XProfile_Field_Type_WordPress_Biography extends BP_XProfile_Field_Type_
 		</label>
 
 		<?php
-		/** This action is documented in bp-xprofile/bp-xprofile-classes */
+		/** This action is documented in bp-xprofile/classes/class-bp-xprofile-field-type-datebox.php */
 		do_action( bp_get_the_profile_field_errors_action() );
 
 		$r = bp_parse_args(

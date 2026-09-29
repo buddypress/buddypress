@@ -3980,6 +3980,7 @@ function bp_activity_types_list( $output = 'select', $args = '' ) {
 
 	// Backpat with BP-Default for dropdown boxes only.
 	if ( 'select' === $output ) {
+		/** This action is documented in bp-templates/bp-legacy/buddypress/activity/index.php */
 		do_action( 'bp_activity_filter_options' );
 	}
 }

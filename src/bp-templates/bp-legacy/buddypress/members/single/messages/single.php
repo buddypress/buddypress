@@ -117,7 +117,7 @@
 
 					<?php
 
-					/** This action is documented in bp-templates/bp-legacy/buddypress-functions.php */
+					/** This action is documented in bp-templates/bp-legacy/buddypress/members/single/messages/message.php */
 					do_action( 'bp_before_message_meta' );
 					?>
 
@@ -129,7 +129,7 @@
 
 					<?php
 
-					/** This action is documented in bp-templates/bp-legacy/buddypress-functions.php */
+					/** This action is documented in bp-templates/bp-legacy/buddypress/members/single/messages/message.php */
 					do_action( 'bp_after_message_meta' );
 					?>
 

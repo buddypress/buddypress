@@ -1529,7 +1529,7 @@ function bp_avatar_ajax_set() {
 			/** This action is documented in bp-core/bp-core-avatars.php */
 			do_action( 'bp_members_avatar_uploaded', $item_id, $avatar_data['type'], $r, $cropped_avatar );
 		} elseif ( 'group' === $avatar_data['object'] ) {
-			/** This action is documented in bp-groups/bp-groups-screens.php */
+			/** This action is documented in bp-groups/screens/single/admin/group-avatar.php */
 			do_action( 'groups_avatar_uploaded', $item_id, $avatar_data['type'], $r, $cropped_avatar );
 		}
 

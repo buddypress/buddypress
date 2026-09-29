@@ -677,10 +677,12 @@ class BP_Messages_Sitewide_Notices_REST_Controller extends WP_REST_Controller {
 			'id'        => (int) $notice->id,
 			'subject'   => array(
 				'raw'      => $notice->subject,
+				/** This filter is documented in bp-messages/bp-messages-template.php */
 				'rendered' => apply_filters( 'bp_get_message_notice_subject', wp_staticize_emoji( $notice->subject ) ),
 			),
 			'message'   => array(
 				'raw'      => $notice->message,
+				/** This filter is documented in bp-messages/bp-messages-template.php */
 				'rendered' => apply_filters( 'bp_get_message_notice_text', wp_staticize_emoji( $notice->message ) ),
 			),
 			'date'      => bp_rest_prepare_date_response( $notice->date_sent, get_date_from_gmt( $notice->date_sent ) ),
