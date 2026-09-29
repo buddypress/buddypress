@@ -39,6 +39,7 @@ class BP_Tests_Admin_Functions extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group BP9065
 	 * @group bp_core_admin_get_active_components_from_submitted_settings
 	 */
 	public function test_bp_core_admin_get_active_components_from_submitted_settings() {
@@ -81,12 +82,12 @@ class BP_Tests_Admin_Functions extends BP_UnitTestCase {
 			'xprofile' => 1,
 		);
 
-		$submitted2 = array(
+		$submitted = array(
 			'groups' => 1,
 		);
 
 		$expected = array( 'activity' => 1, 'groups' => 1, 'members' => 1, 'messages' => 1, 'settings' => 1, 'xprofile' => 1 );
-		$actual   = bp_core_admin_get_active_components_from_submitted_settings( $submitted2 );
+		$actual   = bp_core_admin_get_active_components_from_submitted_settings( $submitted );
 		ksort( $expected );
 		ksort( $actual );
 		$this->assertSame( $expected, $actual );
@@ -101,13 +102,30 @@ class BP_Tests_Admin_Functions extends BP_UnitTestCase {
 			'xprofile' => 1,
 		);
 
-		$submitted4 = array();
+		$submitted = array();
 
 		$expected = array( 'activity' => 1, 'members' => 1, 'messages' => 1, 'settings' => 1, 'xprofile' => 1 );
-		$actual   = bp_core_admin_get_active_components_from_submitted_settings( $submitted4 );
+		$actual   = bp_core_admin_get_active_components_from_submitted_settings( $submitted );
 		ksort( $expected );
 		ksort( $actual );
 		$this->assertSame( $expected, $actual );
+
+		// Discard malformed component settings.
+		unset( $_GET['action'] );
+		$submitted = array(
+			'activity' => '1',
+			'groups'   => array( 'invalid' ),
+			'members'  => 'not-numeric',
+			'messages' => 1,
+			0          => 1,
+		);
+		$expected  = array(
+			'activity' => '1',
+			'messages' => 1,
+		);
+		$actual    = bp_core_admin_get_active_components_from_submitted_settings( $submitted );
+		$this->assertSame( $expected, $actual );
+		$this->assertSame( array(), bp_core_admin_get_active_components_from_submitted_settings( 'invalid' ) );
 
 		// reset
 		if ( $get_action ) {
@@ -117,6 +135,79 @@ class BP_Tests_Admin_Functions extends BP_UnitTestCase {
 		}
 
 		buddypress()->active_components = $ac;
+	}
+
+	/**
+	 * Ensure admin list tables reject array-shaped searches.
+	 *
+	 * @group BP9065
+	 */
+	public function test_admin_list_tables_should_reject_array_search_values() {
+		if ( ! class_exists( 'WP_List_Table' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/class-wp-list-table.php';
+		}
+
+		if ( ! class_exists( 'WP_Users_List_Table' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/class-wp-users-list-table.php';
+		}
+
+		$class_files = array(
+			'BP_Activity_List_Table'            => 'bp-activity/classes/class-bp-activity-list-table.php',
+			'BP_Groups_List_Table'              => 'bp-groups/classes/class-bp-groups-list-table.php',
+			'BP_Members_List_Table'             => 'bp-members/classes/class-bp-members-list-table.php',
+			'BP_Members_Invitations_List_Table' => 'bp-members/classes/class-bp-members-invitations-list-table.php',
+			'BP_Optouts_List_Table'             => 'bp-core/classes/class-bp-optouts-list-table.php',
+		);
+
+		if ( is_multisite() ) {
+			if ( ! class_exists( 'WP_MS_Users_List_Table' ) ) {
+				require_once ABSPATH . 'wp-admin/includes/class-wp-ms-users-list-table.php';
+			}
+
+			$class_files['BP_Members_MS_List_Table'] = 'bp-members/classes/class-bp-members-ms-list-table.php';
+		}
+
+		foreach ( $class_files as $class_name => $class_file ) {
+			if ( ! class_exists( $class_name ) ) {
+				require_once BP_PLUGIN_DIR . $class_file;
+			}
+		}
+
+		$request            = $_REQUEST;
+		$get                = $_GET;
+		$had_current_screen = array_key_exists( 'current_screen', $GLOBALS );
+		$current_screen     = $had_current_screen ? $GLOBALS['current_screen'] : null;
+		$had_usersearch     = array_key_exists( 'usersearch', $GLOBALS );
+		$usersearch         = $had_usersearch ? $GLOBALS['usersearch'] : null;
+
+		try {
+			$_REQUEST                 = array( 's' => array( 'invalid' ) );
+			$_GET                     = array();
+			$GLOBALS['current_screen'] = WP_Screen::get( 'users_page_bp-request-input' );
+
+			foreach ( array_keys( $class_files ) as $class_name ) {
+				$list_table = new $class_name();
+				$list_table->prepare_items();
+				$this->assertTrue( is_array( $list_table->items ) );
+			}
+
+			$this->assertSame( '', $GLOBALS['usersearch'] );
+		} finally {
+			$_REQUEST = $request;
+			$_GET     = $get;
+
+			if ( $had_current_screen ) {
+				$GLOBALS['current_screen'] = $current_screen;
+			} else {
+				unset( $GLOBALS['current_screen'] );
+			}
+
+			if ( $had_usersearch ) {
+				$GLOBALS['usersearch'] = $usersearch;
+			} else {
+				unset( $GLOBALS['usersearch'] );
+			}
+		}
 	}
 
 	/**

@@ -66,7 +66,7 @@ class BP_Members_MS_List_Table extends WP_MS_Users_List_Table {
 	public function prepare_items() {
 		global $usersearch, $mode;
 
-		$usersearch       = isset( $_REQUEST['s'] ) ? $_REQUEST['s'] : '';
+		$usersearch       = isset( $_REQUEST['s'] ) && is_string( $_REQUEST['s'] ) ? wp_unslash( $_REQUEST['s'] ) : '';
 		$signups_per_page = $this->get_items_per_page( str_replace( '-', '_', "{$this->screen->id}_per_page" ) );
 		$paged            = $this->get_pagenum();
 
