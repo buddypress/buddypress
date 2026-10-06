@@ -1742,6 +1742,14 @@ function bp_activity_content() {
 		 * This function is mainly for backwards compatibility.
 		 */
 		$content = bp_get_activity_action() . ' ' . bp_get_activity_content_body();
+
+		/**
+		 * Filters activity or activity comment content before display.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param string $content The activity content including its action, or comment content.
+		 */
 		return apply_filters( 'bp_get_activity_content', $content );
 	}
 

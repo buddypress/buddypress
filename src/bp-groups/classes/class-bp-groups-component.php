@@ -825,16 +825,19 @@ class BP_Groups_Component extends BP_Component {
 			if ( isset( $this->current_group->user_has_access ) ) {
 
 				/**
-				 * Fires at the end of the groups navigation setup if user has access.
+				 * Fires at the end of the groups navigation setup.
+				 *
+				 * This action receives the access value when the current group exposes it.
+				 * Otherwise, it fires without arguments.
 				 *
 				 * @since 1.0.2
 				 *
-				 * @param bool $user_has_access Whether or not user has access.
+				 * @param bool $user_has_access Optional. Whether the user has access to the group.
 				 */
 				do_action( 'groups_setup_nav', $this->current_group->user_has_access );
 			} else {
 
-				/** This action is documented in bp-groups/bp-groups-loader.php */
+				/** This action is documented in bp-groups/classes/class-bp-groups-component.php */
 				do_action( 'groups_setup_nav' );
 			}
 		}

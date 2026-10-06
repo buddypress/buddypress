@@ -735,7 +735,7 @@ class BP_Activity_Activity {
 			if ( ! empty( $page ) && ! empty( $per_page ) ) {
 				$pag_sql = $wpdb->prepare( 'LIMIT %d, %d', absint( ( $page - 1 ) * $per_page ), $per_page );
 
-				/** This filter is documented in bp-activity/bp-activity-classes.php */
+				/** This filter is documented in bp-activity/classes/class-bp-activity-activity.php */
 				$activity_sql = apply_filters( 'bp_activity_get_user_join_filter', "{$select_sql} {$from_sql} {$join_sql} {$where_sql} ORDER BY a.date_recorded {$sort}, a.id {$sort} {$pag_sql}", $select_sql, $from_sql, $where_sql, $sort, $pag_sql );
 			} else {
 				$pag_sql = '';
@@ -750,6 +750,7 @@ class BP_Activity_Activity {
 				 * @param string $from_sql   Final FROM MySQL statement portion for legacy query.
 				 * @param string $where_sql  Final WHERE MySQL statement portion for legacy query.
 				 * @param string $sort       Final sort direction for legacy query.
+				 * @param string $pag_sql    LIMIT clause for paged queries; empty for unpaged queries.
 				 */
 				$activity_sql = apply_filters( 'bp_activity_get_user_join_filter', "{$select_sql} {$from_sql} {$join_sql} {$where_sql} ORDER BY a.date_recorded {$sort}, a.id {$sort}", $select_sql, $from_sql, $where_sql, $sort, $pag_sql );
 			}
