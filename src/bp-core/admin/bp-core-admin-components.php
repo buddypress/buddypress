@@ -356,7 +356,7 @@ function bp_core_admin_components_settings_handler() {
 	}
 
 	// Settings form submitted, now save the settings. First, set active components.
-	if ( isset( $_POST['bp_components'] ) ) {
+	if ( isset( $_POST['bp_components'] ) && is_array( $_POST['bp_components'] ) ) {
 
 		// Load up BuddyPress.
 		$bp = buddypress();
@@ -365,7 +365,7 @@ function bp_core_admin_components_settings_handler() {
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 		require_once $bp->plugin_dir . '/bp-core/admin/bp-core-admin-schema.php';
 
-		$submitted             = stripslashes_deep( $_POST['bp_components'] );
+		$submitted             = wp_unslash( $_POST['bp_components'] );
 		$bp->active_components = bp_core_admin_get_active_components_from_submitted_settings( $submitted );
 
 		bp_core_install( $bp->active_components );
@@ -418,7 +418,7 @@ add_action( 'bp_admin_init', 'bp_core_admin_components_settings_handler' );
  * @since 1.7.0
  *
  * @param array $submitted This is the array of component settings coming from the POST
- *                         global. You should stripslashes_deep() before passing to this function.
+ *                         global. You should wp_unslash() before passing to this function.
  * @return array The calculated list of component settings
  */
 function bp_core_admin_get_active_components_from_submitted_settings( $submitted ) {
@@ -429,6 +429,13 @@ function bp_core_admin_get_active_components_from_submitted_settings( $submitted
 	}
 
 	$current_components = buddypress()->active_components;
+	$submitted          = array_filter(
+		(array) $submitted,
+		function ( $value, $key ) {
+			return is_string( $key ) && is_numeric( $value );
+		},
+		ARRAY_FILTER_USE_BOTH
+	);
 
 	switch ( $current_action ) {
 		case 'retired':

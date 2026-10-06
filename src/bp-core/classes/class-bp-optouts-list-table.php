@@ -52,7 +52,7 @@ class BP_Optouts_List_Table extends WP_Users_List_Table {
 	 * @since 8.0.0
 	 */
 	public function prepare_items() {
-		$search   = isset( $_REQUEST['s'] ) ? $_REQUEST['s'] : '';
+		$search   = isset( $_REQUEST['s'] ) && is_string( $_REQUEST['s'] ) ? wp_unslash( $_REQUEST['s'] ) : '';
 		$per_page = $this->get_items_per_page( str_replace( '-', '_', "{$this->screen->id}_per_page" ) );
 		$paged    = $this->get_pagenum();
 

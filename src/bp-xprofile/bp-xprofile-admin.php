@@ -716,10 +716,15 @@ function xprofile_admin_manage_field( $group_id, $field_id = null ) {
 				if ( isset( $_POST['has-member-types'] ) ) {
 					$member_types = array();
 					if ( isset( $_POST['member-types'] ) ) {
-						$member_types = stripslashes_deep( $_POST['member-types'] );
+						$member_types = null;
+						if ( is_array( $_POST['member-types'] ) ) {
+							$member_types = array_filter( wp_unslash( $_POST['member-types'] ), 'is_string' );
+						}
 					}
 
-					$field->set_member_types( $member_types );
+					if ( is_array( $member_types ) ) {
+						$field->set_member_types( $member_types );
+					}
 				}
 
 				// Validate default visibility.

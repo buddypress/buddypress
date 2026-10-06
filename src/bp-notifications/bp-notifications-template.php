@@ -208,15 +208,15 @@ function bp_has_notifications( $args = '' ) {
 	// Set the component action (by default false to get all actions).
 	$component_action = false;
 
-	if ( isset( $_REQUEST['type'] ) ) {
-		$component_action = sanitize_key( $_REQUEST['type'] );
+	if ( isset( $_REQUEST['type'] ) && is_string( $_REQUEST['type'] ) ) {
+		$component_action = sanitize_key( wp_unslash( $_REQUEST['type'] ) );
 	}
 
 	// Set the search terms (by default an empty string to get all notifications).
 	$search_terms = '';
 
-	if ( isset( $_REQUEST['s'] ) ) {
-		$search_terms = stripslashes( $_REQUEST['s'] );
+	if ( isset( $_REQUEST['s'] ) && is_string( $_REQUEST['s'] ) ) {
+		$search_terms = wp_unslash( $_REQUEST['s'] );
 	}
 
 	// Parse the args.
@@ -1018,9 +1018,10 @@ function bp_notifications_sort_order_form() {
 	$selected = 'DESC';
 
 	// Check for a custom sort_order.
-	if ( ! empty( $_REQUEST['sort_order'] ) ) {
-		if ( in_array( $_REQUEST['sort_order'], $orders, true ) ) {
-			$selected = $_REQUEST['sort_order'];
+	if ( ! empty( $_REQUEST['sort_order'] ) && is_string( $_REQUEST['sort_order'] ) ) {
+		$sort_order = wp_unslash( $_REQUEST['sort_order'] );
+		if ( in_array( $sort_order, $orders, true ) ) {
+			$selected = $sort_order;
 		}
 	} ?>
 
