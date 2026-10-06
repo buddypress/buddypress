@@ -231,10 +231,10 @@ function bp_field_has_data() {
 	 *
 	 * @since 2.8.0
 	 *
-	 * @param bool                      $value            Whether or not there is data to display.
+	 * @param bool                      $has_data         Whether or not there is data to display.
 	 * @param BP_XProfile_Data_Template $profile_template Profile data template object.
-	 * @param string                    $value            Profile field being displayed.
-	 * @param string                    $value            Profile field ID being displayed.
+	 * @param string                    $field            Profile field being displayed.
+	 * @param string                    $field_id         Profile field ID being displayed.
 	 */
 	return apply_filters( 'bp_field_has_data', $profile_template->field_has_data, $profile_template, $profile_template->field, $profile_template->field->id );
 }

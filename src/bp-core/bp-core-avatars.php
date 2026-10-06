@@ -289,9 +289,9 @@ function bp_core_fetch_avatar( $args = '' ) {
 		 *
 		 * @since 1.1.0
 		 *
-		 * @param string $value  ID of avatar item being requested.
-		 * @param string $value  Avatar type being requested.
-		 * @param array  $params Array of parameters for the request.
+		 * @param string $item_id ID of avatar item being requested.
+		 * @param string $object  Avatar type being requested.
+		 * @param array  $params  Array of parameters for the request.
 		 */
 		$params['item_id'] = apply_filters( 'bp_core_avatar_item_id', $params['item_id'], $params['object'], $params );
 

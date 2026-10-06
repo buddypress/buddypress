@@ -405,7 +405,7 @@ function groups_edit_base_group_details( $args = array() ) {
 	 *
 	 * @since 2.2.0
 	 *
-	 * @param int             $value          ID of the group.
+	 * @param int             $group_id       ID of the group.
 	 * @param BP_Groups_Group $old_group      Group object, before being modified.
 	 * @param bool            $notify_members Whether to send an email notification to members about the change.
 	 */
