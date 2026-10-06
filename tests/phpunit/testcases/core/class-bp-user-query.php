@@ -349,9 +349,7 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 	 * @group spam
 	 */
 	public function test_bp_user_query_type_alphabetical_spam_xprofileon() {
-		if ( is_multisite() ) {
-			$this->markTestSkipped();
-		}
+		$this->skipWithMultisite();
 
 		// Make sure xprofile is on
 		$xprofile_toggle = isset( buddypress()->active_components['xprofile'] );

@@ -208,7 +208,7 @@ function bp_activity_filter_kses( $content ) {
 	$activity_allowedtags = bp_get_allowedtags();
 
 	// Don't allow 'class' or 'id'.
-	foreach ( $activity_allowedtags as $el => &$atts ) {
+	foreach ( $activity_allowedtags as &$atts ) {
 		unset( $atts['class'] );
 		unset( $atts['id'] );
 	}

@@ -366,7 +366,7 @@ class BP_Tests_Members_REST_Controller extends BP_Test_REST_Controller_Testcase 
 		$user_ids = wp_list_pluck( $all_data, 'id' );
 
 		$this->assertNotEmpty( $all_data );
-		$this->assertTrue( 2 === count( $all_data ) );
+		$this->assertCount( 2, $all_data );
 		$this->assertFalse( in_array( $u2, $user_ids, true ) );
 		$this->assertSame( array( $u3, $u ), $user_ids );
 	}

@@ -1081,9 +1081,7 @@ Bar!';
 	 * @ticket BP8175
 	 */
 	public function test_groups_data_should_be_deleted_on_user_delete_non_multisite() {
-		if ( is_multisite() ) {
-			$this->markTestSkipped( __METHOD__ . ' requires non-multisite.' );
-		}
+		$this->skipWithMultisite();
 
 		$u = self::factory()->user->create();
 
@@ -1100,9 +1098,7 @@ Bar!';
 	 * @ticket BP8175
 	 */
 	public function test_groups_data_should_be_deleted_on_user_delete_multisite() {
-		if ( ! is_multisite() ) {
-			$this->markTestSkipped( __METHOD__ . ' requires multisite.' );
-		}
+		$this->skipWithoutMultisite();
 
 		$u = self::factory()->user->create();
 
@@ -1119,9 +1115,7 @@ Bar!';
 	 * @ticket BP8175
 	 */
 	public function test_groups_data_should_not_be_deleted_on_wp_delete_user_multisite() {
-		if ( ! is_multisite() ) {
-			$this->markTestSkipped( __METHOD__ . ' requires multisite.' );
-		}
+		$this->skipWithoutMultisite();
 
 		$u = self::factory()->user->create();
 

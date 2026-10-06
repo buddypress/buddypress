@@ -725,7 +725,7 @@ function bp_messages_personal_data_exporter( $email_address, $page ) {
 
 		$thread_link = bp_get_message_thread_view_link( $thread->thread_id, $user->ID );
 
-		foreach ( $thread->messages as $message_index => $message ) {
+		foreach ( $thread->messages as $message ) {
 			// Only include messages written by the user.
 			if ( $user->ID !== $message->sender_id ) {
 				continue;

@@ -97,7 +97,7 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 
 		$all_type = wp_list_pluck( $response->get_data(), 'type' );
 
-		$this->assertTrue( count( $all_type ) === 2 );
+		$this->assertCount( 2, $all_type );
 		$this->assertContains( 'created_group', $all_type );
 	}
 

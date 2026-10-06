@@ -2514,7 +2514,6 @@ function bp_nouveau_signup_form( $section = 'account_details' ) {
 			// Text fields are using strings, radios are using their inputs.
 			$label_output = '<label for="%1$s">%2$s</label>';
 			$id           = $name;
-			$classes      = '';
 
 			if ( $required ) {
 				/* translators: Do not translate placeholders. 2 = form field name, 3 = "(required)". */

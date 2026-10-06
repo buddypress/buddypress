@@ -1742,6 +1742,14 @@ function bp_activity_content() {
 		 * This function is mainly for backwards compatibility.
 		 */
 		$content = bp_get_activity_action() . ' ' . bp_get_activity_content_body();
+
+		/**
+		 * Filters activity or activity comment content before display.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param string $content The activity content including its action, or comment content.
+		 */
 		return apply_filters( 'bp_get_activity_content', $content );
 	}
 
@@ -3980,6 +3988,7 @@ function bp_activity_types_list( $output = 'select', $args = '' ) {
 
 	// Backpat with BP-Default for dropdown boxes only.
 	if ( 'select' === $output ) {
+		/** This action is documented in bp-templates/bp-legacy/buddypress/activity/index.php */
 		do_action( 'bp_activity_filter_options' );
 	}
 }

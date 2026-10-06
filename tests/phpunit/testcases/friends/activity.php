@@ -79,7 +79,7 @@ class BP_Tests_Friends_Activity extends BP_UnitTestCase {
 			'show_hidden' => false
 		) );
 
-		$this->assertTrue( count( $fc_act['activities'] ) == 1, '1 public activity should be created when a friendship is confirmed' );
+		$this->assertCount( 1, $fc_act['activities'], '1 public activity should be created when a friendship is confirmed' );
 
 		// Remove the friendship
 		friends_remove_friend( $u2, $u1 );
@@ -93,7 +93,7 @@ class BP_Tests_Friends_Activity extends BP_UnitTestCase {
 			'show_hidden' => true
 		) );
 
-		$this->assertTrue( count( $fd_act['activities'] ) == 0, 'friends_delete_activity() should remove "friendship_created" activities about a deleted friendship' );
+		$this->assertCount( 0, $fd_act['activities'], 'friends_delete_activity() should remove "friendship_created" activities about a deleted friendship' );
 	}
 
 	/**
@@ -122,7 +122,7 @@ class BP_Tests_Friends_Activity extends BP_UnitTestCase {
 			'filter'      => array( 'action' => array( 'friendship_created' ), 'user_id' => $u1 ),
 		) );
 
-		$this->assertTrue( count( $u1_act['activities'] ) == 1, 'a public activity should be listed in the friend stream' );
+		$this->assertCount( 1, $u1_act['activities'], 'a public activity should be listed in the friend stream' );
 
 		$u2_act = bp_activity_get( array(
 			'component'   => buddypress()->friends->id,
@@ -131,7 +131,7 @@ class BP_Tests_Friends_Activity extends BP_UnitTestCase {
 			'filter'      => array( 'action' => array( 'friendship_created' ), 'user_id' => $u2 ),
 		) );
 
-		$this->assertTrue( count( $u2_act['activities'] ) == 1, 'a public activity should be listed in the initiator stream' );
+		$this->assertCount( 1, $u2_act['activities'], 'a public activity should be listed in the initiator stream' );
 	}
 
 	/**
@@ -184,7 +184,7 @@ class BP_Tests_Friends_Activity extends BP_UnitTestCase {
 			'show_hidden' => true,
 		) );
 
-		$this->assertTrue( count( $check['activities'] ) == 1 );
+		$this->assertCount( 1, $check['activities'] );
 	}
 
 	/**

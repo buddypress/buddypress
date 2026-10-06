@@ -97,7 +97,7 @@ class BP_Tests_Group_Membership_Request_REST_Controller extends BP_Test_REST_Con
 		$this->assertSame( 200, $response->get_status() );
 
 		$all_data = $response->get_data();
-		$this->assertTrue( 3 === count( $all_data ) );
+		$this->assertCount( 3, $all_data );
 	}
 
 	/**
@@ -175,7 +175,7 @@ class BP_Tests_Group_Membership_Request_REST_Controller extends BP_Test_REST_Con
 		$this->assertSame( 200, $response->get_status() );
 
 		$all_data = $response->get_data();
-		$this->assertTrue( 2 === count( $all_data ) );
+		$this->assertCount( 2, $all_data );
 	}
 
 	/**
@@ -205,7 +205,7 @@ class BP_Tests_Group_Membership_Request_REST_Controller extends BP_Test_REST_Con
 		$this->assertSame( 200, $response->get_status() );
 
 		$all_data = $response->get_data();
-		$this->assertTrue( 1 === count( $all_data ) );
+		$this->assertCount( 1, $all_data );
 	}
 
 	/**

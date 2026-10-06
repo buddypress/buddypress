@@ -406,13 +406,13 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 		) );
 
 		$thread_1 = new BP_Messages_Thread( $m->thread_id );
-		$this->assertTrue( 10 === count( $thread_1->get_recipients() ) );
+		$this->assertCount( 10, $thread_1->get_recipients() );
 
 		$thread_2 = new BP_Messages_Thread( $m->thread_id, 'ASC', array( 'recipients_page' => 1, 'recipients_per_page' => 5 ) );
-		$this->assertTrue( 5 === count( $thread_2->recipients ) );
+		$this->assertCount( 5, $thread_2->recipients );
 
 		$thread_3 = new BP_Messages_Thread( $m->thread_id );
-		$this->assertTrue( 8 === count( $thread_3->get_recipients( $m->thread_id, array( 'recipients_page' => 1, 'recipients_per_page' => 8 ) ) ) );
+		$this->assertCount( 8, $thread_3->get_recipients( $m->thread_id, array( 'recipients_page' => 1, 'recipients_per_page' => 8 ) ) );
 	}
 
 	/**
@@ -568,11 +568,11 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 		$t1 = $message->thread_id;
 
 		$thread = new BP_Messages_Thread( $t1 );
-		$recipients = $thread->get_recipients();
+		$thread->get_recipients();
 
 		// Verify that the cache is populated.
 		$num_queries = $wpdb->num_queries;
-		$recipients_cached = $thread->get_recipients();
+		$thread->get_recipients();
 		$this->assertSame( $num_queries, $wpdb->num_queries );
 
 		// Mark thread as read

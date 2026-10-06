@@ -1005,7 +1005,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 			)
 		);
 
-		$this->assertInstanceOf( 'WP_Error', $a );
+		$this->assertWPError( $a );
 		$this->assertSame( 'bp_activity_missing_component', $a->get_error_code() );
 	}
 
@@ -1022,7 +1022,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 			)
 		);
 
-		$this->assertInstanceOf( 'WP_Error', $a );
+		$this->assertWPError( $a );
 		$this->assertSame( 'bp_activity_missing_type', $a->get_error_code() );
 	}
 
@@ -1039,7 +1039,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 			)
 		);
 
-		$this->assertInstanceOf( 'WP_Error', $a );
+		$this->assertWPError( $a );
 		$this->assertSame( 'bp_activity_missing_content', $a->get_error_code() );
 	}
 
@@ -1076,7 +1076,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 
 		remove_filter( 'bp_activity_type_requires_content', '__return_true' );
 
-		$this->assertInstanceOf( 'WP_Error', $a );
+		$this->assertWPError( $a );
 		$this->assertSame( 'bp_activity_missing_content', $a->get_error_code() );
 	}
 }

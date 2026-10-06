@@ -91,8 +91,8 @@ class BP_Embed extends WP_Embed {
 
 		// Look for known internal handlers.
 		ksort( $this->handlers );
-		foreach ( $this->handlers as $priority => $handlers ) {
-			foreach ( $handlers as $hid => $handler ) {
+		foreach ( $this->handlers as $handlers ) {
+			foreach ( $handlers as $handler ) {
 				if ( preg_match( $handler['regex'], $url, $matches ) && is_callable( $handler['callback'] ) ) {
 					$return = call_user_func( $handler['callback'], $matches, $attr, $url, $rawattr );
 					if ( false !== $return ) {

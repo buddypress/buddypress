@@ -289,9 +289,9 @@ function bp_core_fetch_avatar( $args = '' ) {
 		 *
 		 * @since 1.1.0
 		 *
-		 * @param string $value  ID of avatar item being requested.
-		 * @param string $value  Avatar type being requested.
-		 * @param array  $params Array of parameters for the request.
+		 * @param string $item_id ID of avatar item being requested.
+		 * @param string $object  Avatar type being requested.
+		 * @param array  $params  Array of parameters for the request.
 		 */
 		$params['item_id'] = apply_filters( 'bp_core_avatar_item_id', $params['item_id'], $params['object'], $params );
 
@@ -1462,14 +1462,14 @@ function bp_avatar_ajax_set() {
 			do_action_deprecated( 'xprofile_avatar_uploaded', array( $item_id, $avatar_data['type'], $avatar_data ), '6.0.0', 'bp_members_avatar_uploaded' );
 
 			/**
-			 * Fires if the new avatar was successfully captured.
+			 * Fires after a member avatar is set.
 			 *
 			 * @since 6.0.0
 			 * @since 10.0.0 Adds a new param: an array containing the full, thumb avatar and the timestamp.
 			 *
 			 * @param string $item_id               Inform about the user id the avatar was set for.
-			 * @param string $type                  Inform about the way the avatar was set ('camera').
-			 * @param array  $avatar_data           Array of parameters passed to the crop handler.
+			 * @param string $type                  How the avatar was set: 'camera', 'crop', or 'recycle'.
+			 * @param array  $avatar_data           Avatar upload or recycle context.
 			 * @param array  $cropped_webcam_avatar Array containing the full, thumb avatar and the timestamp.
 			 */
 			do_action( 'bp_members_avatar_uploaded', $item_id, $avatar_data['type'], $avatar_data, $cropped_webcam_avatar );
@@ -1529,7 +1529,7 @@ function bp_avatar_ajax_set() {
 			/** This action is documented in bp-core/bp-core-avatars.php */
 			do_action( 'bp_members_avatar_uploaded', $item_id, $avatar_data['type'], $r, $cropped_avatar );
 		} elseif ( 'group' === $avatar_data['object'] ) {
-			/** This action is documented in bp-groups/bp-groups-screens.php */
+			/** This action is documented in bp-groups/screens/single/admin/group-avatar.php */
 			do_action( 'groups_avatar_uploaded', $item_id, $avatar_data['type'], $r, $cropped_avatar );
 		}
 
@@ -2523,7 +2523,10 @@ function bp_avatar_ajax_recycle_previous_avatar() {
 				$action_hook = 'groups_avatar_uploaded';
 			}
 
-			/** This action is documented in bp-core/bp-core-avatars.php */
+			/**
+			 * The bp_members_avatar_uploaded action is documented in bp-core/bp-core-avatars.php.
+			 * The groups_avatar_uploaded action is documented in bp-groups/screens/single/admin/group-avatar.php.
+			 */
 			do_action( $action_hook, $item_id, 'recycle', $r, $avatar_types );
 		} else {
 			$recycle_error = reset( $recycle_errors );

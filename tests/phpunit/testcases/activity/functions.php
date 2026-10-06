@@ -800,9 +800,7 @@ Bar!';
 	 * @group activity_tracking
 	 */
 	public function test_bp_activity_format_activity_action_custom_post_type_post_nonms() {
-		if ( is_multisite() ) {
-			$this->markTestSkipped();
-		}
+		$this->skipWithMultisite();
 
 		register_post_type( 'foo', array(
 			'label'   => 'foo',
@@ -847,9 +845,7 @@ Bar!';
 	 * @group activity_tracking
 	 */
 	public function test_bp_activity_format_activity_action_custom_post_type_post_ms() {
-		if ( ! is_multisite() ) {
-			$this->markTestSkipped();
-		}
+		$this->skipWithoutMultisite();
 
 		$bp    = buddypress();
 		$b     = self::factory()->blog->create();
@@ -906,9 +902,7 @@ Bar!';
 	 * @group bp_activity_format_activity_action_custom_post_type_post
 	 */
 	public function test_bp_activity_format_activity_action_custom_string_post_type_post_nonms() {
-		if ( is_multisite() ) {
-			$this->markTestSkipped();
-		}
+		$this->skipWithMultisite();
 
 		$labels = array(
 			'name'                 => 'bars',
@@ -961,9 +955,7 @@ Bar!';
 	 * @group activity_tracking
 	 */
 	public function test_bp_activity_format_activity_action_custom_string_post_type_post_ms() {
-		if ( ! is_multisite() ) {
-			$this->markTestSkipped();
-		}
+		$this->skipWithoutMultisite();
 
 		$bp = buddypress();
 		$b  = self::factory()->blog->create();
@@ -1495,7 +1487,7 @@ Bar!';
 			'error_type' => 'wp_error',
 		) );
 
-		$this->assertInstanceOf( 'WP_Error', $activity );
+		$this->assertWPError( $activity );
 		$this->assertSame( 'bp_activity_missing_content', $activity->get_error_code() );
 	}
 
@@ -1519,7 +1511,7 @@ Bar!';
 			'error_type' => 'wp_error',
 		) );
 
-		$this->assertInstanceOf( 'WP_Error', $activity );
+		$this->assertWPError( $activity );
 		$this->assertSame( 'bp_activity_inactive_user', $activity->get_error_code() );
 	}
 
@@ -1850,9 +1842,7 @@ Bar!';
 	 * @ticket BP8175
 	 */
 	public function test_activity_data_should_be_deleted_on_user_delete_non_multisite() {
-		if ( is_multisite() ) {
-			$this->markTestSkipped( __METHOD__ . ' requires non-multisite.' );
-		}
+		$this->skipWithMultisite();
 
 		$u1 = self::factory()->user->create();
 		$a1 = self::factory()->activity->create(
@@ -1902,9 +1892,7 @@ Bar!';
 	 * @ticket BP8175
 	 */
 	public function test_activity_data_should_be_deleted_on_user_delete_multisite() {
-		if ( ! is_multisite() ) {
-			$this->markTestSkipped( __METHOD__ . ' requires multisite.' );
-		}
+		$this->skipWithoutMultisite();
 
 		$u1 = self::factory()->user->create();
 		$a1 = self::factory()->activity->create(
@@ -1954,9 +1942,7 @@ Bar!';
 	 * @ticket BP8175
 	 */
 	public function test_activity_data_should_not_be_deleted_on_wp_delete_user_multisite() {
-		if ( ! is_multisite() ) {
-			$this->markTestSkipped( __METHOD__ . ' requires multisite.' );
-		}
+		$this->skipWithoutMultisite();
 
 		$u1 = self::factory()->user->create();
 		$a1 = self::factory()->activity->create(

@@ -454,6 +454,7 @@ function bp_register_theme_compat_default_features() {
 		$bp_handle .= '-rtl';
 	}
 
+	/** This filter is documented in bp-core/bp-core-avatars.php */
 	$top_offset    = 150;
 	$avatar_height = apply_filters( 'bp_core_avatar_full_height', $top_offset );
 

@@ -86,14 +86,14 @@ function groups_screen_group_admin_avatar() {
 			bp_core_add_message( __( 'There was a problem cropping the group profile photo.', 'buddypress' ), 'error' );
 		} else {
 			/**
-			 * Fires after a group avatar is uploaded.
+			 * Fires after a group avatar is set.
 			 *
 			 * @since 2.8.0
 			 * @since 10.0.0 Adds a new param: an array containing the full, thumb avatar and the timestamp.
 			 *
 			 * @param int    $group_id       ID of the group.
-			 * @param string $type           Avatar type. 'crop' or 'camera'.
-			 * @param array  $args           Array of parameters passed to the avatar handler.
+			 * @param string $type           Avatar type: 'crop', 'camera', or 'recycle'.
+			 * @param array  $args           Avatar upload or recycle context.
 			 * @param array  $cropped_avatar Array containing the full, thumb avatar and the timestamp.
 			 */
 			do_action( 'groups_avatar_uploaded', bp_get_current_group_id(), 'crop', $args, $cropped_avatar );

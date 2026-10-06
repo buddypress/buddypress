@@ -208,9 +208,7 @@ class BP_Tests_Blogs_Template extends BP_UnitTestCase {
 	 * @group BP_Blogs_Template
 	 */
 	public function test_bp_blogs_template_should_give_precedence_to_bpage_URL_param() {
-		if ( ! is_multisite() ) {
-			$this->markTestSkipped();
-		}
+		$this->skipWithoutMultisite();
 
 		$request = $_REQUEST;
 		$_REQUEST['bpage'] = '5';
@@ -239,9 +237,7 @@ class BP_Tests_Blogs_Template extends BP_UnitTestCase {
 	 * @group BP_Blogs_Template
 	 */
 	public function test_bp_blogs_template_should_reset_0_pag_page_URL_param_to_default_pag_page_value() {
-		if ( ! is_multisite() ) {
-			$this->markTestSkipped();
-		}
+		$this->skipWithoutMultisite();
 
 		$request = $_REQUEST;
 		$_REQUEST['bpage'] = '0';
@@ -270,9 +266,7 @@ class BP_Tests_Blogs_Template extends BP_UnitTestCase {
 	 * @group BP_Blogs_Template
 	 */
 	public function test_bp_blogs_template_should_give_precedence_to_num_URL_param() {
-		if ( ! is_multisite() ) {
-			$this->markTestSkipped();
-		}
+		$this->skipWithoutMultisite();
 
 		$request = $_REQUEST;
 		$_REQUEST['num'] = '14';
@@ -301,9 +295,7 @@ class BP_Tests_Blogs_Template extends BP_UnitTestCase {
 	 * @group BP_Blogs_Template
 	 */
 	public function test_bp_blogs_template_should_reset_0_pag_num_URL_param_to_default_pag_num_value() {
-		if ( ! is_multisite() ) {
-			$this->markTestSkipped();
-		}
+		$this->skipWithoutMultisite();
 
 		$request = $_REQUEST;
 		$_REQUEST['num'] = '0';
@@ -333,9 +325,7 @@ class BP_Tests_Blogs_Template extends BP_UnitTestCase {
 	 * @group bp_get_blog_avatar
 	 */
 	public function test_bp_get_blog_avatar_ids_provided() {
-		if ( ! is_multisite() ) {
-			$this->markTestSkipped();
-		}
+		$this->skipWithoutMultisite();
 
 		global $blogs_template;
 		$reset_blogs_template = $blogs_template;
@@ -376,9 +366,7 @@ class BP_Tests_Blogs_Template extends BP_UnitTestCase {
 	 * @group bp_get_blog_avatar
 	 */
 	public function test_bp_get_blog_avatar_has_site_icon() {
-		if ( ! is_multisite() ) {
-			$this->markTestSkipped();
-		}
+		$this->skipWithoutMultisite();
 
 		global $blogs_template;
 		$reset_blogs_template = $blogs_template;
@@ -416,9 +404,7 @@ class BP_Tests_Blogs_Template extends BP_UnitTestCase {
 	 * @group bp_get_blog_avatar
 	 */
 	public function test_bp_get_blog_default_avatar() {
-		if ( ! is_multisite() ) {
-			$this->markTestSkipped();
-		}
+		$this->skipWithoutMultisite();
 
 		global $blogs_template;
 		$reset_blogs_template = $blogs_template;

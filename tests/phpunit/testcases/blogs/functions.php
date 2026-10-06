@@ -277,9 +277,7 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 	 * @group bp_blogs_restore_data
 	 */
 	public function test_bp_blogs_restore_data() {
-		if ( ! is_multisite() ) {
-			$this->markTestSkipped();
-		}
+		$this->skipWithoutMultisite();
 
 		// Create a regular member
 		$u = self::factory()->user->create();
@@ -658,7 +656,6 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 	 * @group post_type_comment_activities
 	 */
 	public function test_bp_blogs_post_type_remove_comment() {
-		$old_user = get_current_user_id();
 		$u = self::factory()->user->create();
 		wp_set_current_user( $u );
 		$userdata = get_userdata( $u );
@@ -724,9 +721,7 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 	 * @group bp_blogs_catch_transition_post_status
 	 */
 	public function test_bp_is_blog_public_zero_publish_post() {
-		if ( ! is_multisite() ) {
-			$this->markTestSkipped();
-		}
+		$this->skipWithoutMultisite();
 
 		add_filter( 'bp_is_blog_public', '__return_zero' );
 
@@ -798,7 +793,7 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 			'search_terms'     => 'activity comment should be unique',
 		) );
 
-		$this->assertTrue( count( $activities['activities'] ) === 1, 'An activity comment should be unique' );
+		$this->assertCount( 1, $activities['activities'], 'An activity comment should be unique' );
 
 		$this->assertTrue( 2 === $this->activity_saved_comment_count, 'An activity comment should be saved only twice' );
 		$this->assertTrue( 1 === $this->comment_saved_count, 'A comment should be saved only once' );
@@ -990,9 +985,7 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 	 * @group bp_blogs_record_existing_blogs
 	 */
 	public function test_bp_blogs_record_existing_blogs_limit() {
-		if ( ! is_multisite() ) {
-			$this->markTestSkipped();
-		}
+		$this->skipWithoutMultisite();
 
 		$old_user = get_current_user_id();
 
@@ -1022,9 +1015,7 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 	 * @group bp_blogs_remove_blog
 	 */
 	public function test_bp_blogs_remove_blog() {
-		if ( ! is_multisite() ) {
-			$this->markTestSkipped();
-		}
+		$this->skipWithoutMultisite();
 
 		$reset_post = $_POST;
 		$old_user = get_current_user_id();
@@ -1069,9 +1060,7 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 	 * @group bp_blogs_remove_blog_for_user
 	 */
 	public function test_bp_blogs_remove_blog_for_user_is_contributor() {
-		if ( ! is_multisite() ) {
-			$this->markTestSkipped();
-		}
+		$this->skipWithoutMultisite();
 
 		$reset_post = $_POST;
 		$old_user = get_current_user_id();
@@ -1127,9 +1116,7 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 	 * @ticket BP8175
 	 */
 	public function test_blogs_data_should_be_deleted_on_user_delete_multisite() {
-		if ( ! is_multisite() ) {
-			$this->markTestSkipped( __METHOD__ . ' requires multisite.' );
-		}
+		$this->skipWithoutMultisite();
 
 		$u1 = self::factory()->user->create();
 		$b1 = get_current_blog_id();
@@ -1153,9 +1140,7 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 	 * @ticket BP8175
 	 */
 	public function test_blogs_data_should_not_be_deleted_on_wp_delete_user_multisite() {
-		if ( ! is_multisite() ) {
-			$this->markTestSkipped( __METHOD__ . ' requires multisite.' );
-		}
+		$this->skipWithoutMultisite();
 
 		$u1 = self::factory()->user->create();
 		$b1 = get_current_blog_id();

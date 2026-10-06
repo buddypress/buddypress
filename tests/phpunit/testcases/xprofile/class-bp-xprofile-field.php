@@ -37,7 +37,7 @@ class BP_Tests_BP_XProfile_Field_TestCases extends BP_UnitTestCase {
 		);
 
 		// checkbox field
-		$f1 = self::factory()->xprofile_field->create(
+		self::factory()->xprofile_field->create(
 			array(
 				'field_group_id' => $group,
 				'type'           => 'checkbox',

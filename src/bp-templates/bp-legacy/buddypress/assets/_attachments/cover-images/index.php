@@ -30,9 +30,13 @@
 		<p><?php esc_html_e( "If you'd like to remove the existing group cover image but not upload a new one, please use the delete group cover image button.", 'buddypress' ); ?></p>
 		<p><a class="button edit" id="bp-delete-cover-image" href="#"><?php esc_html_e( 'Delete Group Cover Image', 'buddypress' ); ?></a></p>
 	<# } else { #>
-		<?php do_action( 'bp_attachments_cover_image_delete_template' ); ?>
+		<?php
+		/** This action is documented in bp-templates/bp-nouveau/buddypress/assets/_attachments/cover-images/index.php */
+		do_action( 'bp_attachments_cover_image_delete_template' );
+		?>
 	<# } #>
 </script>
 
 <?php
+/** This action is documented in bp-templates/bp-nouveau/buddypress/assets/_attachments/cover-images/index.php */
 do_action( 'bp_attachments_cover_image_main_template' );

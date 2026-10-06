@@ -363,7 +363,7 @@ EOD;
 		}
 	}
 
-	/** This hook is documented in /bp-activity/bp-activity-embeds.php */
+	/** This action is documented in bp-activity/bp-activity-embeds.php */
 	do_action( 'bp_activity_embed_after_media' );
 }
 

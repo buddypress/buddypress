@@ -24,9 +24,7 @@ class BP_Tests_Avatars extends BP_UnitTestCase {
 	 */
 	function test_avatars_on_non_root_blog() {
 		// Do not pass 'Go', do not collect $200
-		if ( ! is_multisite() ) {
-			$this->markTestSkipped();
-		}
+		$this->skipWithoutMultisite();
 
 		$u = self::factory()->user->create();
 

@@ -113,7 +113,7 @@ class BP_Tests_XProfile_Fields_REST_Controller extends BP_Test_REST_Controller_T
 		);
 
 		$this->assertEmpty( wp_filter_object_list( $data, array( 'group_id' => $g1 ) ) );
-		$this->assertTrue( 2 === count( wp_filter_object_list( $data, array( 'group_id' => $g2 ) ) ) );
+		$this->assertCount( 2, wp_filter_object_list( $data, array( 'group_id' => $g2 ) ) );
 	}
 
 	/**

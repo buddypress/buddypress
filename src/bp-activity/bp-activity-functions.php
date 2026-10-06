@@ -2388,6 +2388,7 @@ function bp_activity_post_type_publish( $post_id = 0, $post = null, $user_id = 0
 		return;
 	} elseif ( 'blogs' === $activity_post_object->component_id ) {
 		// Backward compatibility filter for the blogs component.
+		/** This filter is documented in bp-blogs/bp-blogs-activity.php */
 		$activity_args['action'] = apply_filters( 'bp_blogs_record_activity_action', $activity_args['action'] );
 	}
 
@@ -2703,6 +2704,7 @@ function bp_activity_post_type_comment( $comment_id = 0, $is_approved = true, $a
 			return;
 		} elseif ( 'blogs' === $activity_post_object->component_id ) {
 			// Backward compatibility filter for the blogs component.
+			/** This filter is documented in bp-blogs/bp-blogs-activity.php */
 			$activity_args['action'] = apply_filters( 'bp_blogs_record_activity_action', $activity_args['action'] );
 		}
 

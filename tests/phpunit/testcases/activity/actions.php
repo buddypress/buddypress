@@ -1,13 +1,11 @@
 <?php
 /**
  * @group activity
+ * @group bp_activity_catch_transition_post_type_status
+ * @group activity_tracking
  */
 class BP_Tests_Activity_Actions extends BP_UnitTestCase {
 
-	/**
-	 * @group bp_activity_catch_transition_post_type_status
-	 * @group activity_tracking
-	 */
 	public function test_bp_activity_catch_transition_post_type_status_publish() {
 		register_post_type( 'foo', array(
 			'label'   => 'foo',
@@ -28,10 +26,6 @@ class BP_Tests_Activity_Actions extends BP_UnitTestCase {
 		_unregister_post_type( 'foo' );
 	}
 
-	/**
-	 * @group bp_activity_catch_transition_post_type_status
-	 * @group activity_tracking
-	 */
 	public function test_bp_activity_catch_transition_post_type_status_publish_to_publish() {
 		register_post_type( 'foo', array(
 			'label'   => 'foo',
@@ -52,10 +46,6 @@ class BP_Tests_Activity_Actions extends BP_UnitTestCase {
 		_unregister_post_type( 'foo' );
 	}
 
-	/**
-	 * @group bp_activity_catch_transition_post_type_status
-	 * @group activity_tracking
-	 */
 	public function test_bp_activity_catch_transition_post_type_status_publish_existing_post() {
 		$u = self::factory()->user->create();
 
@@ -107,10 +97,6 @@ class BP_Tests_Activity_Actions extends BP_UnitTestCase {
 		_unregister_post_type( 'foo' );
 	}
 
-	/**
-	 * @group bp_activity_catch_transition_post_type_status
-	 * @group activity_tracking
-	 */
 	public function test_bp_activity_catch_transition_post_type_status_publish_password() {
 		register_post_type( 'foo', array(
 			'label'   => 'foo',
@@ -139,10 +125,6 @@ class BP_Tests_Activity_Actions extends BP_UnitTestCase {
 		_unregister_post_type( 'foo' );
 	}
 
-	/**
-	 * @group bp_activity_catch_transition_post_type_status
-	 * @group activity_tracking
-	 */
 	public function test_bp_activity_catch_transition_post_type_status_publish_trash() {
 		register_post_type( 'foo', array(
 			'label'   => 'foo',
@@ -170,8 +152,6 @@ class BP_Tests_Activity_Actions extends BP_UnitTestCase {
 
 	/**
 	 * @ticket BP8579
-	 * @group bp_activity_catch_transition_post_type_status
-	 * @group activity_tracking
 	 */
 	public function test_bp_activity_catch_transition_post_type_status_publish_publish_author_changed() {
 		$u1 = self::factory()->user->create(
@@ -208,8 +188,6 @@ class BP_Tests_Activity_Actions extends BP_UnitTestCase {
 
 	/**
 	 * @ticket BP8579
-	 * @group bp_activity_catch_transition_post_type_status
-	 * @group activity_tracking
 	 */
 	public function test_bp_activity_catch_transition_post_type_status_publish_publish_content_changed() {
 		$u1 = self::factory()->user->create(

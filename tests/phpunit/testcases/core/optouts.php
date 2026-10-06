@@ -223,6 +223,6 @@
 		$email->set_from( 'test1@example.com' )->set_to( 'test2@example.com' )->set_subject( 'testing' );
 		$email->set_content_html( 'testing' )->set_tokens( array( 'poster.name' => 'example' ) );
 
-		$this->assertTrue( is_wp_error( $email->validate() ) );
+		$this->assertWPError( $email->validate() );
 	}
 }

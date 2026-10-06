@@ -127,7 +127,7 @@ class BP_Core extends BP_Component {
 					$trimmed[] = str_replace( '.php', '', str_replace( 'bp-', '', $component ) );
 				}
 
-				/** This filter is documented in bp-core/bp-core-loader.php */
+				/** This filter is documented in bp-core/classes/class-bp-core.php */
 				$bp->deactivated_components = apply_filters( 'bp_deactivated_components', $trimmed );
 
 				// Setup the active components.

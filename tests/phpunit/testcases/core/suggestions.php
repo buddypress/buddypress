@@ -265,7 +265,7 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 			'type'     => 'members',
 			'term'     => 'pig',
 		) );
-		$this->assertTrue( is_wp_error( $suggestions ) );
+		$this->assertWPError( $suggestions );
 
 		// "alpaca red" is in the hidden group
 		wp_set_current_user( self::$user_ids['alpaca red'] );
@@ -285,7 +285,7 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 			'type'     => 'members',
 			'term'     => 'cat',
 		) );
-		$this->assertTrue( is_wp_error( $suggestions ) );
+		$this->assertWPError( $suggestions );
 
 		// "caterpillar" is in the private group
 		wp_set_current_user( self::$user_ids['caterpillar'] );
@@ -324,7 +324,7 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 			'type'     => 'members',
 			'term'     => 'cat',
 		) );
-		$this->assertTrue( is_wp_error( $suggestions ) );
+		$this->assertWPError( $suggestions );
 
 
 		wp_set_current_user( self::$user_ids['caterpillar'] );
@@ -355,7 +355,7 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 			'type'     => 'members',
 			'term'     => 'pig',
 		) );
-		$this->assertTrue( is_wp_error( $suggestions ) );
+		$this->assertWPError( $suggestions );
 
 
 		wp_set_current_user( self::$user_ids['alpaca red'] );
@@ -478,7 +478,7 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 			'type' => 'fake_type',
 		) );
 
-		$this->assertTrue( is_wp_error( $suggestions ) );
+		$this->assertWPError( $suggestions );
 	}
 
 	public function test_suggestions_with_type_groupmembers_and_bad_group_ids() {
@@ -488,7 +488,7 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 			'type'     => 'members',
 		) );
 
-		$this->assertTrue( is_wp_error( $suggestions ) );
+		$this->assertWPError( $suggestions );
 	}
 
 	public function test_suggestions_with_bad_term() {
@@ -498,6 +498,6 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 			'type' => 'members',
 		) );
 
-		$this->assertTrue( is_wp_error( $suggestions ) );
+		$this->assertWPError( $suggestions );
 	}
 }

@@ -119,7 +119,7 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 
 		$all_data = $response->get_data();
 		$this->assertNotEmpty( $all_data );
-		$this->assertTrue( 2 === count( $all_data ) );
+		$this->assertCount( 2, $all_data );
 
 		$data   = wp_list_filter( $all_data, array( 'is_active' => true ) );
 		$data_n = reset( $data );
@@ -188,7 +188,7 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 
 		$this->assertNotEmpty( $data );
 
-		$this->assertTrue( 1 === count( $data ), 'There should only be one active notice in the view context' );
+		$this->assertCount( 1, $data, 'There should only be one active notice in the view context' );
 
 		$this->check_notice_data( $created[ $key ], $data[0] );
 	}
@@ -207,7 +207,7 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 		$response = $this->server->dispatch( $request );
 
 		$data = $response->get_data();
-		$this->assertTrue( 0 === count( $data ), 'There should be no active notices available' );
+		$this->assertCount( 0, $data, 'There should be no active notices available' );
 	}
 
 	/**

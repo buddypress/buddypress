@@ -247,7 +247,7 @@ class BP_Members_List_Table extends WP_Users_List_Table {
 	 */
 	public function display_rows() {
 		$style = '';
-		foreach ( $this->items as $userid => $signup_object ) {
+		foreach ( $this->items as $signup_object ) {
 
 			// Avoid a notice error appearing since 4.3.0.
 			if ( isset( $signup_object->id ) ) {

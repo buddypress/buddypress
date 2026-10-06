@@ -271,7 +271,7 @@ function bp_core_activation_notice() {
 	$wp_page_components  = array();
 
 	// Only components with 'has_directory' require a WP page to function.
-	foreach ( $bp->loaded_components as $component_slug => $component_id ) {
+	foreach ( $bp->loaded_components as $component_id ) {
 		if ( ! empty( $bp->{$component_id}->has_directory ) ) {
 			$wp_page_components[] = array(
 				'id'   => $component_id,

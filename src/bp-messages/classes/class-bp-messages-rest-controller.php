@@ -871,10 +871,12 @@ class BP_Messages_REST_Controller extends WP_REST_Controller {
 			'sender_id'     => (int) $message->sender_id,
 			'subject'       => array(
 				'raw'      => $message->subject,
+				/** This filter is documented in bp-messages/bp-messages-template.php */
 				'rendered' => apply_filters( 'bp_get_message_thread_subject', $message->subject ),
 			),
 			'message'       => array(
 				'raw'      => $content,
+				/** This filter is documented in bp-messages/bp-messages-template.php */
 				'rendered' => apply_filters( 'bp_get_the_thread_message_content', $content ),
 			),
 			'date_sent'     => bp_rest_prepare_date_response( $message->date_sent, get_date_from_gmt( $message->date_sent ) ),
@@ -1004,14 +1006,17 @@ class BP_Messages_REST_Controller extends WP_REST_Controller {
 			'last_sender_id' => (int) isset( $thread->last_sender_id ) ? $thread->last_sender_id : 0,
 			'subject'        => array(
 				'raw'      => $thread->last_message_subject,
+				/** This filter is documented in bp-messages/bp-messages-template.php */
 				'rendered' => apply_filters( 'bp_get_message_thread_subject', $thread->last_message_subject ),
 			),
 			'excerpt'        => array(
 				'raw'      => $excerpt,
+				/** This filter is documented in bp-messages/bp-messages-template.php */
 				'rendered' => apply_filters( 'bp_get_message_thread_excerpt', $excerpt ),
 			),
 			'message'        => array(
 				'raw'      => $content,
+				/** This filter is documented in bp-messages/bp-messages-template.php */
 				'rendered' => apply_filters( 'bp_get_the_thread_message_content', $content ),
 			),
 			'date'           => bp_rest_prepare_date_response( $thread->last_message_date, get_date_from_gmt( $thread->last_message_date ) ),

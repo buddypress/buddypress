@@ -133,7 +133,7 @@ class BP_Friends_Friendship {
 		if ( ! empty( $id ) ) {
 			$this->id                      = (int) $id;
 			$this->populate_friend_details = $populate_friend_details;
-			$this->populate( $this->id );
+			$this->populate();
 		}
 	}
 
