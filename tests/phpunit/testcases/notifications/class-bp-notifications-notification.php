@@ -99,10 +99,12 @@ class BP_Tests_BP_Notifications_Notification_TestCases extends BP_UnitTestCase {
 		self::factory()->notification->create( array(
 			'component_name' => 'groups',
 			'user_id' => $u,
+			'item_id' => 1,
 		) );
 		self::factory()->notification->create( array(
 			'component_name' => 'groups',
 			'user_id' => $u,
+			'item_id' => 2,
 		) );
 		self::factory()->notification->create( array(
 			'component_name' => 'messages',
@@ -115,6 +117,13 @@ class BP_Tests_BP_Notifications_Notification_TestCases extends BP_UnitTestCase {
 		) );
 
 		$this->assertSame( 1, $n );
+
+		$n = BP_Notifications_Notification::get_total_count( array(
+			'user_id' => $u,
+			'component_name' => array( 'groups' ),
+		) );
+
+		$this->assertSame( 2, $n );
 	}
 
 	/**
