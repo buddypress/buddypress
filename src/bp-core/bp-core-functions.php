@@ -1015,7 +1015,13 @@ function bp_core_set_unique_directory_page_slug( $slug = '', $post_ID = 0, $post
 		if ( in_array( $slug, $illegal_names, true ) ) {
 			$suffix = 2;
 			do {
-				$alt_post_name   = _truncate_post_slug( $slug, 200 - ( strlen( $suffix ) + 1 ) ) . "-$suffix";
+				$slug_length = 200 - ( strlen( $suffix ) + 1 );
+				if ( function_exists( 'wp_truncate_slug' ) ) {
+					$alt_post_name = wp_truncate_slug( $slug, $slug_length );
+				} else {
+					$alt_post_name = _truncate_post_slug( $slug, $slug_length );
+				}
+				$alt_post_name  .= "-$suffix";
 				$post_name_check = in_array( $alt_post_name, $illegal_names, true );
 				++$suffix;
 			} while ( $post_name_check );
