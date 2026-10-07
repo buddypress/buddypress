@@ -8,24 +8,20 @@ class BP_Tests_XProfile_Functions extends BP_UnitTestCase {
 	public function test_get_hidden_field_types_for_user_loggedout() {
 		$duser = self::factory()->user->create();
 
-		$old_current_user = bp_loggedin_user_id();
 		wp_set_current_user( 0 );
 
 		$this->assertSame( array( 'friends', 'loggedin', 'adminsonly' ), bp_xprofile_get_hidden_field_types_for_user( $duser, bp_loggedin_user_id() ) );
 
-		wp_set_current_user( $old_current_user );
 	}
 
 	public function test_get_hidden_field_types_for_user_loggedin() {
 		$duser = self::factory()->user->create();
 		$cuser = self::factory()->user->create();
 
-		$old_current_user = bp_loggedin_user_id();
 		wp_set_current_user( $cuser );
 
 		$this->assertSame( array( 'friends', 'adminsonly' ), bp_xprofile_get_hidden_field_types_for_user( $duser, bp_loggedin_user_id() ) );
 
-		wp_set_current_user( $old_current_user );
 	}
 
 	public function test_get_hidden_field_types_for_user_friends() {
@@ -33,12 +29,10 @@ class BP_Tests_XProfile_Functions extends BP_UnitTestCase {
 		$cuser = self::factory()->user->create();
 		friends_add_friend( $duser, $cuser, true );
 
-		$old_current_user = bp_loggedin_user_id();
 		wp_set_current_user( $cuser );
 
 		$this->assertSame( array( 'adminsonly' ), bp_xprofile_get_hidden_field_types_for_user( $duser, bp_loggedin_user_id() ) );
 
-		wp_set_current_user( $old_current_user );
 	}
 
 	public function test_get_hidden_field_types_for_user_admin() {
@@ -46,13 +40,11 @@ class BP_Tests_XProfile_Functions extends BP_UnitTestCase {
 		$cuser = self::factory()->user->create();
 		$this->grant_bp_moderate( $cuser );
 
-		$old_current_user = bp_loggedin_user_id();
 		wp_set_current_user( $cuser );
 
 		$this->assertSame( array(), bp_xprofile_get_hidden_field_types_for_user( $duser, bp_loggedin_user_id() ) );
 
 		$this->revoke_bp_moderate( $cuser );
-		wp_set_current_user( $old_current_user );
 	}
 
 	/**
@@ -1180,9 +1172,7 @@ Bar!';
 	 * @ticket BP8175
 	 */
 	public function test_xprofile_data_should_be_deleted_on_user_delete_non_multisite() {
-		if ( is_multisite() ) {
-			$this->markTestSkipped( __METHOD__ . ' requires non-multisite.' );
-		}
+		$this->skipWithMultisite();
 
 		$u = self::factory()->user->create();
 
@@ -1205,9 +1195,7 @@ Bar!';
 	 * @ticket BP8175
 	 */
 	public function test_xprofile_data_should_be_deleted_on_user_delete_multisite() {
-		if ( ! is_multisite() ) {
-			$this->markTestSkipped( __METHOD__ . ' requires multisite.' );
-		}
+		$this->skipWithoutMultisite();
 
 		$u = self::factory()->user->create();
 
@@ -1230,9 +1218,7 @@ Bar!';
 	 * @ticket BP8175
 	 */
 	public function test_xprofile_data_should_not_be_deleted_on_wp_delete_user_multisite() {
-		if ( ! is_multisite() ) {
-			$this->markTestSkipped( __METHOD__ . ' requires multisite.' );
-		}
+		$this->skipWithoutMultisite();
 
 		$u = self::factory()->user->create();
 

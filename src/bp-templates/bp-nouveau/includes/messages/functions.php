@@ -386,10 +386,10 @@ function bp_nouveau_messages_mce_buttons( $buttons = array() ) {
 		'formatselect',
 	);
 
-	// Remove unused buttons
+	// Remove unused buttons.
 	$buttons = array_diff( $buttons, $remove_buttons );
 
-	// Add the image button
+	// Add the image button.
 	array_push( $buttons, 'image' );
 
 	return $buttons;
@@ -433,12 +433,12 @@ function bp_nouveau_get_message_date( $date ) {
 		$datetime_object = date_create( "@{$date}" );
 		$timezone_offset = timezone_offset_get( $timezone_object, $datetime_object ) / HOUR_IN_SECONDS;
 
-	// Fall back on less reliable gmt_offset
+	// Fall back on less reliable gmt_offset.
 	} else {
 		$timezone_offset = bp_get_option( 'gmt_offset' );
 	}
 
-	// Calculate time based on the offset
+	// Calculate time based on the offset.
 	$calculated_time = $date + ( $timezone_offset * HOUR_IN_SECONDS );
 
 	if ( empty( $compare['mday'] ) && empty( $compare['mon'] ) && empty( $compare['year'] ) ) {

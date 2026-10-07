@@ -20,6 +20,7 @@ class BP_Messages_Notices_Admin {
 	 * The ID returned by `add_users_page()`.
 	 *
 	 * @since 3.0.0
+	 *
 	 * @var string
 	 */
 	public $screen_id = '';
@@ -28,6 +29,7 @@ class BP_Messages_Notices_Admin {
 	 * The URL of the admin screen.
 	 *
 	 * @since 3.0.0
+	 *
 	 * @var string
 	 */
 	public $url = '';
@@ -36,6 +38,7 @@ class BP_Messages_Notices_Admin {
 	 * The current instance of the BP_Messages_Notices_List_Table class.
 	 *
 	 * @since 3.0.0
+	 *
 	 * @var BP_Messages_Notices_List_Table|string
 	 */
 	public $list_table = '';
@@ -138,7 +141,7 @@ class BP_Messages_Notices_Admin {
 			}
 		}
 
-		// Catch activation/deactivation/delete requests
+		// Catch activation/deactivation/delete requests.
 		if ( ! empty( $_GET['notice_id'] ) && ! empty( $_GET['notice_action'] ) ) {
 			$notice_id = absint( $_GET['notice_id'] );
 

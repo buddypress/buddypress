@@ -585,15 +585,15 @@ class BP_Tests_Friends_REST_Controller extends BP_Test_REST_Controller_Testcase 
 			$u = $this->friend;
 		}
 
-		$friendship                    = new BP_Friends_Friendship();
-		$friendship->initiator_user_id = $this->user;
-		$friendship->friend_user_id    = $u;
-		$friendship->is_confirmed      = 0;
-		$friendship->is_limited        = 0;
-		$friendship->date_created      = bp_core_current_time();
-		$friendship->save();
-
-		return $friendship->id;
+		return $this->bp::factory()->friendship->create(
+			array(
+				'initiator_user_id' => $this->user,
+				'friend_user_id'    => $u,
+				'is_confirmed'      => 0,
+				'is_limited'        => 0,
+				'date_created'      => bp_core_current_time(),
+			)
+		);
 	}
 
 	protected function check_friendship_data( $friend, $data ) {

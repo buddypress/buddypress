@@ -528,7 +528,7 @@ class BP_Tests_Groups_Functions_BpGetUserGroups extends BP_UnitTestCase {
 		) );
 
 		// For `wp_mail()`.
-		$server_name = isset( $_SERVER['SERVER_NAME'] ) ? $_SERVER['SERVER_NAME'] : null;
+		$server_name = $_SERVER['SERVER_NAME'] ?? null;
 		$_SERVER['SERVER_NAME'] = '';
 
 		groups_send_membership_request( array(
@@ -556,7 +556,7 @@ class BP_Tests_Groups_Functions_BpGetUserGroups extends BP_UnitTestCase {
 	 */
 	public function test_cache_should_be_invalidated_on_group_request_acceptance() {
 		// For `wp_mail()`.
-		$server_name = isset( $_SERVER['SERVER_NAME'] ) ? $_SERVER['SERVER_NAME'] : null;
+		$server_name = $_SERVER['SERVER_NAME'] ?? null;
 		$_SERVER['SERVER_NAME'] = '';
 
 		groups_send_membership_request( array(

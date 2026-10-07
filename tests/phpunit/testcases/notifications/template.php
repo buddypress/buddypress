@@ -2,12 +2,10 @@
 /**
  * @group notifications
  * @group template
+ * @group pagination
+ * @group BP_Notifications_Template
  */
 class BP_Tests_Notifications_Template extends BP_UnitTestCase {
-	/**
-	 * @group pagination
-	 * @group BP_Notifications_Template
-	 */
 	public function test_bp_notifications_template_should_give_precedence_to_npage_URL_param() {
 		$request = $_REQUEST;
 		$_REQUEST['npage'] = '5';
@@ -21,10 +19,6 @@ class BP_Tests_Notifications_Template extends BP_UnitTestCase {
 		$_REQUEST = $request;
 	}
 
-	/**
-	 * @group pagination
-	 * @group BP_Notifications_Template
-	 */
 	public function test_bp_notifications_template_should_reset_0_pag_page_URL_param_to_default_pag_page_value() {
 		$request = $_REQUEST;
 		$_REQUEST['npage'] = '0';
@@ -38,10 +32,6 @@ class BP_Tests_Notifications_Template extends BP_UnitTestCase {
 		$_REQUEST = $request;
 	}
 
-	/**
-	 * @group pagination
-	 * @group BP_Notifications_Template
-	 */
 	public function test_bp_notifications_template_should_give_precedence_to_num_URL_param() {
 		$request = $_REQUEST;
 		$_REQUEST['num'] = '14';
@@ -55,10 +45,6 @@ class BP_Tests_Notifications_Template extends BP_UnitTestCase {
 		$_REQUEST = $request;
 	}
 
-	/**
-	 * @group pagination
-	 * @group BP_Notifications_Template
-	 */
 	public function test_bp_notifications_template_should_reset_0_pag_num_URL_param_to_default_pag_num_value() {
 		$request = $_REQUEST;
 		$_REQUEST['num'] = '0';

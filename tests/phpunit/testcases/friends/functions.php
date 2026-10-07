@@ -488,9 +488,7 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 	 * @ticket BP8175
 	 */
 	public function test_friends_data_should_be_deleted_on_user_delete_non_multisite() {
-		if ( is_multisite() ) {
-			$this->markTestSkipped( __METHOD__ . ' requires non-multisite.' );
-		}
+		$this->skipWithMultisite();
 
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -508,9 +506,7 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 	 * @ticket BP8175
 	 */
 	public function test_xprofile_data_should_be_deleted_on_user_delete_multisite() {
-		if ( ! is_multisite() ) {
-			$this->markTestSkipped( __METHOD__ . ' requires multisite.' );
-		}
+		$this->skipWithoutMultisite();
 
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -528,9 +524,7 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 	 * @ticket BP8175
 	 */
 	public function test_xprofile_data_should_not_be_deleted_on_wp_delete_user_multisite() {
-		if ( ! is_multisite() ) {
-			$this->markTestSkipped( __METHOD__ . ' requires multisite.' );
-		}
+		$this->skipWithoutMultisite();
 
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();

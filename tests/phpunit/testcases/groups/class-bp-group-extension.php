@@ -250,7 +250,6 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 	 */
 	public function test_user_can_visit_inferred_from_enable_nav_item() {
 		$this->set_permalink_structure( '/%postname%/' );
-		$old_current_user = get_current_user_id();
 
 		$g = self::factory()->group->create( array(
 			'status' => 'public',
@@ -268,7 +267,6 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$e2->_register();
 		$this->assertFalse( $e2->user_can_visit() );
 
-		wp_set_current_user( $old_current_user );
 	}
 
 	/**
@@ -276,7 +274,6 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 	 */
 	public function test_user_can_visit_explicit_for_logged_out_user() {
 		$this->set_permalink_structure( '/%postname%/' );
-		$old_current_user = get_current_user_id();
 		wp_set_current_user( 0 );
 
 		$g = self::factory()->group->create( array(
@@ -309,7 +306,6 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$e6->_register();
 		$this->assertFalse( $e6->user_can_visit() );
 
-		wp_set_current_user( $old_current_user );
 	}
 
 	/**
@@ -323,7 +319,6 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$g_obj = groups_get_group( $g );
 
 		$u = self::factory()->user->create();
-		$old_current_user = get_current_user_id();
 		wp_set_current_user( $u );
 
 		$this->go_to( bp_get_group_url( $g_obj ) );
@@ -352,7 +347,6 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$e6->_register();
 		$this->assertFalse( $e6->user_can_visit() );
 
-		wp_set_current_user( $old_current_user );
 	}
 
 	/**
@@ -366,7 +360,6 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$g_obj = groups_get_group( $g );
 
 		$u = self::factory()->user->create();
-		$old_current_user = get_current_user_id();
 		wp_set_current_user( $u );
 
 		$this->add_user_to_group( $u, $g );
@@ -397,7 +390,6 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$e6->_register();
 		$this->assertFalse( $e6->user_can_visit() );
 
-		wp_set_current_user( $old_current_user );
 	}
 
 	/**
@@ -411,7 +403,6 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$g_obj = groups_get_group( $g );
 
 		$u = self::factory()->user->create();
-		$old_current_user = get_current_user_id();
 		wp_set_current_user( $u );
 
 		$m = $this->add_user_to_group( $u, $g );
@@ -444,7 +435,6 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$e6->_register();
 		$this->assertFalse( $e6->user_can_visit() );
 
-		wp_set_current_user( $old_current_user );
 	}
 
 	/**
@@ -458,7 +448,6 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$g_obj = groups_get_group( $g );
 
 		$u = self::factory()->user->create();
-		$old_current_user = get_current_user_id();
 		wp_set_current_user( $u );
 
 		$m = $this->add_user_to_group( $u, $g );
@@ -491,7 +480,6 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$e6->_register();
 		$this->assertFalse( $e6->user_can_visit() );
 
-		wp_set_current_user( $old_current_user );
 	}
 
 	/**
@@ -504,7 +492,6 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		) );
 		$g_obj = groups_get_group( $g );
 
-		$old_current_user = get_current_user_id();
 		wp_set_current_user( 0 );
 
 		$this->go_to( bp_get_group_url( $g_obj ) );
@@ -533,7 +520,6 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$e6->_register();
 		$this->assertFalse( $e6->user_can_visit() );
 
-		wp_set_current_user( $old_current_user );
 	}
 
 	/**
@@ -546,7 +532,6 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		) );
 		$g_obj = groups_get_group( $g );
 
-		$old_current_user = get_current_user_id();
 		wp_set_current_user( 0 );
 
 		$this->go_to( bp_get_group_url( $g_obj ) );
@@ -575,7 +560,6 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$e6->_register();
 		$this->assertFalse( $e6->user_can_see_nav_item() );
 
-		wp_set_current_user( $old_current_user );
 	}
 
 	/**
@@ -589,7 +573,6 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$g_obj = groups_get_group( $g );
 
 		$u = self::factory()->user->create();
-		$old_current_user = get_current_user_id();
 		wp_set_current_user( $u );
 
 		$this->go_to( bp_get_group_url( $g_obj ) );
@@ -618,7 +601,6 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$e6->_register();
 		$this->assertFalse( $e6->user_can_see_nav_item() );
 
-		wp_set_current_user( $old_current_user );
 	}
 
 	/**
@@ -632,7 +614,6 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$g_obj = groups_get_group( $g );
 
 		$u = self::factory()->user->create();
-		$old_current_user = get_current_user_id();
 		wp_set_current_user( $u );
 
 		$this->add_user_to_group( $u, $g );
@@ -663,7 +644,6 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$e6->_register();
 		$this->assertFalse( $e6->user_can_see_nav_item() );
 
-		wp_set_current_user( $old_current_user );
 	}
 
 	/**
@@ -677,7 +657,6 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$g_obj = groups_get_group( $g );
 
 		$u = self::factory()->user->create();
-		$old_current_user = get_current_user_id();
 		wp_set_current_user( $u );
 
 		$this->add_user_to_group( $u, $g );
@@ -710,7 +689,6 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$e6->_register();
 		$this->assertFalse( $e6->user_can_see_nav_item() );
 
-		wp_set_current_user( $old_current_user );
 	}
 
 	/**
@@ -724,7 +702,6 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$g_obj = groups_get_group( $g );
 
 		$u = self::factory()->user->create();
-		$old_current_user = get_current_user_id();
 		wp_set_current_user( $u );
 
 		$this->add_user_to_group( $u, $g );
@@ -757,7 +734,6 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$e6->_register();
 		$this->assertFalse( $e6->user_can_see_nav_item() );
 
-		wp_set_current_user( $old_current_user );
 	}
 
 	/**

@@ -43,8 +43,8 @@ class BP_Tests_Members_Template extends BP_UnitTestCase {
 	 * @group bp_has_members
 	 */
 	public function test_bp_has_members_search_pagination_with_spaces() {
-		$u1 = self::factory()->user->create( array( 'display_name' => '~ tilde u1' ) );
-		$u2 = self::factory()->user->create( array( 'display_name' => '~ tilde u2' ) );
+		self::factory()->user->create( array( 'display_name' => '~ tilde u1' ) );
+		self::factory()->user->create( array( 'display_name' => '~ tilde u2' ) );
 
 		$template_args = array(
 			'search_terms' => '~ tilde',
@@ -103,7 +103,7 @@ class BP_Tests_Members_Template extends BP_UnitTestCase {
 	 * @ticket BP5071
 	 */
 	public function test_bp_has_members_friendship_requests_with_no_requests() {
-		$u1 = self::factory()->user->create();
+		self::factory()->user->create();
 		$u2 = self::factory()->user->create();
 
 		$old_user = get_current_user_id();

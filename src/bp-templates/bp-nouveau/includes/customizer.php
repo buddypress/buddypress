@@ -77,7 +77,7 @@ function bp_nouveau_customize_register( WP_Customize_Manager $wp_customize ) {
 		)
 	);
 
-	// Add the sections to the customizer
+	// Add the sections to the customizer.
 	foreach ( $sections as $id_section => $section_args ) {
 		$wp_customize->add_section( $id_section, $section_args );
 	}
@@ -217,7 +217,7 @@ function bp_nouveau_customize_register( WP_Customize_Manager $wp_customize ) {
 		);
 	}
 
-	// Add the settings
+	// Add the settings.
 	foreach ( $settings as $id_setting => $setting_args ) {
 		$args = array();
 
@@ -315,7 +315,7 @@ function bp_nouveau_customize_register( WP_Customize_Manager $wp_customize ) {
 		);
 	}
 
-	// Add the controls to the customizer's section
+	// Add the controls to the customizer's section.
 	foreach ( $controls as $id_control => $control_args ) {
 		if ( empty( $control_args['class'] ) ) {
 			$wp_customize->add_control( $id_control, $control_args );

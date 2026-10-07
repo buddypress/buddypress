@@ -182,6 +182,7 @@ class BP_Messages_Notices_List_Table extends WP_List_Table {
 			);
 		}
 
+		/** This filter is documented in bp-messages/bp-messages-template.php */
 		echo '<strong>' . esc_html( apply_filters( 'bp_get_message_notice_subject', $item->subject ) ) . '</strong> ';
 
 		// BuddyPress relies on WordPress's `WP_List_Table::row_actions()`.
@@ -197,6 +198,7 @@ class BP_Messages_Notices_List_Table extends WP_List_Table {
 	 * @param object $item The current item.
 	 */
 	public function column_message( $item ) {
+		/** This filter is documented in bp-messages/bp-messages-template.php */
 		// Escaping is made in `bp-messages/bp-messages-filters.php`.
 		// phpcs:ignore WordPress.Security.EscapeOutput
 		echo apply_filters( 'bp_get_message_notice_text', $item->message );

@@ -22,12 +22,16 @@ class BP_Core_Notification {
 	/**
 	 * The notification id.
 	 *
+	 * @since 1.0.0
+	 *
 	 * @var int
 	 */
 	public $id = 0;
 
 	/**
 	 * The ID to which the notification relates to within the component.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @var int
 	 */
@@ -36,12 +40,16 @@ class BP_Core_Notification {
 	/**
 	 * The secondary ID to which the notification relates to within the component.
 	 *
+	 * @since 1.0.0
+	 *
 	 * @var int
 	 */
 	public $secondary_item_id = null;
 
 	/**
 	 * The user ID for who the notification is for.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @var int
 	 */
@@ -50,12 +58,16 @@ class BP_Core_Notification {
 	/**
 	 * The name of the component that the notification is for.
 	 *
+	 * @since 1.0.0
+	 *
 	 * @var string
 	 */
 	public $component_name = '';
 
 	/**
 	 * The action within the component which the notification is related to.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @var string
 	 */
@@ -64,12 +76,16 @@ class BP_Core_Notification {
 	/**
 	 * The date the notification was created.
 	 *
+	 * @since 1.0.0
+	 *
 	 * @var string
 	 */
 	public $date_notified = '';
 
 	/**
 	 * Is the notification new or has it already been read.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @var boolean
 	 */

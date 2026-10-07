@@ -34,6 +34,7 @@ abstract class BP_Suggestions {
 	 * If your custom service requires further defaults, add them here.
 	 *
 	 * @since 2.1.0
+	 *
 	 * @var array
 	 */
 	protected $default_args = array(
@@ -48,6 +49,7 @@ abstract class BP_Suggestions {
 	 * This includes `$default_args`, as well as the user-supplied values.
 	 *
 	 * @since 2.1.0
+	 *
 	 * @var array
 	 */
 	protected $args = array();

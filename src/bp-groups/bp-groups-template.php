@@ -6719,7 +6719,7 @@ function bp_groups_action_link( $action = '', $query_args = '', $nonce = false )
 		// Must be a group.
 		if ( ! empty( $current_group->id ) ) {
 
-			// Append $action to $url if provided
+			// Append $action to $url if provided.
 			if ( ! empty( $action ) ) {
 				$url = bp_get_group_url(
 					$current_group,
@@ -6790,7 +6790,7 @@ add_action( 'bp_members_admin_user_stats', 'bp_groups_profile_stats', 8, 1 );
  */
 function bp_groups_get_profile_stats( $args = '' ) {
 
-	// Parse the args
+	// Parse the args.
 	$r = bp_parse_args(
 		$args,
 		array(
@@ -6803,18 +6803,18 @@ function bp_groups_get_profile_stats( $args = '' ) {
 		'groups_get_profile_stats'
 	);
 
-	// Allow completely overloaded output
+	// Allow completely overloaded output.
 	if ( empty( $r['output'] ) ) {
 
-		// Only proceed if a user ID was passed
+		// Only proceed if a user ID was passed.
 		if ( ! empty( $r['user_id'] ) ) {
 
-			// Get the user groups
+			// Get the user groups.
 			if ( empty( $r['groups'] ) ) {
 				$r['groups'] = absint( bp_get_total_group_count_for_user( $r['user_id'] ) );
 			}
 
-			// If groups exist, show some formatted output
+			// If groups exist, show some formatted output.
 			$r['output'] = $r['before'];
 
 			/* translators: %s: number of groups */
@@ -6864,11 +6864,11 @@ function bp_groups_print_manage_group_members_placeholders() {
 	?>
 	<div id="group-manage-members-ui" class="standard-form">
 		<ul class="subnav-filters">
-			<li id="group-roles-filter" class="last filter"><?php // Placeholder for the Group Role Tabs ?></li>
-			<li id="group-members-pagination" class="left-menu"><?php // Placeholder for paginate links ?></li>
-			<li id="group-members-search-form" class="bp-search"><?php // Placeholder for search form ?></li>
+			<li id="group-roles-filter" class="last filter"><?php // Placeholder for the Group Role Tabs. ?></li>
+			<li id="group-members-pagination" class="left-menu"><?php // Placeholder for paginate links. ?></li>
+			<li id="group-members-search-form" class="bp-search"><?php // Placeholder for search form. ?></li>
 		</ul>
-		<table id="group-members-list-table" class="<?php echo is_admin() ? 'widefat bp-group-members' : 'bp-list'; ?>"><?php // Placeholder to list members ?></table>
+		<table id="group-members-list-table" class="<?php echo is_admin() ? 'widefat bp-group-members' : 'bp-list'; ?>"><?php // Placeholder to list members. ?></table>
 	</div>
 	<?php
 }

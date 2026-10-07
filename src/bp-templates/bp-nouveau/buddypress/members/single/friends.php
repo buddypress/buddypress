@@ -27,7 +27,7 @@
 <?php
 switch ( bp_current_action() ) :
 
-	// Home/My Friends
+	// Home/My Friends.
 	case 'my-friends':
 		bp_nouveau_member_hook( 'before', 'friends_content' );
 		?>
@@ -46,7 +46,7 @@ switch ( bp_current_action() ) :
 		bp_get_template_part( 'members/single/friends/requests' );
 		break;
 
-	// Any other
+	// Any other.
 	default:
 		bp_get_template_part( 'members/single/plugins' );
 		break;

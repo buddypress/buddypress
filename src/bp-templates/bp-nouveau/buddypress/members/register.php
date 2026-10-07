@@ -115,7 +115,7 @@
 
 				<?php endif; ?>
 
-			<?php endif; // request-details signup step ?>
+			<?php endif; // request-details signup step. ?>
 
 			</div><!-- //.layout-wrap -->
 

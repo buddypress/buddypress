@@ -21,6 +21,7 @@ abstract class BP_XProfile_Field_Type {
 	 * Validation regex rules for field type.
 	 *
 	 * @since 2.0.0
+	 *
 	 * @var array Field type validation regexes.
 	 */
 	protected $validation_regex = array();
@@ -29,6 +30,7 @@ abstract class BP_XProfile_Field_Type {
 	 * Allowed values for field type.
 	 *
 	 * @since 2.0.0
+	 *
 	 * @var array Field type allowed values.
 	 */
 	protected $validation_allowed_values = array();
@@ -37,6 +39,7 @@ abstract class BP_XProfile_Field_Type {
 	 * Name for field type.
 	 *
 	 * @since 2.0.0
+	 *
 	 * @var string The name of this field type.
 	 */
 	public $name = '';
@@ -45,6 +48,7 @@ abstract class BP_XProfile_Field_Type {
 	 * The name of the category that this field type should be grouped with. Used on the [Users > Profile Fields] screen in wp-admin.
 	 *
 	 * @since 2.0.0
+	 *
 	 * @var string
 	 */
 	public $category = '';
@@ -53,6 +57,7 @@ abstract class BP_XProfile_Field_Type {
 	 * If allowed to store null/empty values.
 	 *
 	 * @since 2.0.0
+	 *
 	 * @var bool If this is set, allow BP to store null/empty values for this field type.
 	 */
 	public $accepts_null_value = false;
@@ -61,6 +66,7 @@ abstract class BP_XProfile_Field_Type {
 	 * If this is set, BP will set this field type's list of allowed values from the field's options (e.g checkbox, selectbox).
 	 *
 	 * @since 2.0.0
+	 *
 	 * @var bool Does this field support options? e.g. selectbox, radio buttons, etc.
 	 */
 	public $supports_options = false;
@@ -69,6 +75,7 @@ abstract class BP_XProfile_Field_Type {
 	 * If allowed to support multiple options as default.
 	 *
 	 * @since 2.0.0
+	 *
 	 * @var bool Does this field type support multiple options being set as default values? e.g. multiselectbox, checkbox.
 	 */
 	public $supports_multiple_defaults = false;
@@ -77,6 +84,7 @@ abstract class BP_XProfile_Field_Type {
 	 * If the field type supports rich text by default.
 	 *
 	 * @since 2.4.0
+	 *
 	 * @var bool
 	 */
 	public $supports_richtext = false;
@@ -85,6 +93,7 @@ abstract class BP_XProfile_Field_Type {
 	 * If the field type has a type-specific settings section on the Edit Field panel.
 	 *
 	 * @since 2.7.0
+	 *
 	 * @var bool|null Boolean if set explicitly by the type object, otherwise null.
 	 */
 	protected $do_settings_section = null;
@@ -93,6 +102,7 @@ abstract class BP_XProfile_Field_Type {
 	 * If object is created by an BP_XProfile_Field object.
 	 *
 	 * @since 2.0.0
+	 *
 	 * @var BP_XProfile_Field If this object is created by instantiating a {@link BP_XProfile_Field},
 	 *                        this is a reference back to that object.
 	 */
@@ -102,6 +112,7 @@ abstract class BP_XProfile_Field_Type {
 	 * Field data visibility.
 	 *
 	 * @since 2.0.0
+	 *
 	 * @var string
 	 */
 	public $visibility;

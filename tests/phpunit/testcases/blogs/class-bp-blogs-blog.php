@@ -6,11 +6,7 @@
  */
 class BP_Tests_BP_Blogs_Blog_TestCases extends BP_UnitTestCase {
 	public function test_get_with_search_terms() {
-		if ( ! is_multisite() ) {
-			$this->markTestSkipped();
-		}
-
-		$old_user = get_current_user_id();
+		$this->skipWithoutMultisite();
 
 		$u = self::factory()->user->create();
 		wp_set_current_user( $u );
@@ -36,11 +32,7 @@ class BP_Tests_BP_Blogs_Blog_TestCases extends BP_UnitTestCase {
 	 * @ticket BP5858
 	 */
 	public function test_get_with_search_terms_should_match_description() {
-		if ( ! is_multisite() ) {
-			$this->markTestSkipped();
-		}
-
-		$old_user = get_current_user_id();
+		$this->skipWithoutMultisite();
 
 		$u = self::factory()->user->create();
 		wp_set_current_user( $u );
@@ -66,11 +58,7 @@ class BP_Tests_BP_Blogs_Blog_TestCases extends BP_UnitTestCase {
 	}
 
 	public function test_search_blogs() {
-		if ( ! is_multisite() ) {
-			$this->markTestSkipped();
-		}
-
-		$old_user = get_current_user_id();
+		$this->skipWithoutMultisite();
 
 		$u = self::factory()->user->create();
 		wp_set_current_user( $u );
@@ -94,12 +82,7 @@ class BP_Tests_BP_Blogs_Blog_TestCases extends BP_UnitTestCase {
 	 * @group get_by_letter
 	 */
 	public function test_get_by_letter() {
-		if ( ! is_multisite() ) {
-			$this->markTestSkipped();
-			return;
-		}
-
-		$old_user = get_current_user_id();
+		$this->skipWithoutMultisite();
 
 		$u = self::factory()->user->create();
 		wp_set_current_user( $u );
@@ -123,9 +106,7 @@ class BP_Tests_BP_Blogs_Blog_TestCases extends BP_UnitTestCase {
 	 * @group get_order_by
 	 */
 	public function test_get_order_by() {
-		if ( ! is_multisite() ) {
-			$this->markTestSkipped();
-		}
+		$this->skipWithoutMultisite();
 
 		$old_user = get_current_user_id();
 
@@ -173,7 +154,7 @@ class BP_Tests_BP_Blogs_Blog_TestCases extends BP_UnitTestCase {
 
 		/* Random */
 		$blogs = BP_Blogs_Blog::get( [ 'type' => 'random', 'user_id' => $u ] );
-		$this->assertTrue( 2 == count( $blogs['blogs'] ) );
+		$this->assertCount( 2, $blogs['blogs'] );
 
 		wp_set_current_user( $old_user );
 	}
@@ -182,11 +163,8 @@ class BP_Tests_BP_Blogs_Blog_TestCases extends BP_UnitTestCase {
 	 * @group date_query
 	 */
 	public function test_get_with_date_query_before() {
-		if ( ! is_multisite() ) {
-			$this->markTestSkipped();
-		}
+		$this->skipWithoutMultisite();
 
-		$old_user = get_current_user_id();
 		$u = self::factory()->user->create();
 		wp_set_current_user( $u );
 
@@ -223,11 +201,8 @@ class BP_Tests_BP_Blogs_Blog_TestCases extends BP_UnitTestCase {
 	 * @group date_query
 	 */
 	public function test_get_with_date_query_range() {
-		if ( ! is_multisite() ) {
-			$this->markTestSkipped();
-		}
+		$this->skipWithoutMultisite();
 
-		$old_user = get_current_user_id();
 		$u = self::factory()->user->create();
 		wp_set_current_user( $u );
 
@@ -266,11 +241,8 @@ class BP_Tests_BP_Blogs_Blog_TestCases extends BP_UnitTestCase {
 	 * @group date_query
 	 */
 	public function test_get_with_date_query_after() {
-		if ( ! is_multisite() ) {
-			$this->markTestSkipped();
-		}
+		$this->skipWithoutMultisite();
 
-		$old_user = get_current_user_id();
 		$u = self::factory()->user->create();
 		wp_set_current_user( $u );
 

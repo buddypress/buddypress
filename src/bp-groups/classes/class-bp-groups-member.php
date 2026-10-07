@@ -19,6 +19,7 @@ class BP_Groups_Member {
 	 * ID of the membership.
 	 *
 	 * @since 1.6.0
+	 *
 	 * @var int
 	 */
 	public $id;
@@ -27,6 +28,7 @@ class BP_Groups_Member {
 	 * ID of the group associated with the membership.
 	 *
 	 * @since 1.6.0
+	 *
 	 * @var int
 	 */
 	public $group_id;
@@ -35,6 +37,7 @@ class BP_Groups_Member {
 	 * ID of the user associated with the membership.
 	 *
 	 * @since 1.6.0
+	 *
 	 * @var int
 	 */
 	public $user_id;
@@ -43,6 +46,7 @@ class BP_Groups_Member {
 	 * ID of the user whose invitation initiated the membership.
 	 *
 	 * @since 1.6.0
+	 *
 	 * @var int
 	 */
 	public $inviter_id;
@@ -51,6 +55,7 @@ class BP_Groups_Member {
 	 * Whether the member is an admin of the group.
 	 *
 	 * @since 1.6.0
+	 *
 	 * @var int
 	 */
 	public $is_admin;
@@ -59,6 +64,7 @@ class BP_Groups_Member {
 	 * Whether the member is a mod of the group.
 	 *
 	 * @since 1.6.0
+	 *
 	 * @var int
 	 */
 	public $is_mod;
@@ -67,6 +73,7 @@ class BP_Groups_Member {
 	 * Whether the member is banned from the group.
 	 *
 	 * @since 1.6.0
+	 *
 	 * @var int
 	 */
 	public $is_banned;
@@ -77,6 +84,7 @@ class BP_Groups_Member {
 	 * Eg, 'Group Admin'.
 	 *
 	 * @since 1.6.0
+	 *
 	 * @var int
 	 */
 	public $user_title;
@@ -87,6 +95,7 @@ class BP_Groups_Member {
 	 * This value is updated when, eg, invitations are accepted.
 	 *
 	 * @since 1.6.0
+	 *
 	 * @var string
 	 */
 	public $date_modified;
@@ -95,6 +104,7 @@ class BP_Groups_Member {
 	 * Whether the membership has been confirmed.
 	 *
 	 * @since 1.6.0
+	 *
 	 * @var int
 	 */
 	public $is_confirmed;
@@ -106,6 +116,7 @@ class BP_Groups_Member {
 	 * include when requesting membership to a private group.
 	 *
 	 * @since 1.6.0
+	 *
 	 * @var string
 	 */
 	public $comments;
@@ -119,6 +130,7 @@ class BP_Groups_Member {
 	 * invitee has not yet been notified.
 	 *
 	 * @since 1.6.0
+	 *
 	 * @var int
 	 */
 	public $invite_sent;
@@ -127,6 +139,7 @@ class BP_Groups_Member {
 	 * WP_User object representing the membership's user.
 	 *
 	 * @since 1.6.0
+	 *
 	 * @var WP_User
 	 */
 	protected $user;
@@ -214,9 +227,10 @@ class BP_Groups_Member {
 	 */
 	public function __get( $key ) {
 		if ( $key === 'user' ) {
-			// @todo fix this.
-			return $this->get_user_object( $this->user_id );
+			return $this->get_user_object();
 		}
+
+		return null;
 	}
 
 	/**
@@ -1416,7 +1430,7 @@ class BP_Groups_Member {
 			$members = $wpdb->get_results( apply_filters( 'bp_group_members_user_join_filter', $wpdb->prepare( "SELECT m.user_id, m.date_modified, m.is_banned, u.user_login, u.user_nicename, u.user_email, pd.value as display_name FROM {$bp->groups->table_name_members} m, {$wpdb->users} u, {$bp->profile->table_name_data} pd WHERE u.ID = m.user_id AND u.ID = pd.user_id AND pd.field_id = 1 AND group_id = %d AND is_confirmed = 1 {$banned_sql} {$exclude_admins_sql} {$exclude_sql} ORDER BY m.date_modified DESC {$pag_sql}", $group_id ) ) );
 		} else {
 
-			/** This filter is documented in bp-groups/bp-groups-classes */
+			/** This filter is documented in bp-groups/classes/class-bp-groups-member.php */
 			$members = $wpdb->get_results( apply_filters( 'bp_group_members_user_join_filter', $wpdb->prepare( "SELECT m.user_id, m.date_modified, m.is_banned, u.user_login, u.user_nicename, u.user_email, u.display_name FROM {$bp->groups->table_name_members} m, {$wpdb->users} u WHERE u.ID = m.user_id AND group_id = %d AND is_confirmed = 1 {$banned_sql} {$exclude_admins_sql} {$exclude_sql} ORDER BY m.date_modified DESC {$pag_sql}", $group_id ) ) );
 		}
 

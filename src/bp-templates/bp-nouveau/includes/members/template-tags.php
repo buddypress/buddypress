@@ -91,7 +91,7 @@ function bp_nouveau_member_hook( $when = '', $suffix = '' ) {
 		$hook[] = $when;
 	}
 
-	// It's a member hook
+	// It's a member hook.
 	$hook[] = 'member';
 
 	if ( $suffix ) {
@@ -128,7 +128,7 @@ function bp_nouveau_member_header_buttons( $args = array() ) {
 	if ( bp_is_user() ) {
 		$args['type'] = 'profile';
 	} else {
-		$args['type'] = 'header';// we have no real need for this 'type' on header actions
+		$args['type'] = 'header';// we have no real need for this 'type' on header actions.
 	}
 
 	$output = join( ' ', bp_nouveau_get_members_buttons( $args ) );
@@ -256,14 +256,14 @@ function bp_nouveau_members_loop_buttons( $args = array() ) {
 			$button_element = 'button';
 		}
 
-		// If we pass through parent classes add them to $button array
+		// If we pass through parent classes add them to $button array.
 		$parent_class = '';
 		if ( ! empty( $args['parent_attr']['class'] ) ) {
 			$parent_class = $args['parent_attr']['class'];
 		}
 
 		if ( bp_is_active( 'friends' ) ) {
-			// It's the member's friendship requests screen
+			// It's the member's friendship requests screen.
 			if ( 'friendship_request' === $type ) {
 				$buttons = array(
 					'accept_friendship' => array(
@@ -302,7 +302,7 @@ function bp_nouveau_members_loop_buttons( $args = array() ) {
 					),
 				);
 
-				// If button element set add nonce link to data attr
+				// If button element set add nonce link to data attr.
 				if ( 'button' === $button_element ) {
 					$buttons['accept_friendship']['button_attr']['data-bp-nonce'] = bp_get_friend_accept_request_link();
 					$buttons['reject_friendship']['button_attr']['data-bp-nonce'] = bp_get_friend_reject_request_link();
@@ -311,7 +311,7 @@ function bp_nouveau_members_loop_buttons( $args = array() ) {
 					$buttons['reject_friendship']['button_attr']['href'] = bp_get_friend_reject_request_link();
 				}
 
-			// It's any other members screen
+			// It's any other members screen.
 			} else {
 				$button_args = bp_get_add_friend_button_args( $user_id );
 
@@ -338,7 +338,7 @@ function bp_nouveau_members_loop_buttons( $args = array() ) {
 						),
 					);
 
-					// If button element set add nonce link to data attr
+					// If button element set add nonce link to data attr.
 					if ( 'button' === $button_element && 'awaiting_response' !== $button_args['id'] ) {
 						$buttons['member_friendship']['button_attr']['data-bp-nonce'] = $button_args['link_href'];
 					} else {
@@ -349,7 +349,7 @@ function bp_nouveau_members_loop_buttons( $args = array() ) {
 			}
 		}
 
-		// Only add The public and private messages when not in a loop
+		// Only add The public and private messages when not in a loop.
 		if ( 'profile' === $type ) {
 			if ( bp_is_active( 'activity' ) && bp_activity_do_mentions() ) {
 				$button_args = bp_activity_get_public_message_button_args();
@@ -432,12 +432,12 @@ function bp_nouveau_members_loop_buttons( $args = array() ) {
 			return array();
 		}
 
-		// It's the first entry of the loop, so build the Group and sort it
+		// It's the first entry of the loop, so build the Group and sort it.
 		if ( ! isset( bp_nouveau()->members->member_buttons ) || ! is_a( bp_nouveau()->members->member_buttons, 'BP_Buttons_Group' ) ) {
 			$sort                                 = true;
 			bp_nouveau()->members->member_buttons = new BP_Buttons_Group( $buttons_group );
 
-		// It's not the first entry, the order is set, we simply need to update the Buttons Group
+		// It's not the first entry, the order is set, we simply need to update the Buttons Group.
 		} else {
 			$sort = false;
 			bp_nouveau()->members->member_buttons->update( $buttons_group );
@@ -508,14 +508,14 @@ function bp_nouveau_member_meta() {
 		}
 
 		if ( empty( $member->template_meta ) ) {
-			// It's a single user's header
+			// It's a single user's header.
 			if ( ! $is_loop ) {
 				$meta['last_activity'] = sprintf(
 					'<span class="activity">%s</span>',
 					esc_html( bp_get_last_activity( bp_displayed_user_id() ) )
 				);
 
-			// We're in the members loop
+			// We're in the members loop.
 			} else {
 				$meta = array(
 					'last_activity' => sprintf( '%s', esc_html( bp_get_member_last_active() ) ),
@@ -652,7 +652,7 @@ function bp_nouveau_member_header_template_part() {
 	 */
 	do_action( 'bp_before_member_header' );
 
-	// Get the template part for the header
+	// Get the template part for the header.
 	bp_nouveau_member_get_template_part( $template );
 
 	/**

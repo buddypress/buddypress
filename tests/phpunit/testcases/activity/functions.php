@@ -800,9 +800,7 @@ Bar!';
 	 * @group activity_tracking
 	 */
 	public function test_bp_activity_format_activity_action_custom_post_type_post_nonms() {
-		if ( is_multisite() ) {
-			$this->markTestSkipped();
-		}
+		$this->skipWithMultisite();
 
 		register_post_type( 'foo', array(
 			'label'   => 'foo',
@@ -847,9 +845,7 @@ Bar!';
 	 * @group activity_tracking
 	 */
 	public function test_bp_activity_format_activity_action_custom_post_type_post_ms() {
-		if ( ! is_multisite() ) {
-			$this->markTestSkipped();
-		}
+		$this->skipWithoutMultisite();
 
 		$bp    = buddypress();
 		$b     = self::factory()->blog->create();
@@ -906,9 +902,7 @@ Bar!';
 	 * @group bp_activity_format_activity_action_custom_post_type_post
 	 */
 	public function test_bp_activity_format_activity_action_custom_string_post_type_post_nonms() {
-		if ( is_multisite() ) {
-			$this->markTestSkipped();
-		}
+		$this->skipWithMultisite();
 
 		$labels = array(
 			'name'                 => 'bars',
@@ -961,9 +955,7 @@ Bar!';
 	 * @group activity_tracking
 	 */
 	public function test_bp_activity_format_activity_action_custom_string_post_type_post_ms() {
-		if ( ! is_multisite() ) {
-			$this->markTestSkipped();
-		}
+		$this->skipWithoutMultisite();
 
 		$bp = buddypress();
 		$b  = self::factory()->blog->create();
@@ -1409,7 +1401,6 @@ Bar!';
 		$a = self::factory()->activity->create();
 
 		// bp_activity_add_user_favorite() requires a logged-in user.
-		$current_user = bp_loggedin_user_id();
 		wp_set_current_user( $u );
 
 		$this->assertTrue( bp_activity_add_user_favorite( $a, $u ) );
@@ -1418,7 +1409,6 @@ Bar!';
 		$this->assertSame( array( $a ), bp_activity_get_user_favorites( $u ) );
 		$this->assertSame( '1', bp_activity_get_meta( $a, 'favorite_count' ) );
 
-		wp_set_current_user( $current_user );
 	}
 
 	/**
@@ -1430,11 +1420,9 @@ Bar!';
 		$a = self::factory()->activity->create();
 
 		// bp_activity_add_user_favorite() requires a logged-in user.
-		$current_user = bp_loggedin_user_id();
 		wp_set_current_user( $u );
 		$this->assertTrue( bp_activity_add_user_favorite( $a, $u ) );
 
-		wp_set_current_user( $current_user );
 	}
 
 	/**
@@ -1447,7 +1435,6 @@ Bar!';
 		$a = self::factory()->activity->create();
 
 		// bp_activity_add_user_favorite() requires a logged-in user.
-		$current_user = bp_loggedin_user_id();
 		wp_set_current_user( $u1 );
 
 		// Only favorite for user 1
@@ -1457,7 +1444,6 @@ Bar!';
 		$this->assertFalse( bp_activity_remove_user_favorite( $a, $u2 ) );
 		$this->assertSame( '1', bp_activity_get_meta( $a, 'favorite_count' ) );
 
-		wp_set_current_user( $current_user );
 	}
 
 	/**
@@ -1469,7 +1455,6 @@ Bar!';
 		$a = self::factory()->activity->create();
 
 		// bp_activity_add_user_favorite() requires a logged-in user.
-		$current_user = bp_loggedin_user_id();
 		wp_set_current_user( $u1 );
 
 		// Only favorite for user 1
@@ -1484,7 +1469,6 @@ Bar!';
 		$this->assertSame( $user_favorites, bp_activity_get_user_favorites( $u1 ) );
 		$this->assertSame( '1', bp_activity_get_meta( $a, 'favorite_count' ) );
 
-		wp_set_current_user( $current_user );
 	}
 
 	/**
@@ -1503,7 +1487,7 @@ Bar!';
 			'error_type' => 'wp_error',
 		) );
 
-		$this->assertInstanceOf( 'WP_Error', $activity );
+		$this->assertWPError( $activity );
 		$this->assertSame( 'bp_activity_missing_content', $activity->get_error_code() );
 	}
 
@@ -1527,7 +1511,7 @@ Bar!';
 			'error_type' => 'wp_error',
 		) );
 
-		$this->assertInstanceOf( 'WP_Error', $activity );
+		$this->assertWPError( $activity );
 		$this->assertSame( 'bp_activity_inactive_user', $activity->get_error_code() );
 	}
 
@@ -1858,9 +1842,7 @@ Bar!';
 	 * @ticket BP8175
 	 */
 	public function test_activity_data_should_be_deleted_on_user_delete_non_multisite() {
-		if ( is_multisite() ) {
-			$this->markTestSkipped( __METHOD__ . ' requires non-multisite.' );
-		}
+		$this->skipWithMultisite();
 
 		$u1 = self::factory()->user->create();
 		$a1 = self::factory()->activity->create(
@@ -1910,9 +1892,7 @@ Bar!';
 	 * @ticket BP8175
 	 */
 	public function test_activity_data_should_be_deleted_on_user_delete_multisite() {
-		if ( ! is_multisite() ) {
-			$this->markTestSkipped( __METHOD__ . ' requires multisite.' );
-		}
+		$this->skipWithoutMultisite();
 
 		$u1 = self::factory()->user->create();
 		$a1 = self::factory()->activity->create(
@@ -1962,9 +1942,7 @@ Bar!';
 	 * @ticket BP8175
 	 */
 	public function test_activity_data_should_not_be_deleted_on_wp_delete_user_multisite() {
-		if ( ! is_multisite() ) {
-			$this->markTestSkipped( __METHOD__ . ' requires multisite.' );
-		}
+		$this->skipWithoutMultisite();
 
 		$u1 = self::factory()->user->create();
 		$a1 = self::factory()->activity->create(

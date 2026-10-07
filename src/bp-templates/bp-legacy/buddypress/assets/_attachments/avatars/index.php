@@ -43,9 +43,13 @@ do_action( 'bp_attachments_avatar_check_template' );
 		<p><?php esc_html_e( "If you'd like to remove the existing group profile photo but not upload a new one, please use the delete group profile photo button.", 'buddypress' ); ?></p>
 		<p><a class="button edit" id="bp-delete-avatar" href="#"><?php esc_html_e( 'Delete Group Profile Photo', 'buddypress' ); ?></a></p>
 	<# } else { #>
-		<?php do_action( 'bp_attachments_avatar_delete_template' ); ?>
+		<?php
+		/** This action is documented in bp-templates/bp-nouveau/buddypress/assets/_attachments/avatars/index.php */
+		do_action( 'bp_attachments_avatar_delete_template' );
+		?>
 	<# } #>
 </script>
 
 <?php
+/** This action is documented in bp-templates/bp-nouveau/buddypress/assets/_attachments/avatars/index.php */
 do_action( 'bp_attachments_avatar_main_template' );

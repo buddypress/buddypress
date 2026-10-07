@@ -320,8 +320,8 @@ add_action( 'group_member_promoted', 'groups_notification_promoted_member', 10, 
  */
 function groups_notification_group_invites( &$group, &$member, $inviter_user_id ) {
 
-	// @todo $inviter_ud may be used for caching, test without it
-	$inviter_ud = bp_core_get_core_userdata( $inviter_user_id );
+	// @todo Test whether this user-data cache warming is needed.
+	bp_core_get_core_userdata( $inviter_user_id );
 
 	if ( $member instanceof BP_Groups_Member ) {
 		$invited_user_id = $member->user_id;

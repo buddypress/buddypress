@@ -571,7 +571,7 @@ function bp_update_to_2_7() {
 	// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode
 	bp_add_option( 'bp-emails-unsubscribe-salt', base64_encode( wp_generate_password( 64, true, true ) ) );
 
-	// Update post_titles
+	// Update post_titles.
 	bp_migrate_directory_page_titles();
 
 	/*

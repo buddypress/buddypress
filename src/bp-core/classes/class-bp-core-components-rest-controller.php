@@ -95,6 +95,7 @@ class BP_Core_Components_REST_Controller extends WP_REST_Controller {
 		$components = bp_core_get_components( $type );
 
 		// Active components.
+		/** This filter is documented in bp-core/admin/bp-core-admin-components.php */
 		$active_components = (array) apply_filters( 'bp_active_components', bp_get_option( 'bp-active-components' ) );
 
 		// Core component is always active.

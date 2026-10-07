@@ -708,6 +708,7 @@ class BP_XProfile_Fields_REST_Controller extends WP_REST_Controller {
 			'name'              => $field->name,
 			'description'       => array(
 				'raw'      => $field->description,
+				/** This filter is documented in bp-xprofile/bp-xprofile-template.php */
 				'rendered' => apply_filters( 'bp_get_the_profile_field_description', $field->description ),
 			),
 			'is_required'       => (bool) $field->is_required,

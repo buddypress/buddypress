@@ -20,7 +20,7 @@
 </p>
 
 <?php
-// Load the cover image UI
+// Load the cover image UI.
 bp_attachments_get_template_part( 'cover-images/index' );
 
 bp_nouveau_member_hook( 'after', 'edit_cover_image' );

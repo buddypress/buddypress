@@ -6,9 +6,6 @@
  */
 class BP_Tests_Notifications_Cache extends BP_UnitTestCase {
 
-	/**
-	 * @group cache
-	 */
 	public function test_cache_invalidation_all_for_user_on_save() {
 		$u = self::factory()->user->create();
 
@@ -39,9 +36,6 @@ class BP_Tests_Notifications_Cache extends BP_UnitTestCase {
 		$this->assertFalse( wp_cache_get( $u, 'bp_notifications_unread_count' ) );
 	}
 
-	/**
-	 * @group cache
-	 */
 	public function test_cache_invalidation_all_for_user_on_delete() {
 		$u  = self::factory()->user->create();
 		$n1 = self::factory()->notification->create( array(
@@ -66,9 +60,6 @@ class BP_Tests_Notifications_Cache extends BP_UnitTestCase {
 		$this->assertFalse( wp_cache_get( $u, 'bp_notifications_unread_count' ) );
 	}
 
-	/**
-	 * @group cache
-	 */
 	public function test_cache_invalidation_all_for_user_on_update_user_id() {
 		$u = self::factory()->user->create();
 
@@ -97,9 +88,6 @@ class BP_Tests_Notifications_Cache extends BP_UnitTestCase {
 		$this->assertFalse( wp_cache_get( $u, 'bp_notifications_unread_count' ) );
 	}
 
-	/**
-	 * @group cache
-	 */
 	public function test_cache_invalidation_all_for_user_on_update_id() {
 		$u  = self::factory()->user->create();
 		$n1 = self::factory()->notification->create( array(
@@ -196,7 +184,6 @@ class BP_Tests_Notifications_Cache extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group cache
 	 * @ticket BP8637
 	 */
 	public function test_bp_notifications_clear_all_for_user_cache_before_update() {
@@ -222,7 +209,7 @@ class BP_Tests_Notifications_Cache extends BP_UnitTestCase {
 
 		// Mark as read.
 		$amount = bp_notifications_mark_notifications_by_ids( $notification_ids );
-		$this->assertTrue( $amount === count( $notification_ids ) );
+		$this->assertSame( count( $notification_ids ), $amount );
 
 		// Add a new one.
 		$notification_id = self::factory()->notification->create(
@@ -243,7 +230,6 @@ class BP_Tests_Notifications_Cache extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group cache
 	 * @ticket BP8642
 	 */
 	public function test_bp_notifications_clear_all_for_user_cache_before_update_when_marked_unread() {
@@ -267,7 +253,7 @@ class BP_Tests_Notifications_Cache extends BP_UnitTestCase {
 
 		// Mark as unread.
 		$amount = bp_notifications_mark_notifications_by_ids( $notification_ids, 1 );
-		$this->assertTrue( $amount === count( $notification_ids ) );
+		$this->assertSame( count( $notification_ids ), $amount );
 
 		$all_for_user_notifications = bp_notifications_get_all_notifications_for_user( $u );
 		$found_ids                  = wp_list_pluck( $all_for_user_notifications, 'id' );
@@ -277,7 +263,6 @@ class BP_Tests_Notifications_Cache extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group cache
 	 * @ticket BP8637
 	 */
 	public function test_bp_notifications_clear_all_for_user_cache_before_delete() {
@@ -317,7 +302,7 @@ class BP_Tests_Notifications_Cache extends BP_UnitTestCase {
 
 		// Delete.
 		$amount = bp_notifications_delete_notifications_by_ids( $notification_ids );
-		$this->assertTrue( $amount === count( $notification_ids ) );
+		$this->assertSame( count( $notification_ids ), $amount );
 
 		$all_for_user_notifications = bp_notifications_get_all_notifications_for_user( $u );
 		$all_ids = wp_list_pluck( $all_for_user_notifications, 'id' );
@@ -329,7 +314,6 @@ class BP_Tests_Notifications_Cache extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group cache
 	 * @ticket BP8637
 	 */
 	public function test_bp_notifications_clear_all_for_user_cache_before_update_when_item_ids() {
@@ -353,7 +337,7 @@ class BP_Tests_Notifications_Cache extends BP_UnitTestCase {
 
 		// Mark read.
 		$amount = bp_notifications_mark_notifications_by_item_ids( $r, $message_ids, 'messages', 'new_message', false );
-		$this->assertTrue( $amount === count( $message_ids ) );
+		$this->assertSame( count( $message_ids ), $amount );
 
 		$message_id = self::factory()->message->create(
 			array(
@@ -371,7 +355,6 @@ class BP_Tests_Notifications_Cache extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group cache
 	 * @ticket BP8642
 	 */
 	public function test_bp_notifications_clear_all_for_user_cache_before_update_when_item_ids_and_marked_unread() {
@@ -409,7 +392,7 @@ class BP_Tests_Notifications_Cache extends BP_UnitTestCase {
 
 		// Mark unread.
 		$amount = bp_notifications_mark_notifications_by_item_ids( $r, $message_ids, 'messages', 'new_message', 1 );
-		$this->assertTrue( $amount === count( $message_ids ) );
+		$this->assertSame( count( $message_ids ), $amount );
 
 		$all_for_user_notifications = bp_notifications_get_all_notifications_for_user( $r );
 		$found_ids                  = wp_list_pluck( $all_for_user_notifications, 'item_id' );
@@ -419,7 +402,6 @@ class BP_Tests_Notifications_Cache extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group cache
 	 * @ticket BP8637
 	 */
 	public function test_bp_notifications_clear_all_for_user_cache_before_delete_when_item_ids() {
@@ -451,7 +433,7 @@ class BP_Tests_Notifications_Cache extends BP_UnitTestCase {
 
 		// Delete.
 		$amount = bp_notifications_delete_notifications_by_item_ids( $r, $message_ids, 'messages', 'new_message' );
-		$this->assertTrue( $amount === count( $message_ids ) );
+		$this->assertSame( count( $message_ids ), $amount );
 
 		$all_for_user_notifications = bp_notifications_get_all_notifications_for_user( $r );
 		$all_ids = wp_list_pluck( $all_for_user_notifications, 'item_id' );

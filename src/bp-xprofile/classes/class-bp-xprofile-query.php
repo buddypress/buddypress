@@ -23,6 +23,7 @@ class BP_XProfile_Query {
 	 * See {@see WP_XProfile_Query::__construct()} for information on parameters.
 	 *
 	 * @since 2.2.0
+	 *
 	 * @var array
 	 */
 	public $queries = array();
@@ -31,6 +32,7 @@ class BP_XProfile_Query {
 	 * Database table that where the metadata's objects are stored (eg $wpdb->users).
 	 *
 	 * @since 2.2.0
+	 *
 	 * @var string
 	 */
 	public $primary_table;
@@ -39,6 +41,7 @@ class BP_XProfile_Query {
 	 * Column in primary_table that represents the ID of the object.
 	 *
 	 * @since 2.2.0
+	 *
 	 * @var string
 	 */
 	public $primary_id_column;
@@ -47,6 +50,7 @@ class BP_XProfile_Query {
 	 * A flat list of table aliases used in JOIN clauses.
 	 *
 	 * @since 2.2.0
+	 *
 	 * @var array
 	 */
 	protected $table_aliases = array();

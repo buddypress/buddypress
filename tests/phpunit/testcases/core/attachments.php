@@ -3,7 +3,6 @@
 /**
  * @group core
  */
-
 class BP_Tests_Core_Attachments extends BP_UnitTestCase {
 	/**
 	 * @group bp_attachments_list_directory_files
@@ -37,7 +36,7 @@ class BP_Tests_Core_Attachments extends BP_UnitTestCase {
 		$files = bp_attachments_list_directory_files_recursively( BP_TESTS_DIR . 'assets', 'index' );
 		remove_filter( 'mime_types', array( $this, 'filter_mime_types' ) );
 
-		$this->assertTrue( 1 === count( $files ) );
+		$this->assertCount( 1, $files );
 		$this->assertTrue( isset( $files['templates/index'] ) );
 	}
 

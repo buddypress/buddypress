@@ -26,7 +26,7 @@ function bp_nouveau_messages_hook( $when = '', $suffix = '' ) {
 		$hook[] = $when;
 	}
 
-	// It's a message hook
+	// It's a message hook.
 	$hook[] = 'message';
 
 	if ( $suffix ) {
@@ -92,7 +92,7 @@ function bp_nouveau_messages_member_interface() {
 	 */
 	do_action( '_bp_nouveau_messages_print_placeholders' );
 
-	// Load the Private messages UI
+	// Load the Private messages UI.
 
 	/**
 	 * Fires after the member messages content.

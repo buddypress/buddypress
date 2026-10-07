@@ -20,6 +20,7 @@ class BP_Groups_Group_Members_Template {
 	 * Current member position in the loop.
 	 *
 	 * @since 1.0.0
+	 *
 	 * @var int
 	 */
 	public $current_member = -1;
@@ -28,6 +29,7 @@ class BP_Groups_Group_Members_Template {
 	 * Number of members in the loop.
 	 *
 	 * @since 1.0.0
+	 *
 	 * @var int
 	 */
 	public $member_count;
@@ -36,6 +38,7 @@ class BP_Groups_Group_Members_Template {
 	 * Group members in the loop.
 	 *
 	 * @since 1.0.0
+	 *
 	 * @var array
 	 */
 	public $members;
@@ -44,6 +47,7 @@ class BP_Groups_Group_Members_Template {
 	 * Current group member in the loop.
 	 *
 	 * @since 1.0.0
+	 *
 	 * @var object
 	 */
 	public $member;
@@ -52,6 +56,7 @@ class BP_Groups_Group_Members_Template {
 	 * Whether the loop is active.
 	 *
 	 * @since 1.0.0
+	 *
 	 * @var bool
 	 */
 	public $in_the_loop;
@@ -60,6 +65,7 @@ class BP_Groups_Group_Members_Template {
 	 * Current pagination page.
 	 *
 	 * @since 1.0.0
+	 *
 	 * @var int
 	 */
 	public $pag_page;
@@ -68,6 +74,7 @@ class BP_Groups_Group_Members_Template {
 	 * Number of members per pagination page.
 	 *
 	 * @since 1.0.0
+	 *
 	 * @var int
 	 */
 	public $pag_num;
@@ -76,6 +83,7 @@ class BP_Groups_Group_Members_Template {
 	 * Pagination links.
 	 *
 	 * @since 1.0.0
+	 *
 	 * @var array|string|null
 	 */
 	public $pag_links;
@@ -83,7 +91,8 @@ class BP_Groups_Group_Members_Template {
 	/**
 	 * URL argument used for the pagination param.
 	 *
-	 * @since 1.0.0
+	 * @since 2.2.0
+	 *
 	 * @var string
 	 */
 	public $pag_arg;
@@ -92,12 +101,15 @@ class BP_Groups_Group_Members_Template {
 	 * The type of member being requested. Used for ordering results.
 	 *
 	 * @since 2.3.0
+	 *
 	 * @var string
 	 */
 	public $type = '';
 
 	/**
 	 * The total number of members.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @var int
 	 */
@@ -107,6 +119,7 @@ class BP_Groups_Group_Members_Template {
 	 * Total number of groups.
 	 *
 	 * @since 1.0.0
+	 *
 	 * @var int
 	 */
 	public $total_group_count;
