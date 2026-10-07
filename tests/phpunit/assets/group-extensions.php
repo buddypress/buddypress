@@ -4,7 +4,6 @@
  * The following implementations of BP_Group_Extension act as dummy plugins
  * for our unit tests
  */
-
 class BPTest_Group_Extension_Parse_Legacy_Properties extends BP_Group_Extension {
 	function __construct() {
 		$class_name = get_class( $this );

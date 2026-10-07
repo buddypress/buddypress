@@ -407,7 +407,13 @@ function bp_members_render_dynamic_members_block( $attributes = array() ) {
 	$max_members = (int) $block_args['maxMembers'];
 	$no_members  = __( 'No members found.', 'buddypress' );
 
-	/** This filter is documented in buddypress/src/bp-members/classes/class-bp-core-members-widget.php */
+	/**
+	 * Filters the separator of the member widget links.
+	 *
+	 * @since 2.4.0
+	 *
+	 * @param string $separator Separator string. Default '|'.
+	 */
 	$separator = apply_filters( 'bp_members_widget_separator', '|' );
 
 	// Make sure the widget ID is unique.

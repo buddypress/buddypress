@@ -19,12 +19,16 @@ class BP_Messages_Message {
 	/**
 	 * ID of the message.
 	 *
+	 * @since 1.0.0
+	 *
 	 * @var int
 	 */
 	public $id;
 
 	/**
 	 * ID of the message thread.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @var int
 	 */
@@ -33,12 +37,16 @@ class BP_Messages_Message {
 	/**
 	 * ID of the sender.
 	 *
+	 * @since 1.0.0
+	 *
 	 * @var int
 	 */
 	public $sender_id;
 
 	/**
 	 * Subject line of the message.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @var string
 	 */
@@ -47,6 +55,8 @@ class BP_Messages_Message {
 	/**
 	 * Content of the message.
 	 *
+	 * @since 1.0.0
+	 *
 	 * @var string
 	 */
 	public $message;
@@ -54,12 +64,16 @@ class BP_Messages_Message {
 	/**
 	 * Date the message was sent.
 	 *
+	 * @since 1.0.0
+	 *
 	 * @var string
 	 */
 	public $date_sent;
 
 	/**
 	 * Message recipients.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @var array
 	 */
@@ -170,7 +184,7 @@ class BP_Messages_Message {
 
 		$this->id = $wpdb->insert_id;
 
-		// For new threads fetch the thread_id that was generated during the insert query
+		// For new threads fetch the thread_id that was generated during the insert query.
 		if ( $new_thread ) {
 			$this->thread_id = (int) $wpdb->get_var( $wpdb->prepare( "SELECT thread_id FROM {$bp->messages->table_name_messages} WHERE id=%d", $this->id ) );
 		}

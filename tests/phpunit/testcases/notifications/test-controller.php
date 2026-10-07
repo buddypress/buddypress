@@ -243,6 +243,7 @@ class BP_Tests_Notifications_REST_Controller extends BP_Test_REST_Controller_Tes
 	 */
 	public function test_get_embedded_blog_from_notification_item() {
 		$this->skipWithoutMultisite();
+		$this->assertTrue( bp_is_active( 'blogs' ), 'The Blogs component must be active for this test.' );
 
 		$blog_title = 'The Foo Bar Blog';
 
@@ -270,6 +271,8 @@ class BP_Tests_Notifications_REST_Controller extends BP_Test_REST_Controller_Tes
 
 		$data = $this->server->response_to_data( $response, true );
 
+		$this->assertArrayHasKey( 'blog', $data['_links'] ?? array(), 'The notification must link to its blog.' );
+		$this->assertArrayHasKey( 'blog', $data['_embedded'] ?? array(), 'The linked blog must be embedded.' );
 		$this->assertNotEmpty( $data['_embedded']['blog'] );
 
 		$embedded_blog = current( $data['_embedded']['blog'] );

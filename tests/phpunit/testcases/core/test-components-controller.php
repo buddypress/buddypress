@@ -238,21 +238,27 @@ class BP_Tests_Components_REST_Controller extends BP_Test_REST_Controller_Testca
 	public function test_update_item() {
 		wp_set_current_user( $this->user );
 
-		$request = new WP_REST_Request( 'PUT', $this->endpoint_url );
-		$request->set_query_params(
-			array(
-				'name'   => 'blogs',
-				'action' => 'deactivate',
-			)
-		);
-		$response = $this->server->dispatch( $request );
+		$active_components = buddypress()->active_components;
 
-		$this->assertSame( 200, $response->get_status() );
+		try {
+			$request = new WP_REST_Request( 'PUT', $this->endpoint_url );
+			$request->set_query_params(
+				array(
+					'name'   => 'blogs',
+					'action' => 'deactivate',
+				)
+			);
+			$response = $this->server->dispatch( $request );
 
-		$all_data = $response->get_data();
+			$this->assertSame( 200, $response->get_status() );
 
-		$this->assertNotEmpty( $all_data );
-		$this->assertSame( 'inactive', $all_data['status'] );
+			$all_data = $response->get_data();
+
+			$this->assertNotEmpty( $all_data );
+			$this->assertSame( 'inactive', $all_data['status'] );
+		} finally {
+			buddypress()->active_components = $active_components;
+		}
 	}
 
 	/**

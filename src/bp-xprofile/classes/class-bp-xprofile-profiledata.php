@@ -22,7 +22,8 @@ class BP_XProfile_ProfileData {
 	 * XProfile ID.
 	 *
 	 * @since 1.6.0
-	 * @var int $id
+	 *
+	 * @var int
 	 */
 	public $id;
 
@@ -30,7 +31,8 @@ class BP_XProfile_ProfileData {
 	 * User ID.
 	 *
 	 * @since 1.6.0
-	 * @var int $user_id
+	 *
+	 * @var int
 	 */
 	public $user_id;
 
@@ -38,7 +40,8 @@ class BP_XProfile_ProfileData {
 	 * XProfile field ID.
 	 *
 	 * @since 1.6.0
-	 * @var int $field_id
+	 *
+	 * @var int
 	 */
 	public $field_id;
 
@@ -46,7 +49,8 @@ class BP_XProfile_ProfileData {
 	 * XProfile field value.
 	 *
 	 * @since 1.6.0
-	 * @var string $value
+	 *
+	 * @var string
 	 */
 	public $value;
 
@@ -54,7 +58,8 @@ class BP_XProfile_ProfileData {
 	 * XProfile field last updated time.
 	 *
 	 * @since 1.6.0
-	 * @var string $last_updated
+	 *
+	 * @var string
 	 */
 	public $last_updated;
 

@@ -21,7 +21,7 @@ function bp_nouveau_get_blogs_directory_nav_items() {
 
 	$nav_items['all'] = array(
 		'component' => 'blogs',
-		'slug'      => 'all', // slug is used because BP_Core_Nav requires it, but it's the scope
+		'slug'      => 'all', // slug is used because BP_Core_Nav requires it, but it's the scope.
 		'li_class'  => array( 'selected' ),
 		'link'      => bp_get_blogs_directory_url(),
 		'text'      => __( 'All Sites', 'buddypress' ),
@@ -32,11 +32,11 @@ function bp_nouveau_get_blogs_directory_nav_items() {
 	if ( is_user_logged_in() ) {
 		$my_blogs_count = bp_get_total_blog_count_for_user( bp_loggedin_user_id() );
 
-		// If the user has blogs create a nav item
+		// If the user has blogs create a nav item.
 		if ( $my_blogs_count ) {
 			$nav_items['personal'] = array(
 				'component' => 'blogs',
-				'slug'      => 'personal', // slug is used because BP_Core_Nav requires it, but it's the scope
+				'slug'      => 'personal', // slug is used because BP_Core_Nav requires it, but it's the scope.
 				'li_class'  => array(),
 				'link'      => bp_loggedin_user_url( bp_members_get_path_chunks( array( bp_nouveau_get_component_slug( 'blogs' ) ) ) ),
 				'text'      => __( 'My Sites', 'buddypress' ),
@@ -45,7 +45,7 @@ function bp_nouveau_get_blogs_directory_nav_items() {
 			);
 		}
 
-		// If the user can create blogs, add the create nav
+		// If the user can create blogs, add the create nav.
 		if ( bp_blog_signup_enabled() ) {
 			$url = bp_get_blogs_directory_url(
 				array(
@@ -55,7 +55,7 @@ function bp_nouveau_get_blogs_directory_nav_items() {
 
 			$nav_items['create'] = array(
 				'component' => 'blogs',
-				'slug'      => 'create', // slug is used because BP_Core_Nav requires it, but it's the scope
+				'slug'      => 'create', // slug is used because BP_Core_Nav requires it, but it's the scope.
 				'li_class'  => array( 'no-ajax', 'site-create', 'create-button' ),
 				'link'      => $url,
 				'text'      => __( 'Create a Site', 'buddypress' ),
@@ -65,7 +65,7 @@ function bp_nouveau_get_blogs_directory_nav_items() {
 		}
 	}
 
-	// Check for the deprecated hook :
+	// Check for the deprecated hook :.
 	$extra_nav_items = bp_nouveau_parse_hooked_dir_nav( 'bp_blogs_directory_blog_types', 'blogs', 20 );
 
 	if ( ! empty( $extra_nav_items ) ) {

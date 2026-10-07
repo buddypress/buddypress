@@ -37,6 +37,8 @@ class BP_Nouveau extends BP_Theme_Compat {
 	/**
 	 * Instance of this class.
 	 *
+	 * @since 3.0.0
+	 *
 	 * @var BP_Nouveau|null
 	 */
 	protected static $instance = null;

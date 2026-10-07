@@ -838,7 +838,7 @@ function bp_blogs_comment_sync_activity_comment( &$activity_id, $comment = null,
 		}
 	}
 
-	// Update the blogs last active date
+	// Update the blogs last active date.
 	bp_blogs_update_blogmeta( $blog_id, 'last_activity', bp_core_current_time() );
 
 	if ( 'new_blog_comment' === $activity_post_object->comment_action_id ) {
@@ -1065,7 +1065,7 @@ add_action( 'remove_user_from_blog', 'bp_blogs_remove_blog_for_user', 10, 2 );
 function bp_blogs_post_type_remove_comment( $deleted, $comment_id, $activity_post_object, $activity_type = '' ) {
 	// Remove synced activity comments, if needed.
 	if ( ! bp_disable_blogforum_comments() ) {
-		// Get associated activity ID from comment meta
+		// Get associated activity ID from comment meta.
 		$activity_id = get_comment_meta( $comment_id, 'bp_activity_comment_id', true );
 
 		/**

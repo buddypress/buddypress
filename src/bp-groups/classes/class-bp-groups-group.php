@@ -22,6 +22,7 @@ class BP_Groups_Group {
 	 * ID of the group.
 	 *
 	 * @since 1.6.0
+	 *
 	 * @var int
 	 */
 	public $id;
@@ -30,6 +31,7 @@ class BP_Groups_Group {
 	 * User ID of the group's creator.
 	 *
 	 * @since 1.6.0
+	 *
 	 * @var int
 	 */
 	public $creator_id;
@@ -38,6 +40,7 @@ class BP_Groups_Group {
 	 * Name of the group.
 	 *
 	 * @since 1.6.0
+	 *
 	 * @var string
 	 */
 	public $name;
@@ -46,6 +49,7 @@ class BP_Groups_Group {
 	 * Group slug.
 	 *
 	 * @since 1.6.0
+	 *
 	 * @var string
 	 */
 	public $slug;
@@ -54,6 +58,7 @@ class BP_Groups_Group {
 	 * Group description.
 	 *
 	 * @since 1.6.0
+	 *
 	 * @var string
 	 */
 	public $description;
@@ -64,6 +69,7 @@ class BP_Groups_Group {
 	 * Core statuses are 'public', 'private', and 'hidden'.
 	 *
 	 * @since 1.6.0
+	 *
 	 * @var string
 	 */
 	public $status;
@@ -74,6 +80,7 @@ class BP_Groups_Group {
 	 * ID of parent group, if applicable.
 	 *
 	 * @since 2.7.0
+	 *
 	 * @var int
 	 */
 	public $parent_id;
@@ -92,6 +99,7 @@ class BP_Groups_Group {
 	 * Date the group was created.
 	 *
 	 * @since 1.6.0
+	 *
 	 * @var string
 	 */
 	public $date_created;
@@ -100,6 +108,7 @@ class BP_Groups_Group {
 	 * Data about the group's admins.
 	 *
 	 * @since 1.6.0
+	 *
 	 * @var array
 	 */
 	protected $admins;
@@ -108,6 +117,7 @@ class BP_Groups_Group {
 	 * Data about the group's moderators.
 	 *
 	 * @since 1.6.0
+	 *
 	 * @var array
 	 */
 	protected $mods;
@@ -116,6 +126,7 @@ class BP_Groups_Group {
 	 * Total count of group members.
 	 *
 	 * @since 1.6.0
+	 *
 	 * @var int
 	 */
 	protected $total_member_count;
@@ -124,6 +135,7 @@ class BP_Groups_Group {
 	 * Is the current user a member of this group?
 	 *
 	 * @since 1.2.0
+	 *
 	 * @var int|bool
 	 */
 	protected $is_member;
@@ -133,6 +145,7 @@ class BP_Groups_Group {
 	 * Alias of $is_member for backward compatibility.
 	 *
 	 * @since 2.9.0
+	 *
 	 * @var bool
 	 */
 	protected $is_user_member;
@@ -141,6 +154,7 @@ class BP_Groups_Group {
 	 * Does the current user have an outstanding invitation to this group?
 	 *
 	 * @since 1.9.0
+	 *
 	 * @var bool
 	 */
 	protected $is_invited;
@@ -149,6 +163,7 @@ class BP_Groups_Group {
 	 * Does the current user have a pending membership request to this group?
 	 *
 	 * @since 1.9.0
+	 *
 	 * @var bool
 	 */
 	protected $is_pending;
@@ -157,6 +172,7 @@ class BP_Groups_Group {
 	 * Timestamp of the last activity that happened in this group.
 	 *
 	 * @since 1.2.0
+	 *
 	 * @var string
 	 */
 	protected $last_activity;
@@ -165,6 +181,7 @@ class BP_Groups_Group {
 	 * If this is a private or hidden group, does the current user have access?
 	 *
 	 * @since 1.6.0
+	 *
 	 * @var bool
 	 */
 	protected $user_has_access;
@@ -173,6 +190,7 @@ class BP_Groups_Group {
 	 * Can the current user know that this group exists?
 	 *
 	 * @since 2.9.0
+	 *
 	 * @var bool
 	 */
 	protected $is_visible;
@@ -183,6 +201,7 @@ class BP_Groups_Group {
 	 * Not currently used by BuddyPress.
 	 *
 	 * @since 2.0.0
+	 *
 	 * @var array
 	 */
 	public $args;

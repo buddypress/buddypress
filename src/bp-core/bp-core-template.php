@@ -3403,7 +3403,7 @@ function bp_the_body_class() {
 			$bp_classes[] = 'buddypress';
 		}
 
-		// Add the theme name/id to the body classes
+		// Add the theme name/id to the body classes.
 		$bp_classes[] = 'bp-' . bp_get_theme_compat_id();
 
 		// Merge WP classes with BuddyPress classes and remove any duplicates.

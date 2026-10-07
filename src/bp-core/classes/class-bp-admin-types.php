@@ -24,6 +24,7 @@ class BP_Admin_Types {
 	 * Current BuddyPress taxonomy.
 	 *
 	 * @since 7.0.0
+	 *
 	 * @var string
 	 */
 	public $taxonomy = '';
@@ -32,6 +33,7 @@ class BP_Admin_Types {
 	 * All registered BuddyPress taxonomies.
 	 *
 	 * @since 7.0.0
+	 *
 	 * @var array
 	 */
 	public $taxonomies = array();
@@ -40,6 +42,7 @@ class BP_Admin_Types {
 	 * Current screen ID.
 	 *
 	 * @since 7.0.0
+	 *
 	 * @var string
 	 */
 	public $screen_id = '';

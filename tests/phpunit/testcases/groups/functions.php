@@ -136,7 +136,6 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
 
-		$current_user = bp_loggedin_user_id();
 		wp_set_current_user( $u2 );
 
 		$g = self::factory()->group->create( array( 'status' => 'private' ) );
@@ -149,7 +148,6 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 
 		$this->assertSame( '1', bp_get_user_meta( $u1, 'total_group_count', true ) );
 
-		wp_set_current_user( $current_user );
 	}
 
 	/**
@@ -367,7 +365,6 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 	 * @ticket BP7614
 	 */
 	public function test_total_member_count_groups_inactive_user_from_admin() {
-		$current_user = get_current_user_id();
 		$u1           = self::factory()->user->create(
 			array(
 				'role' => 'administrator',
@@ -386,7 +383,6 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 
 		$this->assertSame( 2, groups_get_total_member_count( $g1 ) );
 
-		wp_set_current_user( $current_user );
 	}
 
 	/**
@@ -1085,9 +1081,7 @@ Bar!';
 	 * @ticket BP8175
 	 */
 	public function test_groups_data_should_be_deleted_on_user_delete_non_multisite() {
-		if ( is_multisite() ) {
-			$this->markTestSkipped( __METHOD__ . ' requires non-multisite.' );
-		}
+		$this->skipWithMultisite();
 
 		$u = self::factory()->user->create();
 
@@ -1104,9 +1098,7 @@ Bar!';
 	 * @ticket BP8175
 	 */
 	public function test_groups_data_should_be_deleted_on_user_delete_multisite() {
-		if ( ! is_multisite() ) {
-			$this->markTestSkipped( __METHOD__ . ' requires multisite.' );
-		}
+		$this->skipWithoutMultisite();
 
 		$u = self::factory()->user->create();
 
@@ -1123,9 +1115,7 @@ Bar!';
 	 * @ticket BP8175
 	 */
 	public function test_groups_data_should_not_be_deleted_on_wp_delete_user_multisite() {
-		if ( ! is_multisite() ) {
-			$this->markTestSkipped( __METHOD__ . ' requires multisite.' );
-		}
+		$this->skipWithoutMultisite();
 
 		$u = self::factory()->user->create();
 

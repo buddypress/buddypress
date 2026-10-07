@@ -316,7 +316,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 		) );
 
 		// bp_activity_new_comment() doesn't allow date_recorded
-		$a3 = bp_activity_add( array(
+		$a3 = self::factory()->activity->create( array(
 			'action'            => sprintf( __( '%s posted a new activity comment', 'buddypress' ), bp_loggedin_user_url() ) ,
 			'content'           => 'Candy is good',
 			'component'         => buddypress()->activity->id,
@@ -324,6 +324,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 			'user_id'           => bp_loggedin_user_id(),
 			'item_id'           => $a1,
 			'secondary_item_id' => $a1,
+			'primary_link'      => '',
 			'recorded_time'     => date( 'Y-m-d H:i:s', $now - 50 ),
 		) );
 
@@ -1004,7 +1005,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 			)
 		);
 
-		$this->assertInstanceOf( 'WP_Error', $a );
+		$this->assertWPError( $a );
 		$this->assertSame( 'bp_activity_missing_component', $a->get_error_code() );
 	}
 
@@ -1021,7 +1022,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 			)
 		);
 
-		$this->assertInstanceOf( 'WP_Error', $a );
+		$this->assertWPError( $a );
 		$this->assertSame( 'bp_activity_missing_type', $a->get_error_code() );
 	}
 
@@ -1038,7 +1039,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 			)
 		);
 
-		$this->assertInstanceOf( 'WP_Error', $a );
+		$this->assertWPError( $a );
 		$this->assertSame( 'bp_activity_missing_content', $a->get_error_code() );
 	}
 
@@ -1075,7 +1076,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 
 		remove_filter( 'bp_activity_type_requires_content', '__return_true' );
 
-		$this->assertInstanceOf( 'WP_Error', $a );
+		$this->assertWPError( $a );
 		$this->assertSame( 'bp_activity_missing_content', $a->get_error_code() );
 	}
 }

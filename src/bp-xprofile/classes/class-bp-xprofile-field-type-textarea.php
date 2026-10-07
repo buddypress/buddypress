@@ -69,7 +69,7 @@ class BP_XProfile_Field_Type_Textarea extends BP_XProfile_Field_Type {
 
 		<?php
 
-		/** This action is documented in bp-xprofile/bp-xprofile-classes */
+		/** This action is documented in bp-xprofile/classes/class-bp-xprofile-field-type-datebox.php */
 		do_action( bp_get_the_profile_field_errors_action() );
 
 		if ( ! $richtext_enabled ) {

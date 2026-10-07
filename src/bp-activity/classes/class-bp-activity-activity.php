@@ -26,6 +26,7 @@ class BP_Activity_Activity {
 	 * ID of the activity item.
 	 *
 	 * @since 1.0.0
+	 *
 	 * @var int
 	 */
 	public $id;
@@ -34,6 +35,7 @@ class BP_Activity_Activity {
 	 * ID of the associated item.
 	 *
 	 * @since 1.0.0
+	 *
 	 * @var int
 	 */
 	public $item_id;
@@ -42,6 +44,7 @@ class BP_Activity_Activity {
 	 * ID of the associated secondary item.
 	 *
 	 * @since 1.0.0
+	 *
 	 * @var int
 	 */
 	public $secondary_item_id;
@@ -50,6 +53,7 @@ class BP_Activity_Activity {
 	 * ID of user associated with the activity item.
 	 *
 	 * @since 1.0.0
+	 *
 	 * @var int
 	 */
 	public $user_id;
@@ -58,6 +62,7 @@ class BP_Activity_Activity {
 	 * The primary URL for the activity in RSS feeds.
 	 *
 	 * @since 1.0.0
+	 *
 	 * @var string
 	 */
 	public $primary_link = '';
@@ -66,6 +71,7 @@ class BP_Activity_Activity {
 	 * BuddyPress component the activity item relates to.
 	 *
 	 * @since 1.2.0
+	 *
 	 * @var string
 	 */
 	public $component = '';
@@ -74,6 +80,7 @@ class BP_Activity_Activity {
 	 * Activity type, eg 'new_blog_post'.
 	 *
 	 * @since 1.2.0
+	 *
 	 * @var string
 	 */
 	public $type = '';
@@ -82,6 +89,7 @@ class BP_Activity_Activity {
 	 * Description of the activity, eg 'Alex updated his profile.'.
 	 *
 	 * @since 1.2.0
+	 *
 	 * @var string
 	 */
 	public $action = '';
@@ -90,6 +98,7 @@ class BP_Activity_Activity {
 	 * The content of the activity item.
 	 *
 	 * @since 1.2.0
+	 *
 	 * @var string
 	 */
 	public $content = '';
@@ -98,6 +107,7 @@ class BP_Activity_Activity {
 	 * The date the activity item was recorded, in 'Y-m-d h:i:s' format.
 	 *
 	 * @since 1.0.0
+	 *
 	 * @var string
 	 */
 	public $date_recorded = '';
@@ -106,6 +116,7 @@ class BP_Activity_Activity {
 	 * Whether the item should be hidden in sitewide streams.
 	 *
 	 * @since 1.1.0
+	 *
 	 * @var int
 	 */
 	public $hide_sitewide = 0;
@@ -114,6 +125,7 @@ class BP_Activity_Activity {
 	 * Node boundary start for activity or activity comment.
 	 *
 	 * @since 1.5.0
+	 *
 	 * @var int
 	 */
 	public $mptt_left;
@@ -122,6 +134,7 @@ class BP_Activity_Activity {
 	 * Node boundary end for activity or activity comment.
 	 *
 	 * @since 1.5.0
+	 *
 	 * @var int
 	 */
 	public $mptt_right;
@@ -130,6 +143,7 @@ class BP_Activity_Activity {
 	 * Whether this item is marked as spam.
 	 *
 	 * @since 1.6.0
+	 *
 	 * @var int
 	 */
 	public $is_spam;
@@ -721,7 +735,7 @@ class BP_Activity_Activity {
 			if ( ! empty( $page ) && ! empty( $per_page ) ) {
 				$pag_sql = $wpdb->prepare( 'LIMIT %d, %d', absint( ( $page - 1 ) * $per_page ), $per_page );
 
-				/** This filter is documented in bp-activity/bp-activity-classes.php */
+				/** This filter is documented in bp-activity/classes/class-bp-activity-activity.php */
 				$activity_sql = apply_filters( 'bp_activity_get_user_join_filter', "{$select_sql} {$from_sql} {$join_sql} {$where_sql} ORDER BY a.date_recorded {$sort}, a.id {$sort} {$pag_sql}", $select_sql, $from_sql, $where_sql, $sort, $pag_sql );
 			} else {
 				$pag_sql = '';
@@ -736,6 +750,7 @@ class BP_Activity_Activity {
 				 * @param string $from_sql   Final FROM MySQL statement portion for legacy query.
 				 * @param string $where_sql  Final WHERE MySQL statement portion for legacy query.
 				 * @param string $sort       Final sort direction for legacy query.
+				 * @param string $pag_sql    LIMIT clause for paged queries; empty for unpaged queries.
 				 */
 				$activity_sql = apply_filters( 'bp_activity_get_user_join_filter', "{$select_sql} {$from_sql} {$join_sql} {$where_sql} ORDER BY a.date_recorded {$sort}, a.id {$sort}", $select_sql, $from_sql, $where_sql, $sort, $pag_sql );
 			}

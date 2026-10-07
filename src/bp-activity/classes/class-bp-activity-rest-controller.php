@@ -857,6 +857,7 @@ class BP_Activity_REST_Controller extends WP_REST_Controller {
 			// Set up activity oEmbed cache.
 			bp_activity_embed();
 
+			/** This filter is documented in bp-activity/bp-activity-template.php */
 			$rendered = apply_filters( 'bp_get_activity_content_body', $activity->content, $activity );
 
 			// Restore the `activities_template` global.

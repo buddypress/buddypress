@@ -57,7 +57,7 @@
 			 */
 			do_action( 'bp_after_registration_disabled' );
 			?>
-		<?php endif; // registration-disabled signup step ?>
+		<?php endif; // registration-disabled signup step. ?>
 
 		<?php if ( 'request-details' === bp_get_current_signup_step() ) : ?>
 
@@ -414,7 +414,7 @@
 
 			<?php wp_nonce_field( 'bp_new_signup' ); ?>
 
-		<?php endif; // request-details signup step ?>
+		<?php endif; // request-details signup step. ?>
 
 		<?php if ( 'completed-confirmation' === bp_get_current_signup_step() ) : ?>
 
@@ -457,7 +457,7 @@
 			do_action( 'bp_after_registration_confirmed' );
 			?>
 
-		<?php endif; // completed-confirmation signup step ?>
+		<?php endif; // completed-confirmation signup step. ?>
 
 		<?php
 

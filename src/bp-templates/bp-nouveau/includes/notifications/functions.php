@@ -123,11 +123,11 @@ function bp_nouveau_notifications_register_filter( $args = array() ) {
 function bp_nouveau_notifications_get_filters( $id = '' ) {
 	$bp_nouveau = bp_nouveau();
 
-	// Get all filters
+	// Get all filters.
 	if ( empty( $id ) ) {
 		return $bp_nouveau->notifications->filters;
 
-	// Get a specific filter
+	// Get a specific filter.
 	} elseif ( ! empty( $id ) && isset( $bp_nouveau->notifications->filters[ $id ] ) ) {
 		return $bp_nouveau->notifications->filters[ $id ];
 
@@ -158,7 +158,7 @@ function bp_nouveau_notifications_sort( $filters = array() ) {
 			$position = (int) $filter['position'];
 		}
 
-		// If position is already taken, move to the first next available
+		// If position is already taken, move to the first next available.
 		if ( isset( $sorted[ $position ] ) ) {
 			$sorted_keys = array_keys( $sorted );
 

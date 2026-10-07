@@ -96,7 +96,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 */
 	public function test_get_with_include() {
 		$g1 = self::factory()->group->create();
-		$g2 = self::factory()->group->create();
+		self::factory()->group->create();
 		groups_update_groupmeta( $g1, 'foo', 'bar' );
 
 		$groups = BP_Groups_Group::get( array(
@@ -115,7 +115,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 */
 	public function test_get_with_meta_query() {
 		$g1 = self::factory()->group->create();
-		$g2 = self::factory()->group->create();
+		self::factory()->group->create();
 		groups_update_groupmeta( $g1, 'foo', 'bar' );
 
 		$groups = BP_Groups_Group::get( array(
@@ -158,7 +158,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$g2 = self::factory()->group->create( array(
 			'last_activity' => date( 'Y-m-d H:i:s', $now - 60*60*2 ),
 		) );
-		$g3 = self::factory()->group->create( array(
+		self::factory()->group->create( array(
 			'last_activity' => date( 'Y-m-d H:i:s', $now - 60*60*3 ),
 		) );
 		groups_update_groupmeta( $g1, 'foo', 'bar' );
@@ -293,13 +293,13 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 * @group date_query
 	 */
 	public function test_get_with_date_query_before() {
-		$u1 = self::factory()->group->create( array(
+		self::factory()->group->create( array(
 			'last_activity' => date( 'Y-m-d H:i:s', time() ),
 		) );
 		$u2 = self::factory()->group->create( array(
 			'last_activity' => '2008-03-25 17:13:55',
 		) );
-		$u3 = self::factory()->group->create( array(
+		self::factory()->group->create( array(
 			'last_activity' => '2010-01-01 12:00',
 		) );
 
@@ -323,13 +323,13 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 * @group date_query
 	 */
 	public function test_get_with_date_query_range() {
-		$u1 = self::factory()->group->create( array(
+		self::factory()->group->create( array(
 			'last_activity' => date( 'Y-m-d H:i:s', time() ),
 		) );
 		$u2 = self::factory()->group->create( array(
 			'last_activity' => '2008-03-25 17:13:55',
 		) );
-		$u3 = self::factory()->group->create( array(
+		self::factory()->group->create( array(
 			'last_activity' => '2001-01-01 12:00',
 		) );
 
@@ -358,10 +358,10 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$u1 = self::factory()->group->create( array(
 			'last_activity' => date( 'Y-m-d H:i:s', time() ),
 		) );
-		$u2 = self::factory()->group->create( array(
+		self::factory()->group->create( array(
 			'last_activity' => '2008-03-25 17:13:55',
 		) );
-		$u3 = self::factory()->group->create( array(
+		self::factory()->group->create( array(
 			'last_activity' => '2001-01-01 12:00',
 		) );
 
@@ -384,7 +384,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 			'name' => 'Cool Group',
 			'description' => 'This is one cool group',
 		) );
-		$g2 = self::factory()->group->create();
+		self::factory()->group->create();
 
 		$groups = BP_Groups_Group::get( array(
 			'search_terms' => 'Cool',
@@ -402,7 +402,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 			'name' => 'Cool Group',
 			'description' => '_cool_ dude',
 		) );
-		$g2 = self::factory()->group->create();
+		self::factory()->group->create();
 
 		$groups = BP_Groups_Group::get( array(
 			'search_terms' => '_cool_',
@@ -420,7 +420,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 			'name' => 'Cool Group',
 			'description' => '100% awesome',
 		) );
-		$g2 = self::factory()->group->create();
+		self::factory()->group->create();
 
 		$groups = BP_Groups_Group::get( array(
 			'search_terms' => '100%',
@@ -438,7 +438,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 			'name' => 'Cool Group',
 			'description' => "'tis sweet",
 		) );
-		$g2 = self::factory()->group->create();
+		self::factory()->group->create();
 
 		$groups = BP_Groups_Group::get( array(
 			'search_terms' => "'tis ",
@@ -457,7 +457,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 			'name' => 'Ye Lads',
 			'description' => "My Bonnie lies over the ocean",
 		) );
-		$g2 = self::factory()->group->create();
+		self::factory()->group->create();
 
 		$groups = BP_Groups_Group::get( array(
 			'search_terms' => "*ads",
@@ -472,11 +472,11 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 * @group get
 	 */
 	public function test_get_search_with_left_wildcard_should_miss() {
-		$g1 = self::factory()->group->create( array(
+		self::factory()->group->create( array(
 			'name' => 'Ye Lads',
 			'description' => "My Bonnie lies over the ocean",
 		) );
-		$g2 = self::factory()->group->create();
+		self::factory()->group->create();
 
 		$groups = BP_Groups_Group::get( array(
 			'search_terms' => "*la",
@@ -495,7 +495,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 			'name' => 'Ye Lads',
 			'description' => "My Bonnie lies over the ocean",
 		) );
-		$g2 = self::factory()->group->create();
+		self::factory()->group->create();
 
 		$groups = BP_Groups_Group::get( array(
 			'search_terms' => "Ye*",
@@ -510,11 +510,11 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 * @group get
 	 */
 	public function test_get_search_with_right_wildcard_should_miss() {
-		$g1 = self::factory()->group->create( array(
+		self::factory()->group->create( array(
 			'name' => 'Ye Lads',
 			'description' => "My Bonnie lies over the ocean",
 		) );
-		$g2 = self::factory()->group->create();
+		self::factory()->group->create();
 
 		$groups = BP_Groups_Group::get( array(
 			'search_terms' => "la*",
@@ -533,7 +533,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 			'name' => 'Ye Lads',
 			'description' => "My Bonnie lies over the ocean",
 		) );
-		$g2 = self::factory()->group->create();
+		self::factory()->group->create();
 
 		$groups = BP_Groups_Group::get( array(
 			'search_terms' => "*la*",
@@ -552,8 +552,8 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 			'name' => 'Ye Lads',
 			'description' => "My Bonnie lies over the ocean",
 		) );
-		$g2 = self::factory()->group->create();
-		$g3 = self::factory()->group->create( array(
+		self::factory()->group->create();
+		self::factory()->group->create( array(
 			'name' => 'Bonnie Lasses',
 			'description' => "That lad is unknown to me",
 		) );
@@ -572,11 +572,11 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 * @group get
 	 */
 	public function test_get_search_limited_to_description_column() {
-		$g1 = self::factory()->group->create( array(
+		self::factory()->group->create( array(
 			'name' => 'Ye Lads',
 			'description' => "My Bonnie lies over the ocean",
 		) );
-		$g2 = self::factory()->group->create();
+		self::factory()->group->create();
 		$g3 = self::factory()->group->create( array(
 			'name' => 'Bonnie Lasses',
 			'description' => "That lad is unknown to me",
@@ -600,19 +600,19 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 * @group get
 	 */
 	public function test_get_with_default_type_value_should_be_newest() {
-		$g1 = self::factory()->group->create( array(
+		self::factory()->group->create( array(
 			'name' => 'A Group',
 			'date_created' => bp_core_current_time(),
 		) );
-		$g2 = self::factory()->group->create( array(
+		self::factory()->group->create( array(
 			'name' => 'D Group',
 			'date_created' => gmdate( 'Y-m-d H:i:s', time() - 100 ),
 		) );
-		$g3 = self::factory()->group->create( array(
+		self::factory()->group->create( array(
 			'name' => 'B Group',
 			'date_created' => gmdate( 'Y-m-d H:i:s', time() - 100000 ),
 		) );
-		$g4 = self::factory()->group->create( array(
+		self::factory()->group->create( array(
 			'name' => 'C Group',
 			'date_created' => gmdate( 'Y-m-d H:i:s', time() - 1000 ),
 		) );
@@ -729,15 +729,15 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 			'name' => 'A Group',
 			'date_created' => bp_core_current_time(),
 		) );
-		$g2 = self::factory()->group->create( array(
+		self::factory()->group->create( array(
 			'name' => 'D Group',
 			'date_created' => gmdate( 'Y-m-d H:i:s', $time - 100 ),
 		) );
-		$g3 = self::factory()->group->create( array(
+		self::factory()->group->create( array(
 			'name' => 'B Group',
 			'date_created' => gmdate( 'Y-m-d H:i:s', $time - 100000 ),
 		) );
-		$g4 = self::factory()->group->create( array(
+		self::factory()->group->create( array(
 			'name' => 'C Group',
 			'date_created' => gmdate( 'Y-m-d H:i:s', $time - 1000 ),
 		) );
@@ -822,7 +822,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	public function test_get_queries_should_be_cached() {
 		global $wpdb;
 
-		$g = self::factory()->group->create();
+		self::factory()->group->create();
 
 		$found1 = BP_Groups_Group::get();
 
@@ -1061,7 +1061,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	public function test_get_orderby_meta_id() {
 		$g1 = self::factory()->group->create();
 		$g2 = self::factory()->group->create();
-		$g3 = self::factory()->group->create();
+		self::factory()->group->create();
 
 		groups_update_groupmeta( $g2, 'orderup', 'sammy' );
 		groups_update_groupmeta( $g1, 'orderup', 'sammy' );
@@ -1112,7 +1112,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 			'name' => 'Cool Group',
 			'description' => 'This is one cool group',
 		) );
-		$g2 = self::factory()->group->create();
+		self::factory()->group->create();
 		$u = self::factory()->user->create();
 		self::add_user_to_group( $u, $g1 );
 
@@ -1127,7 +1127,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 			'name' => 'Cool Group',
 			'description' => 'This group is for mandocellos and oboes.',
 		) );
-		$g2 = self::factory()->group->create();
+		self::factory()->group->create();
 		$u = self::factory()->user->create();
 		self::add_user_to_group( $u, $g1 );
 
@@ -1195,7 +1195,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 			'name' => 'Cool Group',
 			'description' => 'This is one cool group',
 		) );
-		$g2 = self::factory()->group->create();
+		self::factory()->group->create();
 
 		$groups = BP_Groups_Group::search_groups( 'Cool' );
 
@@ -1208,7 +1208,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 			'name' => 'Cool Group',
 			'description' => '_cool_ dude',
 		) );
-		$g2 = self::factory()->group->create();
+		self::factory()->group->create();
 
 		$groups = BP_Groups_Group::search_groups( '_cool_' );
 
@@ -1221,7 +1221,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 			'name' => 'Cool Group',
 			'description' => '100% awesome',
 		) );
-		$g2 = self::factory()->group->create();
+		self::factory()->group->create();
 
 		$groups = BP_Groups_Group::search_groups( '100%' );
 
@@ -1775,10 +1775,10 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$g2 = self::factory()->group->create( array(
 			'parent_id' => $g1,
 		) );
-		$g3 = self::factory()->group->create( array(
+		self::factory()->group->create( array(
 			'parent_id' => $g2,
 		) );
-		$g4 = self::factory()->group->create();
+		self::factory()->group->create();
 
 		$groups = BP_Groups_Group::get( array(
 			'parent_id' => $g1,
@@ -1799,7 +1799,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$g3 = self::factory()->group->create( array(
 			'parent_id' => $g2,
 		) );
-		$g4 = self::factory()->group->create();
+		self::factory()->group->create();
 
 		$groups = BP_Groups_Group::get( array(
 			'parent_id' => $g2,
@@ -1820,7 +1820,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$g3 = self::factory()->group->create( array(
 			'parent_id' => $g2,
 		) );
-		$g4 = self::factory()->group->create();
+		self::factory()->group->create();
 
 		$groups = BP_Groups_Group::get( array(
 			'parent_id' => array( $g1, $g2 ),
@@ -1841,7 +1841,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$g3 = self::factory()->group->create( array(
 			'parent_id' => $g2,
 		) );
-		$g4 = self::factory()->group->create();
+		self::factory()->group->create();
 
 		$groups = BP_Groups_Group::get( array(
 			'parent_id' => "$g1, $g2",
@@ -1859,7 +1859,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$g2 = self::factory()->group->create( array(
 			'parent_id' => $g1,
 		) );
-		$g3 = self::factory()->group->create( array(
+		self::factory()->group->create( array(
 			'parent_id' => $g2,
 		) );
 		$g4 = self::factory()->group->create();
@@ -1880,7 +1880,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$g2 = self::factory()->group->create( array(
 			'parent_id' => $g1,
 		) );
-		$g3 = self::factory()->group->create( array(
+		self::factory()->group->create( array(
 			'parent_id' => $g2,
 		) );
 		$g4 = self::factory()->group->create();
@@ -1900,7 +1900,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$g1 = self::factory()->group->create(array(
 			'slug'      => 'apr'
 		) );
-		$g2 = self::factory()->group->create( array(
+		self::factory()->group->create( array(
 			'slug'      => 'jan'
 		) );
 		$g3 = self::factory()->group->create( array(
@@ -1919,13 +1919,13 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 * @group get_by_slug
 	 */
 	public function test_get_by_slug_accept_string() {
-		$g1 = self::factory()->group->create(array(
+		self::factory()->group->create(array(
 			'slug'      => 'apr'
 		) );
 		$g2 = self::factory()->group->create( array(
 			'slug'      => 'jan'
 		) );
-		$g3 = self::factory()->group->create( array(
+		self::factory()->group->create( array(
 			'slug'      => 'mar'
 		) );
 
@@ -1944,7 +1944,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$g1 = self::factory()->group->create(array(
 			'slug'      => 'apr'
 		) );
-		$g2 = self::factory()->group->create( array(
+		self::factory()->group->create( array(
 			'slug'      => 'jan'
 		) );
 		$g3 = self::factory()->group->create( array(
@@ -1966,7 +1966,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$g1 = self::factory()->group->create(array(
 			'slug'      => 'apr'
 		) );
-		$g2 = self::factory()->group->create( array(
+		self::factory()->group->create( array(
 			'slug'      => 'jan'
 		) );
 		$g3 = self::factory()->group->create( array(
@@ -1988,7 +1988,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$g1 = self::factory()->group->create(array(
 			'status'      => 'private'
 		) );
-		$g2 = self::factory()->group->create( array(
+		self::factory()->group->create( array(
 			'status'      => 'public'
 		) );
 		$g3 = self::factory()->group->create( array(
@@ -2007,13 +2007,13 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 * @group get_by_status
 	 */
 	public function test_get_by_status_accept_string() {
-		$g1 = self::factory()->group->create(array(
+		self::factory()->group->create(array(
 			'status'      => 'private'
 		) );
 		$g2 = self::factory()->group->create( array(
 			'status'      => 'public'
 		) );
-		$g3 = self::factory()->group->create( array(
+		self::factory()->group->create( array(
 			'status'      => 'hidden'
 		) );
 
@@ -2032,7 +2032,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$g1 = self::factory()->group->create(array(
 			'status'      => 'private'
 		) );
-		$g2 = self::factory()->group->create( array(
+		self::factory()->group->create( array(
 			'status'      => 'public'
 		) );
 		$g3 = self::factory()->group->create( array(

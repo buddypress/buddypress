@@ -205,7 +205,7 @@ class BP_Tests_BP_Friends_Friendship_TestCases extends BP_UnitTestCase {
 
 		$random = BP_Friends_Friendship::get_random_friends( $user_id, 4 );
 		$this->assertFalse( in_array( $user_id, $random, true ), 'The requested user id should not be listed into random friends' );
-		$this->assertTrue( 4 === count( $random ) );
+		$this->assertCount( 4, $random );
 	}
 
 	/**
@@ -221,7 +221,7 @@ class BP_Tests_BP_Friends_Friendship_TestCases extends BP_UnitTestCase {
 
 		$friend_user_ids = BP_Friends_Friendship::get_friend_user_ids( $user_id );
 		$this->assertFalse( in_array( $user_id, $friend_user_ids, true ), 'The requested user id should not be listed into random friends' );
-		$this->assertTrue( 4 === count( $friend_user_ids ) );
+		$this->assertCount( 4, $friend_user_ids );
 	}
 
 	/**
@@ -253,9 +253,10 @@ class BP_Tests_BP_Friends_Friendship_TestCases extends BP_UnitTestCase {
 
 		$friendships = BP_Friends_Friendship::get_friendships( $u1, array( 'initiator_user_id' => $u2 ), 'not' );
 		$friendship = reset( $friendships );
-		$this->assertTrue( $u3 === $friendship->initiator_user_id && 1 === count( $friendships ) );
+		$this->assertSame( $u3, $friendship->initiator_user_id );
+		$this->assertCount( 1, $friendships );
 
 		$friendships = BP_Friends_Friendship::get_friendships( $u1, array( 'initiator_user_id' => $u3, 'is_confirmed' => 0 ), 'or' );
-		$this->assertTrue( 2 === count( $friendships ) );
+		$this->assertCount( 2, $friendships );
 	}
 }

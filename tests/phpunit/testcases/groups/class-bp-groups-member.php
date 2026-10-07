@@ -195,7 +195,6 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$g = self::factory()->group->create();
 
 		$time = time() - 60;
-		$old_current_user = get_current_user_id();
 
 		// Create member-level user
 		$this->add_user_to_group( $u_members, $g, array(
@@ -274,7 +273,6 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$this->assertFalse( bp_groups_user_can_send_invites( null, $u_members ) );
 		$this->assertTrue( bp_groups_user_can_send_invites( null, $u_mods ) );
 
-		wp_set_current_user( $old_current_user );
 	}
 
 	/**
@@ -689,13 +687,11 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 	public function test_groups_join_group_basic_join_use_current_user() {
 		$u1 = self::factory()->user->create();
 		$g = self::factory()->group->create();
-		$old_current_user = get_current_user_id();
 		wp_set_current_user( $u1 );
 
 		groups_join_group( $g );
 		$membership_id = groups_is_user_member( $u1, $g );
 		$this->assertTrue( is_numeric( $membership_id ) && $membership_id > 0 );
-		wp_set_current_user( $old_current_user );
 	}
 
 	/**
@@ -757,7 +753,6 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 	 * @group group_membership
 	 */
 	public function test_groups_leave_group_basic_leave_self_initiated() {
-		$old_current_user = get_current_user_id();
 		$u1 = self::factory()->user->create();
 		$g = self::factory()->group->create( array( 'creator_id' => $u1 ) );
 		$u2 = self::factory()->user->create();
@@ -769,7 +764,6 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$after = groups_get_total_member_count( $g );
 
 		$this->assertSame( $before - 1, $after );
-		wp_set_current_user( $old_current_user );
 	}
 
 	/**
@@ -777,7 +771,6 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 	 * @group group_membership
 	 */
 	public function test_groups_leave_group_basic_leave_use_current_user() {
-		$old_current_user = get_current_user_id();
 		$u1 = self::factory()->user->create();
 		$g = self::factory()->group->create( array( 'creator_id' => $u1 ) );
 		$u2 = self::factory()->user->create();
@@ -789,7 +782,6 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$after = groups_get_total_member_count( $g );
 
 		$this->assertSame( $before - 1, $after );
-		wp_set_current_user( $old_current_user );
 	}
 
 	/**
@@ -797,7 +789,6 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 	 * @group group_membership
 	 */
 	public function test_groups_leave_group_basic_leave_group_admin_initiated() {
-		$old_current_user = get_current_user_id();
 		$u1 = self::factory()->user->create();
 		$g = self::factory()->group->create( array( 'creator_id' => $u1 ) );
 		$u2 = self::factory()->user->create();
@@ -809,7 +800,6 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$after = groups_get_total_member_count( $g );
 
 		$this->assertSame( $before - 1, $after );
-		wp_set_current_user( $old_current_user );
 	}
 
 	/**
@@ -817,7 +807,6 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 	 * @group group_membership
 	 */
 	public function test_groups_leave_group_basic_leave_site_admin_initiated() {
-		$old_current_user = get_current_user_id();
 		$u1 = self::factory()->user->create();
 		$u1_siteadmin = new WP_User( $u1 );
 		$u1_siteadmin->add_role( 'administrator' );
@@ -831,7 +820,6 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$after = groups_get_total_member_count( $g );
 
 		$this->assertSame( $before - 1, $after );
-		wp_set_current_user( $old_current_user );
 	}
 
 	/**
@@ -839,7 +827,6 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 	 * @group group_membership
 	 */
 	public function test_groups_leave_group_single_admin_prevent_leave() {
-		$old_current_user = get_current_user_id();
 		$u1 = self::factory()->user->create();
 		$g = self::factory()->group->create( array( 'creator_id' => $u1 ) );
 		$u2 = self::factory()->user->create();
@@ -851,7 +838,6 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$after = groups_get_total_member_count( $g );
 
 		$this->assertSame( $before, $after );
-		wp_set_current_user( $old_current_user );
 	}
 
 	/**
@@ -859,7 +845,6 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 	 * @group group_membership
 	 */
 	public function test_groups_leave_group_multiple_admins_allow_leave() {
-		$old_current_user = get_current_user_id();
 		$u1 = self::factory()->user->create();
 		$g = self::factory()->group->create( array( 'creator_id' => $u1 ) );
 		$u2 = self::factory()->user->create();
@@ -873,7 +858,6 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$after = groups_get_total_member_count( $g );
 
 		$this->assertSame( $before - 1, $after );
-		wp_set_current_user( $old_current_user );
 	}
 
 	/**
@@ -918,7 +902,6 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 	 * @group group_membership
 	 */
 	public function test_groups_get_invites_for_user_infer_user() {
-		$old_current_user = get_current_user_id();
 
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -949,7 +932,6 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$groups = groups_get_invites_for_user();
 		$this->assertEqualSets( array( $g1, $g2, $g3 ), wp_list_pluck( $groups['groups'], 'id' ) );
 
-		wp_set_current_user( $old_current_user );
 	}
 
 	/**

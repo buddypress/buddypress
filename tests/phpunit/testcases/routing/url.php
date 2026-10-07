@@ -5,7 +5,7 @@
 class BP_Tests_URL extends BP_UnitTestCase {
 	function test_bp_core_ajax_url() {
 		$forced = force_ssl_admin();
-		$old_https = isset( $_SERVER['HTTPS'] ) ? $_SERVER['HTTPS'] : null;
+		$old_https = $_SERVER['HTTPS'] ?? null;
 
 		// (1) HTTPS off
 		force_ssl_admin( false );

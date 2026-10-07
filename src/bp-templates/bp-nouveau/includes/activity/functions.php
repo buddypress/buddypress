@@ -125,7 +125,7 @@ function bp_nouveau_activity_localize_scripts( $params = array() ) {
 	if ( ! empty( $activity_buttons ) ) {
 		$activity_params['buttons'] = bp_sort_by_key( $activity_buttons, 'order', 'num' );
 
-		// Enqueue Buttons scripts and styles
+		// Enqueue Buttons scripts and styles.
 		foreach ( $activity_params['buttons'] as $key_button => $buttons ) {
 			if ( empty( $buttons['handle'] ) ) {
 				continue;
@@ -143,7 +143,7 @@ function bp_nouveau_activity_localize_scripts( $params = array() ) {
 		}
 	}
 
-	// Activity Objects
+	// Activity Objects.
 	if ( ! bp_is_single_item() && ! bp_is_user() ) {
 		$activity_objects = array(
 			'profile' => array(
@@ -153,7 +153,7 @@ function bp_nouveau_activity_localize_scripts( $params = array() ) {
 			),
 		);
 
-		// the groups component is active & the current user is at least a member of 1 group
+		// the groups component is active & the current user is at least a member of 1 group.
 		if ( bp_is_active( 'groups' ) && bp_has_groups(
 			array(
 				'user_id' => bp_loggedin_user_id(),
@@ -217,7 +217,7 @@ function bp_nouveau_get_activity_directory_nav_items() {
 
 	$nav_items['all'] = array(
 		'component' => 'activity',
-		'slug'      => 'all', // slug is used because BP_Core_Nav requires it, but it's the scope
+		'slug'      => 'all', // slug is used because BP_Core_Nav requires it, but it's the scope.
 		'li_class'  => array( 'dynamic' ),
 		'link'      => bp_get_activity_directory_permalink(),
 		'text'      => __( 'All Members', 'buddypress' ),
@@ -225,7 +225,7 @@ function bp_nouveau_get_activity_directory_nav_items() {
 		'position'  => 5,
 	);
 
-	// deprecated hooks
+	// deprecated hooks.
 	$deprecated_hooks = array(
 		array( 'bp_before_activity_type_tab_all', 'activity', 0 ),
 		array( 'bp_activity_type_tabs', 'activity', 46 ),
@@ -242,11 +242,11 @@ function bp_nouveau_get_activity_directory_nav_items() {
 		);
 		$activity_slug    = bp_nouveau_get_component_slug( 'activity' );
 
-		// If the user has favorite create a nav item
+		// If the user has favorite create a nav item.
 		if ( bp_get_total_favorite_count_for_user( bp_loggedin_user_id() ) ) {
 			$nav_items['favorites'] = array(
 				'component' => 'activity',
-				'slug'      => 'favorites', // slug is used because BP_Core_Nav requires it, but it's the scope
+				'slug'      => 'favorites', // slug is used because BP_Core_Nav requires it, but it's the scope.
 				'li_class'  => array(),
 				'link'      => bp_loggedin_user_url( bp_members_get_path_chunks( array( $activity_slug, 'favorites' ) ) ),
 				'text'      => __( 'My Favorites', 'buddypress' ),
@@ -255,11 +255,11 @@ function bp_nouveau_get_activity_directory_nav_items() {
 			);
 		}
 
-		// The friends component is active and user has friends
+		// The friends component is active and user has friends.
 		if ( bp_is_active( 'friends' ) && bp_get_total_friend_count( bp_loggedin_user_id() ) ) {
 			$nav_items['friends'] = array(
 				'component' => 'activity',
-				'slug'      => 'friends', // slug is used because BP_Core_Nav requires it, but it's the scope
+				'slug'      => 'friends', // slug is used because BP_Core_Nav requires it, but it's the scope.
 				'li_class'  => array( 'dynamic' ),
 				'link'      => bp_loggedin_user_url( bp_members_get_path_chunks( array( $activity_slug, bp_nouveau_get_component_slug( 'friends' ) ) ) ),
 				'text'      => __( 'My Friends', 'buddypress' ),
@@ -268,11 +268,11 @@ function bp_nouveau_get_activity_directory_nav_items() {
 			);
 		}
 
-		// The groups component is active and user has groups
+		// The groups component is active and user has groups.
 		if ( bp_is_active( 'groups' ) && bp_get_total_group_count_for_user( bp_loggedin_user_id() ) ) {
 			$nav_items['groups'] = array(
 				'component' => 'activity',
-				'slug'      => 'groups', // slug is used because BP_Core_Nav requires it, but it's the scope
+				'slug'      => 'groups', // slug is used because BP_Core_Nav requires it, but it's the scope.
 				'li_class'  => array( 'dynamic' ),
 				'link'      => bp_loggedin_user_url( bp_members_get_path_chunks( array( $activity_slug, bp_nouveau_get_component_slug( 'groups' ) ) ) ),
 				'text'      => __( 'My Groups', 'buddypress' ),
@@ -281,7 +281,7 @@ function bp_nouveau_get_activity_directory_nav_items() {
 			);
 		}
 
-		// Mentions are allowed
+		// Mentions are allowed.
 		if ( bp_activity_do_mentions() ) {
 			$deprecated_hooks[] = array( 'bp_before_activity_type_tab_mentions', 'activity', 36 );
 			$count              = '';
@@ -292,7 +292,7 @@ function bp_nouveau_get_activity_directory_nav_items() {
 
 			$nav_items['mentions'] = array(
 				'component' => 'activity',
-				'slug'      => 'mentions', // slug is used because BP_Core_Nav requires it, but it's the scope
+				'slug'      => 'mentions', // slug is used because BP_Core_Nav requires it, but it's the scope.
 				'li_class'  => array( 'dynamic' ),
 				'link'      => bp_loggedin_user_url( bp_members_get_path_chunks( array( $activity_slug, 'mentions' ) ) ),
 				'text'      => __( 'Mentions', 'buddypress' ),
@@ -302,7 +302,7 @@ function bp_nouveau_get_activity_directory_nav_items() {
 		}
 	}
 
-	// Check for deprecated hooks :
+	// Check for deprecated hooks :.
 	foreach ( $deprecated_hooks as $deprectated_hook ) {
 		list( $hook, $component, $position ) = $deprectated_hook;
 
@@ -442,18 +442,18 @@ function bp_nouveau_activity_scope_newest_class( $classes = '' ) {
 				}
 			}
 
-			// Friends can post in groups the user is a member of
+			// Friends can post in groups the user is a member of.
 			if ( bp_is_active( 'friends' ) && (int) $user_id !== (int) bp_get_activity_user_id() ) {
 				if ( friends_check_friendship( $user_id, bp_get_activity_user_id() ) ) {
 					$my_classes[] = 'bp-my-friends';
 				}
 			}
 
-			// A mention can be posted by a friend within a group
+			// A mention can be posted by a friend within a group.
 			if ( true === bp_activity_do_mentions() ) {
 				$new_mentions = bp_get_user_meta( $user_id, 'bp_new_mentions', true );
 
-				// The current activity is one of the new mentions
+				// The current activity is one of the new mentions.
 				if ( is_array( $new_mentions ) && in_array( bp_get_activity_id(), $new_mentions, true ) ) {
 					$my_classes[] = 'bp-my-mentions';
 				}

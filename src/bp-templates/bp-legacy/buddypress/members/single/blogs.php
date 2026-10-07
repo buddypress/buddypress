@@ -40,7 +40,7 @@
 <?php
 switch ( bp_current_action() ) :
 
-	// Home/My Blogs
+	// Home/My Blogs.
 	case 'my-sites':
 		/**
 		 * Fires before the display of member blogs content.
@@ -66,7 +66,7 @@ switch ( bp_current_action() ) :
 		do_action( 'bp_after_member_blogs_content' );
 		break;
 
-	// Any other
+	// Any other.
 	default:
 		bp_get_template_part( 'members/single/plugins' );
 		break;

@@ -78,9 +78,9 @@ class BP_Legacy extends BP_Theme_Compat {
 
 		/** Scripts */
 
-		add_action( 'bp_enqueue_community_scripts', array( $this, 'enqueue_styles' ) ); // Enqueue theme CSS
-		add_action( 'bp_enqueue_community_scripts', array( $this, 'enqueue_scripts' ) ); // Enqueue theme JS
-		add_action( 'bp_enqueue_community_scripts', array( $this, 'localize_scripts' ) ); // Enqueue theme script localization
+		add_action( 'bp_enqueue_community_scripts', array( $this, 'enqueue_styles' ) ); // Enqueue theme CSS.
+		add_action( 'bp_enqueue_community_scripts', array( $this, 'enqueue_scripts' ) ); // Enqueue theme JS.
+		add_action( 'bp_enqueue_community_scripts', array( $this, 'localize_scripts' ) ); // Enqueue theme script localization.
 
 		// Body no-js class.
 		add_filter( 'body_class', array( $this, 'add_nojs_body_class' ), 20, 1 );
@@ -751,7 +751,7 @@ function bp_legacy_theme_ajax_querystring( $query_string, $component ) {
 		if ( bp_is_active( 'activity' ) ) {
 			$actions = bp_activity_get_actions_for_context();
 
-			// Handle multiple actions (eg. 'friendship_accepted,friendship_created')
+			// Handle multiple actions (eg. 'friendship_accepted,friendship_created').
 			$action_filter = explode( ',', $bp_cookie[ 'bp-' . $component . '-filter' ] );
 
 			// See if action filter matches registered actions. If so, add it to qs.
@@ -1041,7 +1041,7 @@ function bp_legacy_theme_post_update() {
 	if ( ! empty( $_POST['object'] ) ) {
 		$object = sanitize_key( $_POST['object'] );
 
-	// If the object is not set and we're in a group, set the item id and the object
+	// If the object is not set and we're in a group, set the item id and the object.
 	} elseif ( bp_is_group() ) {
 		$item_id = bp_get_current_group_id();
 		$object  = 'groups';
@@ -1208,7 +1208,7 @@ function bp_legacy_theme_delete_activity() {
 		exit( '-1' );
 	}
 
-	/** This action is documented in bp-activity/bp-activity-actions.php */
+	/** This action is documented in bp-activity/actions/delete.php */
 	do_action( 'bp_activity_before_action_delete_activity', $activity->id, $activity->user_id );
 
 	if ( ! bp_activity_delete(
@@ -1220,7 +1220,7 @@ function bp_legacy_theme_delete_activity() {
 		exit( '-1<div id="message" class="error bp-ajax-message"><p>' . esc_html__( 'There was a problem when deleting. Please try again.', 'buddypress' ) . '</p></div>' );
 	}
 
-	/** This action is documented in bp-activity/bp-activity-actions.php */
+	/** This action is documented in bp-activity/actions/delete.php */
 	do_action( 'bp_activity_action_delete_activity', $activity->id, $activity->user_id );
 	exit;
 }
@@ -1253,14 +1253,14 @@ function bp_legacy_theme_delete_activity_comment() {
 		exit( '-1' );
 	}
 
-	/** This action is documented in bp-activity/bp-activity-actions.php */
+	/** This action is documented in bp-activity/actions/delete.php */
 	do_action( 'bp_activity_before_action_delete_activity', $_POST['id'], $comment->user_id );
 
 	if ( ! bp_activity_delete_comment( $comment->item_id, $comment->id ) ) {
 		exit( '-1<div id="message" class="error bp-ajax-message"><p>' . esc_html__( 'There was a problem when deleting. Please try again.', 'buddypress' ) . '</p></div>' );
 	}
 
-	/** This action is documented in bp-activity/bp-activity-actions.php */
+	/** This action is documented in bp-activity/actions/delete.php */
 	do_action( 'bp_activity_action_delete_activity', $_POST['id'], $comment->user_id );
 	exit;
 }
@@ -1301,14 +1301,14 @@ function bp_legacy_theme_spam_activity() {
 	// Check nonce.
 	check_admin_referer( 'bp_activity_akismet_spam_' . $activity->id );
 
-	/** This action is documented in bp-activity/bp-activity-actions.php */
+	/** This action is documented in bp-activity/actions/spam.php */
 	do_action( 'bp_activity_before_action_spam_activity', $activity->id, $activity );
 
 	// Mark as spam.
 	bp_activity_mark_as_spam( $activity );
 	$activity->save();
 
-	/** This action is documented in bp-activity/bp-activity-actions.php */
+	/** This action is documented in bp-activity/actions/spam.php */
 	do_action( 'bp_activity_action_spam_activity', $activity->id, $activity->user_id );
 	exit;
 }

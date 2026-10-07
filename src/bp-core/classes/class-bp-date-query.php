@@ -31,6 +31,8 @@ class BP_Date_Query extends WP_Date_Query {
 	/**
 	 * The column to query against. Can be changed via the query arguments.
 	 *
+	 * @since 2.1.0
+	 *
 	 * @var string
 	 */
 	public $column;

@@ -44,7 +44,7 @@ class BP_Activity_Theme_Compat {
 		if ( ! bp_displayed_user_id() && ! bp_current_action() ) {
 			bp_update_is_directory( true, 'activity' );
 
-			/** This action is documented in bp-activity/bp-activity-screens.php */
+			/** This action is documented in bp-activity/screens/directory.php */
 			do_action( 'bp_activity_screen_index' );
 
 			add_filter( 'bp_get_buddypress_template', array( $this, 'directory_template_hierarchy' ) );

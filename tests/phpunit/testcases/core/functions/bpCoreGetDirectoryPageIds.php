@@ -255,9 +255,7 @@ class BP_Tests_Core_Functions_BpCoreGetDirectoryPageIds extends BP_UnitTestCase 
 	}
 
 	public function test_bp_core_get_directory_pages_multisite_delete_post_with_same_bp_page_id() {
-		if ( ! is_multisite() ) {
-			$this->markTestSkipped();
-		}
+		$this->skipWithoutMultisite();
 
 		$dir_pages = bp_core_get_directory_pages();
 
@@ -288,9 +286,7 @@ class BP_Tests_Core_Functions_BpCoreGetDirectoryPageIds extends BP_UnitTestCase 
 	 * @ticket BP8592
 	 */
 	public function test_bp_core_get_directory_pages_ids_ms_non_root_blog_trashed_same_page_id() {
-		if ( ! is_multisite() ) {
-			$this->markTestSkipped();
-		}
+		$this->skipWithoutMultisite();
 
 		// create a blog
 		$u  = self::factory()->user->create();
@@ -328,9 +324,7 @@ class BP_Tests_Core_Functions_BpCoreGetDirectoryPageIds extends BP_UnitTestCase 
 	 * @ticket BP7193
 	 */
 	public function test_bp_core_get_directory_pages_autocreate_register_pages_single_site() {
-		if ( is_multisite() ) {
-			$this->markTestSkipped();
-		}
+		$this->skipWithMultisite();
 
 		require BP_PLUGIN_DIR . 'bp-members/bp-members-admin.php';
 
@@ -357,9 +351,7 @@ class BP_Tests_Core_Functions_BpCoreGetDirectoryPageIds extends BP_UnitTestCase 
 	 * @ticket BP7193
 	 */
 	public function test_bp_core_get_directory_pages_autocreate_register_pages_multisite() {
-		if ( ! is_multisite() ) {
-			$this->markTestSkipped();
-		}
+		$this->skipWithoutMultisite();
 
 		require BP_PLUGIN_DIR . 'bp-members/bp-members-admin.php';
 

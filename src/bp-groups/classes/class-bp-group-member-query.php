@@ -45,6 +45,7 @@ class BP_Group_Member_Query extends BP_User_Query {
 	 * Array of group member ids, cached to prevent redundant lookups.
 	 *
 	 * @since 1.8.1
+	 *
 	 * @var null|array Null if not yet defined, otherwise an array of integers.
 	 */
 	protected $group_member_ids;
@@ -120,7 +121,7 @@ class BP_Group_Member_Query extends BP_User_Query {
 					'fields'      => 'ID',
 					'include'     => $this->user_ids,
 
-					// Overrides
+					// Overrides.
 					'blog_id'     => 0,    // BP does not require blog roles.
 					'count_total' => false, // We already have a count.
 

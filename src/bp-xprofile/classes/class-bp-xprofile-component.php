@@ -25,6 +25,7 @@ class BP_XProfile_Component extends BP_Component {
 	 * Profile field types.
 	 *
 	 * @since 1.5.0
+	 *
 	 * @var array
 	 */
 	public $field_types;
@@ -35,6 +36,7 @@ class BP_XProfile_Component extends BP_Component {
 	 * @see bp_xprofile_get_visibility_levels()
 	 *
 	 * @since 1.6.0
+	 *
 	 * @var array
 	 */
 	public $visibility_levels = array();

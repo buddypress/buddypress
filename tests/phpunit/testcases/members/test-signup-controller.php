@@ -211,13 +211,20 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 	 */
 	public function test_creating_multiple_pending_accounts_with_different_usernames() {
 		$request = new WP_REST_Request( 'POST', $this->endpoint_url );
+		$suffix  = strtolower( wp_generate_password( 12, false, false ) );
+		$email   = 'signup-test-user-' . $suffix . '@example.com';
 
-		$params = $this->set_signup_data( array( 'user_login' => 'signup-test-user-one' ) );
+		$params = $this->set_signup_data(
+			array(
+				'user_login' => 'signuptestuserone' . $suffix,
+				'user_email' => $email,
+			)
+		);
 		$request->set_body_params( $params );
 		$request->set_param( 'context', 'edit' );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertSame( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status(), wp_json_encode( $response->get_data() ) );
 
 		$signup = $response->get_data();
 
@@ -226,7 +233,12 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 		$this->assertTrue( ! isset( $signup['activation_key'] ) );
 
 		// Test with the same email.
-		$params = $this->set_signup_data( array( 'user_login' => 'signup-test-user-two' ) );
+		$params = $this->set_signup_data(
+			array(
+				'user_login' => 'signuptestusertwo' . $suffix,
+				'user_email' => $email,
+			)
+		);
 		$request->set_body_params( $params );
 		$request->set_param( 'context', 'edit' );
 		$response = $this->server->dispatch( $request );
@@ -234,7 +246,12 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 		$this->assertErrorResponse( 'bp_rest_signup_validation_failed', $response, 500, 'This user\'s email is already registered.' );
 
 		// Test with a different email.
-		$params = $this->set_signup_data( array( 'user_login' => 'signup-test-user-two', 'user_email' => 'signup-test-user-two@example.com' ) );
+		$params = $this->set_signup_data(
+			array(
+				'user_login' => 'signuptestusertwo' . $suffix,
+				'user_email' => 'signup-test-user-two-' . $suffix . '@example.com',
+			)
+		);
 		$request->set_body_params( $params );
 		$request->set_param( 'context', 'edit' );
 		$response = $this->server->dispatch( $request );

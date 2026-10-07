@@ -325,7 +325,7 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 		$cropped = $attachment_class->crop( $crop_args );
 
 		// Image must come from the upload basedir
-		$this->assertTrue( is_wp_error( $cropped ) );
+		$this->assertWPError( $cropped );
 
 		$crop_args['original_file'] = $attachment_class->upload_path . '/mystery-man.jpg';
 
@@ -334,7 +334,7 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 		$cropped = $attachment_class->crop( $crop_args );
 
 		// Image must stay in the upload basedir
-		$this->assertTrue( is_wp_error( $cropped ) );
+		$this->assertWPError( $cropped );
 
 		// clean up!
 		$this->clean_files();

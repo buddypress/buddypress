@@ -371,7 +371,7 @@ class BP_Optout {
 		if ( ! empty( $args['order_by'] ) ) {
 			$order_by_clean = array();
 			$columns        = array( 'id', 'email_address_hash', 'user_id', 'email_type', 'date_modified' );
-			foreach ( (array) $args['order_by'] as $key => $value ) {
+			foreach ( (array) $args['order_by'] as $value ) {
 				if ( in_array( $value, $columns, true ) ) {
 					$order_by_clean[] = $value;
 				}

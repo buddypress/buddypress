@@ -203,7 +203,7 @@ class BP_Tests_Messages_Functions extends BP_UnitTestCase {
 			'date_sent'  => date( 'Y-m-d H:i:s', $time - ( 3 * HOUR_IN_SECONDS ) ),
 		) );
 
-		$t1m1 = messages_new_message( array(
+		messages_new_message( array(
 			'sender_id'  => $u2,
 			'thread_id'  => $t1,
 			'recipients' => array( $u1 ),
@@ -212,7 +212,7 @@ class BP_Tests_Messages_Functions extends BP_UnitTestCase {
 			'date_sent'  => date( 'Y-m-d H:i:s', $time - ( 2 * HOUR_IN_SECONDS ) ),
 		) );
 
-		$t1m2 = messages_new_message( array(
+		messages_new_message( array(
 			'sender_id'  => $u1,
 			'thread_id'  => $t1,
 			'recipients' => array( $u2 ),
@@ -229,7 +229,7 @@ class BP_Tests_Messages_Functions extends BP_UnitTestCase {
 			'date_sent'  => date( 'Y-m-d H:i:s', $time - ( 5 * HOUR_IN_SECONDS ) ),
 		) );
 
-		$t2m1 = messages_new_message( array(
+		messages_new_message( array(
 			'sender_id'  => $u1,
 			'thread_id'  => $t2,
 			'recipients' => array( $u2 ),
@@ -261,7 +261,7 @@ class BP_Tests_Messages_Functions extends BP_UnitTestCase {
 
 		$time = time();
 
-		$t1 = messages_new_message( array(
+		messages_new_message( array(
 			'sender_id'  => $u1,
 			'recipients' => array( $u2 ),
 			'subject'    => 'A new message',
@@ -277,7 +277,7 @@ class BP_Tests_Messages_Functions extends BP_UnitTestCase {
 			'date_sent'  => date( 'Y-m-d H:i:s', $time - ( 5 * HOUR_IN_SECONDS ) ),
 		) );
 
-		$t3 = messages_new_message( array(
+		messages_new_message( array(
 			'sender_id'  => $u1,
 			'thread_id'  => $t2,
 			'recipients' => array( $u2 ),

@@ -103,7 +103,7 @@ function bp_member_total_friend_count() {
 		 *
 		 * @since 1.2.0
 		 *
-		 * @param string $value String of the form "x friends".
+		 * @param string $friend_count_text String of the form "x friends".
 		 * @param int    $value Total friend count for current member in the loop.
 		 */
 		return apply_filters(

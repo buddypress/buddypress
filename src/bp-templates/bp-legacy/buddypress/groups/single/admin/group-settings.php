@@ -59,7 +59,7 @@ $hidden_checked  = 'hidden' === bp_get_new_group_status();
 
 </fieldset>
 
-<?php // Group type selection ?>
+<?php // Group type selection. ?>
 <?php $group_types = bp_groups_get_group_types( array( 'show_in_create_screen' => true ), 'objects' ); ?>
 <?php if ( $group_types ) : ?>
 

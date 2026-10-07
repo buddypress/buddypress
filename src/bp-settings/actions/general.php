@@ -41,13 +41,13 @@ function bp_settings_action_general() {
 		return;
 	}
 
-	// Define local defaults
-	$bp            = buddypress();           // The instance
-	$email_error   = false;                  // invalid|blocked|taken|empty|nochange
-	$pass_error    = false;                  // invalid|mismatch|empty|nochange
-	$pass_changed  = false;                  // true if the user changes their password
-	$email_changed = false;                  // true if the user changes their email
-	$feedback_type = 'error';                // success|error
+	// Define local defaults.
+	$bp            = buddypress();           // The instance.
+	$email_error   = false;                  // invalid|blocked|taken|empty|nochange.
+	$pass_error    = false;                  // invalid|mismatch|empty|nochange.
+	$pass_changed  = false;                  // true if the user changes their password.
+	$email_changed = false;                  // true if the user changes their email.
+	$feedback_type = 'error';                // success|error.
 	$feedback      = array();                // array of strings for feedback.
 	$user_id       = bp_displayed_user_id(); // The ID of the user being displayed.
 	$path_chunks   = array( bp_get_settings_slug() );

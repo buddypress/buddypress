@@ -240,7 +240,7 @@ class BP_Tests_Members_Types extends BP_UnitTestCase {
 
 		// Get users so that the 'bp_user_query_populate_extras' is fired
 		// and members type prefetched
-		$users = bp_core_get_users( array( 'include' => array( $u1, $u2 ) ) );
+		bp_core_get_users( array( 'include' => array( $u1, $u2 ) ) );
 
 		// Get single member type
 		$this->assertSame( 'foo', bp_get_member_type( $u1, true ) );
@@ -280,7 +280,7 @@ class BP_Tests_Members_Types extends BP_UnitTestCase {
 		global $wpdb;
 
 		// Offset IDs.
-		$dummy_terms = self::factory()->tag->create_many( 7 );
+		self::factory()->tag->create_many( 7 );
 
 		$u1 = self::factory()->user->create();
 		bp_register_member_type( 'foo' );

@@ -66,9 +66,7 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 	 * @ticket BP8175
 	 */
 	public function test_last_activity_data_should_be_deleted_on_user_delete_non_multisite() {
-		if ( is_multisite() ) {
-			$this->markTestSkipped( __METHOD__ . ' requires non-multisite.' );
-		}
+		$this->skipWithMultisite();
 
 		$u1 = self::factory()->user->create();
 
@@ -86,9 +84,7 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 	 * @ticket BP8175
 	 */
 	public function test_last_activity_data_should_be_deleted_on_user_delete_multisite() {
-		if ( ! is_multisite() ) {
-			$this->markTestSkipped( __METHOD__ . ' requires multisite.' );
-		}
+		$this->skipWithoutMultisite();
 
 		$u1 = self::factory()->user->create();
 
@@ -106,9 +102,7 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 	 * @ticket BP8175
 	 */
 	public function test_last_activity_data_should_not_be_deleted_on_wp_delete_user_multisite() {
-		if ( ! is_multisite() ) {
-			$this->markTestSkipped( __METHOD__ . ' requires multisite.' );
-		}
+		$this->skipWithoutMultisite();
 
 		$u1 = self::factory()->user->create();
 
@@ -438,9 +432,7 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 	 * @group bp_core_process_spammer_status
 	 */
 	public function test_bp_core_process_spammer_status() {
-		if ( is_multisite() ) {
-			$this->markTestSkipped();
-		}
+		$this->skipWithMultisite();
 
 		$bp             = buddypress();
 		$displayed_user = $bp->displayed_user;
@@ -466,9 +458,7 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 	 * @group bp_core_process_spammer_status
 	 */
 	public function test_bp_core_process_spammer_status_ms_bulk_spam() {
-		if ( ! is_multisite() ) {
-			$this->markTestSkipped();
-		}
+		$this->skipWithoutMultisite();
 
 		$bp             = buddypress();
 		$displayed_user = $bp->displayed_user;

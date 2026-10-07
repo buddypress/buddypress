@@ -386,7 +386,13 @@ function bp_groups_render_dynamic_groups_block( $attributes = array() ) {
 	$max_groups = (int) $block_args['maxGroups'];
 	$no_groups  = __( 'There are no groups to display.', 'buddypress' );
 
-	/** This filter is documented in buddypress/src/bp-groups/classes/class-bp-groups-widget.php */
+	/**
+	 * Filters the separator of the group widget links.
+	 *
+	 * @since 2.4.0
+	 *
+	 * @param string $separator Separator string. Default '|'.
+	 */
 	$separator = apply_filters( 'bp_groups_widget_separator', '|' );
 
 	// Make sure the widget ID is unique.

@@ -42,7 +42,7 @@ class BP_Tests_Admin_Functions extends BP_UnitTestCase {
 	 * @group bp_core_admin_get_active_components_from_submitted_settings
 	 */
 	public function test_bp_core_admin_get_active_components_from_submitted_settings() {
-		$get_action = isset( $_GET['action'] ) ? $_GET['action'] : null;
+		$get_action = $_GET['action'] ?? null;
 		$ac = buddypress()->active_components;
 
 		// Standard deactivation from All screen
