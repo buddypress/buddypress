@@ -63,6 +63,7 @@ defined( 'ABSPATH' ) || exit;
  *                                                  count query.
  * }
  */
+#[AllowDynamicProperties]
 class BP_User_Query {
 
 	/** Variables *************************************************************/
