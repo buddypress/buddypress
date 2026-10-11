@@ -45,7 +45,7 @@ class BP_Tests_Routing_XProfile extends BP_UnitTestCase {
 	 *
 	 * @return array
 	 */
-	public function provider_member_profile_actions() {
+	public static function provider_member_profile_actions() {
 		return array(
 			'profile'       => array( '', '', 'bp_is_user_profile' ),
 			'edit'          => array( 'member_profile_edit', 'edit', 'bp_is_user_profile_edit' ),

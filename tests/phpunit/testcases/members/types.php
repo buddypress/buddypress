@@ -30,7 +30,7 @@ class BP_Tests_Members_Types extends BP_UnitTestCase {
 		$this->assertWPError( bp_register_member_type( $name ) );
 	}
 
-	public function illegal_names() {
+	public static function illegal_names() {
 		return array(
 			array( 'any' ),
 			array( 'null' ),

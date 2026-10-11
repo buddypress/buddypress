@@ -72,7 +72,7 @@ class BP_Tests_Routing_Activity extends BP_UnitTestCase {
 	 *
 	 * @return array
 	 */
-	public function provider_member_activity_actions() {
+	public static function provider_member_activity_actions() {
 		return array(
 			'activity'   => array( '', '' ),
 			'mentions'   => array( 'member_activity_mentions', 'mentions' ),

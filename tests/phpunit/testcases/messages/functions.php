@@ -91,7 +91,7 @@ class BP_Tests_Messages_Functions extends BP_UnitTestCase {
 	 *
 	 * @return array
 	 */
-	public function provider_new_message_irregular_content_options() {
+	public static function provider_new_message_irregular_content_options() {
 		return array(
 			'zero_string'        => array( '0' ),
 			'double_zero_string' => array( '00' ),
@@ -104,7 +104,7 @@ class BP_Tests_Messages_Functions extends BP_UnitTestCase {
 	 *
 	 * @return array
 	 */
-	public function provider_new_message_empty_content_options() {
+	public static function provider_new_message_empty_content_options() {
 		return array(
 			'empty_string' => array( '' ),
 			'null'         => array( null ),

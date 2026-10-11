@@ -45,7 +45,7 @@ class BP_Tests_Routing_Messages extends BP_UnitTestCase {
 	 *
 	 * @return array
 	 */
-	public function provider_member_messages_actions() {
+	public static function provider_member_messages_actions() {
 		return array(
 			'inbox'   => array( '', '', 'bp_is_messages_inbox' ),
 			'sentbox' => array( 'member_messages_sentbox', 'sentbox', 'bp_is_messages_sentbox' ),
