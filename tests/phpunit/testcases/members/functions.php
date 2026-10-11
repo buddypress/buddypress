@@ -32,7 +32,7 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 		$this->grant_super_admin( $admin_user );
 
 		// 1. Admin can delete user account
-		$this->set_current_user( $admin_user );
+		wp_set_current_user( $admin_user );
 		$user1 = self::factory()->user->create();
 		bp_core_delete_account( $user1 );
 		$maybe_user = new WP_User( $user1 );
@@ -51,14 +51,14 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 		// User cannot delete other's account
 		$user3 = self::factory()->user->create();
 		$user4 = self::factory()->user->create();
-		$this->set_current_user( $user3 );
+		wp_set_current_user( $user3 );
 		bp_core_delete_account( $user4 );
 		$maybe_user = new WP_User( $user4 );
 		$this->assertNotSame( 0, $maybe_user->ID );
 		unset( $maybe_user );
 
 		// Cleanup
-		$this->set_current_user( $current_user );
+		wp_set_current_user( $current_user );
 		bp_update_option( 'bp-disable-account-deletion', $deletion_disabled );
 	}
 

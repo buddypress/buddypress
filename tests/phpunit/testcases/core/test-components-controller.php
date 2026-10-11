@@ -361,7 +361,7 @@ class BP_Tests_Components_REST_Controller extends BP_Test_REST_Controller_Testca
 			)
 		);
 
-		$this->bp::set_current_user( $u );
+		wp_set_current_user( $u );
 
 		// Snapshot so we can prove no component was toggled.
 		$before = bp_get_option( 'bp-active-components' );
