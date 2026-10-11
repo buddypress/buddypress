@@ -23,6 +23,7 @@ class BP_Tests_Routing_Members_Root_Profiles extends BP_UnitTestCase {
 		wp_set_current_user( $uid );
 
 		$this->permalink_structure = get_option( 'permalink_structure', '' );
+		$this->set_permalink_structure( '/%postname%/' );
 	}
 
 	public function tear_down() {
@@ -34,7 +35,6 @@ class BP_Tests_Routing_Members_Root_Profiles extends BP_UnitTestCase {
 	}
 
 	public function test_members_directory() {
-		$this->set_permalink_structure( '/%postname%/' );
 		$this->go_to( home_url( bp_get_members_root_slug() ) );
 
 		$pages        = bp_core_get_directory_pages();
@@ -44,7 +44,6 @@ class BP_Tests_Routing_Members_Root_Profiles extends BP_UnitTestCase {
 	}
 
 	public function test_member_permalink() {
-		$this->set_permalink_structure( '/%postname%/' );
 		$domain = home_url( $this->u->user_nicename );
 		$this->go_to( $domain );
 
@@ -117,7 +116,6 @@ class BP_Tests_Routing_Members_Root_Profiles extends BP_UnitTestCase {
 	}
 
 	public function test_member_activity_page() {
-		$this->set_permalink_structure( '/%postname%/' );
 		$url = home_url( $this->u->user_nicename ) . '/' . bp_get_activity_slug();
 		$this->go_to( $url );
 

@@ -11,6 +11,7 @@ class BP_Tests_Routing_Friends extends BP_UnitTestCase {
 
 		$this->permalink_structure = get_option( 'permalink_structure', '' );
 		wp_set_current_user( self::factory()->user->create( array( 'role' => 'subscriber' ) ) );
+		$this->set_permalink_structure( '/%postname%/' );
 	}
 
 	public function tear_down() {
@@ -20,7 +21,6 @@ class BP_Tests_Routing_Friends extends BP_UnitTestCase {
 	}
 
 	public function test_member_friends() {
-		$this->set_permalink_structure( '/%postname%/' );
 		$this->go_to(
 			bp_members_get_user_url(
 				bp_loggedin_user_id(),
@@ -33,7 +33,6 @@ class BP_Tests_Routing_Friends extends BP_UnitTestCase {
 	}
 
 	public function test_member_friends_requests() {
-		$this->set_permalink_structure( '/%postname%/' );
 		$this->go_to(
 			bp_members_get_user_url(
 				bp_loggedin_user_id(),

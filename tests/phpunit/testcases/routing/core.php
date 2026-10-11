@@ -11,6 +11,7 @@ class BP_Tests_Routing_Core extends BP_UnitTestCase {
 
 		wp_set_current_user( self::factory()->user->create( array( 'role' => 'subscriber' ) ) );
 		$this->permalink_structure = get_option( 'permalink_structure', '' );
+		$this->set_permalink_structure( '/%postname%/' );
 	}
 
 	public function tear_down() {
@@ -20,7 +21,6 @@ class BP_Tests_Routing_Core extends BP_UnitTestCase {
 	}
 
 	public function test_wordpress_page() {
-		$this->set_permalink_structure( '/%postname%/' );
 		$this->go_to( '/' );
 		$this->assertEmpty( bp_current_component() );
 	}
@@ -29,7 +29,6 @@ class BP_Tests_Routing_Core extends BP_UnitTestCase {
 	 * @ticket BP9300
 	 */
 	public function test_buddypress_directory_is_home_false() {
-		$this->set_permalink_structure( '/%postname%/' );
 
 		$is_home_value = null;
 

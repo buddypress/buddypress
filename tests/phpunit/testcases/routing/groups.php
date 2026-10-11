@@ -12,6 +12,7 @@ class BP_Tests_Routing_Groups extends BP_UnitTestCase {
 		buddypress()->members->types = array();
 		$this->permalink_structure = get_option( 'permalink_structure', '' );
 		wp_set_current_user( self::factory()->user->create( array( 'role' => 'subscriber' ) ) );
+		$this->set_permalink_structure( '/%postname%/' );
 	}
 
 	public function tear_down() {
@@ -21,7 +22,6 @@ class BP_Tests_Routing_Groups extends BP_UnitTestCase {
 	}
 
 	public function test_member_groups() {
-		$this->set_permalink_structure( '/%postname%/' );
 		$this->go_to(
 			bp_members_get_user_url(
 				bp_loggedin_user_id(),
@@ -34,7 +34,6 @@ class BP_Tests_Routing_Groups extends BP_UnitTestCase {
 	}
 
 	public function test_member_groups_invitations() {
-		$this->set_permalink_structure( '/%postname%/' );
 		$this->go_to(
 			bp_members_get_user_url(
 				bp_loggedin_user_id(),
@@ -51,7 +50,6 @@ class BP_Tests_Routing_Groups extends BP_UnitTestCase {
 	 * @group group_types
 	 */
 	public function test_group_directory_with_type() {
-		$this->set_permalink_structure( '/%postname%/' );
 		bp_groups_register_group_type(
 			'foo',
 			array(
@@ -74,7 +72,6 @@ class BP_Tests_Routing_Groups extends BP_UnitTestCase {
 	 * @group group_types
 	 */
 	public function test_group_directory_with_type_that_has_custom_directory_slug() {
-		$this->set_permalink_structure( '/%postname%/' );
 		bp_groups_register_group_type( 'bar', array( 'has_directory' => 'bars' ) );
 
 		$url = bp_get_groups_directory_url(
@@ -92,7 +89,6 @@ class BP_Tests_Routing_Groups extends BP_UnitTestCase {
 	 * @group group_types
 	 */
 	public function test_group_directory_should_404_for_group_types_that_have_no_directory() {
-		$this->set_permalink_structure( '/%postname%/' );
 		bp_groups_register_group_type( 'taz', array( 'has_directory' => false ) );
 
 		$this->go_to(
@@ -110,7 +106,6 @@ class BP_Tests_Routing_Groups extends BP_UnitTestCase {
 	 * @group group_types
 	 */
 	public function test_group_directory_should_404_for_invalid_group_types() {
-		$this->set_permalink_structure( '/%postname%/' );
 		$this->go_to(
 			bp_get_groups_directory_url(
 				array(
@@ -125,7 +120,6 @@ class BP_Tests_Routing_Groups extends BP_UnitTestCase {
 	 * @group group_previous_slug
 	 */
 	public function test_group_previous_slug_current_slug_should_resolve() {
-		$this->set_permalink_structure( '/%postname%/' );
 		$g1 = self::factory()->group->create(
 			array(
 				'slug' => 'george',
@@ -147,7 +141,6 @@ class BP_Tests_Routing_Groups extends BP_UnitTestCase {
 	 * @group group_previous_slug
 	 */
 	public function test_group_previous_slug_should_resolve() {
-		$this->set_permalink_structure( '/%postname%/' );
 		$g1 = self::factory()->group->create(
 			array(
 				'slug' => 'george',
@@ -177,7 +170,6 @@ class BP_Tests_Routing_Groups extends BP_UnitTestCase {
 	 * @group group_previous_slug
 	 */
 	public function test_group_previous_slug_most_recent_takes_precedence() {
-		$this->set_permalink_structure( '/%postname%/' );
 		$g1 = self::factory()->group->create(
 			array(
 				'slug' => 'george',
