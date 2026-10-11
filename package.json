@@ -52,9 +52,9 @@
 		"build:admin": "wp-scripts build --webpack-src-dir=src/js/admin --config src/js/admin/webpack.config.js && grunt move:admin:js",
 		"wp-env": "wp-env",
 		"test-php": "npm run wp-env run cli -- --env-cwd=wp-content/plugins/buddypress composer test",
-		"test-php:group": "npm run wp-env run cli -- --env-cwd=wp-content/plugins/buddypress composer test -- -- --group ",
+		"test-php:group": "npm run wp-env run cli -- --env-cwd=wp-content/plugins/buddypress composer test -- --group ",
 		"test-php-multisite": "npm run wp-env run cli -- --env-cwd=wp-content/plugins/buddypress composer test_multi",
-		"test-php-multisite:group": "npm run wp-env run cli -- --env-cwd=wp-content/plugins/buddypress composer test_multi -- -- --group ",
+		"test-php-multisite:group": "npm run wp-env run cli -- --env-cwd=wp-content/plugins/buddypress composer test_multi -- --group ",
 		"download:cli": "curl -L -o 'cli-archive.zip' https://github.com/buddypress/wp-cli-buddypress/archive/3.0.2.zip && unzip -qq cli-archive.zip && mv wp-cli-buddypress-3.0.2 build/cli && rm cli-archive.zip"
 	},
 	"keywords": [

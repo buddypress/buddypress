@@ -33,12 +33,12 @@ You probably won’t need all the tools listed below when you start contributing
 - [GruntJS](https://gruntjs.com/) ([Installation procedure for the CLI](https://gruntjs.com/getting-started#installing-the-cli)) *[1]*.
 - [Composer](https://getcomposer.org/) ([Installation procedure](https://getcomposer.org/download/)) *[2]*. Once installed we advise you to make it globally available under the command name `composer`.
 - [WP CLI](https://wp-cli.org/) ([Installation procedure](https://wp-cli.org/#installing)) *[3]*. Once installed we advise you to make it globally available under the command name `wp`.
-- [PHPunit](https://phpunit.de/) ([WordPress installation tutorial](https://make.wordpress.org/core/handbook/testing/automated-testing/phpunit/), [Alternative installation tutorial](https://phpunit.de/getting-started/phpunit-7.html)) [4] Once installed we advise you to make it globally available under the command name `phpunit`.
+- [PHPUnit](https://phpunit.de/) ([WordPress testing guide](https://make.wordpress.org/core/handbook/testing/automated-testing/phpunit/)) [4]. Install the supported version with `composer install` rather than relying on a global PHPUnit installation.
 
 *[1] GruntJS is used by BuddyPress to run some building tasks like preparing files to be committed, generating RTL versions of CSS stylesheets or minimizing JavaScript files.*
 *[2] Composer is used to install some packages in order to be able to check PHP Code Compatibility and to run PHPUnit tests in* ***our default*** *local development environment.*
 *[3] WP CLI is used to generate a POT file out of the plugin’s PHP and JavaScript files. This POT file is used by translators to translate BuddyPress into various languages (French, German, Spanish, etc..). For your information, WP CLI is a very powerful tool to run WordPress scripts from command lines*.
-*[4] PHPUnit is used to run PHPUnit tests in* ***any*** *local development environment.*
+*[4] PHPUnit is used to run PHPUnit tests in* ***any*** *local development environment. PHPUnit 10 requires PHP 8.1 or newer; the PHP 7.4 CI jobs retain PHPUnit 9. These test-tool requirements do not change BuddyPress's minimum supported PHP version.*
 
 ## Get the BuddyPress development version
 
@@ -171,6 +171,8 @@ On a Multisite WordPress configuration
 ```bash
 npm run test-php-multisite
 ```
+
+Outside the default container environment, prepare a WordPress test checkout with a dedicated test database, then use `composer test` or `composer test_multi`.
 
 ### Customizing your BuddyPress local development environment
 
@@ -465,4 +467,3 @@ For the inline documentation (for Classes, hooks and functions DocBlocks) you mi
 - [PHP](https://developer.wordpress.org/coding-standards/inline-documentation-standards/php/)
 
 Congratulations! You are now ready to **contribute to the BuddyPress code source**. If you’re looking for issues to fix, check our [roadmap](https://buddypress.trac.wordpress.org/roadmap) and click on the “active” link of the latest milestone to discover what we need to do 😉
-

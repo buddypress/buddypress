@@ -48,7 +48,7 @@ class BP_Tests_BP_Groups_Group_Query_TaxQuery extends BP_UnitTestCase {
 	 *
 	 * @return array[]
 	 */
-	public function provider_for_tax_query_single_query() {
+	public static function provider_for_tax_query_single_query() {
 		return array(
 			'single_query_single_term_field_slug' => array(
 				array(
@@ -265,7 +265,7 @@ class BP_Tests_BP_Groups_Group_Query_TaxQuery extends BP_UnitTestCase {
 	 *
 	 * @return array[]
 	 */
-	public function provider_for_tax_query_single_query_multiples_terms() {
+	public static function provider_for_tax_query_single_query_multiples_terms() {
 		return array(
 			'single_query_multiples_terms_operator_in' => array(
 				array(

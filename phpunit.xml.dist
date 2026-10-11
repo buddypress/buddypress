@@ -10,8 +10,8 @@
 		<testsuite name="default">
 			<directory suffix=".php">./tests/phpunit/testcases/</directory>
 
-			<exclude>./tests/phpunit/testcases/blogs/test-controller.php</exclude>
-			<exclude>./tests/phpunit/testcases/blogs/test-blog-avatar-controller.php</exclude>
+			<exclude>./tests/phpunit/testcases/blogs/BP_Tests_Blogs_REST_Controller.php</exclude>
+			<exclude>./tests/phpunit/testcases/blogs/BP_Tests_Blog_Avatar_REST_Controller.php</exclude>
 		</testsuite>
 	</testsuites>
 </phpunit>

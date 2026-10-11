@@ -295,16 +295,16 @@ module.exports = function( grunt ) {
 		},
 		phpunit: {
 			'default': {
-				cmd: './vendor/phpunit/phpunit/phpunit',
-				args: ['-c', 'phpunit.xml.dist']
+				cmd: 'php',
+				args: ['tests/phpunit/run.php']
 			},
 			'multisite': {
-				cmd: './vendor/phpunit/phpunit/phpunit',
-				args: ['-c', 'tests/phpunit/multisite.xml']
+				cmd: 'php',
+				args: ['tests/phpunit/run.php', '--multisite']
 			},
 			'codecoverage': {
-				cmd: './vendor/phpunit/phpunit/phpunit',
-				args: ['-c', 'tests/phpunit/codecoverage.xml' ]
+				cmd: 'php',
+				args: ['tests/phpunit/run.php', '--coverage']
 			}
 		},
 		exec: {

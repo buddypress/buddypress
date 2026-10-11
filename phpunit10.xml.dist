@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+	bootstrap="tests/phpunit/bootstrap.php"
+	backupGlobals="false"
+	colors="true"
+	failOnAllIssues="true">
+	<testsuites>
+		<testsuite name="BuddyPress single-site">
+			<directory suffix=".php">tests/phpunit/testcases/</directory>
+			<exclude>tests/phpunit/testcases/blogs/BP_Tests_Blogs_REST_Controller.php</exclude>
+			<exclude>tests/phpunit/testcases/blogs/BP_Tests_Blog_Avatar_REST_Controller.php</exclude>
+		</testsuite>
+	</testsuites>
+	<source>
+		<include>
+			<directory suffix=".php">src/</directory>
+			<file>bp-loader.php</file>
+		</include>
+	</source>
+</phpunit>

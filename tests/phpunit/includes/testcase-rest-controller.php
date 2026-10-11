@@ -2,7 +2,11 @@
 /**
  * Controller testcase for BuddyPress REST API endpoints.
  */
+
+require_once __DIR__ . '/trait-phpunit-annotations.php';
+
 abstract class BP_Test_REST_Controller_Testcase extends WP_Test_REST_Controller_Testcase {
+	use BP_PHPUnit_Annotations;
 
 	/**
 	 * The endpoint/controller class name.
@@ -63,7 +67,7 @@ abstract class BP_Test_REST_Controller_Testcase extends WP_Test_REST_Controller_
 		}
 
 		if ( ! $this->bp ) {
-			$this->bp = new BP_UnitTestCase();
+			$this->bp = new BP_UnitTestCase( '' );
 		}
 
 		if ( $this->handle ) {
