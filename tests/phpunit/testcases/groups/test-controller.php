@@ -551,9 +551,9 @@ class BP_Tests_Group_REST_Controller extends BP_Test_REST_Controller_Testcase {
 
 		$group = $response->get_data();
 
-		$this->assertTrue( ! is_null( $group['total_member_count'] ) );
-		$this->assertTrue( ! is_null( $group['last_activity'] ) );
-		$this->assertTrue( ! is_null( $group['last_activity_diff'] ) );
+		$this->assertNotNull( $group['total_member_count'] );
+		$this->assertNotNull( $group['last_activity'] );
+		$this->assertNotNull( $group['last_activity_diff'] );
 	}
 
 	/**

@@ -83,19 +83,19 @@ class BP_Tests_Messages_Functions extends BP_UnitTestCase {
 			'error_type' => 'wp_error'
 		) );
 
-		$this->assertTrue( is_int( $t1 ) );
+		$this->assertIsInt( $t1 );
 	}
 
 	/**
-	 * Provider for the test_messages_new_message_irregular_content_options() test.
+	 * Provider for the test_messages_new_message_irregular_content() test.
 	 *
 	 * @return array
 	 */
 	public function provider_new_message_irregular_content_options() {
 		return array(
-			array( '0' ),
-			array( '00' ),
-			array( 'false' ),
+			'zero_string'        => array( '0' ),
+			'double_zero_string' => array( '00' ),
+			'false_string'       => array( 'false' ),
 		);
 	}
 
@@ -106,13 +106,12 @@ class BP_Tests_Messages_Functions extends BP_UnitTestCase {
 	 */
 	public function provider_new_message_empty_content_options() {
 		return array(
-			array( '' ),
-			array( "" ),
-			array( null ),
-			array( false ),
-			array( 0 ), // '0' is a valid message content.
-			array( array() ),
-			array( new stdClass() ),
+			'empty_string' => array( '' ),
+			'null'         => array( null ),
+			'false'        => array( false ),
+			'zero_integer' => array( 0 ), // '0' is a valid message content.
+			'empty_array'  => array( array() ),
+			'empty_object' => array( new stdClass() ),
 		);
 	}
 

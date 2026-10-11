@@ -300,7 +300,7 @@ class BP_Tests_Core_Request_Input extends BP_UnitTestCase {
 			remove_filter( $hook, $callback, 999 );
 		}
 
-		$this->assertTrue( is_array( $args ) );
+		$this->assertIsArray( $args );
 
 		return $args;
 	}

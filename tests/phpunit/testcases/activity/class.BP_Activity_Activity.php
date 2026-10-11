@@ -1367,7 +1367,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 			)
 		);
 
-		$this->assertFalse( is_wp_error( $a ) );
+		$this->assertNotWPError( $a );
 	}
 
 	/**

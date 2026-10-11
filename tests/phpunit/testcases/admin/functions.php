@@ -180,7 +180,7 @@ class BP_Tests_Admin_Functions extends BP_UnitTestCase {
 			foreach ( array_keys( $class_files ) as $class_name ) {
 				$list_table = new $class_name();
 				$list_table->prepare_items();
-				$this->assertTrue( is_array( $list_table->items ) );
+				$this->assertIsArray( $list_table->items );
 			}
 
 			$this->assertSame( '', $GLOBALS['usersearch'] );
