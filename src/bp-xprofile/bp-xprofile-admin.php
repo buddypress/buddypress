@@ -613,7 +613,7 @@ function xprofile_admin_delete_group_screen( $group_id ) {
 		$delete_url = wp_nonce_url(
 			add_query_arg(
 				array(
-					'mode' => 'do_delete_group',
+					'mode'     => 'do_delete_group',
 					'group_id' => $group_id,
 				),
 				$base_url

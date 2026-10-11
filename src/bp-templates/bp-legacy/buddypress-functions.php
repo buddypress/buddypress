@@ -133,35 +133,35 @@ class BP_Legacy extends BP_Theme_Compat {
 		$actions = array(
 
 			// Directory filters.
-			'blogs_filter'    => 'bp_legacy_theme_object_template_loader',
-			'forums_filter'   => 'bp_legacy_theme_object_template_loader',
-			'groups_filter'   => 'bp_legacy_theme_object_template_loader',
-			'members_filter'  => 'bp_legacy_theme_object_template_loader',
-			'messages_filter' => 'bp_legacy_theme_messages_template_loader',
-			'invite_filter'   => 'bp_legacy_theme_invite_template_loader',
-			'requests_filter' => 'bp_legacy_theme_requests_template_loader',
+			'blogs_filter'                  => 'bp_legacy_theme_object_template_loader',
+			'forums_filter'                 => 'bp_legacy_theme_object_template_loader',
+			'groups_filter'                 => 'bp_legacy_theme_object_template_loader',
+			'members_filter'                => 'bp_legacy_theme_object_template_loader',
+			'messages_filter'               => 'bp_legacy_theme_messages_template_loader',
+			'invite_filter'                 => 'bp_legacy_theme_invite_template_loader',
+			'requests_filter'               => 'bp_legacy_theme_requests_template_loader',
 
 			// Friends.
-			'accept_friendship' => 'bp_legacy_theme_ajax_accept_friendship',
-			'addremove_friend'  => 'bp_legacy_theme_ajax_addremove_friend',
-			'reject_friendship' => 'bp_legacy_theme_ajax_reject_friendship',
+			'accept_friendship'             => 'bp_legacy_theme_ajax_accept_friendship',
+			'addremove_friend'              => 'bp_legacy_theme_ajax_addremove_friend',
+			'reject_friendship'             => 'bp_legacy_theme_ajax_reject_friendship',
 
 			// Activity.
-			'activity_get_older_updates'  => 'bp_legacy_theme_activity_template_loader',
-			'activity_mark_fav'           => 'bp_legacy_theme_mark_activity_favorite',
-			'activity_mark_unfav'         => 'bp_legacy_theme_unmark_activity_favorite',
-			'activity_widget_filter'      => 'bp_legacy_theme_activity_template_loader',
-			'delete_activity'             => 'bp_legacy_theme_delete_activity',
-			'delete_activity_comment'     => 'bp_legacy_theme_delete_activity_comment',
-			'get_single_activity_content' => 'bp_legacy_theme_get_single_activity_content',
-			'new_activity_comment'        => 'bp_legacy_theme_new_activity_comment',
-			'post_update'                 => 'bp_legacy_theme_post_update',
-			'bp_spam_activity'            => 'bp_legacy_theme_spam_activity',
-			'bp_spam_activity_comment'    => 'bp_legacy_theme_spam_activity',
+			'activity_get_older_updates'    => 'bp_legacy_theme_activity_template_loader',
+			'activity_mark_fav'             => 'bp_legacy_theme_mark_activity_favorite',
+			'activity_mark_unfav'           => 'bp_legacy_theme_unmark_activity_favorite',
+			'activity_widget_filter'        => 'bp_legacy_theme_activity_template_loader',
+			'delete_activity'               => 'bp_legacy_theme_delete_activity',
+			'delete_activity_comment'       => 'bp_legacy_theme_delete_activity_comment',
+			'get_single_activity_content'   => 'bp_legacy_theme_get_single_activity_content',
+			'new_activity_comment'          => 'bp_legacy_theme_new_activity_comment',
+			'post_update'                   => 'bp_legacy_theme_post_update',
+			'bp_spam_activity'              => 'bp_legacy_theme_spam_activity',
+			'bp_spam_activity_comment'      => 'bp_legacy_theme_spam_activity',
 
 			// Groups.
-			'groups_invite_user' => 'bp_legacy_theme_ajax_invite_user',
-			'joinleave_group'    => 'bp_legacy_theme_ajax_joinleave_group',
+			'groups_invite_user'            => 'bp_legacy_theme_ajax_invite_user',
+			'joinleave_group'               => 'bp_legacy_theme_ajax_joinleave_group',
 
 			// Messages.
 			'messages_autocomplete_results' => 'bp_legacy_theme_ajax_messages_autocomplete_results',
@@ -305,21 +305,21 @@ class BP_Legacy extends BP_Theme_Compat {
 			'bp_core_get_js_strings',
 			array(
 				// Strings for display.
-				'accepted'            => __( 'Accepted', 'buddypress' ),
-				'close'               => __( 'Close', 'buddypress' ),
-				'comments'            => __( 'comments', 'buddypress' ),
-				'leave_group_confirm' => __( 'Are you sure you want to leave this group?', 'buddypress' ),
-				'mark_as_fav'         => __( 'Favorite', 'buddypress' ),
-				'my_favs'             => __( 'My Favorites', 'buddypress' ),
-				'rejected'            => __( 'Rejected', 'buddypress' ),
-				'remove_fav'          => __( 'Remove Favorite', 'buddypress' ),
-				'show_all'            => __( 'Show all', 'buddypress' ),
-				'show_all_comments'   => __( 'Show all comments for this thread', 'buddypress' ),
+				'accepted'              => __( 'Accepted', 'buddypress' ),
+				'close'                 => __( 'Close', 'buddypress' ),
+				'comments'              => __( 'comments', 'buddypress' ),
+				'leave_group_confirm'   => __( 'Are you sure you want to leave this group?', 'buddypress' ),
+				'mark_as_fav'           => __( 'Favorite', 'buddypress' ),
+				'my_favs'               => __( 'My Favorites', 'buddypress' ),
+				'rejected'              => __( 'Rejected', 'buddypress' ),
+				'remove_fav'            => __( 'Remove Favorite', 'buddypress' ),
+				'show_all'              => __( 'Show all', 'buddypress' ),
+				'show_all_comments'     => __( 'Show all comments for this thread', 'buddypress' ),
 
 				/* translators: %s: number of activity comments */
-				'show_x_comments'     => __( 'Show all comments (%d)', 'buddypress' ),
-				'unsaved_changes'     => __( 'Your profile has unsaved changes. If you leave the page, the changes will be lost.', 'buddypress' ),
-				'view'                => __( 'View', 'buddypress' ),
+				'show_x_comments'       => __( 'Show all comments (%d)', 'buddypress' ),
+				'unsaved_changes'       => __( 'Your profile has unsaved changes. If you leave the page, the changes will be lost.', 'buddypress' ),
+				'view'                  => __( 'View', 'buddypress' ),
 
 				// Settings.
 				'store_filter_settings' => $store_filter_settings,
@@ -364,11 +364,11 @@ class BP_Legacy extends BP_Theme_Compat {
 				$asset['handle'],
 				'BP_PM_Star',
 				array(
-					'strings' => array(
-						'text_unstar'  => __( 'Unstar', 'buddypress' ),
-						'text_star'    => __( 'Star', 'buddypress' ),
-						'title_unstar' => __( 'Starred', 'buddypress' ),
-						'title_star'   => __( 'Not starred', 'buddypress' ),
+					'strings'          => array(
+						'text_unstar'         => __( 'Unstar', 'buddypress' ),
+						'text_star'           => __( 'Star', 'buddypress' ),
+						'title_unstar'        => __( 'Starred', 'buddypress' ),
+						'title_star'          => __( 'Not starred', 'buddypress' ),
 						'title_unstar_thread' => __( 'Remove all starred messages in this thread', 'buddypress' ),
 						'title_star_thread'   => __( 'Star the first message in this thread', 'buddypress' ),
 					),
@@ -1050,7 +1050,7 @@ function bp_legacy_theme_post_update() {
 	if ( ! $object && bp_is_active( 'activity' ) ) {
 		$activity_id = bp_activity_post_update(
 			array(
-				'content' => $_POST['content'],
+				'content'    => $_POST['content'],
 				'error_type' => 'wp_error',
 			)
 		);
@@ -1059,8 +1059,8 @@ function bp_legacy_theme_post_update() {
 		if ( $item_id && bp_is_active( 'groups' ) ) {
 			$activity_id = groups_post_update(
 				array(
-					'content' => $_POST['content'],
-					'group_id' => $item_id,
+					'content'    => $_POST['content'],
+					'group_id'   => $item_id,
 					'error_type' => 'wp_error',
 				)
 			);
@@ -1213,7 +1213,7 @@ function bp_legacy_theme_delete_activity() {
 
 	if ( ! bp_activity_delete(
 		array(
-			'id' => $activity->id,
+			'id'      => $activity->id,
 			'user_id' => $activity->user_id,
 		)
 	) ) {
@@ -1474,7 +1474,7 @@ function bp_legacy_theme_ajax_invite_user() {
 		// Create the user invitation.
 		} elseif ( groups_invite_user(
 			array(
-				'user_id' => $friend_id,
+				'user_id'  => $friend_id,
 				'group_id' => $group_id,
 			)
 		) ) {
@@ -1728,7 +1728,7 @@ function bp_legacy_theme_ajax_joinleave_group() {
 
 			if ( ! bp_current_user_can( 'groups_request_membership', array( 'group_id' => $group->id ) ) || ! groups_send_membership_request(
 				array(
-					'user_id' => bp_loggedin_user_id(),
+					'user_id'  => bp_loggedin_user_id(),
 					'group_id' => $group->id,
 				)
 			) ) {
@@ -1815,7 +1815,7 @@ function bp_legacy_theme_ajax_messages_send_reply() {
 	$result = messages_new_message(
 		array(
 			'thread_id' => $thread_id,
-			'content' => $_REQUEST['content'],
+			'content'   => $_REQUEST['content'],
 		)
 	);
 

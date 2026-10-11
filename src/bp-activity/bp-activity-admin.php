@@ -205,7 +205,7 @@ function bp_activity_admin_load() {
 			'layout_columns',
 			array(
 				'default' => 2,
-				'max' => 2,
+				'max'     => 2,
 			)
 		);
 
@@ -280,9 +280,9 @@ function bp_activity_admin_load() {
 		// Help panel - moderation text.
 		get_current_screen()->add_help_tab(
 			array(
-				'id'        => 'bp-activity-moderating',
-				'title'     => __( 'Moderating Activity', 'buddypress' ),
-				'content'   =>
+				'id'      => 'bp-activity-moderating',
+				'title'   => __( 'Moderating Activity', 'buddypress' ),
+				'content' =>
 					'<p>' . __( 'In the <strong>Activity</strong> column, above each activity it says &#8220;Submitted on,&#8221; followed by the date and time the activity item was generated on your site. Clicking on the date/time link will take you to that activity on your live site. Hovering over any activity gives you options to reply, edit, spam mark, or delete that activity.', 'buddypress' ) . '</p>' .
 					'<p>' . __( "In the <strong>In Response To</strong> column, if the activity was in reply to another activity, it shows that activity's author's picture and name, and a link to that activity on your live site. If there is a small bubble, the number in it shows how many other activities are related to this one; these are usually comments. Clicking the bubble will filter the activity screen to show only related activity items.", 'buddypress' ) . '</p>',
 			)
@@ -729,7 +729,7 @@ function bp_activity_admin_delete() {
 			add_query_arg(
 				array(
 					'action' => 'do_delete',
-					'aid' => implode( ',', $aids ),
+					'aid'    => implode( ',', $aids ),
 				),
 				$base_url
 			),
@@ -1278,10 +1278,10 @@ function bp_activity_admin_index() {
 							'',
 							'bp-activities',
 							array(
-								'dfw' => false,
+								'dfw'           => false,
 								'media_buttons' => false,
-								'quicktags' => array( 'buttons' => 'strong,em,link,block,del,ins,img,code,spell,close' ),
-								'tinymce' => false,
+								'quicktags'     => array( 'buttons' => 'strong,em,link,block,del,ins,img,code,spell,close' ),
+								'tinymce'       => false,
 							)
 						);
 						?>

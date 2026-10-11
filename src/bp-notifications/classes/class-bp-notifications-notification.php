@@ -1302,7 +1302,7 @@ class BP_Notifications_Notification {
 
 		return array(
 			'notifications' => &$notifications,
-			'total' => $total_count,
+			'total'         => $total_count,
 		);
 	}
 

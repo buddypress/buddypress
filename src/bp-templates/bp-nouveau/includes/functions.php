@@ -463,7 +463,7 @@ function bp_nouveau_parse_hooked_dir_nav( $hook = '', $component = '', $position
 		$lis[1],
 		array(
 			'component' => $component,
-			'position' => $position,
+			'position'  => $position,
 		)
 	);
 	preg_match_all( '/<a\s[^>]*>(.*)<\/a>/siU', $output, $as );
@@ -753,22 +753,22 @@ function bp_nouveau_get_appearance_settings( $option = '' ) {
 function bp_nouveau_customizer_grid_choices( $type = 'option' ) {
 	$columns = array(
 		array(
-			'key' => '1',
+			'key'   => '1',
 			'label' => __( 'One column', 'buddypress' ),
 			'class' => '',
 		),
 		array(
-			'key' => '2',
+			'key'   => '2',
 			'label' => __( 'Two columns', 'buddypress' ),
 			'class' => 'two',
 		),
 		array(
-			'key' => '3',
+			'key'   => '3',
 			'label' => __( 'Three columns', 'buddypress' ),
 			'class' => 'three',
 		),
 		array(
-			'key' => '4',
+			'key'   => '4',
 			'label' => __( 'Four columns', 'buddypress' ),
 			'class' => 'four',
 		),
@@ -1254,7 +1254,7 @@ function bp_nouveau_get_signup_fields( $section = '' ) {
 		'bp_nouveau_get_signup_fields',
 		array(
 			'account_details' => array(
-				'signup_username' => array(
+				'signup_username'         => array(
 					'label'          => __( 'Username', 'buddypress' ),
 					'required'       => true,
 					'value'          => 'bp_get_signup_username_value',
@@ -1262,7 +1262,7 @@ function bp_nouveau_get_signup_fields( $section = '' ) {
 					'type'           => 'text',
 					'class'          => '',
 				),
-				'signup_email' => array(
+				'signup_email'            => array(
 					'label'          => __( 'Email Address', 'buddypress' ),
 					'required'       => true,
 					'value'          => 'bp_get_signup_email_value',
@@ -1270,11 +1270,11 @@ function bp_nouveau_get_signup_fields( $section = '' ) {
 					'type'           => 'email',
 					'class'          => '',
 				),
-				'signup_password' => array(),
+				'signup_password'         => array(),
 				'signup_password_confirm' => array(),
 			),
-			'blog_details' => array(
-				'signup_blog_url' => array(
+			'blog_details'    => array(
+				'signup_blog_url'             => array(
 					'label'          => __( 'Site URL', 'buddypress' ),
 					'required'       => true,
 					'value'          => 'bp_get_signup_blog_url_value',
@@ -1282,7 +1282,7 @@ function bp_nouveau_get_signup_fields( $section = '' ) {
 					'type'           => 'text',
 					'class'          => '',
 				),
-				'signup_blog_title' => array(
+				'signup_blog_title'           => array(
 					'label'          => __( 'Site Title', 'buddypress' ),
 					'required'       => true,
 					'value'          => 'bp_get_signup_blog_title_value',
@@ -1290,7 +1290,7 @@ function bp_nouveau_get_signup_fields( $section = '' ) {
 					'type'           => 'text',
 					'class'          => '',
 				),
-				'signup_blog_privacy_public' => array(
+				'signup_blog_privacy_public'  => array(
 					'label'          => __( 'Yes', 'buddypress' ),
 					'required'       => false,
 					'value'          => 'public',

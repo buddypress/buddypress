@@ -279,8 +279,8 @@ function bp_nouveau_members_loop_buttons( $args = array() ) {
 						),
 						'button_element'    => $button_element,
 						'button_attr'       => array(
-							'class'           => 'button accept',
-							'rel'             => '',
+							'class' => 'button accept',
+							'rel'   => '',
 						),
 					),
 					'reject_friendship' => array(
@@ -296,8 +296,8 @@ function bp_nouveau_members_loop_buttons( $args = array() ) {
 						),
 						'button_element'    => $button_element,
 						'button_attr'       => array(
-							'class'           => 'button reject',
-							'rel'             => '',
+							'class' => 'button reject',
+							'rel'   => '',
 						),
 					),
 				);
@@ -374,9 +374,9 @@ function bp_nouveau_members_loop_buttons( $args = array() ) {
 							'class' => $parent_class,
 						),
 						'button_attr'       => array(
-							'href'             => $button_args['link_href'],
-							'id'               => '',
-							'class'            => $button_args['link_class'],
+							'href'  => $button_args['link_href'],
+							'id'    => '',
+							'class' => $button_args['link_class'],
 						),
 					);
 				}

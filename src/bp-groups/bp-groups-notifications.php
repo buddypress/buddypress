@@ -202,10 +202,10 @@ function groups_notification_membership_request_completed( $requesting_user_id =
 
 		bp_notifications_add_notification(
 			array(
-				'user_id'           => $requesting_user_id,
-				'item_id'           => $group_id,
-				'component_name'    => buddypress()->groups->id,
-				'component_action'  => $type,
+				'user_id'          => $requesting_user_id,
+				'item_id'          => $group_id,
+				'component_name'   => buddypress()->groups->id,
+				'component_action' => $type,
 			)
 		);
 	}
@@ -275,10 +275,10 @@ function groups_notification_promoted_member( $user_id = 0, $group_id = 0 ) {
 	if ( bp_is_active( 'notifications' ) ) {
 		bp_notifications_add_notification(
 			array(
-				'user_id'           => $user_id,
-				'item_id'           => $group_id,
-				'component_name'    => buddypress()->groups->id,
-				'component_action'  => $type,
+				'user_id'          => $user_id,
+				'item_id'          => $group_id,
+				'component_name'   => buddypress()->groups->id,
+				'component_action' => $type,
 			)
 		);
 	}

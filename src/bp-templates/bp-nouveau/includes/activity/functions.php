@@ -28,7 +28,7 @@ function bp_nouveau_activity_register_scripts( $scripts = array() ) {
 	return array_merge(
 		$scripts,
 		array(
-			'bp-nouveau-activity' => array(
+			'bp-nouveau-activity'           => array(
 				'file'         => 'js/buddypress-activity%s.js',
 				'dependencies' => array( 'bp-nouveau' ),
 				'footer'       => true,
@@ -70,13 +70,13 @@ function bp_nouveau_activity_localize_scripts( $params = array() ) {
 	}
 
 	$activity_params = array(
-		'user_id'     => bp_loggedin_user_id(),
-		'object'      => 'user',
-		'backcompat'  => array(
+		'user_id'    => bp_loggedin_user_id(),
+		'object'     => 'user',
+		'backcompat' => array(
 			'before_post_form'  => (bool) has_action( 'bp_before_activity_post_form' ),
 			'post_form_options' => (bool) has_action( 'bp_activity_post_form_options' ),
 		),
-		'post_nonce'  => wp_create_nonce( 'post_update', '_wpnonce_post_update' ),
+		'post_nonce' => wp_create_nonce( 'post_update', '_wpnonce_post_update' ),
 	);
 
 	$user_displayname = bp_get_loggedin_user_fullname();
@@ -157,7 +157,7 @@ function bp_nouveau_activity_localize_scripts( $params = array() ) {
 		if ( bp_is_active( 'groups' ) && bp_has_groups(
 			array(
 				'user_id' => bp_loggedin_user_id(),
-				'max' => 1,
+				'max'     => 1,
 			)
 		) ) {
 			$activity_objects['group'] = array(
@@ -556,16 +556,16 @@ function bp_nouveau_activity_customizer_controls( $controls = array() ) {
 		$controls,
 		array(
 			'act_dir_layout' => array(
-				'label'      => __( 'Use column navigation for the Activity directory.', 'buddypress' ),
-				'section'    => 'bp_nouveau_dir_layout',
-				'settings'   => 'bp_nouveau_appearance[activity_dir_layout]',
-				'type'       => 'checkbox',
+				'label'    => __( 'Use column navigation for the Activity directory.', 'buddypress' ),
+				'section'  => 'bp_nouveau_dir_layout',
+				'settings' => 'bp_nouveau_appearance[activity_dir_layout]',
+				'type'     => 'checkbox',
 			),
-			'act_dir_tabs' => array(
-				'label'      => __( 'Use tab styling for Activity directory navigation.', 'buddypress' ),
-				'section'    => 'bp_nouveau_dir_layout',
-				'settings'   => 'bp_nouveau_appearance[activity_dir_tabs]',
-				'type'       => 'checkbox',
+			'act_dir_tabs'   => array(
+				'label'    => __( 'Use tab styling for Activity directory navigation.', 'buddypress' ),
+				'section'  => 'bp_nouveau_dir_layout',
+				'settings' => 'bp_nouveau_appearance[activity_dir_tabs]',
+				'type'     => 'checkbox',
 			),
 		)
 	);

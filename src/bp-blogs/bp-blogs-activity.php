@@ -471,17 +471,17 @@ function bp_blogs_record_activity( $args = '' ) {
 
 	return bp_activity_add(
 		array(
-			'id' => $id,
-			'user_id' => $r['user_id'],
-			'action' => $r['action'],
-			'content' => $r['content'],
-			'primary_link' => $r['primary_link'],
-			'component' => $r['component'],
-			'type' => $r['type'],
-			'item_id' => $r['item_id'],
+			'id'                => $id,
+			'user_id'           => $r['user_id'],
+			'action'            => $r['action'],
+			'content'           => $r['content'],
+			'primary_link'      => $r['primary_link'],
+			'component'         => $r['component'],
+			'type'              => $r['type'],
+			'item_id'           => $r['item_id'],
 			'secondary_item_id' => $r['secondary_item_id'],
-			'recorded_time' => $r['recorded_time'],
-			'hide_sitewide' => $r['hide_sitewide'],
+			'recorded_time'     => $r['recorded_time'],
+			'hide_sitewide'     => $r['hide_sitewide'],
 		)
 	);
 }
@@ -998,8 +998,8 @@ function bp_blogs_sync_activity_edit_to_post_comment( BP_Activity_Activity $acti
 			// Update the blog post comment.
 			wp_update_comment(
 				array(
-					'comment_ID'       => $post_comment_id,
-					'comment_content'  => $activity->content,
+					'comment_ID'      => $post_comment_id,
+					'comment_content' => $activity->content,
 				)
 			);
 		}

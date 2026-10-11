@@ -591,7 +591,7 @@ function bp_nouveau_ajax_post_update() {
 	ob_start();
 	if ( bp_has_activities(
 		array(
-			'include' => $activity_id,
+			'include'     => $activity_id,
 			'show_hidden' => $is_private,
 		)
 	) ) {

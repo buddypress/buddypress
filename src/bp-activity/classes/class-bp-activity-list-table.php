@@ -921,8 +921,8 @@ class BP_Activity_List_Table extends WP_List_Table {
 			$activity = bp_activity_get_specific(
 				array(
 					'activity_ids' => $activity_id,
-					'show_hidden' => true,
-					'spam' => 'all',
+					'show_hidden'  => true,
+					'spam'         => 'all',
 				)
 			);
 

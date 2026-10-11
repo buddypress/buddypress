@@ -589,9 +589,9 @@ function bp_nouveau_loop_classes() {
 		}
 
 		$available_components = array(
-			'members' => true,
-			'groups'  => true,
-			'blogs'   => true,
+			'members'         => true,
+			'groups'          => true,
+			'blogs'           => true,
 
 			/*
 			 * Technically not a component but allows us to check the single group members loop as a separate loop.
@@ -2477,7 +2477,7 @@ function bp_nouveau_signup_form( $section = 'account_details' ) {
 						bp_form_field_attributes(
 							'password',
 							array(
-								'data-pw' => wp_generate_password( 12 ),
+								'data-pw'          => wp_generate_password( 12 ),
 								'aria-describedby' => 'pass-strength-result',
 							)
 						);

@@ -308,7 +308,7 @@ function bp_activity_remove_screen_notifications_for_non_mentions() {
 	// Mark notification as read.
 	BP_Notifications_Notification::update(
 		array(
-			'is_new'  => false,
+			'is_new' => false,
 		),
 		array(
 			'user_id' => bp_loggedin_user_id(),

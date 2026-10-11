@@ -35,8 +35,8 @@ function bp_activity_admin_menu() {
 
 	$activity_edit_link = add_query_arg(
 		array(
-			'page' => 'bp-activity',
-			'aid' => bp_current_action(),
+			'page'   => 'bp-activity',
+			'aid'    => bp_current_action(),
 			'action' => 'edit',
 		),
 		bp_get_admin_url( 'admin.php' )

@@ -69,7 +69,7 @@ class BP_Messages_Notices_List_Table extends WP_List_Table {
 		$this->set_pagination_args(
 			array(
 				'total_items' => BP_Messages_Notice::get_total_notice_count(),
-				'per_page' => $per_page,
+				'per_page'    => $per_page,
 			)
 		);
 	}
@@ -139,7 +139,7 @@ class BP_Messages_Notices_List_Table extends WP_List_Table {
 				(int) $item->id,
 				esc_html__( 'Activate Notice', 'buddypress' )
 			),
-			'delete' => sprintf(
+			'delete'              => sprintf(
 				'<a href="%s" data-bp-notice-id="%d" data-bp-action="delete">%s</a>',
 				esc_url(
 					wp_nonce_url(

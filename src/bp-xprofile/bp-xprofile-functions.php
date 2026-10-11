@@ -883,7 +883,7 @@ function xprofile_sync_wp_profile( $user_id = 0, ...$args ) {
 
 	wp_update_user(
 		array(
-			'ID' => $user_id,
+			'ID'           => $user_id,
 			'display_name' => $fullname,
 		)
 	);

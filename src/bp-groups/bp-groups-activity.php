@@ -401,10 +401,10 @@ function bp_groups_filter_activity_favorites_scope( $retval, $filter ) {
 	);
 
 	return array(
-		'relation' => 'OR',
+		'relation'          => 'OR',
 
 		// Allow hidden items for items unconnected to groups.
-		'non_groups' => array(
+		'non_groups'        => array(
 			'relation' => 'AND',
 			array(
 				'column'  => 'component',
@@ -444,7 +444,7 @@ function bp_groups_filter_activity_favorites_scope( $retval, $filter ) {
 		),
 
 		// For hidden group items, limit to those in the user's groups.
-		'hidden_groups' => array(
+		'hidden_groups'     => array(
 			'relation' => 'AND',
 			array(
 				'column'  => 'component',
@@ -468,7 +468,7 @@ function bp_groups_filter_activity_favorites_scope( $retval, $filter ) {
 			),
 		),
 
-		'override' => array(
+		'override'          => array(
 			'display_comments' => true,
 			'filter'           => array( 'user_id' => 0 ),
 			'show_hidden'      => true,

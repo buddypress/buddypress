@@ -16,57 +16,57 @@ add_action(
 	function () {
 	$ajax_actions = array(
 		array(
-			'groups_filter'                      => array(
+			'groups_filter' => array(
 				'function' => 'bp_nouveau_ajax_object_template_loader',
-				'nopriv' => true,
+				'nopriv'   => true,
 			),
 		),
 		array(
-			'groups_join_group'                  => array(
+			'groups_join_group' => array(
 				'function' => 'bp_nouveau_ajax_joinleave_group',
-				'nopriv' => false,
+				'nopriv'   => false,
 			),
 		),
 		array(
-			'groups_leave_group'                 => array(
+			'groups_leave_group' => array(
 				'function' => 'bp_nouveau_ajax_joinleave_group',
-				'nopriv' => false,
+				'nopriv'   => false,
 			),
 		),
 		array(
-			'groups_accept_invite'               => array(
+			'groups_accept_invite' => array(
 				'function' => 'bp_nouveau_ajax_joinleave_group',
-				'nopriv' => false,
+				'nopriv'   => false,
 			),
 		),
 		array(
-			'groups_reject_invite'               => array(
+			'groups_reject_invite' => array(
 				'function' => 'bp_nouveau_ajax_joinleave_group',
-				'nopriv' => false,
+				'nopriv'   => false,
 			),
 		),
 		array(
-			'groups_request_membership'          => array(
+			'groups_request_membership' => array(
 				'function' => 'bp_nouveau_ajax_joinleave_group',
-				'nopriv' => false,
+				'nopriv'   => false,
 			),
 		),
 		array(
 			'groups_get_group_potential_invites' => array(
 				'function' => 'bp_nouveau_ajax_get_users_to_invite',
-				'nopriv' => false,
+				'nopriv'   => false,
 			),
 		),
 		array(
-			'groups_send_group_invites'          => array(
+			'groups_send_group_invites' => array(
 				'function' => 'bp_nouveau_ajax_send_group_invites',
-				'nopriv' => false,
+				'nopriv'   => false,
 			),
 		),
 		array(
-			'groups_delete_group_invite'         => array(
+			'groups_delete_group_invite' => array(
 				'function' => 'bp_nouveau_ajax_remove_group_invite',
-				'nopriv' => false,
+				'nopriv'   => false,
 			),
 		),
 	);
@@ -245,7 +245,7 @@ function bp_nouveau_ajax_joinleave_group() {
 			case 'groups_request_membership':
 				if ( ! groups_send_membership_request(
 					array(
-						'user_id' => $user_id,
+						'user_id'  => $user_id,
 						'group_id' => $group->id,
 					)
 				) ) {

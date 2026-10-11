@@ -772,7 +772,7 @@ class BP_Signup {
 			// Signups table.
 			buddypress()->members->table_name_signups,
 			array(
-				'active' => 1,
+				'active'    => 1,
 				'activated' => current_time( 'mysql', true ),
 			),
 			array(
@@ -847,8 +847,8 @@ class BP_Signup {
 		$r = bp_parse_args(
 			$args,
 			array(
-				'signup_id'  => 0,
-				'meta'       => array(),
+				'signup_id' => 0,
+				'meta'      => array(),
 			),
 			'bp_core_signups_update_args'
 		);

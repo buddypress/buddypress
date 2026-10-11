@@ -1460,7 +1460,7 @@ class BP_Admin {
 			'bp_core_admin_register_styles',
 			array(
 				// Legacy.
-				'bp-admin-common-css' => array(
+				'bp-admin-common-css'    => array(
 					'file'         => $common_css,
 					'dependencies' => array(),
 				),
@@ -1472,7 +1472,7 @@ class BP_Admin {
 				),
 
 				// 3.0
-				'bp-hello-css' => array(
+				'bp-hello-css'           => array(
 					'file'         => "{$url}hello{$min}.css",
 					'dependencies' => array( 'bp-admin-common-css', 'thickbox', 'bp-tooltips' ),
 				),
@@ -1511,21 +1511,21 @@ class BP_Admin {
 			'bp_core_admin_register_scripts',
 			array(
 				// 2.5
-				'bp-customizer-controls' => array(
+				'bp-customizer-controls'       => array(
 					'file'         => "{$url}customizer-controls{$min}.js",
 					'dependencies' => array( 'jquery' ),
 					'footer'       => true,
 				),
 
 				// 10.0
-				'bp-thickbox' => array(
+				'bp-thickbox'                  => array(
 					'file'         => "{$url}bp-thickbox{$min}.js",
 					'dependencies' => array( 'thickbox' ),
 					'footer'       => true,
 				),
 
 				// 3.0
-				'bp-hello-js' => array(
+				'bp-hello-js'                  => array(
 					'file'         => "{$url}hello{$min}.js",
 					'dependencies' => array( 'bp-thickbox', 'wp-api-request', 'underscore', 'plugin-install' ),
 					'footer'       => true,
@@ -1539,15 +1539,15 @@ class BP_Admin {
 					'extra'        => array(
 						'name' => 'bpDismissibleAdminNoticesSettings',
 						'data' => array(
-							'url'    => bp_core_ajax_url(),
-							'nonce'  => wp_create_nonce( 'bp_dismiss_admin_notice' ),
+							'url'   => bp_core_ajax_url(),
+							'nonce' => wp_create_nonce( 'bp_dismiss_admin_notice' ),
 						),
 					),
 				),
 
 				// 12.0
-				'bp-rewrites-ui' => array(
-					'file' => "{$url}rewrites-ui.js",
+				'bp-rewrites-ui'               => array(
+					'file'         => "{$url}rewrites-ui.js",
 					'dependencies' => array(),
 					'footer'       => true,
 				),

@@ -980,7 +980,7 @@ function bp_core_admin_debug_information( $debug_info = array() ) {
 				'value' => defined( 'BP_EMBED_DISABLE_PRIVATE_MESSAGES' ) ? BP_EMBED_DISABLE_PRIVATE_MESSAGES : __( 'Undefined', 'buddypress' ),
 				'debug' => defined( 'BP_EMBED_DISABLE_PRIVATE_MESSAGES' ) ? BP_EMBED_DISABLE_PRIVATE_MESSAGES : 'undefined',
 			),
-			'BP_EMBED_DISABLE_ACTIVITY'     => array(
+			'BP_EMBED_DISABLE_ACTIVITY'             => array(
 				'label' => 'BP_EMBED_DISABLE_ACTIVITY',
 				'value' => defined( 'BP_EMBED_DISABLE_ACTIVITY' ) ? BP_EMBED_DISABLE_ACTIVITY : __( 'Undefined', 'buddypress' ),
 				'debug' => defined( 'BP_EMBED_DISABLE_ACTIVITY' ) ? BP_EMBED_DISABLE_ACTIVITY : 'undefined',

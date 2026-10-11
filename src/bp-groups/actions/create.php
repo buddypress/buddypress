@@ -88,12 +88,12 @@ function groups_action_create_group() {
 
 			$bp->groups->new_group_id = groups_create_group(
 				array(
-					'group_id'    => $new_group_id,
-					'name'        => $_POST['group-name'],
-					'description' => $_POST['group-desc'],
-					'slug'        => groups_check_slug( sanitize_title( esc_attr( $_POST['group-name'] ) ) ),
+					'group_id'     => $new_group_id,
+					'name'         => $_POST['group-name'],
+					'description'  => $_POST['group-desc'],
+					'slug'         => groups_check_slug( sanitize_title( esc_attr( $_POST['group-name'] ) ) ),
 					'date_created' => bp_core_current_time(),
-					'status'      => 'public',
+					'status'       => 'public',
 				)
 			);
 
@@ -221,7 +221,7 @@ function groups_action_create_group() {
 			if ( bp_is_active( 'activity' ) ) {
 				groups_record_activity(
 					array(
-						'type' => 'created_group',
+						'type'    => 'created_group',
 						'item_id' => $bp->groups->new_group_id,
 					)
 				);

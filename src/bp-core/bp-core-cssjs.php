@@ -22,68 +22,68 @@ function bp_core_register_common_scripts() {
 	// Set up default scripts to register.
 	$scripts = array(
 		// Legacy.
-		'bp-confirm'        => array(
-			'file' => "{$url}confirm{$min}.js",
+		'bp-confirm'          => array(
+			'file'         => "{$url}confirm{$min}.js",
 			'dependencies' => array( 'jquery' ),
-			'footer' => false,
+			'footer'       => false,
 		),
-		'bp-jquery-query'   => array(
-			'file' => "{$url}jquery-query{$min}.js",
+		'bp-jquery-query'     => array(
+			'file'         => "{$url}jquery-query{$min}.js",
 			'dependencies' => array( 'jquery' ),
-			'footer' => false,
+			'footer'       => false,
 		),
-		'bp-jquery-cookie'  => array(
-			'file' => "{$url}vendor/jquery-cookie{$min}.js",
+		'bp-jquery-cookie'    => array(
+			'file'         => "{$url}vendor/jquery-cookie{$min}.js",
 			'dependencies' => array( 'jquery' ),
-			'footer' => false,
+			'footer'       => false,
 		),
 		'bp-jquery-scroll-to' => array(
-			'file' => "{$url}vendor/jquery-scroll-to{$min}.js",
+			'file'         => "{$url}vendor/jquery-scroll-to{$min}.js",
 			'dependencies' => array( 'jquery' ),
-			'footer' => false,
+			'footer'       => false,
 		),
 
 		// Version 2.1.
-		'jquery-caret' => array(
-			'file' => "{$url}vendor/jquery.caret{$min}.js",
+		'jquery-caret'        => array(
+			'file'         => "{$url}vendor/jquery.caret{$min}.js",
 			'dependencies' => array( 'jquery' ),
-			'footer' => true,
+			'footer'       => true,
 		),
-		'jquery-atwho' => array(
-			'file' => "{$url}vendor/jquery.atwho{$min}.js",
+		'jquery-atwho'        => array(
+			'file'         => "{$url}vendor/jquery.atwho{$min}.js",
 			'dependencies' => array( 'jquery', 'jquery-caret' ),
-			'footer' => true,
+			'footer'       => true,
 		),
 
 		// Version 2.3.
-		'bp-plupload' => array(
-			'file' => "{$url}bp-plupload{$min}.js",
+		'bp-plupload'         => array(
+			'file'         => "{$url}bp-plupload{$min}.js",
 			'dependencies' => array( 'plupload', 'jquery', 'json2', 'wp-backbone' ),
-			'footer' => true,
+			'footer'       => true,
 		),
-		'bp-avatar'   => array(
-			'file' => "{$url}avatar{$min}.js",
+		'bp-avatar'           => array(
+			'file'         => "{$url}avatar{$min}.js",
 			'dependencies' => array( 'jcrop' ),
-			'footer' => true,
+			'footer'       => true,
 		),
-		'bp-webcam'   => array(
-			'file' => "{$url}webcam{$min}.js",
+		'bp-webcam'           => array(
+			'file'         => "{$url}webcam{$min}.js",
 			'dependencies' => array( 'bp-avatar' ),
-			'footer' => true,
+			'footer'       => true,
 		),
 
 		// Version 2.4.
-		'bp-cover-image' => array(
-			'file' => "{$url}cover-image{$min}.js",
+		'bp-cover-image'      => array(
+			'file'         => "{$url}cover-image{$min}.js",
 			'dependencies' => array(),
-			'footer' => true,
+			'footer'       => true,
 		),
 
 		// Version 2.7.
-		'bp-livestamp' => array(
-			'file' => "{$url}vendor/livestamp{$min}.js",
+		'bp-livestamp'        => array(
+			'file'         => "{$url}vendor/livestamp{$min}.js",
 			'dependencies' => array( 'jquery', 'moment' ),
-			'footer' => true,
+			'footer'       => true,
 		),
 	);
 
@@ -169,11 +169,11 @@ function bp_core_register_common_styles() {
 				'file'         => $admin_bar_file,
 				'dependencies' => array( 'admin-bar' ),
 			),
-			'bp-avatar' => array(
+			'bp-avatar'    => array(
 				'file'         => "{$url}avatar{$min}.css",
 				'dependencies' => array( 'jcrop' ),
 			),
-			'bp-tooltips' => array(
+			'bp-tooltips'  => array(
 				'file'         => $tooltips_uri,
 				'dependencies' => array(),
 			),
@@ -471,7 +471,7 @@ function bp_add_cover_image_inline_css() {
 
 		$cover_image_object = array(
 			'component' => 'members',
-			'object' => $bp->displayed_user,
+			'object'    => $bp->displayed_user,
 		);
 	} elseif ( bp_is_group() ) {
 
@@ -483,7 +483,7 @@ function bp_add_cover_image_inline_css() {
 
 		$cover_image_object = array(
 			'component' => 'groups',
-			'object' => $bp->groups->current_group,
+			'object'    => $bp->groups->current_group,
 		);
 	} else {
 		$cover_image_object = apply_filters( 'bp_current_cover_image_object_inline_css', array() );

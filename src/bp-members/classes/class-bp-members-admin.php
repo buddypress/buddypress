@@ -1053,7 +1053,7 @@ class BP_Members_Admin {
 				'layout_columns',
 				array(
 					'default' => 2,
-					'max' => 2,
+					'max'     => 2,
 				)
 			);
 

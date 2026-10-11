@@ -1308,9 +1308,9 @@ function bp_core_time_diff( $args = array() ) {
 	$r      = bp_parse_args(
 		$args,
 		array(
-			'older_date'     => 0,
-			'newer_date'     => bp_core_current_time( true, 'timestamp' ),
-			'time_chunks'    => 2,
+			'older_date'  => 0,
+			'newer_date'  => bp_core_current_time( true, 'timestamp' ),
+			'time_chunks' => 2,
 		)
 	);
 
@@ -1565,7 +1565,7 @@ function bp_core_time_since( $older_date, $newer_date = false ) {
 function bp_core_time_old( $birth_date ) {
 	$time_diff = bp_core_time_diff(
 		array(
-			'older_date' => $birth_date,
+			'older_date'  => $birth_date,
 			'time_chunks' => 1,
 		)
 	);
@@ -2819,7 +2819,7 @@ function bp_core_get_minified_asset_suffix() {
  */
 function bp_core_get_components( $type = 'all' ) {
 	$required_components = array(
-		'core' => array(
+		'core'    => array(
 			'title'       => __( 'BuddyPress Core', 'buddypress' ),
 			'description' => __( 'It&#8216;s what makes <del>time travel</del> BuddyPress possible!', 'buddypress' ),
 		),
@@ -2832,23 +2832,23 @@ function bp_core_get_components( $type = 'all' ) {
 	$retired_components = array();
 
 	$optional_components = array(
-		'xprofile' => array(
+		'xprofile'      => array(
 			'title'       => __( 'Extended Profiles', 'buddypress' ),
 			'description' => __( 'Customize your community with fully editable profile fields that allow your users to describe themselves.', 'buddypress' ),
 		),
-		'settings' => array(
+		'settings'      => array(
 			'title'       => __( 'Account Settings', 'buddypress' ),
 			'description' => __( 'Allow your users to modify their account and notification settings directly from within their profiles.', 'buddypress' ),
 		),
-		'friends'  => array(
+		'friends'       => array(
 			'title'       => __( 'Friend Connections', 'buddypress' ),
 			'description' => __( 'Let your users make connections so they can track the activity of others and focus on the people they care about the most.', 'buddypress' ),
 		),
-		'messages' => array(
+		'messages'      => array(
 			'title'       => __( 'Private Messaging', 'buddypress' ),
 			'description' => __( 'Allow your users to talk to each other directly and in private. Not just limited to one-on-one discussions, messages can be sent between any number of members.', 'buddypress' ),
 		),
-		'activity' => array(
+		'activity'      => array(
 			'title'       => __( 'Activity Streams', 'buddypress' ),
 			'description' => __( 'Global, personal, and group activity streams with threaded commenting, direct posting, favoriting, and @mentions, all with full RSS feed and email notification support.', 'buddypress' ),
 		),
@@ -2856,11 +2856,11 @@ function bp_core_get_components( $type = 'all' ) {
 			'title'       => __( 'Notifications', 'buddypress' ),
 			'description' => __( 'Notify members of relevant activity with a toolbar bubble and/or via email, and allow them to customize their notification settings.', 'buddypress' ),
 		),
-		'groups'   => array(
+		'groups'        => array(
 			'title'       => __( 'User Groups', 'buddypress' ),
 			'description' => __( 'Groups allow your users to organize themselves into specific public, private or hidden sections with separate activity streams and member listings.', 'buddypress' ),
 		),
-		'blogs'    => array(
+		'blogs'         => array(
 			'title'       => __( 'Site Tracking', 'buddypress' ),
 			'description' => __( 'Record activity for new posts and comments from your site.', 'buddypress' ),
 		),
@@ -3511,9 +3511,9 @@ function bp_get_email_tax_type_args() {
 		'bp_register_email_tax_type',
 		array_merge(
 			array(
-				'description'   => _x( 'BuddyPress email types', 'email type taxonomy description', 'buddypress' ),
-				'labels'        => bp_get_email_tax_type_labels(),
-				'meta_box_cb'   => 'bp_email_tax_type_metabox',
+				'description' => _x( 'BuddyPress email types', 'email type taxonomy description', 'buddypress' ),
+				'labels'      => bp_get_email_tax_type_labels(),
+				'meta_box_cb' => 'bp_email_tax_type_metabox',
 			),
 			bp_get_taxonomy_common_args()
 		)
@@ -3531,19 +3531,19 @@ function bp_get_email_tax_type_args() {
  */
 function bp_get_type_metadata_schema( $suppress_filters = false, $type_taxonomy = '' ) {
 	$schema = array(
-		'bp_type_singular_name' => array(
+		'bp_type_singular_name'  => array(
 			'description'       => __( 'The name of this type in singular form. ', 'buddypress' ),
 			'type'              => 'string',
 			'single'            => true,
 			'sanitize_callback' => 'sanitize_text_field',
 		),
-		'bp_type_name' => array(
+		'bp_type_name'           => array(
 			'description'       => __( 'The name of this type in plural form.', 'buddypress' ),
 			'type'              => 'string',
 			'single'            => true,
 			'sanitize_callback' => 'sanitize_text_field',
 		),
-		'bp_type_has_directory' => array(
+		'bp_type_has_directory'  => array(
 			'description'       => __( 'Make a list matching this type available on the directory.', 'buddypress' ),
 			'type'              => 'boolean',
 			'single'            => true,
@@ -4020,7 +4020,7 @@ function bp_email_get_appearance_settings() {
 		'header_text_size'  => 30,
 		'direction'         => is_rtl() ? 'right' : 'left',
 
-		'footer_text' => implode( ' &middot; ', $footer_text ),
+		'footer_text'       => implode( ' &middot; ', $footer_text ),
 	);
 
 	$options = bp_parse_args(
@@ -4133,7 +4133,7 @@ function bp_email_get_schema() {
 	return (array) apply_filters(
 		'bp_email_get_schema',
 		array(
-			'core-user-activation' => array(
+			'core-user-activation'                        => array(
 				/* translators: do not remove {} brackets or translate its contents. */
 				'post_title'   => __( '[{{{site.name}}}] Welcome!', 'buddypress' ),
 				/* translators: do not remove {} brackets or translate its contents. */
@@ -4141,7 +4141,7 @@ function bp_email_get_schema() {
 				/* translators: do not remove {} brackets or translate its contents. */
 				'post_excerpt' => __( "Welcome to {{site.name}}!\n\nVisit your profile, where you can tell us more about yourself, change your preferences, or make new connections, to get started: {{{profile.url}}}\n\nForgot your password? Don't worry, you can reset it with your email address from this page of our site: {{{lostpassword.url}}}", 'buddypress' ),
 			),
-			'activity-comment' => array(
+			'activity-comment'                            => array(
 				/* translators: do not remove {} brackets or translate its contents. */
 				'post_title'   => __( '[{{{site.name}}}] {{poster.name}} replied to one of your updates', 'buddypress' ),
 				/* translators: do not remove {} brackets or translate its contents. */
@@ -4149,7 +4149,7 @@ function bp_email_get_schema() {
 				/* translators: do not remove {} brackets or translate its contents. */
 				'post_excerpt' => __( "{{poster.name}} replied to one of your updates:\n\n\"{{usermessage}}\"\n\nGo to the discussion to reply or catch up on the conversation: {{{thread.url}}}", 'buddypress' ),
 			),
-			'activity-comment-author' => array(
+			'activity-comment-author'                     => array(
 				/* translators: do not remove {} brackets or translate its contents. */
 				'post_title'   => __( '[{{{site.name}}}] {{poster.name}} replied to one of your comments', 'buddypress' ),
 				/* translators: do not remove {} brackets or translate its contents. */
@@ -4157,7 +4157,7 @@ function bp_email_get_schema() {
 				/* translators: do not remove {} brackets or translate its contents. */
 				'post_excerpt' => __( "{{poster.name}} replied to one of your comments:\n\n\"{{usermessage}}\"\n\nGo to the discussion to reply or catch up on the conversation: {{{thread.url}}}", 'buddypress' ),
 			),
-			'activity-at-message' => array(
+			'activity-at-message'                         => array(
 				/* translators: do not remove {} brackets or translate its contents. */
 				'post_title'   => __( '[{{{site.name}}}] {{poster.name}} mentioned you in a status update', 'buddypress' ),
 				/* translators: do not remove {} brackets or translate its contents. */
@@ -4165,7 +4165,7 @@ function bp_email_get_schema() {
 				/* translators: do not remove {} brackets or translate its contents. */
 				'post_excerpt' => __( "{{poster.name}} mentioned you in a status update:\n\n\"{{usermessage}}\"\n\nGo to the discussion to reply or catch up on the conversation: {{{mentioned.url}}}", 'buddypress' ),
 			),
-			'groups-at-message' => array(
+			'groups-at-message'                           => array(
 				/* translators: do not remove {} brackets or translate its contents. */
 				'post_title'   => __( '[{{{site.name}}}] {{poster.name}} mentioned you in an update', 'buddypress' ),
 				/* translators: do not remove {} brackets or translate its contents. */
@@ -4173,7 +4173,7 @@ function bp_email_get_schema() {
 				/* translators: do not remove {} brackets or translate its contents. */
 				'post_excerpt' => __( "{{poster.name}} mentioned you in the group \"{{group.name}}\":\n\n\"{{usermessage}}\"\n\nGo to the discussion to reply or catch up on the conversation: {{{mentioned.url}}}", 'buddypress' ),
 			),
-			'core-user-registration' => array(
+			'core-user-registration'                      => array(
 				/* translators: do not remove {} brackets or translate its contents. */
 				'post_title'   => __( '[{{{site.name}}}] Activate your account', 'buddypress' ),
 				/* translators: do not remove {} brackets or translate its contents. */
@@ -4181,7 +4181,7 @@ function bp_email_get_schema() {
 				/* translators: do not remove {} brackets or translate its contents. */
 				'post_excerpt' => __( "Thanks for registering!\n\nTo complete the activation of your account, go to the following link and click on the 'Activate' button: {{{activate.url}}}\n\nIf the 'Activation Key' field is empty, copy and paste the following into the field - {{key}}", 'buddypress' ),
 			),
-			'core-user-registration-with-blog' => array(
+			'core-user-registration-with-blog'            => array(
 				/* translators: do not remove {} brackets or translate its contents. */
 				'post_title'   => __( '[{{{site.name}}}] Activate {{{user-site.url}}}', 'buddypress' ),
 				/* translators: do not remove {} brackets or translate its contents. */
@@ -4192,7 +4192,7 @@ function bp_email_get_schema() {
 					'multisite' => true,
 				),
 			),
-			'friends-request' => array(
+			'friends-request'                             => array(
 				/* translators: do not remove {} brackets or translate its contents. */
 				'post_title'   => __( '[{{{site.name}}}] New friendship request from {{initiator.name}}', 'buddypress' ),
 				/* translators: do not remove {} brackets or translate its contents. */
@@ -4200,7 +4200,7 @@ function bp_email_get_schema() {
 				/* translators: do not remove {} brackets or translate its contents. */
 				'post_excerpt' => __( "{{initiator.name}} wants to add you as a friend.\n\nTo accept this request and manage all of your pending requests, visit: {{{friend-requests.url}}}\n\nTo view {{initiator.name}}'s profile, visit: {{{initiator.url}}}", 'buddypress' ),
 			),
-			'friends-request-accepted' => array(
+			'friends-request-accepted'                    => array(
 				/* translators: do not remove {} brackets or translate its contents. */
 				'post_title'   => __( '[{{{site.name}}}] {{friend.name}} accepted your friendship request', 'buddypress' ),
 				/* translators: do not remove {} brackets or translate its contents. */
@@ -4208,7 +4208,7 @@ function bp_email_get_schema() {
 				/* translators: do not remove {} brackets or translate its contents. */
 				'post_excerpt' => __( "{{friend.name}} accepted your friend request.\n\nTo learn more about them, visit their profile: {{{friendship.url}}}", 'buddypress' ),
 			),
-			'groups-details-updated' => array(
+			'groups-details-updated'                      => array(
 				/* translators: do not remove {} brackets or translate its contents. */
 				'post_title'   => __( '[{{{site.name}}}] Group details updated', 'buddypress' ),
 				/* translators: do not remove {} brackets or translate its contents. */
@@ -4216,7 +4216,7 @@ function bp_email_get_schema() {
 				/* translators: do not remove {} brackets or translate its contents. */
 				'post_excerpt' => __( "Group details for the group \"{{group.name}}\" were updated:\n\n{{changed_text}}\n\nTo view the group, visit: {{{group.url}}}", 'buddypress' ),
 			),
-			'groups-invitation' => array(
+			'groups-invitation'                           => array(
 				/* translators: do not remove {} brackets or translate its contents. */
 				'post_title'   => __( '[{{{site.name}}}] You have an invitation to the group: "{{group.name}}"', 'buddypress' ),
 				/* translators: do not remove {} brackets or translate its contents. */
@@ -4224,7 +4224,7 @@ function bp_email_get_schema() {
 				/* translators: do not remove {} brackets or translate its contents. */
 				'post_excerpt' => __( "{{inviter.name}} has invited you to join the group: \"{{group.name}}\".\n\n{{invite.message}}\n\nTo accept your invitation, visit: {{{invites.url}}}\n\nTo learn more about the group, visit: {{{group.url}}}.\nTo view {{inviter.name}}'s profile, visit: {{{inviter.url}}}", 'buddypress' ),
 			),
-			'groups-member-promoted' => array(
+			'groups-member-promoted'                      => array(
 				/* translators: do not remove {} brackets or translate its contents. */
 				'post_title'   => __( '[{{{site.name}}}] You have been promoted in the group: "{{group.name}}"', 'buddypress' ),
 				/* translators: do not remove {} brackets or translate its contents. */
@@ -4232,7 +4232,7 @@ function bp_email_get_schema() {
 				/* translators: do not remove {} brackets or translate its contents. */
 				'post_excerpt' => __( "You have been promoted to {{promoted_to}} in the group: \"{{group.name}}\".\n\nTo visit the group, go to: {{{group.url}}}", 'buddypress' ),
 			),
-			'groups-membership-request' => array(
+			'groups-membership-request'                   => array(
 				/* translators: do not remove {} brackets or translate its contents. */
 				'post_title'   => __( '[{{{site.name}}}] Membership request for group: {{group.name}}', 'buddypress' ),
 				/* translators: do not remove {} brackets or translate its contents. */
@@ -4240,7 +4240,7 @@ function bp_email_get_schema() {
 				/* translators: do not remove {} brackets or translate its contents. */
 				'post_excerpt' => __( "{{requesting-user.name}} wants to join the group \"{{group.name}}\". As you are the administrator of this group, you must either accept or reject the membership request.\n\nTo manage this and all other pending requests, visit: {{{group-requests.url}}}\n\nTo view {{requesting-user.name}}'s profile, visit: {{{profile.url}}}", 'buddypress' ),
 			),
-			'messages-unread' => array(
+			'messages-unread'                             => array(
 				/* translators: do not remove {} brackets or translate its contents. */
 				'post_title'   => __( '[{{{site.name}}}] New message from {{sender.name}}', 'buddypress' ),
 				/* translators: do not remove {} brackets or translate its contents. */
@@ -4248,7 +4248,7 @@ function bp_email_get_schema() {
 				/* translators: do not remove {} brackets or translate its contents. */
 				'post_excerpt' => __( "{{sender.name}} sent you a new message: \"{{usersubject}}\"\n\n\"{{usermessage}}\"\n\nGo to the discussion to reply or catch up on the conversation: {{{message.url}}}", 'buddypress' ),
 			),
-			'settings-verify-email-change' => array(
+			'settings-verify-email-change'                => array(
 				/* translators: do not remove {} brackets or translate its contents. */
 				'post_title'   => __( '[{{{site.name}}}] Verify your new email address', 'buddypress' ),
 				/* translators: do not remove {} brackets or translate its contents. */
@@ -4256,7 +4256,7 @@ function bp_email_get_schema() {
 				/* translators: do not remove {} brackets or translate its contents. */
 				'post_excerpt' => __( "You recently changed the email address associated with your account on {{site.name}} to {{user.email}}. If this is correct, go to the following link to confirm the change: {{{verify.url}}}\n\nOtherwise, you can safely ignore and delete this email if you have changed your mind, or if you think you have received this email in error.", 'buddypress' ),
 			),
-			'groups-membership-request-accepted' => array(
+			'groups-membership-request-accepted'          => array(
 				/* translators: do not remove {} brackets or translate its contents. */
 				'post_title'   => __( '[{{{site.name}}}] Membership request for group "{{group.name}}" accepted', 'buddypress' ),
 				/* translators: do not remove {} brackets or translate its contents. */
@@ -4264,7 +4264,7 @@ function bp_email_get_schema() {
 				/* translators: do not remove {} brackets or translate its contents. */
 				'post_excerpt' => __( "Your membership request for the group \"{{group.name}}\" has been accepted.\n\nTo view the group, visit: {{{group.url}}}", 'buddypress' ),
 			),
-			'groups-membership-request-rejected' => array(
+			'groups-membership-request-rejected'          => array(
 				/* translators: do not remove {} brackets or translate its contents. */
 				'post_title'   => __( '[{{{site.name}}}] Membership request for group "{{group.name}}" rejected', 'buddypress' ),
 				/* translators: do not remove {} brackets or translate its contents. */
@@ -4288,7 +4288,7 @@ function bp_email_get_schema() {
 				/* translators: do not remove {} brackets or translate its contents. */
 				'post_excerpt' => __( "An administrator rejected an invitation to join \"{{group.name}}\" on your behalf.\n\nIf you disagree with this, please contact the site administrator.", 'buddypress' ),
 			),
-			'bp-members-invitation' => array(
+			'bp-members-invitation'                       => array(
 				/* translators: do not remove {} brackets or translate its contents. */
 				'post_title'   => __( '{{inviter.name}} has invited you to join {{site.name}}', 'buddypress' ),
 				/* translators: do not remove {} brackets or translate its contents. */
@@ -4296,7 +4296,7 @@ function bp_email_get_schema() {
 				/* translators: do not remove {} brackets or translate its contents. */
 				'post_excerpt' => __( "{{inviter.name}} has invited you to join the site \"{{site.name}}\".\n\n{{usermessage}}\n\nTo accept your invitation, visit: {{{invite.accept_url}}}\n\nTo learn more about the site, visit: {{{site.url}}}.\nTo view {{inviter.name}}'s profile, visit: {{{inviter.url}}}", 'buddypress' ),
 			),
-			'members-membership-request' => array(
+			'members-membership-request'                  => array(
 				/* translators: do not remove {} brackets or translate its contents. */
 				'post_title'   => __( '{{requesting-user.user_login}} would like to join {{site.name}}', 'buddypress' ),
 				/* translators: do not remove {} brackets or translate its contents. */
@@ -4304,7 +4304,7 @@ function bp_email_get_schema() {
 				/* translators: do not remove {} brackets or translate its contents. */
 				'post_excerpt' => __( "{{requesting-user.user_login}} would like to join the site \"{{site.name}}\".\n\nTo manage the request, visit: {{{manage.url}}}.", 'buddypress' ),
 			),
-			'members-membership-request-rejected' => array(
+			'members-membership-request-rejected'         => array(
 				/* translators: do not remove {} brackets or translate its contents. */
 				'post_title'   => __( 'Your request to join {{site.name}} has been declined', 'buddypress' ),
 				/* translators: do not remove {} brackets or translate its contents. */
@@ -4422,7 +4422,7 @@ function bp_email_get_type_schema( $field = 'description' ) {
 	$groups_member_promoted = array(
 		'description'      => __( "Recipient's status within a group has changed.", 'buddypress' ),
 		'named_salutation' => true,
-		'unsubscribe' => array(
+		'unsubscribe'      => array(
 			'meta_key' => 'notification_groups_admin_promotion',
 			'message'  => __( 'You will no longer receive emails when you have been promoted in a group.', 'buddypress' ),
 		),
@@ -4818,14 +4818,14 @@ function bp_get_allowedtags() {
 	return array_merge_recursive(
 		$allowedtags,
 		array(
-			'a' => array(
+			'a'    => array(
 				'aria-label'      => array(),
 				'class'           => array(),
 				'data-bp-tooltip' => array(),
 				'id'              => array(),
 				'rel'             => array(),
 			),
-			'img' => array(
+			'img'  => array(
 				'src'    => array(),
 				'alt'    => array(),
 				'width'  => array(),
@@ -4837,9 +4837,9 @@ function bp_get_allowedtags() {
 				'class'          => array(),
 				'data-livestamp' => array(),
 			),
-			'ul' => array(),
-			'ol' => array(),
-			'li' => array(),
+			'ul'   => array(),
+			'ol'   => array(),
+			'li'   => array(),
 		)
 	);
 }
@@ -5265,7 +5265,7 @@ function bp_core_get_admin_notifications() {
 	}
 
 	$admin_notifications = array(
-		'bp100-welcome-addons' => (object) array(
+		'bp100-welcome-addons'       => (object) array(
 			'id'      => 'bp100-welcome-addons',
 			'href'    => add_query_arg(
 				array(

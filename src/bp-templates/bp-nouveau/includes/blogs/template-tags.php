@@ -245,15 +245,15 @@ function bp_nouveau_blogs_loop_buttons( $args = array() ) {
 				'link_text'         => $button_args['link_text'],
 				'link_title'        => $button_args['link_title'],
 				'parent_attr'       => array(
-					'id'              => $button_args['wrapper_id'],
-					'class'           => $parent_class,
+					'id'    => $button_args['wrapper_id'],
+					'class' => $parent_class,
 				),
 				'button_attr'       => array(
-					'href'             => $button_args['link_href'],
-					'id'               => $button_args['link_id'],
-					'class'            => $button_args['link_class'] . ' button',
-					'rel'              => $button_args['link_rel'],
-					'title'            => '',
+					'href'  => $button_args['link_href'],
+					'id'    => $button_args['link_id'],
+					'class' => $button_args['link_class'] . ' button',
+					'rel'   => $button_args['link_rel'],
+					'title' => '',
 				),
 			);
 		}

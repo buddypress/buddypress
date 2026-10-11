@@ -49,7 +49,7 @@ class BP_Activity_oEmbed_Extension extends BP_Core_oEmbed_Extension {
 	protected function set_route_args() {
 		return array(
 			'hide_media' => array(
-				'default' => false,
+				'default'           => false,
 				'sanitize_callback' => 'wp_validate_boolean',
 			),
 		);

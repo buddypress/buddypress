@@ -34,12 +34,12 @@
 		<?php
 		bp_button(
 			array(
-				'id' => 'delete_group_avatar',
-				'component' => 'groups',
+				'id'         => 'delete_group_avatar',
+				'component'  => 'groups',
 				'wrapper_id' => 'delete-group-avatar-button',
 				'link_class' => 'edit',
-				'link_href' => bp_get_group_avatar_delete_link(),
-				'link_text' => __( 'Delete Group Profile Photo', 'buddypress' ),
+				'link_href'  => bp_get_group_avatar_delete_link(),
+				'link_text'  => __( 'Delete Group Profile Photo', 'buddypress' ),
 			)
 		);
 		?>

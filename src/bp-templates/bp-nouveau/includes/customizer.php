@@ -50,7 +50,7 @@ function bp_nouveau_customize_register( WP_Customize_Manager $wp_customize ) {
 				'priority'    => 10,
 				'description' => __( 'Configure general BuddyPress appearance options.', 'buddypress' ),
 			),
-			'bp_nouveau_user_front_page' => array(
+			'bp_nouveau_user_front_page'  => array(
 				'title'       => __( 'Member front page', 'buddypress' ),
 				'panel'       => 'bp_nouveau_panel',
 				'priority'    => 30,
@@ -62,13 +62,13 @@ function bp_nouveau_customize_register( WP_Customize_Manager $wp_customize ) {
 				'priority'    => 50,
 				'description' => __( 'Customize the navigation menu for members. In the preview window, navigate to a user to preview your changes.', 'buddypress' ),
 			),
-			'bp_nouveau_loops_layout' => array(
+			'bp_nouveau_loops_layout'     => array(
 				'title'       => __( 'Loop layouts', 'buddypress' ),
 				'panel'       => 'bp_nouveau_panel',
 				'priority'    => 70,
 				'description' => __( 'Set the number of columns to use for BuddyPress loops.', 'buddypress' ),
 			),
-			'bp_nouveau_dir_layout' => array(
+			'bp_nouveau_dir_layout'       => array(
 				'title'       => __( 'Directory layouts', 'buddypress' ),
 				'panel'       => 'bp_nouveau_panel',
 				'priority'    => 80,
@@ -92,49 +92,49 @@ function bp_nouveau_customize_register( WP_Customize_Manager $wp_customize ) {
 	$settings = apply_filters(
 		'bp_nouveau_customizer_settings',
 		array(
-			'bp_nouveau_appearance[user_front_page]' => array(
+			'bp_nouveau_appearance[user_front_page]'      => array(
 				'index'             => 'user_front_page',
 				'capability'        => 'bp_moderate',
 				'sanitize_callback' => 'absint',
 				'transport'         => 'refresh',
 				'type'              => 'option',
 			),
-			'bp_nouveau_appearance[user_front_bio]' => array(
+			'bp_nouveau_appearance[user_front_bio]'       => array(
 				'index'             => 'user_front_bio',
 				'capability'        => 'bp_moderate',
 				'sanitize_callback' => 'absint',
 				'transport'         => 'refresh',
 				'type'              => 'option',
 			),
-			'bp_nouveau_appearance[user_nav_display]' => array(
+			'bp_nouveau_appearance[user_nav_display]'     => array(
 				'index'             => 'user_nav_display',
 				'capability'        => 'bp_moderate',
 				'sanitize_callback' => 'absint',
 				'transport'         => 'refresh',
 				'type'              => 'option',
 			),
-			'bp_nouveau_appearance[user_nav_tabs]' => array(
+			'bp_nouveau_appearance[user_nav_tabs]'        => array(
 				'index'             => 'user_nav_tabs',
 				'capability'        => 'bp_moderate',
 				'sanitize_callback' => 'absint',
 				'transport'         => 'refresh',
 				'type'              => 'option',
 			),
-			'bp_nouveau_appearance[user_subnav_tabs]' => array(
+			'bp_nouveau_appearance[user_subnav_tabs]'     => array(
 				'index'             => 'user_subnav_tabs',
 				'capability'        => 'bp_moderate',
 				'sanitize_callback' => 'absint',
 				'transport'         => 'refresh',
 				'type'              => 'option',
 			),
-			'bp_nouveau_appearance[user_nav_order]' => array(
+			'bp_nouveau_appearance[user_nav_order]'       => array(
 				'index'             => 'user_nav_order',
 				'capability'        => 'bp_moderate',
 				'sanitize_callback' => 'bp_nouveau_sanitize_nav_order',
 				'transport'         => 'refresh',
 				'type'              => 'option',
 			),
-			'bp_nouveau_appearance[members_layout]' => array(
+			'bp_nouveau_appearance[members_layout]'       => array(
 				'index'             => 'members_layout',
 				'capability'        => 'bp_moderate',
 				'sanitize_callback' => 'absint',
@@ -155,49 +155,49 @@ function bp_nouveau_customize_register( WP_Customize_Manager $wp_customize ) {
 				'transport'         => 'refresh',
 				'type'              => 'option',
 			),
-			'bp_nouveau_appearance[activity_dir_layout]' => array(
+			'bp_nouveau_appearance[activity_dir_layout]'  => array(
 				'index'             => 'activity_dir_layout',
 				'capability'        => 'bp_moderate',
 				'sanitize_callback' => 'absint',
 				'transport'         => 'refresh',
 				'type'              => 'option',
 			),
-			'bp_nouveau_appearance[activity_dir_tabs]' => array(
+			'bp_nouveau_appearance[activity_dir_tabs]'    => array(
 				'index'             => 'activity_dir_tabs',
 				'capability'        => 'bp_moderate',
 				'sanitize_callback' => 'absint',
 				'transport'         => 'refresh',
 				'type'              => 'option',
 			),
-			'bp_nouveau_appearance[members_dir_layout]' => array(
+			'bp_nouveau_appearance[members_dir_layout]'   => array(
 				'index'             => 'members_dir_layout',
 				'capability'        => 'bp_moderate',
 				'sanitize_callback' => 'absint',
 				'transport'         => 'refresh',
 				'type'              => 'option',
 			),
-			'bp_nouveau_appearance[members_dir_tabs]' => array(
+			'bp_nouveau_appearance[members_dir_tabs]'     => array(
 				'index'             => 'members_dir_tabs',
 				'capability'        => 'bp_moderate',
 				'sanitize_callback' => 'absint',
 				'transport'         => 'refresh',
 				'type'              => 'option',
 			),
-			'bp_nouveau_appearance[groups_dir_layout]' => array(
+			'bp_nouveau_appearance[groups_dir_layout]'    => array(
 				'index'             => 'groups_dir_layout',
 				'capability'        => 'bp_moderate',
 				'sanitize_callback' => 'absint',
 				'transport'         => 'refresh',
 				'type'              => 'option',
 			),
-			'bp_nouveau_appearance[sites_dir_layout]' => array(
+			'bp_nouveau_appearance[sites_dir_layout]'     => array(
 				'index'             => 'sites_dir_layout',
 				'capability'        => 'bp_moderate',
 				'sanitize_callback' => 'absint',
 				'transport'         => 'refresh',
 				'type'              => 'option',
 			),
-			'bp_nouveau_appearance[sites_dir_tabs]' => array(
+			'bp_nouveau_appearance[sites_dir_tabs]'       => array(
 				'index'             => 'sites_dir_tabs',
 				'capability'        => 'bp_moderate',
 				'sanitize_callback' => 'absint',
@@ -231,68 +231,68 @@ function bp_nouveau_customize_register( WP_Customize_Manager $wp_customize ) {
 	}
 
 	$controls = array(
-		'user_front_page' => array(
-			'label'      => __( 'Enable default front page for member profiles.', 'buddypress' ),
-			'section'    => 'bp_nouveau_user_front_page',
-			'settings'   => 'bp_nouveau_appearance[user_front_page]',
-			'type'       => 'checkbox',
+		'user_front_page'        => array(
+			'label'    => __( 'Enable default front page for member profiles.', 'buddypress' ),
+			'section'  => 'bp_nouveau_user_front_page',
+			'settings' => 'bp_nouveau_appearance[user_front_page]',
+			'type'     => 'checkbox',
 		),
-		'user_front_bio' => array(
-			'label'      => __( 'Display the biographical info from the member\'s WordPress profile.', 'buddypress' ),
-			'section'    => 'bp_nouveau_user_front_page',
-			'settings'   => 'bp_nouveau_appearance[user_front_bio]',
-			'type'       => 'checkbox',
+		'user_front_bio'         => array(
+			'label'    => __( 'Display the biographical info from the member\'s WordPress profile.', 'buddypress' ),
+			'section'  => 'bp_nouveau_user_front_page',
+			'settings' => 'bp_nouveau_appearance[user_front_bio]',
+			'type'     => 'checkbox',
 		),
-		'user_nav_display' => array(
-			'label'      => __( 'Display the member navigation vertically.', 'buddypress' ),
-			'section'    => 'bp_nouveau_user_primary_nav',
-			'settings'   => 'bp_nouveau_appearance[user_nav_display]',
-			'type'       => 'checkbox',
+		'user_nav_display'       => array(
+			'label'    => __( 'Display the member navigation vertically.', 'buddypress' ),
+			'section'  => 'bp_nouveau_user_primary_nav',
+			'settings' => 'bp_nouveau_appearance[user_nav_display]',
+			'type'     => 'checkbox',
 		),
-		'user_nav_tabs' => array(
-			'label'      => __( 'Use tab styling for primary nav.', 'buddypress' ),
-			'section'    => 'bp_nouveau_user_primary_nav',
-			'settings'   => 'bp_nouveau_appearance[user_nav_tabs]',
-			'type'       => 'checkbox',
+		'user_nav_tabs'          => array(
+			'label'    => __( 'Use tab styling for primary nav.', 'buddypress' ),
+			'section'  => 'bp_nouveau_user_primary_nav',
+			'settings' => 'bp_nouveau_appearance[user_nav_tabs]',
+			'type'     => 'checkbox',
 		),
-		'user_subnav_tabs' => array(
-			'label'      => __( 'Use tab styling for secondary nav.', 'buddypress' ),
-			'section'    => 'bp_nouveau_user_primary_nav',
-			'settings'   => 'bp_nouveau_appearance[user_subnav_tabs]',
-			'type'       => 'checkbox',
+		'user_subnav_tabs'       => array(
+			'label'    => __( 'Use tab styling for secondary nav.', 'buddypress' ),
+			'section'  => 'bp_nouveau_user_primary_nav',
+			'settings' => 'bp_nouveau_appearance[user_subnav_tabs]',
+			'type'     => 'checkbox',
 		),
-		'user_nav_order' => array(
-			'class'      => 'BP_Nouveau_Nav_Customize_Control',
-			'label'      => __( 'Reorder the primary navigation for a user.', 'buddypress' ),
-			'section'    => 'bp_nouveau_user_primary_nav',
-			'settings'   => 'bp_nouveau_appearance[user_nav_order]',
-			'type'       => 'user',
+		'user_nav_order'         => array(
+			'class'    => 'BP_Nouveau_Nav_Customize_Control',
+			'label'    => __( 'Reorder the primary navigation for a user.', 'buddypress' ),
+			'section'  => 'bp_nouveau_user_primary_nav',
+			'settings' => 'bp_nouveau_appearance[user_nav_order]',
+			'type'     => 'user',
 		),
-		'members_layout' => array(
-			'label'      => __( 'Members', 'buddypress' ),
-			'section'    => 'bp_nouveau_loops_layout',
-			'settings'   => 'bp_nouveau_appearance[members_layout]',
-			'type'       => 'select',
-			'choices'    => bp_nouveau_customizer_grid_choices(),
+		'members_layout'         => array(
+			'label'    => __( 'Members', 'buddypress' ),
+			'section'  => 'bp_nouveau_loops_layout',
+			'settings' => 'bp_nouveau_appearance[members_layout]',
+			'type'     => 'select',
+			'choices'  => bp_nouveau_customizer_grid_choices(),
 		),
 		'members_friends_layout' => array(
-			'label'      => __( 'Member > Friends', 'buddypress' ),
-			'section'    => 'bp_nouveau_loops_layout',
-			'settings'   => 'bp_nouveau_appearance[members_friends_layout]',
-			'type'       => 'select',
-			'choices'    => bp_nouveau_customizer_grid_choices(),
+			'label'    => __( 'Member > Friends', 'buddypress' ),
+			'section'  => 'bp_nouveau_loops_layout',
+			'settings' => 'bp_nouveau_appearance[members_friends_layout]',
+			'type'     => 'select',
+			'choices'  => bp_nouveau_customizer_grid_choices(),
 		),
-		'members_dir_layout' => array(
-			'label'      => __( 'Use column navigation for the Members directory.', 'buddypress' ),
-			'section'    => 'bp_nouveau_dir_layout',
-			'settings'   => 'bp_nouveau_appearance[members_dir_layout]',
-			'type'       => 'checkbox',
+		'members_dir_layout'     => array(
+			'label'    => __( 'Use column navigation for the Members directory.', 'buddypress' ),
+			'section'  => 'bp_nouveau_dir_layout',
+			'settings' => 'bp_nouveau_appearance[members_dir_layout]',
+			'type'     => 'checkbox',
 		),
-		'members_dir_tabs' => array(
-			'label'      => __( 'Use tab styling for Members directory navigation.', 'buddypress' ),
-			'section'    => 'bp_nouveau_dir_layout',
-			'settings'   => 'bp_nouveau_appearance[members_dir_tabs]',
-			'type'       => 'checkbox',
+		'members_dir_tabs'       => array(
+			'label'    => __( 'Use tab styling for Members directory navigation.', 'buddypress' ),
+			'section'  => 'bp_nouveau_dir_layout',
+			'settings' => 'bp_nouveau_appearance[members_dir_tabs]',
+			'type'     => 'checkbox',
 		),
 	);
 
@@ -307,11 +307,11 @@ function bp_nouveau_customize_register( WP_Customize_Manager $wp_customize ) {
 
 	if ( $layout_widths ) {
 		$controls['global_alignment'] = array(
-			'label'      => __( 'Select the BuddyPress container width for your site.', 'buddypress' ),
-			'section'    => 'bp_nouveau_general_settings',
-			'settings'   => 'bp_nouveau_appearance[global_alignment]',
-			'type'       => 'select',
-			'choices'    => $layout_widths,
+			'label'    => __( 'Select the BuddyPress container width for your site.', 'buddypress' ),
+			'section'  => 'bp_nouveau_general_settings',
+			'settings' => 'bp_nouveau_appearance[global_alignment]',
+			'type'     => 'select',
+			'choices'  => $layout_widths,
 		);
 	}
 

@@ -269,20 +269,20 @@ class BP_Nouveau_Customizer_Group_Nav extends BP_Core_Nav {
 	 */
 	protected function setup_nav() {
 		$nav_items = array(
-			'root'    => array(
+			'root'   => array(
 				'name'                => __( 'Memberships', 'buddypress' ),
 				'slug'                => $this->group->slug,
 				'position'            => -1,
 				/** This filter is documented in bp-groups/classes/class-bp-groups-component.php. */
 				'default_subnav_slug' => apply_filters( 'bp_groups_default_extension', defined( 'BP_GROUPS_DEFAULT_EXTENSION' ) ? BP_GROUPS_DEFAULT_EXTENSION : 'home' ),
 			),
-			'home'    => array(
+			'home'   => array(
 				'name'        => _x( 'Home', 'Group screen navigation title', 'buddypress' ),
 				'slug'        => 'home',
 				'parent_slug' => $this->group->slug,
 				'position'    => 10,
 			),
-			'manage'  => array(
+			'manage' => array(
 				'name'        => _x( 'Manage', 'My Group screen nav', 'buddypress' ),
 				'slug'        => 'admin',
 				'parent_slug' => $this->group->slug,

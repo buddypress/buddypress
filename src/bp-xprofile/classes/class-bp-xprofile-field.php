@@ -1874,12 +1874,12 @@ class BP_XProfile_Field {
 		// Init default field hidden inputs.
 		$default_field_hidden_inputs = array();
 		$hidden_fields               = array(
-			'required' => array(
+			'required'                => array(
 				'name'  => 'required',
 				'id'    => 'required',
 				'value' => '0',
 			),
-			'default_visibility' => array(
+			'default_visibility'      => array(
 				'name'  => 'default-visibility',
 				'id'    => 'default-visibility',
 				'value' => $this->get_default_visibility(),
@@ -1889,7 +1889,7 @@ class BP_XProfile_Field {
 				'id'    => 'allow-custom-visibility',
 				'value' => 'disabled',
 			),
-			'do_autolink' => array(
+			'do_autolink'             => array(
 				'name'  => 'do_autolink',
 				'id'    => 'do-autolink',
 				'value' => '',

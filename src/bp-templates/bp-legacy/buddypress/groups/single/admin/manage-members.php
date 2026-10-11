@@ -29,9 +29,9 @@ do_action( 'bp_before_group_manage_members_admin' );
 		<?php
 		if ( bp_group_has_members(
 			array(
-				'per_page' => 15,
+				'per_page'   => 15,
 				'group_role' => array( 'admin' ),
-				'page_arg' => 'mlpage-admin',
+				'page_arg'   => 'mlpage-admin',
 			)
 		) ) :
 		?>
@@ -135,9 +135,9 @@ do_action( 'bp_before_group_manage_members_admin' );
 		<?php
 		if ( bp_group_has_members(
 			array(
-				'per_page' => 15,
+				'per_page'   => 15,
 				'group_role' => array( 'mod' ),
-				'page_arg' => 'mlpage-mod',
+				'page_arg'   => 'mlpage-mod',
 			)
 		) ) :
 		?>
@@ -243,7 +243,7 @@ do_action( 'bp_before_group_manage_members_admin' );
 		<?php
 		if ( bp_group_has_members(
 			array(
-				'per_page' => 15,
+				'per_page'       => 15,
 				'exclude_banned' => 0,
 			)
 		) ) :

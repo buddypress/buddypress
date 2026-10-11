@@ -177,7 +177,7 @@ function bp_groups_admin_load() {
 			'layout_columns',
 			array(
 				'default' => 2,
-				'max' => 2,
+				'max'     => 2,
 			)
 		);
 
@@ -919,7 +919,7 @@ function bp_groups_admin_delete() {
 			add_query_arg(
 				array(
 					'action' => 'do_delete',
-					'gid' => implode( ',', $gids ),
+					'gid'    => implode( ',', $gids ),
 				),
 				$base_url
 			),

@@ -67,7 +67,6 @@
 	<rule ref="BuddyPress">
 		<exclude name="WordPress.WP.GlobalVariablesOverride.Prohibited" />
 		<exclude name="WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound" />
-		<exclude name="WordPress.Arrays.MultipleStatementAlignment.DoubleArrowNotAligned" />
 		<exclude name="WordPress.PHP.YodaConditions.NotYoda" />
 		<exclude name="WordPress.NamingConventions.ValidPostTypeSlug.NotStringLiteral" />
 		<exclude name="WordPress.PHP.DontExtract.extract_extract" />

@@ -791,18 +791,18 @@ class BP_Groups_Group {
 		}
 
 		$args = array(
-			'meta_query'         => array(
+			'meta_query'        => array(
 				array(
 					'key'   => 'previous_slug',
 					'value' => $slug,
 				),
 			),
-			'orderby'            => 'meta_id',
-			'order'              => 'DESC',
-			'per_page'           => 1,
-			'page'               => 1,
-			'update_meta_cache'  => false,
-			'show_hidden'        => true,
+			'orderby'           => 'meta_id',
+			'order'             => 'DESC',
+			'per_page'          => 1,
+			'page'              => 1,
+			'update_meta_cache' => false,
+			'show_hidden'       => true,
 		);
 
 		$groups = self::get( $args );
@@ -894,7 +894,7 @@ class BP_Groups_Group {
 
 		return array(
 			'groups' => $paged_groups,
-			'total' => $groups['total'],
+			'total'  => $groups['total'],
 		);
 	}
 
@@ -939,7 +939,7 @@ class BP_Groups_Group {
 
 		return array(
 			'groups' => $paged_groups,
-			'total' => $groups['total'],
+			'total'  => $groups['total'],
 		);
 	}
 
@@ -1046,7 +1046,7 @@ class BP_Groups_Group {
 
 		return array(
 			'requests' => $requests,
-			'total' => $total,
+			'total'    => $total,
 		);
 	}
 
@@ -1778,7 +1778,7 @@ class BP_Groups_Group {
 		}
 
 		return array(
-			'order' => $order,
+			'order'   => $order,
 			'orderby' => $orderby,
 		);
 	}

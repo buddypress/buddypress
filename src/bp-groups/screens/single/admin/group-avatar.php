@@ -34,7 +34,7 @@ function groups_screen_group_admin_avatar() {
 		if ( bp_core_delete_existing_avatar(
 			array(
 				'item_id' => $bp->groups->current_group->id,
-				'object' => 'group',
+				'object'  => 'group',
 			)
 		) ) {
 			bp_core_add_message( __( 'The group profile photo was deleted successfully!', 'buddypress' ) );

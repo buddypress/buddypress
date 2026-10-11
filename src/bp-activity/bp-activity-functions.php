@@ -1926,7 +1926,7 @@ function bp_activity_get( $args = '' ) {
 			 *     'secondary_id' => false, // Secondary object ID to filter on e.g. a post_id.
 			 * );
 			 */
-			'filter' => array(),
+			'filter'            => array(),
 		),
 		'activity_get'
 	);
@@ -3157,7 +3157,7 @@ function bp_activity_delete_comment( $activity_id, $comment_id ) {
 	// Delete the actual comment.
 	if ( ! bp_activity_delete(
 		array(
-			'id' => $comment_id,
+			'id'   => $comment_id,
 			'type' => 'activity_comment',
 		)
 	) ) {

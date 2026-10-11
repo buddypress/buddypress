@@ -319,9 +319,9 @@ class BP_Groups_Template {
 			}
 
 			$add_args = array(
-				'num'     => $this->pag_num,
-				'sortby'  => $this->sort_by,
-				'order'   => $this->order,
+				'num'    => $this->pag_num,
+				'sortby' => $this->sort_by,
+				'order'  => $this->order,
 			);
 
 			if ( ! empty( $search_terms ) ) {

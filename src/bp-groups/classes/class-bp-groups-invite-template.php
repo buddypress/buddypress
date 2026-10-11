@@ -131,8 +131,8 @@ class BP_Groups_Invite_Template {
 			_deprecated_argument( __METHOD__, '2.0.0', sprintf( esc_html__( 'Arguments passed to %1$s should be in an associative array. See the inline documentation at %2$s for more details.', 'buddypress' ), __METHOD__, __FILE__ ) );
 
 			$old_args_keys = array(
-				0  => 'user_id',
-				1  => 'group_id',
+				0 => 'user_id',
+				1 => 'group_id',
 			);
 
 			$args = bp_core_parse_args_array( $old_args_keys, $function_args );
@@ -156,10 +156,10 @@ class BP_Groups_Invite_Template {
 
 		$iquery = new BP_Group_Member_Query(
 			array(
-				'group_id' => $r['group_id'],
-				'type'     => 'first_joined',
-				'per_page' => $this->pag_num,
-				'page'     => $this->pag_page,
+				'group_id'     => $r['group_id'],
+				'type'         => 'first_joined',
+				'per_page'     => $this->pag_num,
+				'page'         => $this->pag_page,
 
 				// These filters ensure we get only pending invites.
 				'is_confirmed' => false,

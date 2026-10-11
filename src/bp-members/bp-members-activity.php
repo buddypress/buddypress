@@ -203,8 +203,8 @@ function bp_members_new_avatar_activity( $user_id = 0, $type = '', $crop_data = 
 	// Check to make sure that a user has just one `new_avatar` activity per throttle time.
 	$last_new_avatar_activity = bp_activity_get(
 		array(
-			'per_page'  => 1,
-			'filter'    => array(
+			'per_page' => 1,
+			'filter'   => array(
 				'object'  => $bp->members->id,
 				'user_id' => $user_id,
 				'action'  => 'new_avatar',

@@ -62,11 +62,11 @@
 					<?php
 					bp_button(
 						array(
-							'id' => 'group_membership_accept',
-							'component' => 'groups',
+							'id'            => 'group_membership_accept',
+							'component'     => 'groups',
 							'wrapper_class' => 'accept',
-							'link_href' => bp_get_group_request_accept_link(),
-							'link_text' => __( 'Accept', 'buddypress' ),
+							'link_href'     => bp_get_group_request_accept_link(),
+							'link_text'     => __( 'Accept', 'buddypress' ),
 						)
 					);
 					?>
@@ -74,11 +74,11 @@
 					<?php
 					bp_button(
 						array(
-							'id' => 'group_membership_reject',
-							'component' => 'groups',
+							'id'            => 'group_membership_reject',
+							'component'     => 'groups',
 							'wrapper_class' => 'reject',
-							'link_href' => bp_get_group_request_reject_link(),
-							'link_text' => __( 'Reject', 'buddypress' ),
+							'link_href'     => bp_get_group_request_reject_link(),
+							'link_text'     => __( 'Reject', 'buddypress' ),
 						)
 					);
 					?>

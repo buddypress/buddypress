@@ -44,10 +44,10 @@ else :
 					echo bp_core_fetch_avatar(
 						array(
 							'item_id' => bp_get_member_user_id(),
-							'type' => 'thumb',
-							'width' => 30,
-							'height' => 30,
-							'alt' => '',
+							'type'    => 'thumb',
+							'width'   => 30,
+							'height'  => 30,
+							'alt'     => '',
 						)
 					);
 					?>
@@ -89,10 +89,10 @@ else :
 					echo bp_core_fetch_avatar(
 						array(
 							'item_id' => bp_get_member_user_id(),
-							'type' => 'thumb',
-							'width' => 30,
-							'height' => 30,
-							'alt' => '',
+							'type'    => 'thumb',
+							'width'   => 30,
+							'height'  => 30,
+							'alt'     => '',
 						)
 					);
 					?>
@@ -151,9 +151,9 @@ else :
 						<?php
 						bp_nouveau_groups_manage_members_buttons(
 							array(
-								'container' => 'div',
+								'container'         => 'div',
 								'container_classes' => array( 'members-manage-buttons', 'text-links-list' ),
-								'parent_element' => '  ',
+								'parent_element'    => '  ',
 							)
 						);
 						?>

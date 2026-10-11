@@ -38,12 +38,12 @@ function bp_members_admin_bar_my_account_menu() {
 		// Create the main 'My Account' menu.
 		$wp_admin_bar->add_node(
 			array(
-				'id'     => $bp->my_account_menu_id,
-				'group'  => true,
-				'title'  => __( 'Edit My Profile', 'buddypress' ),
-				'href'   => bp_loggedin_user_url(),
-				'meta'   => array(
-					'class'  => 'ab-sub-secondary',
+				'id'    => $bp->my_account_menu_id,
+				'group' => true,
+				'title' => __( 'Edit My Profile', 'buddypress' ),
+				'href'  => bp_loggedin_user_url(),
+				'meta'  => array(
+					'class' => 'ab-sub-secondary',
 				),
 			)
 		);

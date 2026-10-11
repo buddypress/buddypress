@@ -426,16 +426,16 @@ class BP_Activity_Activity {
 			);
 
 			$old_args_keys = array(
-				0 => 'max',
-				1 => 'page',
-				2 => 'per_page',
-				3 => 'sort',
-				4 => 'search_terms',
-				5 => 'filter',
-				6 => 'display_comments',
-				7 => 'show_hidden',
-				8 => 'exclude',
-				9 => 'in',
+				0  => 'max',
+				1  => 'page',
+				2  => 'per_page',
+				3  => 'sort',
+				4  => 'search_terms',
+				5  => 'filter',
+				6  => 'display_comments',
+				7  => 'show_hidden',
+				8  => 'exclude',
+				9  => 'in',
 				10 => 'spam',
 			);
 

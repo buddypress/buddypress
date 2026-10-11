@@ -1138,9 +1138,9 @@ function bp_show_blog_signup_form( $blogname = '', $blog_title = '', $errors = '
 		$filtered_results = apply_filters(
 			'signup_another_blog_init',
 			array(
-				'blogname' => $blogname,
+				'blogname'   => $blogname,
 				'blog_title' => $blog_title,
-				'errors' => $errors,
+				'errors'     => $errors,
 			)
 		);
 		$blogname         = $filtered_results['blogname'];
@@ -1393,7 +1393,7 @@ function bp_blogs_validate_blog_signup() {
 		'add_signup_meta',
 		array(
 			'lang_id' => 1,
-			'public' => $public,
+			'public'  => $public,
 		)
 	);
 

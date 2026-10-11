@@ -5324,12 +5324,12 @@ function bp_new_group_avatar( $args = '' ) {
 		$r = bp_parse_args(
 			$args,
 			array(
-				'type'    => 'full',
-				'width'   => false,
-				'height'  => false,
-				'class'   => 'avatar',
-				'id'      => 'avatar-crop-preview',
-				'alt'     => __( 'Group photo', 'buddypress' ),
+				'type'   => 'full',
+				'width'  => false,
+				'height' => false,
+				'class'  => 'avatar',
+				'id'     => 'avatar-crop-preview',
+				'alt'    => __( 'Group photo', 'buddypress' ),
 			),
 			'get_new_group_avatar'
 		);

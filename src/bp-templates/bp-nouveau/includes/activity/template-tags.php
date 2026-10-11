@@ -338,7 +338,7 @@ function bp_nouveau_activity_entry_buttons( $args = array() ) {
 					'class'           => 'button view bp-secondary-action bp-tooltip',
 					'data-bp-tooltip' => __( 'View Conversation', 'buddypress' ),
 				),
-				'link_text' => sprintf(
+				'link_text'         => sprintf(
 					'<span class="bp-screen-reader-text">%1$s</span>',
 					__( 'View Conversation', 'buddypress' )
 				),
@@ -371,7 +371,7 @@ function bp_nouveau_activity_entry_buttons( $args = array() ) {
 					'data-bp-tooltip' => _x( 'Comment', 'button', 'buddypress' ),
 					'aria-expanded'   => 'false',
 				),
-				'link_text'  => sprintf(
+				'link_text'         => sprintf(
 					'<span class="bp-screen-reader-text">%1$s</span> <span class="comment-count">%2$s</span>',
 					_x( 'Comment', 'link', 'buddypress' ),
 					esc_html( bp_activity_get_comment_count() )
@@ -398,14 +398,14 @@ function bp_nouveau_activity_entry_buttons( $args = array() ) {
 
 			if ( ! bp_get_activity_is_favorite() ) {
 				$fav_args = array(
-					'parent_element'   => $parent_element,
-					'parent_attr'      => $parent_attr,
-					'button_element'   => $button_element,
-					'link_class'       => 'button fav bp-secondary-action bp-tooltip',
-					'data_bp_tooltip'  => __( 'Mark as Favorite', 'buddypress' ),
-					'link_text'        => __( 'Mark as Favorite', 'buddypress' ),
-					'aria-pressed'     => 'false',
-					'link_attr'        => bp_get_activity_favorite_link(),
+					'parent_element'  => $parent_element,
+					'parent_attr'     => $parent_attr,
+					'button_element'  => $button_element,
+					'link_class'      => 'button fav bp-secondary-action bp-tooltip',
+					'data_bp_tooltip' => __( 'Mark as Favorite', 'buddypress' ),
+					'link_text'       => __( 'Mark as Favorite', 'buddypress' ),
+					'aria-pressed'    => 'false',
+					'link_attr'       => bp_get_activity_favorite_link(),
 				);
 
 			} else {
@@ -515,7 +515,7 @@ function bp_nouveau_activity_entry_buttons( $args = array() ) {
 				'data-bp-tooltip' => $delete_args['data_bp_tooltip'],
 				'data-bp-nonce'   => $delete_args['data-attr'],
 			),
-			'link_text'  => sprintf( '<span class="bp-screen-reader-text">%s</span>', esc_html( $delete_args['data_bp_tooltip'] ) ),
+			'link_text'         => sprintf( '<span class="bp-screen-reader-text">%s</span>', esc_html( $delete_args['data_bp_tooltip'] ) ),
 		);
 
 		// Add the Spam Button if supported.
@@ -533,7 +533,7 @@ function bp_nouveau_activity_entry_buttons( $args = array() ) {
 					'id'              => 'activity_make_spam_' . $activity_id,
 					'data-bp-tooltip' => _x( 'Spam', 'button', 'buddypress' ),
 				),
-				'link_text'  => sprintf(
+				'link_text'         => sprintf(
 					/**
 					 * Sets the activity spam button icon.
 					*
@@ -834,7 +834,7 @@ function bp_nouveau_activity_comment_buttons( $args = array() ) {
 		}
 
 		$buttons = array(
-			'activity_comment_reply' => array(
+			'activity_comment_reply'  => array(
 				'id'                => 'activity_comment_reply',
 				'position'          => 5,
 				'component'         => 'activity',
@@ -885,9 +885,9 @@ function bp_nouveau_activity_comment_buttons( $args = array() ) {
 				'button_element'    => $button_element,
 				'link_text'         => _x( 'Spam', 'link', 'buddypress' ),
 				'button_attr'       => array(
-					'id'     => "activity_make_spam_{$activity_comment_id}",
-					'class'  => 'bp-secondary-action spam-activity-comment confirm',
-					'rel'    => 'nofollow',
+					'id'    => "activity_make_spam_{$activity_comment_id}",
+					'class' => 'bp-secondary-action spam-activity-comment confirm',
+					'rel'   => 'nofollow',
 				),
 			);
 

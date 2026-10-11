@@ -27,7 +27,7 @@ function bp_activity_action_permalink_router() {
 	$activity = bp_activity_get_specific(
 		array(
 			'activity_ids' => bp_action_variable( 0 ),
-			'show_hidden' => true,
+			'show_hidden'  => true,
 		)
 	);
 

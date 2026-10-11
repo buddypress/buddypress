@@ -69,7 +69,7 @@ function bp_activity_action_post_update() {
 		if ( (int) $item_id ) {
 			$activity_id = groups_post_update(
 				array(
-					'content' => $content,
+					'content'  => $content,
 					'group_id' => $item_id,
 				)
 			);

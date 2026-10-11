@@ -157,10 +157,10 @@ class BP_Groups_Membership_Requests_Template {
 
 		$mquery = new BP_Group_Member_Query(
 			array(
-				'group_id' => $r['group_id'],
-				'type'     => $r['type'],
-				'per_page' => $this->pag_num,
-				'page'     => $this->pag_page,
+				'group_id'     => $r['group_id'],
+				'type'         => $r['type'],
+				'per_page'     => $this->pag_num,
+				'page'         => $this->pag_page,
 
 				// These filters ensure we only get pending requests.
 				'is_confirmed' => false,

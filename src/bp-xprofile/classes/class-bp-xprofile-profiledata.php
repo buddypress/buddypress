@@ -441,11 +441,11 @@ class BP_XProfile_ProfileData {
 
 		$groups = bp_xprofile_get_groups(
 			array(
-				'user_id'                => $user_id,
-				'hide_empty_groups'      => true,
-				'hide_empty_fields'      => true,
-				'fetch_fields'           => true,
-				'fetch_field_data'       => true,
+				'user_id'           => $user_id,
+				'hide_empty_groups' => true,
+				'hide_empty_fields' => true,
+				'fetch_fields'      => true,
+				'fetch_field_data'  => true,
 			)
 		);
 
