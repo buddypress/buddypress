@@ -649,7 +649,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 	 *
 	 * @return array
 	 */
-	public function provider_create_item_with_empty_content_options() {
+	public static function provider_create_item_with_empty_content_options() {
 		return array(
 			array( '' ),
 			array( '' ),
@@ -664,7 +664,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 	 *
 	 * @return array
 	 */
-	public function provider_create_item_irregular_content_options() {
+	public static function provider_create_item_irregular_content_options() {
 		return array(
 			array( '0' ),
 			array( '00' ),

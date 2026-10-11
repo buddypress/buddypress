@@ -39,13 +39,17 @@
 	},
 	"require-dev": {
 		"buddypress/bp-coding-standards": "dev-trunk",
-		"yoast/phpunit-polyfills": "^1.0",
+		"phpunit/phpunit": "^9.6.38 || ^10.5.66",
+		"yoast/phpunit-polyfills": "^1.1 || ^2.0",
 		"spatie/phpunit-watcher": "^1.23"
 	},
 	"scripts": {
-		"test": "@php ./vendor/bin/phpunit",
-		"test_multi": "@php ./vendor/bin/phpunit -c tests/phpunit/multisite.xml",
+		"test": "@php tests/phpunit/run.php",
+		"test_multi": "@php tests/phpunit/run.php --multisite",
+		"test_coverage": "@php tests/phpunit/run.php --coverage",
 		"phpunit": "@test",
+		"phpunit-9": "@php tests/phpunit/run.php --phpunit-major=9",
+		"phpunit-10": "@php tests/phpunit/run.php --phpunit-major=10",
 		"phpcs": "@php ./vendor/bin/phpcs . --basepath=.",
 		"phpcbf": "@php ./vendor/bin/phpcbf . --basepath=.",
 		"phpcs-escape": "@php ./vendor/bin/phpcs src --extensions=php -sp --standard=BuddyPress --sniffs=WordPress.Security.EscapeOutput,WordPress.Security.SafeRedirect",

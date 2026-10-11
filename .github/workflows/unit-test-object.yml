@@ -9,6 +9,13 @@ on:
     paths-ignore:
       - 'docs/**'
 
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
   tests:
     strategy:
@@ -19,43 +26,102 @@ jobs:
             wp_version: 'trunk'
             object: 'redis'
             multisite: false
+            command: 'phpunit-10'
           - php: '8.5'
             wp_version: '6.9'
             object: 'memcached'
             multisite: true
+            command: 'phpunit-10'
           - php: '8.4'
             wp_version: 'trunk'
             object: 'redis'
             multisite: true
+            command: 'phpunit-10'
           - php: '8.3'
             wp_version: 'trunk'
             object: 'redis'
             multisite: true
+            command: 'phpunit-10'
           - php: '8.3'
             wp_version: 'trunk'
             object: 'memcached'
             multisite: false
+            command: 'phpunit-10'
           - php: '8.2'
             wp_version: '6.4'
             object: ''
             multisite: false
+            command: 'phpunit-10'
           - php: '8.1'
             wp_version: 'latest'
             object: ''
             multisite: false
+            command: 'phpunit-10'
           - php: '7.4'
             wp_version: '6.4'
             object: ''
             multisite: false
+            command: 'phpunit-9'
           - php: '7.4'
             wp_version: '6.4'
             object: ''
             multisite: true
-    uses: alleyinteractive/.github/.github/workflows/php-tests.yml@main
-    with:
-      multisite: ${{ matrix.multisite }}
-      php: ${{ matrix.php }}
-      wordpress: ${{ matrix.wp_version }}
-      object-cache: ${{ matrix.object }}
-      install-core-tests: true
-      working-directory: 'plugins/buddypress'
+            command: 'phpunit-9'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    name: "phpunit ${{ matrix.php }} - ${{ matrix.wp_version }} - ubuntu-latest - multisite: ${{ matrix.multisite }} - cache: ${{ matrix.object }}"
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+      redis:
+        image: ${{ matrix.object == 'redis' && 'redis:alpine' || '' }}
+        ports:
+          - 6379:6379
+        options: --health-cmd="redis-cli ping" --health-interval=10s --health-timeout=5s --health-retries=5
+      memcached:
+        image: ${{ matrix.object == 'memcached' && 'memcached:alpine' || '' }}
+        ports:
+          - 11211:11211
+    env:
+      CACHEDIR: /tmp/test-cache
+      WP_TESTS_DIR: /tmp/wordpress-tests-lib
+      WP_INSTALL_CORE_TEST_SUITE: 'true'
+      PACKAGE_DIRECTORY: /tmp/wordpress/wp-content/plugins/buddypress
+      INSTALL_OBJECT_CACHE: ${{ matrix.object || 'false' }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Cache WordPress downloads
+        uses: actions/cache@v5
+        with:
+          path: ${{ env.CACHEDIR }}
+          key: ${{ runner.os }}-php-tests-${{ matrix.php }}-${{ matrix.wp_version }}
+          restore-keys: ${{ runner.os }}-php-tests-${{ matrix.php }}-
+
+      - name: Run PHP tests
+        uses: alleyinteractive/action-test-php@0d6dcd4f0779fb567b88cd0851b90608fcd8c20a # v1.1.0
+        with:
+          php-version: ${{ matrix.php }}
+          php-tools: composer:v2
+          php-extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite3, pdo_sqlite, gd, mysqli, redis, memcached
+          wordpress-version: ${{ matrix.wp_version }}
+          wordpress-multisite: ${{ matrix.multisite }}
+          # Keep the existing cache drop-ins without installing VIP MU plugins.
+          skip-wordpress-install: 'true'
+          skip-services: 'true'
+          cache-dependency-path: composer.json
+          install-command: |
+            composer install --prefer-dist --no-interaction --no-progress
+            composer validate --strict
+          audit-command: composer audit --locked --ansi --no-interaction
+          test-command: |
+            curl --fail --silent --show-error --location https://raw.githubusercontent.com/alleyinteractive/mantle-ci/5fd59131c942c192b2c7652de15a95f814ba2776/install-wp-tests.sh --output "$RUNNER_TEMP/install-wp-tests.sh"
+            bash "$RUNNER_TEMP/install-wp-tests.sh" wordpress_unit_tests "$WP_DB_USER" "$WP_DB_PASSWORD" "$WP_DB_HOST" "$WP_VERSION" false false "$INSTALL_OBJECT_CACHE"
+            rsync -aWq --no-compress --exclude '.npm' --exclude '.git' --exclude node_modules . "$PACKAGE_DIRECTORY/"
+            composer --working-dir="$PACKAGE_DIRECTORY" run ${{ matrix.command }}

@@ -851,7 +851,7 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 	 *
 	 * @return array[]
 	 */
-	public function provider_bp_core_validate_user_signup_errors() {
+	public static function provider_bp_core_validate_user_signup_errors() {
 		return array(
 			array( '', 'test@example.com', 'Please enter a username' ),
 			array( '@-t', 'test@example.com', 'Username must be at least 4 characters.' ),

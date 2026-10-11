@@ -145,7 +145,7 @@ class BP_Tests_Core_Request_Input extends BP_UnitTestCase {
 	 *
 	 * @return array[]
 	 */
-	public function search_request_provider() {
+	public static function search_request_provider() {
 		return array(
 			'activity'               => array( 'bp_has_activities', 'bp_after_has_activities_parse_args', 'activity_search', false ),
 			'activity-fallback'      => array( 'bp_has_activities', 'bp_after_activity_get_parse_args', 's', false ),
