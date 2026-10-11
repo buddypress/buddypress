@@ -2,135 +2,189 @@
 
 ## Configuration and Customization
 
-**Q: How do I configure BuddyPress settings?**  
-A: After activation & from your WordPress Dashboard, go to `Settings > BuddyPress` to manage components, customize URLs, and configure options. You can enable or disable various components like activity streams, user groups, and messaging. Read more about it in the [BuddyPress Settings](../user/administration/settings/README.md) chapter.
+### How do I configure BuddyPress settings?
+After activating the plugin, go to **Settings → BuddyPress** in your WordPress Dashboard.  
+From here, you can enable or disable components, customize URLs, and configure general options for your community.  
+More information is available in the [BuddyPress Settings documentation](./administration/settings/README.md).
 
-**Q: Can I use BuddyPress with any WordPress theme?**  
-A: Yes, BuddyPress is compatible with most WordPress themes. However, themes specifically designed for BuddyPress, like BuddyX, offer better integration and styling.
+### Can I use BuddyPress with any WordPress theme?
+Yes. BuddyPress works with any well-built WordPress theme.  
+However, BuddyPress-optimized themes such as BuddyX or Reign may provide better styling and layout support.
 
-**Q: How can I allow users to upload media on BuddyPress?**  
-A: Many third party plugins offer Media features. The BuddyPress Team also maintains a specific external Add-on: [BP Attachments](https://wordpress.org/plugins/bp-attachments/). Thanks to it members can upload & share publicly or privately photos, videos, and audio files with other members.
+### How can I allow users to upload media?
+You can use third-party plugins for media uploads.  
+The BuddyPress team also maintains an official add-on:  
+👉 **[BP Attachments](https://wordpress.org/plugins/bp-attachments/)**  
+It allows members to upload images, videos, and audio files either publicly or privately.
 
-**Q: Can users have private conversations on BuddyPress?**  
-A: Yes, BuddyPress supports private messaging out of the box.
+### Can users send private messages?
+Yes. BuddyPress includes a built-in private messaging system that allows one-to-one and group conversations.
 
-**Q: How do I configure SMTP for BuddyPress emails?**  
-A: Use a plugin like [WP Mail SMTP](https://wordpress.org/plugins/wp-mail-smtp/) to configure SMTP settings, ensuring reliable email delivery for BuddyPress notifications and messages.
+### How do I configure SMTP for BuddyPress emails?
+BuddyPress relies on WordPress email functions.  
+Use an SMTP plugin such as **WP Mail SMTP** to ensure reliable email delivery of notifications and messages.
 
-**Q: Why are my BuddyPress emails not being delivered?**  
-A: This could be due to server issues or misconfigured email settings. Ensure your SMTP settings are correctly configured using a plugin like WP Mail SMTP.
+### Why aren’t my BuddyPress emails being delivered?
+Common causes include misconfigured SMTP, blocked mail ports, or server restrictions.  
+Ensure your SMTP plugin is correctly configured and ask your hosting provider to confirm that outgoing mail is allowed.
+
+---
 
 ## User Management
 
-**Q: How do I manage user profile fields in BuddyPress?**  
-A: Profile fields for users are managed in the [Users > Profile Fields](../user/administration/users/xprofile.md) section of the WordPress Dashboard. From there, you can add or edit fields and group them into sections. There's a wide range of field types available such as text boxes, dropdowns, checkboxes...
+### How do I manage profile fields?
+Profile fields can be edited from **Users → Profile Fields** in your Dashboard.  
+You can add new fields, edit existing ones, and group fields into logical sections.  
+BuddyPress supports text fields, dropdowns, checkboxes, multi-select, URLs, and more.
 
-**Q: How can users upload their profile photo?**  
-A: Members can set their profile photo from their profile page, clicking on the "Profile Photo" navigation menu and uploading an image or using their Webcam. BuddyPress just like WordPress also supports the [globally recognized avatars service](https://gravatar.com/).
+### How do users upload a profile photo?
+Users can upload a profile photo from their profile page under the **Profile Photo** tab.  
+If no custom photo is uploaded, BuddyPress will fall back to [Gravatar](https://gravatar.com/).
 
-**Q: How do I handle registration and activity spams?**  
-A: You can use plugins like [Akismet](https://wordpress.org/plugins/akismet/) to manage and prevent spams. Additionally, you can manually spam Activities from the Activity section of your WordPress Dashboard as well as enable the [BuddyPress membership requests option](../user/administration/users/signups.md#site-membership-requests) to control every registration to your site.
+### How do I reduce spam registrations or activities?
+Use anti-spam plugins like **Akismet** and manually mark suspicious activities as spam.  
+You may also enable **membership requests** to manually approve each registration.
+
+---
 
 ## Features and Functionality
 
-**Q: What are BuddyPress components?**  
-A: BuddyPress components are modular features you can enable or disable based on your site's needs. These include activity streams, extended profiles, user groups, private messaging, and notifications.
+### What are BuddyPress components?
+Components are modular features such as:
 
-**Q: How do I create and manage user groups?**  
-A: User groups can be created and managed from the frontend by all members by default. Administrators can [restrict group creation](../user/administration/settings/options.md#group-creation) to themselves and manage groups from the `Groups` section of their WordPress Dashboard.
+- Activity streams
+- Extended profiles
+- User groups
+- Private messaging
+- Notifications
+- Members directory
 
-**Q: How does private messaging work?**  
-A: Private messaging allows members to share conversations with one or more other members. They can access their inbox messages from their profile page under the "Messages" tab.
+You can enable or disable these from **Settings → BuddyPress → Components**.
 
-**Q: What are activity streams?**  
-A: Activity streams is gathering sites, groups & members activity logs as well as small status updates members can publicly share with everyone or other specific group members. Members can comment activities, publicly mention one or more members inside their status updates & mark the activities they like the most as favorites.
+### How do I manage user groups?
+By default, any member can create groups.  
+Administrators can restrict group creation via the Dashboard and manage existing groups from **Groups → All Groups**.
 
-**Q: How do notifications work in BuddyPress?**  
-A: Notifications alert members about new messages, friend requests, group invitations, and other interactions. Members can view read/unread notifications from their profile page under the "Notifications" tab.
+### How does private messaging work?
+Messages can be sent to one or more members.  
+All messages appear under the **Messages** tab in the user’s profile.
 
-**Q: Can users control their email notification preferences?**  
-A: Yes, members can manage their email notification preferences from their profile settings under `Settings` > `Email`.
+### What are activity streams?
+Activity streams track sitewide and member activity such as:
 
-**Q: Can I add forums to my BuddyPress site?**  
-A: Yes, BuddyPress integrates seamlessly with [bbPress](https://wordpress.org/plugins/bbpress/), a forum plugin for WordPress. This integration allows you to create forums within your BuddyPress groups, where members can participate in discussions, ask questions, and share information.
+- Status updates
+- Group actions
+- Mentions
+- Friendships
+- Comments
+
+Members can favorite, comment, and interact with stream items.
+
+### How do notifications work?
+Notifications alert members about new messages, mentions, friend requests, and group invitations.  
+They appear under the **Notifications** tab in the user’s profile.
+
+### Can members control email notification preferences?
+Yes. Users can manage their notification preferences under:  
+**Settings → Email**
+
+### Can I add forums to BuddyPress?
+Yes. BuddyPress integrates seamlessly with **bbPress**, enabling group forums, discussions, and Q&A areas.
+
+---
 
 ## Troubleshooting and Support
 
-**Q: Why are pages blank after installing BuddyPress?**  
-A: Blank pages may result from memory limits, plugin conflicts, or theme issues. Check error logs, increase PHP memory limits, deactivate other plugins, and switch to a WordPress bundled theme (Twenty Twenty-{Year}) to identify the cause.
+### Why do some BuddyPress pages appear blank?
+This can happen due to:
 
-**Q: How do I fix issues with profile photo uploads?**  
-A: Ensure that your server's uploads directory (`/wp-content/uploads` by default) has the correct permissions (755), and the web server process can write to it. Verify that the GD or Imagick image libraries are installed in your PHP configuration: these libraries are required to crop profile photos.
+- PHP memory limits
+- Plugin conflicts
+- Theme issues
 
-**Q: How do I back up my BuddyPress site?**  
-A: Use your hosting provider's automated backup tools or manual backup options. Most modern hosts offer one-click backups, staging environments, and phpMyAdmin access for database management.
+Try switching temporarily to a default theme, disabling plugins, and checking server logs.
 
-**Q: How do I update BuddyPress?**  
-A: Keep BuddyPress up-to-date by navigating to `Dashboard > Updates` in your WordPress admin panel. Click "Update Now" when a new version is available. You can also opt-in for automatic updates from the `Dashboard > Plugins` screen of your WordPress Administration.
+### Why can’t users upload profile photos?
+Ensure the `uploads/` directory is writable (usually 755).  
+Your server must have either **GD** or **Imagick** installed to crop photos.
 
-**Q: Where can I find support for BuddyPress?**  
-A: The [BuddyPress support forums](https://buddypress.org/support/) and the [WordPress.org forums](https://wordpress.org/support/forums/) are great places to seek help. Please make sure to follow our [support forums etiquette](../../docs/etiquette.md) and the [WordPress forum guidelines](https://wordpress.org/support/guidelines/).
+### How do I back up my BuddyPress site?
+Use hosting backup tools or plugins like UpdraftPlus.  
+Back up both the **database** and **files** regularly.
 
-## Advanced Questions
+### How do I update BuddyPress?
+Go to **Dashboard → Plugins → Update**  
+Or enable automatic updates.
 
-**Q: How do I customize BuddyPress email notifications?**  
-A: Email notifications can be customized from the `Emails` section of your WordPress Dashboard. You can edit the content and design of email notifications. Read this [chapter](../user/administration/emails/README.md) of our documentation for more information.
+### Where can I get support?
+Visit:
 
-**Q: What are some best practices for BuddyPress security?**  
-A: Use security plugins like Wordfence, keep WordPress and BuddyPress up to date, regularly back up your site, use strong passwords, and limit login attempts to enhance security.
+- [BuddyPress Support Forums](https://buddypress.org/support/)
+- [WordPress.org Support Forums](https://wordpress.org/support/forums/)
 
-**Q: How can I optimize BuddyPress performance?**  
-A: Optimize performance by using caching plugins, optimizing your database, using a content delivery network (CDN), and choosing a reliable hosting provider.
+Please make sure to follow our [support forums etiquette](../../docs/etiquette.md)  
+and the [WordPress.org forum guidelines](https://wordpress.org/support/guidelines/).
+
+---
+
+## Advanced Topics
+
+### How do I customize BuddyPress emails?
+You can edit email templates from **Dashboard → Emails**.  
+See the detailed documentation at:  
+`./administration/emails/README.md`
+
+### What are some security best practices?
+- Use secure passwords
+- Keep WordPress and plugins updated
+- Use security plugins
+- Enable two-factor authentication
+- Limit login attempts
+
+### How can I optimize BuddyPress performance?
+Use caching plugins, a CDN, database optimization, and high-quality hosting.  
+Large communities benefit greatly from Redis or Memcached object caching.
+
+---
 
 ## Basic Hosting Issues
 
-**Q: How do I resolve image cropping issues in BuddyPress?**  
-A: Ensure the GD library is installed and configured correctly in your PHP setup. Check your theme's image settings and make sure they are compatible with BuddyPress requirements.
+### How do I resolve image cropping issues in BuddyPress?
+Ensure the GD library is installed and configured correctly in your PHP setup.  
+Check your theme’s image settings and make sure they are compatible with BuddyPress requirements.
 
-**Q: What should I do if my hosting provider limits PHP memory?**  
-A: If you can't increase the PHP memory limit via `php.ini`, `wp-config.php`, or `.htaccess`, contact your hosting provider for assistance. They may require you to upgrade your hosting plan or provide an alternative solution.
+### What should I do if my hosting provider limits PHP memory?
+If you can’t increase the PHP memory limit via `php.ini`, `wp-config.php`, or `.htaccess`,  
+contact your hosting provider for assistance.  
+They may require you to upgrade your hosting plan or provide an alternative solution.
 
-**Q: How do I handle hosting-related issues with BuddyPress?**  
-A: For hosting-related issues, ensure your server meets [WordPress](https://wordpress.org/about/requirements/) & [BuddyPress](../user/getting-started/php-version-support.md) requirements, has proper file/directory permissions, and has the necessary PHP extensions installed. If problems persist, consult your hosting provider's support or consider switching to a BuddyPress-friendly host.
+### How do I handle hosting-related issues with BuddyPress?
+For hosting-related issues, make sure your server meets the  
+[WordPress requirements](https://wordpress.org/about/requirements/)  
+and the [BuddyPress PHP version support requirements](./getting-started/php-version-support.md).  
+Your server should have proper file and directory permissions and the necessary PHP extensions installed.  
+If problems persist, consult your hosting provider’s support or consider switching to a BuddyPress-friendly host.
 
-# BuddyPress 3rd Party Integrations
+---
 
-## Membership
+## Third-Party Integrations
 
-**Q: How can I create membership levels in BuddyPress?**  
-A: BuddyPress provides 2 community visibility levels (members and visitors). You can completely restrict the access to your community area to logged in members. If you need a more granular approach you'll have to install a third party membership plugin.
+### Membership Plugins
+BuddyPress supports basic community visibility controls.  
+For paid memberships or advanced access rules, install a membership plugin such as MemberPress or Paid Memberships Pro.
 
+### LMS Integrations
+BuddyPress integrates well with LearnDash, LifterLMS, and TutorLMS to add social features to your courses.
 
-## LMS Integration
+### Events Plugins
+Use plugins like The Events Calendar or Modern Events Calendar to enable community event features.
 
-**Q: Can BuddyPress integrate with Learning Management System (LMS) plugins?**  
-A: Yes, BuddyPress integrates well with LMS plugins like LearnDash, LifterLMS, and TutorLMS. These integrations enable you to create a social learning environment where users can interact, share progress, and participate in groups and forums related to their courses.
+### Document Collaboration
+Plugins like BuddyPress Docs allow users to collaboratively create, edit, and share documents.
 
-**Q: How can I enhance my LMS with BuddyPress?**  
-A: Use BuddyPress to add social networking features like user profiles, groups, and activity streams to your LMS, creating a more engaging and interactive learning experience.
+### Gamification
+Use GamiPress or myCred to add points, badges, ranks, and rewards to your community.
 
-## Events Support
-
-**Q: How do I add event functionality to BuddyPress?**  
-A: Integrate event management plugins like The Events Calendar or Modern Events Calendar with BuddyPress. These plugins allow you to create, manage, and promote events within your community, with features like RSVP, ticket sales, and event notifications.
-
-## Document Support
-
-**Q: Can users share and collaborate on documents in BuddyPress?**  
-A: Yes, with plugins like BuddyPress Docs, you can add document collaboration features to your community. This allows users to create, edit, and share documents within groups or with specific members.
-
-## Gamification
-
-**Q: How can I add gamification to my BuddyPress site?**  
-A: Use plugins like GamiPress or myCred to add gamification elements such as points, badges, and achievements to increase user engagement.
-
-**Q: What types of gamification features can I implement?**  
-A: Implement features like points for activities, badges for achievements, leaderboards, and challenges to make the community more interactive and engaging.
-
-## Funnel Integration with Marketing Automation
-
-**Q: Can BuddyPress integrate with marketing automation tools?**  
-A: Yes, BuddyPress can integrate with marketing automation tools like Mailchimp, ActiveCampaign, and FluentCRM using plugins or custom integrations.
-
-**Q: How can I create marketing funnels for my BuddyPress community?**  
-A: Use automation plugins like AutomatorWP or Uncanny Automator to create marketing funnels. You can set up triggers and actions that guide users through your marketing and engagement processes.
+### Marketing Automation
+BuddyPress can integrate with Mailchimp, ActiveCampaign, FluentCRM, AutomatorWP, and Uncanny Automator  
+to build automated workflows and engagement funnels.
