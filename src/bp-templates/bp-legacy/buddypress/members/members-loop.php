@@ -17,7 +17,7 @@
 do_action( 'bp_before_members_loop' ); ?>
 
 <?php if ( bp_get_current_member_type() ) : ?>
-	<p class="current-member-type"><?php bp_current_member_type_message() ?></p>
+	<p class="current-member-type"><?php bp_current_member_type_message(); ?></p>
 <?php endif; ?>
 
 <?php if ( bp_has_members( bp_ajax_querystring( 'members' ) ) ) : ?>
@@ -45,11 +45,15 @@ do_action( 'bp_before_members_loop' ); ?>
 	 *
 	 * @since 1.1.0
 	 */
-	do_action( 'bp_before_directory_members_list' ); ?>
+	do_action( 'bp_before_directory_members_list' );
+	?>
 
 	<ul id="members-list" class="item-list" aria-live="assertive" aria-relevant="all">
 
-	<?php while ( bp_members() ) : bp_the_member(); ?>
+	<?php
+	while ( bp_members() ) :
+		bp_the_member();
+		?>
 
 		<li <?php bp_member_class(); ?>>
 			<div class="item-avatar">
@@ -77,16 +81,17 @@ do_action( 'bp_before_members_loop' ); ?>
 				 *
 				 * @since 1.1.0
 				 */
-				do_action( 'bp_directory_members_item' ); ?>
+				do_action( 'bp_directory_members_item' );
+				?>
 
 				<?php
-				 /***
-				  * If you want to show specific profile fields here you can,
-				  * but it'll add an extra query for each member in the loop
-				  * (only one regardless of the number of fields you show):
-				  *
-				  * bp_member_profile_data( 'field=the field name' );
-				  */
+				/***
+				 * If you want to show specific profile fields here you can,
+				 * But it'll add an extra query for each member in the loop
+				 * (only one regardless of the number of fields you show):
+				 *
+				 * Example: bp_member_profile_data( 'field=the field name' );
+				 */
 				?>
 			</div>
 
@@ -99,7 +104,8 @@ do_action( 'bp_before_members_loop' ); ?>
 				 *
 				 * @since 1.1.0
 				 */
-				do_action( 'bp_directory_members_actions' ); ?>
+				do_action( 'bp_directory_members_actions' );
+				?>
 
 			</div>
 
@@ -117,7 +123,8 @@ do_action( 'bp_before_members_loop' ); ?>
 	 *
 	 * @since 1.1.0
 	 */
-	do_action( 'bp_after_directory_members_list' ); ?>
+	do_action( 'bp_after_directory_members_list' );
+	?>
 
 	<?php bp_member_hidden_fields(); ?>
 
@@ -137,10 +144,10 @@ do_action( 'bp_before_members_loop' ); ?>
 
 	</div>
 
-<?php else: ?>
+<?php else : ?>
 
 	<div id="message" class="info">
-		<p><?php esc_html_e( "Sorry, no members were found.", 'buddypress' ); ?></p>
+		<p><?php esc_html_e( 'Sorry, no members were found.', 'buddypress' ); ?></p>
 	</div>
 
 <?php endif; ?>

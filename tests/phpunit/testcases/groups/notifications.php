@@ -179,7 +179,7 @@ class BP_Tests_Groups_Notifications extends BP_UnitTestCase {
 		) );
 
 		// Double check it's there
-		$this->assertEquals( array( $n ), wp_list_pluck( $notifications, 'id' ) );
+		$this->assertSame( array( $n ), wp_list_pluck( $notifications, 'id' ) );
 
 		// fire the hook
 		do_action( 'group_member_demoted', $u, $g );
@@ -203,7 +203,7 @@ class BP_Tests_Groups_Notifications extends BP_UnitTestCase {
 		) );
 
 		// Double check it's there
-		$this->assertEquals( array( $n ), wp_list_pluck( $notifications, 'id' ) );
+		$this->assertSame( array( $n ), wp_list_pluck( $notifications, 'id' ) );
 
 		// fire the hook
 		do_action( 'group_member_demoted', $u, $g );

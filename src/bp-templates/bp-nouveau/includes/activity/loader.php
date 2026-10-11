@@ -2,6 +2,8 @@
 /**
  * BP Nouveau Activity
  *
+ * @package BuddyPress
+ * @subpackage bp-nouveau
  * @since 3.0.0
  * @version 12.0.0
  */
@@ -20,6 +22,7 @@ class BP_Nouveau_Activity {
 	 * Nouveau Activity directory.
 	 *
 	 * @since 3.0.0
+	 *
 	 * @var string
 	 */
 	public $dir = '';
@@ -28,6 +31,7 @@ class BP_Nouveau_Activity {
 	 * RSS feed link data.
 	 *
 	 * @since 3.0.0
+	 *
 	 * @var string
 	 */
 	public $current_rss_feed = array();
@@ -50,7 +54,7 @@ class BP_Nouveau_Activity {
 	 * @since 3.0.0
 	 */
 	protected function setup_globals() {
-		$this->dir = trailingslashit( dirname( __FILE__ ) );
+		$this->dir = trailingslashit( __DIR__ );
 	}
 
 	/**
@@ -68,7 +72,9 @@ class BP_Nouveau_Activity {
 
 		// Load AJAX code only on AJAX requests.
 		} else {
-			add_action( 'admin_init', function () {
+			add_action(
+				'admin_init',
+				function () {
 				// AJAX condtion.
 				if ( defined( 'DOING_AJAX' ) && true === DOING_AJAX &&
 					// Check to see if action is activity-specific.
@@ -76,7 +82,8 @@ class BP_Nouveau_Activity {
 				) {
 					require bp_nouveau()->activity->dir . 'ajax.php';
 				}
-			} );
+				}
+			);
 		}
 	}
 
@@ -107,10 +114,10 @@ class BP_Nouveau_Activity {
 		// Register customizer controls.
 		add_filter( 'bp_nouveau_customizer_controls', 'bp_nouveau_activity_customizer_controls', 10, 1 );
 
-		// Register activity scripts
+		// Register activity scripts.
 		add_filter( 'bp_nouveau_register_scripts', 'bp_nouveau_activity_register_scripts', 10, 1 );
 
-		// Localize Scripts
+		// Localize Scripts.
 		add_filter( 'bp_core_get_js_strings', 'bp_nouveau_activity_localize_scripts', 10, 1 );
 
 		add_filter( 'bp_get_activity_action_pre_meta', 'bp_nouveau_activity_secondary_avatars', 10, 2 );
@@ -122,6 +129,7 @@ class BP_Nouveau_Activity {
  * Launch the Activity loader class.
  *
  * @since 3.0.0
+ * @param BP_Nouveau|null $bp_nouveau Optional. Nouveau instance.
  */
 function bp_nouveau_activity( $bp_nouveau = null ) {
 	if ( is_null( $bp_nouveau ) ) {

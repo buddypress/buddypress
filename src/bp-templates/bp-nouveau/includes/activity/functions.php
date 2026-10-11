@@ -2,6 +2,8 @@
 /**
  * Activity functions
  *
+ * @package BuddyPress
+ * @subpackage bp-nouveau
  * @since 3.0.0
  * @version 12.0.0
  */
@@ -14,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.0.0
  *
- * @param array $scripts  The array of scripts to register.
+ * @param array $scripts  Optional. The array of scripts to register.
  *
  * @return array The same array with the specific activity scripts.
  */
@@ -23,18 +25,21 @@ function bp_nouveau_activity_register_scripts( $scripts = array() ) {
 		return $scripts;
 	}
 
-	return array_merge( $scripts, array(
-		'bp-nouveau-activity' => array(
-			'file'         => 'js/buddypress-activity%s.js',
-			'dependencies' => array( 'bp-nouveau' ),
-			'footer'       => true,
-		),
-		'bp-nouveau-activity-post-form' => array(
-			'file'         => 'js/buddypress-activity-post-form%s.js',
-			'dependencies' => array( 'bp-nouveau', 'bp-nouveau-activity', 'json2', 'wp-backbone' ),
-			'footer'       => true,
-		),
-	) );
+	return array_merge(
+		$scripts,
+		array(
+			'bp-nouveau-activity' => array(
+				'file'         => 'js/buddypress-activity%s.js',
+				'dependencies' => array( 'bp-nouveau' ),
+				'footer'       => true,
+			),
+			'bp-nouveau-activity-post-form' => array(
+				'file'         => 'js/buddypress-activity-post-form%s.js',
+				'dependencies' => array( 'bp-nouveau', 'bp-nouveau-activity', 'json2', 'wp-backbone' ),
+				'footer'       => true,
+			),
+		)
+	);
 }
 
 /**
@@ -55,7 +60,7 @@ function bp_nouveau_activity_enqueue_scripts() {
  *
  * @since 3.0.0
  *
- * @param array $params Associative array containing the JS Strings needed by scripts.
+ * @param array $params Optional. Associative array containing the JS Strings needed by scripts.
  *
  * @return array The same array with specific strings for the Activity Post form UI if needed.
  */
@@ -77,23 +82,28 @@ function bp_nouveau_activity_localize_scripts( $params = array() ) {
 	$user_displayname = bp_get_loggedin_user_fullname();
 
 	if ( buddypress()->avatar->show_avatars ) {
-		$width  = bp_core_avatar_thumb_width();
-		$height = bp_core_avatar_thumb_height();
-		$activity_params = array_merge( $activity_params, array(
-			'avatar_url'    => bp_get_loggedin_user_avatar( array(
-				'width'  => $width,
-				'height' => $height,
-				'html'   => false,
-			) ),
-			'avatar_width'  => $width,
-			'avatar_height' => $height,
-			'user_domain'   => bp_loggedin_user_url(),
-			'avatar_alt'    => sprintf(
-				/* translators: %s: member name */
-				__( 'Profile photo of %s', 'buddypress' ),
-				$user_displayname
-			),
-		) );
+		$width           = bp_core_avatar_thumb_width();
+		$height          = bp_core_avatar_thumb_height();
+		$activity_params = array_merge(
+			$activity_params,
+			array(
+				'avatar_url'    => bp_get_loggedin_user_avatar(
+					array(
+						'width'  => $width,
+						'height' => $height,
+						'html'   => false,
+					)
+				),
+				'avatar_width'  => $width,
+				'avatar_height' => $height,
+				'user_domain'   => bp_loggedin_user_url(),
+				'avatar_alt'    => sprintf(
+					/* translators: %s: member name */
+					__( 'Profile photo of %s', 'buddypress' ),
+					$user_displayname
+				),
+			)
+		);
 	}
 
 	/**
@@ -115,7 +125,7 @@ function bp_nouveau_activity_localize_scripts( $params = array() ) {
 	if ( ! empty( $activity_buttons ) ) {
 		$activity_params['buttons'] = bp_sort_by_key( $activity_buttons, 'order', 'num' );
 
-		// Enqueue Buttons scripts and styles
+		// Enqueue Buttons scripts and styles.
 		foreach ( $activity_params['buttons'] as $key_button => $buttons ) {
 			if ( empty( $buttons['handle'] ) ) {
 				continue;
@@ -133,7 +143,7 @@ function bp_nouveau_activity_localize_scripts( $params = array() ) {
 		}
 	}
 
-	// Activity Objects
+	// Activity Objects.
 	if ( ! bp_is_single_item() && ! bp_is_user() ) {
 		$activity_objects = array(
 			'profile' => array(
@@ -143,8 +153,13 @@ function bp_nouveau_activity_localize_scripts( $params = array() ) {
 			),
 		);
 
-		// the groups component is active & the current user is at least a member of 1 group
-		if ( bp_is_active( 'groups' ) && bp_has_groups( array( 'user_id' => bp_loggedin_user_id(), 'max' => 1 ) ) ) {
+		// the groups component is active & the current user is at least a member of 1 group.
+		if ( bp_is_active( 'groups' ) && bp_has_groups(
+			array(
+				'user_id' => bp_loggedin_user_id(),
+				'max' => 1,
+			)
+		) ) {
 			$activity_objects['group'] = array(
 				'text'                     => __( 'Post in: Group', 'buddypress' ),
 				'autocomplete_placeholder' => __( 'Start typing the group name...', 'buddypress' ),
@@ -163,7 +178,11 @@ function bp_nouveau_activity_localize_scripts( $params = array() ) {
 	}
 
 	$activity_strings = array(
-		'whatsnewPlaceholder' => sprintf( __( "What's new, %s?", 'buddypress' ), bp_get_user_firstname( $user_displayname ) ),
+		'whatsnewPlaceholder' => sprintf(
+			/* translators: %s: member name */
+			__( "What's new, %s?", 'buddypress' ),
+			bp_get_user_firstname( $user_displayname )
+		),
 		'whatsnewLabel'       => __( 'Post what\'s new', 'buddypress' ),
 		'whatsnewpostinLabel' => __( 'Post in', 'buddypress' ),
 		'postUpdateButton'    => __( 'Post Update', 'buddypress' ),
@@ -189,6 +208,8 @@ function bp_nouveau_activity_localize_scripts( $params = array() ) {
 }
 
 /**
+ * Gets the Activity directory navigation items.
+ *
  * @since 3.0.0
  */
 function bp_nouveau_get_activity_directory_nav_items() {
@@ -196,7 +217,7 @@ function bp_nouveau_get_activity_directory_nav_items() {
 
 	$nav_items['all'] = array(
 		'component' => 'activity',
-		'slug'      => 'all', // slug is used because BP_Core_Nav requires it, but it's the scope
+		'slug'      => 'all', // slug is used because BP_Core_Nav requires it, but it's the scope.
 		'li_class'  => array( 'dynamic' ),
 		'link'      => bp_get_activity_directory_permalink(),
 		'text'      => __( 'All Members', 'buddypress' ),
@@ -204,7 +225,7 @@ function bp_nouveau_get_activity_directory_nav_items() {
 		'position'  => 5,
 	);
 
-	// deprecated hooks
+	// deprecated hooks.
 	$deprecated_hooks = array(
 		array( 'bp_before_activity_type_tab_all', 'activity', 0 ),
 		array( 'bp_activity_type_tabs', 'activity', 46 ),
@@ -221,11 +242,11 @@ function bp_nouveau_get_activity_directory_nav_items() {
 		);
 		$activity_slug    = bp_nouveau_get_component_slug( 'activity' );
 
-		// If the user has favorite create a nav item
+		// If the user has favorite create a nav item.
 		if ( bp_get_total_favorite_count_for_user( bp_loggedin_user_id() ) ) {
 			$nav_items['favorites'] = array(
 				'component' => 'activity',
-				'slug'      => 'favorites', // slug is used because BP_Core_Nav requires it, but it's the scope
+				'slug'      => 'favorites', // slug is used because BP_Core_Nav requires it, but it's the scope.
 				'li_class'  => array(),
 				'link'      => bp_loggedin_user_url( bp_members_get_path_chunks( array( $activity_slug, 'favorites' ) ) ),
 				'text'      => __( 'My Favorites', 'buddypress' ),
@@ -234,24 +255,24 @@ function bp_nouveau_get_activity_directory_nav_items() {
 			);
 		}
 
-		// The friends component is active and user has friends
+		// The friends component is active and user has friends.
 		if ( bp_is_active( 'friends' ) && bp_get_total_friend_count( bp_loggedin_user_id() ) ) {
 			$nav_items['friends'] = array(
 				'component' => 'activity',
-				'slug'      => 'friends', // slug is used because BP_Core_Nav requires it, but it's the scope
+				'slug'      => 'friends', // slug is used because BP_Core_Nav requires it, but it's the scope.
 				'li_class'  => array( 'dynamic' ),
-				'link'      =>  bp_loggedin_user_url( bp_members_get_path_chunks( array( $activity_slug, bp_nouveau_get_component_slug( 'friends' ) ) ) ),
+				'link'      => bp_loggedin_user_url( bp_members_get_path_chunks( array( $activity_slug, bp_nouveau_get_component_slug( 'friends' ) ) ) ),
 				'text'      => __( 'My Friends', 'buddypress' ),
 				'count'     => '',
 				'position'  => 15,
 			);
 		}
 
-		// The groups component is active and user has groups
+		// The groups component is active and user has groups.
 		if ( bp_is_active( 'groups' ) && bp_get_total_group_count_for_user( bp_loggedin_user_id() ) ) {
 			$nav_items['groups'] = array(
 				'component' => 'activity',
-				'slug'      => 'groups', // slug is used because BP_Core_Nav requires it, but it's the scope
+				'slug'      => 'groups', // slug is used because BP_Core_Nav requires it, but it's the scope.
 				'li_class'  => array( 'dynamic' ),
 				'link'      => bp_loggedin_user_url( bp_members_get_path_chunks( array( $activity_slug, bp_nouveau_get_component_slug( 'groups' ) ) ) ),
 				'text'      => __( 'My Groups', 'buddypress' ),
@@ -260,7 +281,7 @@ function bp_nouveau_get_activity_directory_nav_items() {
 			);
 		}
 
-		// Mentions are allowed
+		// Mentions are allowed.
 		if ( bp_activity_do_mentions() ) {
 			$deprecated_hooks[] = array( 'bp_before_activity_type_tab_mentions', 'activity', 36 );
 			$count              = '';
@@ -271,7 +292,7 @@ function bp_nouveau_get_activity_directory_nav_items() {
 
 			$nav_items['mentions'] = array(
 				'component' => 'activity',
-				'slug'      => 'mentions', // slug is used because BP_Core_Nav requires it, but it's the scope
+				'slug'      => 'mentions', // slug is used because BP_Core_Nav requires it, but it's the scope.
 				'li_class'  => array( 'dynamic' ),
 				'link'      => bp_loggedin_user_url( bp_members_get_path_chunks( array( $activity_slug, 'mentions' ) ) ),
 				'text'      => __( 'Mentions', 'buddypress' ),
@@ -281,7 +302,7 @@ function bp_nouveau_get_activity_directory_nav_items() {
 		}
 	}
 
-	// Check for deprecated hooks :
+	// Check for deprecated hooks :.
 	foreach ( $deprecated_hooks as $deprectated_hook ) {
 		list( $hook, $component, $position ) = $deprectated_hook;
 
@@ -310,9 +331,9 @@ function bp_nouveau_get_activity_directory_nav_items() {
  *
  * @since 3.0.0
  *
- * @param string $output  HTML output
+ * @param string $output  Optional. HTML output.
  * @param array  $filters Optional.
- * @param string $context
+ * @param string $context Optional. Activity scope context.
  *
  * @return array
  */
@@ -335,7 +356,7 @@ function bp_nouveau_get_activity_filters() {
 
 	$filters_data = bp_get_activity_show_filters();
 
-	remove_filter( 'bp_get_activity_show_filters', 'bp_nouveau_get_activity_filters_array', 10, 3 );
+	remove_filter( 'bp_get_activity_show_filters', 'bp_nouveau_get_activity_filters_array' );
 
 	$action = '';
 	if ( 'group' === $filters_data['context'] ) {
@@ -356,7 +377,11 @@ function bp_nouveau_get_activity_filters() {
 }
 
 /**
+ * Adds secondary avatars to activity actions.
+ *
  * @since 3.0.0
+ * @param string               $action   Activity action HTML.
+ * @param BP_Activity_Activity $activity Activity object.
  */
 function bp_nouveau_activity_secondary_avatars( $action, $activity ) {
 	switch ( $activity->component ) {
@@ -378,7 +403,10 @@ function bp_nouveau_activity_secondary_avatars( $action, $activity ) {
 }
 
 /**
+ * Adds the newest class to Activity scope navigation items.
+ *
  * @since 3.0.0
+ * @param string $classes Optional. Classes for the activity scope item.
  */
 function bp_nouveau_activity_scope_newest_class( $classes = '' ) {
 	if ( ! is_user_logged_in() ) {
@@ -414,18 +442,18 @@ function bp_nouveau_activity_scope_newest_class( $classes = '' ) {
 				}
 			}
 
-			// Friends can post in groups the user is a member of
+			// Friends can post in groups the user is a member of.
 			if ( bp_is_active( 'friends' ) && (int) $user_id !== (int) bp_get_activity_user_id() ) {
 				if ( friends_check_friendship( $user_id, bp_get_activity_user_id() ) ) {
 					$my_classes[] = 'bp-my-friends';
 				}
 			}
 
-			// A mention can be posted by a friend within a group
+			// A mention can be posted by a friend within a group.
 			if ( true === bp_activity_do_mentions() ) {
 				$new_mentions = bp_get_user_meta( $user_id, 'bp_new_mentions', true );
 
-				// The current activity is one of the new mentions
+				// The current activity is one of the new mentions.
 				if ( is_array( $new_mentions ) && in_array( bp_get_activity_id(), $new_mentions, true ) ) {
 					$my_classes[] = 'bp-my-mentions';
 				}
@@ -524,20 +552,23 @@ function bp_nouveau_activity_notification_filters() {
  * @return array the controls to add.
  */
 function bp_nouveau_activity_customizer_controls( $controls = array() ) {
-	return array_merge( $controls, array(
-		'act_dir_layout' => array(
-			'label'      => __( 'Use column navigation for the Activity directory.', 'buddypress' ),
-			'section'    => 'bp_nouveau_dir_layout',
-			'settings'   => 'bp_nouveau_appearance[activity_dir_layout]',
-			'type'       => 'checkbox',
-		),
-		'act_dir_tabs' => array(
-			'label'      => __( 'Use tab styling for Activity directory navigation.', 'buddypress' ),
-			'section'    => 'bp_nouveau_dir_layout',
-			'settings'   => 'bp_nouveau_appearance[activity_dir_tabs]',
-			'type'       => 'checkbox',
-		),
-	) );
+	return array_merge(
+		$controls,
+		array(
+			'act_dir_layout' => array(
+				'label'      => __( 'Use column navigation for the Activity directory.', 'buddypress' ),
+				'section'    => 'bp_nouveau_dir_layout',
+				'settings'   => 'bp_nouveau_appearance[activity_dir_layout]',
+				'type'       => 'checkbox',
+			),
+			'act_dir_tabs' => array(
+				'label'      => __( 'Use tab styling for Activity directory navigation.', 'buddypress' ),
+				'section'    => 'bp_nouveau_dir_layout',
+				'settings'   => 'bp_nouveau_appearance[activity_dir_tabs]',
+				'type'       => 'checkbox',
+			),
+		)
+	);
 }
 
 /**
@@ -545,7 +576,7 @@ function bp_nouveau_activity_customizer_controls( $controls = array() ) {
  *
  * @since 7.0.0
  *
- * @param string $read_more The read more text.
+ * @param string $read_more Optional. The read more text.
  * @return string The read more text without brackets.
  */
 function bp_nouveau_activity_excerpt_append_text( $read_more = '' ) {

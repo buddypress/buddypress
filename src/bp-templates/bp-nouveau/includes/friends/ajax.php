@@ -2,6 +2,8 @@
 /**
  * Friends Ajax functions
  *
+ * @package BuddyPress
+ * @subpackage bp-nouveau
  * @since 3.0.0
  * @version 3.0.0
  */
@@ -9,7 +11,9 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-add_action( 'admin_init', function () {
+add_action(
+	'admin_init',
+	function () {
 	$ajax_actions = array(
 		array(
 			'friends_remove_friend' => array(
@@ -52,14 +56,14 @@ add_action( 'admin_init', function () {
 			add_action( 'wp_ajax_nopriv_' . $action, $ajax_action[ $action ]['function'] );
 		}
 	}
-}, 12 );
+	},
+	12
+);
 
 /**
  * Friend/un-friend a user via a POST request.
  *
  * @since 3.0.0
- *
- * @return string HTML
  */
 function bp_nouveau_ajax_addremove_friend() {
 	$response = array(
@@ -78,11 +82,11 @@ function bp_nouveau_ajax_addremove_friend() {
 		wp_send_json_error( $response );
 	}
 
-	// Use default nonce
+	// Use default nonce.
 	$nonce = $_POST['nonce'];
 	$check = 'bp_nouveau_friends';
 
-	// Use a specific one for actions needed it
+	// Use a specific one for actions needed it.
 	if ( ! empty( $_POST['_wpnonce'] ) && ! empty( $_POST['action'] ) ) {
 		$nonce = $_POST['_wpnonce'];
 		$check = $_POST['action'];
@@ -135,7 +139,7 @@ function bp_nouveau_ajax_addremove_friend() {
 			);
 		}
 
-	// Rejecting a friendship
+	// Rejecting a friendship.
 	} elseif ( ! empty( $_POST['action'] ) && 'friends_reject_friendship' === $_POST['action'] ) {
 		if ( ! friends_reject_friendship( $friend_id ) ) {
 			wp_send_json_error(

@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @global BP_Activity_Template $activities_template The Activity template loop.
  *
- * @param array $attributes The block attributes.
+ * @param array $attributes Optional. The block attributes.
  * @return string           HTML output.
  */
 function bp_activity_render_latest_activities_block( $attributes = array() ) {

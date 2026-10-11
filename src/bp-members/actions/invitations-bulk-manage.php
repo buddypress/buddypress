@@ -11,41 +11,39 @@
  * Handles bulk management (resend, cancellation) of invitations.
  *
  * @since 8.0.0
- *
- * @return bool
  */
 function bp_members_invitations_action_bulk_manage() {
 
 	// Bail if not the user's invitations screen.
 	if ( ! bp_is_my_profile() && ! bp_current_user_can( 'bp_moderate' ) ) {
-		return false;
+		return;
 	}
 
 	// Get the parameters.
 	$action      = ! empty( $_POST['invitation_bulk_action'] ) ? $_POST['invitation_bulk_action'] : '';
 	$nonce       = ! empty( $_POST['invitations_bulk_nonce'] ) ? $_POST['invitations_bulk_nonce'] : '';
-	$invitations = ! empty( $_POST['members_invitations']    ) ? $_POST['members_invitations']    : '';
+	$invitations = ! empty( $_POST['members_invitations'] ) ? $_POST['members_invitations'] : '';
 
 	// Bail if no action or no IDs.
 	if ( ( ! in_array( $action, array( 'cancel', 'resend' ), true ) ) || empty( $invitations ) || empty( $nonce ) ) {
-		return false;
+		return;
 	}
 
 	// Check the nonce.
 	if ( ! wp_verify_nonce( $nonce, 'invitations_bulk_nonce' ) ) {
 		bp_core_add_message( __( 'There was a problem managing your invitations.', 'buddypress' ), 'error' );
-		return false;
+		return;
 	}
 
 	$invitations = wp_parse_id_list( $invitations );
 
 	// Cancel or resend depending on the user 'action'.
 	switch ( $action ) {
-		case 'cancel' :
+		case 'cancel':
 			$success = 0;
 			foreach ( $invitations as $invite_id ) {
 				if ( bp_members_invitations_delete_by_id( $invite_id ) ) {
-					$success++;
+					++$success;
 				}
 			}
 			$message = sprintf(
@@ -58,11 +56,11 @@ function bp_members_invitations_action_bulk_manage() {
 			bp_core_add_message( $message );
 			break;
 
-		case 'resend' :
+		case 'resend':
 			$success = 0;
 			foreach ( $invitations as $invite_id ) {
 				if ( bp_members_invitation_resend_by_id( $invite_id ) ) {
-					$success++;
+					++$success;
 				}
 			}
 			$message = sprintf(

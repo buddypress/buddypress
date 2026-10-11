@@ -24,7 +24,7 @@ class BP_XProfile_Field_Type_Checkbox_Acceptance extends BP_XProfile_Field_Type 
 	 *
 	 * @since 8.0.0
 	 *
-	 * @return string The Checkbox Acceptance field's visibility setting.
+	 * @var string The Checkbox Acceptance field's visibility setting.
 	 */
 	public $visibility = 'adminsonly';
 
@@ -32,6 +32,7 @@ class BP_XProfile_Field_Type_Checkbox_Acceptance extends BP_XProfile_Field_Type 
 	 * Supported features for the Checkbox Acceptance field type.
 	 *
 	 * @since 8.0.0
+	 *
 	 * @var bool[] The WordPress field supported features.
 	 */
 	public static $supported_features = array(
@@ -86,7 +87,6 @@ class BP_XProfile_Field_Type_Checkbox_Acceptance extends BP_XProfile_Field_Type 
 	 */
 	public function edit_field_html( array $raw_properties = array() ) {
 		$user_id   = bp_displayed_user_id();
-		$required  = false;
 		$default_r = array();
 
 		if ( isset( $raw_properties['user_id'] ) ) {
@@ -96,7 +96,6 @@ class BP_XProfile_Field_Type_Checkbox_Acceptance extends BP_XProfile_Field_Type 
 
 		if ( bp_get_the_profile_field_is_required() ) {
 			$default_r['required'] = 'required'; // HTML5 required attribute.
-			$required              = true;
 		}
 
 		$r = bp_parse_args(
@@ -111,7 +110,7 @@ class BP_XProfile_Field_Type_Checkbox_Acceptance extends BP_XProfile_Field_Type 
 		</legend>
 
 		<?php
-		/** This action is documented in bp-xprofile/bp-xprofile-classes */
+		/** This action is documented in bp-xprofile/classes/class-bp-xprofile-field-type-datebox.php */
 		do_action( bp_get_the_profile_field_errors_action() );
 
 		$r['user_id'] = $user_id;
@@ -120,7 +119,8 @@ class BP_XProfile_Field_Type_Checkbox_Acceptance extends BP_XProfile_Field_Type 
 
 		<?php if ( bp_get_the_profile_field_description() ) : ?>
 			<p class="description" tabindex="0"><?php bp_the_profile_field_description(); ?></p>
-		<?php endif;
+		<?php
+		endif;
 	}
 
 	/**
@@ -128,7 +128,7 @@ class BP_XProfile_Field_Type_Checkbox_Acceptance extends BP_XProfile_Field_Type 
 	 *
 	 * @since 8.0.0
 	 *
-	 * @param array $raw_properties properties.
+	 * @param array $raw_properties Optional. Properties.
 	 */
 	public function admin_field_html( array $raw_properties = array() ) {
 		$page_id   = bp_xprofile_get_meta( bp_get_the_profile_field_id(), 'field', 'bp_xprofile_checkbox_acceptance_page', true );
@@ -161,7 +161,8 @@ class BP_XProfile_Field_Type_Checkbox_Acceptance extends BP_XProfile_Field_Type 
 				);
 				?>
 			</label>
-		<?php endif;
+		<?php
+		endif;
 	}
 
 	/**
@@ -170,16 +171,16 @@ class BP_XProfile_Field_Type_Checkbox_Acceptance extends BP_XProfile_Field_Type 
 	 * @since 8.0.0
 	 *
 	 * @param BP_XProfile_Field $current_field Profile field object.
-	 * @param string            $control_type  Control type.
+	 * @param string            $control_type  Optional. Control type.
 	 */
 	public function admin_new_field_html( BP_XProfile_Field $current_field, $control_type = '' ) {
-		$type = array_search( get_class( $this ), bp_xprofile_get_field_types() );
+		$type = array_search( get_class( $this ), bp_xprofile_get_field_types(), true );
 
 		if ( false === $type ) {
 			return;
 		}
 
-		$class   = $current_field->type != $type ? 'display: none;' : '';
+		$class   = $current_field->type !== $type ? 'display: none;' : '';
 		$page_id = bp_xprofile_get_meta( $current_field->id, 'field', 'bp_xprofile_checkbox_acceptance_page', true );
 		?>
 
@@ -241,7 +242,7 @@ class BP_XProfile_Field_Type_Checkbox_Acceptance extends BP_XProfile_Field_Type 
 	 *
 	 * @since 8.0.0
 	 *
-	 * @param array $args args.
+	 * @param array $args Optional. Arguments.
 	 */
 	public function edit_field_options_html( array $args = array() ) {
 		$field_id            = (int) $this->field_obj->id;
@@ -343,7 +344,7 @@ class BP_XProfile_Field_Type_Checkbox_Acceptance extends BP_XProfile_Field_Type 
 	 *
 	 * @since 8.0.0
 	 *
-	 * @param string|int $values value.
+	 * @param string|int $value Value to validate.
 	 * @return bool
 	 */
 	public function is_valid( $value ) {
@@ -360,7 +361,7 @@ class BP_XProfile_Field_Type_Checkbox_Acceptance extends BP_XProfile_Field_Type 
 	 * @since 8.0.0
 	 *
 	 * @param string $field_value Original value of field.
-	 * @param int    $field_id field id.
+	 * @param int    $field_id Optional. Field ID.
 	 *
 	 * @return string   Value formatted
 	 */

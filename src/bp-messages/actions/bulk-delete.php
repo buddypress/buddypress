@@ -9,13 +9,11 @@
 
 /**
  * Process a request to bulk delete messages.
- *
- * @return bool False on failure.
  */
 function messages_action_bulk_delete() {
 
 	if ( ! bp_is_messages_component() || ! bp_is_action_variable( 'bulk-delete', 0 ) ) {
-		return false;
+		return;
 	}
 
 	$thread_ids  = $_POST['thread_ids'];
@@ -26,7 +24,7 @@ function messages_action_bulk_delete() {
 		bp_core_redirect( $redirect );
 	} else {
 		if ( ! check_admin_referer( 'messages_delete_thread' ) ) {
-			return false;
+			return;
 		}
 
 		if ( ! messages_delete_thread( $thread_ids ) ) {

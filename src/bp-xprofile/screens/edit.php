@@ -53,7 +53,7 @@ function xprofile_screen_edit_profile() {
 		$posted_field_ids = wp_parse_id_list( $_POST['field_ids'] );
 		$is_required      = array();
 
-		$bp_displayed_user = bp_get_displayed_user();
+		$bp_displayed_user               = bp_get_displayed_user();
 		$bp_displayed_user->updated_keys = array();
 
 		// Loop through the posted fields formatting any datebox values then validate the field.
@@ -77,7 +77,8 @@ function xprofile_screen_edit_profile() {
 			$errors = false;
 
 			// Now we've checked for required fields, lets save the values.
-			$old_values = $new_values = array();
+			$new_values = array();
+			$old_values = $new_values;
 			foreach ( (array) $posted_field_ids as $field_id ) {
 
 				// Certain types of fields (checkboxes, multiselects) may come through empty. Save them as an empty array so that they don't get overwritten by the default on the next edit.

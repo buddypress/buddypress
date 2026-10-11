@@ -27,14 +27,14 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 
 		// Test most items separately so we can ignore irrelevant props
 		$l = $e->_get_legacy_properties_converted();
-		$this->assertEquals( $l['name'], $class_name );
-		$this->assertEquals( $l['slug'], $class_slug );
-		$this->assertEquals( $l['visibility'], 'private' );
-		$this->assertEquals( $l['nav_item_position'], 63 );
-		$this->assertEquals( $l['enable_nav_item'], true );
-		$this->assertEquals( $l['nav_item_name'], $class_name . ' Nav' );
-		$this->assertEquals( $l['display_hook'], 'foo_hook' );
-		$this->assertEquals( $l['template_file'], 'foo_template' );
+		$this->assertSame( $class_name, $l['name'] );
+		$this->assertSame( $class_slug, $l['slug'] );
+		$this->assertSame( 'private', $l['visibility'] );
+		$this->assertSame( 63, $l['nav_item_position'] );
+		$this->assertTrue( $l['enable_nav_item'] );
+		$this->assertSame( $class_name . ' Nav', $l['nav_item_name'] );
+		$this->assertSame( 'foo_hook', $l['display_hook'] );
+		$this->assertSame( 'foo_template', $l['template_file'] );
 
 		// Build the screens array manually
 		$expected = array(
@@ -56,7 +56,21 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 			),
 		);
 
-		$this->assertEquals( $expected, $l['screens'] );
+		$actual = $l['screens'];
+		ksort( $expected );
+		ksort( $actual );
+
+		foreach ( $expected as &$screen ) {
+			ksort( $screen );
+		}
+		unset( $screen );
+
+		foreach ( $actual as &$screen ) {
+			ksort( $screen );
+		}
+		unset( $screen );
+
+		$this->assertSame( $expected, $actual );
 	}
 
 	public function test_setup_screens_use_global_fallbacks() {
@@ -85,7 +99,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 			}
 		}
 
-		$this->assertEquals( $fallbacks, $screens );
+		$this->assertSame( $fallbacks, $screens );
 	}
 
 	public function test_setup_screens_define_edit_screens_locally() {
@@ -117,7 +131,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 			}
 		}
 
-		$this->assertEquals( $screens, $expected );
+		$this->assertSame( $expected, $screens );
 	}
 
 	public function test_parse_args_r() {
@@ -173,7 +187,11 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 			),
 		);
 
-		$this->assertEquals( $expected, BP_Group_Extension::parse_args_r( $a, $b ) );
+		$actual = BP_Group_Extension::parse_args_r( $a, $b );
+		ksort( $expected );
+		ksort( $actual );
+
+		$this->assertSame( $expected, $actual );
 	}
 
 	/**
@@ -184,7 +202,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$e = new $class_name();
 		$e->_register();
 
-		$this->assertEquals( 39, $e->nav_item_position );
+		$this->assertSame( 39, $e->nav_item_position );
 	}
 
 	/**
@@ -196,7 +214,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$e = new $class_name();
 		$e->_register();
 
-		$this->assertEquals( 18, $e->create_step_position );
+		$this->assertSame( 18, $e->create_step_position );
 	}
 
 	/**
@@ -207,12 +225,12 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$e = new $class_name();
 		$e->_register();
 
-		$this->assertEquals( array( $e, 'settings_screen' ), $e->screens['create']['screen_callback'] );
-		$this->assertEquals( array( $e, 'settings_screen_save' ), $e->screens['create']['screen_save_callback'] );
-		$this->assertEquals( array( $e, 'settings_screen' ), $e->screens['admin']['screen_callback'] );
-		$this->assertEquals( array( $e, 'settings_screen_save' ), $e->screens['admin']['screen_save_callback'] );
-		$this->assertEquals( array( $e, 'edit_screen' ), $e->screens['edit']['screen_callback'] );
-		$this->assertEquals( array( $e, 'edit_screen_save' ), $e->screens['edit']['screen_save_callback'] );
+		$this->assertSame( array( $e, 'settings_screen' ), $e->screens['create']['screen_callback'] );
+		$this->assertSame( array( $e, 'settings_screen_save' ), $e->screens['create']['screen_save_callback'] );
+		$this->assertSame( array( $e, 'settings_screen' ), $e->screens['admin']['screen_callback'] );
+		$this->assertSame( array( $e, 'settings_screen_save' ), $e->screens['admin']['screen_save_callback'] );
+		$this->assertSame( array( $e, 'edit_screen' ), $e->screens['edit']['screen_callback'] );
+		$this->assertSame( array( $e, 'edit_screen_save' ), $e->screens['edit']['screen_save_callback'] );
 	}
 
 	public function test_has_submit_button() {
@@ -232,7 +250,6 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 	 */
 	public function test_user_can_visit_inferred_from_enable_nav_item() {
 		$this->set_permalink_structure( '/%postname%/' );
-		$old_current_user = get_current_user_id();
 
 		$g = self::factory()->group->create( array(
 			'status' => 'public',
@@ -250,7 +267,6 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$e2->_register();
 		$this->assertFalse( $e2->user_can_visit() );
 
-		wp_set_current_user( $old_current_user );
 	}
 
 	/**
@@ -258,7 +274,6 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 	 */
 	public function test_user_can_visit_explicit_for_logged_out_user() {
 		$this->set_permalink_structure( '/%postname%/' );
-		$old_current_user = get_current_user_id();
 		wp_set_current_user( 0 );
 
 		$g = self::factory()->group->create( array(
@@ -291,7 +306,6 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$e6->_register();
 		$this->assertFalse( $e6->user_can_visit() );
 
-		wp_set_current_user( $old_current_user );
 	}
 
 	/**
@@ -305,7 +319,6 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$g_obj = groups_get_group( $g );
 
 		$u = self::factory()->user->create();
-		$old_current_user = get_current_user_id();
 		wp_set_current_user( $u );
 
 		$this->go_to( bp_get_group_url( $g_obj ) );
@@ -334,7 +347,6 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$e6->_register();
 		$this->assertFalse( $e6->user_can_visit() );
 
-		wp_set_current_user( $old_current_user );
 	}
 
 	/**
@@ -348,7 +360,6 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$g_obj = groups_get_group( $g );
 
 		$u = self::factory()->user->create();
-		$old_current_user = get_current_user_id();
 		wp_set_current_user( $u );
 
 		$this->add_user_to_group( $u, $g );
@@ -379,7 +390,6 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$e6->_register();
 		$this->assertFalse( $e6->user_can_visit() );
 
-		wp_set_current_user( $old_current_user );
 	}
 
 	/**
@@ -393,7 +403,6 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$g_obj = groups_get_group( $g );
 
 		$u = self::factory()->user->create();
-		$old_current_user = get_current_user_id();
 		wp_set_current_user( $u );
 
 		$m = $this->add_user_to_group( $u, $g );
@@ -426,7 +435,6 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$e6->_register();
 		$this->assertFalse( $e6->user_can_visit() );
 
-		wp_set_current_user( $old_current_user );
 	}
 
 	/**
@@ -440,7 +448,6 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$g_obj = groups_get_group( $g );
 
 		$u = self::factory()->user->create();
-		$old_current_user = get_current_user_id();
 		wp_set_current_user( $u );
 
 		$m = $this->add_user_to_group( $u, $g );
@@ -473,7 +480,6 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$e6->_register();
 		$this->assertFalse( $e6->user_can_visit() );
 
-		wp_set_current_user( $old_current_user );
 	}
 
 	/**
@@ -486,7 +492,6 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		) );
 		$g_obj = groups_get_group( $g );
 
-		$old_current_user = get_current_user_id();
 		wp_set_current_user( 0 );
 
 		$this->go_to( bp_get_group_url( $g_obj ) );
@@ -515,7 +520,6 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$e6->_register();
 		$this->assertFalse( $e6->user_can_visit() );
 
-		wp_set_current_user( $old_current_user );
 	}
 
 	/**
@@ -528,7 +532,6 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		) );
 		$g_obj = groups_get_group( $g );
 
-		$old_current_user = get_current_user_id();
 		wp_set_current_user( 0 );
 
 		$this->go_to( bp_get_group_url( $g_obj ) );
@@ -557,7 +560,6 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$e6->_register();
 		$this->assertFalse( $e6->user_can_see_nav_item() );
 
-		wp_set_current_user( $old_current_user );
 	}
 
 	/**
@@ -571,7 +573,6 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$g_obj = groups_get_group( $g );
 
 		$u = self::factory()->user->create();
-		$old_current_user = get_current_user_id();
 		wp_set_current_user( $u );
 
 		$this->go_to( bp_get_group_url( $g_obj ) );
@@ -600,7 +601,6 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$e6->_register();
 		$this->assertFalse( $e6->user_can_see_nav_item() );
 
-		wp_set_current_user( $old_current_user );
 	}
 
 	/**
@@ -614,7 +614,6 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$g_obj = groups_get_group( $g );
 
 		$u = self::factory()->user->create();
-		$old_current_user = get_current_user_id();
 		wp_set_current_user( $u );
 
 		$this->add_user_to_group( $u, $g );
@@ -645,7 +644,6 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$e6->_register();
 		$this->assertFalse( $e6->user_can_see_nav_item() );
 
-		wp_set_current_user( $old_current_user );
 	}
 
 	/**
@@ -659,7 +657,6 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$g_obj = groups_get_group( $g );
 
 		$u = self::factory()->user->create();
-		$old_current_user = get_current_user_id();
 		wp_set_current_user( $u );
 
 		$this->add_user_to_group( $u, $g );
@@ -692,7 +689,6 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$e6->_register();
 		$this->assertFalse( $e6->user_can_see_nav_item() );
 
-		wp_set_current_user( $old_current_user );
 	}
 
 	/**
@@ -706,7 +702,6 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$g_obj = groups_get_group( $g );
 
 		$u = self::factory()->user->create();
-		$old_current_user = get_current_user_id();
 		wp_set_current_user( $u );
 
 		$this->add_user_to_group( $u, $g );
@@ -739,7 +734,6 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$e6->_register();
 		$this->assertFalse( $e6->user_can_see_nav_item() );
 
-		wp_set_current_user( $old_current_user );
 	}
 
 	/**

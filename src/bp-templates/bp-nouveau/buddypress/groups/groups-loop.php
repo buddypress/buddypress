@@ -2,6 +2,8 @@
 /**
  * BuddyPress - Groups Loop
  *
+ * @package BuddyPress
+ * @subpackage bp-nouveau
  * @since 3.0.0
  * @version 12.0.0
  */
@@ -18,7 +20,10 @@ bp_nouveau_before_loop(); ?>
 
 	<ul id="groups-list" class="<?php bp_nouveau_loop_classes(); ?>">
 
-		<?php while ( bp_groups() ) : bp_the_group(); ?>
+		<?php
+		while ( bp_groups() ) :
+			bp_the_group();
+			?>
 
 			<li <?php bp_group_class( array( 'item-entry' ) ); ?> data-bp-item-id="<?php bp_group_id(); ?>" data-bp-item-component="groups">
 				<div class="list-wrap">

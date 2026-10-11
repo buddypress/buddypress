@@ -54,7 +54,7 @@ class BP_Attachment_Avatar extends BP_Attachment {
 	 *
 	 * @since 2.3.0
 	 *
-	 * @param array $allowed_types Array of allowed avatar types.
+	 * @param array $allowed_types Optional. Array of allowed avatar types.
 	 * @return string comma separated list of allowed avatar types.
 	 */
 	public static function get_avatar_types( $allowed_types = array() ) {
@@ -86,7 +86,7 @@ class BP_Attachment_Avatar extends BP_Attachment {
 	 *
 	 * @since 2.3.0
 	 *
-	 * @param array $file the temporary file attributes (before it has been moved).
+	 * @param array $file Optional. The temporary file attributes (before it has been moved).
 	 * @return array the file with extra errors if needed.
 	 */
 	public function validate_upload( $file = array() ) {
@@ -114,8 +114,8 @@ class BP_Attachment_Avatar extends BP_Attachment {
 	 * @since 2.3.0
 	 * @since 2.4.0 Add the $ui_available_width parameter, to inform about the Avatar UI width.
 	 *
-	 * @param string $file               The absolute path to the file.
-	 * @param int    $ui_available_width Available width for the UI.
+	 * @param string $file               Optional. The absolute path to the file.
+	 * @param int    $ui_available_width Optional. Available width for the UI.
 	 * @return false|string|WP_Image_Editor|WP_Error
 	 */
 	public static function shrink( $file = '', $ui_available_width = 0 ) {
@@ -177,7 +177,7 @@ class BP_Attachment_Avatar extends BP_Attachment {
 	 *
 	 * @since 2.3.0
 	 *
-	 * @param string $file the absolute path to the file.
+	 * @param string $file Optional. The absolute path to the file.
 	 * @return bool
 	 */
 	public static function is_too_small( $file = '' ) {
@@ -195,7 +195,7 @@ class BP_Attachment_Avatar extends BP_Attachment {
 	 *
 	 * @see BP_Attachment::crop() for the list of parameters
 	 *
-	 * @param array $args Array of arguments for the cropping.
+	 * @param array $args Optional. Array of arguments for the cropping.
 	 * @return array The cropped avatars (full, thumb and the timestamp).
 	 */
 	public function crop( $args = array() ) {
@@ -289,6 +289,7 @@ class BP_Attachment_Avatar extends BP_Attachment {
 							);
 
 							if ( is_wp_error( $revision ) ) {
+								// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log -- Surface nonfatal avatar-history filesystem failures without logging user data.
 								error_log( $revision->get_error_message() );
 							}
 						}
@@ -335,6 +336,7 @@ class BP_Attachment_Avatar extends BP_Attachment {
 		}
 
 		// Remove the original.
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.unlink_unlink
 		@unlink( $absolute_path );
 
 		// Return the full, thumb cropped avatars and the timestamp.
@@ -351,7 +353,7 @@ class BP_Attachment_Avatar extends BP_Attachment {
 	 *
 	 * @since 2.3.0
 	 *
-	 * @return integer The user ID.
+	 * @return int The user ID.
 	 */
 	private function get_user_id() {
 		$bp      = buddypress();
@@ -373,7 +375,7 @@ class BP_Attachment_Avatar extends BP_Attachment {
 	 *
 	 * @since 2.3.0
 	 *
-	 * @return integer The group ID.
+	 * @return int The group ID.
 	 */
 	private function get_group_id() {
 		$group_id = 0;

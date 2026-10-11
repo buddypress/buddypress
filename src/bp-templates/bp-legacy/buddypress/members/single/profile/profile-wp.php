@@ -23,10 +23,19 @@ do_action( 'bp_before_profile_loop_content' ); ?>
 	 *
 	 * @since 1.1.0
 	 */
-	do_action( 'bp_before_profile_field_content' ); ?>
+	do_action( 'bp_before_profile_field_content' );
+	?>
 
 	<div class="bp-widget wp-profile">
-		<h2><?php bp_is_my_profile() ? esc_html_e( 'My Profile', 'buddypress' ) : printf( esc_html__( "%s's Profile", 'buddypress' ), esc_html( bp_get_displayed_user_fullname() ) ); ?></h2>
+		<h2>
+			<?php
+			bp_is_my_profile() ? esc_html_e( 'My Profile', 'buddypress' ) : printf(
+				/* translators: %s: member name */
+				esc_html__( "%s's Profile", 'buddypress' ),
+				esc_html( bp_get_displayed_user_fullname() )
+			);
+			?>
+		</h2>
 
 		<table class="wp-profile-fields">
 
@@ -99,7 +108,8 @@ do_action( 'bp_before_profile_loop_content' ); ?>
  *
  * @since 1.1.0
  */
-do_action( 'bp_after_profile_field_content' ); ?>
+do_action( 'bp_after_profile_field_content' );
+?>
 
 <?php
 
@@ -108,7 +118,8 @@ do_action( 'bp_after_profile_field_content' ); ?>
  *
  * @since 1.1.0
  */
-do_action( 'bp_profile_field_buttons' ); ?>
+do_action( 'bp_profile_field_buttons' );
+?>
 
 <?php
 

@@ -19,14 +19,15 @@ defined( 'ABSPATH' ) || exit;
  *             bp_notifications_add_notification() instead.
  *
  * @since 1.0.0
- * @param string       $item_id
- * @param int          $user_id
- * @param string       $component_name
- * @param string       $component_action
- * @param int          $secondary_item_id
- * @param false|string $date_notified
- * @param int          $is_new
- * @return int|bool True on success, false on failure.
+ *
+ * @param int          $item_id           ID of the associated item.
+ * @param int          $user_id           ID of the user receiving the notification.
+ * @param string       $component_name    Name of the component creating the notification.
+ * @param string       $component_action  Name of the component action.
+ * @param int          $secondary_item_id Optional. ID of the associated secondary item.
+ * @param false|string $date_notified     Optional. Date the notification was created.
+ * @param int          $is_new            Optional. Whether the notification is unread.
+ * @return int|false Notification ID on success, false on failure.
  */
 function bp_core_add_notification( $item_id, $user_id, $component_name, $component_action, $secondary_item_id = 0, $date_notified = false, $is_new = 1 ) {
 
@@ -64,7 +65,7 @@ function bp_core_add_notification( $item_id, $user_id, $component_name, $compone
  * @since 1.0.0
  *
  * @param int $id ID of notification.
- * @return false|integer True on success, false on failure.
+ * @return false|int Number of rows affected on success, false on failure.
  */
 function bp_core_delete_notification( $id ) {
 
@@ -87,7 +88,7 @@ function bp_core_delete_notification( $id ) {
  *
  * @since 1.0.0
  * @param int $id ID of notification.
- * @return false|BP_Core_Notification
+ * @return false|BP_Notifications_Notification Notification object on success, false on failure.
  */
 function bp_core_get_notification( $id ) {
 
@@ -109,9 +110,9 @@ function bp_core_get_notification( $id ) {
  *             bp_notifications_get_notifications_for_user() instead.
  *
  * @since 1.0.0
- * @param int $user_id ID of user.
- * @param string $format
- * @return bool Object or array on success, false on failure.
+ * @param int    $user_id ID of user.
+ * @param string $format  Optional. Format of the returned notifications.
+ * @return array|false Array of notifications on success, false on failure.
  */
 function bp_core_get_notifications_for_user( $user_id, $format = 'string' ) {
 
@@ -138,10 +139,10 @@ function bp_core_get_notifications_for_user( $user_id, $format = 'string' ) {
  *             bp_notifications_delete_notifications_by_type() instead.
  *
  * @since 1.0.0
- * @param int $user_id
- * @param string $component_name
- * @param string $component_action
- * @return false|int True on success, false on failure.
+ * @param int    $user_id          ID of the user receiving the notifications.
+ * @param string $component_name   Name of the component that created the notifications.
+ * @param string $component_action Name of the component action.
+ * @return false|int Number of rows affected on success, false on failure.
  */
 function bp_core_delete_notifications_by_type( $user_id, $component_name, $component_action ) {
 
@@ -167,10 +168,12 @@ function bp_core_delete_notifications_by_type( $user_id, $component_name, $compo
  *
  * @since 1.0.0
  *
- * @param int $user_id
- * @param string $component_name
- * @param string $component_action
- * @return false|int True on success, false on failure.
+ * @param int       $user_id           ID of the user receiving the notifications.
+ * @param int       $item_id           ID of the associated item.
+ * @param string    $component_name    Name of the component that created the notifications.
+ * @param string    $component_action  Name of the component action.
+ * @param false|int $secondary_item_id Optional. Secondary item ID.
+ * @return false|int Number of rows affected on success, false on failure.
  */
 function bp_core_delete_notifications_by_item_id( $user_id, $item_id, $component_name, $component_action, $secondary_item_id = false ) {
 
@@ -193,10 +196,11 @@ function bp_core_delete_notifications_by_item_id( $user_id, $item_id, $component
  *
  * @since 1.0.0
  *
- * @param int          $user_id
- * @param string       $component_name
- * @param false|string $component_action
- * @return bool
+ * @param int          $item_id           ID of the associated item.
+ * @param string       $component_name    Name of the component that created the notifications.
+ * @param false|string $component_action  Optional. Name of the component action.
+ * @param false|int    $secondary_item_id Optional. Secondary item ID.
+ * @return false|null False when Notifications is inactive; otherwise null.
  */
 function bp_core_delete_all_notifications_by_type( $item_id, $component_name, $component_action = false, $secondary_item_id = false ) {
 
@@ -220,10 +224,10 @@ function bp_core_delete_all_notifications_by_type( $item_id, $component_name, $c
  *             bp_notifications_delete_notifications_from_user() instead.
  *
  * @since 1.0.0
- * @param int $user_id
- * @param string $component_name
- * @param string $component_action
- * @return false|int True on success, false on failure.
+ * @param int    $user_id          ID of the user whose associated items are being deleted.
+ * @param string $component_name   Name of the component that created the notifications.
+ * @param string $component_action Name of the component action.
+ * @return false|int Number of rows affected on success, false on failure.
  */
 function bp_core_delete_notifications_from_user( $user_id, $component_name, $component_action ) {
 
@@ -249,9 +253,9 @@ function bp_core_delete_notifications_from_user( $user_id, $component_name, $com
  *             bp_notifications_check_notification_access() instead.
  *
  * @since 1.0.0
- * @param int $user_id
- * @param int $notification_id
- * @return bool
+ * @param int $user_id         ID of the user.
+ * @param int $notification_id ID of the notification.
+ * @return bool Whether the user has access to the notification.
  */
 function bp_core_check_notification_access( $user_id, $notification_id ) {
 

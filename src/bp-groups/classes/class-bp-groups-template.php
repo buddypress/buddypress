@@ -23,6 +23,7 @@ class BP_Groups_Template {
 	 * The loop iterator.
 	 *
 	 * @since 1.2.0
+	 *
 	 * @var int
 	 */
 	public $current_group = -1;
@@ -31,6 +32,7 @@ class BP_Groups_Template {
 	 * The number of groups returned by the paged query.
 	 *
 	 * @since 1.2.0
+	 *
 	 * @var int
 	 */
 	public $group_count;
@@ -39,6 +41,7 @@ class BP_Groups_Template {
 	 * Array of groups located by the query.
 	 *
 	 * @since 1.2.0
+	 *
 	 * @var array
 	 */
 	public $groups;
@@ -47,6 +50,7 @@ class BP_Groups_Template {
 	 * The group object currently being iterated on.
 	 *
 	 * @since 1.2.0
+	 *
 	 * @var object
 	 */
 	public $group;
@@ -55,6 +59,7 @@ class BP_Groups_Template {
 	 * A flag for whether the loop is currently being iterated.
 	 *
 	 * @since 1.2.0
+	 *
 	 * @var bool
 	 */
 	public $in_the_loop;
@@ -63,6 +68,7 @@ class BP_Groups_Template {
 	 * The page number being requested.
 	 *
 	 * @since 1.2.0
+	 *
 	 * @var string
 	 */
 	public $pag_page;
@@ -71,6 +77,7 @@ class BP_Groups_Template {
 	 * The number of items being requested per page.
 	 *
 	 * @since 1.2.0
+	 *
 	 * @var string
 	 */
 	public $pag_num;
@@ -79,6 +86,7 @@ class BP_Groups_Template {
 	 * URL argument used for the pagination param.
 	 *
 	 * @since 1.2.0
+	 *
 	 * @var string
 	 */
 	public $pag_arg;
@@ -87,6 +95,7 @@ class BP_Groups_Template {
 	 * An HTML string containing pagination links.
 	 *
 	 * @since 1.2.0
+	 *
 	 * @var string
 	 */
 	public $pag_links;
@@ -95,6 +104,7 @@ class BP_Groups_Template {
 	 * The total number of groups matching the query parameters.
 	 *
 	 * @since 1.2.0
+	 *
 	 * @var int
 	 */
 	public $total_group_count;
@@ -103,6 +113,7 @@ class BP_Groups_Template {
 	 * Whether the template loop is for a single group page.
 	 *
 	 * @since 1.2.0
+	 *
 	 * @var bool
 	 */
 	public $single_group = false;
@@ -111,6 +122,7 @@ class BP_Groups_Template {
 	 * Field to sort by.
 	 *
 	 * @since 1.2.0
+	 *
 	 * @var string
 	 */
 	public $sort_by;
@@ -119,6 +131,7 @@ class BP_Groups_Template {
 	 * Sort order.
 	 *
 	 * @since 1.2.0
+	 *
 	 * @var string
 	 */
 	public $order;
@@ -128,7 +141,7 @@ class BP_Groups_Template {
 	 *
 	 * @see BP_Groups_Group::get() for an in-depth description of arguments.
 	 *
-	 * @param array $args {
+	 * @param array ...$args {
 	 *     Array of arguments. Accepts all arguments accepted by
 	 *     {@link BP_Groups_Group::get()}. In cases where the default
 	 *     values of the params differ, they have been discussed below.
@@ -136,10 +149,19 @@ class BP_Groups_Template {
 	 *     @type int $page Default: 1.
 	 * }
 	 */
-	function __construct( ...$args ){
+	public function __construct( ...$args ) {
 		// Backward compatibility with old method of passing arguments.
 		if ( ! is_array( $args[0] ) || count( $args ) > 1 ) {
-			_deprecated_argument( __METHOD__, '1.7', sprintf( esc_html__( 'Arguments passed to %1$s should be in an associative array. See the inline documentation at %2$s for more details.', 'buddypress' ), __METHOD__, __FILE__ ) );
+			_deprecated_argument(
+				__METHOD__,
+				'1.7',
+				sprintf(
+					/* translators: 1: the name of the method. 2: the name of the file. */
+					esc_html__( 'Arguments passed to %1$s should be in an associative array. See the inline documentation at %2$s for more details.', 'buddypress' ),
+					__METHOD__,
+					__FILE__
+				)
+			);
 
 			$old_args_keys = array(
 				0  => 'user_id',
@@ -196,16 +218,16 @@ class BP_Groups_Template {
 		extract( $r );
 
 		$this->pag_arg  = sanitize_key( $r['page_arg'] );
-		$this->pag_page = bp_sanitize_pagination_arg( $this->pag_arg, $r['page']     );
-		$this->pag_num  = bp_sanitize_pagination_arg( 'num',          $r['per_page'] );
+		$this->pag_page = bp_sanitize_pagination_arg( $this->pag_arg, $r['page'] );
+		$this->pag_num  = bp_sanitize_pagination_arg( 'num', $r['per_page'] );
 
-		if ( bp_current_user_can( 'bp_moderate' ) || ( is_user_logged_in() && $user_id == bp_loggedin_user_id() ) ) {
+		if ( bp_current_user_can( 'bp_moderate' ) || ( is_user_logged_in() && $user_id === bp_loggedin_user_id() ) ) {
 			$show_hidden = true;
 		}
 
-		if ( 'invites' == $type ) {
+		if ( 'invites' === $type ) {
 			$this->groups = groups_get_invites_for_user( $user_id, $this->pag_num, $this->pag_page, $exclude );
-		} elseif ( 'single-group' == $type ) {
+		} elseif ( 'single-group' === $type ) {
 			$this->single_group = true;
 
 			if ( groups_get_current_group() ) {
@@ -228,7 +250,7 @@ class BP_Groups_Template {
 
 		} else {
 			$this->groups = groups_get_groups(
-					array(
+				array(
 					'type'               => $type,
 					'order'              => $order,
 					'orderby'            => $orderby,
@@ -253,11 +275,11 @@ class BP_Groups_Template {
 			);
 		}
 
-		if ( 'invites' == $type ) {
+		if ( 'invites' === $type ) {
 			$this->total_group_count = (int) $this->groups['total'];
 			$this->group_count       = (int) $this->groups['total'];
 			$this->groups            = $this->groups['groups'];
-		} elseif ( 'single-group' == $type ) {
+		} elseif ( 'single-group' === $type ) {
 			if ( empty( $group->id ) ) {
 				$this->total_group_count = 0;
 				$this->group_count       = 0;
@@ -274,7 +296,7 @@ class BP_Groups_Template {
 
 			$this->groups = $this->groups['groups'];
 
-			if ( !empty( $max ) ) {
+			if ( ! empty( $max ) ) {
 				if ( $max >= count( $this->groups ) ) {
 					$this->group_count = count( $this->groups );
 				} else {
@@ -288,7 +310,7 @@ class BP_Groups_Template {
 		// Build pagination links.
 		if ( (int) $this->total_group_count && (int) $this->pag_num ) {
 			$pag_args = array(
-				$this->pag_arg => '%#%'
+				$this->pag_arg => '%#%',
 			);
 
 			if ( defined( 'DOING_AJAX' ) && true === (bool) DOING_AJAX ) {
@@ -304,20 +326,22 @@ class BP_Groups_Template {
 			);
 
 			if ( ! empty( $search_terms ) ) {
-				$query_arg = bp_core_get_component_search_query_arg( 'groups' );
-				$add_args[ $query_arg ] = urlencode( $search_terms );
+				$query_arg              = bp_core_get_component_search_query_arg( 'groups' );
+				$add_args[ $query_arg ] = rawurlencode( $search_terms );
 			}
 
-			$this->pag_links = paginate_links( array(
-				'base'      => add_query_arg( $pag_args, $base ),
-				'format'    => '',
-				'total'     => ceil( (int) $this->total_group_count / (int) $this->pag_num ),
-				'current'   => $this->pag_page,
-				'prev_text' => _x( '&larr;', 'Group pagination previous text', 'buddypress' ),
-				'next_text' => _x( '&rarr;', 'Group pagination next text', 'buddypress' ),
-				'mid_size'  => 1,
-				'add_args'  => $add_args,
-			) );
+			$this->pag_links = paginate_links(
+				array(
+					'base'      => add_query_arg( $pag_args, $base ),
+					'format'    => '',
+					'total'     => ceil( (int) $this->total_group_count / (int) $this->pag_num ),
+					'current'   => $this->pag_page,
+					'prev_text' => _x( '&larr;', 'Group pagination previous text', 'buddypress' ),
+					'next_text' => _x( '&rarr;', 'Group pagination next text', 'buddypress' ),
+					'mid_size'  => 1,
+					'add_args'  => $add_args,
+				)
+			);
 		}
 	}
 
@@ -330,7 +354,7 @@ class BP_Groups_Template {
 	 *
 	 * @return bool True if there are items in the loop, otherwise false.
 	 */
-	function has_groups() {
+	public function has_groups() {
 		if ( $this->group_count ) {
 			return true;
 		}
@@ -345,9 +369,9 @@ class BP_Groups_Template {
 	 *
 	 * @return object The next group to iterate over.
 	 */
-	function next_group() {
-		$this->current_group++;
-		$this->group = $this->groups[$this->current_group];
+	public function next_group() {
+		++$this->current_group;
+		$this->group = $this->groups[ $this->current_group ];
 
 		return $this->group;
 	}
@@ -357,7 +381,7 @@ class BP_Groups_Template {
 	 *
 	 * @since 1.2.0
 	 */
-	function rewind_groups() {
+	public function rewind_groups() {
 		$this->current_group = -1;
 		if ( $this->group_count > 0 ) {
 			$this->group = $this->groups[0];
@@ -377,17 +401,17 @@ class BP_Groups_Template {
 	 *
 	 * @return bool True if there are more groups to show, otherwise false.
 	 */
-	function groups() {
+	public function groups() {
 		if ( $this->current_group + 1 < $this->group_count ) {
 			return true;
-		} elseif ( $this->current_group + 1 == $this->group_count ) {
+		} elseif ( $this->current_group + 1 === $this->group_count ) {
 
 			/**
 			 * Fires right before the rewinding of groups list.
 			 *
 			 * @since 1.5.0
 			 */
-			do_action('group_loop_end');
+			do_action( 'group_loop_end' );
 			// Do some cleaning up after the loop.
 			$this->rewind_groups();
 		}
@@ -407,11 +431,11 @@ class BP_Groups_Template {
 	 *
 	 * @see bp_the_group()
 	 */
-	function the_group() {
+	public function the_group() {
 		$this->in_the_loop = true;
 		$this->group       = $this->next_group();
 
-		if ( 0 == $this->current_group ) {
+		if ( 0 === $this->current_group ) {
 
 			/**
 			 * Fires if the current group item is the first in the loop.

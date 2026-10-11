@@ -853,7 +853,15 @@ window.bp = window.bp || {};
 							$( '<p></p>' ).prop( 'id', 'password-warning' )
 										  .addClass( 'description' )
 						);
+
+						// Reinitialize after adding #password-warning.
+						passwordWarningContainer = $( currentForm ).find( '#password-warning' );
 					}
+
+					// Ensure we override user-profile.js.
+					setTimeout( function() {
+						$( '#submit' ).prop( 'disabled', true );
+					}, 1 );
 
 					$( passwordWarningContainer ).html( bpPasswordVerify.tooWeakPasswordWarning );
 				} else if ( $( passwordWarningContainer ).length ) {

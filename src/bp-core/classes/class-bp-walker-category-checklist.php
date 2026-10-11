@@ -47,8 +47,8 @@ class BP_Walker_Category_Checklist extends Walker {
 	 * @since 2.5.0
 	 *
 	 * @param string $output Passed by reference. Used to append additional content.
-	 * @param int    $depth  Depth of category. Used for tab indentation.
-	 * @param array  $args   An array of arguments.
+	 * @param int    $depth  Optional. Depth of category. Used for tab indentation.
+	 * @param array  $args   Optional. An array of arguments.
 	 */
 	public function start_lvl( &$output, $depth = 0, $args = array() ) {
 		$indent  = str_repeat( "\t", $depth );
@@ -61,8 +61,8 @@ class BP_Walker_Category_Checklist extends Walker {
 	 * @since 2.5.0
 	 *
 	 * @param string $output Passed by reference. Used to append additional content.
-	 * @param int    $depth  Depth of category. Used for tab indentation.
-	 * @param array  $args   An array of arguments.
+	 * @param int    $depth  Optional. Depth of category. Used for tab indentation.
+	 * @param array  $args   Optional. An array of arguments.
 	 */
 	public function end_lvl( &$output, $depth = 0, $args = array() ) {
 		$indent  = str_repeat( "\t", $depth );
@@ -74,9 +74,9 @@ class BP_Walker_Category_Checklist extends Walker {
 	 *
 	 * @param string $output   Passed by reference. Used to append additional content.
 	 * @param object $category The current term object.
-	 * @param int    $depth    Depth of the term in reference to parents. Default 0.
-	 * @param array  $args     An array of arguments.
-	 * @param int    $id       ID of the current term.
+	 * @param int    $depth    Optional. Depth of the term in reference to parents. Default 0.
+	 * @param array  $args     Optional. An array of arguments.
+	 * @param int    $id       Optional. ID of the current term.
 	 */
 	public function start_el( &$output, $category, $depth = 0, $args = array(), $id = 0 ) {
 		if ( empty( $args['taxonomy'] ) ) {
@@ -129,8 +129,8 @@ class BP_Walker_Category_Checklist extends Walker {
 	 *
 	 * @param string $output   Passed by reference. Used to append additional content.
 	 * @param object $category The current term object.
-	 * @param int    $depth    Depth of the term in reference to parents. Default 0.
-	 * @param array  $args     An array of arguments.
+	 * @param int    $depth    Optional. Depth of the term in reference to parents. Default 0.
+	 * @param array  $args     Optional. An array of arguments.
 	 */
 	public function end_el( &$output, $category, $depth = 0, $args = array() ) {
 		$output .= "</li>\n";

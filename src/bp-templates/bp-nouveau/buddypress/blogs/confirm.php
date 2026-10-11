@@ -2,6 +2,8 @@
 /**
  * BuddyPress - Blogs Confirm
  *
+ * @package BuddyPress
+ * @subpackage bp-nouveau
  * @since 12.0.0
  * @version 12.0.0
  */
@@ -12,9 +14,10 @@ bp_nouveau_template_notices(); ?>
 
 <?php if ( bp_blog_signup_enabled() ) : ?>
 
-	<p class="success"><?php esc_html_e( 'Congratulations! You have successfully registered a new site.', 'buddypress' ) ?></p>
+	<p class="success"><?php esc_html_e( 'Congratulations! You have successfully registered a new site.', 'buddypress' ); ?></p>
 	<p>
-		<?php printf(
+		<?php
+		printf(
 			'%s %s',
 			sprintf(
 				/* translators: %s: the link of the new site */
@@ -27,7 +30,8 @@ bp_nouveau_template_notices(); ?>
 				'<a href="' . esc_url( $args['login_url'] ) . '">' . esc_html__( 'Log in', 'buddypress' ) . '</a>',
 				esc_html( $args['user_name'] )
 			)
-		); ?>
+		);
+		?>
 	</p>
 
 <?php

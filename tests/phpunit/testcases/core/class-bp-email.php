@@ -191,7 +191,7 @@ class BP_Tests_Email extends BP_UnitTestCase_Emails {
 		$email->set_tokens( array( 'poster.name' => 'example' ) );
 		$result = $email->validate();
 
-		$this->assertTrue( is_wp_error( $result ) );
+		$this->assertWPError( $result );
 		$this->assertSame( 'missing_parameter', $result->get_error_code() );
 	}
 
@@ -202,7 +202,7 @@ class BP_Tests_Email extends BP_UnitTestCase_Emails {
 		$result = $email->validate();
 
 		// Template has a default value, but it can't be blank.
-		$this->assertTrue( is_wp_error( $result ) );
+		$this->assertWPError( $result );
 		$this->assertSame( 'missing_parameter', $result->get_error_code() );
 	}
 

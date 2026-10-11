@@ -18,12 +18,12 @@
 <?php
 switch ( bp_current_action() ) :
 
-	case 'send-invites' :
+	case 'send-invites':
 		bp_get_template_part( 'members/single/invitations/send-invites' );
 		break;
 
-	case 'list-invites' :
-	default :
+	case 'list-invites':
+	default:
 		bp_get_template_part( 'members/single/invitations/list-invites' );
 		break;
 

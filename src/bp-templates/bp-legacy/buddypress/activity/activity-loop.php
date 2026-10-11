@@ -22,7 +22,10 @@ do_action( 'bp_before_activity_loop' ); ?>
 
 	<?php endif; ?>
 
-	<?php while ( bp_activities() ) : bp_the_activity(); ?>
+	<?php
+	while ( bp_activities() ) :
+		bp_the_activity();
+		?>
 
 		<?php bp_get_template_part( 'activity/entry' ); ?>
 
@@ -31,7 +34,7 @@ do_action( 'bp_before_activity_loop' ); ?>
 	<?php if ( bp_activity_has_more_items() ) : ?>
 
 		<li class="load-more">
-			<a href="<?php bp_activity_load_more_link() ?>"><?php esc_html_e( 'Load More', 'buddypress' ); ?></a>
+			<a href="<?php bp_activity_load_more_link(); ?>"><?php esc_html_e( 'Load More', 'buddypress' ); ?></a>
 		</li>
 
 	<?php endif; ?>
@@ -57,7 +60,8 @@ do_action( 'bp_before_activity_loop' ); ?>
  *
  * @since 1.2.0
  */
-do_action( 'bp_after_activity_loop' ); ?>
+do_action( 'bp_after_activity_loop' );
+?>
 
 <?php if ( empty( $_POST['page'] ) ) : ?>
 
@@ -67,4 +71,5 @@ do_action( 'bp_after_activity_loop' ); ?>
 
 	</form>
 
-<?php endif;
+<?php
+endif;

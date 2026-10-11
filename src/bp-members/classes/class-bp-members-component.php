@@ -24,6 +24,7 @@ class BP_Members_Component extends BP_Component {
 	 * @see bp_register_member_type()
 	 *
 	 * @since 2.2.0
+	 *
 	 * @var array
 	 */
 	public $types = array();
@@ -32,6 +33,7 @@ class BP_Members_Component extends BP_Component {
 	 * Main nav arguments.
 	 *
 	 * @since 2.2.0
+	 *
 	 * @var array
 	 */
 	public $main_nav = array();
@@ -40,6 +42,7 @@ class BP_Members_Component extends BP_Component {
 	 * Main nav arguments.
 	 *
 	 * @since 2.2.0
+	 *
 	 * @var array
 	 */
 	public $sub_nav = array();
@@ -48,6 +51,7 @@ class BP_Members_Component extends BP_Component {
 	 * Nav for the members component.
 	 *
 	 * @since 2.2.0
+	 *
 	 * @var BP_Core_Nav
 	 */
 	public $nav;
@@ -56,12 +60,15 @@ class BP_Members_Component extends BP_Component {
 	 * Member admin.
 	 *
 	 * @since 2.0.0
+	 *
 	 * @var BP_Members_Admin
 	 */
 	public $admin;
 
 	/**
 	 * Invitations.
+	 *
+	 * @since 8.0.0
 	 *
 	 * @var stdClass
 	 */
@@ -92,7 +99,7 @@ class BP_Members_Component extends BP_Component {
 	 *
 	 * @see BP_Component::includes() for description of parameters.
 	 *
-	 * @param array $includes See {@link BP_Component::includes()}.
+	 * @param array $includes Optional. See {@link BP_Component::includes()}.
 	 */
 	public function includes( $includes = array() ) {
 
@@ -251,7 +258,7 @@ class BP_Members_Component extends BP_Component {
 			// The domain for the user currently being displayed.
 			$bp->displayed_user->domain = bp_members_get_user_url( $user_id );
 
-			// If A user is displayed, check if there is a front template
+			// If A user is displayed, check if there is a front template.
 			if ( bp_get_displayed_user() ) {
 				$bp->displayed_user->front_template = bp_displayed_user_get_front_template();
 			}
@@ -293,7 +300,7 @@ class BP_Members_Component extends BP_Component {
 	 *
 	 * @global wpdb $wpdb The WordPress database object.
 	 *
-	 * @param array $args See {@link BP_Component::setup_globals()}.
+	 * @param array $args Optional. See {@link BP_Component::setup_globals()}.
 	 */
 	public function setup_globals( $args = array() ) {
 		global $wpdb;
@@ -438,8 +445,6 @@ class BP_Members_Component extends BP_Component {
 	 *
 	 * @since 6.0.0
 	 * @deprecated 12.0.0
-	 *
-	 * @return array The Avatar and Cover image subnavs.
 	 */
 	public function get_avatar_cover_image_subnavs() {
 		_deprecated_function( __METHOD__, '12.0.0' );
@@ -458,7 +463,7 @@ class BP_Members_Component extends BP_Component {
 	 *                        description.
 	 */
 	public function register_nav( $main_nav = array(), $sub_nav = array() ) {
-		// Set slug to profile in case the xProfile component is not active
+		// Set slug to profile in case the xProfile component is not active.
 		$slug = bp_get_profile_slug();
 
 		$main_nav = array(
@@ -532,7 +537,7 @@ class BP_Members_Component extends BP_Component {
 	 *
 	 * @since 6.0.0
 	 *
-	 * @param  string $admin_bar_menu_id The Admin bar menu ID to attach sub items to.
+	 * @param  string $admin_bar_menu_id Optional. The Admin bar menu ID to attach sub items to.
 	 * @return array                     The Avatar and Cover image admin navs.
 	 */
 	public function get_avatar_cover_image_admin_navs( $admin_bar_menu_id = '' ) {
@@ -554,7 +559,7 @@ class BP_Members_Component extends BP_Component {
 			);
 		}
 
-		// Edit Cover Image
+		// Edit Cover Image.
 		if ( bp_displayed_user_use_cover_image_header() ) {
 			$wp_admin_nav[] = array(
 				'parent'   => 'my-account-' . $admin_bar_menu_id,
@@ -573,7 +578,7 @@ class BP_Members_Component extends BP_Component {
 	 *
 	 * @since 6.0.0
 	 *
-	 * @param array $wp_admin_nav Admin Bar items.
+	 * @param array $wp_admin_nav Optional. Admin Bar items.
 	 */
 	public function setup_admin_bar( $wp_admin_nav = array() ) {
 		// Menus for logged in user.
@@ -814,7 +819,7 @@ class BP_Members_Component extends BP_Component {
 				 *
 				 * @since 2.6.0
 				 *
-				 * @param string $member_slug
+				 * @param string $member_slug Current member slug.
 				 */
 				$member_slug           = apply_filters( 'bp_core_set_uri_globals_member_slug', $member_slug );
 				$bp->current_component = '';

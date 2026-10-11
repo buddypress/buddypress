@@ -32,7 +32,7 @@ function bp_settings_update_notification_settings( $user_id, $settings ) {
  *
  * @since 2.3.5
  *
- * @param array $settings Array of settings.
+ * @param array $settings Optional. Array of settings.
  * @return array Sanitized settings.
  */
 function bp_settings_sanitize_notification_settings( $settings = array() ) {
@@ -222,7 +222,7 @@ function bp_settings_personal_data_exporter( $email_address ) {
  *
  * @since 4.0.0
  *
- * @param int $user_id WP user ID.
+ * @param int $user_id Optional. WP user ID.
  * @return WP_User_Request|bool WP_User_Request object on success, bool false on failure.
  */
 function bp_settings_get_personal_data_request( $user_id = 0 ) {

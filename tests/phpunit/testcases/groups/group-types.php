@@ -57,7 +57,7 @@ class BP_Tests_BP_Groups_Group_Query_Group_Types extends BP_UnitTestCase {
 			),
 		) );
 
-		$this->assertEquals( array( $g1 ), $groups['groups'] );
+		$this->assertSame( array( $g1 ), $groups['groups'] );
 
 		remove_filter( 'bp_get_taxonomy_term_site_id', $callback );
 	}
@@ -75,7 +75,7 @@ class BP_Tests_BP_Groups_Group_Query_Group_Types extends BP_UnitTestCase {
 			'group_type' => 'foo',
 		) );
 
-		$this->assertEquals( array( $g1 ), $groups['groups'] );
+		$this->assertSame( array( $g1 ), $groups['groups'] );
 	}
 
 	public function test_group_type_array_with_single_value() {
@@ -91,7 +91,7 @@ class BP_Tests_BP_Groups_Group_Query_Group_Types extends BP_UnitTestCase {
 			'group_type' => 'foo',
 		) );
 
-		$this->assertEquals( array( $g1 ), $groups['groups'] );
+		$this->assertSame( array( $g1 ), $groups['groups'] );
 	}
 
 	public function test_group_type_with_comma_separated_list() {
@@ -139,7 +139,7 @@ class BP_Tests_BP_Groups_Group_Query_Group_Types extends BP_UnitTestCase {
 			'group_type' => 'foo, baz',
 		) );
 
-		$this->assertEquals( array( $g1 ), $groups['groups'] );
+		$this->assertSame( array( $g1 ), $groups['groups'] );
 	}
 
 	public function test_group_type_should_return_empty_when_no_groups_match_specified_types() {
@@ -167,7 +167,7 @@ class BP_Tests_BP_Groups_Group_Query_Group_Types extends BP_UnitTestCase {
 			'group_type__in' => 'bar',
 		) );
 
-		$this->assertEquals( array( $g2 ), $groups['groups'] );
+		$this->assertSame( array( $g2 ), $groups['groups'] );
 	}
 
 	public function test_group_type__in_comma_separated_values() {
@@ -215,7 +215,7 @@ class BP_Tests_BP_Groups_Group_Query_Group_Types extends BP_UnitTestCase {
 			'group_type__in' => array( 'foo' ),
 		) );
 
-		$this->assertEquals( array( $g1 ), $groups['groups'] );
+		$this->assertSame( array( $g1 ), $groups['groups'] );
 	}
 
 	public function test_group_type__in_should_discard_non_existing_types_in_comma_separated_value() {
@@ -231,7 +231,7 @@ class BP_Tests_BP_Groups_Group_Query_Group_Types extends BP_UnitTestCase {
 			'group_type__in' => 'foo, baz',
 		) );
 
-		$this->assertEquals( array( $g1 ), $groups['groups'] );
+		$this->assertSame( array( $g1 ), $groups['groups'] );
 	}
 
 	public function test_group_type__in_should_return_empty_when_no_groups_match_specified_types() {
@@ -260,7 +260,7 @@ class BP_Tests_BP_Groups_Group_Query_Group_Types extends BP_UnitTestCase {
 		) );
 
 		$found = wp_list_pluck( $groups['groups'], 'id' );
-		$this->assertEquals( array( $g2 ), $found );
+		$this->assertSame( array( $g2 ), $found );
 	}
 
 	public function test_group_type__not_in_should_return_groups_with_types_and_without_types() {
@@ -277,7 +277,7 @@ class BP_Tests_BP_Groups_Group_Query_Group_Types extends BP_UnitTestCase {
 			'group_type__not_in' => 'foo',
 		) );
 
-		$this->assertEquals( array( $g2, $g3 ), $groups['groups'] );
+		$this->assertSame( array( $g2, $g3 ), $groups['groups'] );
 	}
 
 	public function test_group_type__not_in_comma_separated_values() {
@@ -295,7 +295,7 @@ class BP_Tests_BP_Groups_Group_Query_Group_Types extends BP_UnitTestCase {
 			'group_type__not_in' => 'foo, bar',
 		) );
 
-		$this->assertEquals( array( $g3 ), $groups['groups'] );
+		$this->assertSame( array( $g3 ), $groups['groups'] );
 	}
 
 	public function test_group_type__not_array_with_multiple_values() {
@@ -315,7 +315,7 @@ class BP_Tests_BP_Groups_Group_Query_Group_Types extends BP_UnitTestCase {
 			)
 		);
 
-		$this->assertEquals( array( $g3 ), $groups['groups'] );
+		$this->assertSame( array( $g3 ), $groups['groups'] );
 	}
 
 	public function test_group_type__not_in_should_return_no_results_when_all_groups_match_specified_type() {

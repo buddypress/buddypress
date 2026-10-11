@@ -2,9 +2,12 @@
 /**
  * BuddyPress - Members Home
  *
+ * @package BuddyPress
+ * @subpackage bp-nouveau
  * @since   1.0.0
  * @version 3.0.0
  */
+
 ?>
 
 	<?php bp_nouveau_member_hook( 'before', 'home_content' ); ?>

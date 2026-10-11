@@ -2,9 +2,12 @@
 /**
  * Group Members Loop template
  *
+ * @package BuddyPress
+ * @subpackage bp-nouveau
  * @since 3.0.0
  * @version 3.2.0
  */
+
 ?>
 
 <?php if ( bp_group_has_members( bp_ajax_querystring( 'group_members' ) ) ) : ?>
@@ -62,7 +65,8 @@
 
 	<?php bp_nouveau_group_hook( 'after', 'members_content' ); ?>
 
-<?php else :
+<?php
+else :
 
 	bp_nouveau_user_feedback( 'group-members-none' );
 

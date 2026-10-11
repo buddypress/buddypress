@@ -24,9 +24,7 @@ class BP_Tests_Core_Caps extends BP_UnitTestCase {
 	}
 
 	public function test_bp_current_user_can_should_interpret_integer_second_param_as_a_blog_id() {
-		if ( ! is_multisite() ) {
-			$this->markTestSkipped( __METHOD__ . ' requires multisite.' );
-		}
+		$this->skipWithoutMultisite();
 
 		$b = self::factory()->blog->create();
 		$u = self::factory()->user->create();
@@ -36,7 +34,7 @@ class BP_Tests_Core_Caps extends BP_UnitTestCase {
 		add_filter( 'user_has_cap', array( $this, 'grant_cap_foo' ), 10, 2 );
 		$can  = bp_current_user_can( 'foo', bp_get_root_blog_id() );
 		$cant = bp_current_user_can( 'foo', $b );
-		remove_filter( 'user_has_cap', array( $this, 'grant_cap_foo' ), 10 );
+		remove_filter( 'user_has_cap', array( $this, 'grant_cap_foo' ) );
 
 		$this->assertTrue( $can );
 		$this->assertFalse( $cant );
@@ -46,9 +44,7 @@ class BP_Tests_Core_Caps extends BP_UnitTestCase {
 	 * @ticket BP6501
 	 */
 	public function test_bp_current_user_can_should_respect_blog_id_passed_in_args_array() {
-		if ( ! is_multisite() ) {
-			$this->markTestSkipped( __METHOD__ . ' requires multisite.' );
-		}
+		$this->skipWithoutMultisite();
 
 		$b = self::factory()->blog->create();
 		$u = self::factory()->user->create();
@@ -58,7 +54,7 @@ class BP_Tests_Core_Caps extends BP_UnitTestCase {
 		add_filter( 'user_has_cap', array( $this, 'grant_cap_foo' ), 10, 2 );
 		$can  = bp_current_user_can( 'foo', array( 'blog_id' => bp_get_root_blog_id() ) );
 		$cant = bp_current_user_can( 'foo', array( 'blog_id' => $b ) );
-		remove_filter( 'user_has_cap', array( $this, 'grant_cap_foo' ), 10 );
+		remove_filter( 'user_has_cap', array( $this, 'grant_cap_foo' ) );
 
 		$this->assertTrue( $can );
 		$this->assertFalse( $cant );
@@ -148,9 +144,7 @@ class BP_Tests_Core_Caps extends BP_UnitTestCase {
 	 * @group bp_moderate
 	 */
 	public function test_administrator_can_bp_moderate_network_activated() {
-		if ( ! is_multisite() ) {
-			$this->markTestSkipped( __METHOD__ . ' requires multisite.' );
-		}
+		$this->skipWithoutMultisite();
 
 		$u1 = self::factory()->user->create(
 			array(
@@ -189,9 +183,7 @@ class BP_Tests_Core_Caps extends BP_UnitTestCase {
 	 * @group bp_moderate
 	 */
 	public function test_administrator_can_bp_moderate_emails_network_activated() {
-		if ( ! is_multisite() ) {
-			$this->markTestSkipped( __METHOD__ . ' requires multisite.' );
-		}
+		$this->skipWithoutMultisite();
 
 		$u1 = self::factory()->user->create(
 			array(

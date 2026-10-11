@@ -18,7 +18,8 @@
  *
  * @since 1.1.0
  */
-do_action( 'bp_before_group_details_admin' ); ?>
+do_action( 'bp_before_group_details_admin' );
+?>
 
 <label for="group-name"><?php esc_html_e( 'Group Name (required)', 'buddypress' ); ?></label>
 <input type="text" name="group-name" id="group-name" value="<?php echo esc_attr( bp_get_group_name() ); ?>" aria-required="true" />
@@ -33,7 +34,8 @@ do_action( 'bp_before_group_details_admin' ); ?>
  *
  * @since 1.0.0
  */
-do_action( 'groups_custom_group_fields_editable' ); ?>
+do_action( 'groups_custom_group_fields_editable' );
+?>
 
 <p>
 	<label for="group-notify-members">
@@ -48,7 +50,9 @@ do_action( 'groups_custom_group_fields_editable' ); ?>
  *
  * @since 1.1.0
  */
-do_action( 'bp_after_group_details_admin' ); ?>
+do_action( 'bp_after_group_details_admin' );
+?>
 
 <p><input type="submit" value="<?php esc_attr_e( 'Save Changes', 'buddypress' ); ?>" id="save" name="save" /></p>
-<?php wp_nonce_field( 'groups_edit_group_details' );
+<?php
+wp_nonce_field( 'groups_edit_group_details' );

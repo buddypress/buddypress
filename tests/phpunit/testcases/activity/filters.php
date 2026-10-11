@@ -27,18 +27,18 @@ class BP_Tests_Activity_Filters extends BP_UnitTestCase {
 		// mentions normal text should be replaced
 		$at_name_in_text = sprintf( 'Hello @%s', $u1_mention_name );
 		$at_name_in_text_final = "Hello <a class='bp-suggestions-mention' href='" . $u1_domain . "' rel='nofollow'>@$u1_mention_name</a>";
-		$this->assertEquals( $at_name_in_text_final, bp_activity_at_name_filter( $at_name_in_text ) );
+		$this->assertSame( $at_name_in_text_final, bp_activity_at_name_filter( $at_name_in_text ) );
 
 		// mentions inside links sholudn't be replaced
 		// inside href
 		$at_name_in_mailto = sprintf( "Send messages to <a href='mail@%s.com'>Foo Bar Baz</a>", $u1_mention_name );
 		$at_name_in_mailto_final = sprintf( "Send messages to <a href='mail@%s.com'>Foo Bar Baz</a>", $u1_mention_name );
-		$this->assertEquals( $at_name_in_mailto_final, bp_activity_at_name_filter( $at_name_in_mailto ) );
+		$this->assertSame( $at_name_in_mailto_final, bp_activity_at_name_filter( $at_name_in_mailto ) );
 
 		// inside linked text
 		$at_name_in_link = sprintf( '<a href="https://twitter.com/%1$s">@%1$s</a>', $u1_mention_name );
 		$at_name_in_link_final = sprintf( '<a href="https://twitter.com/%1$s">@%1$s</a>', $u1_mention_name );
-		$this->assertEquals( $at_name_in_link_final, bp_activity_at_name_filter( $at_name_in_link ) );
+		$this->assertSame( $at_name_in_link_final, bp_activity_at_name_filter( $at_name_in_link ) );
 
 		// Don't link non-existent users
 		$text = "Don't link @non @existent @users";
@@ -54,6 +54,6 @@ class BP_Tests_Activity_Filters extends BP_UnitTestCase {
 		// Multiples
 		$at_name_in_mailto = sprintf( "Send messages to @%s <a href='mail@%s.com'>Foo Bar Baz</a>. Please CC <a href='http://twitter.com/foo2'>@foo2</a>.", $u1_mention_name, $u1_mention_name, $u2_mention_name, $u2_mention_name );
 		$at_name_in_mailto_final = sprintf( 'Send messages to <a class=\'bp-suggestions-mention\' href=\'%s\' rel=\'nofollow\'>@%s</a> <a href=\'mail@%s.com\'>Foo Bar Baz</a>. Please CC <a href=\'http://twitter.com/%s\'>@%s</a>.', $u1_domain, $u1_mention_name, $u1_mention_name, $u2_mention_name, $u2_mention_name );
-		$this->assertEquals( $at_name_in_mailto_final, bp_activity_at_name_filter( $at_name_in_mailto ) );
+		$this->assertSame( $at_name_in_mailto_final, bp_activity_at_name_filter( $at_name_in_mailto ) );
 	}
 }

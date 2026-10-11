@@ -24,6 +24,8 @@ class BP_Blogs_Blog {
 	/**
 	 * Site ID.
 	 *
+	 * @since 1.0.0
+	 *
 	 * @var int|null
 	 */
 	public $id;
@@ -31,12 +33,16 @@ class BP_Blogs_Blog {
 	/**
 	 * User ID.
 	 *
+	 * @since 1.0.0
+	 *
 	 * @var int
 	 */
 	public $user_id;
 
 	/**
 	 * Blog ID.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @var int
 	 */
@@ -246,7 +252,7 @@ class BP_Blogs_Blog {
 			)
 		);
 
-		if ( ! is_user_logged_in() || ( ! bp_current_user_can( 'bp_moderate' ) && ( $r['user_id'] != bp_loggedin_user_id() ) ) ) {
+		if ( ! is_user_logged_in() || ( ! bp_current_user_can( 'bp_moderate' ) && ( (int) $r['user_id'] !== bp_loggedin_user_id() ) ) ) {
 			$hidden_sql = 'AND wb.public = 1';
 		} else {
 			$hidden_sql = '';
@@ -335,7 +341,7 @@ class BP_Blogs_Blog {
 			$blog_ids[] = (int) $blog->blog_id;
 		}
 
-		$paged_blogs = self::get_blog_extras( $paged_blogs, $blog_ids, $r['type'] );
+		$paged_blogs = self::get_blog_extras( $paged_blogs, $blog_ids );
 
 		// Integer casting.
 		foreach ( (array) $paged_blogs as $key => $data ) {
@@ -349,7 +355,7 @@ class BP_Blogs_Blog {
 
 		return array(
 			'blogs' => $paged_blogs,
-			'total' => $total_blogs,
+			'total' => (int) $total_blogs,
 		);
 	}
 
@@ -686,12 +692,13 @@ class BP_Blogs_Blog {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @param array       $paged_blogs Array of results from the original query.
-	 * @param array       $blog_ids    Array of IDs returned from the original query.
-	 * @param string|bool $type        Not currently used. Default: false.
-	 * @return array $paged_blogs The located blogs array, with the extras added.
+	 * @since 15.0.0 The `$type` parameter was removed since it was unused.
+	 *
+	 * @param array $paged_blogs Array of results from the original query.
+	 * @param array $blog_ids    Array of IDs returned from the original query.
+	 * @return array
 	 */
-	public static function get_blog_extras( &$paged_blogs, &$blog_ids, $type = false ) {
+	public static function get_blog_extras( &$paged_blogs, &$blog_ids ) {
 		global $wpdb;
 
 		$bp = buddypress();

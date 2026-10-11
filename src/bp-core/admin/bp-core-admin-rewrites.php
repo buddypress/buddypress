@@ -240,7 +240,7 @@ function bp_core_admin_rewrites_settings() {
 								<div id="health-check-accordion-block-member-primary-nav" class="health-check-accordion-panel" hidden="hidden">
 									<table class="form-table" role="presentation">
 										<?php
-										foreach ( $members_navigation as $members_component => $navs ) :
+										foreach ( $members_navigation as $navs ) :
 											if ( ! isset( $navs['main_nav']['rewrite_id'] ) || ! $navs['main_nav']['rewrite_id'] ) {
 												continue;
 											}

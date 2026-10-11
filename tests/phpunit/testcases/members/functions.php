@@ -36,7 +36,7 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 		$user1 = self::factory()->user->create();
 		bp_core_delete_account( $user1 );
 		$maybe_user = new WP_User( $user1 );
-		$this->assertEquals( 0, $maybe_user->ID );
+		$this->assertSame( 0, $maybe_user->ID );
 		unset( $maybe_user );
 		$this->restore_admins();
 
@@ -45,7 +45,7 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 		$this->grant_super_admin( $user2 );
 		bp_core_delete_account( $user2 );
 		$maybe_user = new WP_User( $user2 );
-		$this->assertNotEquals( 0, $maybe_user->ID );
+		$this->assertNotSame( 0, $maybe_user->ID );
 		unset( $maybe_user );
 
 		// User cannot delete other's account
@@ -54,7 +54,7 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 		$this->set_current_user( $user3 );
 		bp_core_delete_account( $user4 );
 		$maybe_user = new WP_User( $user4 );
-		$this->assertNotEquals( 0, $maybe_user->ID );
+		$this->assertNotSame( 0, $maybe_user->ID );
 		unset( $maybe_user );
 
 		// Cleanup
@@ -66,60 +66,54 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 	 * @ticket BP8175
 	 */
 	public function test_last_activity_data_should_be_deleted_on_user_delete_non_multisite() {
-		if ( is_multisite() ) {
-			$this->markTestSkipped( __METHOD__ . ' requires non-multisite.' );
-		}
+		$this->skipWithMultisite();
 
 		$u1 = self::factory()->user->create();
 
-		$now = time();
+		$now = bp_core_current_time();
 		bp_update_user_last_activity( $u1, $now );
 
-		$this->assertEquals( $now, bp_get_user_last_activity( $u1 ) );
+		$this->assertSame( $now, bp_get_user_last_activity( $u1 ) );
 
 		wp_delete_user( $u1 );
 
-		$this->assertEquals( '', bp_get_user_last_activity( $u1 ) );
+		$this->assertSame( '', bp_get_user_last_activity( $u1 ) );
 	}
 
 	/**
 	 * @ticket BP8175
 	 */
 	public function test_last_activity_data_should_be_deleted_on_user_delete_multisite() {
-		if ( ! is_multisite() ) {
-			$this->markTestSkipped( __METHOD__ . ' requires multisite.' );
-		}
+		$this->skipWithoutMultisite();
 
 		$u1 = self::factory()->user->create();
 
-		$now = time();
+		$now = bp_core_current_time();
 		bp_update_user_last_activity( $u1, $now );
 
-		$this->assertEquals( $now, bp_get_user_last_activity( $u1 ) );
+		$this->assertSame( $now, bp_get_user_last_activity( $u1 ) );
 
 		wpmu_delete_user( $u1 );
 
-		$this->assertEquals( '', bp_get_user_last_activity( $u1 ) );
+		$this->assertSame( '', bp_get_user_last_activity( $u1 ) );
 	}
 
 	/**
 	 * @ticket BP8175
 	 */
 	public function test_last_activity_data_should_not_be_deleted_on_wp_delete_user_multisite() {
-		if ( ! is_multisite() ) {
-			$this->markTestSkipped( __METHOD__ . ' requires multisite.' );
-		}
+		$this->skipWithoutMultisite();
 
 		$u1 = self::factory()->user->create();
 
-		$now = time();
+		$now = bp_core_current_time();
 		bp_update_user_last_activity( $u1, $now );
 
-		$this->assertEquals( $now, bp_get_user_last_activity( $u1 ) );
+		$this->assertSame( $now, bp_get_user_last_activity( $u1 ) );
 
 		wp_delete_user( $u1 );
 
-		$this->assertEquals( $now, bp_get_user_last_activity( $u1 ) );
+		$this->assertSame( $now, bp_get_user_last_activity( $u1 ) );
 	}
 
 	/**
@@ -397,7 +391,7 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 	 * @group bp_core_get_userid_from_nicename
 	 */
 	public function test_bp_core_get_userid_from_nicename_failure() {
-		$this->assertSame( null, bp_core_get_userid_from_nicename( 'non_existent_user' ) );
+		$this->assertNull( bp_core_get_userid_from_nicename( 'non_existent_user' ) );
 	}
 
 	/**
@@ -426,7 +420,7 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 	/**
 	 * @group bp_update_user_last_activity
 	 * @global wpdb $wpdb WordPress database object.
-	 * @param  string $key
+	 * @param string $key User meta key.
 	 * @return string
 	 */
 	public function filter_usermeta_key( $key ) {
@@ -438,9 +432,7 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 	 * @group bp_core_process_spammer_status
 	 */
 	public function test_bp_core_process_spammer_status() {
-		if ( is_multisite() ) {
-			$this->markTestSkipped();
-		}
+		$this->skipWithMultisite();
 
 		$bp             = buddypress();
 		$displayed_user = $bp->displayed_user;
@@ -466,9 +458,7 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 	 * @group bp_core_process_spammer_status
 	 */
 	public function test_bp_core_process_spammer_status_ms_bulk_spam() {
-		if ( ! is_multisite() ) {
-			$this->markTestSkipped();
-		}
+		$this->skipWithoutMultisite();
 
 		$bp             = buddypress();
 		$displayed_user = $bp->displayed_user;
@@ -631,15 +621,15 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 	public function test_bp_members_validate_user_password_missing() {
 		$validate = bp_members_validate_user_password( '', '' );
 
-		$this->assertEquals( 'missing_user_password', $validate->get_error_code() );
+		$this->assertSame( 'missing_user_password', $validate->get_error_code() );
 
 		$validate = bp_members_validate_user_password( 'foobar', '' );
 
-		$this->assertEquals( 'missing_user_password', $validate->get_error_code() );
+		$this->assertSame( 'missing_user_password', $validate->get_error_code() );
 
 		$validate = bp_members_validate_user_password( '', 'foobar' );
 
-		$this->assertEquals( 'missing_user_password', $validate->get_error_code() );
+		$this->assertSame( 'missing_user_password', $validate->get_error_code() );
 	}
 
 	/**
@@ -648,7 +638,7 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 	public function test_bp_members_validate_user_password_mismatching() {
 		$validate = bp_members_validate_user_password( 'foobar', 'barfoo' );
 
-		$this->assertEquals( 'mismatching_user_password', $validate->get_error_code() );
+		$this->assertSame( 'mismatching_user_password', $validate->get_error_code() );
 	}
 
 	/**
@@ -659,9 +649,9 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 
 		$validate = bp_members_validate_user_password( 'one', 'one' );
 
-		remove_filter( 'bp_members_validate_user_password', array( $this, 'filter_bp_members_validate_user_password' ), 10, 2 );
+		remove_filter( 'bp_members_validate_user_password', array( $this, 'filter_bp_members_validate_user_password' ) );
 
-		$this->assertEquals( 'too_short_user_password', $validate->get_error_code() );
+		$this->assertSame( 'too_short_user_password', $validate->get_error_code() );
 	}
 
 	function filter_bp_members_validate_user_password( $errors, $pass ) {
@@ -722,7 +712,7 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 		foreach ( $signups as $key => $data ) {
 			$u = bp_core_activate_signup( $key );
 
-			$this->assertEquals( get_userdata( $u )->user_pass, $data['password'] );
+			$this->assertSame( get_userdata( $u )->user_pass, $data['password'] );
 		}
 
 		$wpdb->suppress_errors( $suppress );

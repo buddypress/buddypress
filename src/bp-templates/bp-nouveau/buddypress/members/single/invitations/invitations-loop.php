@@ -2,9 +2,12 @@
 /**
  * BuddyPress - Membership Invitations Loop
  *
+ * @package BuddyPress
+ * @subpackage bp-nouveau
  * @since 8.0.0
  * @version 8.0.0
  */
+
 ?>
 <form action="" method="post" id="invitations-bulk-management" class="standard-form">
 	<table class="invitations">
@@ -29,7 +32,10 @@
 
 		<tbody>
 
-			<?php while ( bp_the_members_invitations() ) : bp_the_members_invitation(); ?>
+			<?php
+			while ( bp_the_members_invitations() ) :
+				bp_the_members_invitation();
+				?>
 
 				<tr>
 					<td class="bulk-select-check">

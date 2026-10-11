@@ -9,9 +9,7 @@ class BP_Tests_Blogs_Cache extends BP_UnitTestCase {
 	 * @group bp_blogs_update_meta_cache
 	 */
 	public function test_bp_blogs_update_meta_cache() {
-		if ( ! is_multisite() ) {
-			$this->markTestSkipped();
-		}
+		$this->skipWithoutMultisite();
 
 		$b1 = self::factory()->blog->create();
 		$b2 = self::factory()->blog->create();
@@ -90,9 +88,7 @@ class BP_Tests_Blogs_Cache extends BP_UnitTestCase {
 	 * @group bp_has_blogs
 	 */
 	public function test_bp_blogs_update_meta_cache_bp_has_blogs() {
-		if ( ! is_multisite() ) {
-			$this->markTestSkipped();
-		}
+		$this->skipWithoutMultisite();
 
 		$u = self::factory()->user->create();
 
@@ -184,9 +180,7 @@ class BP_Tests_Blogs_Cache extends BP_UnitTestCase {
 	 * @group bp_has_blogs
 	 */
 	public function test_bp_blogs_update_meta_cache_bp_has_blogs_false() {
-		if ( ! is_multisite() ) {
-			$this->markTestSkipped();
-		}
+		$this->skipWithoutMultisite();
 
 		$u = self::factory()->user->create();
 
@@ -237,9 +231,7 @@ class BP_Tests_Blogs_Cache extends BP_UnitTestCase {
 	 * @group counts
 	 */
 	public function test_bp_blogs_total_count_should_respect_cached_value_of_0() {
-		if ( ! is_multisite() ) {
-			$this->markTestSkipped();
-		}
+		$this->skipWithoutMultisite();
 
 		global $wpdb;
 
@@ -252,16 +244,14 @@ class BP_Tests_Blogs_Cache extends BP_UnitTestCase {
 		bp_blogs_total_blogs();
 
 		// check if function references cache or hits the DB by comparing query count
-		$this->assertEquals( $first_query_count, $wpdb->num_queries );
+		$this->assertSame( $first_query_count, $wpdb->num_queries );
 	}
 
 	/**
 	 * @group bp_blogs_total_blogs
 	 */
 	public function test_bp_blogs_total_blogs_count_after_delete_blog() {
-		if ( ! is_multisite() ) {
-			$this->markTestSkipped();
-		}
+		$this->skipWithoutMultisite();
 
 		$u = self::factory()->user->create();
 
@@ -286,16 +276,14 @@ class BP_Tests_Blogs_Cache extends BP_UnitTestCase {
 		// delete a blog
 		wpmu_delete_blog( $b2 );
 
-		$this->assertEquals( 1, bp_blogs_total_blogs() );
+		$this->assertSame( 1, bp_blogs_total_blogs() );
 	}
 
 	/**
 	 * @group update_blog_details
 	 */
 	public function test_update_blog_details_should_purge_blogmeta_cache() {
-		if ( ! is_multisite() ) {
-			$this->markTestSkipped();
-		}
+		$this->skipWithoutMultisite();
 
 		$u = self::factory()->user->create();
 

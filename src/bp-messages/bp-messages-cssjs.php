@@ -22,10 +22,10 @@ function messages_add_autocomplete_js() {
 		$min = bp_core_get_minified_asset_suffix();
 		$url = buddypress()->plugin_url . 'bp-messages/js/';
 
-		wp_enqueue_script( 'bp-jquery-autocomplete', "{$url}autocomplete/jquery.autocomplete{$min}.js", array( 'jquery' ), bp_get_version() );
-		wp_enqueue_script( 'bp-jquery-autocomplete-fb', "{$url}autocomplete/jquery.autocompletefb{$min}.js", array( 'jquery' ), bp_get_version() );
-		wp_enqueue_script( 'bp-jquery-bgiframe', "{$url}autocomplete/jquery.bgiframe{$min}.js", array( 'jquery' ), bp_get_version() );
-		wp_enqueue_script( 'bp-jquery-dimensions', "{$url}autocomplete/jquery.dimensions{$min}.js", array( 'jquery' ), bp_get_version() );
+		wp_enqueue_script( 'bp-jquery-autocomplete', "{$url}autocomplete/jquery.autocomplete{$min}.js", array( 'jquery' ), bp_get_version(), false );
+		wp_enqueue_script( 'bp-jquery-autocomplete-fb', "{$url}autocomplete/jquery.autocompletefb{$min}.js", array( 'jquery' ), bp_get_version(), false );
+		wp_enqueue_script( 'bp-jquery-bgiframe', "{$url}autocomplete/jquery.bgiframe{$min}.js", array( 'jquery' ), bp_get_version(), false );
+		wp_enqueue_script( 'bp-jquery-dimensions', "{$url}autocomplete/jquery.dimensions{$min}.js", array( 'jquery' ), bp_get_version(), false );
 	}
 }
 add_action( 'bp_enqueue_scripts', 'messages_add_autocomplete_js' );
@@ -79,7 +79,7 @@ function messages_autocomplete_init_jsblock() {
  *
  * @since 9.0.0
  *
- * @param array $scripts Data about the scripts to register.
+ * @param array $scripts Optional. Data about the scripts to register.
  * @return array Data about the scripts to register.
  */
 function bp_messages_register_scripts( $scripts = array() ) {

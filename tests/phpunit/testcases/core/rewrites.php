@@ -3,6 +3,7 @@ include_once BP_TESTS_DIR . '/assets/class-bptest-component.php';
 
 /**
  * @group core
+ * @group bp_rewrites_get_url
  */
 class BP_Tests_Core_Rewrites extends BP_UnitTestCase {
 	protected $permalink_structure = '';
@@ -47,17 +48,13 @@ class BP_Tests_Core_Rewrites extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group bp_rewrites_get_url
 	 * @group bp_rewrites_get_root_url
 	 */
 	public function test_bp_rewrites_get_root_url() {
 		$root_url = get_home_url( bp_get_root_blog_id() );
-		$this->assertEquals( $root_url, bp_rewrites_get_root_url() );
+		$this->assertSame( $root_url, bp_rewrites_get_root_url() );
 	}
 
-	/**
-	 * @group bp_rewrites_get_url
-	 */
 	public function test_bp_rewrites_get_url_directory_plain() {
 		$this->set_permalink_structure( '' );
 
@@ -68,12 +65,9 @@ class BP_Tests_Core_Rewrites extends BP_UnitTestCase {
 		);
 
 		$qs = wp_parse_url( $buddies_url, PHP_URL_QUERY );
-		$this->assertEquals( 'bp_buddies=1', $qs );
+		$this->assertSame( 'bp_buddies=1', $qs );
 	}
 
-	/**
-	 * @group bp_rewrites_get_url
-	 */
 	public function test_bp_rewrites_get_url_directory_pretty() {
 		$this->set_permalink_structure( '/%postname%/' );
 
@@ -84,12 +78,9 @@ class BP_Tests_Core_Rewrites extends BP_UnitTestCase {
 		);
 
 		$path = wp_parse_url( $buddies_url, PHP_URL_PATH );
-		$this->assertEquals( '/buddies/', $path );
+		$this->assertSame( '/buddies/', $path );
 	}
 
-	/**
-	 * @group bp_rewrites_get_url
-	 */
 	public function test_bp_rewrites_get_url_single_item_plain() {
 		$this->set_permalink_structure( '' );
 
@@ -101,12 +92,9 @@ class BP_Tests_Core_Rewrites extends BP_UnitTestCase {
 		);
 
 		$qs = wp_parse_url( $buddies_url, PHP_URL_QUERY );
-		$this->assertEquals( 'bp_buddies=1&bp_buddy=foobar', $qs );
+		$this->assertSame( 'bp_buddies=1&bp_buddy=foobar', $qs );
 	}
 
-	/**
-	 * @group bp_rewrites_get_url
-	 */
 	public function test_bp_rewrites_get_url_single_item_pretty() {
 		$this->set_permalink_structure( '/%postname%/' );
 
@@ -118,12 +106,9 @@ class BP_Tests_Core_Rewrites extends BP_UnitTestCase {
 		);
 
 		$path = wp_parse_url( $buddies_url, PHP_URL_PATH );
-		$this->assertEquals( '/buddies/foobar/', $path );
+		$this->assertSame( '/buddies/foobar/', $path );
 	}
 
-	/**
-	 * @group bp_rewrites_get_url
-	 */
 	public function test_bp_rewrites_get_url_single_item_component_plain() {
 		$this->set_permalink_structure( '' );
 
@@ -136,12 +121,9 @@ class BP_Tests_Core_Rewrites extends BP_UnitTestCase {
 		);
 
 		$qs = wp_parse_url( $buddies_url, PHP_URL_QUERY );
-		$this->assertEquals( 'bp_buddies=1&bp_buddy=foobar&bp_buddy_component=activity', $qs );
+		$this->assertSame( 'bp_buddies=1&bp_buddy=foobar&bp_buddy_component=activity', $qs );
 	}
 
-	/**
-	 * @group bp_rewrites_get_url
-	 */
 	public function test_bp_rewrites_get_url_single_item_component_pretty() {
 		$this->set_permalink_structure( '/%postname%/' );
 
@@ -154,12 +136,9 @@ class BP_Tests_Core_Rewrites extends BP_UnitTestCase {
 		);
 
 		$path = wp_parse_url( $buddies_url, PHP_URL_PATH );
-		$this->assertEquals( '/buddies/foobar/activity/', $path );
+		$this->assertSame( '/buddies/foobar/activity/', $path );
 	}
 
-	/**
-	 * @group bp_rewrites_get_url
-	 */
 	public function test_bp_rewrites_get_url_single_item_action_plain() {
 		$this->set_permalink_structure( '' );
 
@@ -173,12 +152,9 @@ class BP_Tests_Core_Rewrites extends BP_UnitTestCase {
 		);
 
 		$qs = wp_parse_url( $buddies_url, PHP_URL_QUERY );
-		$this->assertEquals( 'bp_buddies=1&bp_buddy=foobar&bp_buddy_component=activity&bp_buddy_action=mention', $qs );
+		$this->assertSame( 'bp_buddies=1&bp_buddy=foobar&bp_buddy_component=activity&bp_buddy_action=mention', $qs );
 	}
 
-	/**
-	 * @group bp_rewrites_get_url
-	 */
 	public function test_bp_rewrites_get_url_single_item_action_pretty() {
 		$this->set_permalink_structure( '/%postname%/' );
 
@@ -192,12 +168,9 @@ class BP_Tests_Core_Rewrites extends BP_UnitTestCase {
 		);
 
 		$path = wp_parse_url( $buddies_url, PHP_URL_PATH );
-		$this->assertEquals( '/buddies/foobar/activity/mention/', $path );
+		$this->assertSame( '/buddies/foobar/activity/mention/', $path );
 	}
 
-	/**
-	 * @group bp_rewrites_get_url
-	 */
 	public function test_bp_rewrites_get_url_single_item_action_variables_plain() {
 		$this->set_permalink_structure( '' );
 		$expected = array( 'do', 'it', 'again' );
@@ -218,9 +191,6 @@ class BP_Tests_Core_Rewrites extends BP_UnitTestCase {
 		$this->assertSame( $expected, $parsed_qs['bp_buddy_action_variables'] );
 	}
 
-	/**
-	 * @group bp_rewrites_get_url
-	 */
 	public function test_bp_rewrites_get_url_single_item_action_variables_pretty() {
 		$this->set_permalink_structure( '/%postname%/' );
 
@@ -235,6 +205,6 @@ class BP_Tests_Core_Rewrites extends BP_UnitTestCase {
 		);
 
 		$path = wp_parse_url( $buddies_url, PHP_URL_PATH );
-		$this->assertEquals( '/buddies/foobar/activity/mention/do/it/again/', $path );
+		$this->assertSame( '/buddies/foobar/activity/mention/do/it/again/', $path );
 	}
 }

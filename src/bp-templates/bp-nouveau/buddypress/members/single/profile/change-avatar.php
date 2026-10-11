@@ -2,9 +2,12 @@
 /**
  * BuddyPress - Members Profile Change Avatar
  *
+ * @package BuddyPress
+ * @subpackage bp-nouveau
  * @since 3.0.0
  * @version 3.2.0
  */
+
 ?>
 
 <h2 class="screen-heading change-avatar-screen"><?php esc_html_e( 'Change Profile Photo', 'buddypress' ); ?></h2>
@@ -17,11 +20,13 @@
 		<span class="bp-icon" aria-hidden="true"></span>
 		<span class="bp-help-text">
 			<?php
-			/* Translators: %s is used to output the link to the Gravatar site */
-			printf( esc_html__( 'Your profile photo will be used on your profile and throughout the site. If there is a %s associated with your account email we will use that, or you can upload an image from your computer.', 'buddypress' ),
+			printf(
+				/* Translators: %s is used to output the link to the Gravatar site */
+				esc_html__( 'Your profile photo will be used on your profile and throughout the site. If there is a %s associated with your account email we will use that, or you can upload an image from your computer.', 'buddypress' ),
 				/* Translators: Url to the Gravatar site, you can use the one for your country eg: https://fr.gravatar.com for French translation */
 				'<a href="' . esc_url( __( 'https://gravatar.com', 'buddypress' ) ) . '">Gravatar</a>'
-			); ?>
+			);
+			?>
 		</span>
 	</p>
 
@@ -83,11 +88,13 @@
 
 	<p class="bp-help-text">
 		<?php
-		/* Translators: %s is used to output the link to the Gravatar site */
-		printf( esc_html__( 'Your profile photo will be used on your profile and throughout the site. To change your profile photo, create an account with %s using the same email address as you used to register with this site.', 'buddypress' ),
+		printf(
+			/* Translators: %s is used to output the link to the Gravatar site */
+			esc_html__( 'Your profile photo will be used on your profile and throughout the site. To change your profile photo, create an account with %s using the same email address as you used to register with this site.', 'buddypress' ),
 			/* Translators: Url to the Gravatar site, you can use the one for your country eg: https://fr.gravatar.com for French translation */
 			'<a href="' . esc_url( __( 'https://gravatar.com', 'buddypress' ) ) . '">Gravatar</a>'
-		); ?>
+		);
+		?>
 	</p>
 
 <?php endif; ?>

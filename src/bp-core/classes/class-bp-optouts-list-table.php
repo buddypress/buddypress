@@ -237,10 +237,10 @@ class BP_Optouts_List_Table extends WP_Users_List_Table {
 	 *
 	 * @see WP_List_Table::single_row() for explanation of params.
 	 *
-	 * @param BP_Optout $optout   BP_Optout object.
-	 * @param string    $style    Styles for the row.
-	 * @param string    $role     Role to be assigned to user.
-	 * @param int       $numposts Number of posts.
+	 * @param BP_Optout $optout   Optional. BP_Optout object.
+	 * @param string    $style    Optional. Styles for the row.
+	 * @param string    $role     Optional. Role to be assigned to user.
+	 * @param int       $numposts Optional. Number of posts.
 	 */
 	public function single_row( $optout = null, $style = '', $role = '', $numposts = 0 ) {
 		if ( '' === $style ) {
@@ -260,7 +260,7 @@ class BP_Optouts_List_Table extends WP_Users_List_Table {
 	 *
 	 * @since 8.0.0
 	 *
-	 * @param BP_Optout $optout BP_Optout object.
+	 * @param BP_Optout $optout Optional. BP_Optout object.
 	 */
 	public function column_cb( $optout = null ) {
 		?>
@@ -279,7 +279,7 @@ class BP_Optouts_List_Table extends WP_Users_List_Table {
 	 *
 	 * @since 8.0.0
 	 *
-	 * @param BP_Optout|null $optout BP_Optout object.
+	 * @param BP_Optout|null $optout Optional. BP_Optout object.
 	 */
 	public function column_email_address( $optout = null ) {
 		echo esc_html( $optout->email_address );
@@ -323,7 +323,7 @@ class BP_Optouts_List_Table extends WP_Users_List_Table {
 	 *
 	 * @since 8.0.0
 	 *
-	 * @param BP_Optout|null $optout BP_Optout object.
+	 * @param BP_Optout|null $optout Optional. BP_Optout object.
 	 */
 	public function column_username( $optout = null ) {
 		$avatar  = get_avatar( $optout->user_id, 32 );
@@ -356,7 +356,7 @@ class BP_Optouts_List_Table extends WP_Users_List_Table {
 	 *
 	 * @since 8.0.0
 	 *
-	 * @param BP_Optout|null $optout BP_Optout object.
+	 * @param BP_Optout|null $optout Optional. BP_Optout object.
 	 */
 	public function column_user_registered( $optout = null ) {
 		$inviter = get_user_by( 'id', $optout->user_id );
@@ -373,7 +373,7 @@ class BP_Optouts_List_Table extends WP_Users_List_Table {
 	 *
 	 * @since 8.0.0
 	 *
-	 * @param BP_Optout|null $optout BP_Optout object.
+	 * @param BP_Optout|null $optout Optional. BP_Optout object.
 	 */
 	public function column_email_type( $optout = null ) {
 		echo esc_html( $optout->email_type );
@@ -384,7 +384,7 @@ class BP_Optouts_List_Table extends WP_Users_List_Table {
 	 *
 	 * @since 8.0.0
 	 *
-	 * @param BP_Optout|null $optout BP_Optout object.
+	 * @param BP_Optout|null $optout Optional. BP_Optout object.
 	 */
 	public function column_email_type_description( $optout = null ) {
 		$type_term = get_term_by( 'slug', $optout->email_type, 'bp-email-type' );
@@ -399,7 +399,7 @@ class BP_Optouts_List_Table extends WP_Users_List_Table {
 	 *
 	 * @since 8.0.0
 	 *
-	 * @param BP_Optout|null $optout BP_Optout object.
+	 * @param BP_Optout|null $optout Optional. BP_Optout object.
 	 */
 	public function column_optout_date_modified( $optout = null ) {
 		echo esc_html( mysql2date( 'Y/m/d g:i:s a', $optout->date_modified ) );
@@ -410,8 +410,8 @@ class BP_Optouts_List_Table extends WP_Users_List_Table {
 	 *
 	 * @since 8.0.0
 	 *
-	 * @param BP_Optout|null $optout      BP_Optout object.
-	 * @param string         $column_name The column name.
+	 * @param BP_Optout|null $optout      Optional. BP_Optout object.
+	 * @param string         $column_name Optional. The column name.
 	 * @return string
 	 */
 	public function column_default( $optout = null, $column_name = '' ) {

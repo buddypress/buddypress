@@ -78,7 +78,7 @@ class BP_Tests_Group_Invites_REST_Controller extends BP_Test_REST_Controller_Tes
 		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$all_data = $response->get_data();
 
@@ -137,7 +137,7 @@ class BP_Tests_Group_Invites_REST_Controller extends BP_Test_REST_Controller_Tes
 		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$all_data = $response->get_data();
 
@@ -190,7 +190,7 @@ class BP_Tests_Group_Invites_REST_Controller extends BP_Test_REST_Controller_Tes
 		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$all_data = $response->get_data();
 
@@ -247,7 +247,7 @@ class BP_Tests_Group_Invites_REST_Controller extends BP_Test_REST_Controller_Tes
 		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$all_data = $response->get_data();
 
@@ -313,10 +313,10 @@ class BP_Tests_Group_Invites_REST_Controller extends BP_Test_REST_Controller_Tes
 		$request = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '/%d', $invite_id ) );
 		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 		$all_data = $response->get_data();
 
-		$this->assertEquals( $u1, $all_data['user_id'] );
+		$this->assertSame( $u1, $all_data['user_id'] );
 	}
 
 	/**
@@ -362,10 +362,10 @@ class BP_Tests_Group_Invites_REST_Controller extends BP_Test_REST_Controller_Tes
 		$request = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '/%d', $invite_id ) );
 		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 		$all_data = $response->get_data();
 
-		$this->assertEquals( $u1, $all_data['user_id'] );
+		$this->assertSame( $u1, $all_data['user_id'] );
 	}
 
 	/**
@@ -387,10 +387,10 @@ class BP_Tests_Group_Invites_REST_Controller extends BP_Test_REST_Controller_Tes
 		$request = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '/%d', $invite_id ) );
 		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 		$all_data = $response->get_data();
 
-		$this->assertEquals( $u1, $all_data['user_id'] );
+		$this->assertSame( $u1, $all_data['user_id'] );
 	}
 
 	/**
@@ -412,12 +412,12 @@ class BP_Tests_Group_Invites_REST_Controller extends BP_Test_REST_Controller_Tes
 		);
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$all_data = $response->get_data();
 
-		$this->assertEquals( $u1, $all_data['user_id'] );
-		$this->assertEquals( $this->user, $all_data['inviter_id'] );
+		$this->assertSame( $u1, $all_data['user_id'] );
+		$this->assertSame( $this->user, $all_data['inviter_id'] );
 		$this->assertTrue( (bool) $all_data['invite_sent'] );
 	}
 
@@ -440,12 +440,12 @@ class BP_Tests_Group_Invites_REST_Controller extends BP_Test_REST_Controller_Tes
 		);
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$all_data = $response->get_data();
 
-		$this->assertEquals( $u1, $all_data['user_id'] );
-		$this->assertEquals( $this->g1admin, $all_data['inviter_id'] );
+		$this->assertSame( $u1, $all_data['user_id'] );
+		$this->assertSame( $this->g1admin, $all_data['inviter_id'] );
 		$this->assertTrue( (bool) $all_data['invite_sent'] );
 	}
 
@@ -597,11 +597,11 @@ class BP_Tests_Group_Invites_REST_Controller extends BP_Test_REST_Controller_Tes
 		$request->set_param( 'context', 'edit' );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$all_data = $response->get_data();
 
-		$this->assertEquals( $u1, $all_data['id'] );
+		$this->assertSame( $u1, $all_data['id'] );
 	}
 
 	/**
@@ -624,11 +624,11 @@ class BP_Tests_Group_Invites_REST_Controller extends BP_Test_REST_Controller_Tes
 		$request->set_param( 'context', 'edit' );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$all_data = $response->get_data();
 
-		$this->assertEquals( $u1, $all_data['id'] );
+		$this->assertSame( $u1, $all_data['id'] );
 	}
 
 	/**
@@ -708,11 +708,11 @@ class BP_Tests_Group_Invites_REST_Controller extends BP_Test_REST_Controller_Tes
 		$request  = new WP_REST_Request( 'DELETE', $this->endpoint_url . '/' . $invite_id );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$all_data = $response->get_data();
 		$this->assertTrue( $all_data['deleted'] );
-		$this->assertEquals( $invite_id, $all_data['previous']['id'] );
+		$this->assertSame( $invite_id, $all_data['previous']['id'] );
 	}
 
 	/**
@@ -735,11 +735,11 @@ class BP_Tests_Group_Invites_REST_Controller extends BP_Test_REST_Controller_Tes
 		$request  = new WP_REST_Request( 'DELETE', $this->endpoint_url . '/' . $invite_id );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$all_data = $response->get_data();
 		$this->assertTrue( $all_data['deleted'] );
-		$this->assertEquals( $invite_id, $all_data['previous']['id'] );
+		$this->assertSame( $invite_id, $all_data['previous']['id'] );
 	}
 
 	/**
@@ -765,11 +765,11 @@ class BP_Tests_Group_Invites_REST_Controller extends BP_Test_REST_Controller_Tes
 		$request  = new WP_REST_Request( 'DELETE', $this->endpoint_url . '/' . $invite_id );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$all_data = $response->get_data();
 		$this->assertTrue( $all_data['deleted'] );
-		$this->assertEquals( $invite_id, $all_data['previous']['id'] );
+		$this->assertSame( $invite_id, $all_data['previous']['id'] );
 	}
 
 	/**
@@ -796,11 +796,11 @@ class BP_Tests_Group_Invites_REST_Controller extends BP_Test_REST_Controller_Tes
 
 		$request  = new WP_REST_Request( 'DELETE', $this->endpoint_url . '/' . $invite_id );
 		$response = $this->server->dispatch( $request );
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$all_data = $response->get_data();
 		$this->assertTrue( $all_data['deleted'] );
-		$this->assertEquals( $invite_id, $all_data['previous']['id'] );
+		$this->assertSame( $invite_id, $all_data['previous']['id'] );
 	}
 
 	/**
@@ -875,13 +875,13 @@ class BP_Tests_Group_Invites_REST_Controller extends BP_Test_REST_Controller_Tes
 	 * @group get_item
 	 */
 	public function test_prepare_item() {
-		$this->markTestSkipped();
+		$this->markTestSkipped( 'Coverage for prepare_item_for_response() has not been implemented.' );
 	}
 
 	protected function check_invited_user_data( $user, $data ) {
-		$this->assertEquals( $user->ID, $data['user_id'] );
-		$this->assertEquals( $user->invite_sent, $data['invite_sent'] );
-		$this->assertEquals( $user->inviter_id, $data['inviter_id'] );
+		$this->assertSame( $user->ID, $data['user_id'] );
+		$this->assertSame( $user->invite_sent, $data['invite_sent'] );
+		$this->assertSame( $user->inviter_id, $data['inviter_id'] );
 	}
 
 	protected function populate_group_with_invites( $users, $group_id ) {
@@ -903,7 +903,7 @@ class BP_Tests_Group_Invites_REST_Controller extends BP_Test_REST_Controller_Tes
 		$data       = $response->get_data();
 		$properties = $data['schema']['properties'];
 
-		$this->assertEquals( 9, count( $properties ) );
+		$this->assertCount( 9, $properties );
 		$this->assertArrayHasKey( 'user_id', $properties );
 		$this->assertArrayHasKey( 'invite_sent', $properties );
 		$this->assertArrayHasKey( 'inviter_id', $properties );
@@ -915,7 +915,7 @@ class BP_Tests_Group_Invites_REST_Controller extends BP_Test_REST_Controller_Tes
 		$response = $this->server->dispatch( $request );
 		$data     = $response->get_data();
 
-		$this->assertEquals( 'view', $data['endpoints'][0]['args']['context']['default'] );
-		$this->assertEquals( array( 'view', 'edit' ), $data['endpoints'][0]['args']['context']['enum'] );
+		$this->assertSame( 'view', $data['endpoints'][0]['args']['context']['default'] );
+		$this->assertSame( array( 'view', 'edit' ), $data['endpoints'][0]['args']['context']['enum'] );
 	}
 }

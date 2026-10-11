@@ -39,7 +39,7 @@ do_action( 'bp_before_activity_entry' ); ?>
 
 			<div class="activity-inner">
 
-				<?php bp_get_template_part( 'activity/type-parts/content',  bp_activity_type_part() ); ?>
+				<?php bp_get_template_part( 'activity/type-parts/content', bp_activity_type_part() ); ?>
 
 			</div>
 
@@ -52,11 +52,12 @@ do_action( 'bp_before_activity_entry' ); ?>
 		 *
 		 * @since 1.2.0
 		 */
-		do_action( 'bp_activity_entry_content' ); ?>
+		do_action( 'bp_activity_entry_content' );
+		?>
 
 		<div class="activity-meta">
 
-			<?php if ( bp_get_activity_type() == 'activity_comment' ) : ?>
+			<?php if ( bp_get_activity_type() === 'activity_comment' ) : ?>
 
 				<a href="<?php bp_activity_thread_permalink(); ?>" class="button view bp-secondary-action"><?php esc_html_e( 'View Conversation', 'buddypress' ); ?></a>
 
@@ -77,7 +78,7 @@ do_action( 'bp_before_activity_entry' ); ?>
 
 				<?php if ( bp_activity_can_favorite() ) : ?>
 
-					<?php if ( !bp_get_activity_is_favorite() ) : ?>
+					<?php if ( ! bp_get_activity_is_favorite() ) : ?>
 
 						<a href="<?php bp_activity_favorite_link(); ?>" class="button fav bp-secondary-action"><?php esc_html_e( 'Favorite', 'buddypress' ); ?></a>
 
@@ -89,7 +90,11 @@ do_action( 'bp_before_activity_entry' ); ?>
 
 				<?php endif; ?>
 
-				<?php if ( bp_activity_user_can_delete() ) bp_activity_delete_link(); ?>
+				<?php
+				if ( bp_activity_user_can_delete() ) {
+					bp_activity_delete_link();
+				}
+				?>
 
 				<?php
 
@@ -98,7 +103,8 @@ do_action( 'bp_before_activity_entry' ); ?>
 				 *
 				 * @since 1.2.0
 				 */
-				do_action( 'bp_activity_entry_meta' ); ?>
+				do_action( 'bp_activity_entry_meta' );
+				?>
 
 			<?php endif; ?>
 
@@ -113,7 +119,8 @@ do_action( 'bp_before_activity_entry' ); ?>
 	 *
 	 * @since 1.2.0
 	 */
-	do_action( 'bp_before_activity_entry_comments' ); ?>
+	do_action( 'bp_before_activity_entry_comments' );
+	?>
 
 	<?php if ( ( bp_activity_get_comment_count() || bp_activity_can_comment() ) || bp_is_single_activity() ) : ?>
 
@@ -146,7 +153,8 @@ do_action( 'bp_before_activity_entry' ); ?>
 					 *
 					 * @since 1.5.0
 					 */
-					do_action( 'bp_activity_entry_comments' ); ?>
+					do_action( 'bp_activity_entry_comments' );
+					?>
 
 					<?php wp_nonce_field( 'new_activity_comment', '_wpnonce_new_activity_comment_' . bp_get_activity_id() ); ?>
 
@@ -165,7 +173,8 @@ do_action( 'bp_before_activity_entry' ); ?>
 	 *
 	 * @since 1.2.0
 	 */
-	do_action( 'bp_after_activity_entry_comments' ); ?>
+	do_action( 'bp_after_activity_entry_comments' );
+	?>
 
 </li>
 

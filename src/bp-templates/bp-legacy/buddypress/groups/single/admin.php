@@ -20,7 +20,8 @@
  *
  * @since 2.7.0
  */
-do_action( 'bp_before_group_admin_form' ); ?>
+do_action( 'bp_before_group_admin_form' );
+?>
 
 <form action="<?php bp_group_admin_form_action(); ?>" name="group-settings-form" id="group-settings-form" class="standard-form" method="post" enctype="multipart/form-data">
 
@@ -30,7 +31,8 @@ do_action( 'bp_before_group_admin_form' ); ?>
 	 *
 	 * @since 1.1.0
 	 */
-	do_action( 'bp_before_group_admin_content' ); ?>
+	do_action( 'bp_before_group_admin_content' );
+	?>
 
 	<?php /* Fetch the template for the current admin screen being viewed */ ?>
 
@@ -49,7 +51,8 @@ do_action( 'bp_before_group_admin_form' ); ?>
 	 *
 	 * @since 1.1.0
 	 */
-	do_action( 'groups_custom_edit_steps' ); ?>
+	do_action( 'groups_custom_edit_steps' );
+	?>
 
 	<?php
 
@@ -58,7 +61,8 @@ do_action( 'bp_before_group_admin_form' ); ?>
 	 *
 	 * @since 1.1.0
 	 */
-	do_action( 'bp_after_group_admin_content' ); ?>
+	do_action( 'bp_after_group_admin_content' );
+	?>
 
 </form><!-- #group-settings-form -->
 

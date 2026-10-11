@@ -245,7 +245,15 @@ class BP_Email {
 		/**
 		 * Filters the value of the specified email property before transformation.
 		 *
-		 * This is a dynamic filter dependent on the specified key.
+		 * The dynamic portion of the hook name, `$property_name`, refers to the email property being
+		 * retrieved.
+		 *
+		 * Possible hook names include:
+		 *
+		 *  - `bp_email_get_headers`
+		 *  - `bp_email_get_content_html`
+		 *  - `bp_email_get_subject`
+		 *  - `bp_email_get_tokens`
 		 *
 		 * @since 2.5.0
 		 *

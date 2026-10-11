@@ -30,11 +30,22 @@
 
 		 $this->assertNotSame( $queries_before, $queries_after, 'Assert that queries are run' );
 		 $this->assertSame( 3, $queries_after, 'Assert that the uncached query was run' );
-		 $this->assertEquals( $first_query, $second_query, 'Results of the query are expected to match.' );
+
+		 $first_query  = wp_list_sort( $first_query, 'id', 'ASC' );
+		 $second_query = wp_list_sort( $second_query, 'id', 'ASC' );
+
+		 foreach ( array_merge( $first_query, $second_query ) as $optout ) {
+			 $this->assertInstanceOf( 'BP_Optout', $optout );
+		 }
+
+		 $this->assertSame(
+			 array_map( 'get_object_vars', $first_query ),
+			 array_map( 'get_object_vars', $second_query ),
+			 'Results of the query are expected to match.'
+		 );
 	 }
 
 	public function test_bp_optouts_add_optout_vanilla() {
-		$old_current_user = get_current_user_id();
 
 		$u1 = self::factory()->user->create();
 		wp_set_current_user( $u1 );
@@ -56,11 +67,9 @@
 		$optouts = bp_get_optouts( $get_args );
 		$this->assertEqualSets( array( $i1, $i2 ), $optouts );
 
-		wp_set_current_user( $old_current_user );
 	}
 
 	public function test_bp_optouts_add_optout_avoid_duplicates() {
-		$old_current_user = get_current_user_id();
 
 		$u1 = self::factory()->user->create();
 		wp_set_current_user( $u1 );
@@ -74,13 +83,11 @@
 		$i1 = bp_add_optout( $args );
 		// Attempt to create a duplicate. Should return existing optout id.
 		$i2 = bp_add_optout( $args );
-		$this->assertEquals( $i1, $i2 );
+		$this->assertSame( $i1, $i2 );
 
-		wp_set_current_user( $old_current_user );
 	}
 
 	public function test_bp_optouts_delete_optout() {
-		$old_current_user = get_current_user_id();
 
 		$u1 = self::factory()->user->create();
 		wp_set_current_user( $u1 );
@@ -100,11 +107,9 @@
 		$optouts = bp_get_optouts( $get_args );
 		$this->assertEmpty( $optouts );
 
-		wp_set_current_user( $old_current_user );
 	}
 
 	public function test_bp_optouts_get_by_search_terms() {
-		$old_current_user = get_current_user_id();
 
 		$u1 = self::factory()->user->create();
 		wp_set_current_user( $u1 );
@@ -126,11 +131,9 @@
 		$optouts = bp_get_optouts( $get_args );
 		$this->assertEqualSets( array( $i1 ), $optouts );
 
-		wp_set_current_user( $old_current_user );
 	}
 
 	public function test_bp_optouts_get_by_email_address_mismatched_case() {
-		$old_current_user = get_current_user_id();
 
 		$u1 = self::factory()->user->create();
 		wp_set_current_user( $u1 );
@@ -152,11 +155,9 @@
 		$optouts = bp_get_optouts( $get_args );
 		$this->assertEqualSets( array( $i1 ), $optouts );
 
-		wp_set_current_user( $old_current_user );
 	}
 
 	public function test_bp_optouts_get_by_search_terms_mismatched_case() {
-		$old_current_user = get_current_user_id();
 
 		$u1 = self::factory()->user->create();
 		wp_set_current_user( $u1 );
@@ -178,12 +179,10 @@
 		$optouts = bp_get_optouts( $get_args );
 		$this->assertEqualSets( array( $i1 ), $optouts );
 
-		wp_set_current_user( $old_current_user );
 	}
 
 
 	public function test_bp_optouts_get_by_email_address_mismatched_case_after_update() {
-		$old_current_user = get_current_user_id();
 
 		$u1 = self::factory()->user->create();
 		wp_set_current_user( $u1 );
@@ -207,11 +206,9 @@
 		$optouts = bp_get_optouts( $get_args );
 		$this->assertEqualSets( array( $i1 ), $optouts );
 
-		wp_set_current_user( $old_current_user );
 	}
 
 	public function test_bp_optout_prevents_bp_email_send() {
-		$old_current_user = get_current_user_id();
 
 		$u1 = self::factory()->user->create();
 		wp_set_current_user( $u1 );
@@ -226,7 +223,6 @@
 		$email->set_from( 'test1@example.com' )->set_to( 'test2@example.com' )->set_subject( 'testing' );
 		$email->set_content_html( 'testing' )->set_tokens( array( 'poster.name' => 'example' ) );
 
-		$this->assertTrue( is_wp_error( $email->validate() ) );
-		wp_set_current_user( $old_current_user );
+		$this->assertWPError( $email->validate() );
 	}
 }

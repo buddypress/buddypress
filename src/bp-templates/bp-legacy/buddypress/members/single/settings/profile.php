@@ -25,7 +25,10 @@ do_action( 'bp_before_member_settings_template' ); ?>
 
 	<?php if ( bp_xprofile_get_settings_fields() ) : ?>
 
-		<?php while ( bp_profile_groups() ) : bp_the_profile_group(); ?>
+		<?php
+		while ( bp_profile_groups() ) :
+			bp_the_profile_group();
+			?>
 
 			<?php if ( bp_profile_fields() ) : ?>
 
@@ -39,7 +42,10 @@ do_action( 'bp_before_member_settings_template' ); ?>
 
 					<tbody>
 
-						<?php while ( bp_profile_fields() ) : bp_the_profile_field(); ?>
+						<?php
+						while ( bp_profile_fields() ) :
+							bp_the_profile_field();
+							?>
 
 							<tr <?php bp_field_css_class(); ?>>
 								<td class="field-name"><?php bp_the_profile_field_name(); ?></td>
@@ -64,7 +70,8 @@ do_action( 'bp_before_member_settings_template' ); ?>
 	 *
 	 * @since 2.0.0
 	 */
-	do_action( 'bp_core_xprofile_settings_before_submit' ); ?>
+	do_action( 'bp_core_xprofile_settings_before_submit' );
+	?>
 
 	<div class="submit">
 		<input id="submit" type="submit" name="xprofile-settings-submit" value="<?php esc_attr_e( 'Save Settings', 'buddypress' ); ?>" class="auto" />
@@ -77,7 +84,8 @@ do_action( 'bp_before_member_settings_template' ); ?>
 	 *
 	 * @since 2.0.0
 	 */
-	do_action( 'bp_core_xprofile_settings_after_submit' ); ?>
+	do_action( 'bp_core_xprofile_settings_after_submit' );
+	?>
 
 	<?php wp_nonce_field( 'bp_xprofile_settings' ); ?>
 

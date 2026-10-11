@@ -35,7 +35,8 @@ do_action( 'bp_before_notices_loop' ); ?>
 	 *
 	 * @since 1.2.0
 	 */
-	do_action( 'bp_after_notices_pagination' ); ?>
+	do_action( 'bp_after_notices_pagination' );
+	?>
 	<?php
 
 	/**
@@ -43,10 +44,14 @@ do_action( 'bp_before_notices_loop' ); ?>
 	 *
 	 * @since 1.2.0
 	 */
-	do_action( 'bp_before_notices' ); ?>
+	do_action( 'bp_before_notices' );
+	?>
 
 	<table id="message-threads" class="messages-notices sitewide-notices">
-		<?php while ( bp_message_threads() ) : bp_message_thread(); ?>
+		<?php
+		while ( bp_message_threads() ) :
+			bp_message_thread();
+			?>
 			<tr id="notice-<?php bp_message_notice_id(); ?>" class="<?php bp_message_css_class(); ?>">
 				<td width="1%"></td>
 				<td width="38%">
@@ -71,11 +76,12 @@ do_action( 'bp_before_notices_loop' ); ?>
 				 *
 				 * @since 1.2.0
 				 */
-				do_action( 'bp_notices_list_item' ); ?>
+				do_action( 'bp_notices_list_item' );
+				?>
 
 				<td width="10%">
 					<a class="button" href="<?php bp_message_activate_deactivate_link(); ?>" class="confirm"><?php bp_message_activate_deactivate_text(); ?></a>
-					<a class="button" href="<?php bp_message_notice_delete_link(); ?>" class="confirm"><?php esc_html_e( "Delete Message", 'buddypress' ); ?></a>
+					<a class="button" href="<?php bp_message_notice_delete_link(); ?>" class="confirm"><?php esc_html_e( 'Delete Message', 'buddypress' ); ?></a>
 				</td>
 			</tr>
 		<?php endwhile; ?>
@@ -88,15 +94,16 @@ do_action( 'bp_before_notices_loop' ); ?>
 	 *
 	 * @since 1.2.0
 	 */
-	do_action( 'bp_after_notices' ); ?>
+	do_action( 'bp_after_notices' );
+	?>
 
-<?php else: ?>
+<?php else : ?>
 
 	<div id="message" class="info">
 		<p><?php esc_html_e( 'Sorry, no notices were found.', 'buddypress' ); ?></p>
 	</div>
 
-<?php endif;?>
+<?php endif; ?>
 
 <?php
 

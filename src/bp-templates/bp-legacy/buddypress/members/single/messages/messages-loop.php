@@ -42,7 +42,8 @@ do_action( 'bp_before_member_messages_loop' ); ?>
 	 *
 	 * @since 1.2.0
 	 */
-	do_action( 'bp_after_member_messages_pagination' ); ?>
+	do_action( 'bp_after_member_messages_pagination' );
+	?>
 
 	<?php
 
@@ -51,7 +52,8 @@ do_action( 'bp_before_member_messages_loop' ); ?>
 	 *
 	 * @since 1.2.0
 	 */
-	do_action( 'bp_before_member_messages_threads' ); ?>
+	do_action( 'bp_before_member_messages_threads' );
+	?>
 
 	<form action="<?php bp_displayed_user_link( array( bp_get_messages_slug(), bp_current_action(), 'bulk-manage' ) ); ?>" method="post" id="messages-bulk-management">
 
@@ -80,7 +82,8 @@ do_action( 'bp_before_member_messages_loop' ); ?>
 					 *
 					 * @since 2.3.0
 					 */
-					do_action( 'bp_messages_inbox_list_header' ); ?>
+					do_action( 'bp_messages_inbox_list_header' );
+					?>
 
 					<?php if ( bp_is_active( 'messages', 'star' ) ) : ?>
 						<th scope="col" class="thread-star">
@@ -102,26 +105,45 @@ do_action( 'bp_before_member_messages_loop' ); ?>
 
 			<tbody>
 
-				<?php while ( bp_message_threads() ) : bp_message_thread(); ?>
+				<?php
+				while ( bp_message_threads() ) :
+					bp_message_thread();
+					?>
 
-					<tr id="m-<?php bp_message_thread_id(); ?>" class="<?php bp_message_css_class(); ?><?php if ( bp_message_thread_has_unread() ) : ?> unread<?php else: ?> read<?php endif; ?>">
+					<tr id="m-<?php bp_message_thread_id(); ?>" class="<?php bp_message_css_class(); ?><?php $message_status_class = bp_message_thread_has_unread() ? ' unread' : ' read'; ?><?php echo esc_attr( $message_status_class ); ?>">
 						<td class="bulk-select-check">
-							<label for="bp-message-thread-<?php bp_message_thread_id(); ?>"><input type="checkbox" name="message_ids[]" id="bp-message-thread-<?php bp_message_thread_id(); ?>" class="message-check" value="<?php bp_message_thread_id(); ?>" /><span class="bp-screen-reader-text"><?php
+							<label for="bp-message-thread-<?php bp_message_thread_id(); ?>"><input type="checkbox" name="message_ids[]" id="bp-message-thread-<?php bp_message_thread_id(); ?>" class="message-check" value="<?php bp_message_thread_id(); ?>" /><span class="bp-screen-reader-text">
+							<?php
 								/* translators: accessibility text */
 								esc_html_e( 'Select this message', 'buddypress' );
-							?></span></label>
+							?>
+							</span></label>
 						</td>
 
-						<?php if ( 'sentbox' != bp_current_action() ) : ?>
+						<?php if ( 'sentbox' !== bp_current_action() ) : ?>
 							<td class="thread-from">
-								<?php bp_message_thread_avatar( array( 'width' => 25, 'height' => 25 ) ); ?>
+								<?php
+								bp_message_thread_avatar(
+									array(
+										'width' => 25,
+										'height' => 25,
+									)
+								);
+								?>
 								<span class="from"><?php esc_html_e( 'From:', 'buddypress' ); ?></span> <?php bp_message_thread_from(); ?>
 								<?php bp_message_thread_total_and_unread_count(); ?>
 								<span class="activity"><?php bp_message_thread_last_post_date(); ?></span>
 							</td>
-						<?php else: ?>
+						<?php else : ?>
 							<td class="thread-from">
-								<?php bp_message_thread_avatar( array( 'width' => 25, 'height' => 25 ) ); ?>
+								<?php
+								bp_message_thread_avatar(
+									array(
+										'width' => 25,
+										'height' => 25,
+									)
+								);
+								?>
 								<span class="to"><?php esc_html_e( 'To:', 'buddypress' ); ?></span> <?php bp_message_thread_to(); ?>
 								<?php bp_message_thread_total_and_unread_count(); ?>
 								<span class="activity"><?php bp_message_thread_last_post_date(); ?></span>
@@ -129,7 +151,7 @@ do_action( 'bp_before_member_messages_loop' ); ?>
 						<?php endif; ?>
 
 						<td class="thread-info">
-							<p><a href="<?php bp_message_thread_view_link( bp_get_message_thread_id(), bp_displayed_user_id() ); ?>" class="bp-tooltip" data-bp-tooltip="<?php esc_attr_e( "View Message", 'buddypress' ); ?>" aria-label="<?php esc_attr_e( "View Message", 'buddypress' ); ?>"><?php bp_message_thread_subject(); ?></a></p>
+							<p><a href="<?php bp_message_thread_view_link( bp_get_message_thread_id(), bp_displayed_user_id() ); ?>" class="bp-tooltip" data-bp-tooltip="<?php esc_attr_e( 'View Message', 'buddypress' ); ?>" aria-label="<?php esc_attr_e( 'View Message', 'buddypress' ); ?>"><?php bp_message_thread_subject(); ?></a></p>
 							<p class="thread-excerpt"><?php bp_message_thread_excerpt(); ?></p>
 						</td>
 
@@ -143,7 +165,8 @@ do_action( 'bp_before_member_messages_loop' ); ?>
 						 *
 						 * @since 1.1.0
 						 */
-						do_action( 'bp_messages_inbox_list_item' ); ?>
+						do_action( 'bp_messages_inbox_list_item' );
+						?>
 
 						<?php if ( bp_is_active( 'messages', 'star' ) ) : ?>
 							<td class="thread-star">
@@ -153,11 +176,11 @@ do_action( 'bp_before_member_messages_loop' ); ?>
 
 						<td class="thread-options">
 							<?php if ( bp_message_thread_has_unread() ) : ?>
-								<a class="read" href="<?php bp_the_message_thread_mark_read_url( bp_displayed_user_id() );?>"><?php esc_html_e( 'Read', 'buddypress' ); ?></a>
+								<a class="read" href="<?php bp_the_message_thread_mark_read_url( bp_displayed_user_id() ); ?>"><?php esc_html_e( 'Read', 'buddypress' ); ?></a>
 							<?php else : ?>
-								<a class="unread" href="<?php bp_the_message_thread_mark_unread_url( bp_displayed_user_id() );?>"><?php esc_html_e( 'Unread', 'buddypress' ); ?></a>
+								<a class="unread" href="<?php bp_the_message_thread_mark_unread_url( bp_displayed_user_id() ); ?>"><?php esc_html_e( 'Unread', 'buddypress' ); ?></a>
 							<?php endif; ?>
-							 |
+							|
 							<a class="delete" href="<?php bp_message_thread_delete_link( bp_displayed_user_id() ); ?>"><?php esc_html_e( 'Delete', 'buddypress' ); ?></a>
 
 							<?php
@@ -167,7 +190,8 @@ do_action( 'bp_before_member_messages_loop' ); ?>
 							 *
 							 * @since 2.5.0
 							 */
-							do_action( 'bp_messages_thread_options' ); ?>
+							do_action( 'bp_messages_thread_options' );
+							?>
 						</td>
 					</tr>
 
@@ -191,7 +215,8 @@ do_action( 'bp_before_member_messages_loop' ); ?>
 	 *
 	 * @since 1.2.0
 	 */
-	do_action( 'bp_after_member_messages_threads' ); ?>
+	do_action( 'bp_after_member_messages_threads' );
+	?>
 
 	<?php
 
@@ -200,15 +225,16 @@ do_action( 'bp_before_member_messages_loop' ); ?>
 	 *
 	 * @since 1.2.0
 	 */
-	do_action( 'bp_after_member_messages_options' ); ?>
+	do_action( 'bp_after_member_messages_options' );
+	?>
 
-<?php else: ?>
+<?php else : ?>
 
 	<div id="message" class="info">
 		<p><?php esc_html_e( 'Sorry, no messages were found.', 'buddypress' ); ?></p>
 	</div>
 
-<?php endif;?>
+<?php endif; ?>
 
 <?php
 

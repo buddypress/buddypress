@@ -24,7 +24,7 @@ class BP_Members_Invitation_Manager extends BP_Invitation_Manager {
 	 *
 	 * @since 8.0.0
 	 *
-	 * @param array|string $args.
+	 * @param array|string $args Optional. Arguments for the invitation.
 	 */
 	public function __construct( $args = '' ) {
 		parent::__construct();
@@ -36,11 +36,11 @@ class BP_Members_Invitation_Manager extends BP_Invitation_Manager {
 	 *
 	 * @since 8.0.0
 	 *
-	 * @param obj BP_Invitation $invitation The invitation to send.
+	 * @param BP_Invitation $invitation The invitation to send.
 	 * @return bool
 	 */
 	public function run_send_action( BP_Invitation $invitation ) {
-		// Notify site admins of the pending request
+		// Notify site admins of the pending request.
 		if ( 'request' === $invitation->type ) {
 			// Coming soon to a BuddyPress near you!
 			return true;
@@ -52,7 +52,7 @@ class BP_Members_Invitation_Manager extends BP_Invitation_Manager {
 				return false;
 			}
 
-			$invite_url = esc_url(
+			$invite_url       = esc_url(
 				add_query_arg(
 					array(
 						'inv' => $invitation->id,
@@ -89,7 +89,7 @@ class BP_Members_Invitation_Manager extends BP_Invitation_Manager {
 	 *
 	 * @since 8.0.0
 	 *
-	 * @param string $type Are we accepting an invitation or request?
+	 * @param string $type Whether an invitation or request is being accepted.
 	 * @param array  $r    Parameters that describe the invitation being accepted.
 	 * @return bool
 	 */
@@ -110,12 +110,12 @@ class BP_Members_Invitation_Manager extends BP_Invitation_Manager {
 				$new_user = get_user_by( 'email', $invite->invitee_email );
 				bp_update_user_meta( $new_user->ID, 'accepted_members_invitation', $invite->id );
 
-				// We will mark all invitations to this user as "accepted."
-				if ( ! empty( $invite->invitee_email )  ) {
-					$args  = array(
+				// We will mark all invitations to this user as "accepted.".
+				if ( ! empty( $invite->invitee_email ) ) {
+					$args = array(
 						'invitee_email' => $invite->invitee_email,
 						'item_id'       => get_current_network_id(),
-						'type'          => 'all'
+						'type'          => 'all',
 					);
 					$this->mark_accepted( $args );
 				}
@@ -126,7 +126,7 @@ class BP_Members_Invitation_Manager extends BP_Invitation_Manager {
 				 * @since 8.0.0
 				 *
 				 * @param BP_Invitation $invite     Invitation that was accepted.
-				 * @param WP_user       $new_user   ID of the user who accepted the membership invite.
+				 * @param WP_User       $new_user   User who accepted the membership invite.
 				 * @param int           $inviter_id ID of the user who invited this user to the site.
 				 */
 				do_action( 'members_invitations_invite_accepted', $invite, $new_user, $invite->inviter_id );
@@ -163,8 +163,8 @@ class BP_Members_Invitation_Manager extends BP_Invitation_Manager {
 	 *
 	 * @since 8.0.0
 	 *
-	 * @param array $args.
-	 * @return bool.
+	 * @param array $args Arguments for the membership request.
+	 * @return bool Whether the request should be created.
 	 */
 	public function allow_request( $args ) {
 		// Does the requester have this capability?

@@ -38,7 +38,7 @@ class BP_Tests_Members_REST_Controller extends BP_Test_REST_Controller_Testcase 
 		);
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$all_data = $response->get_data();
 
@@ -109,7 +109,7 @@ class BP_Tests_Members_REST_Controller extends BP_Test_REST_Controller_Testcase 
 		);
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$members = $response->get_data();
 
@@ -117,12 +117,12 @@ class BP_Tests_Members_REST_Controller extends BP_Test_REST_Controller_Testcase 
 		$this->assertCount( 3, $members );
 
 		$latest_activities = wp_list_pluck( $members, 'last_activity', 'id' );
-		$this->assertEquals( bp_rest_prepare_date_response( $date_last_activity ), $latest_activities[ $u1 ]['date'] );
+		$this->assertSame( bp_rest_prepare_date_response( $date_last_activity ), $latest_activities[ $u1 ]['date'] );
 
-		$this->assertEquals( array( $u1, $u3 ), array_values( wp_filter_object_list( $members, array( 'total_friend_count' => 1 ), 'AND', 'id' ) ) );
+		$this->assertSame( array( $u1, $u3 ), array_values( wp_filter_object_list( $members, array( 'total_friend_count' => 1 ), 'AND', 'id' ) ) );
 
 		$latest_updates = wp_list_pluck( $members, 'latest_update', 'id' );
-		$this->assertEquals( $a1, $latest_updates[ $u2 ]['id'] );
+		$this->assertSame( $a1, $latest_updates[ $u2 ]['id'] );
 	}
 
 	/**
@@ -146,11 +146,11 @@ class BP_Tests_Members_REST_Controller extends BP_Test_REST_Controller_Testcase 
 
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$headers = $response->get_headers();
-		$this->assertEquals( 4, $headers['X-WP-Total'] );
-		$this->assertEquals( 2, $headers['X-WP-TotalPages'] );
+		$this->assertSame( 4, $headers['X-WP-Total'] );
+		$this->assertSame( 2, $headers['X-WP-TotalPages'] );
 
 		$all_data = $response->get_data();
 
@@ -188,7 +188,7 @@ class BP_Tests_Members_REST_Controller extends BP_Test_REST_Controller_Testcase 
 		);
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$all_data = $response->get_data();
 
@@ -231,7 +231,7 @@ class BP_Tests_Members_REST_Controller extends BP_Test_REST_Controller_Testcase 
 		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$all_data = $response->get_data();
 
@@ -294,7 +294,7 @@ class BP_Tests_Members_REST_Controller extends BP_Test_REST_Controller_Testcase 
 
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$all_data = $response->get_data();
 		$user_ids = wp_list_pluck( $all_data, 'id' );
@@ -360,13 +360,13 @@ class BP_Tests_Members_REST_Controller extends BP_Test_REST_Controller_Testcase 
 		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$all_data = $response->get_data();
 		$user_ids = wp_list_pluck( $all_data, 'id' );
 
 		$this->assertNotEmpty( $all_data );
-		$this->assertTrue( 2 === count( $all_data ) );
+		$this->assertCount( 2, $all_data );
 		$this->assertFalse( in_array( $u2, $user_ids, true ) );
 		$this->assertSame( array( $u3, $u ), $user_ids );
 	}
@@ -387,7 +387,7 @@ class BP_Tests_Members_REST_Controller extends BP_Test_REST_Controller_Testcase 
 		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 		$this->check_get_user_response( $response );
 	}
 
@@ -420,7 +420,6 @@ class BP_Tests_Members_REST_Controller extends BP_Test_REST_Controller_Testcase 
 		$u2 = static::factory()->user->create();
 
 		// Set current user.
-		$current_user = get_current_user_id();
 		wp_set_current_user( $u1 );
 
 		$a1 = bp_activity_post_update(
@@ -441,19 +440,18 @@ class BP_Tests_Members_REST_Controller extends BP_Test_REST_Controller_Testcase 
 		$request->set_query_params( array( 'populate_extras' => true ) );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$member = $response->get_data();
 		$this->assertNotEmpty( $member );
 
-		$this->assertEquals(
+		$this->assertSame(
 			bp_rest_prepare_date_response( $date_last_activity, get_date_from_gmt( $date_last_activity ) ),
 			$member['last_activity']['date']
 		);
-		$this->assertEquals( $member['latest_update']['id'], $a1 );
-		$this->assertEquals( 1, $member['total_friend_count'] );
+		$this->assertSame( $member['latest_update']['id'], $a1 );
+		$this->assertSame( 1, $member['total_friend_count'] );
 
-		wp_set_current_user( $current_user );
 	}
 
 	/**
@@ -461,7 +459,6 @@ class BP_Tests_Members_REST_Controller extends BP_Test_REST_Controller_Testcase 
 	 */
 	public function test_get_item_me_extras() {
 		// Set current user.
-		$current_user = get_current_user_id();
 		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'GET', $this->endpoint_url . '/me' );
@@ -472,14 +469,13 @@ class BP_Tests_Members_REST_Controller extends BP_Test_REST_Controller_Testcase 
 		);
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$me = $response->get_data();
 		$this->assertNotEmpty( $me );
 
-		$this->assertEquals( 'right now', $me['last_activity']['timediff'] );
+		$this->assertSame( 'right now', $me['last_activity']['timediff'] );
 
-		wp_set_current_user( $current_user );
 	}
 
 	/**
@@ -502,7 +498,7 @@ class BP_Tests_Members_REST_Controller extends BP_Test_REST_Controller_Testcase 
 
 		buddypress()->avatar->show_avatars = true;
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 		$this->assertArrayNotHasKey( 'avatar_urls', $response->get_data() );
 	}
 
@@ -616,7 +612,7 @@ class BP_Tests_Members_REST_Controller extends BP_Test_REST_Controller_Testcase 
 		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$member = $response->get_data();
 
@@ -647,7 +643,7 @@ class BP_Tests_Members_REST_Controller extends BP_Test_REST_Controller_Testcase 
 		$data = $response->get_data();
 		$this->assertNotEmpty( $data );
 
-		$this->assertEquals( 'Test User', $data['name'] );
+		$this->assertSame( 'Test User', $data['name'] );
 		$this->check_add_edit_user_response( $response );
 	}
 
@@ -702,8 +698,8 @@ class BP_Tests_Members_REST_Controller extends BP_Test_REST_Controller_Testcase 
 		$new_data = $response->get_data();
 		$this->assertNotEmpty( $new_data );
 
-		$this->assertEquals( $pw_before, $userdata->user_pass );
-		$this->assertEquals( 'New User Name', $new_data['name'] );
+		$this->assertSame( $pw_before, $userdata->user_pass );
+		$this->assertSame( 'New User Name', $new_data['name'] );
 	}
 
 	/**
@@ -861,13 +857,13 @@ class BP_Tests_Members_REST_Controller extends BP_Test_REST_Controller_Testcase 
 		$request->set_param( 'reassign', false );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$data = $response->get_data();
 		$this->assertNotEmpty( $data );
 
 		$this->assertTrue( $data['deleted'] );
-		$this->assertEquals( 'Deleted User', $data['previous']['name'] );
+		$this->assertSame( 'Deleted User', $data['previous']['name'] );
 	}
 
 	/**
@@ -928,13 +924,13 @@ class BP_Tests_Members_REST_Controller extends BP_Test_REST_Controller_Testcase 
 		$request->set_param( 'reassign', false );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$data = $response->get_data();
 		$this->assertNotEmpty( $data );
 
 		$this->assertTrue( $data['deleted'] );
-		$this->assertEquals( 'Deleted User', $data['previous']['name'] );
+		$this->assertSame( 'Deleted User', $data['previous']['name'] );
 
 		wp_set_current_user( $u );
 	}
@@ -959,9 +955,9 @@ class BP_Tests_Members_REST_Controller extends BP_Test_REST_Controller_Testcase 
 
 	protected function check_add_edit_user_response( $response, $update = false ) {
 		if ( $update ) {
-			$this->assertEquals( 200, $response->get_status() );
+			$this->assertSame( 200, $response->get_status() );
 		} else {
-			$this->assertEquals( 201, $response->get_status() );
+			$this->assertSame( 201, $response->get_status() );
 		}
 
 		$data = $response->get_data();
@@ -969,9 +965,9 @@ class BP_Tests_Members_REST_Controller extends BP_Test_REST_Controller_Testcase 
 	}
 
 	protected function check_user_data( $user, $data, $context ) {
-		$this->assertEquals( $user->ID, $data['id'] );
-		$this->assertEquals( $user->display_name, $data['name'] );
-		$this->assertEquals( $user->user_login, $data['user_login'] );
+		$this->assertSame( $user->ID, $data['id'] );
+		$this->assertSame( $user->display_name, $data['name'] );
+		$this->assertSame( $user->user_login, $data['user_login'] );
 		$this->assertArrayHasKey( 'avatar_urls', $data );
 		$this->assertArrayHasKey( 'thumb', $data['avatar_urls'] );
 		$this->assertArrayHasKey( 'full', $data['avatar_urls'] );
@@ -979,20 +975,20 @@ class BP_Tests_Members_REST_Controller extends BP_Test_REST_Controller_Testcase 
 		$this->assertArrayHasKey( 'xprofile', $data );
 		$this->assertArrayHasKey( 'friendship_status', $data );
 		$this->assertArrayHasKey( 'friendship_status_slug', $data );
-		$this->assertEquals(
+		$this->assertSame(
 			bp_members_get_user_url( $data['id'] ),
 			$data['link']
 		);
 
 		if ( 'edit' === $context ) {
-			$this->assertEquals( (array) array_keys( $user->allcaps ), $data['capabilities'] );
-			$this->assertEquals( (array) array_keys( $user->caps ), $data['extra_capabilities'] );
-			$this->assertEquals( (array) array_values( $user->roles ), $data['roles'] );
-			$this->assertEquals(
+			$this->assertSame( (array) array_keys( $user->allcaps ), $data['capabilities'] );
+			$this->assertSame( (array) array_keys( $user->caps ), $data['extra_capabilities'] );
+			$this->assertSame( (array) array_values( $user->roles ), $data['roles'] );
+			$this->assertSame(
 				bp_rest_prepare_date_response( $user->user_registered, get_date_from_gmt( $user->user_registered ) ),
 				$data['registered_date']
 			);
-			$this->assertEquals( bp_rest_prepare_date_response( $user->user_registered ), $data['registered_date_gmt'] );
+			$this->assertSame( bp_rest_prepare_date_response( $user->user_registered ), $data['registered_date_gmt'] );
 		} else {
 			$this->assertArrayNotHasKey( 'roles', $data );
 			$this->assertArrayNotHasKey( 'capabilities', $data );
@@ -1014,7 +1010,7 @@ class BP_Tests_Members_REST_Controller extends BP_Test_REST_Controller_Testcase 
 		$data       = $response->get_data();
 		$properties = $data['schema']['properties'];
 
-		$this->assertEquals( 20, count( $properties ) );
+		$this->assertCount( 20, $properties );
 		$this->assertArrayHasKey( 'avatar_urls', $properties );
 		$this->assertArrayHasKey( 'capabilities', $properties );
 		$this->assertArrayHasKey( 'extra_capabilities', $properties );
@@ -1062,7 +1058,7 @@ class BP_Tests_Members_REST_Controller extends BP_Test_REST_Controller_Testcase 
 		$properties = $data['schema']['properties'];
 
 		$this->assertArrayHasKey( 'member_types', $properties );
-		$this->assertEquals( array_values( $properties['member_types']['enum'] ), $expected );
+		$this->assertSame( array_values( $properties['member_types']['enum'] ), $expected );
 	}
 
 	public function test_context_param() {
@@ -1071,16 +1067,16 @@ class BP_Tests_Members_REST_Controller extends BP_Test_REST_Controller_Testcase 
 		$response = $this->server->dispatch( $request );
 		$data     = $response->get_data();
 
-		$this->assertEquals( 'view', $data['endpoints'][0]['args']['context']['default'] );
-		$this->assertEquals( array( 'view', 'embed', 'edit' ), $data['endpoints'][0]['args']['context']['enum'] );
+		$this->assertSame( 'view', $data['endpoints'][0]['args']['context']['default'] );
+		$this->assertSame( array( 'view', 'embed', 'edit' ), $data['endpoints'][0]['args']['context']['enum'] );
 
 		// Single.
 		$request  = new WP_REST_Request( 'OPTIONS', sprintf( $this->endpoint_url . '/%d', $this->user ) );
 		$response = $this->server->dispatch( $request );
 		$data     = $response->get_data();
 
-		$this->assertEquals( 'view', $data['endpoints'][0]['args']['context']['default'] );
-		$this->assertEquals( array( 'view', 'embed', 'edit' ), $data['endpoints'][0]['args']['context']['enum'] );
+		$this->assertSame( 'view', $data['endpoints'][0]['args']['context']['default'] );
+		$this->assertSame( array( 'view', 'embed', 'edit' ), $data['endpoints'][0]['args']['context']['enum'] );
 	}
 
 	public function update_additional_field( $value, $data, $attribute ) {

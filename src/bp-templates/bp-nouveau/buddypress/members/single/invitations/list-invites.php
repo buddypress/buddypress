@@ -2,9 +2,12 @@
 /**
  * BuddyPress - Pending Membership Invitations
  *
+ * @package BuddyPress
+ * @subpackage bp-nouveau
  * @since 8.0.0
  * @version 14.0.0
  */
+
 ?>
 
 <?php if ( bp_has_members_invitations() ) : ?>
@@ -42,4 +45,5 @@
 
 	<?php bp_nouveau_user_feedback( 'member-invitations-none' ); ?>
 
-<?php endif;
+<?php
+endif;

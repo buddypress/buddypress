@@ -18,7 +18,8 @@
  *
  * @since 2.4.0
  */
-do_action( 'bp_before_group_settings_cover_image' ); ?>
+do_action( 'bp_before_group_settings_cover_image' );
+?>
 
 <p><?php esc_html_e( 'The Cover Image will be used to customize the header of your group.', 'buddypress' ); ?></p>
 

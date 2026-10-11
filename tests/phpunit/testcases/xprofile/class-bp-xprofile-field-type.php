@@ -22,7 +22,7 @@ class BP_Tests_XProfile_Field_Type extends BP_UnitTestCase {
 
 	public function test_unregistered_field_type_returns_textbox() {
 		$field = bp_xprofile_create_field_type( 'fakeyfield' );
-		$this->assertEquals( get_class( $field ), 'BP_XProfile_Field_Type_Placeholder' );
+		$this->assertSame( get_class( $field ), 'BP_XProfile_Field_Type_Placeholder' );
 	}
 
 	public function test_textbox_validate_empty_string() {
@@ -220,7 +220,7 @@ class BP_Tests_XProfile_Field_Type extends BP_UnitTestCase {
 		$this->assertFalse( $field->field_type_supports( 'allow_custom_visibility' ) );
 		$this->assertTrue( $field->field_type_supports( 'required' ) );
 		$this->assertTrue( $field->field_type_supports( 'member_types' ) );
-		$this->assertEquals( 'adminsonly', $field->get_default_visibility() );
+		$this->assertSame( 'adminsonly', $field->get_default_visibility() );
 	}
 
 	public function get_field_types( $types ) {

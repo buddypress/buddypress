@@ -31,7 +31,8 @@
 	 *
 	 * @since 1.1.0
 	 */
-	do_action( 'bp_before_group_send_invites_list' ); ?>
+	do_action( 'bp_before_group_send_invites_list' );
+	?>
 
 	<?php if ( bp_group_has_invites( bp_ajax_querystring( 'invite' ) . '&per_page=10' ) ) : ?>
 
@@ -54,7 +55,10 @@
 		<?php /* The ID 'friend-list' is important for AJAX support. */ ?>
 		<ul id="friend-list" class="item-list">
 
-		<?php while ( bp_group_invites() ) : bp_group_the_invite(); ?>
+		<?php
+		while ( bp_group_invites() ) :
+			bp_group_the_invite();
+			?>
 
 			<li id="<?php bp_group_invite_item_id(); ?>">
 				<?php bp_group_invite_user_avatar(); ?>
@@ -69,7 +73,8 @@
 				 *
 				 * @since 1.1.0
 				 */
-				do_action( 'bp_group_send_invites_item' ); ?>
+				do_action( 'bp_group_send_invites_item' );
+				?>
 
 				<div class="action">
 					<a class="button remove" href="<?php bp_group_invite_user_remove_invite_url(); ?>" id="<?php bp_group_invite_item_id(); ?>"><?php esc_html_e( 'Remove Invite', 'buddypress' ); ?></a>
@@ -81,7 +86,8 @@
 					 *
 					 * @since 1.1.0
 					 */
-					do_action( 'bp_group_send_invites_item_action' ); ?>
+					do_action( 'bp_group_send_invites_item_action' );
+					?>
 				</div>
 			</li>
 
@@ -120,6 +126,7 @@
  *
  * @since 1.1.0
  */
-do_action( 'bp_after_group_send_invites_list' ); ?>
+do_action( 'bp_after_group_send_invites_list' );
+?>
 
 </div><!-- .main-column -->

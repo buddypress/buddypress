@@ -5,6 +5,8 @@
  * This template is used to inject the BuddyPress Backbone views
  * dealing with user's private messages.
  *
+ * @package BuddyPress
+ * @subpackage bp-nouveau
  * @since 3.0.0
  * @version 12.0.0
  */
@@ -52,7 +54,7 @@ if ( ! did_action( '_bp_nouveau_messages_print_placeholders' ) ) {
 
 <script type="text/html" id="tmpl-bp-messages-editor">
 	<?php
-	// Add a temporary filter on editor buttons
+	// Add a temporary filter on editor buttons.
 	add_filter( 'mce_buttons', 'bp_nouveau_messages_mce_buttons', 10, 1 );
 
 	wp_editor(
@@ -70,8 +72,8 @@ if ( ! did_action( '_bp_nouveau_messages_print_placeholders' ) ) {
 		)
 	);
 
-	// Remove the temporary filter on editor buttons
-	remove_filter( 'mce_buttons', 'bp_nouveau_messages_mce_buttons', 10, 1 );
+	// Remove the temporary filter on editor buttons.
+	remove_filter( 'mce_buttons', 'bp_nouveau_messages_mce_buttons' );
 	?>
 </script>
 

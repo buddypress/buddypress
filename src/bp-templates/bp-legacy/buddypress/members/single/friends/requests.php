@@ -40,7 +40,10 @@ do_action( 'bp_before_member_friend_requests_content' ); ?>
 	</div>
 
 	<ul id="friend-list" class="item-list">
-		<?php while ( bp_members() ) : bp_the_member(); ?>
+		<?php
+		while ( bp_members() ) :
+			bp_the_member();
+			?>
 
 			<li id="friendship-<?php bp_friend_friendship_id(); ?>">
 				<div class="item-avatar">
@@ -72,7 +75,8 @@ do_action( 'bp_before_member_friend_requests_content' ); ?>
 					 *
 					 * @since 1.1.0
 					 */
-					do_action( 'bp_friend_requests_item_action' ); ?>
+					do_action( 'bp_friend_requests_item_action' );
+					?>
 				</div>
 			</li>
 
@@ -86,7 +90,8 @@ do_action( 'bp_before_member_friend_requests_content' ); ?>
 	 *
 	 * @since 1.1.0
 	 */
-	do_action( 'bp_friend_requests_content' ); ?>
+	do_action( 'bp_friend_requests_content' );
+	?>
 
 	<div id="pag-bottom" class="pagination no-ajax">
 
@@ -104,13 +109,13 @@ do_action( 'bp_before_member_friend_requests_content' ); ?>
 
 	</div>
 
-<?php else: ?>
+<?php else : ?>
 
 	<div id="message" class="info">
 		<p><?php esc_html_e( 'You have no pending friendship requests.', 'buddypress' ); ?></p>
 	</div>
 
-<?php endif;?>
+<?php endif; ?>
 
 <?php
 

@@ -116,7 +116,7 @@ class BP_Tests_Members_Activity extends BP_UnitTestCase {
 			'count_total' => 'count_query',
 		) );
 
-		$this->assertEquals( 1, $new_avatar_activities['total'] );
+		$this->assertSame( 1, $new_avatar_activities['total'] );
 		$this->assertNotSame( $a, $new_avatar_activities['activities'][0]->id );
 	}
 
@@ -147,7 +147,7 @@ class BP_Tests_Members_Activity extends BP_UnitTestCase {
 			'count_total' => 'count_query',
 		) );
 
-		$this->assertEquals( 2, $new_avatar_activities['total'] );
+		$this->assertSame( 2, $new_avatar_activities['total'] );
 	}
 
 	/**
@@ -187,6 +187,6 @@ class BP_Tests_Members_Activity extends BP_UnitTestCase {
 			'count_total' => 'count_query',
 		) );
 
-		$this->assertEquals( 1, $new_avatar_activities['total'] );
+		$this->assertSame( 1, $new_avatar_activities['total'] );
 	}
 }

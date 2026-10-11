@@ -187,7 +187,7 @@ function bp_admin_setting_callback_heartbeat() {
  *
  * @since 1.6.0
  *
- * @param bool $value Whether or not to sanitize.
+ * @param bool $value Optional. Whether or not to sanitize.
  * @return int
  */
 function bp_admin_sanitize_callback_blogforum_comments( $value = false ) {
@@ -432,7 +432,7 @@ function bp_core_admin_settings_save() {
 		// Because many settings are saved with checkboxes, and thus will have no values
 		// in the $_POST array when unchecked, we loop through the registered settings.
 		if ( isset( $wp_settings_fields['buddypress'] ) ) {
-			foreach ( (array) $wp_settings_fields['buddypress'] as $section => $settings ) {
+			foreach ( (array) $wp_settings_fields['buddypress'] as $settings ) {
 				foreach ( $settings as $setting_name => $setting ) {
 					$value = isset( $_POST[ $setting_name ] ) ? $_POST[ $setting_name ] : '';
 
@@ -482,8 +482,8 @@ add_action( 'bp_admin_init', 'bp_core_admin_settings_save', 100 );
  * @since 1.6.0
  *
  * @param string $option         Form option to echo.
- * @param string $default_option Form option default.
- * @param bool   $slug           Form option slug.
+ * @param string $default_option Optional. Form option default.
+ * @param bool   $slug           Optional. Form option slug.
  */
 function bp_form_option( $option, $default_option = '', $slug = false ) {
 	// phpcs:ignore WordPress.Security.EscapeOutput

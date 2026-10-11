@@ -103,11 +103,22 @@ class BP_Tests_Invitations extends BP_UnitTestCase {
 
 		$this->assertNotSame( $queries_before, $queries_after, 'Assert that queries are run' );
 		$this->assertSame( 3, $queries_after, 'Assert that the uncached query was run' );
-		$this->assertEquals( $first_query, $second_query, 'Results of the query are expected to match.' );
+
+		$first_query  = wp_list_sort( $first_query, 'id', 'ASC' );
+		$second_query = wp_list_sort( $second_query, 'id', 'ASC' );
+
+		foreach ( array_merge( $first_query, $second_query ) as $invitation ) {
+			$this->assertInstanceOf( 'BP_Invitation', $invitation );
+		}
+
+		$this->assertSame(
+			array_map( 'get_object_vars', $first_query ),
+			array_map( 'get_object_vars', $second_query ),
+			'Results of the query are expected to match.'
+		);
 	}
 
 	public function test_bp_invitations_add_invitation_vanilla() {
-		$old_current_user = get_current_user_id();
 
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -134,11 +145,9 @@ class BP_Tests_Invitations extends BP_UnitTestCase {
 		$invites     = $invites_class->get_invitations( $get_invites );
 		$this->assertEqualSets( array( $i1, $i2 ), $invites );
 
-		wp_set_current_user( $old_current_user );
 	}
 
 	public function test_bp_invitations_add_invitation_avoid_duplicates() {
-		$old_current_user = get_current_user_id();
 
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -156,13 +165,11 @@ class BP_Tests_Invitations extends BP_UnitTestCase {
 		$i1          = $invites_class->add_invitation( $invite_args );
 		// Attempt to create a duplicate. Should return existing invite.
 		$i2 = $invites_class->add_invitation( $invite_args );
-		$this->assertEquals( $i1, $i2 );
+		$this->assertSame( $i1, $i2 );
 
-		wp_set_current_user( $old_current_user );
 	}
 
 	public function test_bp_invitations_add_invitation_invite_plus_request_should_accept() {
-		$old_current_user = get_current_user_id();
 
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -203,11 +210,9 @@ class BP_Tests_Invitations extends BP_UnitTestCase {
 		$this->assertNotEmpty( $invite_ids );
 		$this->assertEqualSets( array( $i1 ), $invite_ids );
 
-		wp_set_current_user( $old_current_user );
 	}
 
 	public function test_bp_invitations_add_invitation_unsent_invite_plus_request_should_not_accept() {
-		$old_current_user = get_current_user_id();
 
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -239,11 +244,9 @@ class BP_Tests_Invitations extends BP_UnitTestCase {
 		$invites     = $invites_class->get_invitations( $get_invites );
 		$this->assertEqualSets( array(), wp_list_pluck( $invites, 'id' ) );
 
-		wp_set_current_user( $old_current_user );
 	}
 
 	public function test_bp_invitations_add_invitation_unsent_invite_plus_request_then_send_invite_should_accept() {
-		$old_current_user = get_current_user_id();
 
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -280,11 +283,9 @@ class BP_Tests_Invitations extends BP_UnitTestCase {
 		$invites     = $invites_class->get_invitations( $get_invites );
 		$this->assertEqualSets( array( $i1, $r1 ), $invites );
 
-		wp_set_current_user( $old_current_user );
 	}
 
 	public function test_bp_invitations_add_request_vanilla() {
-		$old_current_user = get_current_user_id();
 
 		$u1 = self::factory()->user->create();
 		wp_set_current_user( $u1 );
@@ -307,11 +308,9 @@ class BP_Tests_Invitations extends BP_UnitTestCase {
 		$requests     = $invites_class->get_requests( $get_requests );
 		$this->assertEqualSets( array( $r1, $r2 ), $requests );
 
-		wp_set_current_user( $old_current_user );
 	}
 
 	public function test_bp_invitations_add_request_avoid_duplicates() {
-		$old_current_user = get_current_user_id();
 
 		$invites_class = new BPTest_Invitation_Manager_Extension();
 
@@ -327,11 +326,9 @@ class BP_Tests_Invitations extends BP_UnitTestCase {
 		// Attempt to create a duplicate.
 		$this->assertFalse( $invites_class->add_request( $request_args ) );
 
-		wp_set_current_user( $old_current_user );
 	}
 
 	public function test_bp_invitations_add_request_request_plus_sent_invite_should_accept() {
-		$old_current_user = get_current_user_id();
 
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -365,11 +362,9 @@ class BP_Tests_Invitations extends BP_UnitTestCase {
 		$invites     = $invites_class->get_invitations( $get_invites );
 		$this->assertEqualSets( array( $r1, $i1 ), $invites );
 
-		wp_set_current_user( $old_current_user );
 	}
 
 	public function test_bp_invitations_sending_should_clear_cache() {
-		$old_current_user = get_current_user_id();
 
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -386,18 +381,16 @@ class BP_Tests_Invitations extends BP_UnitTestCase {
 		$i1          = $invites_class->add_invitation( $invite_args );
 
 		$invite = new BP_Invitation( $i1 );
-		$this->assertEquals( 0, $invite->invite_sent );
+		$this->assertSame( 0, $invite->invite_sent );
 
 		$invites_class->send_invitation_by_id( $i1 );
 
 		$invite = new BP_Invitation( $i1 );
-		$this->assertEquals( 1, $invite->invite_sent );
+		$this->assertSame( 1, $invite->invite_sent );
 
-		wp_set_current_user( $old_current_user );
 	}
 
 	public function test_bp_invitations_get_by_search_terms() {
-		$old_current_user = get_current_user_id();
 
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -438,11 +431,9 @@ class BP_Tests_Invitations extends BP_UnitTestCase {
 		$invites     = $invites_class->get_invitations( $get_invites );
 		$this->assertEqualSets( array( $i2 ), $invites );
 
-		wp_set_current_user( $old_current_user );
 	}
 
 	public function test_bp_invitations_add_request_with_date_modified() {
-		$old_current_user = get_current_user_id();
 
 		$u1 = self::factory()->user->create();
 		wp_set_current_user( $u1 );
@@ -458,13 +449,11 @@ class BP_Tests_Invitations extends BP_UnitTestCase {
 		$r1   = $invites_class->add_request( $args );
 
 		$req = new BP_Invitation( $r1 );
-		$this->assertEquals( $time, $req->date_modified );
+		$this->assertSame( $time, $req->date_modified );
 
-		wp_set_current_user( $old_current_user );
 	}
 
 	public function test_bp_invitations_add_invite_with_date_modified() {
-		$old_current_user = get_current_user_id();
 
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -484,13 +473,11 @@ class BP_Tests_Invitations extends BP_UnitTestCase {
 		$i1          = $invites_class->add_invitation( $invite_args );
 
 		$inv = new BP_Invitation( $i1 );
-		$this->assertEquals( $time, $inv->date_modified );
+		$this->assertSame( $time, $inv->date_modified );
 
-		wp_set_current_user( $old_current_user );
 	}
 
 	public function test_bp_invitations_orderby_item_id() {
-		$old_current_user = get_current_user_id();
 
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -530,12 +517,11 @@ class BP_Tests_Invitations extends BP_UnitTestCase {
 			'fields'     => 'ids',
 		);
 		$invites     = $invites_class->get_invitations( $get_invites );
-		$this->assertEquals( array( $i2, $i1, $i3 ), $invites );
+		$this->assertSame( array( $i2, $i1, $i3 ), $invites );
 
 		$get_invites['sort_order'] = 'DESC';
 		$invites                   = $invites_class->get_invitations( $get_invites );
-		$this->assertEquals( array( $i3, $i1, $i2 ), $invites );
+		$this->assertSame( array( $i3, $i1, $i2 ), $invites );
 
-		wp_set_current_user( $old_current_user );
 	}
 }

@@ -56,7 +56,7 @@ function bp_blogs_record_post( $post_id, $post, $user_id = 0 ) {
  *
  * @see bp_blogs_catch_transition_post_status()
  *
- * @param WP_Post $post
+ * @param WP_Post $post Post being updated.
  */
 function bp_blogs_update_post( $post ) {
 	_deprecated_function( __FUNCTION__, '2.2', 'bp_activity_post_type_update()' );
@@ -108,6 +108,11 @@ function bp_core_add_global_group() {
  * Add a piece of message metadata.
  *
  * @deprecated 2.2.2
+ *
+ * @param int    $message_id ID of the message.
+ * @param string $meta_key   Metadata key.
+ * @param mixed  $meta_value Metadata value.
+ * @param bool   $unique     Optional. Whether the metadata value must be unique.
  */
 function bp_message_add_meta( $message_id, $meta_key, $meta_value, $unique = false ) {
 	_deprecated_function( __FUNCTION__, '2.3.0', 'bp_messages_add_meta()' );

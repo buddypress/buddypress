@@ -49,13 +49,13 @@ if ( ! is_multisite() ) {
 		 *
 		 * @see get_blog_option()
 		 *
-		 * @param int    $blog_id     Blog ID to fetch for. Not used.
-		 * @param string $option_name Option name to fetch.
-		 * @param bool   $default     Optional. Default value to return if the option does not exist.
+		 * @param int    $blog_id       Blog ID to fetch for. Not used.
+		 * @param string $option_name   Option name to fetch.
+		 * @param bool   $default_value Optional. Default value to return if the option does not exist.
 		 * @return mixed
 		 */
-		function get_blog_option( $blog_id, $option_name, $default = false ) {
-			return get_option( $option_name, $default );
+		function get_blog_option( $blog_id, $option_name, $default_value = false ) {
+			return get_option( $option_name, $default_value );
 		}
 	}
 
@@ -121,14 +121,13 @@ if ( ! is_multisite() ) {
 		 * Switch to specified blog.
 		 *
 		 * @since 1.2.0
+		 * @since 15.0.0 The `$new_blog` and `$deprecated` parameters were removed since they were unused.
 		 *
 		 * @see switch_to_blog()
 		 *
-		 * @param mixed $new_blog   New blog to switch to. Not used.
-		 * @param null  $deprecated Not used.
 		 * @return int
 		 */
-		function switch_to_blog( $new_blog, $deprecated = null ) {
+		function switch_to_blog() {
 			return bp_get_root_blog_id();
 		}
 	}
@@ -155,14 +154,13 @@ if ( ! is_multisite() ) {
 		 * Retrieve blogs associated with user.
 		 *
 		 * @since 1.2.0
+		 * @since 15.0.0 The `$user_id` and `$all` parameters were removed since they were unused.
 		 *
 		 * @see get_blogs_of_user()
 		 *
-		 * @param int  $user_id ID of the user. Not used.
-		 * @param bool $all     Whether to return all. Not used.
 		 * @return false
 		 */
-		function get_blogs_of_user( $user_id, $all = false ) {
+		function get_blogs_of_user() {
 			return false;
 		}
 	}
@@ -173,16 +171,14 @@ if ( ! is_multisite() ) {
 		 * Whether or not to update blog status.
 		 *
 		 * @since 1.2.0
+		 * @since 15.0.0 The `$blog_id`, `$pref`, `$value`, and `$deprecated` parameters were removed
+		 *               since they were unused.
 		 *
 		 * @see update_blog_status()
 		 *
-		 * @param int    $blog_id    Blog to update status for. Not used.
-		 * @param mixed  $pref       Preference. Not used.
-		 * @param string $value      Value. Not used.
-		 * @param null   $deprecated Whether or not deprecated. Not used.
 		 * @return true
 		 */
-		function update_blog_status( $blog_id, $pref, $value, $deprecated = null ) {
+		function update_blog_status() {
 			return true;
 		}
 	}
@@ -210,7 +206,7 @@ if ( ! is_multisite() ) {
  * @internal
  * @todo Why is this function defined in this file?
  *
- * @param string|bool $prefix Global table prefix.
+ * @param string|bool $prefix Optional. Global table prefix.
  * @return string SQL chunk.
  */
 function bp_core_get_status_sql( $prefix = false ) {
@@ -234,11 +230,12 @@ if ( ! function_exists( 'mb_strlen' ) ) {
 	/**
 	 * Fallback implementation of mb_strlen(), hardcoded to UTF-8.
 	 *
+	 * @since 15.0.0 The `$enc` parameter was removed since it was unused.
+	 *
 	 * @param string $str String to be measured.
-	 * @param string $enc Optional. Encoding type. Ignored.
 	 * @return int String length.
 	 */
-	function mb_strlen( $str, $enc = '' ) {
+	function mb_strlen( $str ) {
 		$counts = count_chars( $str );
 		$total  = 0;
 
@@ -251,6 +248,7 @@ if ( ! function_exists( 'mb_strlen' ) ) {
 		for ( $i = 0xc0; $i < 0xff; $i++ ) {
 			$total += $counts[ $i ];
 		}
+
 		return $total;
 	}
 }
@@ -260,13 +258,14 @@ if ( ! function_exists( 'mb_strpos' ) ) {
 	/**
 	 * Fallback implementation of mb_strpos(), hardcoded to UTF-8.
 	 *
+	 * @since 15.0.0 The `$encoding` parameter was removed since it was unused.
+	 *
 	 * @param string $haystack String to search in.
-	 * @param string $needle String to search for.
-	 * @param int    $offset Optional. Start position for the search. Default: 0.
-	 * @param string $encoding Optional. Encoding type. Ignored.
+	 * @param string $needle   String to search for.
+	 * @param int    $offset   Optional. Start position for the search. Default: 0.
 	 * @return int|false Position of needle in haystack if found, else false.
 	 */
-	function mb_strpos( $haystack, $needle, $offset = 0, $encoding = '' ) {
+	function mb_strpos( $haystack, $needle, $offset = 0 ) {
 		$needle = preg_quote( $needle, '/' );
 
 		$ar = array();
@@ -285,13 +284,14 @@ if ( ! function_exists( 'mb_strrpos' ) ) {
 	/**
 	 * Fallback implementation of mb_strrpos(), hardcoded to UTF-8.
 	 *
+	 * @since 15.0.0 The `$encoding` parameter was removed since it was unused.
+	 *
 	 * @param string $haystack String to search in.
-	 * @param string $needle String to search for.
-	 * @param int    $offset Optional. Start position for the search. Default: 0.
-	 * @param string $encoding Optional. Encoding type. Ignored.
+	 * @param string $needle   String to search for.
+	 * @param int    $offset   Optional. Start position for the search. Default: 0.
 	 * @return string|false Position of last needle in haystack if found, else false.
 	 */
-	function mb_strrpos( $haystack, $needle, $offset = 0, $encoding = '' ) {
+	function mb_strrpos( $haystack, $needle, $offset = 0 ) {
 		$needle = preg_quote( $needle, '/' );
 
 		$ar = array();
@@ -311,8 +311,8 @@ if ( ! function_exists( 'mb_strrpos' ) ) {
  *
  * @since 6.0.0
  *
- * @param WP_Error|null $errors The WP_Error object.
- * @param array         $data   Associative array of complete site data. See {@see wp_insert_site()}.
+ * @param WP_Error|null $errors Optional. The WP_Error object.
+ * @param array         $data   Optional. Associative array of complete site data. See {@see wp_insert_site()}.
  */
 function bp_catch_site_data( $errors = null, $data = array() ) {
 	buddypress()->new_site_data = $data;
@@ -327,11 +327,11 @@ add_action( 'wp_validate_site_data', 'bp_catch_site_data', 10, 2 );
  * @since 6.0.0
  *
  * @param int|WP_Site $site            The Site ID or the WP Site object.
- * @param int|array   $args_or_user_id An array of Site arguments or the User ID.
- * @param string      $domain          Site domain.
- * @param string      $path            Site path.
- * @param int         $network_id      Network ID. Only relevant on multi-network installations.
- * @param array       $meta            Meta data. Used to set initial site options.
+ * @param int|array   $args_or_user_id Optional. An array of Site arguments or the User ID.
+ * @param string      $domain          Optional. Site domain.
+ * @param string      $path            Optional. Site path.
+ * @param int         $network_id      Optional. Network ID. Only relevant on multi-network installations.
+ * @param array       $meta            Optional. Meta data. Used to set initial site options.
  */
 function bp_insert_site( $site, $args_or_user_id = null, $domain = '', $path = '', $network_id = 0, $meta = array() ) {
 	if ( $site instanceof WP_Site ) {
@@ -403,7 +403,7 @@ add_action( 'wp_update_site', 'bp_delete_site_no_tables_drop' );
  * @since 6.0.0
  *
  * @param int|WP_Error $site_id_or_error A WP Error object or the site ID.
- * @param bool|WP_Site $drop_or_site     A WP Site object or a boolean to inform whether site's table should be dropped.
+ * @param bool|WP_Site $drop_or_site     Optional. A WP Site object or a boolean to inform whether site's table should be dropped.
  */
 function bp_delete_site( $site_id_or_error, $drop_or_site = false ) {
 	if ( $drop_or_site instanceof WP_Site ) {

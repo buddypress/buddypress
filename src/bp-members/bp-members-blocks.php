@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 6.0.0
  *
- * @param array $attributes The block attributes.
+ * @param array $attributes Optional. The block attributes.
  * @return string           HTML output.
  */
 function bp_members_render_member_block( $attributes = array() ) {
@@ -172,7 +172,7 @@ function bp_members_render_member_block( $attributes = array() ) {
  *
  * @since 7.0.0
  *
- * @param array $attributes The block attributes.
+ * @param array $attributes Optional. The block attributes.
  * @return string           HTML output.
  */
 function bp_members_render_members_block( $attributes = array() ) {
@@ -383,7 +383,7 @@ function bp_members_blocks_add_script_data() {
  *
  * @since 9.0.0
  *
- * @param array $attributes The block attributes.
+ * @param array $attributes Optional. The block attributes.
  * @return string           HTML output.
  */
 function bp_members_render_dynamic_members_block( $attributes = array() ) {
@@ -407,7 +407,13 @@ function bp_members_render_dynamic_members_block( $attributes = array() ) {
 	$max_members = (int) $block_args['maxMembers'];
 	$no_members  = __( 'No members found.', 'buddypress' );
 
-	/** This filter is documented in buddypress/src/bp-members/classes/class-bp-core-members-widget.php */
+	/**
+	 * Filters the separator of the member widget links.
+	 *
+	 * @since 2.4.0
+	 *
+	 * @param string $separator Separator string. Default '|'.
+	 */
 	$separator = apply_filters( 'bp_members_widget_separator', '|' );
 
 	// Make sure the widget ID is unique.
@@ -694,7 +700,7 @@ function bp_members_render_members_avatars_block( $block_args = array() ) {
  *
  * @since 9.0.0
  *
- * @param array $attributes The block attributes.
+ * @param array $attributes Optional. The block attributes.
  * @return string           HTML output.
  */
 function bp_members_render_online_members_block( $attributes = array() ) {
@@ -723,7 +729,7 @@ function bp_members_render_online_members_block( $attributes = array() ) {
  *
  * @since 9.0.0
  *
- * @param array $attributes The block attributes.
+ * @param array $attributes Optional. The block attributes.
  * @return string           HTML output.
  */
 function bp_members_render_active_members_block( $attributes = array() ) {

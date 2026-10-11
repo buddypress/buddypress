@@ -29,7 +29,10 @@
 
 		<tbody>
 
-			<?php while ( bp_the_notifications() ) : bp_the_notification(); ?>
+			<?php
+			while ( bp_the_notifications() ) :
+				bp_the_notification();
+				?>
 
 				<tr>
 					<td></td>

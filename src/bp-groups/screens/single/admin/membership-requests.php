@@ -15,7 +15,7 @@
 function groups_screen_group_admin_requests() {
 	$bp = buddypress();
 
-	if ( 'membership-requests' != bp_get_group_current_admin_tab() ) {
+	if ( 'membership-requests' !== bp_get_group_current_admin_tab() ) {
 		return;
 	}
 
@@ -41,7 +41,6 @@ function groups_screen_group_admin_requests() {
 			} else {
 				bp_core_add_message( __( 'Group membership request accepted', 'buddypress' ) );
 			}
-
 		} elseif ( 'reject' === $request_action ) {
 			/* Check the nonce first. */
 			if ( ! check_admin_referer( 'groups_reject_membership_request' ) ) {

@@ -2,9 +2,12 @@
 /**
  * Output the search form markup.
  *
+ * @package BuddyPress
+ * @subpackage bp-legacy
  * @since 2.7.0
  * @version 3.0.0
  */
+
 ?>
 
 <div id="<?php echo esc_attr( bp_current_component() ); ?>-dir-search" class="dir-search" role="search">

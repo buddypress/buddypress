@@ -2,6 +2,8 @@
 /**
  * BuddyPress - Members Loop
  *
+ * @package BuddyPress
+ * @subpackage bp-nouveau
  * @since 3.0.0
  * @version 6.0.0
  */
@@ -18,7 +20,10 @@ bp_nouveau_before_loop(); ?>
 
 	<ul id="members-list" class="<?php bp_nouveau_loop_classes(); ?>">
 
-	<?php while ( bp_members() ) : bp_the_member(); ?>
+	<?php
+	while ( bp_members() ) :
+		bp_the_member();
+		?>
 
 		<li <?php bp_member_class( array( 'item-entry' ) ); ?> data-bp-item-id="<?php bp_member_user_id(); ?>" data-bp-item-component="members">
 			<div class="list-wrap">
@@ -43,9 +48,9 @@ bp_nouveau_before_loop(); ?>
 
 						<?php if ( bp_nouveau_member_has_extra_content() ) : ?>
 							<div class="item-extra-content">
-								<?php bp_nouveau_member_extra_content() ; ?>
+								<?php bp_nouveau_member_extra_content(); ?>
 							</div><!-- .item-extra-content -->
-						<?php endif ; ?>
+						<?php endif; ?>
 
 						<?php
 						bp_nouveau_members_loop_buttons(

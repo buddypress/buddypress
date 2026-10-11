@@ -101,23 +101,23 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 	 * @group get
 	 */
 	public function test_get_with_offset() {
-		$s1 = self::factory()->signup->create();
+		self::factory()->signup->create();
 		$s2 = self::factory()->signup->create();
-		$s3 = self::factory()->signup->create();
+		self::factory()->signup->create();
 
 		$ss = BP_Signup::get( array(
 			'offset' => 1,
 			'fields' => 'ids',
 		) );
 
-		$this->assertEquals( array( $s2 ), $ss['signups'] );
+		$this->assertSame( array( $s2 ), $ss['signups'] );
 	}
 
 	/**
 	 * @group get
 	 */
 	public function test_get_with_number() {
-		$s1 = self::factory()->signup->create();
+		self::factory()->signup->create();
 		$s2 = self::factory()->signup->create();
 		$s3 = self::factory()->signup->create();
 
@@ -126,7 +126,7 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 			'fields' => 'ids',
 		) );
 
-		$this->assertEquals( array( $s3, $s2 ), $ss['signups'] );
+		$this->assertSame( array( $s3, $s2 ), $ss['signups'] );
 	}
 
 	/**
@@ -136,15 +136,15 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 		$s1 = self::factory()->signup->create( array(
 			'user_email' => 'fghij@example.com',
 		) );
-		$s2 = self::factory()->signup->create();
-		$s3 = self::factory()->signup->create();
+		self::factory()->signup->create();
+		self::factory()->signup->create();
 
 		$ss = BP_Signup::get( array(
 			'usersearch' => 'ghi',
 			'fields' => 'ids',
 		) );
 
-		$this->assertEquals( array( $s1 ), $ss['signups'] );
+		$this->assertSame( array( $s1 ), $ss['signups'] );
 	}
 
 	/**
@@ -168,7 +168,7 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 		) );
 
 		// default order is DESC.
-		$this->assertEquals( array( $s3, $s1, $s2 ), $ss['signups'] );
+		$this->assertSame( array( $s3, $s1, $s2 ), $ss['signups'] );
 	}
 
 	/**
@@ -192,7 +192,7 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 			'fields' => 'ids',
 		) );
 
-		$this->assertEquals( array( $s2, $s1, $s3 ), $ss['signups'] );
+		$this->assertSame( array( $s2, $s1, $s3 ), $ss['signups'] );
 	}
 
 	/**
@@ -216,7 +216,7 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 			'fields' => 'ids',
 		) );
 
-		$this->assertEquals( array( $s2, $s1, $s3 ), $ss['signups'] );
+		$this->assertSame( array( $s2, $s1, $s3 ), $ss['signups'] );
 	}
 
 	/**
@@ -242,7 +242,7 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 			'fields' => 'ids',
 		) );
 
-		$this->assertEquals( array( $s2, $s1, $s3 ), $ss['signups'] );
+		$this->assertSame( array( $s2, $s1, $s3 ), $ss['signups'] );
 	}
 
 	/**
@@ -250,7 +250,7 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 	 */
 	public function test_get_with_include() {
 		$s1 = self::factory()->signup->create();
-		$s2 = self::factory()->signup->create();
+		self::factory()->signup->create();
 		$s3 = self::factory()->signup->create();
 
 		$ss = BP_Signup::get( array(
@@ -266,13 +266,13 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 	 * @group get
 	 */
 	public function test_get_with_activation_key() {
-		$s1 = self::factory()->signup->create( array(
+		self::factory()->signup->create( array(
 			'activation_key' => 'foo',
 		) );
 		$s2 = self::factory()->signup->create( array(
 			'activation_key' => 'bar',
 		) );
-		$s3 = self::factory()->signup->create( array(
+		self::factory()->signup->create( array(
 			'activation_key' => 'baz',
 		) );
 
@@ -281,20 +281,20 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 			'fields' => 'ids',
 		) );
 
-		$this->assertEquals( array( $s2 ), $ss['signups'] );
+		$this->assertSame( array( $s2 ), $ss['signups'] );
 	}
 
 	/**
 	 * @group get
 	 */
 	public function test_get_with_user_login() {
-		$s1 = self::factory()->signup->create( array(
+		self::factory()->signup->create( array(
 			'user_login' => 'aaaafoo',
 		) );
 		$s2 = self::factory()->signup->create( array(
 			'user_login' => 'zzzzfoo',
 		) );
-		$s3 = self::factory()->signup->create( array(
+		self::factory()->signup->create( array(
 			'user_login' => 'jjjjfoo',
 		) );
 
@@ -303,7 +303,7 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 			'fields' => 'ids',
 		) );
 
-		$this->assertEquals( array( $s2 ), $ss['signups'] );
+		$this->assertSame( array( $s2 ), $ss['signups'] );
 	}
 
 	/**
@@ -355,7 +355,7 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 			'fields' => 'ids',
 		) );
 
-		$this->assertEquals( array( $s3, $s2, $s1 ), $ss['signups'] );
+		$this->assertSame( array( $s3, $s2, $s1 ), $ss['signups'] );
 	}
 
 	/**
@@ -610,8 +610,8 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 		$found2 = new BP_Signup( $s1 );
 
 		// @TODO: This fails because "get_avatar()" in populate() results in db queries.
-		$this->assertEquals( $found1, $found2 );
-		$this->assertEquals( $num_queries, $wpdb->num_queries );
+		$this->assertSame( get_object_vars( $found1 ), get_object_vars( $found2 ) );
+		$this->assertSame( $num_queries, $wpdb->num_queries );
 	}
 
 	/**
@@ -625,13 +625,13 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 		) );
 
 		$found1 = new BP_Signup( $s1 );
-		$this->assertEquals( $s1, $found1->id );
+		$this->assertSame( $s1, $found1->id );
 		$this->assertFalse( $found1->active );
 
 		BP_Signup::activate( (array) $s1 );
 
 		$found2 = new BP_Signup( $s1 );
-		$this->assertEquals( $s1, $found2->id );
+		$this->assertSame( $s1, $found2->id );
 		$this->assertTrue( $found2->active );
 
 	}
@@ -648,12 +648,12 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 			'activation_key' => $activation_key
 		) );
 
-		$this->assertEquals( 0, $s1->count_sent );
+		$this->assertSame( 0, $s1->count_sent );
 
 		bp_core_signup_send_validation_email( 0, $user_email, $activation_key );
 
 		$signup = new BP_Signup( $s1->id );
-		$this->assertEquals( 1, $signup->count_sent );
+		$this->assertSame( 1, $signup->count_sent );
 	}
 
 	/**

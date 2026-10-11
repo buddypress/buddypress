@@ -34,10 +34,10 @@ function bp_activity_check_blacklist_keys( $activity ) {
  * @since 2.6.0 Added $error_type parameter.
  * @deprecated 7.0.0
  *
- * @param int    $user_id    User ID.
- * @param string $title      The title of the content.
- * @param string $content    The content being posted.
- * @param string $error_type The error type to return. Either 'bool' or 'wp_error'.
+ * @param int    $user_id    Optional. User ID.
+ * @param string $title      Optional. The title of the content.
+ * @param string $content    Optional. The content being posted.
+ * @param string $error_type Optional. The error type to return. Either 'bool' or 'wp_error'.
  * @return bool|WP_Error True if test is passed, false if fail.
  */
 function bp_core_check_for_blacklist( $user_id = 0, $title = '', $content = '', $error_type = 'bool' ) {

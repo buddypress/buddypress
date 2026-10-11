@@ -30,12 +30,11 @@ function bp_activity_mentions_script() {
 		if (
 			! $current_screen ||
 			( isset( $current_screen->is_block_editor ) && $current_screen->is_block_editor ) ||
-			! in_array( $current_screen->base, array( 'page', 'post' ) ) ||
+			! in_array( $current_screen->base, array( 'page', 'post' ), true ) ||
 			! post_type_supports( $current_screen->post_type, 'editor' ) ) {
 			return;
 		}
 	}
-
 
 	$min = bp_core_get_minified_asset_suffix();
 
@@ -70,7 +69,7 @@ add_action( 'bp_admin_enqueue_scripts', 'bp_activity_mentions_script' );
  *
  * @param array  $settings   An array with TinyMCE config.
  * @param string $editor_id Unique editor identifier, e.g. 'content'.
- * @return array  $mceInit   An array with TinyMCE config.
+ * @return array   An array with TinyMCE config.
  */
 function bp_add_mentions_on_tinymce_init( $settings, $editor_id ) {
 	// We only apply the mentions init to the visual post editor in the WP dashboard.

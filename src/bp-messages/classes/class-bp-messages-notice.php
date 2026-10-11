@@ -23,12 +23,16 @@ class BP_Messages_Notice {
 	/**
 	 * The notice ID.
 	 *
+	 * @since 1.0.0
+	 *
 	 * @var int|null
 	 */
 	public $id = null;
 
 	/**
 	 * The subject line for the notice.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @var string
 	 */
@@ -37,6 +41,8 @@ class BP_Messages_Notice {
 	/**
 	 * The content of the notice.
 	 *
+	 * @since 1.0.0
+	 *
 	 * @var string
 	 */
 	public $message;
@@ -44,12 +50,16 @@ class BP_Messages_Notice {
 	/**
 	 * The date the notice was created.
 	 *
+	 * @since 1.0.0
+	 *
 	 * @var string
 	 */
 	public $date_sent;
 
 	/**
 	 * Whether the notice is active or not.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @var int
 	 */
@@ -131,7 +141,8 @@ class BP_Messages_Notice {
 			return false;
 		}
 
-		if ( ! $id = $this->id ) {
+		$id = $this->id;
+		if ( ! $id ) {
 			$id = $wpdb->insert_id;
 		}
 
@@ -228,7 +239,7 @@ class BP_Messages_Notice {
 	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param array $args {
-	 *     Array of parameters.
+	 *     Optional. Array of parameters.
 	 *     @type int $pag_num  Number of notices per page. Defaults to 20.
 	 *     @type int $pag_page The page number.  Defaults to 1.
 	 * }
@@ -241,13 +252,13 @@ class BP_Messages_Notice {
 			$args,
 			array(
 				'pag_num'  => 20, // Number of notices per page.
-				'pag_page' => 1 , // Page number.
+				'pag_page' => 1, // Page number.
 			)
 		);
 
 		$limit_sql = '';
 		if ( (int) $r['pag_num'] >= 0 ) {
-			$limit_sql = $wpdb->prepare( "LIMIT %d, %d", (int) ( ( $r['pag_page'] - 1 ) * $r['pag_num'] ), (int) $r['pag_num'] );
+			$limit_sql = $wpdb->prepare( 'LIMIT %d, %d', (int) ( ( $r['pag_page'] - 1 ) * $r['pag_num'] ), (int) $r['pag_num'] );
 		}
 
 		$bp = buddypress();

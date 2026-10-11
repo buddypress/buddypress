@@ -2,6 +2,8 @@
 /**
  * Members template tags
  *
+ * @package BuddyPress
+ * @subpackage bp-nouveau
  * @since 3.0.0
  * @version 12.0.0
  */
@@ -79,8 +81,8 @@ function bp_nouveau_after_members_directory_content() {
  *
  * @since 3.0.0
  *
- * @param string $when   'before' or 'after'
- * @param string $suffix Use it to add terms at the end of the hook name
+ * @param string $when   Optional. 'before' or 'after'.
+ * @param string $suffix Optional. Use it to add terms at the end of the hook name.
  */
 function bp_nouveau_member_hook( $when = '', $suffix = '' ) {
 	$hook = array( 'bp' );
@@ -89,7 +91,7 @@ function bp_nouveau_member_hook( $when = '', $suffix = '' ) {
 		$hook[] = $when;
 	}
 
-	// It's a member hook
+	// It's a member hook.
 	$hook[] = 'member';
 
 	if ( $suffix ) {
@@ -118,7 +120,7 @@ function bp_nouveau_member_email_notice_settings() {
  *
  * @since 3.0.0
  *
- * @param array $args See bp_nouveau_wrapper() for the description of parameters.
+ * @param array $args Optional. See bp_nouveau_wrapper() for the description of parameters.
  */
 function bp_nouveau_member_header_buttons( $args = array() ) {
 	$bp_nouveau = bp_nouveau();
@@ -126,7 +128,7 @@ function bp_nouveau_member_header_buttons( $args = array() ) {
 	if ( bp_is_user() ) {
 		$args['type'] = 'profile';
 	} else {
-		$args['type'] = 'header';// we have no real need for this 'type' on header actions
+		$args['type'] = 'header';// we have no real need for this 'type' on header actions.
 	}
 
 	$output = join( ' ', bp_nouveau_get_members_buttons( $args ) );
@@ -167,7 +169,7 @@ function bp_nouveau_member_header_buttons( $args = array() ) {
  *
  * @since 3.0.0
  *
- * @param array $args See bp_nouveau_wrapper() for the description of parameters.
+ * @param array $args Optional. See bp_nouveau_wrapper() for the description of parameters.
  */
 function bp_nouveau_members_loop_buttons( $args = array() ) {
 	if ( empty( $GLOBALS['members_template'] ) ) {
@@ -210,11 +212,12 @@ function bp_nouveau_members_loop_buttons( $args = array() ) {
 	 *
 	 * @since 3.0.0
 	 *
+	 * @param array $args Arguments used to build the buttons.
 	 * @return array
 	 */
 	function bp_nouveau_get_members_buttons( $args ) {
 		$buttons = array();
-		$type = ( ! empty( $args['type'] ) ) ? $args['type'] : '';
+		$type    = ( ! empty( $args['type'] ) ) ? $args['type'] : '';
 
 		// @todo Not really sure why BP Legacy needed to do this...
 		if ( 'profile' === $type && is_admin() && ! ( defined( 'DOING_AJAX' ) && DOING_AJAX ) ) {
@@ -241,26 +244,26 @@ function bp_nouveau_members_loop_buttons( $args = array() ) {
 		 */
 		$parent_element = false;
 
-		if ( ! empty( $args['container'] ) && 'ul' === $args['container']  ) {
+		if ( ! empty( $args['container'] ) && 'ul' === $args['container'] ) {
 			$parent_element = 'li';
 		} elseif ( ! empty( $args['parent_element'] ) ) {
 			$parent_element = $args['parent_element'];
 		}
 
 		if ( ! empty( $args['button_element'] ) ) {
-			$button_element = $args['button_element'] ;
+			$button_element = $args['button_element'];
 		} else {
 			$button_element = 'button';
 		}
 
-		// If we pass through parent classes add them to $button array
+		// If we pass through parent classes add them to $button array.
 		$parent_class = '';
 		if ( ! empty( $args['parent_attr']['class'] ) ) {
 			$parent_class = $args['parent_attr']['class'];
 		}
 
 		if ( bp_is_active( 'friends' ) ) {
-			// It's the member's friendship requests screen
+			// It's the member's friendship requests screen.
 			if ( 'friendship_request' === $type ) {
 				$buttons = array(
 					'accept_friendship' => array(
@@ -272,14 +275,15 @@ function bp_nouveau_members_loop_buttons( $args = array() ) {
 						'link_text'         => _x( 'Accept', 'button', 'buddypress' ),
 						'parent_attr'       => array(
 							'id'    => '',
-							'class' => $parent_class ,
+							'class' => $parent_class,
 						),
 						'button_element'    => $button_element,
 						'button_attr'       => array(
 							'class'           => 'button accept',
 							'rel'             => '',
 						),
-					), 'reject_friendship' => array(
+					),
+					'reject_friendship' => array(
 						'id'                => 'reject_friendship',
 						'position'          => 15,
 						'component'         => 'friends',
@@ -291,14 +295,14 @@ function bp_nouveau_members_loop_buttons( $args = array() ) {
 							'class' => $parent_class,
 						),
 						'button_element'    => $button_element,
-						'button_attr'       => array (
+						'button_attr'       => array(
 							'class'           => 'button reject',
 							'rel'             => '',
 						),
 					),
 				);
 
-				// If button element set add nonce link to data attr
+				// If button element set add nonce link to data attr.
 				if ( 'button' === $button_element ) {
 					$buttons['accept_friendship']['button_attr']['data-bp-nonce'] = bp_get_friend_accept_request_link();
 					$buttons['reject_friendship']['button_attr']['data-bp-nonce'] = bp_get_friend_reject_request_link();
@@ -307,7 +311,7 @@ function bp_nouveau_members_loop_buttons( $args = array() ) {
 					$buttons['reject_friendship']['button_attr']['href'] = bp_get_friend_reject_request_link();
 				}
 
-			// It's any other members screen
+			// It's any other members screen.
 			} else {
 				$button_args = bp_get_add_friend_button_args( $user_id );
 
@@ -334,18 +338,18 @@ function bp_nouveau_members_loop_buttons( $args = array() ) {
 						),
 					);
 
-					// If button element set add nonce link to data attr
+					// If button element set add nonce link to data attr.
 					if ( 'button' === $button_element && 'awaiting_response' !== $button_args['id'] ) {
 						$buttons['member_friendship']['button_attr']['data-bp-nonce'] = $button_args['link_href'];
 					} else {
-						$buttons['member_friendship']['button_element'] = 'a';
+						$buttons['member_friendship']['button_element']      = 'a';
 						$buttons['member_friendship']['button_attr']['href'] = $button_args['link_href'];
 					}
 				}
 			}
 		}
 
-		// Only add The public and private messages when not in a loop
+		// Only add The public and private messages when not in a loop.
 		if ( 'profile' === $type ) {
 			if ( bp_is_active( 'activity' ) && bp_activity_do_mentions() ) {
 				$button_args = bp_activity_get_public_message_button_args();
@@ -428,12 +432,12 @@ function bp_nouveau_members_loop_buttons( $args = array() ) {
 			return array();
 		}
 
-		// It's the first entry of the loop, so build the Group and sort it
+		// It's the first entry of the loop, so build the Group and sort it.
 		if ( ! isset( bp_nouveau()->members->member_buttons ) || ! is_a( bp_nouveau()->members->member_buttons, 'BP_Buttons_Group' ) ) {
-			$sort = true;
+			$sort                                 = true;
 			bp_nouveau()->members->member_buttons = new BP_Buttons_Group( $buttons_group );
 
-		// It's not the first entry, the order is set, we simply need to update the Buttons Group
+		// It's not the first entry, the order is set, we simply need to update the Buttons Group.
 		} else {
 			$sort = false;
 			bp_nouveau()->members->member_buttons->update( $buttons_group );
@@ -474,8 +478,6 @@ function bp_nouveau_member_has_meta() {
  * Display the member meta.
  *
  * @since 3.0.0
- *
- * @return string HTML Output.
  */
 function bp_nouveau_member_meta() {
 	// Escaping is made in `bp_nouveau_get_member_meta()`.
@@ -506,14 +508,14 @@ function bp_nouveau_member_meta() {
 		}
 
 		if ( empty( $member->template_meta ) ) {
-			// It's a single user's header
+			// It's a single user's header.
 			if ( ! $is_loop ) {
 				$meta['last_activity'] = sprintf(
 					'<span class="activity">%s</span>',
 					esc_html( bp_get_last_activity( bp_displayed_user_id() ) )
 				);
 
-			// We're in the members loop
+			// We're in the members loop.
 			} else {
 				$meta = array(
 					'last_activity' => sprintf( '%s', esc_html( bp_get_member_last_active() ) ),
@@ -635,8 +637,6 @@ function bp_nouveau_member_template_part() {
  * Use the appropriate Member header and enjoy a template hierarchy
  *
  * @since 3.0.0
- *
- * @return string HTML Output
  */
 function bp_nouveau_member_header_template_part() {
 	$template = 'member-header';
@@ -652,7 +652,7 @@ function bp_nouveau_member_header_template_part() {
 	 */
 	do_action( 'bp_before_member_header' );
 
-	// Get the template part for the header
+	// Get the template part for the header.
 	bp_nouveau_member_get_template_part( $template );
 
 	/**
@@ -707,8 +707,6 @@ function bp_nouveau_members_get_customizer_widgets_link() {
  * @since 3.0.0
  *
  * @param int $user_id Optional.
- *
- * @return string HTML output.
  */
 function bp_nouveau_member_description( $user_id = 0 ) {
 	if ( ! $user_id ) {
@@ -743,8 +741,6 @@ function bp_nouveau_member_description( $user_id = 0 ) {
  * @since 3.0.0
  *
  * @todo replace with Ajax feature
- *
- * @return string HTML Output
  */
 function bp_nouveau_member_description_edit_link() {
 	// Escaping is made in `bp_nouveau_member_get_description_edit_link()`.
@@ -754,6 +750,7 @@ function bp_nouveau_member_description_edit_link() {
 
 	/**
 	 * Get the Edit profile link (temporary)
+	 *
 	 * @todo  replace with Ajax featur
 	 *
 	 * @since 3.0.0
@@ -761,7 +758,7 @@ function bp_nouveau_member_description_edit_link() {
 	 * @return string HTML Output
 	 */
 	function bp_nouveau_member_get_description_edit_link() {
-		remove_filter( 'edit_profile_url', 'bp_members_edit_profile_url', 10, 3 );
+		remove_filter( 'edit_profile_url', 'bp_members_edit_profile_url' );
 
 		if ( is_multisite() && ! current_user_can( 'read' ) ) {
 			$link = get_dashboard_url( bp_displayed_user_id(), 'profile.php' );
@@ -783,6 +780,7 @@ function bp_nouveau_member_description_edit_link() {
  * before and after the WP User's Profile.
  *
  * @since 3.0.0
+ * @param string $type Optional. Whether to fire hooks before or after the profile loop.
  */
 function bp_nouveau_wp_profile_hooks( $type = 'before' ) {
 	if ( 'before' === $type ) {
@@ -1030,9 +1028,9 @@ function bp_nouveau_invitations_bulk_management_dropdown() {
  *
  * @since 12.0.0
  *
- * @param string $activity_content Formatted latest update for current member.
- * @param array  $args             Array of parsed arguments.
- * @param array  $latest_update    Array of the latest activity data.
+ * @param string $activity_content Optional. Formatted latest update for current member.
+ * @param array  $args             Optional. Array of parsed arguments.
+ * @param array  $latest_update    Optional. Array of the latest activity data.
  * @return string The formatted latest update for current member.
  */
 function bp_nouveau_get_member_latest_update( $activity_content = '', $args = array(), $latest_update = array() ) {

@@ -72,7 +72,7 @@ class BP_Tests_BP_XProfile_ProfileData_TestCases extends BP_UnitTestCase {
 		// Just to be sure
 		wp_cache_delete( "{$u}:{$f}", 'bp_xprofile_data' );
 
-		$this->assertEquals( 0, BP_XProfile_ProfileData::get_fielddataid_byid( $f, $u ) );
+		$this->assertSame( 0, BP_XProfile_ProfileData::get_fielddataid_byid( $f, $u ) );
 	}
 
 	/**
@@ -94,7 +94,7 @@ class BP_Tests_BP_XProfile_ProfileData_TestCases extends BP_UnitTestCase {
 		// Ensure it's deleted from cache
 		wp_cache_delete( "{$u}:{$f}", 'bp_xprofile_data' );
 
-		$this->assertEquals( $d->id, BP_XProfile_ProfileData::get_fielddataid_byid( $f, $u ) );
+		$this->assertSame( $d->id, BP_XProfile_ProfileData::get_fielddataid_byid( $f, $u ) );
 	}
 
 	/**
@@ -191,7 +191,26 @@ class BP_Tests_BP_XProfile_ProfileData_TestCases extends BP_UnitTestCase {
 
 		$expected = array( $eu1, $eu2 );
 
-		$this->assertEquals( $expected, BP_XProfile_ProfileData::get_value_byid( $f, array( $u1, $u2 ) ) );
+		$actual = BP_XProfile_ProfileData::get_value_byid( $f, array( $u1, $u2 ) );
+
+		foreach ( $actual as $data ) {
+			$this->assertInstanceOf( 'stdClass', $data );
+		}
+
+		$expected_values = array_map( 'get_object_vars', $expected );
+		$actual_values   = array_map( 'get_object_vars', $actual );
+
+		foreach ( $expected_values as &$value ) {
+			ksort( $value );
+		}
+		unset( $value );
+
+		foreach ( $actual_values as &$value ) {
+			ksort( $value );
+		}
+		unset( $value );
+
+		$this->assertSame( $expected_values, $actual_values );
 	}
 
 	/**
@@ -262,7 +281,26 @@ class BP_Tests_BP_XProfile_ProfileData_TestCases extends BP_UnitTestCase {
 
 		$expected = array( $eu1, $eu2 );
 
-		$this->assertEquals( $expected, BP_XProfile_ProfileData::get_value_byid( $f, array( $u1, $u2 ) ) );
+		$actual = BP_XProfile_ProfileData::get_value_byid( $f, array( $u1, $u2 ) );
+
+		foreach ( $actual as $data ) {
+			$this->assertInstanceOf( 'stdClass', $data );
+		}
+
+		$expected_values = array_map( 'get_object_vars', $expected );
+		$actual_values   = array_map( 'get_object_vars', $actual );
+
+		foreach ( $expected_values as &$value ) {
+			ksort( $value );
+		}
+		unset( $value );
+
+		foreach ( $actual_values as &$value ) {
+			ksort( $value );
+		}
+		unset( $value );
+
+		$this->assertSame( $expected_values, $actual_values );
 	}
 
 	/**
@@ -341,7 +379,7 @@ class BP_Tests_BP_XProfile_ProfileData_TestCases extends BP_UnitTestCase {
 			),
 		);
 
-		$this->assertEquals( $expected, BP_XProfile_ProfileData::get_all_for_user( $u ) );
+		$this->assertSame( $expected, BP_XProfile_ProfileData::get_all_for_user( $u ) );
 	}
 
 	/**
@@ -417,7 +455,7 @@ class BP_Tests_BP_XProfile_ProfileData_TestCases extends BP_UnitTestCase {
 			),
 		);
 
-		$this->assertEquals( $expected, BP_XProfile_ProfileData::get_all_for_user( $u ) );
+		$this->assertSame( $expected, BP_XProfile_ProfileData::get_all_for_user( $u ) );
 	}
 
 	/**

@@ -35,7 +35,7 @@ class BP_Tests_Members_Template extends BP_UnitTestCase {
 		$shouldbe = array( $u1, $u2 );
 		sort( $shouldbe );
 
-		$this->assertEquals( $user_ids, $shouldbe );
+		$this->assertSame( $user_ids, $shouldbe );
 	}
 
 	/**
@@ -43,8 +43,8 @@ class BP_Tests_Members_Template extends BP_UnitTestCase {
 	 * @group bp_has_members
 	 */
 	public function test_bp_has_members_search_pagination_with_spaces() {
-		$u1 = self::factory()->user->create( array( 'display_name' => '~ tilde u1' ) );
-		$u2 = self::factory()->user->create( array( 'display_name' => '~ tilde u2' ) );
+		self::factory()->user->create( array( 'display_name' => '~ tilde u1' ) );
+		self::factory()->user->create( array( 'display_name' => '~ tilde u2' ) );
 
 		$template_args = array(
 			'search_terms' => '~ tilde',
@@ -58,7 +58,7 @@ class BP_Tests_Members_Template extends BP_UnitTestCase {
 
 		preg_match( '/&#038;members_search=(.*)(\'|\")/', $members_template->pag_links, $matches );
 
-		$this->assertEquals( urldecode( $matches[1] ), urldecode( $template_args['search_terms'] ) );
+		$this->assertSame( urldecode( $matches[1] ), urldecode( $template_args['search_terms'] ) );
 
 		// reset the members template global
 		$members_template = $reset_members_template;
@@ -92,7 +92,7 @@ class BP_Tests_Members_Template extends BP_UnitTestCase {
 
 		$requests = is_array( $members_template->members ) ? array_values( $members_template->members ) : array();
 		$request_ids = wp_list_pluck( $requests, 'ID' );
-		$this->assertEquals( $request_ids, array( $u1 ) );
+		$this->assertSame( $request_ids, array( $u1 ) );
 
 		wp_set_current_user( $old_user );
 	}
@@ -103,7 +103,7 @@ class BP_Tests_Members_Template extends BP_UnitTestCase {
 	 * @ticket BP5071
 	 */
 	public function test_bp_has_members_friendship_requests_with_no_requests() {
-		$u1 = self::factory()->user->create();
+		self::factory()->user->create();
 		$u2 = self::factory()->user->create();
 
 		$old_user = get_current_user_id();
@@ -134,7 +134,7 @@ class BP_Tests_Members_Template extends BP_UnitTestCase {
 
 		$requests = is_array( $members_template->members ) ? array_values( $members_template->members ) : array();
 		$request_ids = wp_list_pluck( $requests, 'ID' );
-		$this->assertEquals( array(), $request_ids );
+		$this->assertSame( array(), $request_ids );
 
 		wp_set_current_user( $old_user );
 	}
@@ -158,7 +158,7 @@ class BP_Tests_Members_Template extends BP_UnitTestCase {
 
 		$members = is_array( $members_template->members ) ? array_values( $members_template->members ) : array();
 		$member_ids = wp_list_pluck( $members, 'ID' );
-		$this->assertEquals( array( $users[1]), $member_ids );
+		$this->assertSame( array( $users[1]), $member_ids );
 
 		$GLOBALS['members_template'] = $old_members_template;
 	}
@@ -184,7 +184,7 @@ class BP_Tests_Members_Template extends BP_UnitTestCase {
 
 		$members = is_array( $members_template->members ) ? array_values( $members_template->members ) : array();
 		$member_ids = wp_list_pluck( $members, 'ID' );
-		$this->assertEquals( array( $users[1] ), $member_ids );
+		$this->assertSame( array( $users[1] ), $member_ids );
 
 		$GLOBALS['members_template'] = $old_members_template;
 	}
@@ -266,7 +266,7 @@ class BP_Tests_Members_Template extends BP_UnitTestCase {
 		$members_template->member = new stdClass;
 		$members_template->member->last_activity = $time;
 
-		$this->assertEquals( bp_core_get_last_activity( $time, __( 'Active %s', 'buddypress' ) ), bp_get_member_last_active() );
+		$this->assertSame( bp_core_get_last_activity( $time, __( 'Active %s', 'buddypress' ) ), bp_get_member_last_active() );
 	}
 
 	/**
@@ -281,7 +281,7 @@ class BP_Tests_Members_Template extends BP_UnitTestCase {
 		$members_template->member = new stdClass;
 		$members_template->member->last_activity = $time;
 
-		$this->assertEquals( bp_core_get_last_activity( $time, __( 'Active %s', 'buddypress' ) ), bp_get_member_last_active( array( 'active_format' => true, ) ) );
+		$this->assertSame( bp_core_get_last_activity( $time, __( 'Active %s', 'buddypress' ) ), bp_get_member_last_active( array( 'active_format' => true, ) ) );
 	}
 
 	/**
@@ -296,7 +296,7 @@ class BP_Tests_Members_Template extends BP_UnitTestCase {
 		$members_template->member = new stdClass;
 		$members_template->member->last_activity = $time;
 
-		$this->assertEquals( bp_core_time_since( $time ), bp_get_member_last_active( array( 'active_format' => false, ) ) );
+		$this->assertSame( bp_core_time_since( $time ), bp_get_member_last_active( array( 'active_format' => false, ) ) );
 	}
 
 	/**
@@ -326,7 +326,7 @@ class BP_Tests_Members_Template extends BP_UnitTestCase {
 
 		$at = new BP_Core_Members_Template( $r );
 
-		$this->assertEquals( 5, $at->pag_page );
+		$this->assertSame( 5, $at->pag_page );
 
 		$_REQUEST = $request;
 	}
@@ -358,7 +358,7 @@ class BP_Tests_Members_Template extends BP_UnitTestCase {
 
 		$at = new BP_Core_Members_Template( $r );
 
-		$this->assertEquals( 8, $at->pag_page );
+		$this->assertSame( 8, $at->pag_page );
 
 		$_REQUEST = $request;
 	}
@@ -390,7 +390,7 @@ class BP_Tests_Members_Template extends BP_UnitTestCase {
 
 		$at = new BP_Core_Members_Template( $r );
 
-		$this->assertEquals( 14, $at->pag_num );
+		$this->assertSame( 14, $at->pag_num );
 
 		$_REQUEST = $request;
 	}
@@ -422,7 +422,7 @@ class BP_Tests_Members_Template extends BP_UnitTestCase {
 
 		$at = new BP_Core_Members_Template( $r );
 
-		$this->assertEquals( 13, $at->pag_num );
+		$this->assertSame( 13, $at->pag_num );
 
 		$_REQUEST = $request;
 	}

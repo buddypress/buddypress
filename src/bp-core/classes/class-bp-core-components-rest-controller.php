@@ -95,6 +95,7 @@ class BP_Core_Components_REST_Controller extends WP_REST_Controller {
 		$components = bp_core_get_components( $type );
 
 		// Active components.
+		/** This filter is documented in bp-core/admin/bp-core-admin-components.php */
 		$active_components = (array) apply_filters( 'bp_active_components', bp_get_option( 'bp-active-components' ) );
 
 		// Core component is always active.
@@ -323,7 +324,7 @@ class BP_Core_Components_REST_Controller extends WP_REST_Controller {
 	 * @since 15.0.0
 	 *
 	 * @param string $name        Component name.
-	 * @param string $return_type Use `string` to get the l10n string. Default.
+	 * @param string $return_type Optional. Use `string` to get the l10n string. Default.
 	 *                            Use `bool` to get whether the component is active or not.
 	 *                            Use `array` to get both information.
 	 * @return string|bool|array By default a l10n string is returned.
@@ -493,7 +494,14 @@ class BP_Core_Components_REST_Controller extends WP_REST_Controller {
 			/**
 			 * Filter here to edit component's features.
 			 *
-			 * The dynamic portion of the filter is filled with the component's ID.
+			 * The dynamic portion of the hook name, `$component`, refers to the component ID.
+			 *
+			 * Possible hook names include:
+			 *
+			 *  - `bp_rest_activity_component_features`
+			 *  - `bp_rest_groups_component_features`
+			 *  - `bp_rest_members_component_features`
+			 *  - `bp_rest_messages_component_features`
 			 *
 			 * @since 15.0.0
 			 *

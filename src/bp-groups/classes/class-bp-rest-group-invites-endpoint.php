@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BP REST: BP_REST_Group_Invites_Endpoint class
  *

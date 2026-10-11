@@ -2,6 +2,8 @@
 /**
  * BP Nouveau Groups
  *
+ * @package BuddyPress
+ * @subpackage bp-nouveau
  * @since 3.0.0
  * @version 12.0.0
  */
@@ -34,7 +36,7 @@ class BP_Nouveau_Groups {
 	 * @since 3.0.0
 	 */
 	protected function setup_globals() {
-		$this->dir                   = trailingslashit( dirname( __FILE__ ) );
+		$this->dir                   = trailingslashit( __DIR__ );
 		$this->is_group_home_sidebar = false;
 	}
 
@@ -54,11 +56,14 @@ class BP_Nouveau_Groups {
 
 		// Load AJAX code only on AJAX requests.
 		} else {
-			add_action( 'admin_init', function () {
+			add_action(
+				'admin_init',
+				function () {
 				if ( defined( 'DOING_AJAX' ) && true === DOING_AJAX && 0 === strpos( $_REQUEST['action'], 'groups_' ) ) {
 					require bp_nouveau()->groups->dir . 'ajax.php';
 				}
-			} );
+				}
+			);
 		}
 	}
 
@@ -76,17 +81,17 @@ class BP_Nouveau_Groups {
 
 		add_action( 'bp_nouveau_enqueue_scripts', 'bp_nouveau_groups_enqueue_scripts' );
 
-		// Avoid Notices for BuddyPress Legacy Backcompat
+		// Avoid Notices for BuddyPress Legacy Backcompat.
 		remove_action( 'bp_groups_directory_group_filter', 'bp_group_backcompat_create_nav_item', 1000 );
 
-		// Register the Groups Notifications filters
+		// Register the Groups Notifications filters.
 		add_action( 'bp_nouveau_notifications_init_filters', 'bp_nouveau_groups_notification_filters' );
 
-		// Actions to check whether we are in the Group's default front page sidebar
+		// Actions to check whether we are in the Group's default front page sidebar.
 		add_action( 'dynamic_sidebar_before', array( $this, 'group_home_sidebar_set' ), 10, 1 );
 		add_action( 'dynamic_sidebar_after', array( $this, 'group_home_sidebar_unset' ), 10, 1 );
 
-		// Add a new nav item to settings to let users choose their group invites preferences
+		// Add a new nav item to settings to let users choose their group invites preferences.
 		if ( bp_is_active( 'friends' ) && ! bp_nouveau_groups_disallow_all_members_invites() ) {
 			add_action( 'bp_settings_setup_nav', 'bp_nouveau_groups_invites_restriction_nav' );
 		}
@@ -133,7 +138,7 @@ class BP_Nouveau_Groups {
 		// Add the group's default front template to hieararchy if user enabled it (Enabled by default).
 		add_filter( 'bp_groups_get_front_template', 'bp_nouveau_group_reset_front_template', 10, 2 );
 
-		// Add a new nav item to settings to let users choose their group invites preferences
+		// Add a new nav item to settings to let users choose their group invites preferences.
 		if ( bp_is_active( 'friends' ) && ! bp_nouveau_groups_disallow_all_members_invites() ) {
 			add_filter( 'bp_settings_admin_nav', 'bp_nouveau_groups_invites_restriction_admin_nav', 10, 1 );
 		}
@@ -149,7 +154,7 @@ class BP_Nouveau_Groups {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param string $sidebar_index The Sidebar identifier.
+	 * @param string $sidebar_index Optional. The Sidebar identifier.
 	 */
 	public function group_home_sidebar_set( $sidebar_index = '' ) {
 		if ( 'sidebar-buddypress-groups' !== $sidebar_index ) {
@@ -168,7 +173,7 @@ class BP_Nouveau_Groups {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param string $sidebar_index The Sidebar identifier.
+	 * @param string $sidebar_index Optional. The Sidebar identifier.
 	 */
 	public function group_home_sidebar_unset( $sidebar_index = '' ) {
 		if ( 'sidebar-buddypress-groups' !== $sidebar_index ) {
@@ -186,6 +191,7 @@ class BP_Nouveau_Groups {
  * Launch the Groups loader class.
  *
  * @since 3.0.0
+ * @param BP_Nouveau|null $bp_nouveau Optional. Nouveau instance.
  */
 function bp_nouveau_groups( $bp_nouveau = null ) {
 	if ( is_null( $bp_nouveau ) ) {

@@ -3,6 +3,7 @@
 /**
  * @group groups
  * @group template
+ * @group BP6319
  */
 class BP_Tests_Groups_Template_Status_Message extends BP_UnitTestCase {
 	private $current_user;
@@ -27,9 +28,6 @@ class BP_Tests_Groups_Template_Status_Message extends BP_UnitTestCase {
 		parent::tear_down();
 	}
 
-	/**
-	 * @group BP6319
-	 */
 	public function test_private_group_where_logged_in_user_has_not_requested_membership_but_has_been_invited() {
 		$users = self::factory()->user->create_many( 2 );
 		$g = self::factory()->group->create( array( 'status' => 'private' ) );
@@ -53,9 +51,6 @@ class BP_Tests_Groups_Template_Status_Message extends BP_UnitTestCase {
 		$this->assertSame( $expected, $found );
 	}
 
-	/**
-	 * @group BP6319
-	 */
 	public function test_private_group_where_logged_in_user_has_not_requested_membership_and_has_not_been_invited() {
 		$u = self::factory()->user->create();
 		$g = self::factory()->group->create( array( 'status' => 'private' ) );
@@ -73,9 +68,6 @@ class BP_Tests_Groups_Template_Status_Message extends BP_UnitTestCase {
 		$this->assertSame( $expected, $found );
 	}
 
-	/**
-	 * @group BP6319
-	 */
 	public function test_private_group_visited_by_a_non_logged_in_user() {
 		$g = self::factory()->group->create( array( 'status' => 'private' ) );
 
@@ -90,9 +82,6 @@ class BP_Tests_Groups_Template_Status_Message extends BP_UnitTestCase {
 		$this->assertSame( $expected, $found );
 	}
 
-	/**
-	 * @group BP6319
-	 */
 	public function test_private_group_where_loggedin_user_has_requested_membership() {
 		$u = self::factory()->user->create();
 		$g = self::factory()->group->create( array( 'status' => 'private' ) );
@@ -115,9 +104,6 @@ class BP_Tests_Groups_Template_Status_Message extends BP_UnitTestCase {
 		$this->assertSame( $expected, $found );
 	}
 
-	/**
-	 * @group BP6319
-	 */
 	public function test_hidden_group() {
 		$u = self::factory()->user->create();
 		$g = self::factory()->group->create( array( 'status' => 'hidden' ) );
@@ -132,9 +118,6 @@ class BP_Tests_Groups_Template_Status_Message extends BP_UnitTestCase {
 		$this->assertSame( $expected, $found );
 	}
 
-	/**
-	 * @group BP6319
-	 */
 	public function test_group_parameter_should_be_obeyed() {
 		$u = self::factory()->user->create();
 		$groups = self::factory()->group->create_many( 2, array( 'status' => 'private' ) );

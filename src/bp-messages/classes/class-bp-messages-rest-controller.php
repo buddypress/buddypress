@@ -293,7 +293,7 @@ class BP_Messages_REST_Controller extends WP_REST_Controller {
 			'bp_rest_authorization_required',
 			__( 'Sorry, you are not allowed to perform this action.', 'buddypress' ),
 			array(
-				'status' => rest_authorization_required_code()
+				'status' => rest_authorization_required_code(),
 			)
 		);
 
@@ -522,7 +522,7 @@ class BP_Messages_REST_Controller extends WP_REST_Controller {
 		 *
 		 * @since 15.0.0
 		 *
-		 * @param boolean             $value           Whether the user can edit the message meta.
+		 * @param bool                $value           Whether the user can edit the message meta.
 		 *                                             By default: only the sender and a community moderator can.
 		 * @param BP_Messages_Message $updated_message The updated message object.
 		 * @param WP_REST_Request     $request         Full details about the request.
@@ -871,10 +871,12 @@ class BP_Messages_REST_Controller extends WP_REST_Controller {
 			'sender_id'     => (int) $message->sender_id,
 			'subject'       => array(
 				'raw'      => $message->subject,
+				/** This filter is documented in bp-messages/bp-messages-template.php */
 				'rendered' => apply_filters( 'bp_get_message_thread_subject', $message->subject ),
 			),
 			'message'       => array(
 				'raw'      => $content,
+				/** This filter is documented in bp-messages/bp-messages-template.php */
 				'rendered' => apply_filters( 'bp_get_the_thread_message_content', $content ),
 			),
 			'date_sent'     => bp_rest_prepare_date_response( $message->date_sent, get_date_from_gmt( $message->date_sent ) ),
@@ -1004,14 +1006,17 @@ class BP_Messages_REST_Controller extends WP_REST_Controller {
 			'last_sender_id' => (int) isset( $thread->last_sender_id ) ? $thread->last_sender_id : 0,
 			'subject'        => array(
 				'raw'      => $thread->last_message_subject,
+				/** This filter is documented in bp-messages/bp-messages-template.php */
 				'rendered' => apply_filters( 'bp_get_message_thread_subject', $thread->last_message_subject ),
 			),
 			'excerpt'        => array(
 				'raw'      => $excerpt,
+				/** This filter is documented in bp-messages/bp-messages-template.php */
 				'rendered' => apply_filters( 'bp_get_message_thread_excerpt', $excerpt ),
 			),
 			'message'        => array(
 				'raw'      => $content,
+				/** This filter is documented in bp-messages/bp-messages-template.php */
 				'rendered' => apply_filters( 'bp_get_the_thread_message_content', $content ),
 			),
 			'date'           => bp_rest_prepare_date_response( $thread->last_message_date, get_date_from_gmt( $thread->last_message_date ) ),
@@ -1107,7 +1112,7 @@ class BP_Messages_REST_Controller extends WP_REST_Controller {
 	 * @since 15.0.0
 	 *
 	 * @param int $thread_id Thread ID.
-	 * @param int $user_id   User ID.
+	 * @param int $user_id   Optional. User ID.
 	 * @return BP_Messages_Thread|string
 	 */
 	public function get_thread_object( $thread_id, $user_id = 0 ) {
@@ -1292,6 +1297,16 @@ class BP_Messages_REST_Controller extends WP_REST_Controller {
 
 		/**
 		 * Filters the method query arguments.
+		 *
+		 * The dynamic portion of the hook name, `$key`, refers to the REST API operation whose query arguments
+		 * are being filtered.
+		 *
+		 * Possible hook names include:
+		 *
+		 *  - `bp_rest_messages_get_item_query_arguments`
+		 *  - `bp_rest_messages_create_item_query_arguments`
+		 *  - `bp_rest_messages_update_item_query_arguments`
+		 *  - `bp_rest_messages_delete_item_query_arguments`
 		 *
 		 * @since 15.0.0
 		 *

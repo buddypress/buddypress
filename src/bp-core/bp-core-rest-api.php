@@ -100,8 +100,8 @@ function bp_rest_version() {
  *
  * @since 9.0.0
  *
- * @param integer $object_id   Object ID.
- * @param string  $object_path Path of the component endpoint.
+ * @param int    $object_id   Object ID.
+ * @param string $object_path Path of the component endpoint.
  * @return string
  */
 function bp_rest_get_object_url( $object_id, $object_path ) {
@@ -122,9 +122,9 @@ function bp_rest_get_object_url( $object_id, $object_path ) {
  * @since 5.0.0
  *
  * @param  WP_REST_Response $response The response data.
- * @param  integer          $total    The total number of found items.
- * @param  integer          $per_page The number of items per page of results.
- * @return WP_REST_Response $response The response data.
+ * @param  int              $total    Optional. The total number of found items.
+ * @param  int              $per_page Optional. The number of items per page of results.
+ * @return WP_REST_Response
  */
 function bp_rest_response_add_total_headers( WP_REST_Response $response, $total = 0, $per_page = 0 ) {
 	if ( ! $total || ! $per_page ) {
@@ -317,7 +317,7 @@ function bp_rest_get_user( $user_id ) {
  *     Optional. An array of arguments used to handle the registered field.
  *     @see `register_rest_field()` for a full description.
  * }
- * @param string $object_type  The xProfile object type to get. This parameter is only required for
+ * @param string $object_type  Optional. The xProfile object type to get. This parameter is only required for
  *                             the Extended Profiles component. Not used for all other components.
  *                             Possible values are `data`, `field` or `group`.
  * @return bool                True if the field has been registered successfully. False otherwise.

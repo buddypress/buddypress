@@ -34,6 +34,7 @@ abstract class BP_Suggestions {
 	 * If your custom service requires further defaults, add them here.
 	 *
 	 * @since 2.1.0
+	 *
 	 * @var array
 	 */
 	protected $default_args = array(
@@ -48,6 +49,7 @@ abstract class BP_Suggestions {
 	 * This includes `$default_args`, as well as the user-supplied values.
 	 *
 	 * @since 2.1.0
+	 *
 	 * @var array
 	 */
 	protected $args = array();
@@ -71,7 +73,7 @@ abstract class BP_Suggestions {
 	 * @since 2.1.0
 	 *
 	 * @param array $args {
-	 *     Array of arguments for the suggestions service query.
+	 *     Optional. Array of arguments for the suggestions service query.
 	 *
 	 *     @type int    $limit Maximum number of results to display. Optional, default: 16.
 	 *     @type string $type  The name of the suggestion service to use for the request. Mandatory.

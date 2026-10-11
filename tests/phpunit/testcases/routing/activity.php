@@ -29,7 +29,7 @@ class BP_Tests_Routing_Activity extends BP_UnitTestCase {
 		$pages        = bp_core_get_directory_pages();
 		$component_id = bp_current_component();
 
-		$this->assertEquals( bp_get_activity_root_slug(), $pages->{$component_id}->slug );
+		$this->assertSame( bp_get_activity_root_slug(), $pages->{$component_id}->slug );
 	}
 
 	/**

@@ -24,7 +24,7 @@ function bp_settings_action_delete_account() {
 
 	// Bail if not in settings.
 	if ( ! bp_is_settings_component() || ! bp_is_current_action( 'delete-account' ) ) {
-		return false;
+		return;
 	}
 
 	// 404 if there are any additional action variables attached
@@ -35,7 +35,7 @@ function bp_settings_action_delete_account() {
 
 	// Bail if account deletion is disabled.
 	if ( bp_disable_account_deletion() && ! bp_current_user_can( 'delete_users' ) ) {
-		return false;
+		return;
 	}
 
 	// Nonce check.

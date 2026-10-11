@@ -72,7 +72,7 @@ function bp_is_group_forum() {
  * @since 1.2.7
  * @deprecated 3.0.0 No longer used in core, but supported for third-party code.
  *
- * @param BP_Groups_Group|bool $group The BP Groups_Group object if passed, boolean false if not passed.
+ * @param BP_Groups_Group|bool $group Optional. The BP Groups_Group object if passed, boolean false if not passed.
  */
 function bp_group_new_topic_button( $group = false ) {
 	_deprecated_function( __FUNCTION__, '3.0', 'legacy forum support removed' );
@@ -84,7 +84,7 @@ function bp_group_new_topic_button( $group = false ) {
 	 * @since 1.2.7
 	 * @deprecated 3.0.0 No longer used in core, but supported for third-party code.
 	 *
-	 * @param BP_Groups_Group|bool $group The BP Groups_Group object if passed, boolean false if not passed.
+	 * @param BP_Groups_Group|bool $group Optional. The BP Groups_Group object if passed, boolean false if not passed.
 	 *
 	 * @return false
 	 */

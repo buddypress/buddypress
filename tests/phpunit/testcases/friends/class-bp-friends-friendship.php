@@ -36,7 +36,7 @@ class BP_Tests_BP_Friends_Friendship_TestCases extends BP_UnitTestCase {
 		friends_add_friend( $u1, $u3, true );
 
 		$friends = BP_Friends_Friendship::search_friends( 'Coo', $u1 );
-		$this->assertEquals( array( $u2 ), $friends['friends'] );
+		$this->assertSame( array( $u2 ), $friends['friends'] );
 	}
 
 	/**
@@ -56,7 +56,7 @@ class BP_Tests_BP_Friends_Friendship_TestCases extends BP_UnitTestCase {
 		friends_add_friend( $u1, $u3, true );
 
 		$friends = BP_Friends_Friendship::search_friends( 'Coo', $u1 );
-		$this->assertEquals( array( $u2 ), $friends['friends'] );
+		$this->assertSame( array( $u2 ), $friends['friends'] );
 	}
 
 	public function test_get_bulk_last_active() {
@@ -72,7 +72,7 @@ class BP_Tests_BP_Friends_Friendship_TestCases extends BP_UnitTestCase {
 
 		$friends = BP_Friends_Friendship::get_bulk_last_active( array( $u1, $u2, $u3, 'junk' ) );
 		$friend_ids = wp_list_pluck( $friends, 'user_id' );
-		$this->assertEquals( array( $u1, $u3, $u2 ), $friend_ids );
+		$this->assertSame( array( $u1, $u3, $u2 ), $friend_ids );
 	}
 
 	public function test_search_users() {
@@ -86,7 +86,7 @@ class BP_Tests_BP_Friends_Friendship_TestCases extends BP_UnitTestCase {
 
 		// Needs a user_id param though it does nothing
 		$friends = BP_Friends_Friendship::search_users( 'Coo', 1 );
-		$this->assertEquals( array( $u2 ), $friends );
+		$this->assertSame( array( $u2 ), $friends );
 	}
 
 	public function test_search_users_count() {
@@ -100,7 +100,7 @@ class BP_Tests_BP_Friends_Friendship_TestCases extends BP_UnitTestCase {
 
 		// Needs a user_id param though it does nothing
 		$friends = BP_Friends_Friendship::search_users_count( 'Coo' );
-		$this->assertEquals( 1, $friends );
+		$this->assertSame( 1, $friends );
 	}
 
 	/**
@@ -109,7 +109,7 @@ class BP_Tests_BP_Friends_Friendship_TestCases extends BP_UnitTestCase {
 	public function test_check_is_friend_not_friends() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
-		$this->assertEquals( 'not_friends', BP_Friends_Friendship::check_is_friend( $u1, $u2 ) );
+		$this->assertSame( 'not_friends', BP_Friends_Friendship::check_is_friend( $u1, $u2 ) );
 	}
 
 	/**
@@ -119,7 +119,7 @@ class BP_Tests_BP_Friends_Friendship_TestCases extends BP_UnitTestCase {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
 		friends_add_friend( $u1, $u2, false );
-		$this->assertEquals( 'pending', BP_Friends_Friendship::check_is_friend( $u1, $u2 ) );
+		$this->assertSame( 'pending', BP_Friends_Friendship::check_is_friend( $u1, $u2 ) );
 	}
 
 	/**
@@ -129,7 +129,7 @@ class BP_Tests_BP_Friends_Friendship_TestCases extends BP_UnitTestCase {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
 		friends_add_friend( $u1, $u2, false );
-		$this->assertEquals( 'awaiting_response', BP_Friends_Friendship::check_is_friend( $u2, $u1 ) );
+		$this->assertSame( 'awaiting_response', BP_Friends_Friendship::check_is_friend( $u2, $u1 ) );
 	}
 
 	/**
@@ -139,7 +139,7 @@ class BP_Tests_BP_Friends_Friendship_TestCases extends BP_UnitTestCase {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
 		friends_add_friend( $u1, $u2, true );
-		$this->assertEquals( 'is_friend', BP_Friends_Friendship::check_is_friend( $u1, $u2 ) );
+		$this->assertSame( 'is_friend', BP_Friends_Friendship::check_is_friend( $u1, $u2 ) );
 	}
 
 	/**
@@ -165,7 +165,7 @@ class BP_Tests_BP_Friends_Friendship_TestCases extends BP_UnitTestCase {
 		$f->save();
 
 		$f2 = new BP_Friends_Friendship( $fid );
-		$this->assertEquals( 1, $f2->is_confirmed );
+		$this->assertSame( 1, $f2->is_confirmed );
 	}
 
 	/**
@@ -189,7 +189,7 @@ class BP_Tests_BP_Friends_Friendship_TestCases extends BP_UnitTestCase {
 		// Create it again.
 		$friendship_obj = new BP_Friends_Friendship( $fid, false, false );
 
-		$this->assertEquals( $first_query_count, $wpdb->num_queries );
+		$this->assertSame( $first_query_count, $wpdb->num_queries );
 	}
 
 	/**
@@ -205,7 +205,7 @@ class BP_Tests_BP_Friends_Friendship_TestCases extends BP_UnitTestCase {
 
 		$random = BP_Friends_Friendship::get_random_friends( $user_id, 4 );
 		$this->assertFalse( in_array( $user_id, $random, true ), 'The requested user id should not be listed into random friends' );
-		$this->assertTrue( 4 === count( $random ) );
+		$this->assertCount( 4, $random );
 	}
 
 	/**
@@ -221,7 +221,7 @@ class BP_Tests_BP_Friends_Friendship_TestCases extends BP_UnitTestCase {
 
 		$friend_user_ids = BP_Friends_Friendship::get_friend_user_ids( $user_id );
 		$this->assertFalse( in_array( $user_id, $friend_user_ids, true ), 'The requested user id should not be listed into random friends' );
-		$this->assertTrue( 4 === count( $friend_user_ids ) );
+		$this->assertCount( 4, $friend_user_ids );
 	}
 
 	/**
@@ -253,9 +253,10 @@ class BP_Tests_BP_Friends_Friendship_TestCases extends BP_UnitTestCase {
 
 		$friendships = BP_Friends_Friendship::get_friendships( $u1, array( 'initiator_user_id' => $u2 ), 'not' );
 		$friendship = reset( $friendships );
-		$this->assertTrue( $u3 === $friendship->initiator_user_id && 1 === count( $friendships ) );
+		$this->assertSame( $u3, $friendship->initiator_user_id );
+		$this->assertCount( 1, $friendships );
 
 		$friendships = BP_Friends_Friendship::get_friendships( $u1, array( 'initiator_user_id' => $u3, 'is_confirmed' => 0 ), 'or' );
-		$this->assertTrue( 2 === count( $friendships ) );
+		$this->assertCount( 2, $friendships );
 	}
 }

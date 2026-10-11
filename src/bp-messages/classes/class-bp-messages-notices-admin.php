@@ -20,6 +20,7 @@ class BP_Messages_Notices_Admin {
 	 * The ID returned by `add_users_page()`.
 	 *
 	 * @since 3.0.0
+	 *
 	 * @var string
 	 */
 	public $screen_id = '';
@@ -28,6 +29,7 @@ class BP_Messages_Notices_Admin {
 	 * The URL of the admin screen.
 	 *
 	 * @since 3.0.0
+	 *
 	 * @var string
 	 */
 	public $url = '';
@@ -36,6 +38,7 @@ class BP_Messages_Notices_Admin {
 	 * The current instance of the BP_Messages_Notices_List_Table class.
 	 *
 	 * @since 3.0.0
+	 *
 	 * @var BP_Messages_Notices_List_Table|string
 	 */
 	public $list_table = '';
@@ -44,8 +47,6 @@ class BP_Messages_Notices_Admin {
 	 * Create a new instance or access the current instance of this class.
 	 *
 	 * @since 3.0.0
-	 *
-	 * @return BP_Messages_Notices_Admin
 	 */
 	public static function register_notices_admin() {
 
@@ -56,10 +57,8 @@ class BP_Messages_Notices_Admin {
 		$bp = buddypress();
 
 		if ( empty( $bp->messages->admin ) ) {
-			$bp->messages->admin = new self;
+			$bp->messages->admin = new self();
 		}
-
-		return $bp->messages->admin;
 	}
 
 	/**
@@ -98,7 +97,7 @@ class BP_Messages_Notices_Admin {
 	public function admin_menu() {
 		// Bail if current user cannot moderate community.
 		if ( ! bp_current_user_can( 'bp_moderate' ) || ! bp_is_active( 'messages' ) ) {
-			return false;
+			return;
 		}
 
 		$this->screen_id = add_users_page(
@@ -142,7 +141,7 @@ class BP_Messages_Notices_Admin {
 			}
 		}
 
-		// Catch activation/deactivation/delete requests
+		// Catch activation/deactivation/delete requests.
 		if ( ! empty( $_GET['notice_id'] ) && ! empty( $_GET['notice_action'] ) ) {
 			$notice_id = absint( $_GET['notice_id'] );
 
@@ -151,15 +150,15 @@ class BP_Messages_Notices_Admin {
 			$success = false;
 			switch ( $_GET['notice_action'] ) {
 				case 'activate':
-					$notice = new BP_Messages_Notice( $notice_id );
+					$notice  = new BP_Messages_Notice( $notice_id );
 					$success = $notice->activate();
 					break;
 				case 'deactivate':
-					$notice = new BP_Messages_Notice( $notice_id );
+					$notice  = new BP_Messages_Notice( $notice_id );
 					$success = $notice->deactivate();
 					break;
 				case 'delete':
-					$notice = new BP_Messages_Notice( $notice_id );
+					$notice  = new BP_Messages_Notice( $notice_id );
 					$success = $notice->delete();
 					break;
 			}
@@ -170,7 +169,6 @@ class BP_Messages_Notices_Admin {
 			} else {
 				$redirect_to = add_query_arg( 'error', 'update', $this->url );
 			}
-
 		}
 
 		if ( $redirect_to ) {
@@ -227,12 +225,10 @@ class BP_Messages_Notices_Admin {
 							} else {
 								esc_html_e( 'Notice was not updated. Please try again.', 'buddypress' );
 							}
-						 } else {
-							if ( 'create' === $_GET['success'] ) {
+						} elseif ( 'create' === $_GET['success'] ) {
 								esc_html_e( 'Notice successfully created.', 'buddypress' );
 							} else {
 								esc_html_e( 'Notice successfully updated.', 'buddypress' );
-							}
 						}
 						?>
 					</p>

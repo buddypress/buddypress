@@ -20,7 +20,8 @@ do_action( 'bp_before_create_blog_content_template' ); ?>
 		<?php
 
 		/** This action is documented in bp-templates/bp-legacy/buddypress/activity/index.php */
-		do_action( 'template_notices' ); ?>
+		do_action( 'template_notices' );
+		?>
 
 	</div>
 
@@ -31,13 +32,14 @@ do_action( 'bp_before_create_blog_content_template' ); ?>
 	 *
 	 * @since 1.1.0
 	 */
-	do_action( 'bp_before_create_blog_content' ); ?>
+	do_action( 'bp_before_create_blog_content' );
+	?>
 
 	<?php if ( bp_blog_signup_enabled() ) : ?>
 
 		<?php bp_show_blog_signup_form(); ?>
 
-	<?php else: ?>
+	<?php else : ?>
 
 		<div id="message" class="info">
 			<p><?php esc_html_e( 'Site registration is currently disabled', 'buddypress' ); ?></p>
@@ -52,7 +54,8 @@ do_action( 'bp_before_create_blog_content_template' ); ?>
 	 *
 	 * @since 1.1.0
 	 */
-	do_action( 'bp_after_create_blog_content' ); ?>
+	do_action( 'bp_after_create_blog_content' );
+	?>
 
 </div>
 

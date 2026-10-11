@@ -37,6 +37,8 @@ class BP_Nouveau extends BP_Theme_Compat {
 	/**
 	 * Instance of this class.
 	 *
+	 * @since 3.0.0
+	 *
 	 * @var BP_Nouveau|null
 	 */
 	protected static $instance = null;
@@ -117,7 +119,7 @@ class BP_Nouveau extends BP_Theme_Compat {
 		if ( ! $this->is_block_theme ) {
 			add_action(
 				'bp_customize_register',
-				function() {
+				function () {
 					if ( bp_is_root_blog() && current_user_can( 'customize' ) ) {
 						require bp_nouveau()->includes_dir . 'customizer.php';
 					}
@@ -240,7 +242,7 @@ class BP_Nouveau extends BP_Theme_Compat {
 		add_action( 'widgets_init', 'bp_nouveau_register_sidebars', 11 );
 
 		// Modify "registration disabled" and welcome message if invitations are enabled.
-		add_action( 'bp_nouveau_feedback_messages', array( $this, 'filter_registration_messages' ), 99 );
+		add_filter( 'bp_nouveau_feedback_messages', array( $this, 'filter_registration_messages' ), 99 );
 
 		/**
 		 * Fires after all of the BuddyPress theme compat actions have been added.
@@ -375,7 +377,7 @@ class BP_Nouveau extends BP_Theme_Compat {
 	public function register_scripts() {
 		$min          = bp_core_get_minified_asset_suffix();
 		$dependencies = bp_core_get_js_dependencies();
-		$bp_confirm   = array_search( 'bp-confirm', $dependencies );
+		$bp_confirm   = array_search( 'bp-confirm', $dependencies, true );
 
 		unset( $dependencies[ $bp_confirm ] );
 
@@ -577,7 +579,7 @@ class BP_Nouveau extends BP_Theme_Compat {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param array $templates Array of templates.
+	 * @param array $templates Optional. Array of templates.
 	 *
 	 * @return array
 	 */
@@ -749,7 +751,7 @@ class BP_Nouveau extends BP_Theme_Compat {
 	 *
 	 * @param array $messages The list of feedback messages.
 	 *
-	 * @return array $messages
+	 * @return array
 	 */
 	public function filter_registration_messages( $messages ) {
 		// Change the "registration is disabled" message.

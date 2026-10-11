@@ -2,6 +2,8 @@
 /**
  * BuddyPress - Members Notifications Loop
  *
+ * @package BuddyPress
+ * @subpackage bp-nouveau
  * @since 3.0.0
  * @version 3.1.0
  */
@@ -58,4 +60,5 @@ if ( bp_has_notifications( bp_ajax_querystring( 'notifications' ) ) ) :
 
 	<?php bp_nouveau_user_feedback( 'member-notifications-none' ); ?>
 
-<?php endif;
+<?php
+endif;

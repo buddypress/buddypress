@@ -193,7 +193,7 @@ class BP_Core_BP_Nav_BackCompat implements ArrayAccess {
 	 * @since 2.6.0
 	 * @deprecated 12.0.0
 	 *
-	 * @param string $offset Nav item name.
+	 * @param string $offset Optional. Nav item name.
 	 */
 	protected function get_component_nav( $offset = '' ) {
 		_deprecated_function( __METHOD__, '12.0.0' );

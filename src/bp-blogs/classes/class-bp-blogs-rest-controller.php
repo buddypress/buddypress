@@ -415,6 +415,7 @@ class BP_Blogs_REST_Controller extends WP_REST_Controller {
 		$data = array(
 			'id'                => absint( $blog->blog_id ),
 			'user_id'           => absint( $blog->admin_user_id ),
+			/** This filter is documented in bp-blogs/bp-blogs-template.php */
 			'name'              => apply_filters( 'bp_get_blog_name', $blog->name ),
 			'domain'            => (string) $blog->domain,
 			'path'              => (string) $blog->path,
@@ -424,6 +425,7 @@ class BP_Blogs_REST_Controller extends WP_REST_Controller {
 			'lastest_post_id'   => 0,
 			'description'       => array(
 				'raw'      => $blog->description,
+				/** This filter is documented in bp-blogs/bp-blogs-template.php */
 				'rendered' => apply_filters( 'bp_get_blog_description', $blog->description ),
 			),
 		);
@@ -542,6 +544,7 @@ class BP_Blogs_REST_Controller extends WP_REST_Controller {
 		$protocol  = is_ssl() ? 'https://' : 'http://';
 		$permalink = $protocol . $blog->domain . $blog->path;
 
+		/** This filter is documented in bp-blogs/bp-blogs-template.php */
 		return apply_filters( 'bp_get_blog_permalink', $permalink );
 	}
 
@@ -632,6 +635,14 @@ class BP_Blogs_REST_Controller extends WP_REST_Controller {
 
 		/**
 		 * Filters the method query arguments.
+		 *
+		 * The dynamic portion of the hook name, `$key`, refers to the REST API operation whose query arguments
+		 * are being filtered.
+		 *
+		 * Possible hook names include:
+		 *
+		 *  - `bp_rest_blogs_get_item_query_arguments`
+		 *  - `bp_rest_blogs_create_item_query_arguments`
 		 *
 		 * @since 15.0.0
 		 *

@@ -29,7 +29,7 @@ class BP_Tests_xProfile_Template extends BP_UnitTestCase {
 
 		$group = reset( $profile_template->groups );
 		$field = reset( $group->fields );
-		$this->assertEquals( 'Foo Bar', $field->data->value, 'The primary field should be the Name one and its value should be the same than the display name, by default' );
+		$this->assertSame( 'Foo Bar', $field->data->value, 'The primary field should be the Name one and its value should be the same than the display name, by default' );
 
 		wp_set_current_user( $prev_user );
 		$profile_template = $reset_profile_template;
@@ -225,11 +225,11 @@ class BP_Tests_xProfile_Template extends BP_UnitTestCase {
 
 		$profile_template = new stdClass();
 
-		$this->assertEquals( '', bp_get_the_profile_field_ids() );
+		$this->assertSame( '', bp_get_the_profile_field_ids() );
 
 		$profile_template->groups = array();
 
-		$this->assertEquals( '', bp_get_the_profile_field_ids() );
+		$this->assertSame( '', bp_get_the_profile_field_ids() );
 
 		$profile_template = $reset_profile_template;
 	}

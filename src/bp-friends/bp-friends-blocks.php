@@ -58,7 +58,7 @@ function bp_friends_blocks_add_script_data() {
  *
  * @since 9.0.0
  *
- * @param array $attributes The block attributes.
+ * @param array $attributes Optional. The block attributes.
  * @return string           HTML output.
  */
 function bp_friends_render_friends_block( $attributes = array() ) {

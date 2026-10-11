@@ -23,7 +23,7 @@ function groups_screen_group_activity_permalink() {
 	buddypress()->is_single_item = true;
 
 	$templates = array(
-		/** This filter is documented in bp-groups/screens/home.php */
+		/** This filter is documented in bp-groups/screens/single/home.php */
 		apply_filters( 'groups_template_group_home', 'groups/single/home' ),
 		'groups/single/index',
 	);

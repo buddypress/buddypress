@@ -677,10 +677,12 @@ class BP_Messages_Sitewide_Notices_REST_Controller extends WP_REST_Controller {
 			'id'        => (int) $notice->id,
 			'subject'   => array(
 				'raw'      => $notice->subject,
+				/** This filter is documented in bp-messages/bp-messages-template.php */
 				'rendered' => apply_filters( 'bp_get_message_notice_subject', wp_staticize_emoji( $notice->subject ) ),
 			),
 			'message'   => array(
 				'raw'      => $notice->message,
+				/** This filter is documented in bp-messages/bp-messages-template.php */
 				'rendered' => apply_filters( 'bp_get_message_notice_text', wp_staticize_emoji( $notice->message ) ),
 			),
 			'date'      => bp_rest_prepare_date_response( $notice->date_sent, get_date_from_gmt( $notice->date_sent ) ),
@@ -776,6 +778,16 @@ class BP_Messages_Sitewide_Notices_REST_Controller extends WP_REST_Controller {
 
 		/**
 		 * Filters the method query arguments.
+		 *
+		 * The dynamic portion of the hook name, `$key`, refers to the REST API operation whose query arguments
+		 * are being filtered.
+		 *
+		 * Possible hook names include:
+		 *
+		 *  - `bp_rest_sitewide_notices_get_item_query_arguments`
+		 *  - `bp_rest_sitewide_notices_create_item_query_arguments`
+		 *  - `bp_rest_sitewide_notices_update_item_query_arguments`
+		 *  - `bp_rest_sitewide_notices_delete_item_query_arguments`
 		 *
 		 * @since 15.0.0
 		 *

@@ -2,6 +2,8 @@
 /**
  * BuddyPress - Members Profile Change Cover Image
  *
+ * @package BuddyPress
+ * @subpackage bp-nouveau
  * @since 3.0.0
  * @version 3.1.0
  */
@@ -18,7 +20,7 @@
 </p>
 
 <?php
-// Load the cover image UI
+// Load the cover image UI.
 bp_attachments_get_template_part( 'cover-images/index' );
 
 bp_nouveau_member_hook( 'after', 'edit_cover_image' );

@@ -412,7 +412,7 @@ trait BP_REST_Attachments {
 	 * @since 6.0.0
 	 *
 	 * @param array $args {
-	 *    An array of arguments to build the Avatar object.
+	 *    Optional. An array of arguments to build the Avatar object.
 	 *
 	 *    @type string $full  The url to the full version of the avatar.
 	 *    @type string $thumb The url to the thumb version of the avatar.

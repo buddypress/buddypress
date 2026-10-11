@@ -90,7 +90,7 @@ class BP_Tests_BP_XProfile_Query extends BP_UnitTestCase {
 		) );
 
 		$expected = array( $this->users[0] );
-		$this->assertEquals( $expected, array_keys( $q->results ) );
+		$this->assertSame( $expected, array_keys( $q->results ) );
 	}
 
 	public function test_single_clause_compare_equals() {
@@ -112,7 +112,7 @@ class BP_Tests_BP_XProfile_Query extends BP_UnitTestCase {
 		) );
 
 		$expected = array( $this->users[0] );
-		$this->assertEquals( $expected, array_keys( $q->results ) );
+		$this->assertSame( $expected, array_keys( $q->results ) );
 	}
 
 	public function test_single_clause_compare_not_equals() {
@@ -133,7 +133,7 @@ class BP_Tests_BP_XProfile_Query extends BP_UnitTestCase {
 		) );
 
 		$expected = array( $this->users[1] );
-		$this->assertEquals( $expected, array_keys( $q->results ) );
+		$this->assertSame( $expected, array_keys( $q->results ) );
 	}
 
 	public function test_single_clause_compare_arithmetic_comparisons() {
@@ -619,6 +619,11 @@ class BP_Tests_BP_XProfile_Query extends BP_UnitTestCase {
 
 	/** Helpers **********************************************************/
 
+	/**
+	 * Create xProfile fields for a test.
+	 *
+	 * @param int $count Number of fields to create.
+	 */
 	protected function create_fields( $count ) {
 		$this->group = self::factory()->xprofile_group->create();
 		for ( $i = 0; $i < $count; $i++ ) {

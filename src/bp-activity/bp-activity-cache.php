@@ -19,7 +19,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.6.0
  *
- * @param int|string|array|bool $activity_ids Accepts a single activity ID, or a comma-
+ * @param int|string|array|bool $activity_ids Optional. Accepts a single activity ID, or a comma-
  *                                            separated list or array of activity ids.
  */
 function bp_activity_update_meta_cache( $activity_ids = false ) {
@@ -76,13 +76,10 @@ add_action( 'bp_activity_deleted_activities', 'bp_activity_clear_cache_for_delet
  * function effectively invalidates all cached results of activity queries.
  *
  * @since 2.7.0
- *
- * @return bool
  */
 function bp_activity_reset_cache_incrementor() {
-	$without_last_activity = bp_core_reset_incrementor( 'bp_activity' );
-	$with_last_activity    = bp_core_reset_incrementor( 'bp_activity_with_last_activity' );
-	return $without_last_activity && $with_last_activity;
+	bp_core_reset_incrementor( 'bp_activity' );
+	bp_core_reset_incrementor( 'bp_activity_with_last_activity' );
 }
 add_action( 'bp_activity_delete', 'bp_activity_reset_cache_incrementor' );
 add_action( 'bp_activity_add', 'bp_activity_reset_cache_incrementor' );

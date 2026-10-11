@@ -19,7 +19,7 @@ function bp_group_avatar_edit_form() {
 /**
  * @deprecated 2.4.0
  *
- * @param bool $deprecated Param deprecated 1.1.0
+ * @param bool $deprecated Optional. Param deprecated 1.1.0
  */
 function groups_avatar_upload( $deprecated = true ) {
 	_deprecated_function( __FUNCTION__, '2.4' );

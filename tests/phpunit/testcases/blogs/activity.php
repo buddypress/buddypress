@@ -21,7 +21,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 		$actions = bp_activity_get_actions();
 		$actions = array_keys( (array) $actions->blogs );
 
-		$this->assertEquals( $expected, $actions );
+		$this->assertSame( $expected, $actions );
 	}
 
 	/**
@@ -29,9 +29,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 	 * @group bp_blogs_format_activity_action_new_blog
 	 */
 	public function test_bp_blogs_format_activity_action_new_blog() {
-		if ( ! is_multisite() ) {
-			$this->markTestSkipped();
-		}
+		$this->skipWithoutMultisite();
 
 		$b = self::factory()->blog->create();
 		$u = self::factory()->user->create();
@@ -54,9 +52,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 	 * @group bp_blogs_format_activity_action_new_blog_post
 	 */
 	public function test_bp_blogs_format_activity_action_new_blog_post_nonms() {
-		if ( is_multisite() ) {
-			$this->markTestSkipped();
-		}
+		$this->skipWithMultisite();
 
 		$u = self::factory()->user->create();
 		$p = self::factory()->post->create( array(
@@ -83,9 +79,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 	 * @group bp_blogs_format_activity_action_new_blog_post
 	 */
 	public function test_bp_blogs_format_activity_action_new_blog_post_ms_rootblog() {
-		if ( ! is_multisite() ) {
-			$this->markTestSkipped();
-		}
+		$this->skipWithoutMultisite();
 
 		$u = self::factory()->user->create();
 		$p = self::factory()->post->create( array(
@@ -114,9 +108,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 	 * @group bp_blogs_format_activity_action_new_blog_post
 	 */
 	public function test_bp_blogs_format_activity_action_new_blog_post_ms_nonrootblog() {
-		if ( ! is_multisite() ) {
-			$this->markTestSkipped();
-		}
+		$this->skipWithoutMultisite();
 
 		$b = self::factory()->blog->create();
 		$u = self::factory()->user->create();
@@ -152,9 +144,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 	 * @group post_type_comment_activities
 	 */
 	public function test_bp_blogs_format_activity_action_new_blog_comment_ms_nonrootblog() {
-		if ( ! is_multisite() ) {
-			$this->markTestSkipped();
-		}
+		$this->skipWithoutMultisite();
 
 		$b = self::factory()->blog->create();
 		$u = self::factory()->user->create();
@@ -197,9 +187,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 	public function test_bp_blogs_update_post_title_activity_meta_should_not_be_the_same_for_same_comment_id() {
 		global $wpdb;
 
-		if ( ! is_multisite() ) {
-			$this->markTestSkipped();
-		}
+		$this->skipWithoutMultisite();
 
 		$b1 = self::factory()->blog->create();
 		$b2 = self::factory()->blog->create();
@@ -623,7 +611,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 	public function test_bp_blogs_new_blog_comment_query_backpat() {
 		$old_user = get_current_user_id();
 		$u        = self::factory()->user->create();
-		$reset_at = isset( $GLOBALS['activities_template'] ) ? $GLOBALS['activities_template'] : null;
+		$reset_at = $GLOBALS['activities_template'] ?? null;
 
 		wp_set_current_user( $u );
 
@@ -667,7 +655,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 		);
 
 		$ids = wp_list_pluck( $GLOBALS['activities_template']->activities, 'id' );
-		$this->assertEquals( array( $c ), $ids );
+		$this->assertSame( array( $c ), $ids );
 
 		// Reset.
 		remove_filter( 'bp_disable_blogforum_comments', '__return_false' );
@@ -682,7 +670,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 	public function test_bp_blogs_new_blog_comment_query_backpat_with_array_of_actions() {
 		$old_user = get_current_user_id();
 		$u        = self::factory()->user->create();
-		$reset_at = isset( $GLOBALS['activities_template'] ) ? $GLOBALS['activities_template'] : null;
+		$reset_at = $GLOBALS['activities_template'] ?? null;
 
 		wp_set_current_user( $u );
 
@@ -736,6 +724,9 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 	/**
 	 * Dopey passthrough method so we can check that the correct values
 	 * are being passed to the filter
+	 *
+	 * @param string        $a Activity action.
+	 * @param BP_Blogs_Blog $b Blog object.
 	 */
 	public function created_blog_passthrough( $a, $b ) {
 		$this->userblog_id = isset( $b->id ) ? $b->id : '';
@@ -745,6 +736,9 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 	/**
 	 * Dopey passthrough method so we can check that the correct values
 	 * are being passed to the filter
+	 *
+	 * @param string  $a Activity action.
+	 * @param WP_Post $b Post object.
 	 */
 	public function new_post_passthrough( $a, $b ) {
 		$this->post_id = isset( $b->ID ) ? $b->ID : '';
@@ -754,6 +748,9 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 	/**
 	 * Dopey passthrough method so we can check that the correct values
 	 * are being passed to the filter
+	 *
+	 * @param string     $a Activity action.
+	 * @param WP_Comment $b Comment object.
 	 */
 	public function new_comment_passthrough( $a, $b ) {
 		$this->comment_post_id = isset( $b->comment_post_ID ) ? $b->comment_post_ID : '';
@@ -762,6 +759,8 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 
 	/**
 	 * Explicitly set activity to spam.
+	 *
+	 * @param BP_Activity_Activity $activity Activity object to mark as spam.
 	 */
 	public function set_activity_to_spam( $activity ) {
 		$activity->is_spam = 1;

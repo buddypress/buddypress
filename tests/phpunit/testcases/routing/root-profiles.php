@@ -39,7 +39,7 @@ class BP_Tests_Routing_Members_Root_Profiles extends BP_UnitTestCase {
 		$pages        = bp_core_get_directory_pages();
 		$component_id = bp_current_component();
 
-		$this->assertEquals( bp_get_members_root_slug(), $pages->{$component_id}->slug );
+		$this->assertSame( bp_get_members_root_slug(), $pages->{$component_id}->slug );
 	}
 
 	public function test_member_permalink() {
@@ -49,14 +49,14 @@ class BP_Tests_Routing_Members_Root_Profiles extends BP_UnitTestCase {
 
 		$this->assertTrue( bp_is_user() );
 		$this->assertTrue( bp_is_my_profile() );
-		$this->assertEquals( $this->u->ID, bp_displayed_user_id() );
+		$this->assertSame( $this->u->ID, bp_displayed_user_id() );
 	}
 
 	/**
 	 * @ticket BP6475
 	 */
 	public function test_member_permalink_when_members_page_is_nested_under_wp_page() {
-		$this->markTestSkipped();
+		$this->markTestSkipped( 'Nested member pages are no longer supported in BuddyPress.' );
 
 		/**
 		 * This is no more supported in BuddyPress.
@@ -79,7 +79,7 @@ class BP_Tests_Routing_Members_Root_Profiles extends BP_UnitTestCase {
 
 		$this->assertTrue( bp_is_user() );
 		$this->assertTrue( bp_is_my_profile() );
-		$this->assertEquals( $this->u->ID, bp_displayed_user_id() );
+		$this->assertSame( $this->u->ID, bp_displayed_user_id() );
 	}
 
 	public function test_member_activity_page() {
@@ -89,7 +89,7 @@ class BP_Tests_Routing_Members_Root_Profiles extends BP_UnitTestCase {
 
 		$this->assertTrue( bp_is_user() );
 		$this->assertTrue( bp_is_my_profile() );
-		$this->assertEquals( $this->u->ID, bp_displayed_user_id() );
+		$this->assertSame( $this->u->ID, bp_displayed_user_id() );
 
 		$this->assertTrue( bp_is_activity_component() );
 	}

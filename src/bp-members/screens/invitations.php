@@ -35,7 +35,7 @@ function members_screen_send_invites() {
 
 		// Check the nonce and delete the invitation.
 		if ( bp_verify_nonce_request( 'bp_members_invitation_send_' . $user_id ) && bp_members_invitations_invite_user( $invite_args ) ) {
-			bp_core_add_message( __( 'Invitation successfully sent!', 'buddypress' )          );
+			bp_core_add_message( __( 'Invitation successfully sent!', 'buddypress' ) );
 		} else {
 			bp_core_add_message( __( 'There was a problem sending that invitation. The user could already be a member of the site or have chosen not to receive invitations from this site.', 'buddypress' ), 'error' );
 		}

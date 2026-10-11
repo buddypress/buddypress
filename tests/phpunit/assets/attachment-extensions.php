@@ -6,7 +6,7 @@
 #[AllowDynamicProperties]
 class BPTest_Attachment_Extension extends BP_Attachment {
 	public function __construct( $args = array() ) {
-		return parent::__construct( $args );
+		parent::__construct( $args );
 	}
 
 	public function upload_dir_filter( $upload_dir = array() ) {

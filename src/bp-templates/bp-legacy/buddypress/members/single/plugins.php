@@ -30,21 +30,25 @@
 				 *
 				 * @since 1.2.2
 				 */
-				do_action( 'bp_member_plugin_options_nav' ); ?>
+				do_action( 'bp_member_plugin_options_nav' );
+				?>
 			</ul>
 		</div><!-- .item-list-tabs -->
 
 		<?php endif; ?>
 
 		<?php if ( has_action( 'bp_template_title' ) ) : ?>
-			<h3><?php
+			<h3>
+			<?php
 
 			/**
 			 * Fires inside the member plugin template <h3> tag.
 			 *
 			 * @since 1.0.0
 			 */
-			do_action( 'bp_template_title' ); ?></h3>
+			do_action( 'bp_template_title' );
+			?>
+			</h3>
 
 		<?php endif; ?>
 
@@ -55,7 +59,8 @@
 		 *
 		 * @since 1.0.0
 		 */
-		do_action( 'bp_template_content' ); ?>
+		do_action( 'bp_template_content' );
+		?>
 
 		<?php
 

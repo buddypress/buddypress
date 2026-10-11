@@ -22,6 +22,7 @@ class BP_Groups_Component extends BP_Component {
 	 * Auto-join group when non group member performs group activity.
 	 *
 	 * @since 1.5.0
+	 *
 	 * @var bool
 	 */
 	public $auto_join;
@@ -30,6 +31,7 @@ class BP_Groups_Component extends BP_Component {
 	 * The group being currently accessed.
 	 *
 	 * @since 1.5.0
+	 *
 	 * @var BP_Groups_Group
 	 */
 	public $current_group;
@@ -38,6 +40,7 @@ class BP_Groups_Component extends BP_Component {
 	 * Default group extension.
 	 *
 	 * @since 1.6.0
+	 *
 	 * @var string
 	 */
 	public $default_extension;
@@ -46,6 +49,7 @@ class BP_Groups_Component extends BP_Component {
 	 * Illegal group names/slugs.
 	 *
 	 * @since 1.5.0
+	 *
 	 * @var array
 	 */
 	public $forbidden_names;
@@ -54,6 +58,7 @@ class BP_Groups_Component extends BP_Component {
 	 * Group creation/edit steps (e.g. Details, Settings, Avatar, Invites).
 	 *
 	 * @since 1.5.0
+	 *
 	 * @var array
 	 */
 	public $group_creation_steps;
@@ -62,6 +67,7 @@ class BP_Groups_Component extends BP_Component {
 	 * Types of group statuses (Public, Private, Hidden).
 	 *
 	 * @since 1.5.0
+	 *
 	 * @var array
 	 */
 	public $valid_status;
@@ -72,6 +78,7 @@ class BP_Groups_Component extends BP_Component {
 	 * @see bp_groups_register_group_type()
 	 *
 	 * @since 2.6.0
+	 *
 	 * @var array
 	 */
 	public $types = array();
@@ -80,6 +87,7 @@ class BP_Groups_Component extends BP_Component {
 	 * Nav for the Group component.
 	 *
 	 * @since 2.6.0
+	 *
 	 * @var BP_Core_Nav
 	 */
 	public $nav;
@@ -90,6 +98,7 @@ class BP_Groups_Component extends BP_Component {
 	 * @see groups_directory_groups_setup()
 	 *
 	 * @since 2.7.0
+	 *
 	 * @var string
 	 */
 	public $current_directory_type = '';
@@ -100,6 +109,7 @@ class BP_Groups_Component extends BP_Component {
 	 * @see bp_register_group_extension()
 	 *
 	 * @since 10.0.0
+	 *
 	 * @var array
 	 */
 	public $group_extensions = array();
@@ -134,7 +144,7 @@ class BP_Groups_Component extends BP_Component {
 	 *
 	 * @see BP_Component::includes() for a description of arguments.
 	 *
-	 * @param array $includes See BP_Component::includes() for a description.
+	 * @param array $includes Optional. See BP_Component::includes() for a description.
 	 */
 	public function includes( $includes = array() ) {
 		$includes = array(
@@ -234,8 +244,8 @@ class BP_Groups_Component extends BP_Component {
 	 *
 	 * @since 12.0.0
 	 *
-	 * @param string $group_slug The current action which is possibly a group slug.
-	 * @return BP_Groups_Group|Object|integer A group's object or 0 if no groups were found.
+	 * @param string $group_slug Optional. The current action which is possibly a group slug.
+	 * @return BP_Groups_Group|Object|int A group's object or 0 if no groups were found.
 	 */
 	public function setup_current_group( $group_slug = '' ) {
 		if ( ! bp_is_groups_component() || ! $group_slug ) {
@@ -268,7 +278,7 @@ class BP_Groups_Component extends BP_Component {
 		 */
 		$current_group_class = apply_filters( 'bp_groups_current_group_class', 'BP_Groups_Group' );
 
-		if ( $current_group_class == 'BP_Groups_Group' ) {
+		if ( $current_group_class === 'BP_Groups_Group' ) {
 			$current_group = groups_get_group( $group_id );
 
 		} else {
@@ -392,7 +402,6 @@ class BP_Groups_Component extends BP_Component {
 
 			// Set group type if available.
 			if ( bp_is_current_action( bp_get_groups_group_type_base() ) && bp_action_variable() ) {
-				$matched_type  = '';
 				$matched_types = bp_groups_get_group_types(
 					array(
 						'has_directory'  => true,
@@ -469,7 +478,7 @@ class BP_Groups_Component extends BP_Component {
 	 *
 	 * @see BP_Component::setup_globals() for a description of arguments.
 	 *
-	 * @param array $args See BP_Component::setup_globals() for a description.
+	 * @param array $args Optional. See BP_Component::setup_globals() for a description.
 	 */
 	public function setup_globals( $args = array() ) {
 		$bp           = buddypress();
@@ -803,7 +812,7 @@ class BP_Groups_Component extends BP_Component {
 					unset( $manage_screens['membership-requests'] );
 				}
 
-				foreach ( $manage_screens as $manage_screen_id => $manage_sub_nav_item ) {
+				foreach ( $manage_screens as $manage_sub_nav_item ) {
 					$sub_nav[] = array_merge( $manage_sub_nav_item, $default_params );
 				}
 			}
@@ -816,16 +825,19 @@ class BP_Groups_Component extends BP_Component {
 			if ( isset( $this->current_group->user_has_access ) ) {
 
 				/**
-				 * Fires at the end of the groups navigation setup if user has access.
+				 * Fires at the end of the groups navigation setup.
+				 *
+				 * This action receives the access value when the current group exposes it.
+				 * Otherwise, it fires without arguments.
 				 *
 				 * @since 1.0.2
 				 *
-				 * @param bool $user_has_access Whether or not user has access.
+				 * @param bool $user_has_access Optional. Whether the user has access to the group.
 				 */
 				do_action( 'groups_setup_nav', $this->current_group->user_has_access );
 			} else {
 
-				/** This action is documented in bp-groups/bp-groups-loader.php */
+				/** This action is documented in bp-groups/classes/class-bp-groups-component.php */
 				do_action( 'groups_setup_nav' );
 			}
 		}
@@ -839,7 +851,7 @@ class BP_Groups_Component extends BP_Component {
 	 * @see BP_Component::setup_nav() for a description of the $wp_admin_nav
 	 *      parameter array.
 	 *
-	 * @param array $wp_admin_nav See BP_Component::setup_admin_bar() for a description.
+	 * @param array $wp_admin_nav Optional. See BP_Component::setup_admin_bar() for a description.
 	 */
 	public function setup_admin_bar( $wp_admin_nav = array() ) {
 
@@ -990,18 +1002,6 @@ class BP_Groups_Component extends BP_Component {
 		);
 
 		parent::setup_cache_groups();
-	}
-
-	/**
-	 * Set up taxonomies.
-	 *
-	 * @since 2.6.0
-	 * @since 7.0.0 The Group Type taxonomy is registered using the `bp_groups_register_group_type_taxonomy()` function.
-	 */
-	public function register_taxonomies() {
-
-		// Just let BP Component fire 'bp_groups_register_taxonomies'.
-		return parent::register_taxonomies();
 	}
 
 	/**

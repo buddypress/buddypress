@@ -41,7 +41,7 @@ class BP_Tests_XProfile_Groups_REST_Controller extends BP_Test_REST_Controller_T
 		$response = $this->server->dispatch( $request );
 		$this->assertNotInstanceOf( 'WP_Error', $response );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$all_data = $response->get_data();
 		$this->assertNotEmpty( $all_data );
@@ -83,7 +83,7 @@ class BP_Tests_XProfile_Groups_REST_Controller extends BP_Test_REST_Controller_T
 		$response = $this->server->dispatch( $request );
 		$this->assertNotInstanceOf( 'WP_Error', $response );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$all_data = $response->get_data();
 		$this->assertNotEmpty( $all_data );
@@ -109,7 +109,7 @@ class BP_Tests_XProfile_Groups_REST_Controller extends BP_Test_REST_Controller_T
 		$response = $this->server->dispatch( $request );
 		$this->assertNotInstanceOf( 'WP_Error', $response );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$all_data = $response->get_data();
 		$this->assertNotEmpty( $all_data );
@@ -127,13 +127,13 @@ class BP_Tests_XProfile_Groups_REST_Controller extends BP_Test_REST_Controller_T
 		wp_set_current_user( $this->user );
 
 		$field_group = $this->endpoint->get_xprofile_field_group_object( $this->group_id );
-		$this->assertEquals( $this->group_id, $field_group->id );
+		$this->assertSame( $this->group_id, $field_group->id );
 
 		$request = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '/%d', $field_group->id ) );
 		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$all_data = $response->get_data();
 		$this->assertNotEmpty( $all_data );
@@ -148,7 +148,7 @@ class BP_Tests_XProfile_Groups_REST_Controller extends BP_Test_REST_Controller_T
 		toggle_component_visibility();
 
 		$field_group = $this->endpoint->get_xprofile_field_group_object( $this->group_id );
-		$this->assertEquals( $this->group_id, $field_group->id );
+		$this->assertSame( $this->group_id, $field_group->id );
 
 		$request = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '/%d', $field_group->id ) );
 		$request->set_param( 'context', 'view' );
@@ -162,13 +162,13 @@ class BP_Tests_XProfile_Groups_REST_Controller extends BP_Test_REST_Controller_T
 	 */
 	public function test_get_item_publicly() {
 		$field_group = $this->endpoint->get_xprofile_field_group_object( $this->group_id );
-		$this->assertEquals( $this->group_id, $field_group->id );
+		$this->assertSame( $this->group_id, $field_group->id );
 
 		$request = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '/%d', $field_group->id ) );
 		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$all_data = $response->get_data();
 		$this->assertNotEmpty( $all_data );
@@ -266,7 +266,7 @@ class BP_Tests_XProfile_Groups_REST_Controller extends BP_Test_REST_Controller_T
 		$response = $this->server->dispatch( $request );
 
 		$this->assertNotInstanceOf( 'WP_Error', $response );
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$object  = $response->get_data();
 		$updated = $this->endpoint->get_xprofile_field_group_object( $object['id'] );
@@ -322,7 +322,7 @@ class BP_Tests_XProfile_Groups_REST_Controller extends BP_Test_REST_Controller_T
 		$response = $this->server->dispatch( $request );
 		$this->assertNotInstanceOf( 'WP_Error', $response );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$all_data = $response->get_data();
 		$this->assertNotEmpty( $all_data );
@@ -372,13 +372,13 @@ class BP_Tests_XProfile_Groups_REST_Controller extends BP_Test_REST_Controller_T
 		wp_set_current_user( $this->user );
 
 		$group = $this->endpoint->get_xprofile_field_group_object( $this->group_id );
-		$this->assertEquals( $this->group_id, $group->id );
+		$this->assertSame( $this->group_id, $group->id );
 
 		$request = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '/%d', $group->id ) );
 		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$all_data = $response->get_data();
 		$this->assertNotEmpty( $all_data );
@@ -390,7 +390,7 @@ class BP_Tests_XProfile_Groups_REST_Controller extends BP_Test_REST_Controller_T
 		$this->assertNotInstanceOf( 'WP_Error', $response );
 		$response = rest_ensure_response( $response );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$data = $response->get_data();
 
@@ -401,15 +401,15 @@ class BP_Tests_XProfile_Groups_REST_Controller extends BP_Test_REST_Controller_T
 	}
 
 	protected function check_group_data( $group, $data, $context, $links ) {
-		$this->assertEquals( $group->id, $data['id'] );
-		$this->assertEquals( $group->name, $data['name'] );
-		$this->assertEquals( $group->group_order, $data['group_order'] );
-		$this->assertEquals( $group->can_delete, $data['can_delete'] );
+		$this->assertSame( $group->id, $data['id'] );
+		$this->assertSame( $group->name, $data['name'] );
+		$this->assertSame( $group->group_order, $data['group_order'] );
+		$this->assertSame( (bool) $group->can_delete, $data['can_delete'] );
 
 		if ( 'view' === $context ) {
-			$this->assertEquals( $group->description, $data['description']['rendered'] );
+			$this->assertSame( $group->description, $data['description']['rendered'] );
 		} else {
-			$this->assertEquals( $group->description, $data['description']['raw'] );
+			$this->assertSame( $group->description, $data['description']['raw'] );
 		}
 	}
 
@@ -430,7 +430,7 @@ class BP_Tests_XProfile_Groups_REST_Controller extends BP_Test_REST_Controller_T
 		$data       = $response->get_data();
 		$properties = $data['schema']['properties'];
 
-		$this->assertEquals( 6, count( $properties ) );
+		$this->assertCount( 6, $properties );
 		$this->assertArrayHasKey( 'id', $properties );
 		$this->assertArrayHasKey( 'name', $properties );
 		$this->assertArrayHasKey( 'description', $properties );
@@ -445,8 +445,8 @@ class BP_Tests_XProfile_Groups_REST_Controller extends BP_Test_REST_Controller_T
 		$response = $this->server->dispatch( $request );
 		$data     = $response->get_data();
 
-		$this->assertEquals( 'view', $data['endpoints'][0]['args']['context']['default'] );
-		$this->assertEquals( array( 'view', 'edit' ), $data['endpoints'][0]['args']['context']['enum'] );
+		$this->assertSame( 'view', $data['endpoints'][0]['args']['context']['default'] );
+		$this->assertSame( array( 'view', 'edit' ), $data['endpoints'][0]['args']['context']['enum'] );
 	}
 
 	public function update_additional_field( $value, $data, $attribute ) {

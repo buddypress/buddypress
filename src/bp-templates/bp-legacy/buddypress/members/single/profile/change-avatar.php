@@ -18,9 +18,10 @@
  *
  * @since 1.1.0
  */
-do_action( 'bp_before_profile_avatar_upload_content' ); ?>
+do_action( 'bp_before_profile_avatar_upload_content' );
+?>
 
-<?php if ( !(int)bp_get_option( 'bp-disable-avatar-uploads' ) ) : ?>
+<?php if ( ! (int) bp_get_option( 'bp-disable-avatar-uploads' ) ) : ?>
 
 	<p>
 		<?php
@@ -34,7 +35,7 @@ do_action( 'bp_before_profile_avatar_upload_content' ); ?>
 
 	<form action="" method="post" id="avatar-upload-form" class="standard-form" enctype="multipart/form-data">
 
-		<?php if ( 'upload-image' == bp_get_avatar_admin_step() ) : ?>
+		<?php if ( 'upload-image' === bp_get_avatar_admin_step() ) : ?>
 
 			<?php wp_nonce_field( 'bp_avatar_upload' ); ?>
 			<p><?php esc_html_e( 'Click below to select a JPG, GIF or PNG format photo from your computer and then click \'Upload Image\' to proceed.', 'buddypress' ); ?></p>
@@ -58,7 +59,7 @@ do_action( 'bp_before_profile_avatar_upload_content' ); ?>
 
 		<?php endif; ?>
 
-		<?php if ( 'crop-image' == bp_get_avatar_admin_step() ) : ?>
+		<?php if ( 'crop-image' === bp_get_avatar_admin_step() ) : ?>
 
 			<h5><?php esc_html_e( 'Crop Your New Profile Photo', 'buddypress' ); ?></h5>
 
@@ -88,7 +89,8 @@ do_action( 'bp_before_profile_avatar_upload_content' ); ?>
 	 *
 	 * @since  2.3.0
 	 */
-	bp_avatar_get_templates(); ?>
+	bp_avatar_get_templates();
+	?>
 
 <?php else : ?>
 

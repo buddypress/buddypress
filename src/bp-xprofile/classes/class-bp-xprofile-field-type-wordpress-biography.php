@@ -63,8 +63,8 @@ class BP_XProfile_Field_Type_WordPress_Biography extends BP_XProfile_Field_Type_
 	 *
 	 * @since 8.0.0
 	 *
-	 * @param string $value The user field value.
-	 * @param integer $user_id The user ID.
+	 * @param string $value   The user field value.
+	 * @param int    $user_id Optional. The user ID.
 	 * @return string The sanitized field value.
 	 */
 	public function sanitize_for_output( $value, $user_id = 0 ) {
@@ -108,7 +108,7 @@ class BP_XProfile_Field_Type_WordPress_Biography extends BP_XProfile_Field_Type_
 		</label>
 
 		<?php
-		/** This action is documented in bp-xprofile/bp-xprofile-classes */
+		/** This action is documented in bp-xprofile/classes/class-bp-xprofile-field-type-datebox.php */
 		do_action( bp_get_the_profile_field_errors_action() );
 
 		$r = bp_parse_args(
@@ -120,6 +120,7 @@ class BP_XProfile_Field_Type_WordPress_Biography extends BP_XProfile_Field_Type_
 		);
 
 		// phpcs:disable WordPress.Security.EscapeOutput
+		// phpcs:disable Squiz.PHP.EmbeddedPhp -- Keep textarea value bytes adjacent to its tags.
 		?>
 
 		<textarea <?php $this->output_edit_field_html_elements( $r ); ?>><?php
@@ -127,6 +128,7 @@ class BP_XProfile_Field_Type_WordPress_Biography extends BP_XProfile_Field_Type_
 		?></textarea>
 
 		<?php
+		// phpcs:enable Squiz.PHP.EmbeddedPhp
 		// phpcs:enable
 	}
 

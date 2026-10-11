@@ -2,9 +2,12 @@
 /**
  * BuddyPress - Users Blogs
  *
+ * @package BuddyPress
+ * @subpackage bp-nouveau
  * @since 3.0.0
  * @version 12.0.0
  */
+
 ?>
 
 <nav class="<?php bp_nouveau_single_item_subnav_classes(); ?>" id="subnav" role="navigation" aria-label="<?php esc_attr_e( 'Sites menu', 'buddypress' ); ?>">
@@ -22,7 +25,7 @@
 <?php
 switch ( bp_current_action() ) :
 
-	// Home/My Blogs
+	// Home/My Blogs.
 	case 'my-sites':
 		bp_nouveau_member_hook( 'before', 'blogs_content' );
 		?>
@@ -37,7 +40,7 @@ switch ( bp_current_action() ) :
 		bp_nouveau_member_hook( 'after', 'blogs_content' );
 		break;
 
-	// Any other
+	// Any other.
 	default:
 		bp_get_template_part( 'members/single/plugins' );
 		break;

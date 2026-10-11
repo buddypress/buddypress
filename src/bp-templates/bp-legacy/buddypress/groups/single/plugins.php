@@ -21,7 +21,8 @@ do_action( 'bp_before_group_plugin_template' ); ?>
  *
  * @since 1.0.0
  */
-do_action( 'bp_template_content' ); ?>
+do_action( 'bp_template_content' );
+?>
 
 <?php
 

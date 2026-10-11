@@ -2,6 +2,8 @@
 /**
  * Customizer controls
  *
+ * @package BuddyPress
+ * @subpackage bp-nouveau
  * @since 3.0.0
  * @version 12.0.0
  */
@@ -20,6 +22,10 @@ defined( 'ABSPATH' ) || exit;
  */
 class BP_Nouveau_Nav_Customize_Control extends WP_Customize_Control {
 	/**
+	 * The control type.
+	 *
+	 * @since 3.0.0
+	 *
 	 * @var string
 	 */
 	public $type = '';
@@ -34,11 +40,11 @@ class BP_Nouveau_Nav_Customize_Control extends WP_Customize_Control {
 		$setting  = "bp_nouveau_appearance[{$this->type}_nav_order]";
 		$item_nav = array();
 
-		// It's a group
+		// It's a group.
 		if ( 'group' === $this->type ) {
 			$guide = __( 'Customizing the Groups navigation order needs you create at least one group first.', 'buddypress' );
 
-			// Try to fetch any random group:
+			// Try to fetch any random group:.
 			$random = groups_get_groups(
 				array(
 					'type'        => 'random',

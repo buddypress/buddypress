@@ -24,8 +24,8 @@ class BP_Tests_BP_Group_Member_Query_TestCases extends BP_UnitTestCase {
 			'include' => array( $u2 ),
 		) );
 
-		$ids = wp_parse_id_list( array_keys( $query->results ) );
-		$this->assertEquals( array( $u2, ), $ids );
+		$ids = array_keys( $query->results );
+		$this->assertSame( array( $u2, ), $ids );
 	}
 
 	// Make sure we're falling back on 'member'
@@ -54,7 +54,7 @@ class BP_Tests_BP_Group_Member_Query_TestCases extends BP_UnitTestCase {
 			'group_role' => array( 'member' ),
 		) );
 
-		$this->assertEquals( $expected->results, $query->results );
+		$this->assertSame( wp_list_pluck( $expected->results, 'ID' ), wp_list_pluck( $query->results, 'ID' ) );
 	}
 
 	public function test_with_group_role_member() {
@@ -78,8 +78,8 @@ class BP_Tests_BP_Group_Member_Query_TestCases extends BP_UnitTestCase {
 			'group_role' => array( 'member' ),
 		) );
 
-		$ids = wp_parse_id_list( array_keys( $query_members->results ) );
-		$this->assertEquals( array( $u3, ), $ids );
+		$ids = array_keys( $query_members->results );
+		$this->assertSame( array( $u3, ), $ids );
 	}
 
 	public function test_with_group_role_mod() {
@@ -103,8 +103,8 @@ class BP_Tests_BP_Group_Member_Query_TestCases extends BP_UnitTestCase {
 			'group_role' => array( 'mod' ),
 		) );
 
-		$ids = wp_parse_id_list( array_keys( $query_members->results ) );
-		$this->assertEquals( array( $u2, ), $ids );
+		$ids = array_keys( $query_members->results );
+		$this->assertSame( array( $u2, ), $ids );
 	}
 
 	public function test_with_group_role_admin() {
@@ -130,8 +130,8 @@ class BP_Tests_BP_Group_Member_Query_TestCases extends BP_UnitTestCase {
 			'group_role' => array( 'admin' ),
 		) );
 
-		$ids = wp_parse_id_list( array_keys( $query_members->results ) );
-		$this->assertEquals( array( $u1, ), $ids );
+		$ids = array_keys( $query_members->results );
+		$this->assertSame( array( $u1, ), $ids );
 	}
 
 	public function test_with_group_role_member_mod() {
@@ -155,8 +155,8 @@ class BP_Tests_BP_Group_Member_Query_TestCases extends BP_UnitTestCase {
 			'group_role' => array( 'member', 'mod' ),
 		) );
 
-		$ids = wp_parse_id_list( array_keys( $query_members->results ) );
-		$this->assertEquals( array( $u2, $u3, ), $ids );
+		$ids = array_keys( $query_members->results );
+		$this->assertSame( array( $u2, $u3, ), $ids );
 	}
 
 	public function test_with_group_role_member_admin() {
@@ -182,8 +182,8 @@ class BP_Tests_BP_Group_Member_Query_TestCases extends BP_UnitTestCase {
 			'group_role' => array( 'member', 'admin' ),
 		) );
 
-		$ids = wp_parse_id_list( array_keys( $query_members->results ) );
-		$this->assertEquals( array( $u1, $u3, ), $ids );
+		$ids = array_keys( $query_members->results );
+		$this->assertSame( array( $u1, $u3, ), $ids );
 	}
 
 	public function test_with_group_role_mod_admin() {
@@ -209,8 +209,8 @@ class BP_Tests_BP_Group_Member_Query_TestCases extends BP_UnitTestCase {
 			'group_role' => array( 'mod', 'admin' ),
 		) );
 
-		$ids = wp_parse_id_list( array_keys( $query_members->results ) );
-		$this->assertEquals( array( $u1, $u2, ), $ids );
+		$ids = array_keys( $query_members->results );
+		$this->assertSame( array( $u1, $u2, ), $ids );
 	}
 
 	public function test_with_group_role_member_mod_admin() {
@@ -236,8 +236,8 @@ class BP_Tests_BP_Group_Member_Query_TestCases extends BP_UnitTestCase {
 			'group_role' => array( 'member', 'mod', 'admin' ),
 		) );
 
-		$ids = wp_parse_id_list( array_keys( $query_members->results ) );
-		$this->assertEquals( array( $u1, $u2, $u3, ), $ids );
+		$ids = array_keys( $query_members->results );
+		$this->assertSame( array( $u1, $u2, $u3, ), $ids );
 	}
 
 	public function test_with_group_role_member_mod_admin_banned() {
@@ -267,8 +267,8 @@ class BP_Tests_BP_Group_Member_Query_TestCases extends BP_UnitTestCase {
 			'group_role' => array( 'member', 'mod', 'admin', 'banned' ),
 		) );
 
-		$ids = wp_parse_id_list( array_keys( $query_members->results ) );
-		$this->assertEquals( array( $u1, $u2, $u3, $u4, ), $ids );
+		$ids = array_keys( $query_members->results );
+		$this->assertSame( array( $u1, $u2, $u3, $u4, ), $ids );
 	}
 
 	/**
@@ -291,8 +291,8 @@ class BP_Tests_BP_Group_Member_Query_TestCases extends BP_UnitTestCase {
 			'group_role' => array( 'banned' ),
 		) );
 
-		$ids = wp_parse_id_list( array_keys( $query_members->results ) );
-		$this->assertEquals( array( $u1, ), $ids );
+		$ids = array_keys( $query_members->results );
+		$this->assertSame( array( $u1, ), $ids );
 	}
 
 	public function test_group_has_no_members_of_role_mod() {
@@ -307,8 +307,8 @@ class BP_Tests_BP_Group_Member_Query_TestCases extends BP_UnitTestCase {
 			'group_role' => array( 'mod' ),
 		) );
 
-		$ids = wp_parse_id_list( array_keys( $query_members->results ) );
-		$this->assertEquals( array(), $ids );
+		$ids = array_keys( $query_members->results );
+		$this->assertSame( array(), $ids );
 	}
 
 	public function test_confirmed_members() {
@@ -340,8 +340,8 @@ class BP_Tests_BP_Group_Member_Query_TestCases extends BP_UnitTestCase {
 			'group_id' => $g,
 		) );
 
-		$ids = wp_parse_id_list( array_keys( $query_members->results ) );
-		$this->assertEquals( array( $u3 ), $ids );
+		$ids = array_keys( $query_members->results );
+		$this->assertSame( array( $u3 ), $ids );
 	}
 
 	/**
@@ -366,8 +366,8 @@ class BP_Tests_BP_Group_Member_Query_TestCases extends BP_UnitTestCase {
 			'type' => 'last_joined',
 		) );
 
-		$ids = wp_parse_id_list( array_keys( $query_members->results ) );
-		$this->assertEquals( array( $u2, $u1 ), $ids );
+		$ids = array_keys( $query_members->results );
+		$this->assertSame( array( $u2, $u1 ), $ids );
 	}
 
 	/**
@@ -392,8 +392,36 @@ class BP_Tests_BP_Group_Member_Query_TestCases extends BP_UnitTestCase {
 			'type' => 'first_joined',
 		) );
 
-		$ids = wp_parse_id_list( array_keys( $query_members->results ) );
-		$this->assertEquals( array( $u1, $u2 ), $ids );
+		$ids = array_keys( $query_members->results );
+		$this->assertSame( array( $u1, $u2 ), $ids );
+	}
+
+	public function test_get_with_matching_join_dates_has_deterministic_order() {
+		$g    = self::factory()->group->create();
+		$u1   = self::factory()->user->create();
+		$u2   = self::factory()->user->create();
+		$date = bp_core_current_time();
+
+		$this->add_user_to_group( $u1, $g, array( 'date_modified' => $date ) );
+		$this->add_user_to_group( $u2, $g, array( 'date_modified' => $date ) );
+
+		$last_joined = new BP_Group_Member_Query(
+			array(
+				'group_id' => $g,
+				'type'     => 'last_joined',
+			)
+		);
+
+		$this->assertSame( array( $u1, $u2 ), array_keys( $last_joined->results ) );
+
+		$first_joined = new BP_Group_Member_Query(
+			array(
+				'group_id' => $g,
+				'type'     => 'first_joined',
+			)
+		);
+
+		$this->assertSame( array( $u1, $u2 ), array_keys( $first_joined->results ) );
 	}
 
 	/**
@@ -520,8 +548,8 @@ class BP_Tests_BP_Group_Member_Query_TestCases extends BP_UnitTestCase {
 			'type' => 'group_activity',
 		) );
 
-		$ids = wp_parse_id_list( array_keys( $query_members->results ) );
-		$this->assertEquals( array( $u2, $u1, $u3 ), $ids );
+		$ids = array_keys( $query_members->results );
+		$this->assertSame( array( $u2, $u1, $u3 ), $ids );
 	}
 
 	/**
@@ -559,8 +587,8 @@ class BP_Tests_BP_Group_Member_Query_TestCases extends BP_UnitTestCase {
 			'type' => 'group_activity',
 		) );
 
-		$ids = wp_parse_id_list( array_keys( $query_members->results ) );
-		$this->assertEquals( array( $u1, ), $ids );
+		$ids = array_keys( $query_members->results );
+		$this->assertSame( array( $u1, ), $ids );
 	}
 	/**
 	 * @group type
@@ -595,8 +623,8 @@ class BP_Tests_BP_Group_Member_Query_TestCases extends BP_UnitTestCase {
 			'type' => 'alphabetical',
 		) );
 
-		$ids = wp_parse_id_list( array_keys( $query_members->results ) );
-		$this->assertEquals( array( $u1, $u3, $u2 ), $ids );
+		$ids = array_keys( $query_members->results );
+		$this->assertSame( array( $u1, $u3, $u2 ), $ids );
 	}
 
 	/**
@@ -628,8 +656,8 @@ class BP_Tests_BP_Group_Member_Query_TestCases extends BP_UnitTestCase {
 			'invite_sent' => true,
 		) );
 
-		$ids = wp_parse_id_list( array_keys( $query_members->results ) );
-		$this->assertEquals( array( $u2 ), $ids );
+		$ids = array_keys( $query_members->results );
+		$this->assertSame( array( $u2 ), $ids );
 	}
 
 	/**
@@ -661,8 +689,8 @@ class BP_Tests_BP_Group_Member_Query_TestCases extends BP_UnitTestCase {
 			'invite_sent' => false,
 		) );
 
-		$ids = wp_parse_id_list( array_keys( $query_members->results ) );
-		$this->assertEquals( array( $u1 ), $ids );
+		$ids = array_keys( $query_members->results );
+		$this->assertSame( array( $u1 ), $ids );
 	}
 
 	/**
@@ -691,8 +719,8 @@ class BP_Tests_BP_Group_Member_Query_TestCases extends BP_UnitTestCase {
 			'inviter_id' => false,
 		) );
 
-		$ids = wp_parse_id_list( array_keys( $query_members->results ) );
-		$this->assertEquals( array( $u1 ), $ids );
+		$ids = array_keys( $query_members->results );
+		$this->assertSame( array( $u1 ), $ids );
 	}
 
 	/**
@@ -740,8 +768,8 @@ class BP_Tests_BP_Group_Member_Query_TestCases extends BP_UnitTestCase {
 			'inviter_id' => array( $a1, $a3 ),
 		) );
 
-		$ids = wp_parse_id_list( array_keys( $query_members->results ) );
-		$this->assertEquals( array( $u2, $u4 ), $ids );
+		$ids = array_keys( $query_members->results );
+		$this->assertSame( array( $u2, $u4 ), $ids );
 	}
 
 	/**
@@ -789,7 +817,7 @@ class BP_Tests_BP_Group_Member_Query_TestCases extends BP_UnitTestCase {
 			'inviter_id' => 'any',
 		) );
 
-		$ids = wp_parse_id_list( array_keys( $query_members->results ) );
-		$this->assertEquals( array( $u2, $u3, $u4 ), $ids );
+		$ids = array_keys( $query_members->results );
+		$this->assertSame( array( $u2, $u3, $u4 ), $ids );
 	}
 }

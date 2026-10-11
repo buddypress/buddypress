@@ -1,7 +1,9 @@
 <?php
 /**
- * xProfile functions
+ * Functions for xProfile.
  *
+ * @package BuddyPress
+ * @subpackage bp-nouveau
  * @since 3.0.0
  * @version 3.0.0
  */
@@ -14,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.0.0
  *
- * @param array $scripts The array of scripts to register
+ * @param array $scripts Optional. The array of scripts to register.
  *
  * @return array The same array with the specific groups scripts.
  */
@@ -23,13 +25,16 @@ function bp_nouveau_xprofile_register_scripts( $scripts = array() ) {
 		return $scripts;
 	}
 
-	return array_merge( $scripts, array(
-		'bp-nouveau-xprofile' => array(
-			'file'         => 'js/buddypress-xprofile%s.js',
-			'dependencies' => array( 'bp-nouveau' ),
-			'footer'       => true,
-		),
-	) );
+	return array_merge(
+		$scripts,
+		array(
+			'bp-nouveau-xprofile' => array(
+				'file'         => 'js/buddypress-xprofile%s.js',
+				'dependencies' => array( 'bp-nouveau' ),
+				'footer'       => true,
+			),
+		)
+	);
 }
 
 /**

@@ -2,6 +2,8 @@
 /**
  * BP Sidebar Item Nav_Widget class.
  *
+ * @package BuddyPress
+ * @subpackage bp-nouveau
  * @since 3.0.0
  * @version 10.0.0
  * @deprecated 12.0.0

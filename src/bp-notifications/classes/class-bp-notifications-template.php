@@ -24,6 +24,7 @@ class BP_Notifications_Template {
 	 * The loop iterator.
 	 *
 	 * @since 1.9.0
+	 *
 	 * @var int
 	 */
 	public $current_notification = -1;
@@ -32,6 +33,7 @@ class BP_Notifications_Template {
 	 * The number of notifications returned by the paged query.
 	 *
 	 * @since 1.9.0
+	 *
 	 * @var int
 	 */
 	public $current_notification_count;
@@ -40,6 +42,7 @@ class BP_Notifications_Template {
 	 * Total number of notifications matching the query.
 	 *
 	 * @since 1.9.0
+	 *
 	 * @var int
 	 */
 	public $total_notification_count;
@@ -48,6 +51,7 @@ class BP_Notifications_Template {
 	 * Array of notifications located by the query.
 	 *
 	 * @since 1.9.0
+	 *
 	 * @var array
 	 */
 	public $notifications;
@@ -56,6 +60,7 @@ class BP_Notifications_Template {
 	 * The notification object currently being iterated on.
 	 *
 	 * @since 1.9.0
+	 *
 	 * @var object
 	 */
 	public $notification;
@@ -64,6 +69,7 @@ class BP_Notifications_Template {
 	 * A flag for whether the loop is currently being iterated.
 	 *
 	 * @since 1.9.0
+	 *
 	 * @var bool
 	 */
 	public $in_the_loop;
@@ -72,6 +78,7 @@ class BP_Notifications_Template {
 	 * The ID of the user to whom the displayed notifications belong.
 	 *
 	 * @since 1.9.0
+	 *
 	 * @var int
 	 */
 	public $user_id;
@@ -80,6 +87,7 @@ class BP_Notifications_Template {
 	 * The status of the notification.
 	 *
 	 * @since 1.9.0
+	 *
 	 * @var bool
 	 */
 	public $is_new;
@@ -88,6 +96,7 @@ class BP_Notifications_Template {
 	 * The total notification count.
 	 *
 	 * @since 1.9.0
+	 *
 	 * @var int
 	 */
 	public $notification_count;
@@ -96,6 +105,7 @@ class BP_Notifications_Template {
 	 * The page number being requested.
 	 *
 	 * @since 1.9.0
+	 *
 	 * @var int
 	 */
 	public $pag_page;
@@ -104,6 +114,7 @@ class BP_Notifications_Template {
 	 * The $_GET argument used in URLs for determining pagination.
 	 *
 	 * @since 1.9.0
+	 *
 	 * @var int
 	 */
 	public $pag_arg;
@@ -112,6 +123,7 @@ class BP_Notifications_Template {
 	 * The number of items to display per page of results.
 	 *
 	 * @since 1.9.0
+	 *
 	 * @var int
 	 */
 	public $pag_num;
@@ -120,6 +132,7 @@ class BP_Notifications_Template {
 	 * An HTML string containing pagination links.
 	 *
 	 * @since 1.9.0
+	 *
 	 * @var string
 	 */
 	public $pag_links;
@@ -128,6 +141,7 @@ class BP_Notifications_Template {
 	 * A string to match against.
 	 *
 	 * @since 1.9.0
+	 *
 	 * @var string
 	 */
 	public $search_terms;
@@ -136,6 +150,7 @@ class BP_Notifications_Template {
 	 * A database column to order the results by.
 	 *
 	 * @since 1.9.0
+	 *
 	 * @var string
 	 */
 	public $order_by;
@@ -144,6 +159,7 @@ class BP_Notifications_Template {
 	 * The direction to sort the results (ASC or DESC).
 	 *
 	 * @since 1.9.0
+	 *
 	 * @var string
 	 */
 	public $sort_order;
@@ -152,6 +168,7 @@ class BP_Notifications_Template {
 	 * Array of variables used in this notification query.
 	 *
 	 * @since 2.2.2
+	 *
 	 * @var array
 	 */
 	public $query_vars;
@@ -162,9 +179,9 @@ class BP_Notifications_Template {
 	 * @since 1.9.0
 	 *
 	 * @param array $args {
-	 *     An array of arguments. See {@link bp_has_notifications()}
+	 *     Optional. An array of arguments. See {@link bp_has_notifications()}
 	 *     for more details.
-	 * }
+	 * }.
 	 */
 	public function __construct( $args = array() ) {
 
@@ -230,8 +247,7 @@ class BP_Notifications_Template {
 			$this->notification_count       = 0;
 			$this->total_notification_count = 0;
 
-		} else {
-			if ( ! empty( $r['max'] ) ) {
+		} elseif ( ! empty( $r['max'] ) ) {
 				if ( $r['max'] >= count( $this->notifications ) ) {
 					$this->notification_count = count( $this->notifications );
 				} else {
@@ -239,7 +255,6 @@ class BP_Notifications_Template {
 				}
 			} else {
 				$this->notification_count = count( $this->notifications );
-			}
 		}
 
 		if ( (int) $this->total_notification_count && (int) $this->pag_num ) {
@@ -247,16 +262,18 @@ class BP_Notifications_Template {
 				'sort_order' => $this->sort_order,
 			);
 
-			$this->pag_links = paginate_links( array(
-				'base'      => add_query_arg( $this->pag_arg, '%#%' ),
-				'format'    => '',
-				'total'     => ceil( (int) $this->total_notification_count / (int) $this->pag_num ),
-				'current'   => $this->pag_page,
-				'prev_text' => _x( '&larr;', 'Notifications pagination previous text', 'buddypress' ),
-				'next_text' => _x( '&rarr;', 'Notifications pagination next text', 'buddypress' ),
-				'mid_size'  => 1,
-				'add_args'  => $add_args,
-			) );
+			$this->pag_links = paginate_links(
+				array(
+					'base'      => add_query_arg( $this->pag_arg, '%#%' ),
+					'format'    => '',
+					'total'     => ceil( (int) $this->total_notification_count / (int) $this->pag_num ),
+					'current'   => $this->pag_page,
+					'prev_text' => _x( '&larr;', 'Notifications pagination previous text', 'buddypress' ),
+					'next_text' => _x( '&rarr;', 'Notifications pagination next text', 'buddypress' ),
+					'mid_size'  => 1,
+					'add_args'  => $add_args,
+				)
+			);
 		}
 	}
 
@@ -282,7 +299,7 @@ class BP_Notifications_Template {
 	 */
 	public function next_notification() {
 
-		$this->current_notification++;
+		++$this->current_notification;
 
 		$this->notification = $this->notifications[ $this->current_notification ];
 

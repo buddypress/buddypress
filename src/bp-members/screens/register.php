@@ -50,7 +50,7 @@ function bp_core_screen_signup() {
 		$maybe_invite = bp_get_members_invitation_from_request();
 		if ( $maybe_invite->id && $maybe_invite->invitee_email ) {
 			// Check if this user is already a member.
-			$args = array(
+			$args             = array(
 				'invitee_email' => $maybe_invite->invitee_email,
 				'accepted'      => 'accepted',
 				'fields'        => 'ids',
@@ -126,13 +126,13 @@ function bp_core_screen_signup() {
 		}
 
 		$bp->signup->username = $_POST['signup_username'];
-		$bp->signup->email = $_POST['signup_email'];
+		$bp->signup->email    = $_POST['signup_email'];
 
 		// Now we've checked account details, we can check profile information.
 		if ( bp_is_active( 'xprofile' ) ) {
 
 			// Make sure hidden field is passed and populated.
-			if ( isset( $_POST['signup_profile_field_ids'] ) && !empty( $_POST['signup_profile_field_ids'] ) ) {
+			if ( isset( $_POST['signup_profile_field_ids'] ) && ! empty( $_POST['signup_profile_field_ids'] ) ) {
 
 				// Let's compact any profile field info into an array.
 				$profile_field_ids = explode( ',', $_POST['signup_profile_field_ids'] );
@@ -151,8 +151,9 @@ function bp_core_screen_signup() {
 					}
 
 					// Create errors for required fields without values.
-					if ( xprofile_check_is_required_field( $field_id ) && empty( $_POST[ 'field_' . $field_id ] ) && ! bp_current_user_can( 'bp_moderate' ) )
-						$bp->signup->errors['field_' . $field_id] = __( 'This is a required field', 'buddypress' );
+					if ( xprofile_check_is_required_field( $field_id ) && empty( $_POST[ 'field_' . $field_id ] ) && ! bp_current_user_can( 'bp_moderate' ) ) {
+						$bp->signup->errors[ 'field_' . $field_id ] = __( 'This is a required field', 'buddypress' );
+					}
 				}
 
 				// This situation doesn't naturally occur so bounce to website root.
@@ -165,15 +166,17 @@ function bp_core_screen_signup() {
 		if ( isset( $_POST['signup_with_blog'] ) ) {
 			$active_signup = bp_core_get_root_option( 'registration' );
 
-			if ( 'blog' == $active_signup || 'all' == $active_signup ) {
+			if ( 'blog' === $active_signup || 'all' === $active_signup ) {
 				$blog_details = bp_core_validate_blog_signup( $_POST['signup_blog_url'], $_POST['signup_blog_title'] );
 
 				// If there are errors with blog details, set them for display.
-				if ( !empty( $blog_details['errors']->errors['blogname'] ) )
+				if ( ! empty( $blog_details['errors']->errors['blogname'] ) ) {
 					$bp->signup->errors['signup_blog_url'] = $blog_details['errors']->errors['blogname'][0];
+				}
 
-				if ( !empty( $blog_details['errors']->errors['blog_title'] ) )
+				if ( ! empty( $blog_details['errors']->errors['blog_title'] ) ) {
 					$bp->signup->errors['signup_blog_title'] = $blog_details['errors']->errors['blog_title'][0];
+				}
 			}
 		}
 
@@ -185,7 +188,7 @@ function bp_core_screen_signup() {
 		do_action( 'bp_signup_validate' );
 
 		// Add any errors to the action for the field in the template for display.
-		if ( !empty( $bp->signup->errors ) ) {
+		if ( ! empty( $bp->signup->errors ) ) {
 			foreach ( (array) $bp->signup->errors as $fieldname => $error_message ) {
 				/**
 				 * Filters the error message in the loop.
@@ -196,7 +199,9 @@ function bp_core_screen_signup() {
 				 * @param string $value     Error message wrapped in html.
 				 * @param string $fieldname The name of the signup field.
 				 */
-				add_action( 'bp_' . $fieldname . '_errors', function () use ( $error_message, $fieldname ) {
+				add_action(
+					'bp_' . $fieldname . '_errors',
+					function () use ( $error_message, $fieldname ) {
 					echo wp_kses(
 						/**
 						 * Filter here to edit the error message about the invalid field value.
@@ -207,12 +212,13 @@ function bp_core_screen_signup() {
 						 * @param string $value     Error message wrapped in html.
 						 * @param string $fieldname The name of the signup field.
 						 */
-						apply_filters( 'bp_members_signup_error_message', "<div class=\"error\">" . $error_message . "</div>", $fieldname ),
+						apply_filters( 'bp_members_signup_error_message', '<div class="error">' . $error_message . '</div>', $fieldname ),
 						array(
 							'div' => array( 'class' => true ),
 						)
 					);
-				} );
+					}
+				);
 			}
 		} else {
 			$bp->signup->step = 'save-details';
@@ -220,7 +226,7 @@ function bp_core_screen_signup() {
 			// No errors! Let's register those deets.
 			$active_signup = bp_core_get_root_option( 'registration' );
 
-			if ( 'none' != $active_signup || $requests_enabled ) {
+			if ( 'none' !== $active_signup || $requests_enabled ) {
 
 				// Make sure the extended profiles module is enabled.
 				if ( bp_is_active( 'xprofile' ) ) {
@@ -234,11 +240,13 @@ function bp_core_screen_signup() {
 					foreach ( (array) $profile_field_ids as $field_id ) {
 						bp_xprofile_maybe_format_datebox_post_data( $field_id );
 
-						if ( !empty( $_POST['field_' . $field_id] ) )
-							$usermeta['field_' . $field_id] = $_POST['field_' . $field_id];
+						if ( ! empty( $_POST[ 'field_' . $field_id ] ) ) {
+							$usermeta[ 'field_' . $field_id ] = $_POST[ 'field_' . $field_id ];
+						}
 
-						if ( !empty( $_POST['field_' . $field_id . '_visibility'] ) )
-							$usermeta['field_' . $field_id . '_visibility'] = $_POST['field_' . $field_id . '_visibility'];
+						if ( ! empty( $_POST[ 'field_' . $field_id . '_visibility' ] ) ) {
+							$usermeta[ 'field_' . $field_id . '_visibility' ] = $_POST[ 'field_' . $field_id . '_visibility' ];
+						}
 					}
 
 					// Store the profile field ID's in usermeta.
@@ -249,8 +257,9 @@ function bp_core_screen_signup() {
 				$usermeta['password'] = wp_hash_password( $_POST['signup_password'] );
 
 				// If the user decided to create a blog, save those details to usermeta.
-				if ( 'blog' == $active_signup || 'all' == $active_signup )
-					$usermeta['public'] = ( isset( $_POST['signup_blog_privacy'] ) && 'public' == $_POST['signup_blog_privacy'] ) ? true : false;
+				if ( 'blog' === $active_signup || 'all' === $active_signup ) {
+					$usermeta['public'] = ( isset( $_POST['signup_blog_privacy'] ) && 'public' === $_POST['signup_blog_privacy'] ) ? true : false;
+				}
 
 				/**
 				 * Filters the user meta used for signup.
@@ -262,10 +271,11 @@ function bp_core_screen_signup() {
 				$usermeta = apply_filters( 'bp_signup_usermeta', $usermeta );
 
 				// Finally, sign up the user and/or blog.
-				if ( isset( $_POST['signup_with_blog'] ) && is_multisite() )
+				if ( isset( $_POST['signup_with_blog'] ) && is_multisite() ) {
 					$wp_user_id = bp_core_signup_blog( $blog_details['domain'], $blog_details['path'], $blog_details['blog_title'], $_POST['signup_username'], $_POST['signup_email'], $usermeta );
-				else
+				} else {
 					$wp_user_id = bp_core_signup_user( $_POST['signup_username'], $_POST['signup_password'], $_POST['signup_email'], $usermeta );
+				}
 
 				if ( is_wp_error( $wp_user_id ) ) {
 					$bp->signup->step = 'request-details';
@@ -282,7 +292,6 @@ function bp_core_screen_signup() {
 			 */
 			do_action( 'bp_complete_signup' );
 		}
-
 	}
 
 	/**

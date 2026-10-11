@@ -1,7 +1,12 @@
 <?php
 /**
+ * Embed header template.
+ *
+ * @package BuddyPress
+ * @subpackage bp-legacy
  * @version 3.0.0
  */
+
 ?>
 		<div id="bp-embed-header">
 			<div class="bp-embed-avatar">

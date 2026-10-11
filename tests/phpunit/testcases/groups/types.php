@@ -31,6 +31,8 @@ class BP_Tests_Groups_Types extends BP_UnitTestCase {
 
 	/**
 	 * @dataProvider illegal_names
+	 *
+	 * @param string $name Invalid group type name.
 	 */
 	public function test_illegal_names( $name ) {
 		$this->assertWPError( bp_groups_register_group_type( $name ) );
@@ -87,7 +89,7 @@ class BP_Tests_Groups_Types extends BP_UnitTestCase {
 	}
 
 	public function test_groups_get_type_object_should_return_null_for_non_existing_group_type() {
-		$this->assertSame( null, bp_groups_get_group_type_object( 'foo' ) );
+		$this->assertNull( bp_groups_get_group_type_object( 'foo' ) );
 	}
 
 	public function test_groups_get_type_object_should_return_type_object() {
@@ -170,7 +172,7 @@ class BP_Tests_Groups_Types extends BP_UnitTestCase {
 		bp_groups_set_group_type( $g, 'foo' );
 
 		$this->assertFalse( bp_groups_remove_group_type( $g, 'bar' ) );
-		$this->assertEquals( array( 'foo' ), bp_groups_get_group_type( $g, false ) );
+		$this->assertSame( array( 'foo' ), bp_groups_get_group_type( $g, false ) );
 	}
 
 	public function tests_groups_remove_type_should_return_true_on_successful_deletion() {
@@ -181,7 +183,7 @@ class BP_Tests_Groups_Types extends BP_UnitTestCase {
 		bp_groups_set_group_type( $g, 'bar', true );
 
 		$this->assertTrue( bp_groups_remove_group_type( $g, 'foo' ) );
-		$this->assertEquals( array( 'bar' ), bp_groups_get_group_type( $g, false ) );
+		$this->assertSame( array( 'bar' ), bp_groups_get_group_type( $g, false ) );
 	}
 
 	public function test_groups_has_type_should_return_false_when_group_type_is_empty() {
@@ -255,7 +257,7 @@ class BP_Tests_Groups_Types extends BP_UnitTestCase {
 		bp_set_object_terms( $g, 'ugh', 'bp_group_type', true );
 
 		$type = bp_groups_get_group_type( $g, false, false );
-		$this->assertEquals( array( 'foo' ), $type );
+		$this->assertSame( array( 'foo' ), $type );
 	}
 
 	public function test_bp_groups_register_group_type_show_in_list_true_when_show_in_create_screen_true() {

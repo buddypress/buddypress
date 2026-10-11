@@ -81,7 +81,7 @@ add_action( 'bp_core_user_updated_last_activity', 'bp_members_reset_activity_cac
  *
  * @since 10.0.0
  *
- * @param int $signup_id The ID of the signup affected.
+ * @param int $signup_id Optional. The ID of the signup affected.
  */
 function bp_members_delete_signup_cache( $signup_id = 0 ) {
 	wp_cache_delete( $signup_id, 'bp_signups' );
@@ -94,7 +94,7 @@ add_action( 'bp_core_signups_after_update_meta', 'bp_members_delete_signup_cache
  *
  * @since 10.0.0
  *
- * @param array $signup_ids The IDs of the signups affected.
+ * @param array $signup_ids Optional. The IDs of the signups affected.
  */
 function bp_members_delete_signup_cache_multiples( $signup_ids = array() ) {
 	// Ensure that the incoming item is an array.

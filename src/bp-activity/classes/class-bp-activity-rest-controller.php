@@ -857,6 +857,7 @@ class BP_Activity_REST_Controller extends WP_REST_Controller {
 			// Set up activity oEmbed cache.
 			bp_activity_embed();
 
+			/** This filter is documented in bp-activity/bp-activity-template.php */
 			$rendered = apply_filters( 'bp_get_activity_content_body', $activity->content, $activity );
 
 			// Restore the `activities_template` global.
@@ -1177,7 +1178,7 @@ class BP_Activity_REST_Controller extends WP_REST_Controller {
 	 * @since 15.0.0
 	 *
 	 * @param  WP_REST_Request $request Full details about the request.
-	 * @return boolean
+	 * @return bool
 	 */
 	protected function can_see( $request ) {
 		return bp_activity_user_can_read(
@@ -1193,7 +1194,7 @@ class BP_Activity_REST_Controller extends WP_REST_Controller {
 	 *
 	 * @param  string $component The component the activity is from.
 	 * @param  int    $item_id   The activity item ID.
-	 * @return boolean
+	 * @return bool
 	 */
 	protected function show_hidden( $component, $item_id ) {
 		$user_id = get_current_user_id();
@@ -1277,6 +1278,16 @@ class BP_Activity_REST_Controller extends WP_REST_Controller {
 
 		/**
 		 * Filters the method query arguments.
+		 *
+		 * The dynamic portion of the hook name, `$key`, refers to the REST API operation whose query arguments
+		 * are being filtered.
+		 *
+		 * Possible hook names include:
+		 *
+		 *  - `bp_rest_activity_get_item_query_arguments`
+		 *  - `bp_rest_activity_create_item_query_arguments`
+		 *  - `bp_rest_activity_update_item_query_arguments`
+		 *  - `bp_rest_activity_delete_item_query_arguments`
 		 *
 		 * @since 15.0.0
 		 *

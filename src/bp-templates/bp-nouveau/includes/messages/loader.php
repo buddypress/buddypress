@@ -2,6 +2,8 @@
 /**
  * BP Nouveau Messages
  *
+ * @package BuddyPress
+ * @subpackage bp-nouveau
  * @since 3.0.0
  * @version 12.0.0
  */
@@ -34,7 +36,7 @@ class BP_Nouveau_Messages {
 	 * @since 3.0.0
 	 */
 	protected function setup_globals() {
-		$this->dir = trailingslashit( dirname( __FILE__ ) );
+		$this->dir = trailingslashit( __DIR__ );
 	}
 
 	/**
@@ -52,11 +54,14 @@ class BP_Nouveau_Messages {
 
 		// Load AJAX code only on AJAX requests.
 		} else {
-			add_action( 'admin_init', function () {
+			add_action(
+				'admin_init',
+				function () {
 				if ( defined( 'DOING_AJAX' ) && true === DOING_AJAX && 0 === strpos( $_REQUEST['action'], 'messages_' ) ) {
 					require bp_nouveau()->messages->dir . 'ajax.php';
 				}
-			} );
+				}
+			);
 		}
 	}
 
@@ -75,16 +80,16 @@ class BP_Nouveau_Messages {
 
 		add_action( $hook, 'bp_nouveau_push_sitewide_notices', 99 );
 
-		// Messages
+		// Messages.
 		add_action( 'bp_messages_setup_nav', 'bp_nouveau_messages_adjust_nav' );
 
-		// Remove deprecated scripts
+		// Remove deprecated scripts.
 		remove_action( 'bp_enqueue_scripts', 'messages_add_autocomplete_js' );
 
-		// Enqueue the scripts for the new UI
+		// Enqueue the scripts for the new UI.
 		add_action( 'bp_nouveau_enqueue_scripts', 'bp_nouveau_messages_enqueue_scripts' );
 
-		// Register the Messages Notifications filters
+		// Register the Messages Notifications filters.
 		add_action( 'bp_nouveau_notifications_init_filters', 'bp_nouveau_messages_notification_filters' );
 	}
 
@@ -115,6 +120,7 @@ class BP_Nouveau_Messages {
  * Launch the Messages loader class.
  *
  * @since 3.0.0
+ * @param BP_Nouveau|null $bp_nouveau Optional. Nouveau instance.
  */
 function bp_nouveau_messages( $bp_nouveau = null ) {
 	if ( is_null( $bp_nouveau ) ) {

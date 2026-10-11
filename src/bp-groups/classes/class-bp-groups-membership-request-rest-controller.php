@@ -113,7 +113,7 @@ class BP_Groups_Membership_Request_REST_Controller extends WP_REST_Controller {
 	 *
 	 * @since 15.0.0
 	 *
-	 * @param  WP_REST_Request $request Full data about the request.
+	 * @param WP_REST_Request $request Full data about the request.
 	 * @return WP_REST_Response|WP_Error
 	 */
 	public function get_items( $request ) {
@@ -156,9 +156,9 @@ class BP_Groups_Membership_Request_REST_Controller extends WP_REST_Controller {
 		 *
 		 * @since 15.0.0
 		 *
-		 * @param array of BP_Invitations $group_requests List of membership requests.
-		 * @param WP_REST_Response        $response       The response data.
-		 * @param WP_REST_Request         $request        The request sent to the API.
+		 * @param BP_Invitation[]  $group_requests List of membership requests.
+		 * @param WP_REST_Response $response       The response data.
+		 * @param WP_REST_Request  $request        The request sent to the API.
 		 */
 		do_action( 'bp_rest_group_membership_requests_get_items', $group_requests, $response, $request );
 
@@ -765,8 +765,8 @@ class BP_Groups_Membership_Request_REST_Controller extends WP_REST_Controller {
 	 *
 	 * @since 15.0.0
 	 *
-	 * @param int $request_id The ID of the request you wish to fetch.
-	 * @return BP_Invitation|bool $group_request Membership request if found, false otherwise.
+	 * @param int $request_id Optional. The ID of the request you wish to fetch.
+	 * @return BP_Invitation|bool Membership request if found, false otherwise.
 	 */
 	public function fetch_single_membership_request( $request_id = 0 ) {
 		$group_requests = groups_get_requests( array( 'id' => $request_id ) );
@@ -809,6 +809,16 @@ class BP_Groups_Membership_Request_REST_Controller extends WP_REST_Controller {
 
 		/**
 		 * Filters the method query arguments.
+		 *
+		 * The dynamic portion of the hook name, `$key`, refers to the REST API operation whose query arguments
+		 * are being filtered.
+		 *
+		 * Possible hook names include:
+		 *
+		 *  - `bp_rest_group_membership_requests_get_item_query_arguments`
+		 *  - `bp_rest_group_membership_requests_create_item_query_arguments`
+		 *  - `bp_rest_group_membership_requests_update_item_query_arguments`
+		 *  - `bp_rest_group_membership_requests_delete_item_query_arguments`
 		 *
 		 * @since 15.0.0
 		 *

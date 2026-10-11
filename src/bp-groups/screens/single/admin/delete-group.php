@@ -14,7 +14,7 @@
  */
 function groups_screen_group_admin_delete_group() {
 
-	if ( 'delete-group' != bp_get_group_current_admin_tab() ) {
+	if ( 'delete-group' !== bp_get_group_current_admin_tab() ) {
 		return;
 	}
 
@@ -25,8 +25,8 @@ function groups_screen_group_admin_delete_group() {
 	$bp = buddypress();
 
 	if ( isset( $_REQUEST['delete-group-button'] ) && isset( $_REQUEST['delete-group-understand'] ) ) {
-		$groups_slug = bp_get_groups_slug();
-		$redirect    = bp_loggedin_user_url( bp_members_get_path_chunks( array( bp_get_groups_slug() ) ) );
+		bp_get_groups_slug();
+		$redirect = bp_loggedin_user_url( bp_members_get_path_chunks( array( bp_get_groups_slug() ) ) );
 
 		// Check the nonce first.
 		if ( ! check_admin_referer( 'groups_delete_group' ) ) {

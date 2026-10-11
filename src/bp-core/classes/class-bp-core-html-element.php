@@ -53,7 +53,7 @@ class BP_Core_HTML_Element {
 	 * @since 2.7.0
 	 *
 	 * @param array $r {
-	 *     An array of arguments.
+	 *     Optional. An array of arguments.
 	 *     @type string $element    The element to render. eg. 'a' for the anchor element.
 	 *     @type array  $attr       Optional. The element's attributes set as key/value pairs. eg.
 	 *                              array( 'href' => 'http://example.com', 'class' => 'my-class' )
@@ -104,7 +104,7 @@ class BP_Core_HTML_Element {
 	 *
 	 * @since 2.7.0
 	 *
-	 * @param string $prop Property name. Either 'open_tag', 'inner_html', 'close_tag'.
+	 * @param string $prop Optional. Property name. Either 'open_tag', 'inner_html', 'close_tag'.
 	 * @return string
 	 */
 	public function get( $prop = '' ) {

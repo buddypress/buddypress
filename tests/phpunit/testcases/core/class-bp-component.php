@@ -28,7 +28,7 @@ class BP_Tests_BP_Component_TestCases extends BP_UnitTestCase {
 
 		do_action( 'bp_setup_globals' );
 
-		$this->assertEquals( $expected, $example->block_globals['bp/example-block']->props );
+		$this->assertSame( $expected, $example->block_globals['bp/example-block']->props );
 	}
 
 	/**
@@ -55,7 +55,7 @@ class BP_Tests_BP_Component_TestCases extends BP_UnitTestCase {
 
 		do_action( 'bp_setup_globals' );
 
-		$this->assertEquals( $expected, $example->rewrite_ids );
+		$this->assertSame( $expected, $example->rewrite_ids );
 	}
 
 	/**
@@ -85,10 +85,10 @@ class BP_Tests_BP_Component_TestCases extends BP_UnitTestCase {
 		global $wp_rewrite;
 
 		$position = array_search( '%' . $example->rewrite_ids['directory'] . '%', $wp_rewrite->rewritecode, true );
-		$this->assertEquals( $wp_rewrite->rewritereplace[ $position ], $expected_directory_regex );
+		$this->assertSame( $wp_rewrite->rewritereplace[ $position ], $expected_directory_regex );
 
 		$position = array_search( '%' . $example->rewrite_ids['directory_type'] . '%', $wp_rewrite->rewritecode, true );
-		$this->assertEquals( $wp_rewrite->rewritereplace[ $position ], $rewrite_tags['directory_type'] );
+		$this->assertSame( $wp_rewrite->rewritereplace[ $position ], $rewrite_tags['directory_type'] );
 	}
 
 	/**
@@ -128,7 +128,7 @@ class BP_Tests_BP_Component_TestCases extends BP_UnitTestCase {
 		$example->add_rewrite_rules( $rewrite_rules );
 
 		global $wp_rewrite;
-		$this->assertEquals( $wp_rewrite->extra_rules_top[ $rewrite_rules['directory_type']['regex'] ], $rewrite_rules['directory_type']['query'] );
+		$this->assertSame( $wp_rewrite->extra_rules_top[ $rewrite_rules['directory_type']['regex'] ], $rewrite_rules['directory_type']['query'] );
 	}
 
 	/**
@@ -166,6 +166,6 @@ class BP_Tests_BP_Component_TestCases extends BP_UnitTestCase {
 		$this->assertTrue( isset( $wp_rewrite->extra_permastructs['bp_examples'] ) );
 
 		// The custom permastruct should be created as requested.
-		$this->assertEquals( $wp_rewrite->extra_permastructs[ $example->rewrite_ids['example_signup'] ]['struct'], $expected );
+		$this->assertSame( $wp_rewrite->extra_permastructs[ $example->rewrite_ids['example_signup'] ]['struct'], $expected );
 	}
 }

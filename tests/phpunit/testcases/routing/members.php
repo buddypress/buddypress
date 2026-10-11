@@ -30,7 +30,7 @@ class BP_Tests_Routing_Members extends BP_UnitTestCase {
 		$pages        = bp_core_get_directory_pages();
 		$component_id = bp_current_component();
 
-		$this->assertEquals( bp_get_members_root_slug(), $pages->{$component_id}->slug );
+		$this->assertSame( bp_get_members_root_slug(), $pages->{$component_id}->slug );
 	}
 
 	function test_member_permalink() {
@@ -81,22 +81,6 @@ class BP_Tests_Routing_Members extends BP_UnitTestCase {
 		bp_register_member_type( 'foo', array( 'has_directory' => 'foos' ) );
 		$this->go_to( bp_get_members_directory_permalink() . 'type/foos/' );
 		$this->assertTrue( bp_is_members_component() );
-	}
-
-	/**
-	 * @ticket BP6286
-	 * @group member_types
-	 */
-	public function test_member_directory_with_member_type_should_be_overridden_by_member_with_same_nicename() {
-		$this->set_permalink_structure( '/%postname%/' );
-		$u = self::factory()->user->create( array( 'user_nicename' => 'foo' ) );
-		bp_register_member_type( 'foo' );
-		$this->go_to( bp_get_members_directory_permalink() . 'type/foo/' );
-
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
 	}
 
 	/**

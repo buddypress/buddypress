@@ -39,7 +39,7 @@ class BP_Tests_XProfile_BpXprofileField_MemberTypes extends BP_UnitTestCase {
 	public function test_invalid_member_types_should_not_be_returned() {
 		bp_xprofile_add_meta( $this->field_id, 'field', 'member_type', 'foo' );
 		bp_xprofile_add_meta( $this->field_id, 'field', 'member_type', 'phony' );
-		$this->assertEquals( array( 'foo' ), $this->field->get_member_types() );
+		$this->assertSame( array( 'foo' ), $this->field->get_member_types() );
 	}
 
 	public function test_when_no_stored_types_are_found_all_registered_member_types_as_well_as_null_type_should_be_returned() {
@@ -48,23 +48,23 @@ class BP_Tests_XProfile_BpXprofileField_MemberTypes extends BP_UnitTestCase {
 
 	public function test__none_meta_should_result_in_empty_array() {
 		bp_xprofile_add_meta( $this->field_id, 'field', 'member_type', '_none' );
-		$this->assertEquals( array(), $this->field->get_member_types() );
+		$this->assertSame( array(), $this->field->get_member_types() );
 	}
 
 	public function test__none_meta_should_override_other_values() {
 		bp_xprofile_add_meta( $this->field_id, 'field', 'member_type', '_none' );
 		bp_xprofile_add_meta( $this->field_id, 'field', 'member_type', 'foo' );
-		$this->assertEquals( array(), $this->field->get_member_types() );
+		$this->assertSame( array(), $this->field->get_member_types() );
 	}
 
 	public function test_set_should_not_append_by_default() {
 		bp_xprofile_add_meta( $this->field_id, 'field', 'member_type', 'foo' );
-		$this->assertEquals( array( 'bar' ), $this->field->set_member_types( array( 'bar' ) ) );
+		$this->assertSame( array( 'bar' ), $this->field->set_member_types( array( 'bar' ) ) );
 	}
 
 	public function test_set_should_not_append_when_append_is_set_to_false() {
 		bp_xprofile_add_meta( $this->field_id, 'field', 'member_type', 'foo' );
-		$this->assertEquals( array( 'bar' ), $this->field->set_member_types( array( 'bar', false ) ) );
+		$this->assertSame( array( 'bar' ), $this->field->set_member_types( array( 'bar', false ) ) );
 	}
 
 	public function test_set_should_append_when_append_is_set_to_true() {

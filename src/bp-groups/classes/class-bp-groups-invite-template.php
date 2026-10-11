@@ -17,25 +17,37 @@ defined( 'ABSPATH' ) || exit;
 class BP_Groups_Invite_Template {
 
 	/**
+	 * Current invitation position in the loop.
+	 *
 	 * @since 1.1.0
+	 *
 	 * @var int
 	 */
 	public $current_invite = -1;
 
 	/**
+	 * Number of invitations in the loop.
+	 *
 	 * @since 1.1.0
+	 *
 	 * @var int
 	 */
 	public $invite_count;
 
 	/**
+	 * Group invitations in the loop.
+	 *
 	 * @since 1.1.0
+	 *
 	 * @var array
 	 */
 	public $invites;
 
 	/**
+	 * Current group invitation in the loop.
+	 *
 	 * @since 1.1.0
+	 *
 	 * @var object
 	 */
 	public $invite;
@@ -44,30 +56,43 @@ class BP_Groups_Invite_Template {
 	 * List of invites found and their respective data.
 	 *
 	 * @since 1.1.0
+	 *
 	 * @var array
 	 */
 	public $invite_data = array();
 
 	/**
+	 * Whether the loop is active.
+	 *
 	 * @since 1.1.0
+	 *
 	 * @var bool
 	 */
 	public $in_the_loop;
 
 	/**
+	 * Current pagination page.
+	 *
 	 * @since 1.1.0
+	 *
 	 * @var int
 	 */
 	public $pag_page;
 
 	/**
+	 * Number of invitations per pagination page.
+	 *
 	 * @since 1.1.0
+	 *
 	 * @var int
 	 */
 	public $pag_num;
 
 	/**
+	 * Pagination links.
+	 *
 	 * @since 1.1.0
+	 *
 	 * @var string
 	 */
 	public $pag_links;
@@ -76,12 +101,16 @@ class BP_Groups_Invite_Template {
 	 * URL argument used for the pagination param.
 	 *
 	 * @since 1.1.0
+	 *
 	 * @var string
 	 */
 	public $pag_arg;
 
 	/**
+	 * Total number of invitations.
+	 *
 	 * @since 1.1.0
+	 *
 	 * @var int
 	 */
 	public $total_invite_count;
@@ -91,7 +120,7 @@ class BP_Groups_Invite_Template {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @param array $args
+	 * @param array $args Optional. Arguments for the invitations template.
 	 */
 	public function __construct( $args = array() ) {
 		$function_args = func_get_args();
@@ -122,19 +151,21 @@ class BP_Groups_Invite_Template {
 		);
 
 		$this->pag_arg  = sanitize_key( $r['page_arg'] );
-		$this->pag_page = bp_sanitize_pagination_arg( $this->pag_arg, $r['page']     );
-		$this->pag_num  = bp_sanitize_pagination_arg( 'num',          $r['per_page'] );
+		$this->pag_page = bp_sanitize_pagination_arg( $this->pag_arg, $r['page'] );
+		$this->pag_num  = bp_sanitize_pagination_arg( 'num', $r['per_page'] );
 
-		$iquery = new BP_Group_Member_Query( array(
-			'group_id' => $r['group_id'],
-			'type'     => 'first_joined',
-			'per_page' => $this->pag_num,
-			'page'     => $this->pag_page,
+		$iquery = new BP_Group_Member_Query(
+			array(
+				'group_id' => $r['group_id'],
+				'type'     => 'first_joined',
+				'per_page' => $this->pag_num,
+				'page'     => $this->pag_page,
 
-			// These filters ensure we get only pending invites.
-			'is_confirmed' => false,
-			'inviter_id'   => $r['user_id'],
-		) );
+				// These filters ensure we get only pending invites.
+				'is_confirmed' => false,
+				'inviter_id'   => $r['user_id'],
+			)
+		);
 
 		$this->invite_data        = $iquery->results;
 		$this->total_invite_count = $iquery->total_users;
@@ -144,16 +175,18 @@ class BP_Groups_Invite_Template {
 		// If per_page is set to 0 (show all results), don't generate
 		// pag_links.
 		if ( ! empty( $this->pag_num ) ) {
-			$this->pag_links = paginate_links( array(
-				'base'      => add_query_arg( $this->pag_arg, '%#%' ),
-				'format'    => '',
-				'total'     => ceil( $this->total_invite_count / $this->pag_num ),
-				'current'   => $this->pag_page,
-				'prev_text' => '&larr;',
-				'next_text' => '&rarr;',
-				'mid_size'  => 1,
-				'add_args'  => array(),
-			) );
+			$this->pag_links = paginate_links(
+				array(
+					'base'      => add_query_arg( $this->pag_arg, '%#%' ),
+					'format'    => '',
+					'total'     => ceil( $this->total_invite_count / $this->pag_num ),
+					'current'   => $this->pag_page,
+					'prev_text' => '&larr;',
+					'next_text' => '&rarr;',
+					'mid_size'  => 1,
+					'add_args'  => array(),
+				)
+			);
 		} else {
 			$this->pag_links = '';
 		}
@@ -182,7 +215,7 @@ class BP_Groups_Invite_Template {
 	 * @return object
 	 */
 	public function next_invite() {
-		$this->current_invite++;
+		++$this->current_invite;
 		$this->invite = $this->invites[ $this->current_invite ];
 
 		return $this->invite;
@@ -211,7 +244,7 @@ class BP_Groups_Invite_Template {
 		$tick = intval( $this->current_invite + 1 );
 		if ( $tick < $this->invite_count ) {
 			return true;
-		} elseif ( $tick == $this->invite_count ) {
+		} elseif ( $tick === $this->invite_count ) {
 
 			/**
 			 * Fires right before the rewinding of invites list.
@@ -224,7 +257,7 @@ class BP_Groups_Invite_Template {
 			 */
 			do_action( 'group_invitation_loop_end', $this );
 
-			// Do some cleaning up after the loop
+			// Do some cleaning up after the loop.
 			$this->rewind_invites();
 		}
 
@@ -240,10 +273,10 @@ class BP_Groups_Invite_Template {
 	public function the_invite() {
 		global $group_id;
 
-		$this->in_the_loop  = true;
-		$user_id            = $this->next_invite();
+		$this->in_the_loop = true;
+		$user_id           = $this->next_invite();
 
-		$this->invite       = new stdClass;
+		$this->invite       = new stdClass();
 		$this->invite->user = $this->invite_data[ $user_id ];
 
 		// This method previously populated the user object with
@@ -261,7 +294,7 @@ class BP_Groups_Invite_Template {
 					/* translators: %s: member name */
 					__( 'Profile photo of %s', 'buddypress' ),
 					$this->invite->user->fullname
-				)
+				),
 			)
 		);
 
@@ -273,7 +306,7 @@ class BP_Groups_Invite_Template {
 					/* translators: %s: member name */
 					__( 'Profile photo of %s', 'buddypress' ),
 					$this->invite->user->fullname
-				)
+				),
 			)
 		);
 
@@ -287,7 +320,7 @@ class BP_Groups_Invite_Template {
 					$this->invite->user->fullname
 				),
 				'width'   => 30,
-				'height'  => 30
+				'height'  => 30,
 			)
 		);
 
@@ -299,8 +332,12 @@ class BP_Groups_Invite_Template {
 		$this->invite->user->last_active = bp_core_get_last_activity( $this->invite->user->last_activity, __( 'Active %s', 'buddypress' ) );
 
 		if ( bp_is_active( 'groups' ) ) {
-			$total_groups = BP_Groups_Member::total_group_count( $user_id );
-			$this->invite->user->total_groups = sprintf( _n( '%d group', '%d groups', $total_groups, 'buddypress' ), $total_groups );
+			$total_groups                     = BP_Groups_Member::total_group_count( $user_id );
+			$this->invite->user->total_groups = sprintf(
+				/* translators: %d: number of groups */
+				_n( '%d group', '%d groups', $total_groups, 'buddypress' ),
+				$total_groups
+			);
 		}
 
 		if ( bp_is_active( 'friends' ) ) {
@@ -309,11 +346,11 @@ class BP_Groups_Invite_Template {
 
 		$this->invite->user->total_blogs = null;
 
-		// Global'ed in bp_group_has_invites()
+		// Global'ed in bp_group_has_invites().
 		$this->invite->group_id = $group_id;
 
-		// loop has just started
-		if ( 0 == $this->current_invite ) {
+		// loop has just started.
+		if ( 0 === $this->current_invite ) {
 
 			/**
 			 * Fires if the current invite item is the first in the loop.

@@ -16,7 +16,7 @@ class BP_Tests_Blogs_Template extends BP_UnitTestCase {
 		$blogs_template->blog = new stdClass;
 		$blogs_template->blog->last_activity = $time;
 
-		$this->assertEquals( bp_core_get_last_activity( $time, __( 'Active %s', 'buddypress' ) ), bp_get_blog_last_active() );
+		$this->assertSame( bp_core_get_last_activity( $time, __( 'Active %s', 'buddypress' ) ), bp_get_blog_last_active() );
 
 		$blogs_template = null;
 	}
@@ -33,7 +33,7 @@ class BP_Tests_Blogs_Template extends BP_UnitTestCase {
 		$blogs_template->blog = new stdClass;
 		$blogs_template->blog->last_activity = $time;
 
-		$this->assertEquals( bp_core_get_last_activity( $time, __( 'Active %s', 'buddypress' ) ), bp_get_blog_last_active( array( 'active_format' => true, ) ) );
+		$this->assertSame( bp_core_get_last_activity( $time, __( 'Active %s', 'buddypress' ) ), bp_get_blog_last_active( array( 'active_format' => true, ) ) );
 
 		$blogs_template = null;
 	}
@@ -50,7 +50,7 @@ class BP_Tests_Blogs_Template extends BP_UnitTestCase {
 		$blogs_template->blog = new stdClass;
 		$blogs_template->blog->last_activity = $time;
 
-		$this->assertEquals( bp_core_time_since( $time ), bp_get_blog_last_active( array( 'active_format' => false, ) ) );
+		$this->assertSame( bp_core_time_since( $time ), bp_get_blog_last_active( array( 'active_format' => false, ) ) );
 
 		$blogs_template = null;
 	}
@@ -59,7 +59,7 @@ class BP_Tests_Blogs_Template extends BP_UnitTestCase {
 	 * @group bp_get_blog_last_active
 	 */
 	public function test_bp_get_blog_last_active_active_no_last_activity() {
-		$this->assertEquals( __( 'Never active', 'buddypress' ), bp_get_blog_last_active() );
+		$this->assertSame( __( 'Never active', 'buddypress' ), bp_get_blog_last_active() );
 	}
 
 	/**
@@ -208,9 +208,7 @@ class BP_Tests_Blogs_Template extends BP_UnitTestCase {
 	 * @group BP_Blogs_Template
 	 */
 	public function test_bp_blogs_template_should_give_precedence_to_bpage_URL_param() {
-		if ( ! is_multisite() ) {
-			$this->markTestSkipped();
-		}
+		$this->skipWithoutMultisite();
 
 		$request = $_REQUEST;
 		$_REQUEST['bpage'] = '5';
@@ -229,7 +227,7 @@ class BP_Tests_Blogs_Template extends BP_UnitTestCase {
 
 		$at = new BP_Blogs_Template( $r );
 
-		$this->assertEquals( 5, $at->pag_page );
+		$this->assertSame( 5, $at->pag_page );
 
 		$_REQUEST = $request;
 	}
@@ -239,9 +237,7 @@ class BP_Tests_Blogs_Template extends BP_UnitTestCase {
 	 * @group BP_Blogs_Template
 	 */
 	public function test_bp_blogs_template_should_reset_0_pag_page_URL_param_to_default_pag_page_value() {
-		if ( ! is_multisite() ) {
-			$this->markTestSkipped();
-		}
+		$this->skipWithoutMultisite();
 
 		$request = $_REQUEST;
 		$_REQUEST['bpage'] = '0';
@@ -260,7 +256,7 @@ class BP_Tests_Blogs_Template extends BP_UnitTestCase {
 
 		$at = new BP_Blogs_Template( $r );
 
-		$this->assertEquals( 8, $at->pag_page );
+		$this->assertSame( 8, $at->pag_page );
 
 		$_REQUEST = $request;
 	}
@@ -270,9 +266,7 @@ class BP_Tests_Blogs_Template extends BP_UnitTestCase {
 	 * @group BP_Blogs_Template
 	 */
 	public function test_bp_blogs_template_should_give_precedence_to_num_URL_param() {
-		if ( ! is_multisite() ) {
-			$this->markTestSkipped();
-		}
+		$this->skipWithoutMultisite();
 
 		$request = $_REQUEST;
 		$_REQUEST['num'] = '14';
@@ -291,7 +285,7 @@ class BP_Tests_Blogs_Template extends BP_UnitTestCase {
 
 		$at = new BP_Blogs_Template( $r );
 
-		$this->assertEquals( 14, $at->pag_num );
+		$this->assertSame( 14, $at->pag_num );
 
 		$_REQUEST = $request;
 	}
@@ -301,9 +295,7 @@ class BP_Tests_Blogs_Template extends BP_UnitTestCase {
 	 * @group BP_Blogs_Template
 	 */
 	public function test_bp_blogs_template_should_reset_0_pag_num_URL_param_to_default_pag_num_value() {
-		if ( ! is_multisite() ) {
-			$this->markTestSkipped();
-		}
+		$this->skipWithoutMultisite();
 
 		$request = $_REQUEST;
 		$_REQUEST['num'] = '0';
@@ -322,7 +314,7 @@ class BP_Tests_Blogs_Template extends BP_UnitTestCase {
 
 		$at = new BP_Blogs_Template( $r );
 
-		$this->assertEquals( 13, $at->pag_num );
+		$this->assertSame( 13, $at->pag_num );
 
 		$_REQUEST = $request;
 	}
@@ -333,9 +325,7 @@ class BP_Tests_Blogs_Template extends BP_UnitTestCase {
 	 * @group bp_get_blog_avatar
 	 */
 	public function test_bp_get_blog_avatar_ids_provided() {
-		if ( ! is_multisite() ) {
-			$this->markTestSkipped();
-		}
+		$this->skipWithoutMultisite();
 
 		global $blogs_template;
 		$reset_blogs_template = $blogs_template;
@@ -376,9 +366,7 @@ class BP_Tests_Blogs_Template extends BP_UnitTestCase {
 	 * @group bp_get_blog_avatar
 	 */
 	public function test_bp_get_blog_avatar_has_site_icon() {
-		if ( ! is_multisite() ) {
-			$this->markTestSkipped();
-		}
+		$this->skipWithoutMultisite();
 
 		global $blogs_template;
 		$reset_blogs_template = $blogs_template;
@@ -407,6 +395,7 @@ class BP_Tests_Blogs_Template extends BP_UnitTestCase {
 		$blogs_template = $reset_blogs_template;
 
 		$this->assertTrue( false !== strpos( $avatar, BP_TESTS_DIR . 'assets/upside-down.jpg' ) );
+		$this->assertTrue( false !== strpos( $avatar, 'alt="test"' ) );
 	}
 
 	/**
@@ -415,9 +404,7 @@ class BP_Tests_Blogs_Template extends BP_UnitTestCase {
 	 * @group bp_get_blog_avatar
 	 */
 	public function test_bp_get_blog_default_avatar() {
-		if ( ! is_multisite() ) {
-			$this->markTestSkipped();
-		}
+		$this->skipWithoutMultisite();
 
 		global $blogs_template;
 		$reset_blogs_template = $blogs_template;

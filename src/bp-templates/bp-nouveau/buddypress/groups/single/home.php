@@ -2,6 +2,8 @@
 /**
  * BuddyPress - Groups Home
  *
+ * @package BuddyPress
+ * @subpackage bp-nouveau
  * @since 3.0.0
  * @version 3.0.0
  */

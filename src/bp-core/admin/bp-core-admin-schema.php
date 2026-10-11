@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  *
- * @param array|bool $active_components Components to install.
+ * @param array|bool $active_components Optional. Components to install.
  */
 function bp_core_install( $active_components = false ) {
 	bp_pre_schema_upgrade();
@@ -543,6 +543,7 @@ function bp_core_install_emails() {
 		}
 	}
 
+	// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode
 	bp_update_option( 'bp-emails-unsubscribe-salt', base64_encode( wp_generate_password( 64, true, true ) ) );
 
 	/**

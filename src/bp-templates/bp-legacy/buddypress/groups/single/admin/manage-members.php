@@ -18,14 +18,23 @@
  *
  * @since 1.1.0
  */
-do_action( 'bp_before_group_manage_members_admin' ); ?>
+do_action( 'bp_before_group_manage_members_admin' );
+?>
 
 <div aria-live="polite" aria-relevant="all" aria-atomic="true">
 
 	<div class="bp-widget group-members-list group-admins-list">
 		<h3 class="section-header"><?php esc_html_e( 'Administrators', 'buddypress' ); ?></h3>
 
-		<?php if ( bp_group_has_members( array( 'per_page' => 15, 'group_role' => array( 'admin' ), 'page_arg' => 'mlpage-admin' ) ) ) : ?>
+		<?php
+		if ( bp_group_has_members(
+			array(
+				'per_page' => 15,
+				'group_role' => array( 'admin' ),
+				'page_arg' => 'mlpage-admin',
+			)
+		) ) :
+		?>
 
 			<?php if ( bp_group_member_needs_pagination() ) : ?>
 
@@ -44,7 +53,10 @@ do_action( 'bp_before_group_manage_members_admin' ); ?>
 			<?php endif; ?>
 
 			<ul id="admins-list" class="item-list">
-				<?php while ( bp_group_members() ) : bp_group_the_member(); ?>
+				<?php
+				while ( bp_group_members() ) :
+					bp_group_the_member();
+					?>
 					<li>
 						<div class="item-avatar">
 							<?php bp_group_member_avatar_thumb(); ?>
@@ -67,7 +79,8 @@ do_action( 'bp_before_group_manage_members_admin' ); ?>
 							 *
 							 * @param string $section Which list contains this item.
 							 */
-							do_action( 'bp_group_manage_members_admin_item', 'admins-list' ); ?>
+							do_action( 'bp_group_manage_members_admin_item', 'admins-list' );
+							?>
 						</div>
 
 						<div class="action">
@@ -84,7 +97,8 @@ do_action( 'bp_before_group_manage_members_admin' ); ?>
 							 *
 							 * @param string $section Which list contains this item.
 							 */
-							do_action( 'bp_group_manage_members_admin_actions', 'admins-list' ); ?>
+							do_action( 'bp_group_manage_members_admin_actions', 'admins-list' );
+							?>
 						</div>
 					</li>
 				<?php endwhile; ?>
@@ -106,7 +120,7 @@ do_action( 'bp_before_group_manage_members_admin' ); ?>
 
 			<?php endif; ?>
 
-		<?php else: ?>
+		<?php else : ?>
 
 		<div id="message" class="info">
 			<p><?php esc_html_e( 'No group administrators were found.', 'buddypress' ); ?></p>
@@ -118,7 +132,15 @@ do_action( 'bp_before_group_manage_members_admin' ); ?>
 	<div class="bp-widget group-members-list group-mods-list">
 		<h3 class="section-header"><?php esc_html_e( 'Moderators', 'buddypress' ); ?></h3>
 
-		<?php if ( bp_group_has_members( array( 'per_page' => 15, 'group_role' => array( 'mod' ), 'page_arg' => 'mlpage-mod' ) ) ) : ?>
+		<?php
+		if ( bp_group_has_members(
+			array(
+				'per_page' => 15,
+				'group_role' => array( 'mod' ),
+				'page_arg' => 'mlpage-mod',
+			)
+		) ) :
+		?>
 
 			<?php if ( bp_group_member_needs_pagination() ) : ?>
 
@@ -138,7 +160,10 @@ do_action( 'bp_before_group_manage_members_admin' ); ?>
 
 			<ul id="mods-list" class="item-list">
 
-				<?php while ( bp_group_members() ) : bp_group_the_member(); ?>
+				<?php
+				while ( bp_group_members() ) :
+					bp_group_the_member();
+					?>
 					<li>
 						<div class="item-avatar">
 							<?php bp_group_member_avatar_thumb(); ?>
@@ -161,7 +186,8 @@ do_action( 'bp_before_group_manage_members_admin' ); ?>
 							 *
 							 * @param string $section Which list contains this item.
 							 */
-							do_action( 'bp_group_manage_members_admin_item', 'admins-list' ); ?>
+							do_action( 'bp_group_manage_members_admin_item', 'admins-list' );
+							?>
 						</div>
 
 						<div class="action">
@@ -177,7 +203,8 @@ do_action( 'bp_before_group_manage_members_admin' ); ?>
 							 *
 							 * @param string $section Which list contains this item.
 							 */
-							do_action( 'bp_group_manage_members_admin_actions', 'mods-list' ); ?>
+							do_action( 'bp_group_manage_members_admin_actions', 'mods-list' );
+							?>
 
 						</div>
 					</li>
@@ -201,7 +228,7 @@ do_action( 'bp_before_group_manage_members_admin' ); ?>
 
 			<?php endif; ?>
 
-		<?php else: ?>
+		<?php else : ?>
 
 			<div id="message" class="info">
 				<p><?php esc_html_e( 'No group moderators were found.', 'buddypress' ); ?></p>
@@ -211,9 +238,16 @@ do_action( 'bp_before_group_manage_members_admin' ); ?>
 	</div>
 
 	<div class="bp-widget group-members-list">
-		<h3 class="section-header"><?php esc_html_e( "Members", 'buddypress' ); ?></h3>
+		<h3 class="section-header"><?php esc_html_e( 'Members', 'buddypress' ); ?></h3>
 
-		<?php if ( bp_group_has_members( array( 'per_page' => 15, 'exclude_banned' => 0 ) ) ) : ?>
+		<?php
+		if ( bp_group_has_members(
+			array(
+				'per_page' => 15,
+				'exclude_banned' => 0,
+			)
+		) ) :
+		?>
 
 			<?php if ( bp_group_member_needs_pagination() ) : ?>
 
@@ -232,7 +266,10 @@ do_action( 'bp_before_group_manage_members_admin' ); ?>
 			<?php endif; ?>
 
 			<ul id="members-list" class="item-list" aria-live="assertive" aria-relevant="all">
-				<?php while ( bp_group_members() ) : bp_group_the_member(); ?>
+				<?php
+				while ( bp_group_members() ) :
+					bp_group_the_member();
+					?>
 
 					<li class="<?php bp_group_member_css_class(); ?>">
 						<div class="item-avatar">
@@ -247,7 +284,8 @@ do_action( 'bp_before_group_manage_members_admin' ); ?>
 									echo ' <span class="banned">';
 									esc_html_e( '(banned)', 'buddypress' );
 									echo '</span>';
-								} ?>
+								}
+								?>
 							</div>
 							<p class="joined item-meta">
 								<?php bp_group_member_joined_since(); ?>
@@ -262,7 +300,8 @@ do_action( 'bp_before_group_manage_members_admin' ); ?>
 							 *
 							 * @param string $section Which list contains this item.
 							 */
-							do_action( 'bp_group_manage_members_admin_item', 'admins-list' ); ?>
+							do_action( 'bp_group_manage_members_admin_item', 'admins-list' );
+							?>
 						</div>
 
 						<div class="action">
@@ -289,7 +328,8 @@ do_action( 'bp_before_group_manage_members_admin' ); ?>
 							 *
 							 * @param string $section Which list contains this item.
 							 */
-							do_action( 'bp_group_manage_members_admin_actions', 'members-list' ); ?>
+							do_action( 'bp_group_manage_members_admin_actions', 'members-list' );
+							?>
 						</div>
 					</li>
 
@@ -312,7 +352,7 @@ do_action( 'bp_before_group_manage_members_admin' ); ?>
 
 			<?php endif; ?>
 
-		<?php else: ?>
+		<?php else : ?>
 
 			<div id="message" class="info">
 				<p><?php esc_html_e( 'No group members were found.', 'buddypress' ); ?></p>

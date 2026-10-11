@@ -76,7 +76,7 @@ add_action( 'bp_register_activity_actions', 'groups_register_activity_actions' )
  *
  * @since 5.0.0
  *
- * @param integer $group_id The group ID the activity is linked to.
+ * @param int $group_id Optional. The group ID the activity is linked to.
  * @return BP_Groups_Group  The group object the activity belongs to.
  */
 function bp_groups_get_activity_group( $group_id = 0 ) {
@@ -107,7 +107,7 @@ function bp_groups_format_activity_action_created_group( $action, $activity ) {
 	$group_link = '<a href="' . esc_url( bp_get_group_url( $group ) ) . '">' . esc_html( $group->name ) . '</a>';
 
 	/* translators: 1: the user link. 2: the group link. */
-	$action = sprintf( esc_html__( '%1$s created the group %2$s', 'buddypress'), $user_link, $group_link );
+	$action = sprintf( esc_html__( '%1$s created the group %2$s', 'buddypress' ), $user_link, $group_link );
 
 	/**
 	 * Filters the 'created_group' activity actions.
@@ -293,9 +293,9 @@ function bp_groups_prefetch_activity_object_data( $activities ) {
 
 		if ( ! empty( $uncached_ids ) ) {
 			global $wpdb;
-			$bp = buddypress();
+			$bp               = buddypress();
 			$uncached_ids_sql = implode( ',', wp_parse_id_list( $uncached_ids ) );
-			$groups = $wpdb->get_results( "SELECT * FROM {$bp->groups->table_name} WHERE id IN ({$uncached_ids_sql})" );
+			$groups           = $wpdb->get_results( "SELECT * FROM {$bp->groups->table_name} WHERE id IN ({$uncached_ids_sql})" );
 			foreach ( $groups as $group ) {
 				wp_cache_set( $group->id, $group, 'bp_groups' );
 			}
@@ -311,8 +311,8 @@ add_filter( 'bp_activity_prefetch_object_data', 'bp_groups_prefetch_activity_obj
  *
  * @since 2.2.0
  *
- * @param array $retval Empty array by default.
- * @param array $filter Current activity arguments.
+ * @param array $retval Optional. Empty array by default.
+ * @param array $filter Optional. Current activity arguments.
  * @return array
  */
 function bp_groups_filter_activity_scope( $retval = array(), $filter = array() ) {
@@ -337,7 +337,7 @@ function bp_groups_filter_activity_scope( $retval = array(), $filter = array() )
 	if ( ! empty( $user_id ) && ( $user_id !== bp_loggedin_user_id() ) ) {
 		$show_hidden = array(
 			'column' => 'hide_sitewide',
-			'value'  => 0
+			'value'  => 0,
 		);
 	}
 
@@ -347,12 +347,12 @@ function bp_groups_filter_activity_scope( $retval = array(), $filter = array() )
 			'relation' => 'AND',
 			array(
 				'column' => 'component',
-				'value'  => buddypress()->groups->id
+				'value'  => buddypress()->groups->id,
 			),
 			array(
 				'column'  => 'item_id',
 				'compare' => 'IN',
-				'value'   => (array) $groups['groups']
+				'value'   => (array) $groups['groups'],
 			),
 		),
 		$show_hidden,
@@ -360,7 +360,7 @@ function bp_groups_filter_activity_scope( $retval = array(), $filter = array() )
 		// Overrides.
 		'override' => array(
 			'filter'      => array( 'user_id' => 0 ),
-			'show_hidden' => true
+			'show_hidden' => true,
 		),
 	);
 }
@@ -372,7 +372,7 @@ add_filter( 'bp_activity_set_groups_scope_args', 'bp_groups_filter_activity_scop
  * @since 4.3.0
 
  * @param array $retval Query arguments.
- * @param array $filter
+ * @param array $filter Activity query filter arguments.
  * @return array
  */
 function bp_groups_filter_activity_favorites_scope( $retval, $filter ) {
@@ -489,9 +489,9 @@ add_filter( 'bp_activity_set_favorites_scope_args', 'bp_groups_filter_activity_f
  *      return values.
  *
  * @param array|string $args {
- *     An array of arguments for the new activity item. Accepts all parameters
- *     of {@link bp_activity_add()}. However, this wrapper provides some
- *     additional defaults, as described below:
+ *     Optional. An array of arguments for the new activity item. Accepts all parameters
+ *     of {@link bp_activity_add()}. This wrapper provides the following
+ *     additional defaults.
  *     @type string $component     Default: the id of your Groups component
  *                                 (usually 'groups').
  *     @type bool   $hide_sitewide Default: True if the current group is not
@@ -510,7 +510,7 @@ function groups_record_activity( $args = '' ) {
 	if ( ! empty( $args['item_id'] ) ) {
 		$group = bp_groups_get_activity_group( $args['item_id'] );
 
-		if ( isset( $group->status ) && 'public' != $group->status ) {
+		if ( isset( $group->status ) && 'public' !== $group->status ) {
 			$hide_sitewide = true;
 		}
 	}
@@ -544,7 +544,7 @@ function groups_record_activity( $args = '' ) {
  * @since 2.6.0 Added 'error_type' parameter to $args.
  *
  * @param array|string $args {
- *     Array of arguments.
+ *     Optional. Array of arguments.
  *     @type string $content  The content of the update.
  *     @type int    $user_id  Optional. ID of the user posting the update. Default:
  *                            ID of the logged-in user.
@@ -605,13 +605,15 @@ function groups_post_update( $args = '' ) {
 	 */
 	$content_filtered = apply_filters( 'groups_activity_new_update_content', $content );
 
-	$activity_id = groups_record_activity( array(
-		'user_id'    => $user_id,
-		'content'    => $content_filtered,
-		'type'       => 'activity_update',
-		'item_id'    => $group_id,
-		'error_type' => $r['error_type'],
-	) );
+	$activity_id = groups_record_activity(
+		array(
+			'user_id'    => $user_id,
+			'content'    => $content_filtered,
+			'type'       => 'activity_update',
+			'item_id'    => $group_id,
+			'error_type' => $r['error_type'],
+		)
+	);
 
 	groups_update_groupmeta( $group_id, 'last_activity', bp_core_current_time() );
 
@@ -676,7 +678,7 @@ add_filter( 'bp_activity_user_can_delete', 'bp_groups_filter_activity_user_can_d
  * @since 3.0.0
  *
  * @param bool                      $retval   True if item can receive comments.
- * @param null|BP_Activity_Activity $activity Null by default. Pass an activity object to check against that instead.
+ * @param null|BP_Activity_Activity $activity Optional. Null by default. Pass an activity object to check against that instead.
  * @return bool
  */
 function bp_groups_filter_activity_can_comment( $retval, $activity = null ) {
@@ -764,15 +766,29 @@ function bp_groups_membership_accepted_add_activity( $user_id, $group_id ) {
 	 * @param int    $user_id  ID of the user joining the group.
 	 * @param int    $group_id ID of the group. Passed by reference.
 	 */
-	$action = apply_filters_ref_array( 'groups_activity_membership_accepted_action', array( sprintf( __( '%1$s joined the group %2$s', 'buddypress' ), bp_core_get_userlink( $user_id ), '<a href="' . esc_url( bp_get_group_url( $group ) ) . '">' . esc_html( $group->name ) . '</a>' ), $user_id, &$group ) );
+	$action = apply_filters_ref_array(
+		'groups_activity_membership_accepted_action',
+		array(
+			sprintf(
+				/* translators: 1: the user link. 2: the group link. */
+				__( '%1$s joined the group %2$s', 'buddypress' ),
+				bp_core_get_userlink( $user_id ),
+				'<a href="' . esc_url( bp_get_group_url( $group ) ) . '">' . esc_html( $group->name ) . '</a>'
+			),
+			$user_id,
+			&$group,
+		)
+	);
 
 	// Record in activity streams.
-	groups_record_activity( array(
-		'action'  => $action,
-		'type'    => 'joined_group',
-		'item_id' => $group_id,
-		'user_id' => $user_id
-	) );
+	groups_record_activity(
+		array(
+			'action'  => $action,
+			'type'    => 'joined_group',
+			'item_id' => $group_id,
+			'user_id' => $user_id,
+		)
+	);
 }
 add_action( 'groups_membership_accepted', 'bp_groups_membership_accepted_add_activity', 10, 2 );
 
@@ -842,13 +858,15 @@ function bp_groups_group_details_updated_add_activity( $group_id, $old_group, $n
 	groups_update_groupmeta( $group_id, 'updated_details_' . $time, $changed );
 
 	// Record in activity streams.
-	groups_record_activity( array(
-		'type'          => 'group_details_updated',
-		'item_id'       => $group_id,
-		'user_id'       => bp_loggedin_user_id(),
-		'recorded_time' => $time,
+	groups_record_activity(
+		array(
+			'type'          => 'group_details_updated',
+			'item_id'       => $group_id,
+			'user_id'       => bp_loggedin_user_id(),
+			'recorded_time' => $time,
 
-	) );
+		)
+	);
 }
 add_action( 'groups_details_updated', 'bp_groups_group_details_updated_add_activity', 10, 3 );
 
@@ -869,7 +887,7 @@ function bp_groups_delete_group_delete_all_activity( $group_id ) {
 	bp_activity_delete(
 		array(
 			'item_id'   => $group_id,
-			'component' => buddypress()->groups->id
+			'component' => buddypress()->groups->id,
 		)
 	);
 }
@@ -899,14 +917,16 @@ function bp_groups_leave_group_delete_recent_activity( $group_id, $user_id ) {
 
 	// Check the time period, and maybe delete their recent group activity.
 	if ( $membership->date_modified && time() <= strtotime( '+5 minutes', (int) strtotime( $membership->date_modified ) ) ) {
-		bp_activity_delete( array(
-			'component' => buddypress()->groups->id,
-			'type'      => 'joined_group',
-			'user_id'   => $user_id,
-			'item_id'   => $group_id
-		) );
+		bp_activity_delete(
+			array(
+				'component' => buddypress()->groups->id,
+				'type'      => 'joined_group',
+				'user_id'   => $user_id,
+				'item_id'   => $group_id,
+			)
+		);
 	}
 }
-add_action( 'groups_leave_group',   'bp_groups_leave_group_delete_recent_activity', 10, 2 );
+add_action( 'groups_leave_group', 'bp_groups_leave_group_delete_recent_activity', 10, 2 );
 add_action( 'groups_remove_member', 'bp_groups_leave_group_delete_recent_activity', 10, 2 );
-add_action( 'groups_ban_member',    'bp_groups_leave_group_delete_recent_activity', 10, 2 );
+add_action( 'groups_ban_member', 'bp_groups_leave_group_delete_recent_activity', 10, 2 );

@@ -25,7 +25,7 @@ function bp_signup_allowed() {
  * @since 1.1.0
  * @deprecated 15.0.0
  *
- * @param array|string $args See BP_Activity_Activity::get for a
+ * @param array|string $args Optional. See BP_Activity_Activity::get for a
  *                           description of accepted arguments.
  * @return bool
  */
@@ -113,8 +113,8 @@ function bp_activity_delete_by_activity_id( $activity_id ) {
  * @since 5.0.0
  * @deprecated 15.0.0
  *
- * @param int    $user_id The user ID to spam or ham.
- * @param string $value   '0' to mark the user as `ham`, '1' to mark as `spam`.
+ * @param int    $user_id Optional. The user ID to spam or ham.
+ * @param string $value   Optional. '0' to mark the user as `ham`, '1' to mark as `spam`.
  * @return bool
  */
 function bp_core_update_member_status( $user_id = 0, $value = 0 ) {

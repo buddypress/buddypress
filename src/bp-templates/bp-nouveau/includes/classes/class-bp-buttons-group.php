@@ -2,6 +2,8 @@
 /**
  * BP Buttons Group class.
  *
+ * @package BuddyPress
+ * @subpackage bp-nouveau
  * @since 3.0.0
  * @version 10.0.0
  */
@@ -20,6 +22,8 @@ class BP_Buttons_Group {
 	/**
 	 * The parameters of the Group of buttons
 	 *
+	 * @since 3.0.0
+	 *
 	 * @var array
 	 */
 	protected $group = array();
@@ -29,7 +33,8 @@ class BP_Buttons_Group {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param array $args Optional array having the following parameters {
+	 * @param array $args {
+	 *     Optional. Optional array of button parameters.
 	 *     @type string $id                A string to use as the unique ID for the button. Required.
 	 *     @type int    $position          Where to insert the Button. Defaults to 99.
 	 *     @type string $component         The Component's the button is build for (eg: Activity, Groups..). Required.
@@ -55,9 +60,8 @@ class BP_Buttons_Group {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param array the list of buttons to sort.
-	 *
-	 * @return array the list of buttons sorted.
+	 * @param array $buttons List of buttons to sort.
+	 * @return array List of sorted buttons.
 	 */
 	public function sort( $buttons ) {
 		$sorted = array();
@@ -69,12 +73,12 @@ class BP_Buttons_Group {
 				$position = (int) $button['position'];
 			}
 
-			// If position is already taken, move to the first next available
+			// If position is already taken, move to the first next available.
 			if ( isset( $sorted[ $position ] ) ) {
 				$sorted_keys = array_keys( $sorted );
 
 				do {
-					$position += 1;
+					++$position;
 				} while ( in_array( $position, $sorted_keys, true ) );
 			}
 
@@ -90,7 +94,7 @@ class BP_Buttons_Group {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param bool $sort whether to sort the buttons or not.
+	 * @param bool $sort Optional. Whether to sort the buttons or not.
 	 *
 	 * @return array An array of HTML links.
 	 */
@@ -177,14 +181,14 @@ class BP_Buttons_Group {
 			'buttons_group_constructor'
 		);
 
-		// Just don't set the button if a param is missing
+		// Just don't set the button if a param is missing.
 		if ( empty( $r['id'] ) || empty( $r['component'] ) || empty( $r['link_text'] ) ) {
 			return false;
 		}
 
 		$r['id'] = sanitize_key( $r['id'] );
 
-		// If the button already exist don't add it
+		// If the button already exist don't add it.
 		if ( isset( $this->group[ $r['id'] ] ) ) {
 			return false;
 		}

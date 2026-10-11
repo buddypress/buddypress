@@ -26,7 +26,7 @@ class BP_Tests_Components_REST_Controller extends BP_Test_REST_Controller_Testca
 		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$all_data = $response->get_data();
 
@@ -50,11 +50,11 @@ class BP_Tests_Components_REST_Controller extends BP_Test_REST_Controller_Testca
 		);
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$headers = $response->get_headers();
-		$this->assertEquals( 10, $headers['X-WP-Total'] );
-		$this->assertEquals( 2, $headers['X-WP-TotalPages'] );
+		$this->assertSame( 10, $headers['X-WP-Total'] );
+		$this->assertSame( 2, $headers['X-WP-TotalPages'] );
 
 		$all_data = $response->get_data();
 
@@ -122,7 +122,7 @@ class BP_Tests_Components_REST_Controller extends BP_Test_REST_Controller_Testca
 		$request->set_param( 'context', 'view' );
 		$request->set_param( 'status', 'active' );
 		$response = $this->server->dispatch( $request );
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$all_data = $response->get_data();
 		$this->assertNotEmpty( $all_data );
@@ -141,7 +141,7 @@ class BP_Tests_Components_REST_Controller extends BP_Test_REST_Controller_Testca
 		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$all_data = $response->get_data();
 		$this->assertNotEmpty( $all_data );
@@ -166,7 +166,7 @@ class BP_Tests_Components_REST_Controller extends BP_Test_REST_Controller_Testca
 
 		remove_filter( 'bp_is_messages_star_active', '__return_false' );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$all_data = $response->get_data();
 		$this->assertNotEmpty( $all_data );
@@ -197,9 +197,9 @@ class BP_Tests_Components_REST_Controller extends BP_Test_REST_Controller_Testca
 		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
 
-		remove_filter( 'bp_is_active', array( $this, 'deactivate_activity_component' ), 10, 2 );
+		remove_filter( 'bp_is_active', array( $this, 'deactivate_activity_component' ) );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$all_data = $response->get_data();
 		$this->assertNotEmpty( $all_data );
@@ -222,14 +222,14 @@ class BP_Tests_Components_REST_Controller extends BP_Test_REST_Controller_Testca
 	 * @group get_item
 	 */
 	public function test_get_item() {
-		$this->markTestSkipped();
+		$this->markTestSkipped( 'This endpoint has no single-item get_item() route.' );
 	}
 
 	/**
 	 * @group create_item
 	 */
 	public function test_create_item() {
-		$this->markTestSkipped();
+		$this->markTestSkipped( 'This endpoint does not support creating components.' );
 	}
 
 	/**
@@ -238,21 +238,27 @@ class BP_Tests_Components_REST_Controller extends BP_Test_REST_Controller_Testca
 	public function test_update_item() {
 		wp_set_current_user( $this->user );
 
-		$request = new WP_REST_Request( 'PUT', $this->endpoint_url );
-		$request->set_query_params(
-			array(
-				'name'   => 'blogs',
-				'action' => 'deactivate',
-			)
-		);
-		$response = $this->server->dispatch( $request );
+		$active_components = buddypress()->active_components;
 
-		$this->assertEquals( 200, $response->get_status() );
+		try {
+			$request = new WP_REST_Request( 'PUT', $this->endpoint_url );
+			$request->set_query_params(
+				array(
+					'name'   => 'blogs',
+					'action' => 'deactivate',
+				)
+			);
+			$response = $this->server->dispatch( $request );
 
-		$all_data = $response->get_data();
+			$this->assertSame( 200, $response->get_status() );
 
-		$this->assertNotEmpty( $all_data );
-		$this->assertSame( 'inactive', $all_data['status'] );
+			$all_data = $response->get_data();
+
+			$this->assertNotEmpty( $all_data );
+			$this->assertSame( 'inactive', $all_data['status'] );
+		} finally {
+			buddypress()->active_components = $active_components;
+		}
 	}
 
 	/**
@@ -377,18 +383,18 @@ class BP_Tests_Components_REST_Controller extends BP_Test_REST_Controller_Testca
 	 * @group delete_item
 	 */
 	public function test_delete_item() {
-		$this->markTestSkipped();
+		$this->markTestSkipped( 'This endpoint does not support deleting components.' );
 	}
 
 	public function test_prepare_item() {
-		$this->markTestSkipped();
+		$this->markTestSkipped( 'Coverage for prepare_item_for_response() has not been implemented.' );
 	}
 
 	protected function check_component_data( $component, $data ) {
-		$this->assertEquals( $component['name'], $data['name'] );
-		$this->assertEquals( $component['status'], $data['status'] );
-		$this->assertEquals( $component['title'], $data['title'] );
-		$this->assertEquals( $component['description'], $data['description'] );
+		$this->assertSame( $component['name'], $data['name'] );
+		$this->assertSame( $component['status'], $data['status'] );
+		$this->assertSame( $component['title'], $data['title'] );
+		$this->assertSame( $component['description'], $data['description'] );
 	}
 
 	public function test_get_item_schema() {
@@ -397,7 +403,7 @@ class BP_Tests_Components_REST_Controller extends BP_Test_REST_Controller_Testca
 		$data       = $response->get_data();
 		$properties = $data['schema']['properties'];
 
-		$this->assertEquals( 6, count( $properties ) );
+		$this->assertCount( 6, $properties );
 		$this->assertArrayHasKey( 'name', $properties );
 		$this->assertArrayHasKey( 'status', $properties );
 		$this->assertArrayHasKey( 'title', $properties );
@@ -410,7 +416,7 @@ class BP_Tests_Components_REST_Controller extends BP_Test_REST_Controller_Testca
 		$response = $this->server->dispatch( $request );
 		$data     = $response->get_data();
 
-		$this->assertEquals( 'view', $data['endpoints'][0]['args']['context']['default'] );
-		$this->assertEquals( array( 'view', 'edit' ), $data['endpoints'][0]['args']['context']['enum'] );
+		$this->assertSame( 'view', $data['endpoints'][0]['args']['context']['default'] );
+		$this->assertSame( array( 'view', 'edit' ), $data['endpoints'][0]['args']['context']['enum'] );
 	}
 }

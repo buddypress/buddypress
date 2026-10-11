@@ -2,9 +2,12 @@
 /**
  * BuddyPress - Members Settings ( Group Invites )
  *
+ * @package BuddyPress
+ * @subpackage bp-nouveau
  * @since 3.0.0
  * @version 12.0.0
  */
+
 ?>
 
 <h2 class="screen-heading group-invites-screen">
@@ -13,9 +16,9 @@
 
 <?php
 if ( 1 === bp_nouveau_groups_get_group_invites_setting() ) {
-	 bp_nouveau_user_feedback( 'member-group-invites-friends-only' );
+	bp_nouveau_user_feedback( 'member-group-invites-friends-only' );
 } else {
-	 bp_nouveau_user_feedback( 'member-group-invites-all' );
+	bp_nouveau_user_feedback( 'member-group-invites-all' );
 }
 ?>
 

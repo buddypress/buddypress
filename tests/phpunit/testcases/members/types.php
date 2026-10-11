@@ -23,6 +23,8 @@ class BP_Tests_Members_Types extends BP_UnitTestCase {
 	/**
 	 * @dataProvider illegal_names
 	 * @ticket BP5192
+	 *
+	 * @param string $name Invalid member type name.
 	 */
 	public function test_illegal_names( $name ) {
 		$this->assertWPError( bp_register_member_type( $name ) );
@@ -138,7 +140,7 @@ class BP_Tests_Members_Types extends BP_UnitTestCase {
 	}
 
 	public function test_bp_get_member_type_object_should_return_null_for_non_existent_member_type() {
-		$this->assertSame( null, bp_get_member_type_object( 'foo' ) );
+		$this->assertNull( bp_get_member_type_object( 'foo' ) );
 	}
 
 	public function test_bp_get_member_type_object_should_return_type_object() {
@@ -238,7 +240,7 @@ class BP_Tests_Members_Types extends BP_UnitTestCase {
 
 		// Get users so that the 'bp_user_query_populate_extras' is fired
 		// and members type prefetched
-		$users = bp_core_get_users( array( 'include' => array( $u1, $u2 ) ) );
+		bp_core_get_users( array( 'include' => array( $u1, $u2 ) ) );
 
 		// Get single member type
 		$this->assertSame( 'foo', bp_get_member_type( $u1, true ) );
@@ -278,7 +280,7 @@ class BP_Tests_Members_Types extends BP_UnitTestCase {
 		global $wpdb;
 
 		// Offset IDs.
-		$dummy_terms = self::factory()->tag->create_many( 7 );
+		self::factory()->tag->create_many( 7 );
 
 		$u1 = self::factory()->user->create();
 		bp_register_member_type( 'foo' );
@@ -325,7 +327,7 @@ class BP_Tests_Members_Types extends BP_UnitTestCase {
 
 		$this->assertFalse( bp_remove_member_type( $u1, 'foo' ) );
 		$types = bp_get_member_type( $u1, false );
-		$this->assertEquals( array( 'bar' ), $types );
+		$this->assertSame( array( 'bar' ), $types );
 	}
 
 	/**
@@ -340,7 +342,7 @@ class BP_Tests_Members_Types extends BP_UnitTestCase {
 
 		$this->assertTrue( bp_remove_member_type( $u1, 'foo' ) );
 		$types = bp_get_member_type( $u1, false );
-		$this->assertEquals( array( 'bar' ), $types );
+		$this->assertSame( array( 'bar' ), $types );
 	}
 
 	/**
@@ -412,6 +414,6 @@ class BP_Tests_Members_Types extends BP_UnitTestCase {
 		bp_set_object_terms( $u1, 'ugh', bp_get_member_type_tax_name(), true );
 
 		$type = bp_get_member_type( $u1, false, false );
-		$this->assertEquals( array( 'foo' ), $type );
+		$this->assertSame( array( 'foo' ), $type );
 	}
 }

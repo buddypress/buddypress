@@ -240,6 +240,8 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 	 * have to do a bit more work to change it
 	 *
 	 * @deprecated 15.0.0
+	 *
+	 * @param int $user_id User ID to set as the current user.
 	 */
 	public static function set_current_user( $user_id ) {
 		wp_set_current_user( $user_id );
@@ -278,6 +280,8 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 	 * We can't use grant_super_admin() because we will need to modify
 	 * the list more than once, and grant_super_admin() can only be run
 	 * once because of its global check
+	 *
+	 * @param int $user_id User ID to grant super admin privileges.
 	 */
 	public function grant_super_admin( $user_id ) {
 		global $super_admins;
@@ -306,7 +310,7 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 		if ( isset( $this->temp_has_bp_moderate[ $user_id ] ) ) {
 			unset( $this->temp_has_bp_moderate[ $user_id ] );
 		}
-		remove_filter( 'bp_current_user_can', array( $this, 'grant_bp_moderate_cb' ), 10 );
+		remove_filter( 'bp_current_user_can', array( $this, 'grant_bp_moderate_cb' ) );
 	}
 
 	public function grant_bp_moderate_cb( $retval, $capability ) {
@@ -333,6 +337,8 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 
 	/**
 	 * Set up globals necessary to avoid errors when using wp_mail()
+	 *
+	 * @param array $args Arguments passed to wp_mail().
 	 */
 	public static function setUp_wp_mail( $args ) {
 		if ( isset( $_SERVER['SERVER_NAME'] ) ) {
@@ -347,6 +353,8 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 
 	/**
 	 * Tear down globals set up in setUp_wp_mail()
+	 *
+	 * @param string $args From email address.
 	 */
 	public static function tearDown_wp_mail( $args ) {
 		if ( ! empty( self::$cached_SERVER_NAME ) ) {
@@ -396,6 +404,8 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 
 	/**
 	 * Clean up created directories/files
+	 *
+	 * @param string $dir Directory path to remove.
 	 */
 	public function rrmdir( $dir ) {
 		// Make sure we are only removing files/dir from uploads

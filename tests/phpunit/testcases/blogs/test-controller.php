@@ -34,13 +34,13 @@ class BP_Tests_Blogs_REST_Controller extends BP_Test_REST_Controller_Testcase {
 		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$blogs   = $response->get_data();
 		$headers = $response->get_headers();
 
-		$this->assertEquals( 3, $headers['X-WP-Total'] );
-		$this->assertEquals( 1, $headers['X-WP-TotalPages'] );
+		$this->assertSame( 3, $headers['X-WP-Total'] );
+		$this->assertSame( 1, $headers['X-WP-TotalPages'] );
 		$this->assertCount( 3, $blogs );
 		$this->assertNotEmpty( $blogs[0] );
 	}
@@ -61,7 +61,7 @@ class BP_Tests_Blogs_REST_Controller extends BP_Test_REST_Controller_Testcase {
 		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$blogs = $response->get_data();
 
@@ -132,7 +132,7 @@ class BP_Tests_Blogs_REST_Controller extends BP_Test_REST_Controller_Testcase {
 		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$data = $this->server->response_to_data( $response, true );
 
@@ -178,7 +178,7 @@ class BP_Tests_Blogs_REST_Controller extends BP_Test_REST_Controller_Testcase {
 		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$data = $this->server->response_to_data( $response, true );
 
@@ -218,7 +218,7 @@ class BP_Tests_Blogs_REST_Controller extends BP_Test_REST_Controller_Testcase {
 		$request->set_param( 'context', 'edit' );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertEquals( 200, $response->get_status() );
+		$this->assertSame( 200, $response->get_status() );
 
 		$blogs = $response->get_data();
 
@@ -302,7 +302,7 @@ class BP_Tests_Blogs_REST_Controller extends BP_Test_REST_Controller_Testcase {
 	 */
 	public function test_update_item() {
 		$this->skipWithoutMultisite();
-		$this->markTestSkipped();
+		$this->markTestSkipped( 'This endpoint does not support updating blogs.' );
 	}
 
 	/**
@@ -310,7 +310,7 @@ class BP_Tests_Blogs_REST_Controller extends BP_Test_REST_Controller_Testcase {
 	 */
 	public function test_delete_item() {
 		$this->skipWithoutMultisite();
-		$this->markTestSkipped();
+		$this->markTestSkipped( 'This endpoint does not support deleting blogs.' );
 	}
 
 	/**
@@ -318,7 +318,7 @@ class BP_Tests_Blogs_REST_Controller extends BP_Test_REST_Controller_Testcase {
 	 */
 	public function test_prepare_item() {
 		$this->skipWithoutMultisite();
-		$this->markTestSkipped();
+		$this->markTestSkipped( 'Coverage for prepare_item_for_response() has not been implemented.' );
 	}
 
 	protected function set_blog_data( $args = array() ) {
@@ -337,6 +337,9 @@ class BP_Tests_Blogs_REST_Controller extends BP_Test_REST_Controller_Testcase {
 
 	/**
 	 * @group additional_fields
+	 *
+	 * @param array  $data      Prepared blog data.
+	 * @param string $attribute Additional field name.
 	 */
 	public function get_additional_field( $data, $attribute ) {
 		return bp_blogs_get_blogmeta( $data['id'], '_' . $attribute );
@@ -401,7 +404,7 @@ class BP_Tests_Blogs_REST_Controller extends BP_Test_REST_Controller_Testcase {
 		$data       = $response->get_data();
 		$properties = $data['schema']['properties'];
 
-		$this->assertEquals( 11, count( $properties ) );
+		$this->assertCount( 11, $properties );
 		$this->assertArrayHasKey( 'id', $properties );
 		$this->assertArrayHasKey( 'user_id', $properties );
 		$this->assertArrayHasKey( 'name', $properties );
@@ -421,7 +424,7 @@ class BP_Tests_Blogs_REST_Controller extends BP_Test_REST_Controller_Testcase {
 		$response = $this->server->dispatch( $request );
 		$data     = $response->get_data();
 
-		$this->assertEquals( 'view', $data['endpoints'][0]['args']['context']['default'] );
-		$this->assertEquals( array( 'view', 'embed', 'edit' ), $data['endpoints'][0]['args']['context']['enum'] );
+		$this->assertSame( 'view', $data['endpoints'][0]['args']['context']['default'] );
+		$this->assertSame( array( 'view', 'embed', 'edit' ), $data['endpoints'][0]['args']['context']['enum'] );
 	}
 }

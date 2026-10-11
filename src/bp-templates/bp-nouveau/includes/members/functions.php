@@ -2,6 +2,8 @@
 /**
  * Members functions
  *
+ * @package BuddyPress
+ * @subpackage bp-nouveau
  * @since 3.0.0
  * @version 12.3.0
  */
@@ -22,13 +24,16 @@ function bp_nouveau_members_register_scripts( $scripts = array() ) {
 		return $scripts;
 	}
 
-	return array_merge( $scripts, array(
-		'bp-nouveau-member-invites' => array(
-			'file'         => 'js/buddypress-member-invites%s.js',
-			'dependencies' => array(),
-			'footer'       => true,
-		),
-	) );
+	return array_merge(
+		$scripts,
+		array(
+			'bp-nouveau-member-invites' => array(
+				'file'         => 'js/buddypress-member-invites%s.js',
+				'dependencies' => array(),
+				'footer'       => true,
+			),
+		)
+	);
 }
 
 /**
@@ -37,7 +42,7 @@ function bp_nouveau_members_register_scripts( $scripts = array() ) {
  * @since 3.0.0
  */
 function bp_nouveau_members_enqueue_scripts() {
-	// Neutralize Ajax when using BuddyPress Groups & member widgets on default front page
+	// Neutralize Ajax when using BuddyPress Groups & member widgets on default front page.
 	if ( bp_is_user_front() && bp_nouveau_get_appearance_settings( 'user_front_page' ) ) {
 		wp_add_inline_style(
 			'bp-nouveau',
@@ -71,7 +76,7 @@ function bp_nouveau_get_members_directory_nav_items() {
 
 	$nav_items['all'] = array(
 		'component' => 'members',
-		'slug'      => 'all', // slug is used because BP_Core_Nav requires it, but it's the scope
+		'slug'      => 'all', // slug is used because BP_Core_Nav requires it, but it's the scope.
 		'li_class'  => array(),
 		'link'      => bp_get_members_directory_permalink(),
 		'text'      => __( 'All Members', 'buddypress' ),
@@ -80,11 +85,11 @@ function bp_nouveau_get_members_directory_nav_items() {
 	);
 
 	if ( is_user_logged_in() ) {
-		// If friends component is active and the user has friends
+		// If friends component is active and the user has friends.
 		if ( bp_is_active( 'friends' ) && bp_get_total_friend_count( bp_loggedin_user_id() ) ) {
 			$nav_items['personal'] = array(
 				'component' => 'members',
-				'slug'      => 'personal', // slug is used because BP_Core_Nav requires it, but it's the scope
+				'slug'      => 'personal', // slug is used because BP_Core_Nav requires it, but it's the scope.
 				'li_class'  => array(),
 				'link'      => bp_loggedin_user_url( bp_members_get_path_chunks( array( bp_nouveau_get_component_slug( 'friends' ), 'my-friends' ) ) ),
 				'text'      => __( 'My Friends', 'buddypress' ),
@@ -94,7 +99,7 @@ function bp_nouveau_get_members_directory_nav_items() {
 		}
 	}
 
-	// Check for the deprecated hook :
+	// Check for the deprecated hook :.
 	$extra_nav_items = bp_nouveau_parse_hooked_dir_nav( 'bp_members_directory_member_types', 'members', 20 );
 	if ( ! empty( $extra_nav_items ) ) {
 		$nav_items = array_merge( $nav_items, $extra_nav_items );
@@ -154,8 +159,8 @@ function bp_nouveau_get_members_filters( $context = '' ) {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param array  the members filters.
-	 * @param string the context.
+	 * @param array  $filters The member filters.
+	 * @param string $context The context.
 	 */
 	$filters = apply_filters( 'bp_nouveau_get_members_filters', $filters, $context );
 
@@ -183,7 +188,7 @@ function bp_nouveau_get_hooked_member_meta() {
 		 */
 		do_action( 'bp_directory_members_item_meta' );
 
-	// It's the user's header
+	// It's the user's header.
 	} else {
 		/**
 		 * Fires after the group header actions section.
@@ -210,7 +215,7 @@ function bp_nouveau_get_hooked_member_meta() {
  *
  * @since 3.0.0
  *
- * @param array $templates The list of templates for the front.php template part.
+ * @param array $templates Optional. The list of templates for the front.php template part.
  *
  * @return array The same list with the default front template if needed.
  */
@@ -241,15 +246,18 @@ function bp_nouveau_member_reset_front_template( $templates = array() ) {
  *
  * @since 3.0.0
  *
- * @param array $templates The User's front template hierarchy.
+ * @param array $templates Optional. The User's front template hierarchy.
  *
  * @return array Only the global front templates.
  */
 function bp_nouveau_member_restrict_user_front_templates( $templates = array() ) {
-	return array_intersect( array(
-		'members/single/front.php',
-		'members/single/default-front.php',
-	), $templates );
+	return array_intersect(
+		array(
+			'members/single/front.php',
+			'members/single/default-front.php',
+		),
+		$templates
+	);
 }
 
 /**
@@ -257,7 +265,7 @@ function bp_nouveau_member_restrict_user_front_templates( $templates = array() )
  *
  * @since 3.0.0
  *
- * @param string $template The template part to get (eg: activity, groups...).
+ * @param string $template Optional. The template part to get (eg: activity, groups...).
  *
  * @return string The located template.
  */
@@ -269,7 +277,7 @@ function bp_nouveau_member_locate_template_part( $template = '' ) {
 		return '';
 	}
 
-	// Use a global to avoid requesting the hierarchy for each template
+	// Use a global to avoid requesting the hierarchy for each template.
 	if ( ! isset( $bp_nouveau->members->displayed_user_hierarchy ) ) {
 		$bp_nouveau->members->displayed_user_hierarchy = array(
 			'members/single/%s-id-' . (int) $displayed_user->id . '.php',
@@ -291,13 +299,13 @@ function bp_nouveau_member_locate_template_part( $template = '' ) {
 			$bp_nouveau->members->displayed_user_hierarchy[] = 'members/single/%s-member-type-' . sanitize_file_name( $displayed_user_member_type ) . '.php';
 		}
 
-		// And the regular one
+		// And the regular one.
 		$bp_nouveau->members->displayed_user_hierarchy[] = 'members/single/%s.php';
 	}
 
 	$templates = array();
 
-	// Loop in the hierarchy to fill it for the requested template part
+	// Loop in the hierarchy to fill it for the requested template part.
 	foreach ( $bp_nouveau->members->displayed_user_hierarchy as $part ) {
 		$templates[] = sprintf( $part, $template );
 	}
@@ -317,7 +325,7 @@ function bp_nouveau_member_locate_template_part( $template = '' ) {
  *
  * @since 3.0.0
  *
- * @param string $template The template part to get (eg: activity, groups...).
+ * @param string $template Optional. The template part to get (eg: activity, groups...).
  *
  * @return string HTML output.
  */
@@ -373,14 +381,17 @@ function bp_nouveau_member_is_home_widgets() {
  *
  * @since 3.0.0
  *
- * @param array $args The Activities Template arguments.
+ * @param array $args Optional. The Activities Template arguments.
  *
  * @return array The Activities Template arguments.
  */
 function bp_nouveau_member_activity_widget_overrides( $args = array() ) {
-	return array_merge( $args, array(
-		'user_id' => bp_displayed_user_id(),
-	) );
+	return array_merge(
+		$args,
+		array(
+			'user_id' => bp_displayed_user_id(),
+		)
+	);
 }
 
 /**
@@ -388,14 +399,17 @@ function bp_nouveau_member_activity_widget_overrides( $args = array() ) {
  *
  * @since 3.0.0
  *
- * @param array $args The Groups Template arguments.
+ * @param array $args Optional. The Groups Template arguments.
  *
  * @return array The Groups Template arguments.
  */
 function bp_nouveau_member_groups_widget_overrides( $args = array() ) {
-	return array_merge( $args, array(
-		'user_id' => bp_displayed_user_id(),
-	) );
+	return array_merge(
+		$args,
+		array(
+			'user_id' => bp_displayed_user_id(),
+		)
+	);
 }
 
 /**
@@ -403,19 +417,22 @@ function bp_nouveau_member_groups_widget_overrides( $args = array() ) {
  *
  * @since 3.0.0
  *
- * @param array $args The Members Template arguments.
+ * @param array $args Optional. The Members Template arguments.
  *
  * @return array The Members Template arguments.
  */
 function bp_nouveau_member_members_widget_overrides( $args = array() ) {
-	// Do nothing for the friends widget
+	// Do nothing for the friends widget.
 	if ( ! empty( $args['user_id'] ) && (int) $args['user_id'] === (int) bp_displayed_user_id() ) {
 		return $args;
 	}
 
-	return array_merge( $args, array(
-		'include' => bp_displayed_user_id(),
-	) );
+	return array_merge(
+		$args,
+		array(
+			'include' => bp_displayed_user_id(),
+		)
+	);
 }
 
 /**
@@ -442,9 +459,9 @@ function bp_nouveau_members_add_home_widget_filters() {
  * @since 3.0.0
  */
 function bp_nouveau_members_remove_home_widget_filters() {
-	remove_filter( 'bp_nouveau_activity_widget_query', 'bp_nouveau_member_activity_widget_overrides', 10, 1 );
-	remove_filter( 'bp_before_has_groups_parse_args', 'bp_nouveau_member_groups_widget_overrides', 10, 1 );
-	remove_filter( 'bp_before_has_members_parse_args', 'bp_nouveau_member_members_widget_overrides', 10, 1 );
+	remove_filter( 'bp_nouveau_activity_widget_query', 'bp_nouveau_member_activity_widget_overrides' );
+	remove_filter( 'bp_before_has_groups_parse_args', 'bp_nouveau_member_groups_widget_overrides' );
+	remove_filter( 'bp_before_has_members_parse_args', 'bp_nouveau_member_members_widget_overrides' );
 
 	/**
 	 * Fires after Nouveau removes its members home widget filters.
@@ -516,7 +533,7 @@ function bp_nouveau_member_customizer_nav() {
 		);
 	}
 
-	remove_filter( '_bp_nouveau_member_reset_front_template', 'bp_nouveau_member_restrict_user_front_templates', 10, 1 );
+	remove_filter( '_bp_nouveau_member_reset_front_template', 'bp_nouveau_member_restrict_user_front_templates' );
 
 	// Eventually reset the order.
 	bp_nouveau_set_nav_item_order( $nav, bp_nouveau_get_appearance_settings( 'user_nav_order' ) );
@@ -529,8 +546,8 @@ function bp_nouveau_member_customizer_nav() {
  *
  * @since 10.0.0
  *
- * @param array $additional_info An associative array with additional information to include in the Ajax response.
- * @param array $args            The Ajax query arguments.
+ * @param array $additional_info Optional. An associative array with additional information to include in the Ajax response.
+ * @param array $args            Optional. The Ajax query arguments.
  * @return array                 Additional information about the members loop.
  */
 function bp_nouveau_members_loop_additional_info( $additional_info = array(), $args = array() ) {

@@ -18,12 +18,16 @@ class BP_Messages_Thread_Template {
 	/**
 	 * The loop iterator.
 	 *
+	 * @since 1.1.0
+	 *
 	 * @var int
 	 */
 	public $current_message = -1;
 
 	/**
 	 * Number of messages returned by the paged query.
+	 *
+	 * @since 1.1.0
 	 *
 	 * @var int
 	 */
@@ -32,12 +36,16 @@ class BP_Messages_Thread_Template {
 	/**
 	 * The message object currently being iterated on.
 	 *
+	 * @since 1.1.0
+	 *
 	 * @var object
 	 */
 	public $message;
 
 	/**
 	 * Thread that the current messages belong to.
+	 *
+	 * @since 1.1.0
 	 *
 	 * @var BP_Messages_Thread
 	 */
@@ -46,12 +54,16 @@ class BP_Messages_Thread_Template {
 	/**
 	 * A flag for whether the loop is currently being iterated.
 	 *
+	 * @since 1.1.0
+	 *
 	 * @var bool
 	 */
 	public $in_the_loop = false;
 
 	/**
 	 * The page number being requested.
+	 *
+	 * @since 1.1.0
 	 *
 	 * @var int
 	 */
@@ -60,6 +72,8 @@ class BP_Messages_Thread_Template {
 	/**
 	 * The number of items being requested per page.
 	 *
+	 * @since 1.1.0
+	 *
 	 * @var int
 	 */
 	public $pag_num = 10;
@@ -67,12 +81,16 @@ class BP_Messages_Thread_Template {
 	/**
 	 * An HTML string containing pagination links.
 	 *
+	 * @since 1.1.0
+	 *
 	 * @var string
 	 */
 	public $pag_links = '';
 
 	/**
 	 * The total number of messages matching the query.
+	 *
+	 * @since 1.1.0
 	 *
 	 * @var int
 	 */
@@ -83,10 +101,10 @@ class BP_Messages_Thread_Template {
 	 *
 	 * @see BP_Messages_Thread::populate() for full parameter info.
 	 *
-	 * @param int    $thread_id ID of the message thread to display.
+	 * @param int    $thread_id Optional. ID of the message thread to display.
 	 * @param string $order     Optional. Order to show the thread's messages in.
 	 *                          Default: 'ASC'.
-	 * @param array  $args      Array of arguments for the query.
+	 * @param array  $args      Optional. Array of arguments for the query.
 	 */
 	public function __construct( $thread_id = 0, $order = 'ASC', $args = array() ) {
 		$this->thread        = new BP_Messages_Thread( $thread_id, $order, $args );
@@ -110,7 +128,7 @@ class BP_Messages_Thread_Template {
 	 * @return object The next message to iterate over.
 	 */
 	public function next_message() {
-		$this->current_message++;
+		++$this->current_message;
 		$this->message = $this->thread->messages[ $this->current_message ];
 
 		return $this->message;

@@ -44,8 +44,8 @@ add_action( 'admin_notices', 'bp_admin_notices' );
 add_action( 'admin_enqueue_scripts', 'bp_admin_enqueue_scripts' );
 add_action( 'customize_controls_enqueue_scripts', 'bp_admin_enqueue_scripts', 8 );
 add_action( 'network_admin_menu', 'bp_admin_menu' );
-add_action( 'custom_menu_order', 'bp_admin_custom_menu_order' );
-add_action( 'menu_order', 'bp_admin_menu_order' );
+add_filter( 'custom_menu_order', 'bp_admin_custom_menu_order' );
+add_filter( 'menu_order', 'bp_admin_menu_order' );
 add_action( 'bp_insert_site', 'bp_new_site', 10, 6 );
 
 // Hook on to admin_init.
@@ -168,7 +168,7 @@ function bp_admin_notices() {
  *
  * @since 1.7.0
  *
- * @param string $hook_suffix The current admin page, passed to admin_enqueue_scripts.
+ * @param string $hook_suffix Optional. The current admin page, passed to admin_enqueue_scripts.
  */
 function bp_admin_enqueue_scripts( $hook_suffix = '' ) {
 

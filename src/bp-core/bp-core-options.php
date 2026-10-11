@@ -306,7 +306,7 @@ function bp_delete_option( $option_name ) {
  * @since 1.2.4
  * @deprecated 1.6.0
  *
- * @param array $keys Array of site options.
+ * @param array $keys Optional. Array of site options.
  * @return bool
  */
 function bp_core_activate_site_options( $keys = array() ) {
@@ -347,7 +347,7 @@ function bp_core_activate_site_options( $keys = array() ) {
  *
  * @global wpdb $wpdb WordPress database object.
  *
- * @return array $root_blog_options_meta List of options.
+ * @return array List of options.
  */
 function bp_core_get_root_options() {
 	global $wpdb;

@@ -2,6 +2,8 @@
 /**
  * Blogs functions
  *
+ * @package BuddyPress
+ * @subpackage bp-nouveau
  * @since 3.0.0
  * @version 12.0.0
  */
@@ -10,6 +12,8 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
+ * Gets the Sites directory navigation items.
+ *
  * @since 3.0.0
  */
 function bp_nouveau_get_blogs_directory_nav_items() {
@@ -17,7 +21,7 @@ function bp_nouveau_get_blogs_directory_nav_items() {
 
 	$nav_items['all'] = array(
 		'component' => 'blogs',
-		'slug'      => 'all', // slug is used because BP_Core_Nav requires it, but it's the scope
+		'slug'      => 'all', // slug is used because BP_Core_Nav requires it, but it's the scope.
 		'li_class'  => array( 'selected' ),
 		'link'      => bp_get_blogs_directory_url(),
 		'text'      => __( 'All Sites', 'buddypress' ),
@@ -28,11 +32,11 @@ function bp_nouveau_get_blogs_directory_nav_items() {
 	if ( is_user_logged_in() ) {
 		$my_blogs_count = bp_get_total_blog_count_for_user( bp_loggedin_user_id() );
 
-		// If the user has blogs create a nav item
+		// If the user has blogs create a nav item.
 		if ( $my_blogs_count ) {
 			$nav_items['personal'] = array(
 				'component' => 'blogs',
-				'slug'      => 'personal', // slug is used because BP_Core_Nav requires it, but it's the scope
+				'slug'      => 'personal', // slug is used because BP_Core_Nav requires it, but it's the scope.
 				'li_class'  => array(),
 				'link'      => bp_loggedin_user_url( bp_members_get_path_chunks( array( bp_nouveau_get_component_slug( 'blogs' ) ) ) ),
 				'text'      => __( 'My Sites', 'buddypress' ),
@@ -41,7 +45,7 @@ function bp_nouveau_get_blogs_directory_nav_items() {
 			);
 		}
 
-		// If the user can create blogs, add the create nav
+		// If the user can create blogs, add the create nav.
 		if ( bp_blog_signup_enabled() ) {
 			$url = bp_get_blogs_directory_url(
 				array(
@@ -51,7 +55,7 @@ function bp_nouveau_get_blogs_directory_nav_items() {
 
 			$nav_items['create'] = array(
 				'component' => 'blogs',
-				'slug'      => 'create', // slug is used because BP_Core_Nav requires it, but it's the scope
+				'slug'      => 'create', // slug is used because BP_Core_Nav requires it, but it's the scope.
 				'li_class'  => array( 'no-ajax', 'site-create', 'create-button' ),
 				'link'      => $url,
 				'text'      => __( 'Create a Site', 'buddypress' ),
@@ -61,7 +65,7 @@ function bp_nouveau_get_blogs_directory_nav_items() {
 		}
 	}
 
-	// Check for the deprecated hook :
+	// Check for the deprecated hook :.
 	$extra_nav_items = bp_nouveau_parse_hooked_dir_nav( 'bp_blogs_directory_blog_types', 'blogs', 20 );
 
 	if ( ! empty( $extra_nav_items ) ) {
@@ -83,7 +87,7 @@ function bp_nouveau_get_blogs_directory_nav_items() {
  *
  * @since 3.0.0
  *
- * @param string $context 'directory' or 'user'
+ * @param string $context Optional. 'directory' or 'user'.
  *
  * @return array the filters
  */
@@ -105,14 +109,18 @@ function bp_nouveau_get_blogs_filters( $context = '' ) {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param array  the blogs filters.
-	 * @param string the context.
+	 * @param array  $filters The blogs filters.
+	 * @param string $context The context.
 	 */
-	$filters = apply_filters( 'bp_nouveau_get_blogs_filters', array(
-		'active'       => __( 'Last Active', 'buddypress' ),
-		'newest'       => __( 'Newest', 'buddypress' ),
-		'alphabetical' => __( 'Alphabetical', 'buddypress' ),
-	), $context );
+	$filters = apply_filters(
+		'bp_nouveau_get_blogs_filters',
+		array(
+			'active'       => __( 'Last Active', 'buddypress' ),
+			'newest'       => __( 'Newest', 'buddypress' ),
+			'alphabetical' => __( 'Alphabetical', 'buddypress' ),
+		),
+		$context
+	);
 
 	if ( $action ) {
 		return bp_nouveau_parse_hooked_options( $action, $filters );
@@ -126,20 +134,23 @@ function bp_nouveau_get_blogs_filters( $context = '' ) {
  *
  * @since 3.0.0
  *
- * @param array $settings the settings to add.
+ * @param array $settings Optional. The settings to add.
  *
  * @return array the settings to add.
  */
 function bp_nouveau_blogs_customizer_settings( $settings = array() ) {
-	return array_merge( $settings, array(
-		'bp_nouveau_appearance[blogs_layout]' => array(
-			'index'             => 'blogs_layout',
-			'capability'        => 'bp_moderate',
-			'sanitize_callback' => 'absint',
-			'transport'         => 'refresh',
-			'type'              => 'option',
-		),
-	) );
+	return array_merge(
+		$settings,
+		array(
+			'bp_nouveau_appearance[blogs_layout]' => array(
+				'index'             => 'blogs_layout',
+				'capability'        => 'bp_moderate',
+				'sanitize_callback' => 'absint',
+				'transport'         => 'refresh',
+				'type'              => 'option',
+			),
+		)
+	);
 }
 
 /**
@@ -147,32 +158,35 @@ function bp_nouveau_blogs_customizer_settings( $settings = array() ) {
  *
  * @since 3.0.0
  *
- * @param array $controls the controls to add.
+ * @param array $controls Optional. The controls to add.
  *
  * @return array the controls to add.
  */
 function bp_nouveau_blogs_customizer_controls( $controls = array() ) {
-	return array_merge( $controls, array(
-		'blogs_layout' => array(
-			'label'      => __( 'Sites loop:', 'buddypress' ),
-			'section'    => 'bp_nouveau_loops_layout',
-			'settings'   => 'bp_nouveau_appearance[blogs_layout]',
-			'type'       => 'select',
-			'choices'    => bp_nouveau_customizer_grid_choices(),
-		),
-		'sites_dir_layout' => array(
-			'label'      => __( 'Use column navigation for the Sites directory.', 'buddypress' ),
-			'section'    => 'bp_nouveau_dir_layout',
-			'settings'   => 'bp_nouveau_appearance[sites_dir_layout]',
-			'type'       => 'checkbox',
-		),
-		'sites_dir_tabs' => array(
-			'label'      => __( 'Use tab styling for Sites directory navigation.', 'buddypress' ),
-			'section'    => 'bp_nouveau_dir_layout',
-			'settings'   => 'bp_nouveau_appearance[sites_dir_tabs]',
-			'type'       => 'checkbox',
-		),
-	) );
+	return array_merge(
+		$controls,
+		array(
+			'blogs_layout' => array(
+				'label'      => __( 'Sites loop:', 'buddypress' ),
+				'section'    => 'bp_nouveau_loops_layout',
+				'settings'   => 'bp_nouveau_appearance[blogs_layout]',
+				'type'       => 'select',
+				'choices'    => bp_nouveau_customizer_grid_choices(),
+			),
+			'sites_dir_layout' => array(
+				'label'      => __( 'Use column navigation for the Sites directory.', 'buddypress' ),
+				'section'    => 'bp_nouveau_dir_layout',
+				'settings'   => 'bp_nouveau_appearance[sites_dir_layout]',
+				'type'       => 'checkbox',
+			),
+			'sites_dir_tabs' => array(
+				'label'      => __( 'Use tab styling for Sites directory navigation.', 'buddypress' ),
+				'section'    => 'bp_nouveau_dir_layout',
+				'settings'   => 'bp_nouveau_appearance[sites_dir_tabs]',
+				'type'       => 'checkbox',
+			),
+		)
+	);
 }
 
 /**
@@ -212,6 +226,7 @@ function bp_nouveau_get_blog_signup_inline_script() {
  * Adds a class if blog item has a latest post.
  *
  * @since 3.0.0
+ * @param array $classes Classes for the current site item.
  */
 function bp_nouveau_blog_loop_item_has_lastest_post( $classes ) {
 	if ( bp_get_blog_latest_post_title() ) {

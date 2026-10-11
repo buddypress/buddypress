@@ -2,9 +2,12 @@
 /**
  * BuddyPress - Membership invitations
  *
+ * @package BuddyPress
+ * @subpackage bp-nouveau
  * @since 8.0.0
  * @version 12.0.0
  */
+
 ?>
 
 <nav class="<?php bp_nouveau_single_item_subnav_classes(); ?>" id="subnav" role="navigation" aria-label="<?php esc_attr_e( 'Groups menu', 'buddypress' ); ?>">
@@ -18,12 +21,12 @@
 <?php
 switch ( bp_current_action() ) :
 
-	case 'send-invites' :
+	case 'send-invites':
 		bp_get_template_part( 'members/single/invitations/send-invites' );
 		break;
 
-	case 'list-invites' :
-	default :
+	case 'list-invites':
+	default:
 		bp_get_template_part( 'members/single/invitations/list-invites' );
 		break;
 

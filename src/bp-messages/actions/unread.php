@@ -11,14 +11,11 @@
  * Handle marking a single message thread as unread.
  *
  * @since 2.2.0
- *
- * @return bool Returns false on failure. Otherwise redirects back to the
- *              message box URL.
  */
 function bp_messages_action_mark_unread() {
 
 	if ( ! bp_is_messages_component() || bp_is_current_action( 'notices' ) || ! bp_is_action_variable( 'unread', 0 ) ) {
-		return false;
+		return;
 	}
 
 	$action = ! empty( $_GET['action'] ) ? $_GET['action'] : '';
@@ -27,12 +24,12 @@ function bp_messages_action_mark_unread() {
 
 	// Bail if no action or no ID.
 	if ( 'unread' !== $action || empty( $id ) || empty( $nonce ) ) {
-		return false;
+		return;
 	}
 
 	// Check the nonce.
 	if ( ! bp_verify_nonce_request( 'bp_message_thread_mark_unread_' . $id ) ) {
-		return false;
+		return;
 	}
 
 	// Check access to the message and mark unread.

@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 11.0.0
  * @see parse_blocks()
  *
- * @param string|int|BP_Activity_Activity|null $activity Activity content, Activity ID, or Activity object.
+ * @param string|int|BP_Activity_Activity|null $activity Optional. Activity content, Activity ID, or Activity object.
  * @return bool Whether the activity content has blocks.
  */
 function bp_activity_has_blocks( $activity = null ) {
@@ -111,7 +111,7 @@ add_filter( 'bp_activity_content_before_save', 'bp_activity_blocks_preserve_emoj
  *
  * @since 11.0.0
  *
- * @param array $tags The activity allowed tags.
+ * @param array $tags Optional. The activity allowed tags.
  * @return array The block based activity allowed tags.
  */
 function bp_activity_blocks_allowed_tags( $tags = array() ) {

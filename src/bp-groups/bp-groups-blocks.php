@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 6.0.0
  *
- * @param array $attributes The block attributes.
+ * @param array $attributes Optional. The block attributes.
  * @return string           HTML output.
  */
 function bp_groups_render_group_block( $attributes = array() ) {
@@ -182,7 +182,7 @@ function bp_groups_render_group_block( $attributes = array() ) {
  *
  * @since 7.0.0
  *
- * @param array $attributes The block attributes.
+ * @param array $attributes Optional. The block attributes.
  * @return string           HTML output.
  */
 function bp_groups_render_groups_block( $attributes = array() ) {
@@ -362,7 +362,7 @@ function bp_groups_blocks_add_script_data() {
  *
  * @since 9.0.0
  *
- * @param array $attributes The block attributes.
+ * @param array $attributes Optional. The block attributes.
  * @return string           HTML output.
  */
 function bp_groups_render_dynamic_groups_block( $attributes = array() ) {
@@ -386,7 +386,13 @@ function bp_groups_render_dynamic_groups_block( $attributes = array() ) {
 	$max_groups = (int) $block_args['maxGroups'];
 	$no_groups  = __( 'There are no groups to display.', 'buddypress' );
 
-	/** This filter is documented in buddypress/src/bp-groups/classes/class-bp-groups-widget.php */
+	/**
+	 * Filters the separator of the group widget links.
+	 *
+	 * @since 2.4.0
+	 *
+	 * @param string $separator Separator string. Default '|'.
+	 */
 	$separator = apply_filters( 'bp_groups_widget_separator', '|' );
 
 	// Make sure the widget ID is unique.

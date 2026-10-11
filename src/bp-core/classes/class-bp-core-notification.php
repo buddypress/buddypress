@@ -22,12 +22,16 @@ class BP_Core_Notification {
 	/**
 	 * The notification id.
 	 *
+	 * @since 1.0.0
+	 *
 	 * @var int
 	 */
 	public $id = 0;
 
 	/**
 	 * The ID to which the notification relates to within the component.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @var int
 	 */
@@ -36,12 +40,16 @@ class BP_Core_Notification {
 	/**
 	 * The secondary ID to which the notification relates to within the component.
 	 *
+	 * @since 1.0.0
+	 *
 	 * @var int
 	 */
 	public $secondary_item_id = null;
 
 	/**
 	 * The user ID for who the notification is for.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @var int
 	 */
@@ -50,12 +58,16 @@ class BP_Core_Notification {
 	/**
 	 * The name of the component that the notification is for.
 	 *
+	 * @since 1.0.0
+	 *
 	 * @var string
 	 */
 	public $component_name = '';
 
 	/**
 	 * The action within the component which the notification is related to.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @var string
 	 */
@@ -64,12 +76,16 @@ class BP_Core_Notification {
 	/**
 	 * The date the notification was created.
 	 *
+	 * @since 1.0.0
+	 *
 	 * @var string
 	 */
 	public $date_notified = '';
 
 	/**
 	 * Is the notification new or has it already been read.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @var boolean
 	 */
@@ -80,7 +96,7 @@ class BP_Core_Notification {
 	/**
 	 * Constructor
 	 *
-	 * @param int $id ID for the notification.
+	 * @param int $id Optional. ID for the notification.
 	 */
 	public function __construct( $id = 0 ) {
 
@@ -161,8 +177,8 @@ class BP_Core_Notification {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @param int $user_id         ID to check access for.
-	 * @param int $notification_id Notification ID to check for.
+	 * @param int $user_id         Optional. ID to check access for.
+	 * @param int $notification_id Optional. Notification ID to check for.
 	 * @return string
 	 */
 	public static function check_access( $user_id = 0, $notification_id = 0 ) {
@@ -183,7 +199,7 @@ class BP_Core_Notification {
 	 * @global wpdb $wpdb WordPress database object
 	 *
 	 * @param int    $user_id User ID.
-	 * @param string $status 'is_new' or 'all'.
+	 * @param string $status Optional. 'is_new' or 'all'.
 	 * @return array Associative array
 	 */
 	public static function get_all_for_user( $user_id, $status = 'is_new' ) {
@@ -283,7 +299,7 @@ class BP_Core_Notification {
 	 *
 	 * @param int    $item_id           The item id that they notifications are to be for.
 	 * @param string $component_name    The component that the notifications are to be from.
-	 * @param string $component_action  The action that the notifications are to be from.
+	 * @param string $component_action  Optional. The action that the notifications are to be from.
 	 * @param int    $secondary_item_id Optional secondary item id that the notifications are to have.
 	 * @return mixed
 	 */

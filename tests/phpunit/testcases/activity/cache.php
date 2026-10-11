@@ -162,7 +162,7 @@ class BP_Tests_Activity_Cache extends BP_UnitTestCase {
 			$a2 => wp_cache_get( $a2, 'activity_meta' ),
 		);
 
-		$this->assertEquals( $expected, $found );
+		$this->assertSame( $expected, $found );
 	}
 
 	/**
@@ -303,7 +303,7 @@ class BP_Tests_Activity_Cache extends BP_UnitTestCase {
 		$expected = array( $a1, $a2 );
 
 		$this->assertEqualSets( $expected, $q2['activities'] );
-		$this->assertEquals( 2, $q2['total'] );
+		$this->assertSame( 2, $q2['total'] );
 		$this->assertSame( $num_queries + 2, $wpdb->num_queries );
 	}
 
@@ -380,7 +380,7 @@ class BP_Tests_Activity_Cache extends BP_UnitTestCase {
 		$q2 = bp_activity_get( $activity_args );
 
 		$this->assertEqualSets( array(), $q2['activities'] );
-		$this->assertEquals( 0, $q2['total'] );
+		$this->assertSame( 0, $q2['total'] );
 		$this->assertSame( $num_queries + 2, $wpdb->num_queries );
 	}
 

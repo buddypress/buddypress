@@ -34,7 +34,7 @@ class BP_Tests_BP_Button extends BP_UnitTestCase {
 			'block_self' => true,
 		) );
 
-		$this->assertEquals( '', $b->contents );
+		$this->assertSame( '', $b->contents );
 	}
 
 	/**

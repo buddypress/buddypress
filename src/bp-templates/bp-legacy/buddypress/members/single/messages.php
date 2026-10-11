@@ -27,16 +27,16 @@
 <?php
 switch ( bp_current_action() ) :
 
-	// Inbox/Sentbox
-	case 'inbox'   :
-	case 'sentbox' :
-
+	// Inbox/Sentbox.
+	case 'inbox':
+	case 'sentbox':
 		/**
 		 * Fires before the member messages content for inbox and sentbox.
 		 *
 		 * @since 1.2.0
 		 */
-		do_action( 'bp_before_member_messages_content' ); ?>
+		do_action( 'bp_before_member_messages_content' );
+		?>
 
 		<?php if ( bp_is_messages_inbox() ) : ?>
 			<h2 class="bp-screen-reader-text">
@@ -68,25 +68,25 @@ switch ( bp_current_action() ) :
 		do_action( 'bp_after_member_messages_content' );
 		break;
 
-	// Single Message View
-	case 'view' :
+	// Single Message View.
+	case 'view':
 		bp_get_template_part( 'members/single/messages/single' );
 		break;
 
-	// Compose
-	case 'compose' :
+	// Compose.
+	case 'compose':
 		bp_get_template_part( 'members/single/messages/compose' );
 		break;
 
-	// Sitewide Notices
-	case 'notices' :
-
+	// Sitewide Notices.
+	case 'notices':
 		/**
 		 * Fires before the member messages content for notices.
 		 *
 		 * @since 1.2.0
 		 */
-		do_action( 'bp_before_member_messages_content' ); ?>
+		do_action( 'bp_before_member_messages_content' );
+		?>
 
 		<h2 class="bp-screen-reader-text">
 			<?php
@@ -109,8 +109,8 @@ switch ( bp_current_action() ) :
 		do_action( 'bp_after_member_messages_content' );
 		break;
 
-	// Any other
-	default :
+	// Any other.
+	default:
 		bp_get_template_part( 'members/single/plugins' );
 		break;
 endswitch;

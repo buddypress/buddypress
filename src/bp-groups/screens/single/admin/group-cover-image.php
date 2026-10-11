@@ -13,7 +13,7 @@
  * @since 2.4.0
  */
 function groups_screen_group_admin_cover_image() {
-	if ( 'group-cover-image' != bp_get_group_current_admin_tab() ) {
+	if ( 'group-cover-image' !== bp_get_group_current_admin_tab() ) {
 		return;
 	}
 
