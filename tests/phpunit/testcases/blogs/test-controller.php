@@ -314,11 +314,129 @@ class BP_Tests_Blogs_REST_Controller extends BP_Test_REST_Controller_Testcase {
 	}
 
 	/**
-	 * @group get_item
+	 * @group prepare_item
 	 */
 	public function test_prepare_item() {
 		$this->skipWithoutMultisite();
-		$this->markTestSkipped( 'Coverage for prepare_item_for_response() has not been implemented.' );
+
+		global $wp_rest_additional_fields;
+
+		$original_fields = $wp_rest_additional_fields;
+		$blog_id         = self::factory()->blog->create( array( 'user_id' => $this->user ) );
+		$blog            = (object) array(
+			'blog_id'       => (string) $blog_id,
+			'admin_user_id' => (string) $this->user,
+			'name'          => 'The Foo Bar Blog',
+			'domain'        => 'example.org',
+			'path'          => '/test-blog/',
+			'description'   => 'Blog description.',
+			'last_activity' => '2024-01-02 03:04:05',
+			'latest_post'   => (object) array( 'ID' => '123' ),
+		);
+
+		register_rest_field(
+			'bp_blogs',
+			'test_edit_field',
+			array(
+				'get_callback' => static function () {
+					return 'Additional value';
+				},
+				'schema'       => array(
+					'type'    => 'string',
+					'context' => array( 'edit' ),
+				),
+			)
+		);
+
+		try {
+			foreach ( array( null, 'view', 'edit', 'embed' ) as $context ) {
+				$request = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '/%d', $blog_id ) );
+				if ( null !== $context ) {
+					$request->set_param( 'context', $context );
+				}
+
+				$response = $this->endpoint->prepare_item_for_response( $blog, $request );
+				$expected = array(
+					'id'                => $blog_id,
+					'user_id'           => $this->user,
+					'name'              => 'The Foo Bar Blog',
+					'domain'            => 'example.org',
+					'path'              => '/test-blog/',
+					'permalink'         => set_url_scheme( 'http://example.org/test-blog/' ),
+					'last_activity'     => mysql_to_rfc3339( get_date_from_gmt( $blog->last_activity ) ),
+					'last_activity_gmt' => '2024-01-02T03:04:05',
+					'lastest_post_id'   => 123,
+					'description'       => array(
+						'raw'      => 'Blog description.',
+						'rendered' => apply_filters( 'bp_get_blog_description', $blog->description ),
+					),
+					'avatar_urls'       => array(
+						'thumb' => bp_get_blog_avatar(
+							array(
+								'blog_id' => $blog_id,
+								'type'    => 'thumb',
+								'html'    => false,
+							)
+						),
+						'full'  => bp_get_blog_avatar(
+							array(
+								'blog_id' => $blog_id,
+								'type'    => 'full',
+								'html'    => false,
+							)
+						),
+					),
+				);
+
+				if ( 'edit' === $context ) {
+					$expected['test_edit_field'] = 'Additional value';
+				} elseif ( 'embed' === $context ) {
+					unset( $expected['last_activity_gmt'], $expected['description']['raw'] );
+				}
+
+				$this->assertInstanceOf( 'WP_REST_Response', $response );
+				$this->assertSame( 200, $response->get_status() );
+				$this->assertSame( $expected, $response->get_data() );
+				$this->assertSame(
+					array(
+						'self'       => array(
+							array(
+								'href'       => rest_url( $this->endpoint_url . '/' . $blog_id ),
+								'attributes' => array(),
+							),
+						),
+						'collection' => array(
+							array(
+								'href'       => rest_url( $this->endpoint_url . '/' ),
+								'attributes' => array(),
+							),
+						),
+						'user'       => array(
+							array(
+								'href'       => bp_rest_get_object_url( $this->user, 'members' ),
+								'attributes' => array( 'embeddable' => true ),
+							),
+						),
+						'post'       => array(
+							array(
+								'href'       => get_rest_url( $blog_id, 'wp/v2/posts' ) . '/123',
+								'attributes' => array( 'embeddable' => true ),
+							),
+						),
+					),
+					$response->get_links()
+				);
+			}
+
+			$blog->latest_post = null;
+			$request->set_param( 'context', 'view' );
+			$response = $this->endpoint->prepare_item_for_response( $blog, $request );
+
+			$this->assertSame( 0, $response->get_data()['lastest_post_id'] );
+			$this->assertArrayNotHasKey( 'post', $response->get_links() );
+		} finally {
+			$wp_rest_additional_fields = $original_fields;
+		}
 	}
 
 	protected function set_blog_data( $args = array() ) {
