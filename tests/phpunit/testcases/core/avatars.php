@@ -22,7 +22,7 @@ class BP_Tests_Avatars extends BP_UnitTestCase {
 	/**
 	 * @ticket BP4948
 	 */
-	function test_avatars_on_non_root_blog() {
+	public function test_avatars_on_non_root_blog() {
 		// Do not pass 'Go', do not collect $200
 		$this->skipWithoutMultisite();
 

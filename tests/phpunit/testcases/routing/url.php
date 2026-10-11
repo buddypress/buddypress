@@ -3,7 +3,7 @@
  * @group url
  */
 class BP_Tests_URL extends BP_UnitTestCase {
-	function test_bp_core_ajax_url() {
+	public function test_bp_core_ajax_url() {
 		$forced = force_ssl_admin();
 		$old_https = $_SERVER['HTTPS'] ?? null;
 

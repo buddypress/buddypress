@@ -19,7 +19,7 @@ class BP_Tests_Routing_Activity extends BP_UnitTestCase {
 		parent::tear_down();
 	}
 
-	function test_activity_directory() {
+	public function test_activity_directory() {
 		$this->set_permalink_structure( '/%postname%/' );
 		$this->go_to( bp_get_activity_directory_permalink() );
 
@@ -32,7 +32,7 @@ class BP_Tests_Routing_Activity extends BP_UnitTestCase {
 	/**
 	 * Can't test using bp_activity_get_permalink(); see bp_activity_action_permalink_router().
 	 */
-	function test_activity_permalink() {
+	public function test_activity_permalink() {
 		$this->set_permalink_structure( '/%postname%/' );
 		$a = self::factory()->activity->create();
 		$activity = self::factory()->activity->get_object_by_id( $a );
@@ -48,7 +48,7 @@ class BP_Tests_Routing_Activity extends BP_UnitTestCase {
 		$this->assertTrue( bp_is_single_activity() );
 	}
 
-	function test_member_activity() {
+	public function test_member_activity() {
 		$this->set_permalink_structure( '/%postname%/' );
 		$this->go_to(
 			bp_members_get_user_url(
@@ -61,7 +61,7 @@ class BP_Tests_Routing_Activity extends BP_UnitTestCase {
 		$this->assertTrue( bp_is_user_activity() );
 	}
 
-	function test_member_activity_mentions() {
+	public function test_member_activity_mentions() {
 		$this->set_permalink_structure( '/%postname%/' );
 		$this->go_to(
 			bp_members_get_user_url(
@@ -75,7 +75,7 @@ class BP_Tests_Routing_Activity extends BP_UnitTestCase {
 		$this->assertTrue( bp_is_user_activity() );
 	}
 
-	function test_member_activity_favourites() {
+	public function test_member_activity_favourites() {
 		$this->set_permalink_structure( '/%postname%/' );
 		$this->go_to(
 			bp_members_get_user_url(
@@ -92,7 +92,7 @@ class BP_Tests_Routing_Activity extends BP_UnitTestCase {
 	/**
 	 * @group friends
 	 */
-	function test_member_activity_friends() {
+	public function test_member_activity_friends() {
 		$this->set_permalink_structure( '/%postname%/' );
 		$this->go_to(
 			bp_members_get_user_url(
@@ -109,7 +109,7 @@ class BP_Tests_Routing_Activity extends BP_UnitTestCase {
 	/**
 	 * @group groups
 	 */
-	function test_member_activity_groups() {
+	public function test_member_activity_groups() {
 		$this->set_permalink_structure( '/%postname%/' );
 		$this->go_to(
 			bp_members_get_user_url(

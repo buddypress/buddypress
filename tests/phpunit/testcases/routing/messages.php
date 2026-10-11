@@ -19,7 +19,7 @@ class BP_Tests_Routing_Messages extends BP_UnitTestCase {
 		parent::tear_down();
 	}
 
-	function test_member_messages() {
+	public function test_member_messages() {
 		$this->set_permalink_structure( '/%postname%/' );
 		$this->go_to(
 			bp_members_get_user_url(
@@ -32,7 +32,7 @@ class BP_Tests_Routing_Messages extends BP_UnitTestCase {
 		$this->assertTrue( bp_is_messages_inbox() );
 	}
 
-	function test_member_messages_sentbox() {
+	public function test_member_messages_sentbox() {
 		$this->set_permalink_structure( '/%postname%/' );
 		$this->go_to(
 			bp_members_get_user_url(
@@ -46,7 +46,7 @@ class BP_Tests_Routing_Messages extends BP_UnitTestCase {
 		$this->assertTrue( bp_is_messages_sentbox() );
 	}
 
-	function test_member_messages_compose() {
+	public function test_member_messages_compose() {
 		$this->set_permalink_structure( '/%postname%/' );
 		$this->go_to(
 			bp_members_get_user_url(
@@ -60,7 +60,7 @@ class BP_Tests_Routing_Messages extends BP_UnitTestCase {
 		$this->assertTrue( bp_is_messages_compose_screen() );
 	}
 
-	function test_member_messages_notices() {
+	public function test_member_messages_notices() {
 		$this->set_permalink_structure( '/%postname%/' );
 		$this->go_to(
 			bp_members_get_user_url(

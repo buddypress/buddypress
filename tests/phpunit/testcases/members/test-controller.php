@@ -506,7 +506,7 @@ class BP_Tests_Members_REST_Controller extends BP_Test_REST_Controller_Testcase 
 	 * @group get_item
 	 * @group avatar
 	 */
-	function test_get_item_schema_show_avatar() {
+	public function test_get_item_schema_show_avatar() {
 		buddypress()->avatar->show_avatars = false;
 
 		// Re-initialize the controller to cache-bust schemas from prior test runs.

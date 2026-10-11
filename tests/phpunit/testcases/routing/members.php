@@ -20,7 +20,7 @@ class BP_Tests_Routing_Members extends BP_UnitTestCase {
 		parent::tear_down();
 	}
 
-	function test_members_directory() {
+	public function test_members_directory() {
 		$this->set_permalink_structure( '/%postname%/' );
 		$this->go_to( bp_get_members_directory_permalink() );
 
@@ -30,7 +30,7 @@ class BP_Tests_Routing_Members extends BP_UnitTestCase {
 		$this->assertSame( bp_get_members_root_slug(), $pages->{$component_id}->slug );
 	}
 
-	function test_member_permalink() {
+	public function test_member_permalink() {
 		$this->set_permalink_structure( '/%postname%/' );
 		$this->go_to( bp_members_get_user_url( bp_loggedin_user_id() ) );
 		$this->assertTrue( bp_is_my_profile() );
@@ -94,7 +94,7 @@ class BP_Tests_Routing_Members extends BP_UnitTestCase {
 	/**
 	 * @ticket BP6325
 	 */
-	function test_members_shortlink_redirector() {
+	public function test_members_shortlink_redirector() {
 		$this->set_permalink_structure( '/%postname%/' );
 		$shortlink_member_slug = 'me';
 

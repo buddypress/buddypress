@@ -152,7 +152,7 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 	 * @group filter_query
 	 * @group BP_Activity_Query
 	 */
-	function test_bp_has_activities_just_me_scope_with_no_user_id() {
+	public function test_bp_has_activities_just_me_scope_with_no_user_id() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
 
@@ -216,7 +216,7 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 	 * @group filter_query
 	 * @group BP_Activity_Query
 	 */
-	function test_bp_has_activities_mentions_scope() {
+	public function test_bp_has_activities_mentions_scope() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
 
@@ -283,7 +283,7 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 	 * @group filter_query
 	 * @group BP_Activity_Query
 	 */
-	function test_bp_has_activities_friends_and_mentions_scope() {
+	public function test_bp_has_activities_friends_and_mentions_scope() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
 		$u3 = self::factory()->user->create();
@@ -364,7 +364,7 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 	 * @group filter_query
 	 * @group BP_Activity_Query
 	 */
-	function test_bp_has_activities_groups_and_friends_scope() {
+	public function test_bp_has_activities_groups_and_friends_scope() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
 		$u3 = self::factory()->user->create();
@@ -452,7 +452,7 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 	 * @group filter_query
 	 * @group BP_Activity_Query
 	 */
-	function test_bp_has_activities_scope_friends_no_items() {
+	public function test_bp_has_activities_scope_friends_no_items() {
 		$u1 = self::factory()->user->create();
 
 		$now = time();
@@ -489,7 +489,7 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 	 * @group filter_query
 	 * @group BP_Activity_Query
 	 */
-	function test_bp_has_activities_scope_favorites_no_items() {
+	public function test_bp_has_activities_scope_favorites_no_items() {
 		$u1 = self::factory()->user->create();
 
 		$now = time();
@@ -526,7 +526,7 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 	 * @group filter_query
 	 * @group BP_Activity_Query
 	 */
-	function test_bp_has_activities_scope_groups_no_items() {
+	public function test_bp_has_activities_scope_groups_no_items() {
 		$u1 = self::factory()->user->create();
 
 		$now = time();
@@ -563,7 +563,7 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 	 * @group filter_query
 	 * @group BP_Activity_Query
 	 */
-	function test_bp_has_activities_scope_mentions_no_items() {
+	public function test_bp_has_activities_scope_mentions_no_items() {
 		$u1 = self::factory()->user->create();
 
 		$now = time();
@@ -694,7 +694,7 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 	 * @group filter_query
 	 * @group BP_Activity_Query
 	 */
-	function test_bp_has_activities_with_filter_query_nested_conditions() {
+	public function test_bp_has_activities_with_filter_query_nested_conditions() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
 		$u3 = self::factory()->user->create();
@@ -774,7 +774,7 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 	 * @group filter_query
 	 * @group BP_Activity_Query
 	 */
-	function test_bp_has_activities_with_filter_query_compare_not_in_operator() {
+	public function test_bp_has_activities_with_filter_query_compare_not_in_operator() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
 		$u3 = self::factory()->user->create();
@@ -842,7 +842,7 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 	 * @group filter_query
 	 * @group BP_Activity_Query
 	 */
-	function test_bp_has_activities_with_filter_query_compare_between_operator() {
+	public function test_bp_has_activities_with_filter_query_compare_between_operator() {
 		$u1 = self::factory()->user->create();
 
 		$now = time();
@@ -908,7 +908,7 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 	 * @group filter_query
 	 * @group BP_Activity_Query
 	 */
-	function test_bp_has_activities_with_filter_query_compare_arithmetic_comparisons() {
+	public function test_bp_has_activities_with_filter_query_compare_arithmetic_comparisons() {
 		$u1 = self::factory()->user->create();
 
 		$now = time();
@@ -1042,7 +1042,7 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 	 * @group BP_Activity_Query
 	 * @group post_type_comment_activities
 	 */
-	function test_bp_has_activities_with_filter_query_compare_regex() {
+	public function test_bp_has_activities_with_filter_query_compare_regex() {
 		$u1 = self::factory()->user->create();
 
 		$now = time();
@@ -1260,7 +1260,7 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 	/**
 	 * Integration test for 'meta_query' param
 	 */
-	function test_bp_has_activities_with_meta_query() {
+	public function test_bp_has_activities_with_meta_query() {
 		$a1 = self::factory()->activity->create();
 		$a2 = self::factory()->activity->create();
 		bp_activity_update_meta( $a1, 'foo', 'bar' );
@@ -1803,7 +1803,7 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 	 *
 	 * @group date_query
 	 */
-	function test_bp_has_activities_with_date_query() {
+	public function test_bp_has_activities_with_date_query() {
 
 		$a1 = self::factory()->activity->create();
 		$a2 = self::factory()->activity->create(

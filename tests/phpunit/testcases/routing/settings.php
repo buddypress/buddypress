@@ -19,7 +19,7 @@ class BP_Tests_Routing_Settings extends BP_UnitTestCase {
 		parent::tear_down();
 	}
 
-	function test_member_settings() {
+	public function test_member_settings() {
 		$this->set_permalink_structure( '/%postname%/' );
 		$this->go_to(
 			bp_members_get_user_url(
@@ -32,7 +32,7 @@ class BP_Tests_Routing_Settings extends BP_UnitTestCase {
 		$this->assertTrue( bp_is_user_settings_general() );
 	}
 
-	function test_member_settings_notifications() {
+	public function test_member_settings_notifications() {
 		$this->set_permalink_structure( '/%postname%/' );
 		$this->go_to(
 			bp_members_get_user_url(

@@ -19,7 +19,7 @@ class BP_Tests_Routing_XProfile extends BP_UnitTestCase {
 		parent::tear_down();
 	}
 
-	function test_member_profile() {
+	public function test_member_profile() {
 		$this->set_permalink_structure( '/%postname%/' );
 		$this->go_to(
 			bp_members_get_user_url(
@@ -32,7 +32,7 @@ class BP_Tests_Routing_XProfile extends BP_UnitTestCase {
 		$this->assertTrue( bp_is_user_profile() );
 	}
 
-	function test_member_profile_edit() {
+	public function test_member_profile_edit() {
 		$this->set_permalink_structure( '/%postname%/' );
 		$this->go_to(
 			bp_members_get_user_url(
@@ -46,7 +46,7 @@ class BP_Tests_Routing_XProfile extends BP_UnitTestCase {
 		$this->assertTrue( bp_is_user_profile_edit() );
 	}
 
-	function test_member_profile_change_avatar() {
+	public function test_member_profile_change_avatar() {
 		$this->set_permalink_structure( '/%postname%/' );
 		$this->go_to(
 			bp_members_get_user_url(

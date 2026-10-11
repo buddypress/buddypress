@@ -20,7 +20,7 @@ class BP_Tests_Routing_Groups extends BP_UnitTestCase {
 		parent::tear_down();
 	}
 
-	function test_member_groups() {
+	public function test_member_groups() {
 		$this->set_permalink_structure( '/%postname%/' );
 		$this->go_to(
 			bp_members_get_user_url(
@@ -33,7 +33,7 @@ class BP_Tests_Routing_Groups extends BP_UnitTestCase {
 		$this->assertTrue( bp_is_user_groups() );
 	}
 
-	function test_member_groups_invitations() {
+	public function test_member_groups_invitations() {
 		$this->set_permalink_structure( '/%postname%/' );
 		$this->go_to(
 			bp_members_get_user_url(

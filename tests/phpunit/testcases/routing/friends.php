@@ -19,7 +19,7 @@ class BP_Tests_Routing_Friends extends BP_UnitTestCase {
 		parent::tear_down();
 	}
 
-	function test_member_friends() {
+	public function test_member_friends() {
 		$this->set_permalink_structure( '/%postname%/' );
 		$this->go_to(
 			bp_members_get_user_url(
@@ -32,7 +32,7 @@ class BP_Tests_Routing_Friends extends BP_UnitTestCase {
 		$this->assertTrue( bp_is_user_friends() );
 	}
 
-	function test_member_friends_requests() {
+	public function test_member_friends_requests() {
 		$this->set_permalink_structure( '/%postname%/' );
 		$this->go_to(
 			bp_members_get_user_url(

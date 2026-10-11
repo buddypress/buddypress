@@ -358,14 +358,14 @@ class BP_Tests_Members_Types extends BP_UnitTestCase {
 	/**
 	 * @group BP6138
 	 */
-	function test_bp_has_member_type_should_return_false_when_member_type_is_empty() {
+	public function test_bp_has_member_type_should_return_false_when_member_type_is_empty() {
 		$this->assertFalse( bp_has_member_type( 5, '' ) );
 	}
 
 	/**
 	 * @group BP6138
 	 */
-	function test_bp_has_member_type_should_return_false_when_member_type_is_invalid() {
+	public function test_bp_has_member_type_should_return_false_when_member_type_is_invalid() {
 		$this->assertFalse( bp_has_member_type( 5, 'foo' ) );
 	}
 
