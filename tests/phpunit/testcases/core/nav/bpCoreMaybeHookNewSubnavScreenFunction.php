@@ -83,7 +83,6 @@ class BP_Tests_Core_Nav_BpCoreMaybeHookNewSubnavScreenFunction extends BP_UnitTe
 	public function test_user_has_access_false_user_logged_in_others_profile_default_component_accessible() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
-		$old_current_user = get_current_user_id();
 		wp_set_current_user( $u1 );
 		$this->set_permalink_structure( '/%postname%/' );
 
@@ -108,7 +107,6 @@ class BP_Tests_Core_Nav_BpCoreMaybeHookNewSubnavScreenFunction extends BP_UnitTe
 		$found = bp_core_maybe_hook_new_subnav_screen_function( $subnav_item );
 
 		// Clean up
-		wp_set_current_user( $old_current_user );
 		buddypress()->default_component = $old_default_component;
 		buddypress()->bp_nav = $old_bp_nav;
 
@@ -119,7 +117,6 @@ class BP_Tests_Core_Nav_BpCoreMaybeHookNewSubnavScreenFunction extends BP_UnitTe
 	public function test_user_has_access_false_user_logged_in_others_profile_default_component_not_accessible() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
-		$old_current_user = get_current_user_id();
 		wp_set_current_user( $u1 );
 		$this->set_permalink_structure( '/%postname%/' );
 
@@ -145,7 +142,6 @@ class BP_Tests_Core_Nav_BpCoreMaybeHookNewSubnavScreenFunction extends BP_UnitTe
 		$found = bp_core_maybe_hook_new_subnav_screen_function( $subnav_item );
 
 		// Clean up
-		wp_set_current_user( $old_current_user );
 		buddypress()->default_component = $old_default_component;
 		buddypress()->bp_nav = $old_bp_nav;
 

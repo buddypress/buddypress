@@ -3,11 +3,8 @@
  * @group admin
  */
 class BP_Tests_Admin_Functions extends BP_UnitTestCase {
-	protected $old_current_user = 0;
-
 	public function set_up() {
 		parent::set_up();
-		$this->old_current_user = get_current_user_id();
 		wp_set_current_user( self::factory()->user->create( array( 'role' => 'administrator' ) ) );
 
 		if ( ! function_exists( 'bp_admin' ) ) {
@@ -17,11 +14,6 @@ class BP_Tests_Admin_Functions extends BP_UnitTestCase {
 		if ( ! function_exists( 'bp_new_site' ) ) {
 			bp_admin();
 		}
-	}
-
-	public function tear_down() {
-		wp_set_current_user( $this->old_current_user );
-		parent::tear_down();
 	}
 
 	public function test_bp_admin_list_table_current_bulk_action() {

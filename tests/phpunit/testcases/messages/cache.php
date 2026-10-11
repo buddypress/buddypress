@@ -123,8 +123,6 @@ class BP_Tests_Message_Cache extends BP_UnitTestCase {
 	 * @group messages_delete_thread
 	 */
 	public function test_bp_messages_delete_metadata_cache_on_thread_delete() {
-		$this->old_current_user = get_current_user_id();
-
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
 
@@ -165,9 +163,6 @@ class BP_Tests_Message_Cache extends BP_UnitTestCase {
 		// assert empty meta cache
 		$this->assertEmpty( wp_cache_get( $m1, 'message_meta' ) );
 		$this->assertEmpty( wp_cache_get( $m2, 'message_meta' ) );
-
-		// cleanup
-		wp_set_current_user( $this->old_current_user );
 	}
 
 	/**

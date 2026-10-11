@@ -1130,8 +1130,6 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 * @ticket BP5451
 	 */
 	public function test_bp_groups_group_magic_isset_with_empty_check() {
-		$this->old_current_user = get_current_user_id();
-
 		$u = self::factory()->user->create();
 		$g = self::factory()->group->create( array( 'creator_id' => $u ) );
 
@@ -1141,8 +1139,6 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 
 		// Assert ! empty() check is not false.
 		$this->assertTrue( ! empty( $group->is_member ) );
-
-		wp_set_current_user( $this->old_current_user );
 	}
 
 	/** convert_type_to_order_orderby() **********************************/

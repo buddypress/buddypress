@@ -458,7 +458,6 @@ class BP_Tests_Messages_Template extends BP_UnitTestCase {
 		);
 
 		// set $u1 as current user.
-		$old_current_user = get_current_user_id();
 		wp_set_current_user( $u1 );
 
 		$messages_template = new BP_Messages_Box_Template(
@@ -467,8 +466,6 @@ class BP_Tests_Messages_Template extends BP_UnitTestCase {
 				'recipients_per_page' => 1,
 			)
 		);
-
-		wp_set_current_user( $old_current_user );
 
 		$thread = reset( $messages_template->threads );
 

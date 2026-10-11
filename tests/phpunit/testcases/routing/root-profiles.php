@@ -5,7 +5,6 @@
  * @group root_profiles
  */
 class BP_Tests_Routing_Members_Root_Profiles extends BP_UnitTestCase {
-	protected $old_current_user = 0;
 	protected $u;
 	protected $permalink_structure = '';
 
