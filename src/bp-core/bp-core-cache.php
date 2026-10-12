@@ -215,7 +215,12 @@ function bp_update_meta_cache( $args = array() ) {
 		)
 	);
 
-	extract( $r );
+	$object_ids       = $r['object_ids'];
+	$object_type      = $r['object_type'];
+	$cache_group      = $r['cache_group'];
+	$meta_table       = $r['meta_table'];
+	$object_column    = $r['object_column'];
+	$cache_key_prefix = $r['cache_key_prefix'];
 
 	if ( empty( $object_ids ) || empty( $object_type ) || empty( $meta_table ) || empty( $cache_group ) ) {
 		return false;

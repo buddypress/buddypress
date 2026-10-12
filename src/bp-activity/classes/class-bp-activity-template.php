@@ -246,7 +246,22 @@ class BP_Activity_Template {
 			$defaults
 		);
 
-		extract( $r );
+		$include           = $r['include'];
+		$max               = $r['max'];
+		$count_total       = $r['count_total'];
+		$sort              = $r['sort'];
+		$display_comments  = $r['display_comments'];
+		$show_hidden       = $r['show_hidden'];
+		$spam              = $r['spam'];
+		$update_meta_cache = $r['update_meta_cache'];
+		$search_terms      = $r['search_terms'];
+		$meta_query        = $r['meta_query'];
+		$date_query        = $r['date_query'];
+		$filter_query      = $r['filter_query'];
+		$filter            = $r['filter'];
+		$scope             = $r['scope'];
+		$exclude           = $r['exclude'];
+		$in                = $r['in'];
 
 		$this->pag_arg  = sanitize_key( $r['page_arg'] );
 		$this->pag_page = bp_sanitize_pagination_arg( $this->pag_arg, $r['page'] );

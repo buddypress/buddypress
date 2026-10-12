@@ -596,12 +596,28 @@ function messages_notification_new_message( $raw_args = array() ) {
 		$args = $raw_args;
 	}
 
-	// These should be extracted below.
 	$recipients = array();
 	$sender_id  = 0;
 
-	// Barf.
-	extract( $args );
+	if ( array_key_exists( 'recipients', $args ) ) {
+		$recipients = $args['recipients'];
+	}
+
+	if ( array_key_exists( 'sender_id', $args ) ) {
+		$sender_id = $args['sender_id'];
+	}
+
+	if ( array_key_exists( 'message', $args ) ) {
+		$message = $args['message'];
+	}
+
+	if ( array_key_exists( 'thread_id', $args ) ) {
+		$thread_id = $args['thread_id'];
+	}
+
+	if ( array_key_exists( 'subject', $args ) ) {
+		$subject = $args['subject'];
+	}
 
 	$sender_id = (int) $sender_id;
 
@@ -610,16 +626,18 @@ function messages_notification_new_message( $raw_args = array() ) {
 	}
 
 	$sender_name = bp_core_get_user_displayname( $sender_id );
+	$message     = '';
 
 	if ( isset( $message ) ) {
 		$message = wpautop( $message );
-	} else {
-		$message = '';
 	}
 
 	// Send an email to each recipient.
 	foreach ( $recipients as $recipient ) {
-		if ( $sender_id === $recipient->user_id || 'no' === bp_get_user_meta( $recipient->user_id, 'notification_messages_new_message', true ) ) {
+		if (
+			$sender_id === $recipient->user_id
+			|| 'no' === bp_get_user_meta( $recipient->user_id, 'notification_messages_new_message', true )
+		) {
 			continue;
 		}
 
@@ -659,7 +677,7 @@ function messages_notification_new_message( $raw_args = array() ) {
 	 *
 	 * @since 1.5.0
 	 * @deprecated 2.5.0 Use the filters in BP_Email.
-	 *                   $email_subject and $email_content arguments unset and deprecated.
+	 *                   `$email_subject` and `$email_content` arguments unset and deprecated.
 	 *
 	 * @param array  $recipients    User IDs of recipients.
 	 * @param string $email_subject Deprecated in 2.5; now an empty string.

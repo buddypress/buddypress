@@ -263,7 +263,61 @@ class BP_User_Query {
 		$meta_key     = false;
 		$meta_value   = false;
 
-		extract( $this->query_vars );
+		if ( array_key_exists( 'type', $this->query_vars ) ) {
+			$type = $this->query_vars['type'];
+		}
+
+		if ( array_key_exists( 'per_page', $this->query_vars ) ) {
+			$per_page = $this->query_vars['per_page'];
+		}
+
+		if ( array_key_exists( 'page', $this->query_vars ) ) {
+			$page = $this->query_vars['page'];
+		}
+
+		if ( array_key_exists( 'user_id', $this->query_vars ) ) {
+			$user_id = $this->query_vars['user_id'];
+		}
+
+		if ( array_key_exists( 'include', $this->query_vars ) ) {
+			$include = $this->query_vars['include'];
+		}
+
+		if ( array_key_exists( 'search_terms', $this->query_vars ) ) {
+			$search_terms = $this->query_vars['search_terms'];
+		}
+
+		if ( array_key_exists( 'exclude', $this->query_vars ) ) {
+			$exclude = $this->query_vars['exclude'];
+		}
+
+		if ( array_key_exists( 'meta_key', $this->query_vars ) ) {
+			$meta_key = $this->query_vars['meta_key'];
+		}
+
+		if ( array_key_exists( 'meta_value', $this->query_vars ) ) {
+			$meta_value = $this->query_vars['meta_value'];
+		}
+
+		if ( array_key_exists( 'date_query', $this->query_vars ) ) {
+			$date_query = $this->query_vars['date_query'];
+		}
+
+		if ( array_key_exists( 'search_wildcard', $this->query_vars ) ) {
+			$search_wildcard = $this->query_vars['search_wildcard'];
+		}
+
+		if ( array_key_exists( 'member_type', $this->query_vars ) ) {
+			$member_type = $this->query_vars['member_type'];
+		}
+
+		if ( array_key_exists( 'member_type__in', $this->query_vars ) ) {
+			$member_type__in = $this->query_vars['member_type__in'];
+		}
+
+		if ( array_key_exists( 'member_type__not_in', $this->query_vars ) ) {
+			$member_type__not_in = $this->query_vars['member_type__not_in'];
+		}
 
 		// Setup the main SQL query container.
 		$sql = array(

@@ -195,7 +195,15 @@ function groups_create_group( $args = '' ) {
 		'groups_create_group'
 	);
 
-	extract( $args, EXTR_SKIP );
+	$group_id     = $args['group_id'];
+	$creator_id   = $args['creator_id'];
+	$name         = $args['name'];
+	$description  = $args['description'];
+	$slug         = $args['slug'];
+	$status       = $args['status'];
+	$parent_id    = $args['parent_id'];
+	$enable_forum = $args['enable_forum'];
+	$date_created = $args['date_created'];
 
 	// Pass an existing group ID.
 	if ( ! empty( $group_id ) ) {
