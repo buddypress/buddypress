@@ -662,6 +662,7 @@ abstract class BP_Attachment {
 	 */
 	public static function get_image_data( $file ) {
 		// Try to get image basic data.
+		// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- Invalid or unreadable images must fail quietly.
 		list( $width, $height, $source_image_type ) = @getimagesize( $file );
 
 		// No need to carry on if we couldn't get image's basic data.

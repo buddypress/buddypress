@@ -319,6 +319,7 @@ function bp_attachments_create_item_type( $type = 'avatar', $args = array() ) {
 		'create_item_' . $type
 	);
 
+	// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- Invalid or unreadable images must fail validation quietly.
 	if ( empty( $r['item_id'] ) || empty( $r['object'] ) || ! file_exists( $r['image'] ) || ! @getimagesize( $r['image'] ) ) {
 		return false;
 	}
@@ -445,8 +446,7 @@ function bp_attachments_create_item_type( $type = 'avatar', $args = array() ) {
 
 	// Remove copied file if it fails.
 	if ( ! $created ) {
-		// phpcs:ignore WordPress.WP.AlternativeFunctions.unlink_unlink -- Preserve best-effort cleanup of the local copied upload.
-		@unlink( $image_file_path );
+		wp_delete_file( $image_file_path );
 	}
 
 	// Return the response.
@@ -601,8 +601,7 @@ function bp_attachments_delete_file( $args = array() ) {
 		return false;
 	}
 
-	// phpcs:ignore WordPress.WP.AlternativeFunctions.unlink_unlink
-	@unlink( $attachment_path );
+	wp_delete_file( $attachment_path );
 	return true;
 }
 
@@ -1339,7 +1338,7 @@ function bp_attachments_cover_image_generate_file( $args = array(), $cover_image
 	// Image is too small in width and height.
 	if ( empty( $cover_image ) ) {
 		$cover_file = $cover_image_class->generate_filename( $args['file'] );
-		// phpcs:ignore WordPress.WP.AlternativeFunctions.rename_rename
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.rename_rename, WordPress.PHP.NoSilencedErrors.Discouraged -- Cover-image move failures must remain quiet.
 		@rename( $args['file'], $cover_file );
 
 		// It's too small!
@@ -1374,8 +1373,7 @@ function bp_attachments_cover_image_generate_file( $args = array(), $cover_image
 
 			// Skip directories and the new cover image.
 			if ( 2 < strlen( $attachment_file ) && 0 !== strpos( $attachment_file, '.' ) && $cover_basename !== $attachment_file ) {
-				// phpcs:ignore WordPress.WP.AlternativeFunctions.unlink_unlink
-				@unlink( $args['cover_image_dir'] . '/' . $attachment_file );
+				wp_delete_file( $args['cover_image_dir'] . '/' . $attachment_file );
 			}
 		}
 

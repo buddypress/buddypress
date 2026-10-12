@@ -181,6 +181,7 @@ class BP_Attachment_Avatar extends BP_Attachment {
 	 * @return bool
 	 */
 	public static function is_too_small( $file = '' ) {
+		// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- Invalid or unreadable images must fail quietly.
 		$uploaded_image = @getimagesize( $file );
 		$full_width     = bp_core_avatar_full_width();
 		$full_height    = bp_core_avatar_full_height();
@@ -308,6 +309,7 @@ class BP_Attachment_Avatar extends BP_Attachment {
 		}
 
 		// Get the file extension.
+		// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- Invalid or unreadable images must fail quietly.
 		$data = @getimagesize( $absolute_path );
 		$ext  = 'image/png' === $data['mime'] ? 'png' : 'jpg';
 
@@ -336,8 +338,7 @@ class BP_Attachment_Avatar extends BP_Attachment {
 		}
 
 		// Remove the original.
-		// phpcs:ignore WordPress.WP.AlternativeFunctions.unlink_unlink
-		@unlink( $absolute_path );
+		wp_delete_file( $absolute_path );
 
 		// Return the full, thumb cropped avatars and the timestamp.
 		return array_merge(

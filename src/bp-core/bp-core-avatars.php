@@ -880,8 +880,7 @@ function bp_core_delete_existing_avatar( $args = '' ) {
 			}
 
 			if ( ( preg_match( '/-bpfull/', $avatar_file ) || preg_match( '/-bpthumb/', $avatar_file ) ) && '.' !== $avatar_file && '..' !== $avatar_file ) {
-				// phpcs:ignore WordPress.WP.AlternativeFunctions.unlink_unlink
-				@unlink( $avatar_folder_dir . '/' . $avatar_file );
+				wp_delete_file( $avatar_folder_dir . '/' . $avatar_file );
 			}
 		}
 
@@ -889,7 +888,7 @@ function bp_core_delete_existing_avatar( $args = '' ) {
 		closedir( $av_dir );
 	}
 
-	// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_rmdir -- This path requires a direct filesystem operation.
+	// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_rmdir, WordPress.PHP.NoSilencedErrors.Discouraged -- This path requires a quiet direct filesystem operation.
 	@rmdir( $avatar_folder_dir );
 
 	/**
@@ -1036,8 +1035,7 @@ function bp_core_avatar_handle_upload( $file, $upload_dir_filter ) {
 	} else {
 		$bp->avatar_admin->image->file = $bp->avatar_admin->resized['path'];
 		$bp->avatar_admin->image->dir  = str_replace( $upload_path, '', $bp->avatar_admin->resized['path'] );
-		// phpcs:ignore WordPress.WP.AlternativeFunctions.unlink_unlink
-		@unlink( $bp->avatar_admin->original['file'] );
+		wp_delete_file( $bp->avatar_admin->original['file'] );
 	}
 
 	// Check for WP_Error on what should be an image.
@@ -1210,6 +1208,7 @@ function bp_avatar_ajax_upload() {
 		bp_attachments_json_response( false, $is_html4 );
 	}
 
+	// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- Invalid or unreadable uploaded images must fail quietly.
 	$uploaded_image = @getimagesize( $bp->avatar_admin->image->file );
 
 	// Set the name of the file.
@@ -2486,8 +2485,7 @@ function bp_avatar_ajax_recycle_previous_avatar() {
 				$timestamp = str_replace( array( '-bpthumb', '-bpfull' ), '', $avatar_object->id );
 
 				if ( ! is_numeric( $timestamp ) && false !== strpos( $avatar_object->id, '-bpthumb' ) ) {
-					// phpcs:ignore WordPress.WP.AlternativeFunctions.unlink_unlink
-					@unlink( $avatar_object->path );
+					wp_delete_file( $avatar_object->path );
 				}
 			}
 		} else {
@@ -2672,8 +2670,7 @@ function bp_avatar_ajax_delete_previous_avatar() {
 			continue;
 		}
 
-		// phpcs:ignore WordPress.WP.AlternativeFunctions.unlink_unlink
-		@unlink( $avatar_path );
+		wp_delete_file( $avatar_path );
 	}
 
 	$timestamp = str_replace( '-bpfull', '', $avatar_id );
