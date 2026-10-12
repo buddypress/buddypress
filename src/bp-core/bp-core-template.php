@@ -832,7 +832,7 @@ function bp_create_excerpt( $text, $length = 225, $options = array() ) {
 					array_unshift( $open_tags, $tag[2] );
 				} elseif ( preg_match( '/<\/([\w]+)[^>]*>/s', $tag[0], $close_tag ) ) {
 					$pos = array_search( $close_tag[1], $open_tags, true );
-					if ( $pos !== false ) {
+					if ( false !== $pos ) {
 						array_splice( $open_tags, $pos, 1 );
 					}
 				}
@@ -1642,7 +1642,7 @@ function bp_is_current_component( $component = '' ) {
  * @return bool True if the current action matches $action.
  */
 function bp_is_current_action( $action = '' ) {
-	return (bool) ( $action === bp_current_action() );
+	return (bool) ( bp_current_action() === $action );
 }
 
 /**
@@ -1671,7 +1671,7 @@ function bp_is_action_variable( $action_variable = '', $position = false ) {
 	if ( false !== $position ) {
 		// When a $position is specified, check that slot in the action_variables array.
 		if ( $action_variable ) {
-			$is_action_variable = $action_variable === bp_action_variable( $position );
+			$is_action_variable = bp_action_variable( $position ) === $action_variable;
 		} else {
 			// If no $action_variable is provided, we are essentially checking to see
 			// whether the slot is empty.
@@ -1703,7 +1703,7 @@ function bp_is_action_variable( $action_variable = '', $position = false ) {
  * @return bool True if $item is the current item.
  */
 function bp_is_current_item( $item = '' ) {
-	$retval = ( $item === bp_current_item() );
+	$retval = ( bp_current_item() === $item );
 
 	/**
 	 * Filters whether or not an item is the current item.

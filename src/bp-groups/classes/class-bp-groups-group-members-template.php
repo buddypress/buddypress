@@ -194,7 +194,7 @@ class BP_Groups_Group_Members_Template {
 		 * It can differ when using {@link bp_group_has_members()} outside the Groups screens.
 		 */
 		$current_group = groups_get_current_group();
-		if ( empty( $current_group ) || ( $current_group && $current_group->id !== bp_get_current_group_id() ) ) {
+		if ( empty( $current_group ) || ( $current_group && bp_get_current_group_id() !== $current_group->id ) ) {
 			$current_group = groups_get_group( $r['group_id'] );
 		}
 

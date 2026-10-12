@@ -398,7 +398,7 @@ class BP_Activity_Feed {
 			status_header( $status );
 
 			// Cached response, so stop now!
-			if ( $status === 304 ) {
+			if ( 304 === $status ) {
 				exit();
 			}
 		}

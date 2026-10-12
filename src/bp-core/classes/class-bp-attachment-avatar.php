@@ -309,7 +309,7 @@ class BP_Attachment_Avatar extends BP_Attachment {
 
 		// Get the file extension.
 		$data = @getimagesize( $absolute_path );
-		$ext  = $data['mime'] === 'image/png' ? 'png' : 'jpg';
+		$ext  = 'image/png' === $data['mime'] ? 'png' : 'jpg';
 
 		$args['original_file'] = $absolute_path;
 		$args['src_abs']       = false;

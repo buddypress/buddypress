@@ -300,7 +300,7 @@ function bp_attachments_check_filetype( $file, $filename, $allowed_mimes ) {
  * @return bool
  */
 function bp_attachments_create_item_type( $type = 'avatar', $args = array() ) {
-	if ( empty( $type ) || ( $type !== 'avatar' && $type !== 'cover_image' ) ) {
+	if ( empty( $type ) || ( 'avatar' !== $type && 'cover_image' !== $type ) ) {
 		return false;
 	}
 
@@ -502,7 +502,7 @@ function bp_attachments_get_attachment( $data = 'url', $args = array() ) {
 	 * @param string $data          The requested data `url` or `path`.
 	 */
 	$pre_filter = apply_filters( 'bp_attachments_pre_get_attachment', null, $r, $data );
-	if ( $pre_filter !== null ) {
+	if ( null !== $pre_filter ) {
 		return $pre_filter;
 	}
 

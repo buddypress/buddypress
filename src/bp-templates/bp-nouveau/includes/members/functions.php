@@ -423,7 +423,7 @@ function bp_nouveau_member_groups_widget_overrides( $args = array() ) {
  */
 function bp_nouveau_member_members_widget_overrides( $args = array() ) {
 	// Do nothing for the friends widget.
-	if ( ! empty( $args['user_id'] ) && (int) $args['user_id'] === (int) bp_displayed_user_id() ) {
+	if ( ! empty( $args['user_id'] ) && (int) bp_displayed_user_id() === (int) $args['user_id'] ) {
 		return $args;
 	}
 

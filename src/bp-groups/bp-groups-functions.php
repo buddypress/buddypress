@@ -2042,7 +2042,7 @@ function groups_check_has_invite_from_user( $user_id, $group_id, $inviter_id = f
 	if ( $inviter_id ) {
 		$args['inviter_id'] = $inviter_id;
 	}
-	if ( $type === 'draft' || $type === 'all' ) {
+	if ( 'draft' === $type || 'all' === $type ) {
 		$args['invite_sent'] = $type;
 	}
 

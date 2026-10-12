@@ -189,7 +189,7 @@ function bp_field_css_class( $extra_classes = false ) {
 		// Add the field visibility level.
 		$css_classes[] = 'visibility-' . esc_attr( bp_get_the_profile_field_visibility_level() );
 
-		if ( $profile_template->current_field % 2 === 1 ) {
+		if ( 1 === $profile_template->current_field % 2 ) {
 			$css_classes[] = 'alt';
 		}
 

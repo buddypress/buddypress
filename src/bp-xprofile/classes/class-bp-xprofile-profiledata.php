@@ -669,7 +669,7 @@ class BP_XProfile_ProfileData {
 
 		if ( is_array( $fields ) ) {
 			for ( $i = 0, $count = count( $fields ); $i < $count; ++$i ) {
-				if ( $i === 0 ) {
+				if ( 0 === $i ) {
 					$field_sql .= $wpdb->prepare( 'AND ( f.name = %s ', $fields[ $i ] );
 				} else {
 					$field_sql .= $wpdb->prepare( 'OR f.name = %s ', $fields[ $i ] );

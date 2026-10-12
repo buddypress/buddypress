@@ -508,7 +508,7 @@ add_filter( 'bp_core_get_js_dependencies', 'bp_activity_get_js_dependencies', 10
 function bp_activity_newest_class( $classes = '' ) {
 	$bp = buddypress();
 
-	if ( ! empty( $bp->activity->last_recorded ) && $bp->activity->last_recorded === bp_get_activity_date_recorded() ) {
+	if ( ! empty( $bp->activity->last_recorded ) && bp_get_activity_date_recorded() === $bp->activity->last_recorded ) {
 		$classes .= ' new-update';
 	}
 
@@ -690,7 +690,7 @@ function bp_activity_filter_just_me_scope( $retval = array(), $filter = array() 
 
 	// Should we show all items regardless of sitewide visibility?
 	$show_hidden = array();
-	if ( ! empty( $user_id ) && $user_id !== bp_loggedin_user_id() ) {
+	if ( ! empty( $user_id ) && bp_loggedin_user_id() !== $user_id ) {
 		$show_hidden = array(
 			'column' => 'hide_sitewide',
 			'value'  => 0,
@@ -745,7 +745,7 @@ function bp_activity_filter_favorites_scope( $retval = array(), $filter = array(
 
 	// Should we show all items regardless of sitewide visibility?
 	$show_hidden = array();
-	if ( ! empty( $user_id ) && ( $user_id !== bp_loggedin_user_id() ) ) {
+	if ( ! empty( $user_id ) && ( bp_loggedin_user_id() !== $user_id ) ) {
 		$show_hidden = array(
 			'column' => 'hide_sitewide',
 			'value'  => 0,
@@ -801,7 +801,7 @@ function bp_activity_filter_mentions_scope( $retval = array(), $filter = array()
 
 	// Should we show all items regardless of sitewide visibility?
 	$show_hidden = array();
-	if ( ! empty( $user_id ) && $user_id !== bp_loggedin_user_id() ) {
+	if ( ! empty( $user_id ) && bp_loggedin_user_id() !== $user_id ) {
 		$show_hidden = array(
 			'column' => 'hide_sitewide',
 			'value'  => 0,

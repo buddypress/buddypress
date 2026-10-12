@@ -344,7 +344,7 @@ abstract class BP_Attachment {
 		// Set the allowed mimes for the upload.
 		foreach ( (array) $this->allowed_mime_types as $ext ) {
 			foreach ( $wp_mimes as $ext_pattern => $mime ) {
-				if ( $ext !== '' && strpos( $ext_pattern, $ext ) !== false ) {
+				if ( '' !== $ext && false !== strpos( $ext_pattern, $ext ) ) {
 					$valid_mimes[ $ext_pattern ] = $mime;
 				}
 			}

@@ -389,7 +389,7 @@ class BP_XProfile_Field {
 		// Prevent deletion if no ID is present.
 		// Prevent deletion by url when can_delete is false.
 		// Prevent deletion of option 1 since this invalidates fields with options.
-		if ( empty( $this->id ) || empty( $this->can_delete ) || ( $this->parent_id && $this->option_order === 1 ) ) {
+		if ( empty( $this->id ) || empty( $this->can_delete ) || ( $this->parent_id && 1 === $this->option_order ) ) {
 			return false;
 		}
 

@@ -243,7 +243,7 @@ add_action( 'bp_activity_sent_reply_to_reply_notification', 'bp_activity_comment
  */
 function bp_activity_remove_screen_notifications( $user_id = 0 ) {
 	// Only mark read if the current user is looking at his own mentions.
-	if ( empty( $user_id ) || (int) $user_id !== (int) bp_loggedin_user_id() ) {
+	if ( empty( $user_id ) || (int) bp_loggedin_user_id() !== (int) $user_id ) {
 		return;
 	}
 

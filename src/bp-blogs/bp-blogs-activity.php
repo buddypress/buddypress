@@ -790,7 +790,7 @@ function bp_blogs_sync_add_from_activity_comment( $comment_id, $params, $parent_
 	}
 
 	// Get userdata.
-	if ( (int) $params['user_id'] === bp_loggedin_user_id() ) {
+	if ( bp_loggedin_user_id() === (int) $params['user_id'] ) {
 		$user = buddypress()->loggedin_user->userdata;
 	} else {
 		$user = bp_core_get_core_userdata( $params['user_id'] );

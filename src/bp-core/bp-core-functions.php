@@ -592,7 +592,7 @@ function bp_core_get_directory_page_ids( $status = 'active' ) {
 	if ( is_multisite() ) {
 		$bp_site_id = bp_get_root_blog_id();
 
-		if ( $bp_site_id !== get_current_blog_id() ) {
+		if ( get_current_blog_id() !== $bp_site_id ) {
 			switch_to_blog( $bp_site_id );
 			$switched = true;
 		}
@@ -801,7 +801,7 @@ function bp_core_get_directory_pages() {
 						$slug[]                        = $page_name->post_name;
 
 						// Get the slug.
-						while ( (int) $page_name->post_parent !== 0 ) {
+						while ( 0 !== (int) $page_name->post_parent ) {
 							$parent                 = $wpdb->get_results( $wpdb->prepare( "SELECT post_name, post_parent FROM {$posts_table_name} WHERE ID = %d", $page_name->post_parent ) );
 							$slug[]                 = $parent[0]->post_name;
 							$page_name->post_parent = $parent[0]->post_parent;
@@ -3135,7 +3135,7 @@ function bp_core_get_suggestions( $args ) {
 	}
 
 	// Members @name suggestions.
-	if ( $args['type'] === 'members' ) {
+	if ( 'members' === $args['type'] ) {
 		$class = 'BP_Members_Suggestions';
 
 		// Members @name suggestions for users in a specific Group.
@@ -4546,7 +4546,7 @@ function bp_email_get_type_schema( $field = 'description' ) {
 	 */
 	$types = (array) apply_filters( 'bp_email_get_type_schema', $types );
 
-	if ( $field !== 'all' ) {
+	if ( 'all' !== $field ) {
 		return wp_list_pluck( $types, $field );
 	} else {
 		return $types;

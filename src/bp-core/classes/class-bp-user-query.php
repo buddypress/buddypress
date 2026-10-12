@@ -488,10 +488,10 @@ class BP_User_Query {
 		if ( false !== $search_terms ) {
 			$search_terms = bp_esc_like( wp_kses_normalize_entities( $search_terms ) );
 
-			if ( $search_wildcard === 'left' ) {
+			if ( 'left' === $search_wildcard ) {
 				$search_terms_nospace = '%' . $search_terms;
 				$search_terms_space   = '%' . $search_terms . ' %';
-			} elseif ( $search_wildcard === 'right' ) {
+			} elseif ( 'right' === $search_wildcard ) {
 				$search_terms_nospace = $search_terms . '%';
 				$search_terms_space   = '% ' . $search_terms . '%';
 			} else {
@@ -824,7 +824,7 @@ class BP_User_Query {
 		// Switch to the root blog, where member type taxonomies live.
 		$site_id  = bp_get_taxonomy_term_site_id( bp_get_member_type_tax_name() );
 		$switched = false;
-		if ( $site_id !== get_current_blog_id() ) {
+		if ( get_current_blog_id() !== $site_id ) {
 			switch_to_blog( $site_id );
 			$switched = true;
 		}

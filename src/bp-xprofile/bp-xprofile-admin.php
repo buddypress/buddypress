@@ -187,7 +187,7 @@ function xprofile_admin_screen( $message = '', $type = 'error' ) {
 			wp_nonce_field( 'bp_reorder_groups', '_wpnonce_reorder_groups', false );
 
 			if ( ! empty( $message ) ) :
-				$type = ( $type === 'error' ) ? 'error' : 'updated';
+				$type = ( 'error' === $type ) ? 'error' : 'updated';
 				?>
 
 				<div id="message" class="<?php echo esc_attr( $type ); ?> fade notice is-dismissible">

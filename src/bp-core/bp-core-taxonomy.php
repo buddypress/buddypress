@@ -110,7 +110,7 @@ function bp_set_object_terms( $object_id, $terms, $taxonomy, $append = false ) {
 	$site_id = bp_get_taxonomy_term_site_id( $taxonomy );
 
 	$switched = false;
-	if ( $site_id !== get_current_blog_id() ) {
+	if ( get_current_blog_id() !== $site_id ) {
 		switch_to_blog( $site_id );
 		bp_register_taxonomies();
 		$switched = true;
@@ -181,7 +181,7 @@ function bp_get_object_terms( $object_ids, $taxonomies, $args = array() ) {
 	foreach ( $taxonomy_site_map as $taxonomy_site_id => $site_taxonomies ) {
 		$switched = false;
 
-		if ( $taxonomy_site_id !== get_current_blog_id() ) {
+		if ( get_current_blog_id() !== $taxonomy_site_id ) {
 			switch_to_blog( $taxonomy_site_id );
 			bp_register_taxonomies();
 			$switched = true;
@@ -220,7 +220,7 @@ function bp_remove_object_terms( $object_id, $terms, $taxonomy ) {
 	$site_id = bp_get_taxonomy_term_site_id( $taxonomy );
 
 	$switched = false;
-	if ( $site_id !== get_current_blog_id() ) {
+	if ( get_current_blog_id() !== $site_id ) {
 		switch_to_blog( $site_id );
 		bp_register_taxonomies();
 		$switched = true;
@@ -275,7 +275,7 @@ function bp_get_objects_in_term( $term_ids, $taxonomies, $args = array() ) {
 	$retval = array();
 	foreach ( $taxonomy_site_map as $taxonomy_site_id => $site_taxonomies ) {
 		$switched = false;
-		if ( $taxonomy_site_id !== get_current_blog_id() ) {
+		if ( get_current_blog_id() !== $taxonomy_site_id ) {
 			switch_to_blog( $taxonomy_site_id );
 			bp_register_taxonomies();
 			$switched = true;
@@ -315,7 +315,7 @@ function bp_get_term_by( $field, $value, $taxonomy = '', $output = OBJECT, $filt
 	$site_id = bp_get_taxonomy_term_site_id( $taxonomy );
 
 	$switched = false;
-	if ( $site_id !== get_current_blog_id() ) {
+	if ( get_current_blog_id() !== $site_id ) {
 		switch_to_blog( $site_id );
 		bp_register_taxonomies();
 		$switched = true;
@@ -354,7 +354,7 @@ function bp_insert_term( $term, $taxonomy = '', $args = array() ) {
 	$site_id = bp_get_taxonomy_term_site_id( $taxonomy );
 
 	$switched = false;
-	if ( $site_id !== get_current_blog_id() ) {
+	if ( get_current_blog_id() !== $site_id ) {
 		switch_to_blog( $site_id );
 		bp_register_taxonomies();
 		$switched = true;
@@ -436,7 +436,7 @@ function bp_get_terms( $args = array() ) {
 	$site_id = bp_get_taxonomy_term_site_id( $args['taxonomy'] );
 
 	$switched = false;
-	if ( $site_id !== get_current_blog_id() ) {
+	if ( get_current_blog_id() !== $site_id ) {
 		switch_to_blog( $site_id );
 		bp_register_taxonomies();
 		$switched = true;
@@ -480,7 +480,7 @@ function bp_delete_term( $term_id = 0, $taxonomy = '' ) {
 	$site_id = bp_get_taxonomy_term_site_id( $taxonomy );
 
 	$switched = false;
-	if ( $site_id !== get_current_blog_id() ) {
+	if ( get_current_blog_id() !== $site_id ) {
 		switch_to_blog( $site_id );
 		bp_register_taxonomies();
 		$switched = true;

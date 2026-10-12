@@ -101,7 +101,7 @@ function bp_nouveau_ajax_addremove_friend() {
 	$friend_id = (int) $_POST['item_id'];
 
 	// Check if the user exists only when the Friend ID is not a Frienship ID.
-	if ( isset( $_POST['action'] ) && $_POST['action'] !== 'friends_accept_friendship' && $_POST['action'] !== 'friends_reject_friendship' ) {
+	if ( isset( $_POST['action'] ) && 'friends_accept_friendship' !== $_POST['action'] && 'friends_reject_friendship' !== $_POST['action'] ) {
 		$user = get_user_by( 'id', $friend_id );
 		if ( ! $user ) {
 			wp_send_json_error(

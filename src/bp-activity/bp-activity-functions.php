@@ -219,7 +219,7 @@ function bp_activity_update_mention_count_for_user( $user_id, $activity_id, $act
 		case 'delete':
 			$key = array_search( $activity_id, $new_mentions, true );
 
-			if ( $key !== false ) {
+			if ( false !== $key ) {
 				unset( $new_mentions[ $key ] );
 			}
 
@@ -3493,7 +3493,7 @@ function bp_activity_create_summary( $content, $activity ) {
 		'remove_links'      => true,
 	);
 	// Get the WP_Post object if this activity type is a blog post.
-	if ( $activity['type'] === 'new_blog_post' ) {
+	if ( 'new_blog_post' === $activity['type'] ) {
 		$content    = get_post( $activity['secondary_item_id'] );
 		$post_url   = $content->guid;
 		$post_title = sprintf(
@@ -3598,7 +3598,7 @@ function bp_activity_create_summary( $content, $activity ) {
 
 	// Extract an item from the $media results.
 	if ( $use_media_type ) {
-		if ( $use_media_type === 'images' ) {
+		if ( 'images' === $use_media_type ) {
 			$extracted_media = wp_list_filter( $media[ $use_media_type ], array( 'source' => $image_source ) );
 			$extracted_media = array_shift( $extracted_media );
 		} else {
@@ -3639,9 +3639,9 @@ function bp_activity_create_summary( $content, $activity ) {
 		),
 	);
 
-	if ( $use_media_type === 'embeds' ) {
+	if ( 'embeds' === $use_media_type ) {
 		$summary_parts[] = PHP_EOL . PHP_EOL . $extracted_media['url'];
-	} elseif ( $use_media_type === 'images' ) {
+	} elseif ( 'images' === $use_media_type ) {
 		$extracted_media_url = isset( $extracted_media['url'] ) ? $extracted_media['url'] : '';
 		$image_tag           = sprintf( '<img src="%s"> ', esc_url( $extracted_media_url ) );
 
@@ -4193,7 +4193,7 @@ function bp_activity_catch_transition_post_type_status( $new_status, $old_status
 	// This is an edit.
 	if ( $new_status === $old_status ) {
 		// An edit of an existing post should update the existing activity item.
-		if ( $new_status === 'publish' ) {
+		if ( 'publish' === $new_status ) {
 			$edit = bp_activity_post_type_update( $post );
 
 			// Post was never recorded into activity stream, so record it now!

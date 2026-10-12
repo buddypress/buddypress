@@ -67,7 +67,6 @@
 	<rule ref="BuddyPress">
 		<exclude name="WordPress.WP.GlobalVariablesOverride.Prohibited" />
 		<exclude name="WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound" />
-		<exclude name="WordPress.PHP.YodaConditions.NotYoda" />
 		<exclude name="WordPress.DB.SlowDBQuery.slow_db_query_meta_key" />
 		<exclude name="WordPress.DB.SlowDBQuery.slow_db_query_meta_value" />
 		<exclude name="WordPress.DateTime.RestrictedFunctions.date_date" />

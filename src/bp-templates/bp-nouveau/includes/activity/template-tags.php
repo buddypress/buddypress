@@ -325,7 +325,7 @@ function bp_nouveau_activity_entry_buttons( $args = array() ) {
 		 * for each entry of the loop, it's a convenient way to make
 		 * sure the right button will be displayed.
 		 */
-		if ( $activity_type === 'activity_comment' ) {
+		if ( 'activity_comment' === $activity_type ) {
 			$buttons['activity_conversation'] = array(
 				'id'                => 'activity_conversation',
 				'position'          => 5,
@@ -594,7 +594,7 @@ function bp_nouveau_activity_entry_buttons( $args = array() ) {
 		}
 
 		// Remove the Comment button if the user can't comment.
-		if ( ! bp_activity_can_comment() && $activity_type !== 'activity_comment' ) {
+		if ( ! bp_activity_can_comment() && 'activity_comment' !== $activity_type ) {
 			unset( $return['activity_conversation'] );
 		}
 

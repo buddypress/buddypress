@@ -2045,7 +2045,7 @@ function bp_core_activate_signup( $key ) {
 			 * In 14.0.0, we are deprecating the `BP_SIGNUPS_SKIP_USER_CREATION` as well as creating a user
 			 * each time a registration is performed.
 			 */
-		} elseif ( $key === bp_get_user_meta( $user_id, 'activation_key', true ) || $key === wp_hash( $user_id ) ) {
+		} elseif ( bp_get_user_meta( $user_id, 'activation_key', true ) === $key || wp_hash( $user_id ) === $key ) {
 
 			// Change the user's status so they become active.
 			if ( ! $wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->users} SET user_status = 0 WHERE ID = %d", $user_id ) ) ) {
@@ -2583,7 +2583,7 @@ function bp_core_wpsignup_redirect() {
 	$referer = wp_get_referer();
 
 	// A new site is being added.
-	if ( isset( $_POST['stage'] ) && $_POST['stage'] === 'gimmeanotherblog' ) {
+	if ( isset( $_POST['stage'] ) && 'gimmeanotherblog' === $_POST['stage'] ) {
 		$is_site_creation = true;
 
 	// We've arrived at wp-signup.php from my-sites.php.

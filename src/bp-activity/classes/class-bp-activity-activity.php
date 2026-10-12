@@ -305,7 +305,7 @@ class BP_Activity_Activity {
 		 *                      False otherwise.
 		 * @param string $type  The type of the activity we are about to insert.
 		 */
-		$type_requires_content = (bool) apply_filters( 'bp_activity_type_requires_content', $this->type === 'activity_update', $this->type );
+		$type_requires_content = (bool) apply_filters( 'bp_activity_type_requires_content', 'activity_update' === $this->type, $this->type );
 		if ( $type_requires_content && ! $this->content ) {
 			if ( 'bool' === $this->error_type ) {
 				return false;

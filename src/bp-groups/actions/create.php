@@ -243,7 +243,7 @@ function groups_action_create_group() {
 			 * we need to loop the step array and fetch the next step that way.
 			 */
 			foreach ( $keys as $key ) {
-				if ( $key === bp_get_groups_current_create_step() ) {
+				if ( bp_get_groups_current_create_step() === $key ) {
 					$next = 1;
 					continue;
 				}

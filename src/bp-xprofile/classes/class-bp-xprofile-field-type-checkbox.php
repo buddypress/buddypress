@@ -131,7 +131,7 @@ class BP_XProfile_Field_Type_Checkbox extends BP_XProfile_Field_Type {
 
 		// Check for updated posted values, but errors preventing them from
 		// being saved first time.
-		if ( isset( $_POST[ 'field_' . $this->field_obj->id ] ) && $option_values !== maybe_serialize( $_POST[ 'field_' . $this->field_obj->id ] ) ) {
+		if ( isset( $_POST[ 'field_' . $this->field_obj->id ] ) && maybe_serialize( $_POST[ 'field_' . $this->field_obj->id ] ) !== $option_values ) {
 			if ( ! empty( $_POST[ 'field_' . $this->field_obj->id ] ) ) {
 				$option_values = array_map( 'sanitize_text_field', $_POST[ 'field_' . $this->field_obj->id ] );
 			}

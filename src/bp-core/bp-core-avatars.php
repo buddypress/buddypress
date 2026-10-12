@@ -1745,7 +1745,7 @@ function bp_core_get_upload_dir( $type = 'upload_path' ) {
 
 				// If $key is 'baseurl', check to see if we're on SSL
 				// Workaround for WP13941, WP15928, WP19037.
-				if ( $key === 'baseurl' && is_ssl() ) {
+				if ( 'baseurl' === $key && is_ssl() ) {
 					$retval = str_replace( 'http://', 'https://', $retval );
 				}
 			}

@@ -477,7 +477,7 @@ class BP_Activity_Template {
 		}
 
 		// Loop has just started.
-		if ( $this->current_activity === 0 ) {
+		if ( 0 === $this->current_activity ) {
 
 			/**
 			 * Fires if the current activity item is the first in the activity loop.

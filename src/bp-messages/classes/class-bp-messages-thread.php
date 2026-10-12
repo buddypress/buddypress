@@ -771,9 +771,9 @@ class BP_Messages_Thread {
 			$pag_sql = $wpdb->prepare( ' LIMIT %d, %d', intval( ( $r['page'] - 1 ) * $r['limit'] ), intval( $r['limit'] ) );
 		}
 
-		if ( $r['type'] === 'unread' ) {
+		if ( 'unread' === $r['type'] ) {
 			$type_sql = ' AND r.unread_count != 0 ';
-		} elseif ( $r['type'] === 'read' ) {
+		} elseif ( 'read' === $r['type'] ) {
 			$type_sql = ' AND r.unread_count = 0 ';
 		}
 
@@ -1129,13 +1129,13 @@ class BP_Messages_Thread {
 
 		$type_sql       = '';
 		$exclude_sender = $type_sql;
-		if ( $box !== 'sentbox' ) {
+		if ( 'sentbox' !== $box ) {
 			$exclude_sender = 'AND sender_only != 1';
 		}
 
-		if ( $type === 'unread' ) {
+		if ( 'unread' === $type ) {
 			$type_sql = 'AND unread_count != 0';
-		} elseif ( $type === 'read' ) {
+		} elseif ( 'read' === $type ) {
 			$type_sql = 'AND unread_count = 0';
 		}
 

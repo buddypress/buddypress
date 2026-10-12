@@ -92,7 +92,7 @@ add_action( 'bp_customize_register', 'bp_email_init_customizer' );
  * @return bool
  */
 function bp_is_email_customizer() {
-	return isset( $_GET['bp_customizer'] ) && $_GET['bp_customizer'] === 'email';
+	return isset( $_GET['bp_customizer'] ) && 'email' === $_GET['bp_customizer'];
 }
 
 /**

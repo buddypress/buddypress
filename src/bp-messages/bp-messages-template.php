@@ -579,7 +579,7 @@ function bp_message_css_class() {
 
 		$class = false;
 
-		if ( $messages_template->current_thread % 2 === 1 ) {
+		if ( 1 === $messages_template->current_thread % 2 ) {
 			$class .= 'alt';
 		}
 
@@ -2020,7 +2020,7 @@ function bp_the_thread_recipients_list() {
 		$recipient_links = array();
 
 		foreach ( (array) $thread_template->thread->recipients as $recipient ) {
-			if ( (int) $recipient->user_id !== bp_loggedin_user_id() ) {
+			if ( bp_loggedin_user_id() !== (int) $recipient->user_id ) {
 				$recipient_link = bp_core_get_userlink( $recipient->user_id );
 
 				if ( empty( $recipient_link ) ) {
