@@ -67,8 +67,6 @@
 	<rule ref="BuddyPress">
 		<exclude name="WordPress.WP.GlobalVariablesOverride.Prohibited" />
 		<exclude name="WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound" />
-		<exclude name="WordPress.DB.SlowDBQuery.slow_db_query_meta_key" />
-		<exclude name="WordPress.DB.SlowDBQuery.slow_db_query_meta_value" />
 		<exclude name="WordPress.DateTime.RestrictedFunctions.date_date" />
 
 		<exclude name="WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound" />
@@ -90,9 +88,9 @@
 		<exclude name="WordPress.DB.DirectDatabaseQuery.DirectQuery" />
 
 		<!-- Deferred performance issues. -->
+		<exclude name="WordPress.DB.SlowDBQuery.slow_db_query_meta_key" />
+		<exclude name="WordPress.DB.SlowDBQuery.slow_db_query_meta_value" />
 		<exclude name="WordPress.DB.SlowDBQuery.slow_db_query_meta_query" />
 		<exclude name="WordPress.DB.SlowDBQuery.slow_db_query_tax_query" />
-
-		<exclude name="WordPress.PHP.NoSilencedErrors" />
 	</rule>
 </ruleset>
