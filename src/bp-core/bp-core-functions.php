@@ -1648,8 +1648,10 @@ function bp_core_add_message( $message, $type = '' ) {
 	}
 
 	// Send the values to the cookie for page reload display.
-	@setcookie( 'bp-message', $message, time() + 60 * 60 * 24, COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
-	@setcookie( 'bp-message-type', $type, time() + 60 * 60 * 24, COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
+	if ( ! headers_sent() ) {
+		setcookie( 'bp-message', $message, time() + 60 * 60 * 24, COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
+		setcookie( 'bp-message-type', $type, time() + 60 * 60 * 24, COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
+	}
 
 	// Get BuddyPress.
 	$bp = buddypress();
@@ -1693,12 +1695,14 @@ function bp_core_setup_message() {
 
 	add_action( 'template_notices', 'bp_core_render_message' );
 
-	if ( isset( $_COOKIE['bp-message'] ) ) {
-		@setcookie( 'bp-message', false, time() - 1000, COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
-	}
+	if ( ! headers_sent() ) {
+		if ( isset( $_COOKIE['bp-message'] ) ) {
+			setcookie( 'bp-message', false, time() - 1000, COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
+		}
 
-	if ( isset( $_COOKIE['bp-message-type'] ) ) {
-		@setcookie( 'bp-message-type', false, time() - 1000, COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
+		if ( isset( $_COOKIE['bp-message-type'] ) ) {
+			setcookie( 'bp-message-type', false, time() - 1000, COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
+		}
 	}
 }
 add_action( 'bp_actions', 'bp_core_setup_message', 5 );

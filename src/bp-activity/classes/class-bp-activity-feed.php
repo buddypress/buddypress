@@ -346,8 +346,10 @@ class BP_Activity_Feed {
 		}
 
 		// Set content-type.
-		@header( 'Content-Type: text/xml; charset=' . get_option( 'blog_charset' ), true );
-		send_nosniff_header();
+		if ( ! headers_sent() ) {
+			header( 'Content-Type: text/xml; charset=' . get_option( 'blog_charset' ), true );
+			send_nosniff_header();
+		}
 
 		// Cache-related variables.
 		$last_modified      = mysql2date( 'D, d M Y H:i:s O', bp_activity_get_last_updated(), false );
@@ -355,12 +357,14 @@ class BP_Activity_Feed {
 		$etag               = md5( $last_modified );
 
 		// Set cache-related headers.
-		@header( 'Last-Modified: ' . $last_modified );
-		@header( 'Pragma: no-cache' );
-		@header( 'ETag: "' . $etag . '"' );
+		if ( ! headers_sent() ) {
+			header( 'Last-Modified: ' . $last_modified );
+			header( 'Pragma: no-cache' );
+			header( 'ETag: "' . $etag . '"' );
 
-		// First commit of BuddyPress! (Easter egg).
-		@header( 'Expires: Tue, 25 Mar 2008 17:13:55 GMT' );
+			// First commit of BuddyPress! (Easter egg).
+			header( 'Expires: Tue, 25 Mar 2008 17:13:55 GMT' );
+		}
 
 		// Get ETag from supported user agents.
 		if ( isset( $_SERVER['HTTP_IF_NONE_MATCH'] ) ) {
