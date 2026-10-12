@@ -1649,8 +1649,8 @@ function bp_core_add_message( $message, $type = '' ) {
 
 	// Send the values to the cookie for page reload display.
 	if ( ! headers_sent() ) {
-		setcookie( 'bp-message', $message, time() + 60 * 60 * 24, COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
-		setcookie( 'bp-message-type', $type, time() + 60 * 60 * 24, COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
+		setcookie( 'bp-message', $message, time() + DAY_IN_SECONDS, COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
+		setcookie( 'bp-message-type', $type, time() + DAY_IN_SECONDS, COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
 	}
 
 	// Get BuddyPress.
