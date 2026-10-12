@@ -1990,6 +1990,7 @@ class BP_Activity_Activity {
 		$activities    = bp_activity_get_sitewide( array( 'max' => $limit ) );
 		$activity_feed = array();
 
+		// phpcs:disable WordPress.PHP.NoSilencedErrors.Discouraged -- Activity content can contain unmatched placeholders.
 		for ( $i = 0, $count = count( $activities ); $i < $count; ++$i ) {
 			$title                              = explode( '<span', $activities[ $i ]['content'] );
 			$activity_feed[ $i ]['title']       = wp_strip_all_tags( $title[0] );
@@ -1997,6 +1998,7 @@ class BP_Activity_Activity {
 			$activity_feed[ $i ]['description'] = @sprintf( $activities[ $i ]['content'], '' );
 			$activity_feed[ $i ]['pubdate']     = $activities[ $i ]['date_recorded'];
 		}
+		// phpcs:enable WordPress.PHP.NoSilencedErrors.Discouraged
 
 		return $activity_feed;
 	}
