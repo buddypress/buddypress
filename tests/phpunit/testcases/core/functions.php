@@ -697,6 +697,72 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group bp_core_time_since
+	 * @ticket BP9284
+	 * @dataProvider user_registration_site_offsets_provider
+	 */
+	public function test_user_registered_should_be_utc_with_site_offset( $gmt_offset ) {
+		$original_timezone_string = get_option( 'timezone_string' );
+		$original_gmt_offset      = get_option( 'gmt_offset' );
+
+		try {
+			update_option( 'timezone_string', '' );
+			update_option( 'gmt_offset', $gmt_offset );
+
+			$before = time();
+			$user   = self::factory()->user->create_and_get();
+			$after  = time();
+
+			// No registration date is supplied: check the actual storage default as UTC.
+			$registered = strtotime( $user->user_registered . ' UTC' );
+
+			$this->assertNotFalse( $registered );
+			$this->assertGreaterThanOrEqual( $before, $registered );
+			$this->assertLessThanOrEqual( $after, $registered );
+		} finally {
+			update_option( 'timezone_string', $original_timezone_string );
+			update_option( 'gmt_offset', $original_gmt_offset );
+		}
+	}
+
+	/**
+	 * @group bp_core_time_since
+	 * @ticket BP9284
+	 * @dataProvider user_registration_site_offsets_provider
+	 */
+	public function test_bp_core_time_since_user_registered_with_site_offset( $gmt_offset ) {
+		$original_timezone_string = get_option( 'timezone_string' );
+		$original_gmt_offset      = get_option( 'gmt_offset' );
+
+		try {
+			update_option( 'timezone_string', '' );
+			update_option( 'gmt_offset', $gmt_offset );
+
+			$user = self::factory()->user->create_and_get(
+				array( 'user_registered' => '2025-01-15 12:00:00' )
+			);
+
+			// Fix the comparison time independently of the parser and the system clock.
+			$registered_timestamp = gmmktime( 12, 0, 0, 1, 15, 2025 );
+			$now                  = $registered_timestamp + MINUTE_IN_SECONDS;
+
+			$this->assertSame( '1 minute ago', bp_core_time_since( $registered_timestamp, $now ) );
+			$this->assertSame( '1 minute ago', bp_core_time_since( $user->user_registered, $now ) );
+		} finally {
+			update_option( 'timezone_string', $original_timezone_string );
+			update_option( 'gmt_offset', $original_gmt_offset );
+		}
+	}
+
+	public static function user_registration_site_offsets_provider() {
+		return array(
+			'UTC'   => array( 0 ),
+			'UTC+2' => array( 2 ),
+			'UTC-5' => array( -5 ),
+		);
+	}
+
+	/**
 	 * @group bp_attachments
 	 * @group bp_upload_dir
 	 */

@@ -1473,8 +1473,7 @@ function bp_core_time_diff( $args = array() ) {
  *                               or as a date string of the format 'Y-m-d h:i:s'.
  * @param int|bool   $newer_date Optional. Unix timestamp of date to compare older
  *                               date to. Default: false (current time).
- * @return string String representing the time since the older date, eg
- *         "2 hours, 50 minutes".
+ * @return string String representing the time since the older date, e.g.: "2 hours, 50 minutes".
  */
 function bp_core_time_since( $older_date, $newer_date = false ) {
 
