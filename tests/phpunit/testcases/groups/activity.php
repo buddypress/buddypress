@@ -79,7 +79,7 @@ class BP_Tests_Groups_Activity extends BP_UnitTestCase {
 			)
 		);
 
-		$this->assertTrue( empty( $a['activities'] ) );
+		$this->assertEmpty( $a['activities'] ?? null );
 	}
 
 	/**
@@ -106,7 +106,7 @@ class BP_Tests_Groups_Activity extends BP_UnitTestCase {
 			)
 		);
 
-		$this->assertTrue( empty( $a['activities'] ) );
+		$this->assertEmpty( $a['activities'] ?? null );
 	}
 
 	/**

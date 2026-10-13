@@ -109,7 +109,7 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 		$attachment_class = new BPTest_Attachment_Extension();
 		$upload = $attachment_class->upload( $_FILES );
 
-		$this->assertTrue( empty( $upload ) );
+		$this->assertEmpty( $upload );
 
 		$_FILES = $reset_files;
 		$_POST = $reset_post;
@@ -162,14 +162,14 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 
 		// Error: file size
 		$upload = $attachment_class->upload( $_FILES );
-		$this->assertFalse( empty( $upload['error'] ) );
+		$this->assertNotEmpty( $upload['error'] ?? null );
 
 		$attachment_class->allowed_mime_types    = array( 'pdf' );
 		$attachment_class->original_max_filesize = false;
 
 		// Error: file type
 		$upload = $attachment_class->upload( $_FILES );
-		$this->assertFalse( empty( $upload['error'] ) );
+		$this->assertNotEmpty( $upload['error'] ?? null );
 
 		$attachment_class->allowed_mime_types = array();
 
@@ -251,14 +251,14 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 		$user_avatar = $avatar_attachment->upload( $_FILES, 'bp_members_avatar_upload_dir' );
 
 		remove_filter( 'bp_core_avatar_original_max_filesize', array( $this, 'max_filesize' ) );
-		$this->assertFalse( empty( $user_avatar['error'] ) );
+		$this->assertNotEmpty( $user_avatar['error'] ?? null );
 
 		/* File type error */
 		$_FILES[ $avatar_attachment->file_input ]['name'] = 'buddypress_logo.pdf';
 		$_FILES[ $avatar_attachment->file_input ]['type'] = 'application/pdf';
 
 		$user_avatar = $avatar_attachment->upload( $_FILES, 'bp_members_avatar_upload_dir' );
-		$this->assertFalse( empty( $user_avatar['error'] ) );
+		$this->assertNotEmpty( $user_avatar['error'] ?? null );
 
 		// clean up!
 		$bp->displayed_user = $displayed_user;
@@ -404,7 +404,8 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 
 		remove_filter( 'bp_core_avatar_original_max_width', array( $this, 'limit_to_50px' ) );
 
-		$this->assertTrue( 50 === $shrink['width'] && 50 === $shrink['height'] );
+		$this->assertSame( 50, $shrink['width'] );
+		$this->assertSame( 50, $shrink['height'] );
 
 		// Cleanup
 		$this->clean_files( 'shrink' );
@@ -499,7 +500,7 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 	public function test_bp_attachment_avatar_shrink_not_needed() {
 		$shrink = BP_Attachment_Avatar::shrink( $this->image_file );
 
-		$this->assertTrue( empty( $shrink ) );
+		$this->assertEmpty( $shrink );
 	}
 
 	/**
@@ -521,7 +522,8 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 
 		$fit = $cover_image_class->fit( $abs_path_copy, array( 'width' => 50, 'height' => 50 ) );
 
-		$this->assertTrue( 50 === $fit['width'] && 50 === $fit['height'] );
+		$this->assertSame( 50, $fit['width'] );
+		$this->assertSame( 50, $fit['height'] );
 
 		// Cleanup
 		$this->clean_files( 'buddypress' );
@@ -535,7 +537,7 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 		$cover_image_class = new BP_Attachment_Cover_Image();
 		$fit = $cover_image_class->fit( $this->image_file, array( 'width' => 1300, 'height' => 225 ) );
 
-		$this->assertTrue( empty( $fit ) );
+		$this->assertEmpty( $fit );
 
 		// Cleanup
 		$this->clean_files( 'buddypress' );
@@ -590,7 +592,7 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 		// Restore the filter used to fake uploads
 		add_filter( 'upload_dir', array( $this, 'filter_upload_dir' ), 20, 1 );
 
-		$this->assertTrue( 1 === $attachment_class->upload_dir_filter_args );
+		$this->assertSame( 1, $attachment_class->upload_dir_filter_args );
 
 		$cover_image_class = new BP_Attachment_Cover_Image();
 
@@ -600,7 +602,7 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 		// Should be empty
 		$this->assertEmpty( $this->original_upload_dir );
 
-		$this->assertTrue( 0 === $cover_image_class->upload_dir_filter_args );
+		$this->assertSame( 0, $cover_image_class->upload_dir_filter_args );
 
 		$_FILES = $reset_files;
 		$_POST = $reset_post;

@@ -685,7 +685,7 @@ class BP_Tests_Notifications_REST_Controller extends BP_Test_REST_Controller_Tes
 		$response = $this->server->dispatch( $request );
 
 		$create_data = $response->get_data();
-		$this->assertTrue( $expected === $create_data['foo_field'] );
+		$this->assertSame( $expected, $create_data['foo_field'] );
 
 		// GET
 		$request = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '/%d', $create_data['id'] ) );
@@ -693,7 +693,7 @@ class BP_Tests_Notifications_REST_Controller extends BP_Test_REST_Controller_Tes
 		$response = $this->server->dispatch( $request );
 
 		$get_data = $response->get_data();
-		$this->assertTrue( $expected === $get_data['foo_field'] );
+		$this->assertSame( $expected, $get_data['foo_field'] );
 
 		$GLOBALS['wp_rest_additional_fields'] = $registered_fields;
 	}
@@ -737,7 +737,7 @@ class BP_Tests_Notifications_REST_Controller extends BP_Test_REST_Controller_Tes
 		$response = $this->server->dispatch( $request );
 
 		$update_data = $response->get_data();
-		$this->assertTrue( $expected === $update_data['bar_field'] );
+		$this->assertSame( $expected, $update_data['bar_field'] );
 
 		$GLOBALS['wp_rest_additional_fields'] = $registered_fields;
 	}

@@ -1826,7 +1826,7 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 			'invite_sent'  => 'all',
 		) );
 
-		$this->assertTrue( empty( $invitees ) );
+		$this->assertEmpty( $invitees );
 	}
 
 	/**
@@ -2144,7 +2144,8 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 	public function test_groups_get_group_mods_bad_id() {
 		$mods = groups_get_group_mods( null );
 
-		$this->assertTrue( is_array( $mods ) && empty( $mods ) );
+		$this->assertIsArray( $mods );
+		$this->assertEmpty( $mods );
 	}
 
 	/**
@@ -2153,7 +2154,8 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 	public function test_groups_get_group_admins_bad_id() {
 		$admins = groups_get_group_admins( null );
 
-		$this->assertTrue( is_array( $admins ) && empty( $admins ) );
+		$this->assertIsArray( $admins );
+		$this->assertEmpty( $admins );
 	}
 
 	/**

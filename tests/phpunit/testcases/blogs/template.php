@@ -357,7 +357,7 @@ class BP_Tests_Blogs_Template extends BP_UnitTestCase {
 			)
 		);
 
-		$this->assertTrue( $avatar === $expected );
+		$this->assertSame( $expected, $avatar );
 	}
 
 	/**
@@ -394,8 +394,8 @@ class BP_Tests_Blogs_Template extends BP_UnitTestCase {
 		remove_filter( 'get_site_icon_url', array( $this, 'filter_blog_avatar' ) );
 		$blogs_template = $reset_blogs_template;
 
-		$this->assertTrue( false !== strpos( $avatar, BP_TESTS_DIR . 'assets/upside-down.jpg' ) );
-		$this->assertTrue( false !== strpos( $avatar, 'alt="test"' ) );
+		$this->assertStringContainsString( BP_TESTS_DIR . 'assets/upside-down.jpg', $avatar );
+		$this->assertStringContainsString( 'alt="test"', $avatar );
 	}
 
 	/**
@@ -427,7 +427,7 @@ class BP_Tests_Blogs_Template extends BP_UnitTestCase {
 		$blogs_template = $reset_blogs_template;
 		$expected       = buddypress()->plugin_url . "bp-core/images/mystery-blog-50.png";
 
-		$this->assertTrue( $avatar === $expected );
+		$this->assertSame( $expected, $avatar );
 	}
 
 	/**
@@ -453,13 +453,13 @@ class BP_Tests_Blogs_Template extends BP_UnitTestCase {
 
 		// Get from global blog_id.
 		$avatar = bp_get_blog_avatar();
-		$this->assertTrue( str_contains( $avatar, "blog-{$b1}-avatar" ) );
-		$this->assertTrue( str_contains( $avatar, $expected ) );
+		$this->assertStringContainsString( "blog-{$b1}-avatar", $avatar );
+		$this->assertStringContainsString( $expected, $avatar );
 
 		// Get from the blog_id passed in, instead of global.
 		$avatar = bp_get_blog_avatar( array( 'blog_id' => $b2 ) );
-		$this->assertTrue( str_contains( $avatar, "blog-{$b2}-avatar" ) );
-		$this->assertTrue( str_contains( $avatar, $expected ) );
+		$this->assertStringContainsString( "blog-{$b2}-avatar", $avatar );
+		$this->assertStringContainsString( $expected, $avatar );
 
 		$blogs_template = null;
 	}

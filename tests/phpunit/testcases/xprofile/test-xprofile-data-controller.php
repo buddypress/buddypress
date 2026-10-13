@@ -617,7 +617,7 @@ class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Tes
 		$data = $response->get_data();
 		$this->assertNotEmpty( $data );
 
-		$this->assertTrue( 'foo' === $data['previous']['value']['raw'] );
+		$this->assertSame( 'foo', $data['previous']['value']['raw'] );
 
 		$field_data = $this->endpoint->get_xprofile_field_data_object( $data['previous']['field_id'], $data['previous']['user_id'] );
 
@@ -651,7 +651,7 @@ class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Tes
 		$data = $response->get_data();
 		$this->assertNotEmpty( $data );
 
-		$this->assertTrue( 'bar' === $data['previous']['value']['raw'] );
+		$this->assertSame( 'bar', $data['previous']['value']['raw'] );
 
 		$field_data = $this->endpoint->get_xprofile_field_data_object( $data['previous']['field_id'], $data['previous']['user_id'] );
 
@@ -767,7 +767,7 @@ class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Tes
 
 		$create_data = $response->get_data();
 		$this->assertNotEmpty( $create_data );
-		$this->assertTrue( $expected === $create_data['foo_metadata_key'] );
+		$this->assertSame( $expected, $create_data['foo_metadata_key'] );
 	}
 
 	public function update_additional_field( $value, $data, $attribute ) {

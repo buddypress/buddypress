@@ -282,7 +282,7 @@ class BP_Tests_Group_Avatar_REST_Controller extends BP_Test_REST_Controller_Test
 			);
 			$this->assertFalse( file_exists( $full ) );
 			$this->assertFalse( file_exists( $thumb ) );
-			$this->assertFalse( is_dir( $avatar_dir ) );
+			$this->assertDirectoryDoesNotExist( $avatar_dir );
 			$this->assertFalse( bp_get_group_has_avatar( $this->group_id ) );
 		} finally {
 			$this->bp->rrmdir( $upload_dir );

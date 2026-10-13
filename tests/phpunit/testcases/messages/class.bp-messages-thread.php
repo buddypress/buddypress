@@ -31,7 +31,7 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 	}
 
 	public function test_get_messages_with_invalid_thread_id() {
-		$this->assertTrue( empty( BP_Messages_Thread::get_messages( 0 ) ) );
+		$this->assertEmpty( BP_Messages_Thread::get_messages( 0 ) );
 	}
 
 	public function test_get_messages_using_arguments() {

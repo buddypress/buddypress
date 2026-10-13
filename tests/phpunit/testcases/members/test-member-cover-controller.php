@@ -394,7 +394,7 @@ class BP_Tests_Member_Cover_REST_Controller extends BP_Test_REST_Controller_Test
 			}
 		}
 
-		$this->assertFalse( is_dir( $upload_dir ) );
+		$this->assertDirectoryDoesNotExist( $upload_dir );
 	}
 
 	public function test_get_item_schema() {

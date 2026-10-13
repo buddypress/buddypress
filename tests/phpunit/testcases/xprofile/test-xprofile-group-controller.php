@@ -490,7 +490,7 @@ class BP_Tests_XProfile_Groups_REST_Controller extends BP_Test_REST_Controller_T
 		$response = $this->server->dispatch( $request );
 
 		$create_data = $response->get_data();
-		$this->assertTrue( $expected === $create_data['foo_group_key'] );
+		$this->assertSame( $expected, $create_data['foo_group_key'] );
 
 		// GET
 		$request = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '/%d', $create_data['id'] ) );
@@ -498,7 +498,7 @@ class BP_Tests_XProfile_Groups_REST_Controller extends BP_Test_REST_Controller_T
 		$response = $this->server->dispatch( $request );
 
 		$get_data = $response->get_data();
-		$this->assertTrue( $expected === $get_data['foo_group_key'] );
+		$this->assertSame( $expected, $get_data['foo_group_key'] );
 
 		$GLOBALS['wp_rest_additional_fields'] = $registered_fields;
 	}
@@ -542,7 +542,7 @@ class BP_Tests_XProfile_Groups_REST_Controller extends BP_Test_REST_Controller_T
 		$response = $this->server->dispatch( $request );
 
 		$update_data = $response->get_data();
-		$this->assertTrue( $expected === $update_data['bar_group_key'] );
+		$this->assertSame( $expected, $update_data['bar_group_key'] );
 
 		$GLOBALS['wp_rest_additional_fields'] = $registered_fields;
 	}

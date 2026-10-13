@@ -509,7 +509,7 @@ class BP_Tests_Blogs_REST_Controller extends BP_Test_REST_Controller_Testcase {
 
 		$get_data = $response->get_data();
 
-		$this->assertTrue( $expected === $get_data[0]['foo_field'] );
+		$this->assertSame( $expected, $get_data[0]['foo_field'] );
 
 		$GLOBALS['wp_rest_additional_fields'] = $registered_fields;
 	}

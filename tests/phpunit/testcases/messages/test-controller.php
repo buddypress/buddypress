@@ -887,7 +887,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 
 		$this->assertNotEmpty( $data );
 		$this->assertTrue( $data['deleted'] );
-		$this->assertTrue( $data['previous']['subject']['rendered'] === 'Foo' );
+		$this->assertSame( 'Foo', $data['previous']['subject']['rendered'] );
 	}
 
 	/**
@@ -917,7 +917,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 
 		$this->assertNotEmpty( $data );
 		$this->assertTrue( $data['deleted'] );
-		$this->assertTrue( $data['previous']['subject']['rendered'] === 'Foo' );
+		$this->assertSame( 'Foo', $data['previous']['subject']['rendered'] );
 	}
 
 	/**
@@ -1262,7 +1262,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 
 		$last_message = wp_list_filter( $get_data['messages'], array( 'id' => $get_data['message_id'] ) );
 		$last_message = reset( $last_message );
-		$this->assertTrue( $expected === $last_message['taz_field'] );
+		$this->assertSame( $expected, $last_message['taz_field'] );
 
 		$GLOBALS['wp_rest_additional_fields'] = $registered_fields;
 	}
@@ -1311,7 +1311,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 
 		$last_message = wp_list_filter( $create_data['messages'], array( 'id' => $create_data['message_id'] ) );
 		$last_message = reset( $last_message );
-		$this->assertTrue( $expected === $last_message['foo_field'] );
+		$this->assertSame( $expected, $last_message['foo_field'] );
 
 		$GLOBALS['wp_rest_additional_fields'] = $registered_fields;
 	}
@@ -1374,7 +1374,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 
 		$last_message = wp_list_filter( $create_data['messages'], array( 'id' => $create_data['message_id'] ) );
 		$last_message = reset( $last_message );
-		$this->assertTrue( $expected === $last_message['bar_field'] );
+		$this->assertSame( $expected, $last_message['bar_field'] );
 
 		$GLOBALS['wp_rest_additional_fields'] = $registered_fields;
 	}
@@ -1445,7 +1445,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 
 		$last_message = wp_list_filter( $update_data['messages'], array( 'id' => $update_data['message_id'] ) );
 		$last_message = reset( $last_message );
-		$this->assertTrue( $expected === $last_message['boz_field'] );
+		$this->assertSame( $expected, $last_message['boz_field'] );
 
 		$GLOBALS['wp_rest_additional_fields'] = $registered_fields;
 	}
@@ -1520,7 +1520,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 
 		$specific_message = wp_list_filter( $update_data['messages'], array( 'id' => $r1->id ) );
 		$specific_message = reset( $specific_message );
-		$this->assertTrue( $expected === $specific_message['top_field'] );
+		$this->assertSame( $expected, $specific_message['top_field'] );
 
 		$GLOBALS['wp_rest_additional_fields'] = $registered_fields;
 	}

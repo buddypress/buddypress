@@ -538,7 +538,7 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 
 		$this->assertNotEmpty( $data );
 		$this->assertTrue( $data['deleted'] );
-		$this->assertTrue( $data['previous']['subject']['raw'] === 'Foo Bar' );
+		$this->assertSame( 'Foo Bar', $data['previous']['subject']['raw'] );
 	}
 
 	/**
@@ -605,7 +605,7 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 
 		$this->assertNotEmpty( $data );
 		$this->assertTrue( $data['dismissed'] );
-		$this->assertTrue( $data['previous']['subject']['rendered'] === 'Taz' );
+		$this->assertSame( 'Taz', $data['previous']['subject']['rendered'] );
 		$this->assertContains( $n->id, bp_get_user_meta( $u1, 'closed_notices', true ) );
 	}
 

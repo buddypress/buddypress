@@ -68,6 +68,6 @@ class BP_Tests_BP_Community_Visibility_TestCases extends BP_UnitTestCase {
 			'members'     => 'anyone',
 		);
 		update_option( '_bp_community_visibility', $setting );
-		$this->assertTrue( 'members' === bp_get_community_visibility( 'groups' ) );
+		$this->assertSame( 'members', bp_get_community_visibility( 'groups' ) );
 	}
 }

@@ -422,7 +422,7 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 
 		remove_filter( 'bp_groups_total_member_count', array( $this, 'filter_bp_groups_total_member_count' ) );
 
-		$this->assertTrue( 1 === $this->did_group_member_count );
+		$this->assertSame( 1, $this->did_group_member_count );
 		$this->assertSame( count( $members ) + 1, groups_get_total_member_count( $g1 ) );
 	}
 

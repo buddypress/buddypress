@@ -202,14 +202,14 @@ class BP_Tests_BP_Button extends BP_UnitTestCase {
 			)
 		) );
 
-		$this->assertIsInt( strpos( $b->contents, '<section ' ) );
-		$this->assertIsInt( strpos( $b->contents, 'class="section-class ' ) );
-		$this->assertIsInt( strpos( $b->contents, 'id="section-id"' ) );
-		$this->assertIsInt( strpos( $b->contents, 'data-parent="foo"' ) );
-		$this->assertIsInt( strpos( $b->contents, '<button ' ) );
-		$this->assertIsInt( strpos( $b->contents, 'autofocus="autofocus"' ) );
-		$this->assertIsInt( strpos( $b->contents, 'type="submit"' ) );
-		$this->assertIsInt( strpos( $b->contents, 'name="my-button"' ) );
+		$this->assertStringContainsString( '<section ', $b->contents );
+		$this->assertStringContainsString( 'class="section-class ', $b->contents );
+		$this->assertStringContainsString( 'id="section-id"', $b->contents );
+		$this->assertStringContainsString( 'data-parent="foo"', $b->contents );
+		$this->assertStringContainsString( '<button ', $b->contents );
+		$this->assertStringContainsString( 'autofocus="autofocus"', $b->contents );
+		$this->assertStringContainsString( 'type="submit"', $b->contents );
+		$this->assertStringContainsString( 'name="my-button"', $b->contents );
 	}
 
 	/**
@@ -231,14 +231,14 @@ class BP_Tests_BP_Button extends BP_UnitTestCase {
 			'link_title' => 'link-title'
 		) );
 
-		$this->assertIsInt( strpos( $b->contents, '<section ' ) );
-		$this->assertIsInt( strpos( $b->contents, 'class="section-class ' ) );
-		$this->assertIsInt( strpos( $b->contents, 'id="section-id"' ) );
-		$this->assertIsInt( strpos( $b->contents, 'href="http://example.com"' ) );
-		$this->assertIsInt( strpos( $b->contents, 'class="link-class"' ) );
-		$this->assertIsInt( strpos( $b->contents, 'id="link-id"' ) );
-		$this->assertIsInt( strpos( $b->contents, 'rel="nofollow"' ) );
-		$this->assertIsInt( strpos( $b->contents, 'title="link-title"' ) );
+		$this->assertStringContainsString( '<section ', $b->contents );
+		$this->assertStringContainsString( 'class="section-class ', $b->contents );
+		$this->assertStringContainsString( 'id="section-id"', $b->contents );
+		$this->assertStringContainsString( 'href="http://example.com"', $b->contents );
+		$this->assertStringContainsString( 'class="link-class"', $b->contents );
+		$this->assertStringContainsString( 'id="link-id"', $b->contents );
+		$this->assertStringContainsString( 'rel="nofollow"', $b->contents );
+		$this->assertStringContainsString( 'title="link-title"', $b->contents );
 	}
 
 	/**
@@ -257,7 +257,7 @@ class BP_Tests_BP_Button extends BP_UnitTestCase {
 			'link_class' => 'old-class'
 		) );
 
-		$this->assertIsInt( strpos( $b->contents, '<button class="new-class"' ) );
+		$this->assertStringContainsString( '<button class="new-class"', $b->contents );
 	}
 
 	/**
@@ -275,6 +275,6 @@ class BP_Tests_BP_Button extends BP_UnitTestCase {
 			),
 		) );
 
-		$this->assertFalse( strpos( $b->contents, '<button class=""' ) );
+		$this->assertStringNotContainsString( '<button class=""', $b->contents );
 	}
 }

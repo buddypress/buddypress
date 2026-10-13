@@ -505,7 +505,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 		);
 
 		$without_auto_refresh = wp_list_pluck( $stream['activities'], 'id' );
-		$this->assertFalse( in_array( $last_displayed_on_first_page, $without_auto_refresh, true ) );
+		$this->assertNotContains( $last_displayed_on_first_page, $without_auto_refresh );
 		$this->assertSame( array_reverse( $a ), array_merge( $page_one_ids, $without_auto_refresh ) );
 	}
 

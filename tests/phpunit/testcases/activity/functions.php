@@ -2010,6 +2010,6 @@ Bar!';
 			)
 		);
 
-		$this->assertTrue( 5 === (int) $count_activities['total'] );
+		$this->assertSame( 5, (int) $count_activities['total'] );
 	}
 }

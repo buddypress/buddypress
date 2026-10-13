@@ -644,7 +644,7 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 			'spam'             => 'all'
 		) );
 		// this is a convoluted way of testing if the activity comment still exists
-		$this->assertTrue( empty( $a['activities'][0] ) );
+		$this->assertEmpty( $a['activities'][0] ?? null );
 
 		// reset
 		wp_set_current_user( $old_user );
@@ -689,7 +689,7 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 
 		// The activity comment should no longer exist
 		$ac = bp_activity_get( array( 'in' => $a ) );
-		$this->assertTrue( empty( $ac['activities'] ) );
+		$this->assertEmpty( $ac['activities'] ?? null );
 	}
 
 	/**
@@ -795,8 +795,8 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 
 		$this->assertCount( 1, $activities['activities'], 'An activity comment should be unique' );
 
-		$this->assertTrue( 2 === $this->activity_saved_comment_count, 'An activity comment should be saved only twice' );
-		$this->assertTrue( 1 === $this->comment_saved_count, 'A comment should be saved only once' );
+		$this->assertSame( 2, $this->activity_saved_comment_count, 'An activity comment should be saved only twice' );
+		$this->assertSame( 1, $this->comment_saved_count, 'A comment should be saved only once' );
 
 		// reset
 		remove_filter( 'bp_disable_blogforum_comments', '__return_false' );

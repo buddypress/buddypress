@@ -204,7 +204,7 @@ class BP_Tests_BP_Friends_Friendship_TestCases extends BP_UnitTestCase {
 		}
 
 		$random = BP_Friends_Friendship::get_random_friends( $user_id, 4 );
-		$this->assertFalse( in_array( $user_id, $random, true ), 'The requested user id should not be listed into random friends' );
+		$this->assertNotContains( $user_id, $random, 'The requested user id should not be listed into random friends' );
 		$this->assertCount( 4, $random );
 	}
 
@@ -220,7 +220,7 @@ class BP_Tests_BP_Friends_Friendship_TestCases extends BP_UnitTestCase {
 		}
 
 		$friend_user_ids = BP_Friends_Friendship::get_friend_user_ids( $user_id );
-		$this->assertFalse( in_array( $user_id, $friend_user_ids, true ), 'The requested user id should not be listed into random friends' );
+		$this->assertNotContains( $user_id, $friend_user_ids, 'The requested user id should not be listed into random friends' );
 		$this->assertCount( 4, $friend_user_ids );
 	}
 

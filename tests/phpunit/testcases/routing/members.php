@@ -117,7 +117,7 @@ class BP_Tests_Routing_Members extends BP_UnitTestCase {
 
 		$this->go_to( $bp_registration_url );
 
-		$this->assertTrue( false !== strpos( $bp_registration_url, 'community' ) );
+		$this->assertStringContainsString( 'community', $bp_registration_url );
 		$this->assertTrue( bp_is_register_page() );
 	}
 
@@ -129,7 +129,7 @@ class BP_Tests_Routing_Members extends BP_UnitTestCase {
 
 		$this->go_to( $bp_registration_url );
 
-		$this->assertTrue( false === strpos( $bp_registration_url, 'community' ) );
+		$this->assertStringNotContainsString( 'community', $bp_registration_url );
 		$this->assertTrue( bp_is_register_page() );
 	}
 
@@ -149,7 +149,7 @@ class BP_Tests_Routing_Members extends BP_UnitTestCase {
 
 		$this->go_to( $bp_activation_url );
 
-		$this->assertTrue( false !== strpos( $bp_activation_url, 'community' ) );
+		$this->assertStringContainsString( 'community', $bp_activation_url );
 		$this->assertTrue( bp_is_activation_page() );
 	}
 
@@ -161,7 +161,7 @@ class BP_Tests_Routing_Members extends BP_UnitTestCase {
 
 		$this->go_to( $bp_activation_url );
 
-		$this->assertTrue( false === strpos( $bp_activation_url, 'community' ) );
+		$this->assertStringNotContainsString( 'community', $bp_activation_url );
 		$this->assertTrue( bp_is_activation_page() );
 	}
 }

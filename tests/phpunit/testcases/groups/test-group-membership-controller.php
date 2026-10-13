@@ -256,7 +256,7 @@ class BP_Tests_Group_Membership_REST_Controller extends BP_Test_REST_Controller_
 
 		remove_filter( 'bp_rest_group_members_get_items_query_args', array( $this, 'group_members_query_args' ) );
 
-		$this->assertTrue( 'bar' === $this->search_terms );
+		$this->assertSame( 'bar', $this->search_terms );
 
 		$all_data = $response->get_data();
 		$results  = wp_list_pluck( $all_data, 'id' );
@@ -600,7 +600,7 @@ class BP_Tests_Group_Membership_REST_Controller extends BP_Test_REST_Controller_
 		$user          = bp_rest_get_user( $data['id'] );
 		$member_object = new BP_Groups_Member( $user->ID, $g1 );
 
-		$this->assertTrue( $u1 === $user->ID );
+		$this->assertSame( $u1, $user->ID );
 		$this->assertFalse( (bool) $member_object->is_banned );
 	}
 
@@ -632,7 +632,7 @@ class BP_Tests_Group_Membership_REST_Controller extends BP_Test_REST_Controller_
 		$member_object = new BP_Groups_Member( $user->ID, $g1 );
 
 		$this->assertFalse( groups_is_user_member( $user->ID, $g1 ) );
-		$this->assertTrue( $u4 === $user->ID );
+		$this->assertSame( $u4, $user->ID );
 		$this->assertFalse( (bool) $member_object->is_banned );
 	}
 
@@ -672,7 +672,7 @@ class BP_Tests_Group_Membership_REST_Controller extends BP_Test_REST_Controller_
 		$user          = bp_rest_get_user( $data['id'] );
 		$member_object = new BP_Groups_Member( $user->ID, $g1 );
 
-		$this->assertTrue( $u1 === $user->ID );
+		$this->assertSame( $u1, $user->ID );
 		$this->assertFalse( (bool) $member_object->is_banned );
 	}
 
@@ -736,7 +736,7 @@ class BP_Tests_Group_Membership_REST_Controller extends BP_Test_REST_Controller_
 		$user          = bp_rest_get_user( $data['id'] );
 		$member_object = new BP_Groups_Member( $user->ID, $this->group_id );
 
-		$this->assertTrue( $u === $user->ID );
+		$this->assertSame( $u, $user->ID );
 		$this->assertTrue( (bool) $member_object->is_mod );
 	}
 
@@ -771,7 +771,7 @@ class BP_Tests_Group_Membership_REST_Controller extends BP_Test_REST_Controller_
 		$user          = bp_rest_get_user( $data['id'] );
 		$member_object = new BP_Groups_Member( $user->ID, $g1 );
 
-		$this->assertTrue( $u1 === $user->ID );
+		$this->assertSame( $u1, $user->ID );
 		$this->assertTrue( (bool) $member_object->is_mod );
 	}
 
@@ -891,7 +891,7 @@ class BP_Tests_Group_Membership_REST_Controller extends BP_Test_REST_Controller_
 		$user          = bp_rest_get_user( $data['id'] );
 		$member_object = new BP_Groups_Member( $user->ID, $g1 );
 
-		$this->assertTrue( $u2 === $user->ID );
+		$this->assertSame( $u2, $user->ID );
 		$this->assertFalse( (bool) $member_object->is_mod );
 		$this->assertFalse( (bool) $member_object->is_admin );
 		$this->assertTrue( (bool) groups_is_user_member( $u2, $g1 ) );
@@ -983,7 +983,7 @@ class BP_Tests_Group_Membership_REST_Controller extends BP_Test_REST_Controller_
 
 		$member_object = new BP_Groups_Member( $user->ID, $g1 );
 
-		$this->assertTrue( $u2 === $user->ID );
+		$this->assertSame( $u2, $user->ID );
 		$this->assertFalse( (bool) $member_object->is_mod );
 		$this->assertFalse( (bool) $member_object->is_admin );
 		$this->assertTrue( (bool) groups_is_user_member( $u2, $g1 ) );
@@ -1023,7 +1023,7 @@ class BP_Tests_Group_Membership_REST_Controller extends BP_Test_REST_Controller_
 
 		$member_object = new BP_Groups_Member( $user->ID, $g1 );
 
-		$this->assertTrue( $u2 === $user->ID );
+		$this->assertSame( $u2, $user->ID );
 		$this->assertFalse( (bool) $member_object->is_mod );
 		$this->assertFalse( (bool) $member_object->is_admin );
 		$this->assertTrue( (bool) groups_is_user_member( $u2, $g1 ) );
@@ -1094,7 +1094,7 @@ class BP_Tests_Group_Membership_REST_Controller extends BP_Test_REST_Controller_
 
 		$member_object = new BP_Groups_Member( $user->ID, $g1 );
 
-		$this->assertTrue( $u2 === $user->ID );
+		$this->assertSame( $u2, $user->ID );
 		$this->assertTrue( (bool) $member_object->is_mod );
 		$this->assertFalse( (bool) $member_object->is_admin );
 	}

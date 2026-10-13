@@ -265,7 +265,7 @@ class BP_Tests_Member_Avatar_REST_Controller extends BP_Test_REST_Controller_Tes
 			);
 			$this->assertFalse( file_exists( $full ) );
 			$this->assertFalse( file_exists( $thumb ) );
-			$this->assertFalse( is_dir( $avatar_dir ) );
+			$this->assertDirectoryDoesNotExist( $avatar_dir );
 			$this->assertFalse( bp_get_user_has_avatar( $user_id ) );
 		} finally {
 			$this->bp->rrmdir( $upload_dir );

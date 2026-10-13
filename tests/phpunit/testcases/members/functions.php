@@ -726,19 +726,19 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 	public function test_bp_core_get_illegal_names() {
 
 		// Making sure BP custom illegals are in the array.
-		$this->assertTrue( in_array( 'profile', bp_core_get_illegal_names(), true ) );
-		$this->assertTrue( in_array( 'forums', bp_core_get_illegal_names(), true ) );
+		$this->assertContains( 'profile', bp_core_get_illegal_names() );
+		$this->assertContains( 'forums', bp_core_get_illegal_names() );
 
 		add_filter( 'illegal_user_logins', array( $this, '_illegal_user_logins' ) );
 
 		// Testing fake custom illegal names.
-		$this->assertTrue( in_array( 'testuser', bp_core_get_illegal_names(), true ) );
-		$this->assertTrue( in_array( 'admins', bp_core_get_illegal_names(), true ) );
-		$this->assertFalse( in_array( 'buddypresss', bp_core_get_illegal_names(), true ) );
+		$this->assertContains( 'testuser', bp_core_get_illegal_names() );
+		$this->assertContains( 'admins', bp_core_get_illegal_names() );
+		$this->assertNotContains( 'buddypresss', bp_core_get_illegal_names() );
 
 		// Making sure BP custom illegals are in the array after including the custom ones.
-		$this->assertTrue( in_array( 'profile', bp_core_get_illegal_names(), true ) );
-		$this->assertTrue( in_array( 'forums', bp_core_get_illegal_names(), true ) );
+		$this->assertContains( 'profile', bp_core_get_illegal_names() );
+		$this->assertContains( 'forums', bp_core_get_illegal_names() );
 
 		remove_filter( 'illegal_user_logins', array( $this, '_illegal_user_logins' ) );
 	}

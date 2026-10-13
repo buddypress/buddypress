@@ -317,7 +317,7 @@ class BP_Tests_Core_Functions_BpCoreGetDirectoryPageIds extends BP_UnitTestCase 
 		restore_current_blog();
 
 		// Now verify that our BP Members page was not wiped out
-		$this->assertTrue( $dir_page_ids['members'] === $page_ids['members'] );
+		$this->assertSame( $page_ids['members'], $dir_page_ids['members'] );
 	}
 
 	/**

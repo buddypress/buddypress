@@ -892,7 +892,7 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 			}
 		}
 
-		$this->assertTrue( empty( $not_document ) );
+		$this->assertEmpty( $not_document ?? null );
 	}
 
 	public function test_emails_should_have_correct_link_color() {
@@ -996,7 +996,7 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 	 */
 	public function test_bp_get_deprecated_functions_versions_array_is_consistent_with_deprecated_files() {
 		// When current major version is the initial version, we shouldn't load any deprecated functions file.
-		$this->assertTrue( false !== bp_get_deprecated_functions_versions(), 'Please check the list of `$deprecated_functions_versions` in `bp_get_deprecated_functions_versions()`. There should be one for each file of the `/src/bp-core/deprecated` directory.' );
+		$this->assertNotSame( false, bp_get_deprecated_functions_versions(), 'Please check the list of `$deprecated_functions_versions` in `bp_get_deprecated_functions_versions()`. There should be one for each file of the `/src/bp-core/deprecated` directory.' );
 	}
 
 	/**

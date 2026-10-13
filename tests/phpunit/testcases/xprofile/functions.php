@@ -904,7 +904,7 @@ Bar!';
 
 		$field = xprofile_get_field( $f );
 
-		$this->assertTrue( $field instanceof BP_XProfile_Field );
+		$this->assertInstanceOf( BP_XProfile_Field::class, $field );
 	}
 
 	/**

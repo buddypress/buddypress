@@ -1138,7 +1138,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$group = new BP_Groups_Group( $g );
 
 		// Assert ! empty() check is not false.
-		$this->assertTrue( ! empty( $group->is_member ) );
+		$this->assertNotEmpty( $group->is_member ?? null );
 	}
 
 	/** convert_type_to_order_orderby() **********************************/

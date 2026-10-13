@@ -887,7 +887,7 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 
 		$all_data = $response->get_data();
 
-		$this->assertTrue( str_contains( $all_data['content']['rendered'], '</a>' ) );
+		$this->assertStringContainsString( '</a>', $all_data['content']['rendered'] );
 	}
 
 	/**
@@ -910,7 +910,7 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 
 		$all_data = $response->get_data();
 
-		$this->assertTrue( str_contains( $all_data['content']['rendered'], 'wp-embedded-content' ) );
+		$this->assertStringContainsString( 'wp-embedded-content', $all_data['content']['rendered'] );
 	}
 
 	/**
@@ -1100,7 +1100,7 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$response = $this->server->dispatch( $request );
 		$data     = $response->get_data();
 
-		$this->assertTrue( (int) $u === (int) $data['user_id'], 'The user should be able to comment an activity' );
+		$this->assertSame( (int) $u, (int) $data['user_id'], 'The user should be able to comment an activity' );
 
 		// Checks the comment is fetched.
 		$expected = $data['id'];
@@ -1163,7 +1163,7 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$response = $this->server->dispatch( $request );
 		$data     = $response->get_data();
 
-		$this->assertTrue( (int) $u === (int) $data['user_id'], 'The user should be able to reply to an activity' );
+		$this->assertSame( (int) $u, (int) $data['user_id'], 'The user should be able to reply to an activity' );
 
 		// Checks the comment is fetched.
 		$expected = $data['id'];
@@ -1179,7 +1179,7 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$get_response = $this->server->dispatch( $get_request );
 		$get_data     = $get_response->get_data();
 
-		$this->assertTrue( (int) $expected === (int) $get_data[0]['comments'][0]['comments'][0]['id'] );
+		$this->assertSame( (int) $expected, (int) $get_data[0]['comments'][0]['comments'][0]['id'] );
 	}
 
 	/**
@@ -1773,7 +1773,7 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$response = $this->server->dispatch( $request );
 
 		$update_data = $response->get_data();
-		$this->assertTrue( $expected === $update_data['bar_field'] );
+		$this->assertSame( $expected, $update_data['bar_field'] );
 
 		$GLOBALS['wp_rest_additional_fields'] = $registered_fields;
 	}

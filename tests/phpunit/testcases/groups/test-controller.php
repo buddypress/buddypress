@@ -100,8 +100,8 @@ class BP_Tests_Group_REST_Controller extends BP_Test_REST_Controller_Testcase {
 		$status   = wp_list_pluck( $data, 'status' );
 
 		$this->assertCount( 2, wp_list_pluck( $data, 'id' ) );
-		$this->assertTrue( in_array( 'public', $status, true ) );
-		$this->assertTrue( in_array( 'hidden', $status, true ) );
+		$this->assertContains( 'public', $status );
+		$this->assertContains( 'hidden', $status );
 	}
 
 	/**
@@ -143,8 +143,8 @@ class BP_Tests_Group_REST_Controller extends BP_Test_REST_Controller_Testcase {
 		$status   = wp_list_pluck( $data, 'status' );
 
 		$this->assertCount( 2, wp_list_pluck( $data, 'id' ) );
-		$this->assertTrue( in_array( 'hidden', $status, true ) );
-		$this->assertTrue( in_array( 'private', $status, true ) );
+		$this->assertContains( 'hidden', $status );
+		$this->assertContains( 'private', $status );
 	}
 
 	/**
@@ -575,7 +575,7 @@ class BP_Tests_Group_REST_Controller extends BP_Test_REST_Controller_Testcase {
 
 		$a_data = $response->get_data();
 
-		$this->assertTrue( str_contains( $a_data['description']['rendered'], '</a>' ) );
+		$this->assertStringContainsString( '</a>', $a_data['description']['rendered'] );
 	}
 
 	/**
@@ -1073,7 +1073,7 @@ class BP_Tests_Group_REST_Controller extends BP_Test_REST_Controller_Testcase {
 		$found_groups = wp_list_pluck( $all_data, 'id' );
 
 		$this->assertCount( 1, $found_groups );
-		$this->assertTrue( in_array( $found_groups[0], $groups, true ) );
+		$this->assertContains( $found_groups[0], $groups );
 	}
 
 	/**

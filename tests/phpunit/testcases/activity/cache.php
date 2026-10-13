@@ -502,7 +502,7 @@ class BP_Tests_Activity_Cache extends BP_UnitTestCase {
 		);
 
 		$cached_ids = wp_list_pluck( wp_cache_get( $activity, 'bp_activity_comments' ), 'content', 'id' );
-		$this->assertTrue( 'foo' === $cached_ids[ $comment ] );
+		$this->assertSame( 'foo', $cached_ids[ $comment ] );
 
 		$activity_obj = new BP_Activity_Activity( $activity );
 
@@ -545,7 +545,7 @@ class BP_Tests_Activity_Cache extends BP_UnitTestCase {
 		);
 
 		$cached_ids = wp_list_pluck( wp_cache_get( $activity, 'bp_activity_comments' ), 'content', 'id' );
-		$this->assertTrue( 'bar' === $cached_ids[ $comment ] );
+		$this->assertSame( 'bar', $cached_ids[ $comment ] );
 
 		$comment_obj = new BP_Activity_Activity( $comment );
 

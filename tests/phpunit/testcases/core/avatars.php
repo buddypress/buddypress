@@ -392,7 +392,7 @@ class BP_Tests_Avatars extends BP_UnitTestCase {
 			'avatar_dir' => false
 		) );
 
-		$this->assertTrue( is_dir( $avatar_dir1 ) );
+		$this->assertDirectoryExists( $avatar_dir1 );
 
 		$test2 = bp_core_delete_existing_avatar( array(
 			'item_id'    => '2',
@@ -400,7 +400,7 @@ class BP_Tests_Avatars extends BP_UnitTestCase {
 			'avatar_dir' => false
 		) );
 
-		$this->assertFalse( is_dir( $avatar_dir2 ) );
+		$this->assertDirectoryDoesNotExist( $avatar_dir2 );
 
 		$test1 = bp_core_delete_existing_avatar( array(
 			'item_id'    => 1.1,
@@ -408,7 +408,7 @@ class BP_Tests_Avatars extends BP_UnitTestCase {
 			'avatar_dir' => false
 		) );
 
-		$this->assertTrue( is_dir( $avatar_dir1 ) );
+		$this->assertDirectoryExists( $avatar_dir1 );
 
 		$test1 = bp_core_delete_existing_avatar( array(
 			'item_id'    => 1,
@@ -416,7 +416,7 @@ class BP_Tests_Avatars extends BP_UnitTestCase {
 			'avatar_dir' => false
 		) );
 
-		$this->assertFalse( is_dir( $avatar_dir1 ) );
+		$this->assertDirectoryDoesNotExist( $avatar_dir1 );
 	}
 
 	public function set_capture( $return, $data ) {
