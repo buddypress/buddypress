@@ -2,7 +2,7 @@
 
 These functions help you build BuddyPress URLs whether your WordPress site is using plain or pretty permalinks.
 
-**NB**: In version 12.0.0, in order to make sure to support plain permalinks and customizable slugs, many legacy URL functions were deprecated as they were often used to concatenate URL chunks. The full list of these deprecated functions is available inside the plugin's [bp-core/deprecated/12.0.php](https://github.com/buddypress/buddypress/blob/master/src/bp-core/deprecated/12.0.php) file. 
+**NB**: In version 12.0.0, in order to make sure to support plain permalinks and customizable slugs, many legacy URL functions were deprecated as they were often used to concatenate URL chunks. The full list of these deprecated functions is available inside the plugin's [bp-core/deprecated/12.0.php](https://github.com/buddypress/buddypress/blob/master/src/bp-core/deprecated/12.0.php) file. The [deprecated functions policy](../deprecated-functions.md) explains how long BuddyPress keeps loading that 12.0 file.
 
 ## Core functions
 
