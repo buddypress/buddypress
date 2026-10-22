@@ -734,7 +734,7 @@ class BP_XProfile_Fields_REST_Controller extends WP_REST_Controller {
 
 			$data['data']['value'] = array(
 				'raw'          => $field->data->value,
-				'unserialized' => $this->get_profile_field_unserialized_value( $field->data->value ),
+				'unserialized' => $this->get_profile_field_unserialized_value( $field->data->value, $field ),
 				'rendered'     => $this->get_profile_field_rendered_value( $field->data->value, $field ),
 			);
 		}
@@ -839,8 +839,10 @@ class BP_XProfile_Fields_REST_Controller extends WP_REST_Controller {
 			return '';
 		}
 
-		// Unserialize the BuddyPress way.
-		$value = bp_unserialize_profile_field( $value );
+		if ( isset( $profile_field->type_obj->supports_multiple_defaults ) && (bool) $profile_field->type_obj->supports_multiple_defaults ) {
+			// Unserialize the BuddyPress way.
+			$value = bp_unserialize_profile_field( $value );
+		}
 
 		global $field;
 		$reset_global = $field;
@@ -870,15 +872,24 @@ class BP_XProfile_Fields_REST_Controller extends WP_REST_Controller {
 	 *
 	 * @since 15.0.0
 	 *
-	 * @param string $value Optional. The raw value of the field.
-	 * @return array The unserialized field value.
+	 * @param  string                    $value         The raw value of the field.
+	 * @param  integer|BP_XProfile_Field $profile_field The ID or the full object for the field.
+	 *
+	 * @return array The maybe unserialized field value.
 	 */
-	public function get_profile_field_unserialized_value( $value = '' ) {
+	public function get_profile_field_unserialized_value( $value = '', $profile_field = null  ) {
 		if ( empty( $value ) ) {
 			return array();
 		}
 
-		$unserialized_value = maybe_unserialize( $value );
+		$profile_field = xprofile_get_field( $profile_field );
+
+		if ( isset( $profile_field->type_obj->supports_multiple_defaults ) && (bool) $profile_field->type_obj->supports_multiple_defaults ) {
+			$unserialized_value = maybe_unserialize( $value );
+		} else {
+			$unserialized_value = $value;
+		}
+
 		if ( ! is_array( $unserialized_value ) ) {
 			$unserialized_value = (array) $unserialized_value;
 		}
