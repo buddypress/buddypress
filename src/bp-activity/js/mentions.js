@@ -128,7 +128,7 @@ window.bp = window.bp || {};
 				 * @param {unknown} offset
 				 * @since 2.1.0
 				 */
-				before_reposition: function( offset ) {
+				beforeReposition: function( offset ) {
 					// get the iframe, if any, already applied with atwho.js library.
 					var caret,
 							line,
@@ -147,6 +147,7 @@ window.bp = window.bp || {};
 							caret.left += iframeOffset.left;
 							caret.top  += iframeOffset.top;
 						}
+						caret.top -= $( atwhoDataValue.iframe ).contents().scrollTop();
 					} else {
 						caret = this.$inputor.caret( 'offset' );
 					}
