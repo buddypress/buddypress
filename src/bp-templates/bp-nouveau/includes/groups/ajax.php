@@ -312,6 +312,8 @@ function bp_nouveau_ajax_get_users_to_invite() {
 		'nouveau_ajax_get_users_to_invite'
 	);
 
+	$request                   = array_intersect_key( $request, array( 'scope' => '', 'group_id' => '' ) );
+	$request['group_id']       = empty( $request['group_id'] ) ? 0 : (int) $request['group_id'];
 	$bp->groups->invites_scope = 'members';
 	$message = __( 'Select members to invite by clicking the + button. Once you\'ve made your selection, use the "Send Invites" navigation item to continue.', 'buddypress' );
 
