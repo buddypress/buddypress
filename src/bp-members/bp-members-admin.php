@@ -158,6 +158,8 @@ function bp_members_admin_preview_signup_profile_info( $signup_field_labels = ar
 				// Get all xprofile field IDs except field 1.
 				if ( ! empty( $signup_object->meta['profile_field_ids'] ) ) {
 					$profile_field_ids = array_flip( explode( ',', $signup_object->meta['profile_field_ids'] ) );
+					$signup_field_ids  = array_flip( bp_xprofile_get_signup_field_ids() );
+					$profile_field_ids = array_diff( $profile_field_ids, $signup_field_ids ) ? $signup_field_ids : $profile_field_ids;
 					unset( $profile_field_ids[1] );
 				}
 			?>
