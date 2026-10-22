@@ -540,6 +540,9 @@ function xprofile_set_field_data( $field, $user_id, $value, $is_required = false
  * @return bool True on success
  */
 function xprofile_set_field_visibility_level( $field_id = 0, $user_id = 0, $visibility_level = '' ) {
+	// Ensure $field_id is an integer. User ID is sanitized in `update_user_meta()`.
+	$field_id = absint( $field_id );
+
 	if ( empty( $field_id ) || empty( $user_id ) || empty( $visibility_level ) ) {
 		return false;
 	}
@@ -573,6 +576,9 @@ function xprofile_set_field_visibility_level( $field_id = 0, $user_id = 0, $visi
  */
 function xprofile_get_field_visibility_level( $field_id = 0, $user_id = 0 ) {
 	$current_level = '';
+
+	// Ensure $field_id is an integer.
+	$field_id = absint( $field_id );
 
 	if ( empty( $field_id ) || empty( $user_id ) ) {
 		return $current_level;
@@ -1377,7 +1383,8 @@ function bp_xprofile_get_fields_by_visibility_levels( $user_id, $levels = array(
 		unset( $field_ids[$key] );
 	}
 
-	return $field_ids;
+	// Ensure that the $field_ids are integers.
+	return array_map( 'absint', $field_ids );
 }
 
 /**

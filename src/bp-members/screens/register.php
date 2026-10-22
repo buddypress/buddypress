@@ -121,7 +121,11 @@ function bp_core_screen_signup() {
 			$bp->signup->errors['signup_password'] = $password_error;
 		}
 
-		if ( bp_signup_requires_privacy_policy_acceptance() && ! empty( $_POST['signup-privacy-policy-check'] ) && empty( $_POST['signup-privacy-policy-accept'] ) ) {
+		$privacy_policy_check  = isset( $_POST['signup-privacy-policy-check'] ) && '1' === $_POST['signup-privacy-policy-check'];
+		$privacy_policy_accept = isset( $_POST['signup-privacy-policy-accept'] ) && 'on' === $_POST['signup-privacy-policy-accept'];
+		$privacy_policy        = $privacy_policy_check && $privacy_policy_accept;
+
+		if ( bp_signup_requires_privacy_policy_acceptance() && ! $privacy_policy ) {
 			$bp->signup->errors['signup_privacy_policy'] = __( 'You must indicate that you have read and agreed to the Privacy Policy.', 'buddypress' );
 		}
 
@@ -131,14 +135,17 @@ function bp_core_screen_signup() {
 		// Now we've checked account details, we can check profile information.
 		if ( bp_is_active( 'xprofile' ) ) {
 
-			// Make sure hidden field is passed and populated.
-			if ( isset( $_POST['signup_profile_field_ids'] ) && !empty( $_POST['signup_profile_field_ids'] ) ) {
+			// Sanitize the posted profile field IDs.
+			$profile_field_ids = isset( $_POST['signup_profile_field_ids'] ) ? $_POST['signup_profile_field_ids'] : array();
+			$profile_field_ids = wp_parse_id_list( $profile_field_ids );
+			$signup_field_ids  = bp_xprofile_get_signup_field_ids();
+			$profile_field_ids = array_diff( $profile_field_ids, $signup_field_ids ) ? $signup_field_ids : $profile_field_ids;
 
-				// Let's compact any profile field info into an array.
-				$profile_field_ids = explode( ',', $_POST['signup_profile_field_ids'] );
+			// Make sure hidden field is passed and populated.
+			if ( ! empty( $profile_field_ids ) ) {
 
 				// Loop through the posted fields formatting any datebox values then validate the field.
-				foreach ( (array) $profile_field_ids as $field_id ) {
+				foreach ( $profile_field_ids as $field_id ) {
 					bp_xprofile_maybe_format_datebox_post_data( $field_id );
 
 					// Trim post fields.
@@ -219,12 +226,11 @@ function bp_core_screen_signup() {
 
 				// Make sure the extended profiles module is enabled.
 				if ( bp_is_active( 'xprofile' ) ) {
-					// Let's compact any profile field info into usermeta.
-					$profile_field_ids = explode( ',', $_POST['signup_profile_field_ids'] );
-
 					/*
 					 * Loop through the posted fields, formatting any
 					 * datebox values, then add to usermeta.
+					 * $profile_field_ids is created by sanitizing
+					 * $_POST['signup_profile_field_ids'] above.
 					 */
 					foreach ( (array) $profile_field_ids as $field_id ) {
 						bp_xprofile_maybe_format_datebox_post_data( $field_id );
@@ -236,8 +242,13 @@ function bp_core_screen_signup() {
 							$usermeta['field_' . $field_id . '_visibility'] = $_POST['field_' . $field_id . '_visibility'];
 					}
 
-					// Store the profile field ID's in usermeta.
-					$usermeta['profile_field_ids'] = $_POST['signup_profile_field_ids'];
+					/**
+					 * Store the profile field IDs in usermeta.
+					 * Restore the format to be similar to what was passed in
+					 * as $_POST['signup_profile_field_ids'],
+					 * but use the sanitized value.
+					 */
+					$usermeta['profile_field_ids'] = implode( ',', $profile_field_ids );
 				}
 
 				// Hash and store the password.
