@@ -936,6 +936,7 @@ function groups_get_total_member_count( $group, $skip_cache = false ) {
  * @since 2.6.0 Added `$group_type`, `$group_type__in`, and `$group_type__not_in` parameters.
  * @since 2.7.0 Added `$update_admin_cache` and `$parent_id` parameters.
  * @since 10.0.0 Added `$date_query` parameter.
+ * @since 15.0.0 Added `$status__not_in` parameter.
  *
  * @param array|string $args {
  *     Optional. Array of arguments. Supports all arguments of
@@ -968,6 +969,7 @@ function groups_get_groups( $args = '' ) {
 			'date_query'         => false,          // Filter by group last activity date. See WP_Date_Query for syntax.
 			'show_hidden'        => false,          // Show hidden groups to non-admins.
 			'status'             => array(),        // Array or comma-separated list of group statuses to limit results to.
+			'status__not_in'     => array(),        // Array or comma-separated list of group statuses to exclude from results.
 			'per_page'           => 20,             // The number of results to return per page.
 			'page'               => 1,              // The page to return if limiting per page.
 			'update_meta_cache'  => true,           // Pre-fetch groupmeta for queried groups.
@@ -994,6 +996,7 @@ function groups_get_groups( $args = '' ) {
 			'date_query'         => $r['date_query'],
 			'show_hidden'        => $r['show_hidden'],
 			'status'             => $r['status'],
+			'status__not_in'     => $r['status__not_in'],
 			'per_page'           => $r['per_page'],
 			'page'               => $r['page'],
 			'update_meta_cache'  => $r['update_meta_cache'],

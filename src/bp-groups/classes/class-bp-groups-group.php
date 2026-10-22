@@ -1062,6 +1062,7 @@ class BP_Groups_Group {
 	 * @since 2.8.0 Changed `$search_terms` parameter handling and added `$search_columns` parameter.
 	 * @since 2.9.0 Added `$slug` parameter.
 	 * @since 10.0.0 Added `$date_query` parameter.
+	 * @since 15.0.0 Added `$status__not_in` parameter.
 	 *
 	 * @param array $args {
 	 *     Array of parameters. All items are optional.
@@ -1116,9 +1117,11 @@ class BP_Groups_Group {
 	 *     @type array|string $status             Optional. Array or comma-separated list of group statuses to limit
 	 *                                            results to. If specified, $show_hidden is ignored.
 	 *                                            Default: empty array.
-	 *     @type string       $fields             Which fields to return. Specify 'ids' to fetch a list of IDs.
-	 *                                            Default: 'all' (return BP_Groups_Group objects).
-	 *                                            If set, meta and admin caches will not be prefetched.
+	 *     @type array|string $status__not_in     Optional. Array or comma-separated list of group statuses to exclude
+	 *                                            from results. Default: empty array.
+ 	 *     @type string       $fields             Which fields to return. Specify 'ids' to fetch a list of IDs.
+ 	 *                                            Default: 'all' (return BP_Groups_Group objects).
+ 	 *                                            If set, meta and admin caches will not be prefetched.
 	 * }
 	 * @return array {
 	 *     @type array $groups Array of group objects returned by the
@@ -1184,6 +1187,7 @@ class BP_Groups_Group {
 			'exclude'            => false,
 			'show_hidden'        => false,
 			'status'             => array(),
+			'status__not_in'     => array(),
 			'fields'             => 'all',
 		);
 
@@ -1216,7 +1220,16 @@ class BP_Groups_Group {
 			$r['status']                = array_map( 'sanitize_title', $r['status'] );
 			$status_in                  = "'" . implode( "','", $r['status'] ) . "'";
 			$where_conditions['status'] = "g.status IN ({$status_in})";
-		} elseif ( empty( $r['show_hidden'] ) ) {
+		}
+
+		if ( ! empty( $r['status__not_in'] ) ) {
+			if ( ! is_array( $r['status__not_in'] ) ) {
+				$r['status__not_in'] = preg_split( '/[\s,]+/', $r['status__not_in'] );
+			}
+			$r['status__not_in']                = array_map( 'sanitize_title', $r['status__not_in'] );
+			$status_not_in                      = "'" . implode( "','", $r['status__not_in'] ) . "'";
+			$where_conditions['status__not_in'] = "g.status NOT IN ({$status_not_in})";
+		} elseif ( empty( $r['status'] ) && empty( $r['show_hidden'] ) ) {
 			$where_conditions['hidden'] = "g.status != 'hidden'";
 		}
 
