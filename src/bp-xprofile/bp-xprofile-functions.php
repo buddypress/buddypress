@@ -711,7 +711,11 @@ function xprofile_format_profile_field( $field_type, $field_value ) {
 		return false;
 	}
 
-	$field_value = bp_unserialize_profile_field( $field_value );
+	$field_type_obj = bp_xprofile_create_field_type( $field_type );
+
+	if ( (bool) $field_type_obj->supports_multiple_defaults ) {
+		$field_value = bp_unserialize_profile_field( $field_value );
+	}
 
 	if ( 'datebox' != $field_type ) {
 		$content = $field_value;

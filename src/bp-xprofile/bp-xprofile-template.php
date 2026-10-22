@@ -614,7 +614,9 @@ function bp_the_profile_field_value() {
 	function bp_get_the_profile_field_value() {
 		global $field;
 
-		$field->data->value = bp_unserialize_profile_field( $field->data->value );
+		if ( (bool) $field->type_obj->supports_multiple_defaults ) {
+			$field->data->value = bp_unserialize_profile_field( $field->data->value );
+		}
 
 		/**
 		 * Filters the XProfile field value.
