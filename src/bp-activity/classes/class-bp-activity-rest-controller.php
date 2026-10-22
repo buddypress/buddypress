@@ -482,12 +482,26 @@ class BP_Activity_REST_Controller extends WP_REST_Controller {
 
 			if ( empty( $user_id ) || (int) bp_loggedin_user_id() === (int) $user_id ) {
 				$item_id   = $request->get_param( 'primary_item_id' );
+				$parent_id = $request->get_param( 'secondary_item_id' );
 				$component = $request->get_param( 'component' );
+				$type      = $request->get_param( 'type' );
 
 				// The current user can create an activity.
 				$retval = true;
 
-				if ( bp_is_active( 'groups' ) && buddypress()->groups->id === $component && ! is_null( $item_id ) ) {
+				if ( 'activity_comment' === $type ) {
+					$activity = ! empty( $item_id ) ? new BP_Activity_Activity( $item_id ) : false;
+
+					if ( empty( $activity ) || (int) $activity->id !== (int) $item_id || 'activity_comment' === $activity->type || ( bp_is_active( 'groups' ) && ! bp_groups_filter_activity_can_comment( true, $activity ) ) ) {
+						$retval = $error;
+					} elseif ( ! empty( $parent_id ) && (int) $parent_id !== (int) $activity->id ) {
+						$parent = new BP_Activity_Activity( $parent_id );
+
+						if ( empty( $parent ) || (int) $parent->id !== (int) $parent_id || 'activity_comment' !== $parent->type || (int) $parent->item_id !== (int) $activity->id ) {
+							$retval = $error;
+						}
+					}
+				} elseif ( bp_is_active( 'groups' ) && buddypress()->groups->id === $component && ! is_null( $item_id ) ) {
 					if ( ! $this->show_hidden( $component, $item_id ) ) {
 						$retval = $error;
 					}
