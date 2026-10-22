@@ -450,6 +450,9 @@ class BP_User_Query {
 			$member_type = $member_type__in;
 		}
 
+		// Calculate the member type query clause.
+		$member_type_clause = false;
+
 		// Member types to exclude. Note that this takes precedence over inclusions.
 		if ( ! empty( $member_type__not_in ) ) {
 			$member_type_clause = $this->get_sql_clause_for_member_types( $member_type__not_in, 'NOT IN' );
