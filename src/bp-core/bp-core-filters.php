@@ -88,7 +88,9 @@ add_filter( 'bp_template_include', 'bp_template_include_theme_compat', 4, 2 );
  * @link https://buddypress.trac.wordpress.org/ticket/9309
  * @link https://core.trac.wordpress.org/ticket/64099
  */
-add_action( 'bp_core_pre_load_template', 'wp_start_template_enhancement_output_buffer', 1000 ); // Late priority to let `wp_template_enhancement_output_buffer` filters and `wp_finalized_template_enhancement_output_buffer` actions be registered.
+if ( function_exists( 'wp_start_template_enhancement_output_buffer' ) ) {
+	add_action( 'bp_core_pre_load_template', 'wp_start_template_enhancement_output_buffer', 1000 ); // Late priority to let `wp_template_enhancement_output_buffer` filters and `wp_finalized_template_enhancement_output_buffer` actions be registered.
+}
 
 // Filter BuddyPress template locations.
 add_filter( 'bp_get_template_stack', 'bp_add_template_stack_locations' );
