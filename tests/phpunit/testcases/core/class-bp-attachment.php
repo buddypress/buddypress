@@ -602,4 +602,15 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 		$_FILES = $reset_files;
 		$_POST = $reset_post;
 	}
+
+	/**
+	 * @ticket BP9338
+	 * @group upload
+	 */
+	public function test_bp_attachment_sanitize_utf8_filename() {
+		$avatar_attachment = new BP_Attachment_Avatar();
+
+		$this->assertSame( 'mystery-man.jpg', $avatar_attachment->sanitize_utf8_filename( 'mystery-man.jpg' ) );
+		$this->assertSame( 'cafe.jpg', $avatar_attachment->sanitize_utf8_filename( 'café.jpg' ) );
+	}
 }
