@@ -121,12 +121,20 @@ function bp_core_screen_signup() {
 			$bp->signup->errors['signup_password'] = $password_error;
 		}
 
-		$privacy_policy_check  = isset( $_POST['signup-privacy-policy-check'] ) && '1' === $_POST['signup-privacy-policy-check'];
-		$privacy_policy_accept = isset( $_POST['signup-privacy-policy-accept'] ) && 'on' === $_POST['signup-privacy-policy-accept'];
-		$privacy_policy        = $privacy_policy_check && $privacy_policy_accept;
+		/**
+		 * True if registration form has added a "Privacy Policy" check input, otherwise false.
+		 * See bp_nouveau_signup_privacy_policy_acceptance_section() for example of use.
+		 */
+		$privacy_policy_check = isset( $_POST['signup-privacy-policy-check'] ) && '1' === $_POST['signup-privacy-policy-check'];
 
-		if ( bp_signup_requires_privacy_policy_acceptance() && ! $privacy_policy ) {
-			$bp->signup->errors['signup_privacy_policy'] = __( 'You must indicate that you have read and agreed to the Privacy Policy.', 'buddypress' );
+		if ( $privacy_policy_check ) {
+			// True if an acceptance has been submitted, otherwise false.
+			$privacy_policy_accept = isset( $_POST['signup-privacy-policy-accept'] ) && 'on' === $_POST['signup-privacy-policy-accept'];
+
+			// Check if "Privacy Policy" page is present and for a submitted acceptance.
+			if ( bp_signup_requires_privacy_policy_acceptance() && ! $privacy_policy_accept ) {
+				$bp->signup->errors['signup_privacy_policy'] = __( 'You must indicate that you have read and agreed to the Privacy Policy.', 'buddypress' );
+			}
 		}
 
 		$bp->signup->username = $_POST['signup_username'];
