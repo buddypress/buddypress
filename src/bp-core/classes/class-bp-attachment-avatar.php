@@ -83,6 +83,7 @@ class BP_Attachment_Avatar extends BP_Attachment {
 	 *
 	 * Adds an error if the avatar size or type don't match BuddyPress needs.
 	 * The error code is the index of $upload_error_strings.
+	 * Also removes the `-bpfull` and `-bpthumb` suffixes from the file name.
 	 *
 	 * @since 2.3.0
 	 *
@@ -95,12 +96,26 @@ class BP_Attachment_Avatar extends BP_Attachment {
 			return $file;
 		}
 
+		/*
+		 * Cropping moves or deletes the existing avatar files, which it finds by these
+		 * suffixes. Remove them, so the uploaded original is not taken for one of them.
+		 */
+		if ( isset( $file['name'] ) && is_string( $file['name'] ) ) {
+			$file['name'] = str_replace( array( '-bpfull', '-bpthumb' ), '', $file['name'] );
+
+			if ( '' === pathinfo( $file['name'], PATHINFO_FILENAME ) ) {
+				$file['name'] = 'avatar' . $file['name'];
+			}
+		}
+
+		$file_array = array( 'file' => $file );
+
 		// File size is too big.
-		if ( ! bp_core_check_avatar_size( array( 'file' => $file ) ) ) {
+		if ( ! bp_core_check_avatar_size( $file_array ) ) {
 			$file['error'] = 9;
 
 			// File is of invalid type.
-		} elseif ( ! bp_core_check_avatar_type( array( 'file' => $file ) ) ) {
+		} elseif ( ! bp_core_check_avatar_type( $file_array ) ) {
 			$file['error'] = 10;
 		}
 

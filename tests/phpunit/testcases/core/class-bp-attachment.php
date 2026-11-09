@@ -587,7 +587,7 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 		// Restore the filter used to fake uploads
 		add_filter( 'upload_dir', array( $this, 'filter_upload_dir' ), 20, 1 );
 
-		$this->assertTrue( 1 === $attachment_class->upload_dir_filter_args );
+		$this->assertSame( 1, $attachment_class->upload_dir_filter_args );
 
 		$cover_image_class = new BP_Attachment_Cover_Image();
 
@@ -597,10 +597,118 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 		// Should be empty
 		$this->assertEmpty( $this->original_upload_dir );
 
-		$this->assertTrue( 0 === $cover_image_class->upload_dir_filter_args );
+		$this->assertSame( 0, $cover_image_class->upload_dir_filter_args );
 
 		$_FILES = $reset_files;
 		$_POST = $reset_post;
+	}
+
+	/**
+	 * @ticket BP6746
+	 * @ticket BP9335
+	 * @group upload
+	 * @group avatar
+	 */
+	public function test_bp_attachment_avatar_validate_upload_removes_avatar_suffixes() {
+		$avatar_attachment = new BP_Attachment_Avatar();
+		$file              = array(
+			'tmp_name' => $this->image_file,
+			'type'     => 'image/jpeg',
+			'error'    => 0,
+			'size'     => filesize( $this->image_file ),
+		);
+
+		$names = array(
+			'1763669118-bpfull.jpg' => '1763669118.jpg',
+			'me-bpthumb.jpg'        => 'me.jpg',
+			'-bpfull.jpg'           => 'avatar.jpg',
+			'mystery-man.jpg'       => 'mystery-man.jpg',
+		);
+
+		foreach ( $names as $name => $expected ) {
+			$file['name'] = $name;
+			$validated    = $avatar_attachment->validate_upload( $file );
+
+			$this->assertSame( $expected, $validated['name'], $name );
+			$this->assertSame( 0, $validated['error'], $name );
+		}
+	}
+
+	/**
+	 * @ticket BP6746
+	 * @ticket BP9335
+	 * @group upload
+	 * @group crop
+	 * @group avatar
+	 * @dataProvider data_avatar_history
+	 *
+	 * @param bool $history_disabled Whether avatar history is disabled.
+	 */
+	public function test_bp_attachment_avatar_crop_upload_named_like_an_avatar( $history_disabled ) {
+		$reset_files = $_FILES;
+		$bp          = buddypress();
+
+		// Upload for real: the faked uploads of this test case never move a file.
+		remove_filter( 'bp_attachment_upload_overrides', array( $this, 'filter_overrides' ) );
+		remove_filter( 'upload_dir', array( $this, 'filter_upload_dir' ), 20 );
+
+		$u1                     = self::factory()->user->create();
+		$bp->displayed_user     = new stdClass();
+		$bp->displayed_user->id = $u1;
+		self::set_current_user( $u1 );
+
+		try {
+			if ( $history_disabled ) {
+				add_filter( 'bp_disable_avatar_history', '__return_true' );
+			}
+
+			$avatar_attachment = new BP_Attachment_Avatar();
+			$_POST['action']   = $avatar_attachment->action;
+
+			// The second upload replaces the first avatar, as when a member uploads their downloaded avatar again.
+			foreach ( array( 'canola.jpg', '1763669118-bpfull.jpg' ) as $name ) {
+				$tmp_file = trailingslashit( get_temp_dir() ) . 'bp-test-' . $name;
+
+				copy( BP_TESTS_DIR . 'assets/canola.jpg', $tmp_file );
+
+				$_FILES[ $avatar_attachment->file_input ] = array(
+					'tmp_name' => $tmp_file,
+					'name'     => $name,
+					'type'     => 'image/jpeg',
+					'error'    => 0,
+					'size'     => filesize( $tmp_file ),
+				);
+
+				$uploaded = $avatar_attachment->upload( $_FILES, 'bp_members_avatar_upload_dir' );
+				$this->assertArrayHasKey( 'file', $uploaded, $name );
+
+				$cropped = $avatar_attachment->crop(
+					array(
+						'object'        => 'user',
+						'avatar_dir'    => 'avatars',
+						'item_id'       => $u1,
+						'original_file' => '/avatars/' . $u1 . '/' . wp_basename( $uploaded['file'] ),
+						'crop_x'        => 0,
+						'crop_y'        => 0,
+					)
+				);
+
+				$this->assertIsArray( $cropped, $name );
+				$this->assertFileExists( $cropped['full'], $name );
+				$this->assertFileExists( $cropped['thumb'], $name );
+			}
+
+		} finally {
+			$this->clean_avatars();
+			$_FILES = $reset_files;
+		}
+	}
+
+	public function data_avatar_history() {
+		return array(
+			'avatar history enabled'  => array( false ),
+			'avatar history disabled' => array( true ),
+		);
 	}
 
 	/**
