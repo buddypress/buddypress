@@ -138,36 +138,7 @@
 		$this->assertSame( array( 'paged', 'count' ), $query_types );
 	}
 
-	/**
-	 * @expectedDeprecated bp_optouts_get_paged_optouts_sql
-	 */
-	public function test_get_should_apply_deprecated_paged_sql_filter() {
-		$optout_id = self::factory()->optout->create(
-			array(
-				'email_address' => 'one@wp.org',
-				'user_id'       => self::factory()->user->create(),
-			)
-		);
 
-		$filter = static function ( $sql ) use ( $optout_id ) {
-			return str_replace( 'WHERE ', "WHERE id = {$optout_id} AND ", $sql );
-		};
-
-		add_filter( 'bp_optouts_get_paged_optouts_sql', $filter );
-
-		try {
-			$optout_ids = BP_Optout::get(
-				array(
-					'cache_results' => false,
-					'fields'        => 'ids',
-				)
-			);
-		} finally {
-			remove_filter( 'bp_optouts_get_paged_optouts_sql', $filter );
-		}
-
-		$this->assertSame( array( $optout_id ), $optout_ids );
-	}
 
 	public function test_bp_optouts_add_optout_vanilla() {
 

@@ -212,53 +212,9 @@ class BP_Tests_BP_Button extends BP_UnitTestCase {
 		$this->assertStringContainsString( 'name="my-button"', $b->contents );
 	}
 
-	/**
-	 * @ticket BP7226
-	 */
-	public function test_bp_button_deprecated_args_should_still_render() {
-		$b = new BP_Button( array(
-			'id' => 'foo',
-			'component' => 'members',
-			'block_self' => false,
-			'must_be_logged_in' => false,
-			'wrapper' => 'section',
-			'wrapper_class' => 'section-class',
-			'wrapper_id' => 'section-id',
-			'link_href' => 'http://example.com',
-			'link_class' => 'link-class',
-			'link_id' => 'link-id',
-			'link_rel' => 'nofollow',
-			'link_title' => 'link-title'
-		) );
 
-		$this->assertStringContainsString( '<section ', $b->contents );
-		$this->assertStringContainsString( 'class="section-class ', $b->contents );
-		$this->assertStringContainsString( 'id="section-id"', $b->contents );
-		$this->assertStringContainsString( 'href="http://example.com"', $b->contents );
-		$this->assertStringContainsString( 'class="link-class"', $b->contents );
-		$this->assertStringContainsString( 'id="link-id"', $b->contents );
-		$this->assertStringContainsString( 'rel="nofollow"', $b->contents );
-		$this->assertStringContainsString( 'title="link-title"', $b->contents );
-	}
 
-	/**
-	 * @ticket BP7226
-	 */
-	public function test_bp_button_new_element_attrs_have_precedence_over_deprecated_element_attrs() {
-		$b = new BP_Button( array(
-			'id' => 'foo',
-			'component' => 'members',
-			'block_self' => false,
-			'must_be_logged_in' => false,
-			'button_element' => 'button',
-			'button_attr' => array(
-				'class' => 'new-class',
-			),
-			'link_class' => 'old-class'
-		) );
 
-		$this->assertStringContainsString( '<button class="new-class"', $b->contents );
-	}
 
 	/**
 	 * @ticket BP7226

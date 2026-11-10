@@ -919,16 +919,6 @@ function bp_core_admin_debug_information( $debug_info = array() ) {
 				'label' => 'BP_PLUGIN_URL',
 				'value' => BP_PLUGIN_URL,
 			),
-			'BP_IGNORE_DEPRECATED'                  => array(
-				'label' => 'BP_IGNORE_DEPRECATED',
-				'value' => defined( 'BP_IGNORE_DEPRECATED' ) && BP_IGNORE_DEPRECATED ? __( 'Enabled', 'buddypress' ) : __( 'Disabled', 'buddypress' ),
-				'debug' => defined( 'BP_IGNORE_DEPRECATED' ) ? BP_IGNORE_DEPRECATED : 'undefined',
-			),
-			'BP_LOAD_DEPRECATED'                    => array(
-				'label' => 'BP_LOAD_DEPRECATED',
-				'value' => defined( 'BP_LOAD_DEPRECATED' ) && BP_LOAD_DEPRECATED ? __( 'Enabled', 'buddypress' ) : __( 'Disabled', 'buddypress' ),
-				'debug' => defined( 'BP_LOAD_DEPRECATED' ) ? BP_LOAD_DEPRECATED : 'undefined',
-			),
 			'BP_ROOT_BLOG'                          => array(
 				'label' => 'BP_ROOT_BLOG',
 				'value' => BP_ROOT_BLOG,

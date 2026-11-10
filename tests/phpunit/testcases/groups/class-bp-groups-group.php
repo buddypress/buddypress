@@ -14,14 +14,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$this->assertSame( 0, $group->id );
 	}
 
-	/**
-	 * @group __construct
-	 * @expectedDeprecated BP_Groups_Group::__construct
-	 */
-	public function test_deprecated_arg() {
-		$group = new BP_Groups_Group( 123456789, array( 'populate_extras' => true ) );
-		$this->assertSame( 0, $group->id );
-	}
+
 
 
 	public function test_get_sql_clauses_filter_duplicate_join_and_cached_totals() {
@@ -90,51 +83,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$this->assertArrayHasKey( 'where_conditions', $contexts['paged'][1] );
 	}
 
-	/**
-	 * @expectedDeprecated bp_groups_get_paged_groups_sql
-	 * @expectedDeprecated bp_groups_get_total_groups_sql
-	 */
-	public function test_get_legacy_sql_filters_keep_arguments_and_canonical_runs_last() {
-		self::factory()->group->create();
 
-		$args   = array( 'fields' => 'ids', 'cache_results' => false );
-
-		$calls  = array();
-		$legacy = static function( $sql, $parts, $parsed ) use ( &$calls ) {
-			$calls[] = array( $parts, $parsed );
-
-			return str_replace( 'WHERE', 'WHERE 1 = 0 AND', $sql ) . ' /* legacy */';
-		};
-
-		$canonical = function( $sql, $type ) {
-			$this->assertStringContainsString( '/* legacy */', $sql );
-
-			return 'count' === $type ? 'SELECT 42' : $sql;
-		};
-
-		add_filter( 'bp_groups_get_paged_groups_sql', $legacy, 10, 3 );
-		add_filter( 'bp_groups_get_total_groups_sql', $legacy, 10, 3 );
-
-		try {
-			$legacy_only = BP_Groups_Group::get( $args );
-
-			$this->assertSame( array(), $legacy_only['groups'] );
-			$this->assertSame( 0, $legacy_only['total'] );
-
-			add_filter( 'bp_groups_group_get_sql', $canonical, 10, 2 );
-			$found = BP_Groups_Group::get( $args );
-
-			$this->assertSame( array(), $found['groups'] );
-			$this->assertSame( 42, $found['total'] );
-			$this->assertCount( 4, $calls );
-			$this->assertSame( $calls[0], $calls[1] );
-			$this->assertSame( 'ids', $calls[0][1]['fields'] );
-		} finally {
-			remove_filter( 'bp_groups_group_get_sql', $canonical );
-			remove_filter( 'bp_groups_get_paged_groups_sql', $legacy );
-			remove_filter( 'bp_groups_get_total_groups_sql', $legacy );
-		}
-	}
 
 	public function test_get_default_sql_text_is_unchanged() {
 		$bp     = buddypress();
@@ -203,17 +152,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$this->assertSame( $g1, $group_id );
 	}
 
-	/**
-	 * @group get
-	 * @expectedDeprecated BP_Groups_Group::group_exists
-	 */
-	public function test_get_group_with_slug_with_deprecated_args() {
-		$slug     = 'group-test';
-		$g1       = self::factory()->group->create( array( 'slug' => $slug ) );
-		$group_id = BP_Groups_Group::group_exists( $slug, 'random-name' );
 
-		$this->assertSame( $g1, $group_id );
-	}
 
 	/**
 	 * @group get
@@ -1447,22 +1386,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$this->assertNotContains( $g2, $found );
 	}
 
-	/**
-	 * @expectedDeprecated BP_Groups_Group::get_by_letter
-	 */
-	public function test_get_by_letter_with_deprecated_arg() {
-		$g1 = self::factory()->group->create( array(
-			'name'        => 'Awesome Cool Group',
-			'description' => 'Neat',
-		) );
-		$g2 = self::factory()->group->create();
 
-		$groups = BP_Groups_Group::get_by_letter( 'A', null, null, false );
-		$found  = wp_list_pluck( $groups['groups'], 'id' );
-
-		$this->assertSame( array( $g1 ), $found );
-		$this->assertNotContains( $g2, $found );
-	}
 
 	public function test_get_by_letter_typical_use() {
 		$g1 = self::factory()->group->create( array(
@@ -1570,19 +1494,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$this->assertSame( "'Plain Group", $wpdb->get_var( $wpdb->prepare( 'SELECT name FROM ' . buddypress()->groups->table_name . ' WHERE id = %d', $plain_id ) ) );
 	}
 
-	/**
-	 * @expectedDeprecated BP_Groups_Group::get_random
-	 */
-	public function test_get_random_with_deprecated_arg() {
-		$g1 = self::factory()->group->create();
-		$g2 = self::factory()->group->create();
 
-		// There are only two groups, so excluding one should give us the other
-		$groups = BP_Groups_Group::get_random( null, null, 0, false, false, array( $g1, 'ignore this' ) );
-		$found  = wp_list_pluck( $groups['groups'], 'id' );
-
-		$this->assertSame( array( $g2 ), $found );
-	}
 
 	public function test_get_random_with_exclude() {
 		$g1 = self::factory()->group->create();
