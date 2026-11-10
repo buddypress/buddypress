@@ -1690,6 +1690,126 @@ Bar!';
 	}
 
 	/**
+	 * Group activity access applies when Groups is visible to members only.
+	 *
+	 * @group bp_activity_user_can_read
+	 */
+	public function test_group_activity_access_when_groups_are_members_only() {
+		$original_visibility = get_option( '_bp_community_visibility', false );
+		$original_user       = get_current_user_id();
+
+		update_option(
+			'_bp_community_visibility',
+			array(
+				'global'   => 'anyone',
+				'groups'   => 'members',
+				'activity' => 'anyone',
+			)
+		);
+
+		try {
+			$this->assertFalse( bp_user_can( 0, 'bp_view', array( 'bp_component' => 'groups' ) ) );
+			$this->assertTrue( bp_user_can( 0, 'bp_view', array( 'bp_component' => 'activity' ) ) );
+
+			$member   = self::factory()->user->create();
+			$outsider = self::factory()->user->create();
+
+			foreach ( array( 'public', 'private', 'hidden' ) as $status ) {
+				self::set_current_user( 0 );
+				$group = self::factory()->group->create( array( 'status' => $status ) );
+				self::add_user_to_group( $member, $group );
+				$this->assertFalse( (bool) groups_is_user_member( $outsider, $group ) );
+
+				$activity_id = self::factory()->activity->create(
+					array(
+						'component' => buddypress()->groups->id,
+						'user_id'   => $member,
+						'item_id'   => $group,
+					)
+				);
+				$activity    = self::factory()->activity->get_object_by_id( $activity_id );
+
+				$comment_id = bp_activity_new_comment(
+					array(
+						'activity_id'       => $activity->id,
+						'content'           => 'Group activity comment',
+						'user_id'           => $member,
+						'skip_notification' => true,
+					)
+				);
+				$comment    = self::factory()->activity->get_object_by_id( $comment_id );
+
+				self::set_current_user( 0 );
+				$this->assertSame( 'public' === $status, bp_activity_user_can_read( $activity ), $status . ' group activity access for anonymous visitors' );
+				$this->assertSame( 'public' === $status, bp_activity_user_can_read( $comment ), $status . ' group activity comment access for anonymous visitors' );
+
+				self::set_current_user( $member );
+				$this->assertTrue( bp_activity_user_can_read( $activity ), $status . ' group activity access for a member' );
+				$this->assertTrue( bp_activity_user_can_read( $comment ), $status . ' group activity comment access for a member' );
+
+				self::set_current_user( $outsider );
+				$this->assertSame( 'public' === $status, bp_activity_user_can_read( $activity ), $status . ' group activity access for a non-member' );
+			}
+		} finally {
+			self::set_current_user( $original_user );
+
+			if ( false === $original_visibility ) {
+				delete_option( '_bp_community_visibility' );
+			} else {
+				update_option( '_bp_community_visibility', $original_visibility );
+			}
+		}
+	}
+
+	/**
+	 * Group access does not override an Activity component visibility denial.
+	 *
+	 * @group bp_activity_user_can_read
+	 */
+	public function test_group_activity_does_not_override_activity_component_visibility() {
+		$original_visibility = get_option( '_bp_community_visibility', false );
+		$original_user       = get_current_user_id();
+
+		update_option(
+			'_bp_community_visibility',
+			array(
+				'global'   => 'anyone',
+				'groups'   => 'anyone',
+				'activity' => 'members',
+			)
+		);
+
+		try {
+			$member = self::factory()->user->create();
+			$group  = self::factory()->group->create();
+			self::add_user_to_group( $member, $group );
+
+			$activity_id = self::factory()->activity->create(
+				array(
+					'component' => buddypress()->groups->id,
+					'user_id'   => $member,
+					'item_id'   => $group,
+				)
+			);
+			$activity    = self::factory()->activity->get_object_by_id( $activity_id );
+
+			self::set_current_user( 0 );
+			$this->assertFalse( bp_activity_user_can_read( $activity ) );
+
+			self::set_current_user( $member );
+			$this->assertTrue( bp_activity_user_can_read( $activity ) );
+		} finally {
+			self::set_current_user( $original_user );
+
+			if ( false === $original_visibility ) {
+				delete_option( '_bp_community_visibility' );
+			} else {
+				update_option( '_bp_community_visibility', $original_visibility );
+			}
+		}
+	}
+
+	/**
 	 * @group bp_activity_user_can_read
 	 */
 	public function test_non_member_can_access_to_someone_elses_activity_in_a_group() {
