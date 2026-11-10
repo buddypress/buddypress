@@ -1071,7 +1071,7 @@ class BP_Groups_Component extends BP_Component {
 			return parent::parse_query( $query );
 		}
 
-		if ( bp_is_site_home() && bp_is_directory_homepage( $this->id ) ) {
+		if ( bp_is_site_home( $query ) && bp_is_directory_homepage( $this->id ) ) {
 			$query->set( $this->rewrite_ids['directory'], 1 );
 		}
 

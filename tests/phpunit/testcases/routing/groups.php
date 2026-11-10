@@ -21,6 +21,43 @@ class BP_Tests_Routing_Groups extends BP_UnitTestCase {
 		parent::tear_down();
 	}
 
+	/**
+	 * @ticket BP9330
+	 * @dataProvider groups_homepage_urls
+	 */
+	public function test_groups_directory_as_homepage( $query_string ) {
+		$this->set_permalink_structure( '/%postname%/' );
+
+		$pages            = bp_core_get_directory_pages();
+		$show_on_front    = get_option( 'show_on_front' );
+		$page_on_front    = get_option( 'page_on_front' );
+		$groups_page_id   = (int) $pages->groups->id;
+
+		update_option( 'show_on_front', 'page' );
+		update_option( 'page_on_front', $groups_page_id );
+
+		try {
+			$this->go_to( home_url( '/' ) . $query_string );
+
+			$this->assertTrue( bp_is_groups_directory(), 'The homepage should load the Groups directory.' );
+			$this->assertFalse( is_404() );
+			$this->assertSame( $groups_page_id, get_queried_object_id() );
+		} finally {
+			update_option( 'show_on_front', $show_on_front );
+			update_option( 'page_on_front', $page_on_front );
+		}
+	}
+
+	public static function groups_homepage_urls() {
+		return array(
+			'without query string' => array( '' ),
+			'with query string'    => array( '?anything=value' ),
+			'with tracking parameters' => array( '?utm_source=newsletter&ref=test' ),
+			'with encoded parameter' => array( '?anything=hello%20world' ),
+		);
+	}
+
+
 	public function test_member_groups() {
 		$this->go_to(
 			bp_members_get_user_url(

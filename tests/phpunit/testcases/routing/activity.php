@@ -30,6 +30,41 @@ class BP_Tests_Routing_Activity extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @ticket BP9330
+	 * @dataProvider activity_homepage_urls
+	 */
+	public function test_activity_directory_as_homepage( $query_string ) {
+		$pages            = bp_core_get_directory_pages();
+		$show_on_front    = get_option( 'show_on_front' );
+		$page_on_front    = get_option( 'page_on_front' );
+		$activity_page_id = (int) $pages->activity->id;
+
+		update_option( 'show_on_front', 'page' );
+		update_option( 'page_on_front', $activity_page_id );
+
+		try {
+			$this->go_to( home_url( '/' ) . $query_string );
+
+			$this->assertTrue( bp_is_activity_directory(), 'The homepage should load the Activity directory.' );
+			$this->assertFalse( is_404() );
+			$this->assertSame( $activity_page_id, get_queried_object_id() );
+		} finally {
+			update_option( 'show_on_front', $show_on_front );
+			update_option( 'page_on_front', $page_on_front );
+		}
+	}
+
+	public static function activity_homepage_urls() {
+		return array(
+			'without query string' => array( '' ),
+			'with query string'    => array( '?anything=value' ),
+			'with tracking parameters' => array( '?utm_source=newsletter&ref=test' ),
+			'with encoded parameter' => array( '?anything=hello%20world' ),
+		);
+	}
+
+
+	/**
 	 * Can't test using bp_activity_get_permalink(); see bp_activity_action_permalink_router().
 	 */
 	public function test_activity_permalink() {

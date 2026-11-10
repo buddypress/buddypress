@@ -1119,9 +1119,9 @@ class BP_Groups_Group {
 	 *                                            Default: empty array.
 	 *     @type array|string $status__not_in     Optional. Array or comma-separated list of group statuses to exclude
 	 *                                            from results. Default: empty array.
- 	 *     @type string       $fields             Which fields to return. Specify 'ids' to fetch a list of IDs.
- 	 *                                            Default: 'all' (return BP_Groups_Group objects).
- 	 *                                            If set, meta and admin caches will not be prefetched.
+	 *     @type string       $fields             Which fields to return. Specify 'ids' to fetch a list of IDs.
+	 *                                            Default: 'all' (return BP_Groups_Group objects).
+	 *                                            If set, meta and admin caches will not be prefetched.
 	 * }
 	 * @return array {
 	 *     @type array $groups Array of group objects returned by the

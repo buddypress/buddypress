@@ -877,7 +877,7 @@ class BP_XProfile_Fields_REST_Controller extends WP_REST_Controller {
 	 *
 	 * @return array The maybe unserialized field value.
 	 */
-	public function get_profile_field_unserialized_value( $value = '', $profile_field = null  ) {
+	public function get_profile_field_unserialized_value( $value = '', $profile_field = null ) {
 		if ( empty( $value ) ) {
 			return array();
 		}
