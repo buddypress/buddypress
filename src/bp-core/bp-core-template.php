@@ -1938,16 +1938,29 @@ function bp_is_blog_page() {
  * Checks whether the requested URL is site home's one.
  *
  * @since 12.1.0
+ * @since 14.5.5 Added the optional `$query` parameter and ignored query strings.
  *
- * @return bool True if the requested URL is site home's one. False otherwise.
+ * @param WP_Query|null $query Optional. Parsed query to check alongside the URL.
+ * @return bool True if the request matches the site homepage. False otherwise.
  */
-function bp_is_site_home() {
+function bp_is_site_home( $query = null ) {
+	// A homepage URL can still request another resource, such as /?p=123.
+	if ( $query instanceof WP_Query && 'page' === get_option( 'show_on_front', 'posts' ) ) {
+		if ( ! $query->is_page() || (int) $query->get( 'page_id' ) !== (int) get_option( 'page_on_front' ) ) {
+			return false;
+		}
+	}
+
 	$requested_url = bp_get_requested_url();
 	$home_url      = home_url( '/' );
 
 	if ( is_customize_preview() && ! bp_is_email_customizer() ) {
 		$requested_url = wp_parse_url( $requested_url, PHP_URL_PATH );
 		$home_url      = wp_parse_url( $home_url, PHP_URL_PATH );
+	} elseif ( ! bp_is_email_customizer() ) {
+		// Query parameters do not change the homepage URL's location.
+		$requested_url = preg_replace( '/[?#].*$/', '', $requested_url );
+		$home_url      = preg_replace( '/[?#].*$/', '', $home_url );
 	}
 
 	return $home_url === $requested_url;
