@@ -317,7 +317,7 @@ class BP_Tests_Media_Extractor extends BP_UnitTestCase {
 		$media = array_values( wp_list_filter( $media['images'], array( 'source' => 'galleries' ) ) );
 		$this->assertCount( 1, $media );
 
-		$this->assertSame( WP_CONTENT_URL . '/uploads/image.jpg', $media[0]['url'] );
+		$this->assertSame( wp_get_attachment_url( $attachment_id ), $media[0]['url'] );
 	}
 
 	public function test_extract_images_from_content_with_galleries_variant_ids() {
@@ -395,7 +395,7 @@ class BP_Tests_Media_Extractor extends BP_UnitTestCase {
 		$media = array_values( wp_list_filter( $media['images'], array( 'source' => 'featured_images' ) ) );
 		$this->assertCount( 1, $media );
 
-		$this->assertSame( WP_CONTENT_URL . '/uploads/image.jpg', $media[0]['url'] );
+		$this->assertSame( wp_get_attachment_url( $thumbnail_id ), $media[0]['url'] );
 	}
 
 	public function test_extract_images_from_content_without_featured_image() {
