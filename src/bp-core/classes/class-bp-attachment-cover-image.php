@@ -226,7 +226,7 @@ class BP_Attachment_Cover_Image extends BP_Attachment {
 				2 => __( 'There was a problem deleting your cover image. Please try again.', 'buddypress' ),
 				3 => __( 'Your cover image was deleted successfully!', 'buddypress' ),
 			);
-		} elseif ( bp_is_group() ) {
+		} elseif ( bp_is_group() || bp_is_group_create() ) {
 			$item_id = bp_get_current_group_id();
 
 			$script_data['bp_params'] = array(
