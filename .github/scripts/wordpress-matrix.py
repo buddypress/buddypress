@@ -51,9 +51,9 @@ def build_matrices(lines, offers):
                 for index, line in enumerate(lines[:3]))
     # WP 6.4 retains null-offset and spl_object_hash() calls deprecated in PHP
     # 8.5/8.6. Fixes shipped in WP 6.9 (#63957) and 7.1 (#58291), not 6.4.
-    # Keep newer PHP coverage in the main matrix without suppressing deprecations.
-    minimum = [entry(php, "6.4") for php in
-               ("8.4", "8.3", "8.2", "8.1", "8.0", "7.4")]
+    # Keep these combinations visible as advisory jobs, without suppressing errors.
+    minimum = [dict(entry(php, "6.4"), experimental=php in ("8.5", "8.6"))
+               for php in ("8.6", "8.5", "8.4", "8.3", "8.2", "8.1", "8.0", "7.4")]
     intermediate = [entry("8.2", line) for line in lines[3:] if line != "6.4"]
     return {"main": {"include": main}, "minimum": {"include": minimum},
             "intermediate": {"include": intermediate},

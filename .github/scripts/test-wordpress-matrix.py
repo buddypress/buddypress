@@ -23,11 +23,17 @@ class MatrixTests(unittest.TestCase):
     def test_partition_and_patch_resolution(self):
         result = matrix.build_matrices(self.lines, self.offers)
         self.assertEqual(10, len(result["main"]["include"]))
-        self.assertEqual(6, len(result["minimum"]["include"]))
+        self.assertEqual(8, len(result["minimum"]["include"]))
         self.assertEqual(["6.8.2", "6.7.2", "6.6.2", "6.5.2"],
                          [job["wp_version"] for job in result["intermediate"]["include"]])
-        self.assertEqual({"7.4", "8.0", "8.1", "8.2", "8.3", "8.4"},
+        self.assertEqual({"7.4", "8.0", "8.1", "8.2", "8.3", "8.4", "8.5", "8.6"},
                          {job["php"] for job in result["minimum"]["include"]})
+        self.assertEqual({"8.5", "8.6"},
+                         {job["php"] for job in result["minimum"]["include"]
+                          if job["experimental"]})
+        self.assertFalse(any(job.get("experimental", False)
+                             for group in ("main", "intermediate")
+                             for job in result[group]["include"]))
         self.assertTrue({"8.5", "8.6"}.issubset(
             {job["php"] for job in result["main"]["include"]}))
         self.assertEqual(["memcached", "", ""],

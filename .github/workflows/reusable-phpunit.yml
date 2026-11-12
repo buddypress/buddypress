@@ -13,7 +13,8 @@ permissions:
 
 jobs:
   tests:
-    name: "PHP ${{ matrix.php }} / WP ${{ matrix.wp_version }} / ${{ matrix.object || 'no cache' }} / both modes"
+    name: "PHP ${{ matrix.php }} / WP ${{ matrix.wp_version }} / ${{ matrix.object || 'no cache' }} / both modes${{ matrix.experimental && ' / experimental' || '' }}"
+    continue-on-error: ${{ matrix.experimental || false }}
     runs-on: ubuntu-latest
     timeout-minutes: 20
     strategy:
@@ -48,6 +49,13 @@ jobs:
       OBJECT_CACHE: ${{ matrix.object }}
       TEST_SCRIPT: both
     steps:
+      - name: Explain experimental coverage
+        if: matrix.experimental
+        run: |
+          echo '::warning::WordPress 6.4 has known PHP 8.5/8.6 deprecations. This job is advisory; all failures still need review.'
+          echo '### Experimental compatibility job' >> "$GITHUB_STEP_SUMMARY"
+          echo 'WordPress 6.4 has known PHP 8.5/8.6 deprecations. Failures are visible but do not block this workflow. Other errors may also occur; inspect the test logs.' >> "$GITHUB_STEP_SUMMARY"
+
       - name: Checkout code
         uses: actions/checkout@v7.0.1
         with:
