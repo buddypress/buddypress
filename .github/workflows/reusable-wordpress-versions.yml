@@ -1,0 +1,40 @@
+name: Discover WordPress versions
+
+on:
+  workflow_call:
+    outputs:
+      main:
+        value: ${{ jobs.versions.outputs.main }}
+      minimum:
+        value: ${{ jobs.versions.outputs.minimum }}
+      intermediate:
+        value: ${{ jobs.versions.outputs.intermediate }}
+      has-intermediate:
+        value: ${{ jobs.versions.outputs.has-intermediate }}
+
+permissions:
+  contents: read
+
+jobs:
+  versions:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      main: ${{ steps.matrix.outputs.main }}
+      minimum: ${{ steps.matrix.outputs.minimum }}
+      intermediate: ${{ steps.matrix.outputs.intermediate }}
+      has-intermediate: ${{ steps.matrix.outputs.has-intermediate }}
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - name: Check matrix and paired-suite logic
+        run: python3 -B .github/scripts/test-wordpress-matrix.py
+      - name: Discover supported release lines
+        id: wordpress
+        uses: alleyinteractive/action-get-wordpress-versions@646c79b6532fe5cc7a893085207685b290e24731 # v1.0.3
+        with:
+          minimum-version: '6.4'
+      - name: Resolve latest patches and build matrices
+        id: matrix
+        env:
+          WORDPRESS_VERSIONS: ${{ steps.wordpress.outputs.versions }}
+        run: python3 .github/scripts/wordpress-matrix.py

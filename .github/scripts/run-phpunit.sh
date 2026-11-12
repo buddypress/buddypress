@@ -17,7 +17,7 @@ case "${OBJECT_CACHE:-}" in
 esac
 
 case "$TEST_SCRIPT" in
-	test|test_multi) ;;
+	test|test_multi|both) ;;
 	*) echo 'Unsupported Composer test script' >&2; exit 1 ;;
 esac
 
@@ -99,4 +99,8 @@ rsync -aWq --no-compress --exclude '.npm' --exclude '.git' \
 
 cd "$package_directory"
 test -f vendor/bin/phpunit
-composer run "$TEST_SCRIPT"
+if [[ "$TEST_SCRIPT" == both ]]; then
+	bash .github/scripts/run-phpunit-suites.sh
+else
+	composer run "$TEST_SCRIPT"
+fi

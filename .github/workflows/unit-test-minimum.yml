@@ -1,0 +1,23 @@
+name: Minimum WordPress
+
+on:
+  pull_request:
+  push:
+    branches: [ master ]
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.run_id }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  versions:
+    uses: ./.github/workflows/reusable-wordpress-versions.yml
+  tests:
+    needs: versions
+    uses: ./.github/workflows/reusable-phpunit.yml
+    with:
+      matrix: ${{ needs.versions.outputs.minimum }}
