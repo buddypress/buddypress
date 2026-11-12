@@ -34,6 +34,9 @@ if [[ "$WP_VERSION" == trunk || "$WP_VERSION" == nightly ]]; then
 	test ! -e "$WP_TESTS_DIR"
 	mkdir -p "$WP_CORE_DIR" "$WP_TESTS_DIR"
 	cp -R "$wordpress_source/src/." "$WP_CORE_DIR/"
+	# Core reads this script inline during oEmbed rendering. Match copy:includes-js.
+	mkdir -p "$WP_CORE_DIR/wp-includes/js"
+	cp "$wordpress_source/src/js/_enqueues/wp/embed.js" "$WP_CORE_DIR/wp-includes/js/wp-embed.js"
 	cp -R "$wordpress_source/tests/phpunit/includes" "$WP_TESTS_DIR/"
 	cp -R "$wordpress_source/tests/phpunit/data" "$WP_TESTS_DIR/"
 
