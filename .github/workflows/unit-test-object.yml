@@ -9,8 +9,19 @@ on:
     paths-ignore:
       - 'docs/**'
 
+# Cancel superseded pull-request runs without cancelling independent push runs.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.run_id }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
 jobs:
   tests:
+    name: 'phpunit ${{ matrix.php }} - ${{ matrix.wp_version }} - ubuntu-latest - multisite: ${{ matrix.multisite }}'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
     strategy:
       fail-fast: false
       matrix:
@@ -51,11 +62,64 @@ jobs:
             wp_version: '6.4'
             object: ''
             multisite: true
-    uses: alleyinteractive/.github/.github/workflows/php-tests.yml@main
-    with:
-      multisite: ${{ matrix.multisite }}
-      php: ${{ matrix.php }}
-      wordpress: ${{ matrix.wp_version }}
-      object-cache: ${{ matrix.object }}
-      install-core-tests: true
-      working-directory: 'plugins/buddypress'
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+      redis:
+        image: ${{ matrix.object == 'redis' && 'redis:alpine' || '' }}
+        ports:
+          - 6379:6379
+        options: --health-cmd="redis-cli ping" --health-interval=10s --health-timeout=5s --health-retries=5
+      memcached:
+        image: ${{ matrix.object == 'memcached' && 'memcached:alpine' || '' }}
+        ports:
+          - 11211:11211
+    env:
+      CACHEDIR: /tmp/test-cache
+      WP_CORE_DIR: /tmp/wordpress
+      WP_TESTS_DIR: /tmp/wordpress-tests-lib
+      WP_VERSION: ${{ matrix.wp_version }}
+      WP_DB_HOST: 127.0.0.1
+      WP_DB_USER: root
+      WP_DB_PASSWORD: ''
+      WP_INSTALL_CORE_TEST_SUITE: 'true'
+      OBJECT_CACHE: ${{ matrix.object }}
+      TEST_SCRIPT: ${{ matrix.multisite && 'test_multi' || 'test' }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7.0.1
+        with:
+          submodules: recursive
+
+      - name: Cache WordPress downloads
+        uses: actions/cache@v6.1.0
+        with:
+          path: ${{ env.CACHEDIR }}
+          key: ${{ runner.os }}-php-tests-${{ matrix.php }}-${{ matrix.wp_version }}
+          restore-keys: |
+            ${{ runner.os }}-php-tests-${{ matrix.php }}-${{ matrix.wp_version }}
+            ${{ runner.os }}-php-tests-${{ matrix.php }}-
+
+      - name: Run PHP tests
+        uses: alleyinteractive/action-test-php@0d6dcd4f0779fb567b88cd0851b90608fcd8c20a # v1.1.0
+        with:
+          php-version: ${{ matrix.php }}
+          php-tools: composer:v2
+          php-extensions: apc, dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, gd, mysqli, redis, memcached
+          wordpress-version: ${{ matrix.wp_version }}
+          wordpress-multisite: ${{ matrix.multisite }}
+          wordpress-host: 'false'
+          # Keep generic cache drop-ins, MySQL 8.0 and the plugin installation path.
+          skip-services: 'true'
+          skip-wordpress-install: 'true'
+          audit-skip: 'false'
+          install-command: >-
+            composer validate &&
+            composer install --prefer-dist --no-progress --no-ansi --no-interaction
+          # Override the action's literal quote characters with an empty MySQL password.
+          test-command: WP_DB_PASSWORD='' bash .github/scripts/run-phpunit.sh
