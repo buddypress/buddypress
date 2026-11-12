@@ -2,8 +2,12 @@ name: Minimum WordPress
 
 on:
   pull_request:
+    paths-ignore:
+      - 'docs/**'
   push:
     branches: [ master ]
+    paths-ignore:
+      - 'docs/**'
   workflow_dispatch:
 
 concurrency:
