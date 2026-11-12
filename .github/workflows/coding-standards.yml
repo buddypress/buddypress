@@ -5,7 +5,7 @@ on: pull_request
 jobs:
   phpcs:
     name: PHPCS
-    runs-on: ubuntu-26.04
+    runs-on: ubuntu-latest
 
     steps:
       - name: Cancel previous runs of this workflow (pull requests only)
