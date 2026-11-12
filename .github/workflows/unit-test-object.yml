@@ -118,6 +118,7 @@ jobs:
           skip-services: 'true'
           skip-wordpress-install: 'true'
           audit-skip: 'false'
+          audit-command: composer audit --locked --ansi --no-interaction
           install-command: >-
             composer validate &&
             composer install --prefer-dist --no-progress --no-ansi --no-interaction
