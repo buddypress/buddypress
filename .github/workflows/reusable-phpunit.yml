@@ -15,7 +15,7 @@ jobs:
   tests:
     name: "PHP ${{ matrix.php }} / WP ${{ matrix.wp_version }} / ${{ matrix.object || 'no cache' }} / both modes${{ matrix.experimental && ' / experimental' || '' }}"
     continue-on-error: ${{ matrix.experimental || false }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     timeout-minutes: 20
     strategy:
       fail-fast: false
