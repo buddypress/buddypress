@@ -186,6 +186,10 @@ class BP_Tests_Core_Functions_BpCoreGetDirectoryPageIds extends BP_UnitTestCase 
 	}
 
 	public function test_bp_core_get_directory_pages_register_activate_page_notcreated_signups_allowed() {
+		$page_ids = bp_core_get_directory_page_ids( 'all' );
+		unset( $page_ids['register'], $page_ids['activate'] );
+		bp_core_update_directory_page_ids( $page_ids );
+
 		add_filter( 'bp_get_signup_allowed', '__return_false', 999 );
 
 		$ac = buddypress()->active_components;
@@ -228,6 +232,9 @@ class BP_Tests_Core_Functions_BpCoreGetDirectoryPageIds extends BP_UnitTestCase 
 	}
 
 	public function test_bp_core_get_directory_pages_register_activate_page_notcreated_signups_notallowed() {
+		$page_ids = bp_core_get_directory_page_ids( 'all' );
+		unset( $page_ids['register'], $page_ids['activate'] );
+		bp_core_update_directory_page_ids( $page_ids );
 
 		add_filter( 'bp_get_signup_allowed', '__return_false', 999 );
 
@@ -362,15 +369,18 @@ class BP_Tests_Core_Functions_BpCoreGetDirectoryPageIds extends BP_UnitTestCase 
 		$admin = new BP_Members_Admin;
 		add_action( 'update_site_option_registration', array( $admin, 'multisite_registration_on' ), 10, 2 );
 
-		// Emulate turning registration on.
-		update_site_option( 'registration', 'user' );
+		$registration = get_site_option( 'registration' );
+		try {
+			// Ensure the update fires even when registration was already enabled.
+			update_site_option( 'registration', 'none' );
+			update_site_option( 'registration', 'user' );
 
-		// Now check directory pages.
-		$pages = bp_core_get_directory_pages();
-
-		$this->assertNotEmpty( $pages->register );
-		$this->assertNotEmpty( $pages->activate );
-
-		remove_action( 'update_site_option_registration', array( $admin, 'multisite_registration_on' ) );
+			$pages = bp_core_get_directory_pages();
+			$this->assertNotEmpty( $pages->register );
+			$this->assertNotEmpty( $pages->activate );
+		} finally {
+			remove_action( 'update_site_option_registration', array( $admin, 'multisite_registration_on' ) );
+			update_site_option( 'registration', $registration );
+		}
 	}
 }

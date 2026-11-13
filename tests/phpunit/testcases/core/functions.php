@@ -920,7 +920,12 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 			$expected = array( 'activity', 'blogs', 'groups', 'members' );
 		}
 
-		bp_core_add_page_mappings( $bp->active_components );
+		add_filter( 'bp_get_signup_allowed', '__return_false', 999 );
+		try {
+			bp_core_add_page_mappings( $bp->active_components, 'delete' );
+		} finally {
+			remove_filter( 'bp_get_signup_allowed', '__return_false', 999 );
+		}
 		$bp_pages = array_keys( bp_get_option( 'bp-pages' ) );
 		sort( $bp_pages );
 

@@ -242,8 +242,10 @@ class BP_Tests_Admin_Functions extends BP_UnitTestCase {
 		$reset_bp_pages = $bp->pages;
 		$reset_admin_notices = $bp->admin->notices;
 
-		// Reset pages
-		$bp->pages = bp_core_get_directory_pages();
+		// This scenario requires missing registration pages and no earlier notices.
+		$bp->pages = clone bp_core_get_directory_pages();
+		unset( $bp->pages->register, $bp->pages->activate );
+		$bp->admin->notices = array();
 
 		add_filter( 'bp_get_signup_allowed', '__return_true', 999 );
 
