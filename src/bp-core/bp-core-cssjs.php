@@ -473,7 +473,7 @@ function bp_add_cover_image_inline_css() {
 			'component' => 'members',
 			'object'    => $bp->displayed_user,
 		);
-	} elseif ( bp_is_group() ) {
+	} elseif ( bp_is_group() || bp_is_group_create() ) {
 
 		// Users are not allowed to upload cover images for their groups
 		// no need to carry on.

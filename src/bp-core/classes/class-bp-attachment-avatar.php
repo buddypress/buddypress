@@ -396,7 +396,7 @@ class BP_Attachment_Avatar extends BP_Attachment {
 	private function get_group_id() {
 		$group_id = 0;
 
-		if ( bp_is_group() ) {
+		if ( bp_is_group() || bp_is_group_create() ) {
 			$group_id = bp_get_current_group_id();
 		}
 
