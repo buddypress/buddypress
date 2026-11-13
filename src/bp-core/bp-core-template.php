@@ -2665,9 +2665,11 @@ function bp_is_groups_directory() {
 /**
  * Does the current page belong to a single group?
  *
- * Will return true for any subpage of a single group.
+ * Will return true for any subpage of a single group, but not for the group
+ * creation screens (see bp_is_group_create()).
  *
  * @since 1.2.0
+ * @since 15.0.0 Excludes group creation screens.
  *
  * @return bool True if the current page is part of a single group.
  */
@@ -2675,7 +2677,7 @@ function bp_is_group() {
 	$retval = bp_is_active( 'groups' );
 
 	if ( ! empty( $retval ) ) {
-		$retval = bp_is_groups_component() && groups_get_current_group();
+		$retval = bp_is_groups_component() && groups_get_current_group() && ! bp_is_group_create();
 	}
 
 	return (bool) $retval;
