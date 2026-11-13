@@ -2,7 +2,6 @@
 
 /**
  * @group groups
- * @group functions
  */
 class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 	static public $group_ids;
@@ -32,10 +31,6 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 		$this->assertNotFalse( groups_is_user_admin( $u, $group_id ) );
 	}
 
-	/**
-	 * @group total_group_count
-	 * @group groups_join_group
-	 */
 	public function test_total_group_count_groups_join_group() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -45,10 +40,6 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 		$this->assertSame( '1', bp_get_user_meta( $u2, 'total_group_count', true ) );
 	}
 
-	/**
-	 * @group total_group_count
-	 * @group groups_leave_group
-	 */
 	public function test_total_group_count_groups_leave_group() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -63,10 +54,6 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 		$this->assertSame( '1', bp_get_user_meta( $u2, 'total_group_count', true ) );
 	}
 
-	/**
-	 * @group total_group_count
-	 * @group groups_ban_member
-	 */
 	public function test_total_group_count_groups_ban_member() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -84,10 +71,6 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 		$this->assertSame( '1', bp_get_user_meta( $u2, 'total_group_count', true ) );
 	}
 
-	/**
-	 * @group total_group_count
-	 * @group groups_unban_member
-	 */
 	public function test_total_group_count_groups_unban_member() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -107,10 +90,6 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 		$this->assertSame( '2', bp_get_user_meta( $u2, 'total_group_count', true ) );
 	}
 
-	/**
-	 * @group total_group_count
-	 * @group groups_accept_invite
-	 */
 	public function test_total_group_count_groups_accept_invite() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -128,10 +107,6 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 		$this->assertSame( '1', bp_get_user_meta( $u1, 'total_group_count', true ) );
 	}
 
-	/**
-	 * @group total_group_count
-	 * @group groups_accept_membership_request
-	 */
 	public function test_total_group_count_groups_accept_membership_request() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -150,10 +125,6 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 
 	}
 
-	/**
-	 * @group total_group_count
-	 * @group groups_remove_member
-	 */
 	public function test_total_group_count_groups_remove_member() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -171,10 +142,6 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 		$this->assertSame( '1', bp_get_user_meta( $u2, 'total_group_count', true ) );
 	}
 
-	/**
-	 * @group total_member_count
-	 * @group groups_join_group
-	 */
 	public function test_total_member_count_groups_join_group() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -184,19 +151,12 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 		$this->assertSame( 2, groups_get_total_member_count( $g ) );
 	}
 
-	/**
-	 * @group total_member_count
-	 */
 	public function test_total_member_count_with_invalid_group() {
 		$this->assertFalse( groups_get_total_member_count( 'invalid-group' ) );
 		$this->assertFalse( groups_get_total_member_count( '' ) );
 		$this->assertFalse( groups_get_total_member_count( 123456789 ) );
 	}
 
-	/**
-	 * @group total_member_count
-	 * @group groups_leave_group
-	 */
 	public function test_total_member_count_groups_leave_group() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -211,10 +171,6 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 		$this->assertSame( 1, groups_get_total_member_count( $g1 ) );
 	}
 
-	/**
-	 * @group total_member_count
-	 * @group groups_ban_member
-	 */
 	public function test_total_member_count_groups_ban_member() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -232,10 +188,6 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 		$this->assertSame( 1, groups_get_total_member_count( $g1 ) );
 	}
 
-	/**
-	 * @group total_member_count
-	 * @group groups_unban_member
-	 */
 	public function test_total_member_count_groups_unban_member() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -255,10 +207,6 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 		$this->assertSame( 2, groups_get_total_member_count( $g1 ) );
 	}
 
-	/**
-	 * @group total_member_count
-	 * @group groups_accept_invite
-	 */
 	public function test_total_member_count_groups_accept_invite() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -277,10 +225,6 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 		$this->assertSame( 2, groups_get_total_member_count( $g ) );
 	}
 
-	/**
-	 * @group total_member_count
-	 * @group groups_accept_membership_request
-	 */
 	public function test_total_member_count_groups_accept_membership_request() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -295,10 +239,6 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 		$this->assertSame( 2, groups_get_total_member_count( $g ) );
 	}
 
-	/**
-	 * @group total_member_count
-	 * @group groups_remove_member
-	 */
 	public function test_total_member_count_groups_remove_member() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -314,10 +254,6 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 		$this->assertSame( 1, groups_get_total_member_count( $g1 ));
 	}
 
-	/**
-	 * @group total_member_count
-	 * @group groups_remove_member
-	 */
 	public function test_total_member_count_groups_delete_member() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -342,8 +278,7 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group total_member_count
-	 * @ticket BP8688
+	 * @see https://buddypress.trac.wordpress.org/ticket/8688
 	 */
 	public function test_total_member_count_groups_inactive_user() {
 		$u1 = self::factory()->user->create();
@@ -361,8 +296,7 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group total_member_count
-	 * @ticket BP7614
+	 * @see https://buddypress.trac.wordpress.org/ticket/7614
 	 */
 	public function test_total_member_count_groups_inactive_user_from_admin() {
 		$u1           = self::factory()->user->create(
@@ -386,8 +320,7 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group total_member_count
-	 * @ticket BP8688
+	 * @see https://buddypress.trac.wordpress.org/ticket/8688
 	 */
 	public function test_total_member_count_groups_spammed_user() {
 		$u1 = self::factory()->user->create();
@@ -402,8 +335,7 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group total_member_count
-	 * @ticket BP8688
+	 * @see https://buddypress.trac.wordpress.org/ticket/8688
 	 */
 	public function test_total_member_count_groups_deferred() {
 		$u1 = self::factory()->user->create();
@@ -431,10 +363,6 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 		return $count;
 	}
 
-	/**
-	 * @group total_member_count
-	 * @group groups_create_group
-	 */
 	public function test_total_member_count_groups_create_group() {
 		$u1 = self::factory()->user->create();
 		$g = groups_create_group( array(
@@ -450,9 +378,6 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 		$this->assertSame( 1, groups_get_total_member_count( $g ) );
 	}
 
-	/**
-	 * @group groups_create_group
-	 */
 	public function test_groups_create_group_dont_delete_description_for_existing_group_when_no_description_is_passed() {
 		$g = self::factory()->group->create();
 
@@ -467,8 +392,7 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group groupmeta
-	 * @ticket BP5180
+	 * @see https://buddypress.trac.wordpress.org/ticket/5180
 	 */
 	public function test_groups_update_groupmeta_with_line_breaks() {
 		$g = self::factory()->group->create();
@@ -480,16 +404,10 @@ Bar!';
 		$this->assertSame( $meta_value, groups_get_groupmeta( $g, 'linebreak_test' ) );
 	}
 
-	/**
-	 * @group groupmeta
-	 */
 	public function test_groups_update_groupmeta_non_numeric_id() {
 		$this->assertFalse( groups_update_groupmeta( 'foo', 'bar', 'baz' ) );
 	}
 
-	/**
-	 * @group groupmeta
-	 */
 	public function test_groups_update_groupmeta_stripslashes() {
 		$g = self::factory()->group->create();
 		$value = "This string is totally slashin\'!";
@@ -498,9 +416,6 @@ Bar!';
 		$this->assertSame( stripslashes( $value ), groups_get_groupmeta( $g, 'foo' ) );
 	}
 
-	/**
-	 * @group groupmeta
-	 */
 	public function test_groups_update_groupmeta_new() {
 		$g = self::factory()->group->create();
 		$this->assertSame( '', groups_get_groupmeta( $g, 'foo' ), '"foo" meta should be empty for this group.' );
@@ -508,9 +423,6 @@ Bar!';
 		$this->assertSame( 'bar', groups_get_groupmeta( $g, 'foo' ) );
 	}
 
-	/**
-	 * @group groupmeta
-	 */
 	public function test_groups_update_groupmeta_existing() {
 		$g = self::factory()->group->create();
 		groups_update_groupmeta( $g, 'foo', 'bar' );
@@ -519,9 +431,6 @@ Bar!';
 		$this->assertSame( 'baz', groups_get_groupmeta( $g, 'foo' ) );
 	}
 
-	/**
-	 * @group groupmeta
-	 */
 	public function test_groups_update_groupmeta_existing_same_value() {
 		$g = self::factory()->group->create();
 		groups_update_groupmeta( $g, 'foo', 'bar' );
@@ -530,10 +439,6 @@ Bar!';
 		$this->assertSame( 'bar', groups_get_groupmeta( $g, 'foo' ) );
 	}
 
-	/**
-	 * @group groupmeta
-	 * @group groups_update_groupmeta
-	 */
 	public function test_groups_update_groupmeta_prev_value() {
 		$g = self::factory()->group->create();
 		groups_add_groupmeta( $g, 'foo', 'bar' );
@@ -544,9 +449,7 @@ Bar!';
 	}
 
 	/**
-	 * @group groupmeta
-	 * @group groups_get_groupmeta
-	 * @ticket BP5399
+	 * @see https://buddypress.trac.wordpress.org/ticket/5399
 	 */
 	public function test_groups_get_groupmeta_with_illegal_key_characters() {
 		$g = self::factory()->group->create();
@@ -556,9 +459,6 @@ Bar!';
 		$this->assertSame( '', groups_get_groupmeta( $g, $krazy_key ) );
 	}
 
-	/**
-	 * @group groupmeta
-	 */
 	public function test_groups_get_groupmeta_all_metas() {
 		$g = self::factory()->group->create();
 		groups_update_groupmeta( $g, 'foo', 'bar' );
@@ -582,9 +482,6 @@ Bar!';
 		$this->assertSame( $expected, $found );
 	}
 
-	/**
-	 * @group groupmeta
-	 */
 	public function test_groups_get_groupmeta_all_metas_empty() {
 		$g = self::factory()->group->create();
 
@@ -599,18 +496,11 @@ Bar!';
 		$this->assertSame( array(), $metas );
 	}
 
-	/**
-	 * @group groupmeta
-	 */
 	public function test_groups_get_groupmeta_empty() {
 		$g = self::factory()->group->create();
 		$this->assertSame( '', groups_get_groupmeta( $g, 'foo' ) );
 	}
 
-	/**
-	 * @group groupmeta
-	 * @group groups_get_groupmeta
-	 */
 	public function test_bp_activity_get_meta_single_true() {
 		$g = self::factory()->group->create();
 		groups_add_groupmeta( $g, 'foo', 'bar' );
@@ -619,10 +509,6 @@ Bar!';
 		$this->assertSame( 'bar', groups_get_groupmeta( $g, 'foo', true ) );
 	}
 
-	/**
-	 * @group groupmeta
-	 * @group groups_get_groupmeta
-	 */
 	public function test_bp_activity_get_meta_single_false() {
 		$g = self::factory()->group->create();
 		groups_add_groupmeta( $g, 'foo', 'bar' );
@@ -631,8 +517,6 @@ Bar!';
 	}
 
 	/**
-	 * @group groupmeta
-	 * @group groups_get_groupmeta
 	 * @group cache
 	 */
 	public function test_groups_get_groupmeta_cache_all_on_get() {
@@ -648,17 +532,12 @@ Bar!';
 		$this->assertNotEmpty( $c['foo1'] );
 	}
 
-	/**
-	 * @group groupmeta
-	 */
 	public function test_groups_delete_groupmeta_non_numeric_id() {
 		$this->assertFalse( groups_delete_groupmeta( 'foo', 'bar' ) );
 	}
 
 	/**
-	 * @group groupmeta
-	 * @group groups_delete_groupmeta
-	 * @ticket BP5399
+	 * @see https://buddypress.trac.wordpress.org/ticket/5399
 	 */
 	public function test_groups_delete_groupmeta_with_illegal_key_characters() {
 		$g = self::factory()->group->create();
@@ -669,9 +548,7 @@ Bar!';
 	}
 
 	/**
-	 * @group groupmeta
-	 * @group groups_delete_groupmeta
-	 * @ticket BP6326
+	 * @see https://buddypress.trac.wordpress.org/ticket/6326
 	 */
 	public function test_groups_delete_groupmeta_with_no_meta_key_when_group_has_metadata() {
 		global $wpdb;
@@ -686,10 +563,6 @@ Bar!';
 		$this->assertTrue( $found );
 	}
 
-	/**
-	 * @group groupmeta
-	 * @group groups_delete_groupmeta
-	 */
 	public function test_groups_delete_groupmeta_with_delete_all_but_no_meta_key() {
 		// With no meta key, don't delete for all items - just delete
 		// all for a single item
@@ -706,10 +579,6 @@ Bar!';
 		$this->assertSame( 'bar1', groups_get_groupmeta( $g2, 'foo1' ) );
 	}
 
-	/**
-	 * @group groupmeta
-	 * @group groups_delete_groupmeta
-	 */
 	public function test_groups_delete_groupmeta_with_delete_all() {
 		// With no meta key, don't delete for all items - just delete
 		// all for a single item
@@ -727,45 +596,26 @@ Bar!';
 		$this->assertSame( 'bar1', groups_get_groupmeta( $g2, 'foo1' ) );
 	}
 
-	/**
-	 * @group groupmeta
-	 * @group groups_add_groupmeta
-	 */
 	public function test_groups_add_groupmeta_no_meta_key() {
 		$this->assertFalse( groups_add_groupmeta( 1, '', 'bar' ) );
 	}
 
-	/**
-	 * @group groupmeta
-	 * @group groups_add_groupmeta
-	 */
 	public function test_groups_add_groupmeta_empty_object_id() {
 		$this->assertFalse( groups_add_groupmeta( 0, 'foo', 'bar' ) );
 	}
 
-	/**
-	 * @group groupmeta
-	 * @group groups_add_groupmeta
-	 */
 	public function test_groups_add_groupmeta_existing_unique() {
 		$g = self::factory()->group->create();
 		groups_add_groupmeta( $g, 'foo', 'bar' );
 		$this->assertFalse( groups_add_groupmeta( $g, 'foo', 'baz', true ) );
 	}
 
-	/**
-	 * @group groupmeta
-	 * @group groups_add_groupmeta
-	 */
 	public function test_groups_add_groupmeta_existing_not_unique() {
 		$g = self::factory()->group->create();
 		groups_add_groupmeta( $g, 'foo', 'bar' );
 		$this->assertNotEmpty( groups_add_groupmeta( $g, 'foo', 'baz' ) );
 	}
 
-	/**
-	 * @group counts
-	 */
 	public function test_get_invite_count_for_user() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -787,9 +637,6 @@ Bar!';
 		$this->assertSame( 0, groups_get_invite_count_for_user( $u2 ) );
 	}
 
-	/**
-	 * @group hierarchical_groups
-	 */
 	public function test_update_orphaned_groups_on_group_delete_top_level() {
 		$g1 = self::factory()->group->create();
 		$g2 = self::factory()->group->create( array(
@@ -802,9 +649,6 @@ Bar!';
 		$this->assertSame( 0, $child->parent_id );
 	}
 
-	/**
-	 * @group hierarchical_groups
-	 */
 	public function test_update_orphaned_groups_on_group_delete_two_levels() {
 		$g1 = self::factory()->group->create();
 		$g2 = self::factory()->group->create( array(
@@ -821,8 +665,7 @@ Bar!';
 	}
 
 	/**
-	 * @group groups_get_group
- 	 * @ticket BP7302
+	 * @see https://buddypress.trac.wordpress.org/ticket/7302
 	 */
 	public function test_groups_get_group_accept_integer() {
 		$g1 = self::factory()->group->create();
@@ -832,8 +675,7 @@ Bar!';
 	}
 
 	/**
-	 * @group groups_get_group
- 	 * @ticket BP7302
+	 * @see https://buddypress.trac.wordpress.org/ticket/7302
 	 */
 	public function test_groups_get_group_accept_numeric() {
 		$g1 = self::factory()->group->create();
@@ -843,8 +685,7 @@ Bar!';
 	}
 
 	/**
-	 * @group groups_get_group
- 	 * @ticket BP7302
+	 * @see https://buddypress.trac.wordpress.org/ticket/7302
 	 */
 	public function test_groups_get_group_accept_array() {
 		$g1 = self::factory()->group->create();
@@ -854,8 +695,7 @@ Bar!';
 	}
 
 	/**
-	 * @group groups_get_group
- 	 * @ticket BP7302
+	 * @see https://buddypress.trac.wordpress.org/ticket/7302
 	 */
 	public function test_groups_get_group_accept_query_string() {
 		$g1 = self::factory()->group->create();
@@ -864,11 +704,6 @@ Bar!';
 		$this->assertSame( $g1, $group->id );
 	}
 
-
-
-	/**
-	 * @group groups_edit_base_group_details
-	 */
 	public function test_groups_edit_base_group_details_test_new_arguments() {
 		$g1 = self::factory()->group->create();
 		$name = 'Great Scott';
@@ -899,9 +734,6 @@ Bar!';
 		$this->assertEqualSets( $expected, $updated );
 	}
 
-	/**
-	 * @group groups_edit_base_group_details
-	 */
 	public function test_groups_edit_base_group_details_avoid_slug_collisions() {
 		$slug = 'circe';
 		$g1 = self::factory()->group->create( array( 'slug' => $slug ) );
@@ -918,9 +750,6 @@ Bar!';
 		$this->assertNotSame( $slug, $updated_group_object->slug );
 	}
 
-	/**
-	 * @group groups_edit_base_group_details
-	 */
 	public function test_groups_edit_base_group_details_slug_no_change() {
 		$slug = 'circe';
 		$g1 = self::factory()->group->create( array( 'slug' => $slug ) );
@@ -936,9 +765,6 @@ Bar!';
 		$this->assertSame( $slug, $updated_group_object->slug );
 	}
 
-	/**
-	 * @group groups_edit_base_group_details
-	 */
 	public function test_groups_edit_base_group_details_slug_null_value() {
 		$slug = 'circe';
 		$g1 = self::factory()->group->create( array( 'slug' => $slug ) );
@@ -954,9 +780,6 @@ Bar!';
 		$this->assertSame( $slug, $updated_group_object->slug );
 	}
 
-	/**
-	 * @group groups_get_id_by_previous_slug
-	 */
 	public function test_groups_get_id_by_previous_slug() {
 		$slug = 'circe';
 		$g1 = self::factory()->group->create( array( 'slug' => $slug ) );
@@ -971,16 +794,13 @@ Bar!';
 		$this->assertSame( $g1, groups_get_id_by_previous_slug( $slug ) );
 	}
 
-	/**
-	 * @group groups_get_id_by_previous_slug
-	 */
 	public function test_groups_get_id_by_previous_slug_null_no_results() {
 		$this->assertNull( groups_get_id_by_previous_slug( 'woohoo' ) );
 	}
 
 	/**
-	 * @ticket BP7820
-	 * @ticket BP7698
+	 * @see https://buddypress.trac.wordpress.org/ticket/7820
+	 * @see https://buddypress.trac.wordpress.org/ticket/7698
 	 */
 	public function test_bp_groups_memberships_personal_data_exporter() {
 		groups_join_group( self::$group_ids[0], self::$user_ids[0] );
@@ -995,8 +815,8 @@ Bar!';
 	}
 
 	/**
-	 * @ticket BP7820
-	 * @ticket BP7698
+	 * @see https://buddypress.trac.wordpress.org/ticket/7820
+	 * @see https://buddypress.trac.wordpress.org/ticket/7698
 	 */
 	public function test_bp_groups_pending_requests_personal_data_exporter() {
 		groups_send_membership_request( array(
@@ -1014,8 +834,8 @@ Bar!';
 	}
 
 	/**
-	 * @ticket BP7820
-	 * @ticket BP7698
+	 * @see https://buddypress.trac.wordpress.org/ticket/7820
+	 * @see https://buddypress.trac.wordpress.org/ticket/7698
 	 */
 	public function test_bp_groups_pending_sent_invitations_personal_data_exporter() {
 		groups_invite_user( array(
@@ -1035,8 +855,8 @@ Bar!';
 	}
 
 	/**
-	 * @ticket BP7820
-	 * @ticket BP7698
+	 * @see https://buddypress.trac.wordpress.org/ticket/7820
+	 * @see https://buddypress.trac.wordpress.org/ticket/7698
 	 */
 	public function test_bp_groups_pending_received_invitations_personal_data_exporter() {
 		groups_invite_user( array(
@@ -1055,7 +875,7 @@ Bar!';
 	}
 
 	/**
-	 * @ticket BP8175
+	 * @see https://buddypress.trac.wordpress.org/ticket/8175
 	 */
 	public function test_groups_data_should_be_deleted_on_user_delete_non_multisite() {
 		$this->skipWithMultisite();
@@ -1072,7 +892,7 @@ Bar!';
 	}
 
 	/**
-	 * @ticket BP8175
+	 * @see https://buddypress.trac.wordpress.org/ticket/8175
 	 */
 	public function test_groups_data_should_be_deleted_on_user_delete_multisite() {
 		$this->skipWithoutMultisite();
@@ -1089,7 +909,7 @@ Bar!';
 	}
 
 	/**
-	 * @ticket BP8175
+	 * @see https://buddypress.trac.wordpress.org/ticket/8175
 	 */
 	public function test_groups_data_should_not_be_deleted_on_wp_delete_user_multisite() {
 		$this->skipWithoutMultisite();

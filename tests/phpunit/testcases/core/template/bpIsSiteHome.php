@@ -1,9 +1,7 @@
 <?php
 /**
  * @group core
- * @group template
- * @group bp_is_site_home
- * @ticket BP9330
+ * @see https://buddypress.trac.wordpress.org/ticket/9330
  */
 class BP_Tests_Core_Template_BpIsSiteHome extends BP_UnitTestCase {
 	/**

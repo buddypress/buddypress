@@ -4,7 +4,6 @@ include_once BP_TESTS_DIR . '/assets/class-bptest-component.php';
 
 /**
  * @group core
- * @group BP_Component
  */
 class BP_Tests_BP_Component_TestCases extends BP_UnitTestCase {
 
@@ -57,9 +56,6 @@ class BP_Tests_BP_Component_TestCases extends BP_UnitTestCase {
 		}
 	}
 
-	/**
-	 * @group bp_blocks
-	 */
 	public function test_component_block_globals() {
 		$expected = array(
 			'dynamic_widget_classname' => 'widget_example_classname',
@@ -80,9 +76,6 @@ class BP_Tests_BP_Component_TestCases extends BP_UnitTestCase {
 		$this->assertSame( $expected, $example->block_globals['bp/example-block']->props );
 	}
 
-	/**
-	 * @group bp_rewrites
-	 */
 	public function test_component_rewrite_globals() {
 		$expected = array(
 			'directory'          => 'bp_examples',
@@ -107,9 +100,6 @@ class BP_Tests_BP_Component_TestCases extends BP_UnitTestCase {
 		$this->assertSame( $expected, $example->rewrite_ids );
 	}
 
-	/**
-	 * @group bp_rewrites
-	 */
 	public function test_component_add_rewrite_tags() {
 		$example = new BPTest_Component(
 			array(
@@ -177,9 +167,6 @@ class BP_Tests_BP_Component_TestCases extends BP_UnitTestCase {
 		);
 	}
 
-	/**
-	 * @group bp_rewrites
-	 */
 	public function test_component_add_rewrite_rules() {
 		$example = new BPTest_Component(
 			array(
@@ -257,9 +244,6 @@ class BP_Tests_BP_Component_TestCases extends BP_UnitTestCase {
 		$this->assertArrayNotHasKey( 'rewrite_id', $component->sub_nav[0] );
 	}
 
-	/**
-	 * @group bp_rewrites
-	 */
 	public function test_component_add_permastructs() {
 		$example = new BPTest_Component(
 			array(

@@ -2,7 +2,6 @@
 /**
  * Group Membership Request Controller Tests.
  *
- * @group group-membership-request
  * @group groups
  */
 class BP_Tests_Group_Membership_Request_REST_Controller extends BP_Test_REST_Controller_Testcase {
@@ -56,9 +55,6 @@ class BP_Tests_Group_Membership_Request_REST_Controller extends BP_Test_REST_Con
 		$this->assertCount( 3, $routes[ $put_endpoint ] );
 	}
 
-	/**
-	 * @group get_items
-	 */
 	public function test_get_items() {
 		$u  = static::factory()->user->create();
 		$u2 = static::factory()->user->create();
@@ -100,9 +96,6 @@ class BP_Tests_Group_Membership_Request_REST_Controller extends BP_Test_REST_Con
 		$this->assertCount( 3, $all_data );
 	}
 
-	/**
-	 * @group get_items
-	 */
 	public function test_get_items_with_support_for_the_community_visibility() {
 		toggle_component_visibility();
 
@@ -141,9 +134,6 @@ class BP_Tests_Group_Membership_Request_REST_Controller extends BP_Test_REST_Con
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
 	}
 
-	/**
-	 * @group get_items
-	 */
 	public function test_get_items_as_group_admin() {
 		$u  = static::factory()->user->create();
 		$u2 = static::factory()->user->create();
@@ -178,9 +168,6 @@ class BP_Tests_Group_Membership_Request_REST_Controller extends BP_Test_REST_Con
 		$this->assertCount( 2, $all_data );
 	}
 
-	/**
-	 * @group get_items
-	 */
 	public function test_get_items_as_requestor() {
 		$u = static::factory()->user->create();
 
@@ -208,9 +195,6 @@ class BP_Tests_Group_Membership_Request_REST_Controller extends BP_Test_REST_Con
 		$this->assertCount( 1, $all_data );
 	}
 
-	/**
-	 * @group get_items
-	 */
 	public function test_get_items_user_is_not_logged_in() {
 		wp_set_current_user( 0 );
 
@@ -226,9 +210,6 @@ class BP_Tests_Group_Membership_Request_REST_Controller extends BP_Test_REST_Con
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
 	}
 
-	/**
-	 * @group get_items
-	 */
 	public function test_get_items_user_has_no_access_to_group() {
 		$u  = static::factory()->user->create();
 		$u2 = static::factory()->user->create();
@@ -253,9 +234,6 @@ class BP_Tests_Group_Membership_Request_REST_Controller extends BP_Test_REST_Con
 		$this->assertErrorResponse( 'bp_rest_group_membership_requests_cannot_get_items', $response, rest_authorization_required_code() );
 	}
 
-	/**
-	 * @group get_items
-	 */
 	public function test_get_items_user_has_no_access_to_user() {
 		$u  = static::factory()->user->create();
 		$u2 = static::factory()->user->create();
@@ -280,9 +258,6 @@ class BP_Tests_Group_Membership_Request_REST_Controller extends BP_Test_REST_Con
 		$this->assertErrorResponse( 'bp_rest_group_membership_requests_cannot_get_items', $response, rest_authorization_required_code() );
 	}
 
-	/**
-	 * @group get_items
-	 */
 	public function test_get_items_invalid_group() {
 		wp_set_current_user( $this->user );
 
@@ -298,9 +273,6 @@ class BP_Tests_Group_Membership_Request_REST_Controller extends BP_Test_REST_Con
 		$this->assertErrorResponse( 'bp_rest_group_invalid_id', $response, 404 );
 	}
 
-	/**
-	 * @group get_item
-	 */
 	public function test_get_item() {
 		$u = static::factory()->user->create();
 
@@ -326,9 +298,6 @@ class BP_Tests_Group_Membership_Request_REST_Controller extends BP_Test_REST_Con
 		$this->assertFalse( $accepted );
 	}
 
-	/**
-	 * @group get_item
-	 */
 	public function test_get_item_with_support_for_the_community_visibility() {
 		toggle_component_visibility();
 
@@ -347,9 +316,6 @@ class BP_Tests_Group_Membership_Request_REST_Controller extends BP_Test_REST_Con
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
 	}
 
-	/**
-	 * @group get_item
-	 */
 	public function test_get_item_user_is_not_logged_in() {
 		$u = static::factory()->user->create();
 
@@ -368,9 +334,6 @@ class BP_Tests_Group_Membership_Request_REST_Controller extends BP_Test_REST_Con
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
 	}
 
-	/**
-	 * @group get_item
-	 */
 	public function test_get_item_invalid_membership_request() {
 		wp_set_current_user( $this->user );
 
@@ -381,9 +344,6 @@ class BP_Tests_Group_Membership_Request_REST_Controller extends BP_Test_REST_Con
 		$this->assertErrorResponse( 'bp_rest_group_membership_requests_invalid_id', $response, 404 );
 	}
 
-	/**
-	 * @group get_item
-	 */
 	public function test_get_item_no_access() {
 		$u  = static::factory()->user->create();
 		$u2 = static::factory()->user->create();
@@ -404,9 +364,6 @@ class BP_Tests_Group_Membership_Request_REST_Controller extends BP_Test_REST_Con
 		$this->assertErrorResponse( 'bp_rest_group_membership_requests_cannot_get_item', $response, rest_authorization_required_code() );
 	}
 
-	/**
-	 * @group create_item
-	 */
 	public function test_create_item() {
 		$u = static::factory()->user->create();
 		wp_set_current_user( $this->user );
@@ -429,9 +386,6 @@ class BP_Tests_Group_Membership_Request_REST_Controller extends BP_Test_REST_Con
 		$this->assertSame( $u, $data['user_id'] );
 	}
 
-	/**
-	 * @group create_item
-	 */
 	public function test_create_item_as_subscriber() {
 		$u = static::factory()->user->create();
 
@@ -455,9 +409,6 @@ class BP_Tests_Group_Membership_Request_REST_Controller extends BP_Test_REST_Con
 		$this->assertSame( $u, $data['user_id'] );
 	}
 
-	/**
-	 * @group create_item
-	 */
 	public function test_create_item_user_is_not_logged_in() {
 		$u = static::factory()->user->create();
 
@@ -476,9 +427,6 @@ class BP_Tests_Group_Membership_Request_REST_Controller extends BP_Test_REST_Con
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
 	}
 
-	/**
-	 * @group create_item
-	 */
 	public function test_create_item_invalid_member() {
 		wp_set_current_user( $this->user );
 
@@ -495,9 +443,6 @@ class BP_Tests_Group_Membership_Request_REST_Controller extends BP_Test_REST_Con
 		$this->assertErrorResponse( 'bp_rest_group_member_invalid_id', $response, 404 );
 	}
 
-	/**
-	 * @group create_item
-	 */
 	public function test_create_item_invalid_group() {
 		wp_set_current_user( $this->user );
 
@@ -514,9 +459,6 @@ class BP_Tests_Group_Membership_Request_REST_Controller extends BP_Test_REST_Con
 		$this->assertErrorResponse( 'bp_rest_group_invalid_id', $response, 404 );
 	}
 
-	/**
-	 * @group create_item
-	 */
 	public function test_create_item_with_an_already_group_member() {
 		$u = static::factory()->user->create();
 
@@ -536,9 +478,6 @@ class BP_Tests_Group_Membership_Request_REST_Controller extends BP_Test_REST_Con
 		$this->assertErrorResponse( 'bp_rest_group_membership_requests_cannot_create_item', $response, 500 );
 	}
 
-	/**
-	 * @group create_item
-	 */
 	public function test_create_item_fails_with_pending_request() {
 		$u = static::factory()->user->create();
 
@@ -565,9 +504,6 @@ class BP_Tests_Group_Membership_Request_REST_Controller extends BP_Test_REST_Con
 		$this->assertErrorResponse( 'bp_rest_group_membership_requests_duplicate_request', $response, 500 );
 	}
 
-	/**
-	 * @group update_item
-	 */
 	public function test_update_item() {
 		$u = static::factory()->user->create();
 		wp_set_current_user( $this->user );
@@ -592,9 +528,6 @@ class BP_Tests_Group_Membership_Request_REST_Controller extends BP_Test_REST_Con
 		$this->assertTrue( is_int( $status ) && $status > 0 );
 	}
 
-	/**
-	 * @group update_item
-	 */
 	public function test_update_item_as_group_admin() {
 		$u = static::factory()->user->create();
 		wp_set_current_user( $u );
@@ -619,9 +552,6 @@ class BP_Tests_Group_Membership_Request_REST_Controller extends BP_Test_REST_Con
 		$this->assertTrue( is_int( $status ) && $status > 0 );
 	}
 
-	/**
-	 * @group update_item
-	 */
 	public function test_update_item_user_is_not_logged_in() {
 		$u = static::factory()->user->create();
 
@@ -640,9 +570,6 @@ class BP_Tests_Group_Membership_Request_REST_Controller extends BP_Test_REST_Con
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
 	}
 
-	/**
-	 * @group update_item
-	 */
 	public function test_update_item_user_has_no_access() {
 		$u  = static::factory()->user->create();
 		$u2 = static::factory()->user->create();
@@ -663,9 +590,6 @@ class BP_Tests_Group_Membership_Request_REST_Controller extends BP_Test_REST_Con
 		$this->assertErrorResponse( 'bp_rest_group_member_request_cannot_update_item', $response, rest_authorization_required_code() );
 	}
 
-	/**
-	 * @group update_item
-	 */
 	public function test_update_item_invalid_id() {
 		wp_set_current_user( $this->user );
 
@@ -676,9 +600,6 @@ class BP_Tests_Group_Membership_Request_REST_Controller extends BP_Test_REST_Con
 		$this->assertErrorResponse( 'bp_rest_group_membership_requests_invalid_id', $response, 404 );
 	}
 
-	/**
-	 * @group delete_item
-	 */
 	public function test_delete_item() {
 		$u = static::factory()->user->create();
 		wp_set_current_user( $this->user );
@@ -701,9 +622,6 @@ class BP_Tests_Group_Membership_Request_REST_Controller extends BP_Test_REST_Con
 		$this->assertSame( $request_id, $all_data['previous']['id'] );
 	}
 
-	/**
-	 * @group delete_item
-	 */
 	public function test_delete_item_as_requestor() {
 		$u = static::factory()->user->create();
 		wp_set_current_user( $u );
@@ -726,9 +644,6 @@ class BP_Tests_Group_Membership_Request_REST_Controller extends BP_Test_REST_Con
 		$this->assertSame( $request_id, $all_data['previous']['id'] );
 	}
 
-	/**
-	 * @group delete_item
-	 */
 	public function test_delete_item_as_group_admin() {
 		$u = static::factory()->user->create();
 		wp_set_current_user( $u );
@@ -751,9 +666,6 @@ class BP_Tests_Group_Membership_Request_REST_Controller extends BP_Test_REST_Con
 		$this->assertSame( $request_id, $all_data['previous']['id'] );
 	}
 
-	/**
-	 * @group delete_item
-	 */
 	public function test_delete_item_user_is_not_logged_in() {
 		$u = static::factory()->user->create();
 
@@ -772,9 +684,6 @@ class BP_Tests_Group_Membership_Request_REST_Controller extends BP_Test_REST_Con
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
 	}
 
-	/**
-	 * @group delete_item
-	 */
 	public function test_delete_item_user_has_no_access() {
 		$u  = static::factory()->user->create();
 		$u2 = static::factory()->user->create();
@@ -795,9 +704,6 @@ class BP_Tests_Group_Membership_Request_REST_Controller extends BP_Test_REST_Con
 		$this->assertErrorResponse( 'bp_rest_group_membership_requests_cannot_delete_item', $response, rest_authorization_required_code() );
 	}
 
-	/**
-	 * @group get_item
-	 */
 	public function test_prepare_item() {
 		global $wp_rest_additional_fields;
 

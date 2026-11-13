@@ -1,7 +1,6 @@
 <?php
 
 /**
- * @group BP_Messages_Thread
  * @group messages
  */
 class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
@@ -175,9 +174,6 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 		$this->assertFalse( wp_cache_get( $cache_key, 'bp_messages_threads' ) );
 	}
 
-	/**
-	 * @group order
-	 */
 	public function test_construct_order_desc() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -242,9 +238,6 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 		);
 	}
 
-	/**
-	 * @group get_current_threads_for_user
-	 */
 	public function test_get_current_threads_for_user_with_search_terms_inbox() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -272,9 +265,6 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 		$this->assertSame( $expected, $found );
 	}
 
-	/**
-	 * @group get_current_threads_for_user
-	 */
 	public function test_get_current_threads_for_user_with_search_terms_sentbox() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -303,9 +293,6 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 		$this->assertSame( $expected, $found );
 	}
 
-	/**
-	 * @group get_current_threads_for_user
-	 */
 	public function test_self_removing_sql_clauses_filter_at_priority_zero() {
 		$sender    = self::factory()->user->create();
 		$recipient = self::factory()->user->create();
@@ -375,9 +362,6 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 		$this->assertSame( 1, $threads['total'] );
 	}
 
-	/**
-	 * @group get_current_threads_for_user
-	 */
 	public function test_get_current_threads_for_user_with_sql_filter() {
 		$sender    = self::factory()->user->create();
 		$recipient = self::factory()->user->create();
@@ -406,11 +390,6 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 		$this->assertSame( array( 'paged', 'count' ), $query_types );
 	}
 
-
-
-	/**
-	 * @group get_current_threads_for_user
-	 */
 	public function test_get_current_threads_setting_per_page_messages_and_recipients() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -470,9 +449,6 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 		$this->assertCount( 1, $threads[0]->recipients );
 	}
 
-	/**
-	 * @group get_recipients
-	 */
 	public function test_get_recipients_paginated() {
 		$u1       = self::factory()->user->create();
 		$user_ids = self::factory()->user->create_many( 9 );
@@ -493,7 +469,6 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group get_recipients
 	 * @group cache
 	 */
 	public function test_get_recipients_should_cache_its_values() {
@@ -525,7 +500,6 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group get_recipients
 	 * @group cache
 	 */
 	public function test_get_recipients_cache_should_be_busted_when_thread_message_is_sent() {
@@ -563,7 +537,6 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group get_recipients
 	 * @group cache
 	 */
 	public function test_get_recipients_cache_should_be_busted_when_single_thread_is_deleted() {
@@ -595,7 +568,6 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group get_recipients
 	 * @group cache
 	 */
 	public function test_get_recipients_cache_should_be_busted_when_array_of_threads_is_deleted() {
@@ -627,7 +599,6 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group get_recipients
 	 * @group cache
 	 */
 	public function test_get_recipients_cache_should_be_busted_when_thread_is_read() {
@@ -727,7 +698,6 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group get_recipients
 	 * @group cache
 	 */
 	public function test_get_recipients_cache_should_be_busted_when_thread_is_unread() {
@@ -761,9 +731,6 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 
 	}
 
-	/**
-	 * @group check_access
-	 */
 	public function test_check_access_valid_thread() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -784,16 +751,10 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 		$this->assertSame( $r1, BP_Messages_Thread::check_access( $t1, $u1 ) );
 	}
 
-	/**
-	 * @group check_access
-	 */
 	public function test_check_access_invalid_thread() {
 		$this->assertNull( BP_Messages_Thread::check_access( 999, 1 ) );
 	}
 
-	/**
-	 * @group is_valid
-	 */
 	public function test_is_valid_valid_thread() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -809,16 +770,10 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 		$this->assertSame( $t1, BP_Messages_Thread::is_valid( $t1 ) );
 	}
 
-	/**
-	 * @group is_valid
-	 */
 	public function test_is_valid_invalid_thread() {
 		$this->assertNull( BP_Messages_Thread::is_valid( 999 ) );
 	}
 
-	/**
-	 * @group latest_message
-	 */
 	public function test_get_latest_message_data() {
 		$u1      = self::factory()->user->create();
 		$u2      = self::factory()->user->create();
@@ -869,7 +824,6 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group latest_message
 	 * @group cache
 	 */
 	public function test_get_latest_message_from_cache() {
@@ -908,8 +862,7 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group exit
-	 * @ticket BP7540
+	 * @see https://buddypress.trac.wordpress.org/ticket/7540
 	 */
 	public function test_bp_messages_thread_exit() {
 		$u1 = self::factory()->user->create();
@@ -930,8 +883,7 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group exit
-	 * @ticket BP7540
+	 * @see https://buddypress.trac.wordpress.org/ticket/7540
 	 */
 	public function test_bp_messages_thread_exit_not_enough_recipients() {
 		$u1 = self::factory()->user->create();
@@ -951,8 +903,7 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group exit
-	 * @ticket BP7540
+	 * @see https://buddypress.trac.wordpress.org/ticket/7540
 	 */
 	public function test_bp_messages_thread_exit_not_one_of_recipients() {
 		$u1 = self::factory()->user->create();

@@ -3,8 +3,8 @@
 include_once BP_TESTS_DIR . 'assets/attachment-extensions.php';
 
 /**
- * @group bp_attachments
- * @group BP_Attachment
+ * @group attachments
+ * @group core
  */
 #[AllowDynamicProperties]
 class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
@@ -137,9 +137,6 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 		$this->clean_files();
 	}
 
-	/**
-	 * @group upload
-	 */
 	public function test_bp_attachment_upload() {
 		$reset_files = $_FILES;
 		$reset_post = $_POST;
@@ -183,9 +180,6 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 		$this->clean_files();
 	}
 
-	/**
-	 * @group upload
-	 */
 	public function test_bp_attachment_upload_no_base_dir_specific_time() {
 		$reset_files = $_FILES;
 		$reset_post = $_POST;
@@ -216,10 +210,6 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 		$_POST = $reset_post;
 	}
 
-	/**
-	 * @group upload
-	 * @group avatar
-	 */
 	public function test_bp_attachment_avatar_user_upload() {
 		$reset_files = $_FILES;
 		$reset_post = $_POST;
@@ -267,10 +257,6 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 		$_POST = $reset_post;
 	}
 
-	/**
-	 * @group upload
-	 * @group avatar
-	 */
 	public function test_bp_attachment_avatar_group_upload() {
 		$bp = buddypress();
 		$reset_files = $_FILES;
@@ -302,9 +288,6 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 		$_POST = $reset_post;
 	}
 
-	/**
-	 * @group crop
-	 */
 	public function test_bp_attachment_crop() {
 		$crop_args = array(
 			'original_file' => $this->image_file,
@@ -340,10 +323,6 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 		$this->clean_files();
 	}
 
-	/**
-	 * @group upload
-	 * @group cover_image
-	 */
 	public function test_bp_attachment_cover_image_user_upload() {
 		$reset_files = $_FILES;
 		$reset_post = $_POST;
@@ -376,10 +355,6 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 		$_POST = $reset_post;
 	}
 
-	/**
-	 * @group shrink
-	 * @group avatars
-	 */
 	public function test_bp_attachment_avatar_shrink() {
 		if ( false === _wp_image_editor_choose() ) {
 			$this->markTestSkipped( 'This test requires a valid image editor that is compatible with WordPress.' );
@@ -411,9 +386,6 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 		$this->clean_files( 'shrink' );
 	}
 
-	/**
-	 * @group add_revision
-	 */
 	public function test_bp_attachment_add_revision() {
 		if ( false === _wp_image_editor_choose() ) {
 			$this->markTestSkipped( 'This test requires a valid image editor that is compatible with WordPress.' );
@@ -449,10 +421,6 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 		$this->clean_files( 'add_revision' );
 	}
 
-	/**
-	 * @group add_revision
-	 * @group avatars
-	 */
 	public function test_bp_attachment_add_avatar_history() {
 		if ( false === _wp_image_editor_choose() ) {
 			$this->markTestSkipped( 'This test requires a valid image editor that is compatible with WordPress.' );
@@ -493,20 +461,12 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 		return 50;
 	}
 
-	/**
-	 * @group shrink
-	 * @group avatars
-	 */
 	public function test_bp_attachment_avatar_shrink_not_needed() {
 		$shrink = BP_Attachment_Avatar::shrink( $this->image_file );
 
 		$this->assertEmpty( $shrink );
 	}
 
-	/**
-	 * @group shrink
-	 * @group cover_images
-	 */
 	public function test_bp_attachment_cover_image_fit() {
 		if ( false === _wp_image_editor_choose() ) {
 			$this->markTestSkipped( 'This test requires PHP to have a valid image editor that is compatible with WordPress.' );
@@ -529,10 +489,6 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 		$this->clean_files( 'buddypress' );
 	}
 
-	/**
-	 * @group shrink
-	 * @group cover_images
-	 */
 	public function test_bp_attachment_cover_image_fit_not_needed() {
 		$cover_image_class = new BP_Attachment_Cover_Image();
 		$fit = $cover_image_class->fit( $this->image_file, array( 'width' => 1300, 'height' => 225 ) );
@@ -543,10 +499,6 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 		$this->clean_files( 'buddypress' );
 	}
 
-	/**
-	 * @group avatars
-	 * @group cover_images
-	 */
 	public function test_bp_attachment_get_image_data() {
 		if ( ! is_callable( 'exif_read_data' ) ) {
 			$this->markTestSkipped( 'This test requires PHP to be compiled with EXIF support.' );
@@ -557,10 +509,6 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 		$this->assertTrue( 3 == $image_data['meta']['orientation'] );
 	}
 
-	/**
-	 * @group upload
-	 * @group cover_images
-	 */
 	public function test_bp_attachment_upload_dir_filter_arg() {
 		$reset_files = $_FILES;
 		$reset_post = $_POST;
@@ -609,10 +557,8 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP6746
-	 * @ticket BP9335
-	 * @group upload
-	 * @group avatar
+	 * @see https://buddypress.trac.wordpress.org/ticket/6746
+	 * @see https://buddypress.trac.wordpress.org/ticket/9335
 	 */
 	public function test_bp_attachment_avatar_validate_upload_removes_avatar_suffixes() {
 		$avatar_attachment = new BP_Attachment_Avatar();
@@ -640,11 +586,8 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP6746
-	 * @ticket BP9335
-	 * @group upload
-	 * @group crop
-	 * @group avatar
+	 * @see https://buddypress.trac.wordpress.org/ticket/6746
+	 * @see https://buddypress.trac.wordpress.org/ticket/9335
 	 * @dataProvider data_avatar_history
 	 *
 	 * @param bool $history_disabled Whether avatar history is disabled.
@@ -717,8 +660,7 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP9338
-	 * @group upload
+	 * @see https://buddypress.trac.wordpress.org/ticket/9338
 	 */
 	public function test_bp_attachment_sanitize_utf8_filename() {
 		$avatar_attachment = new BP_Attachment_Avatar();

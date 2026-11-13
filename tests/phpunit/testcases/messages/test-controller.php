@@ -30,9 +30,6 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$this->assertCount( 1, $routes[ $starred_endpoint ] );
 	}
 
-	/**
-	 * @group get_items
-	 */
 	public function test_get_items() {
 		$u1 = static::factory()->user->create();
 		$u2 = static::factory()->user->create();
@@ -74,9 +71,6 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$this->check_thread_data( $this->endpoint->get_thread_object( $data[0]['id'], $u1 ), $data[0] );
 	}
 
-	/**
-	 * @group get_items
-	 */
 	public function test_get_items_and_paginate_messages_recipients() {
 		$u1 = static::factory()->user->create();
 		$u2 = static::factory()->user->create();
@@ -145,7 +139,6 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 
 	/**
 	 * @BP9157
-	 * @group get_items
 	 */
 	public function test_filter_threads_by_recipients() {
 		$u1 = static::factory()->user->create();
@@ -204,9 +197,6 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$this->assertSame( $thread2->thread_id, $a_ids[0] );
 	}
 
-	/**
-	 * @group get_item
-	 */
 	public function test_get_item() {
 		$u1 = static::factory()->user->create();
 		$u2 = static::factory()->user->create();
@@ -233,9 +223,6 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$this->check_thread_data( $this->endpoint->get_thread_object( $data['id'], $u2 ), $data );
 	}
 
-	/**
-	 * @group get_item
-	 */
 	public function test_get_thread_messages_paginated() {
 		$u1 = static::factory()->user->create();
 		$u2 = static::factory()->user->create();
@@ -289,9 +276,6 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$this->assertSame( $message_id, $thread['messages'][0]['id'] );
 	}
 
-	/**
-	 * @group get_item
-	 */
 	public function test_get_item_admin_access() {
 		$u1 = static::factory()->user->create();
 		$u2 = static::factory()->user->create();
@@ -329,9 +313,6 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$this->assertTrue( isset( $message['subject']['rendered'] ) );
 	}
 
-	/**
-	 * @group get_item
-	 */
 	public function test_get_item_prevent_counterfeit_user_id() {
 		$u1 = static::factory()->user->create();
 		$u2 = static::factory()->user->create();
@@ -353,9 +334,6 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$this->assertSame( 403, $response->get_status() );
 	}
 
-	/**
-	 * @group get_item
-	 */
 	public function test_get_item_with_edit_context() {
 		$u1 = static::factory()->user->create();
 		$u2 = static::factory()->user->create();
@@ -394,9 +372,6 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$this->assertSame( 'Foo', $message['subject']['raw'] );
 	}
 
-	/**
-	 * @group get_item
-	 */
 	public function test_get_item_user_with_no_access() {
 		$u1 = static::factory()->user->create();
 		$u2 = static::factory()->user->create();
@@ -420,8 +395,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 	}
 
 	/**
-	 * @ticket BP9160
-	 * @group get_item
+	 * @see https://buddypress.trac.wordpress.org/ticket/9160
 	 */
 	public function test_get_thread_deleted_messages() {
 		$u1           = static::factory()->user->create();
@@ -477,9 +451,6 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$this->assertCount( 2, $all_data['recipients'] );
 	}
 
-	/**
-	 * @group get_item
-	 */
 	public function test_get_item_user_is_not_logged_in() {
 		$u1 = static::factory()->user->create();
 		$u2 = static::factory()->user->create();
@@ -501,9 +472,6 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$this->assertSame( 401, $response->get_status() );
 	}
 
-	/**
-	 * @group get_item
-	 */
 	public function test_get_item_invalid_id() {
 		wp_set_current_user( $this->user );
 
@@ -514,9 +482,6 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$this->assertErrorResponse( 'bp_rest_invalid_id', $response, 404 );
 	}
 
-	/**
-	 * @group create_item
-	 */
 	public function test_create_item() {
 		$u = static::factory()->user->create();
 
@@ -543,9 +508,6 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$this->check_thread_data( $this->endpoint->get_thread_object( $data['id'] ), $data );
 	}
 
-	/**
-	 * @group create_item
-	 */
 	public function test_create_item_user_is_not_logged_in() {
 		$u = static::factory()->user->create();
 
@@ -567,8 +529,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 	/**
 	 * @dataProvider provider_create_item_with_empty_content_options
 	 *
-	 * @ticket BP9175
-	 * @group create_item
+	 * @see https://buddypress.trac.wordpress.org/ticket/9175
 	 *
 	 * @param mixed $content Empty message content to test.
 	 */
@@ -593,8 +554,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 	}
 
 	/**
-	 * @ticket BP9175
-	 * @group create_item
+	 * @see https://buddypress.trac.wordpress.org/ticket/9175
 	 */
 	public function test_create_item_with_null_content() {
 		wp_set_current_user( $this->user );
@@ -620,8 +580,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 	/**
 	 * @dataProvider provider_create_item_irregular_content_options
 	 *
-	 * @ticket BP9175
-	 * @group create_item
+	 * @see https://buddypress.trac.wordpress.org/ticket/9175
 	 *
 	 * @param string $content Irregular message content to test.
 	 */
@@ -672,9 +631,6 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 		);
 	}
 
-	/**
-	 * @group create_item
-	 */
 	public function test_create_item_with_no_recipients() {
 		wp_set_current_user( $this->user );
 
@@ -695,9 +651,6 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 		);
 	}
 
-	/**
-	 * @group update_item
-	 */
 	public function test_update_item() {
 		$u1 = static::factory()->user->create();
 		$u2 = static::factory()->user->create();
@@ -728,9 +681,6 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$this->assertFalse( (bool) $data['recipients'][1]['unread_count'] );
 	}
 
-	/**
-	 * @group update_item
-	 */
 	public function test_update_thread_to_unread() {
 		$u1 = static::factory()->user->create();
 		$u2 = static::factory()->user->create();
@@ -770,9 +720,6 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 		}
 	}
 
-	/**
-	 * @group update_item
-	 */
 	public function test_update_item_user_is_not_logged_in() {
 		$u1 = static::factory()->user->create();
 		$u2 = static::factory()->user->create();
@@ -795,9 +742,6 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 		);
 	}
 
-	/**
-	 * @group update_item
-	 */
 	public function test_update_item_invalid_id() {
 		wp_set_current_user( $this->user );
 
@@ -808,9 +752,6 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$this->assertErrorResponse( 'bp_rest_invalid_id', $response, 404 );
 	}
 
-	/**
-	 * @group update_item
-	 */
 	public function test_update_item_with_user_with_no_access() {
 		$u1 = static::factory()->user->create();
 		$u2 = static::factory()->user->create();
@@ -836,9 +777,6 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 		);
 	}
 
-	/**
-	 * @group update_item
-	 */
 	public function test_update_item_prevent_counterfeit_user_id() {
 		$u1 = static::factory()->user->create();
 		$u2 = static::factory()->user->create();
@@ -859,9 +797,6 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$this->assertSame( 403, $response->get_status() );
 	}
 
-	/**
-	 * @group delete_item
-	 */
 	public function test_delete_item() {
 		$u1 = static::factory()->user->create();
 		$u2 = static::factory()->user->create();
@@ -890,9 +825,6 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$this->assertSame( 'Foo', $data['previous']['subject']['rendered'] );
 	}
 
-	/**
-	 * @group delete_item
-	 */
 	public function test_delete_item_admin_access() {
 		$u1 = static::factory()->user->create();
 		$u2 = static::factory()->user->create();
@@ -920,9 +852,6 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$this->assertSame( 'Foo', $data['previous']['subject']['rendered'] );
 	}
 
-	/**
-	 * @group delete_item
-	 */
 	public function test_delete_item_with_user_with_no_access() {
 		$u1 = static::factory()->user->create();
 		$u2 = static::factory()->user->create();
@@ -947,9 +876,6 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 		);
 	}
 
-	/**
-	 * @group delete_item
-	 */
 	public function test_delete_item_user_is_not_logged_in() {
 		$u1 = static::factory()->user->create();
 		$u2 = static::factory()->user->create();
@@ -971,9 +897,6 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 		);
 	}
 
-	/**
-	 * @group delete_item
-	 */
 	public function test_delete_item_prevent_counterfeit_user_id() {
 		$u1 = static::factory()->user->create();
 		$u2 = static::factory()->user->create();
@@ -994,9 +917,6 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$this->assertSame( 403, $response->get_status() );
 	}
 
-	/**
-	 * @group starred
-	 */
 	public function test_get_starred_items() {
 		$u1 = static::factory()->user->create();
 		$u2 = static::factory()->user->create();
@@ -1058,9 +978,6 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$this->assertContains( $r1->id, $result['starred_message_ids'] );
 	}
 
-	/**
-	 * @group starred
-	 */
 	public function test_update_starred_add_star() {
 		$u1 = static::factory()->user->create();
 		$u2 = static::factory()->user->create();
@@ -1100,9 +1017,6 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$this->assertTrue( $data['is_starred'] );
 	}
 
-	/**
-	 * @group starred
-	 */
 	public function test_update_starred_remove_star() {
 		$u1 = static::factory()->user->create();
 		$u2 = static::factory()->user->create();
@@ -1139,9 +1053,6 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$this->assertFalse( $data['is_starred'] );
 	}
 
-	/**
-	 * @group starred
-	 */
 	public function test_update_starred_user_is_not_logged_in() {
 		$u1 = static::factory()->user->create();
 		$u2 = static::factory()->user->create();
@@ -1165,9 +1076,6 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 		);
 	}
 
-	/**
-	 * @group starred
-	 */
 	public function test_update_starred_user_with_no_access() {
 		$u1 = static::factory()->user->create();
 		$u2 = static::factory()->user->create();
@@ -1194,9 +1102,6 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 		);
 	}
 
-	/**
-	 * @group starred
-	 */
 	public function test_update_starred_using_invalid_id() {
 		wp_set_current_user( $this->user );
 
@@ -1215,9 +1120,6 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 		return bp_messages_get_meta( $data['id'], '_' . $attribute );
 	}
 
-	/**
-	 * @group additional_fields
-	 */
 	public function test_additional_fields_for_get_item() {
 		$registered_fields = $GLOBALS['wp_rest_additional_fields'];
 
@@ -1267,9 +1169,6 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$GLOBALS['wp_rest_additional_fields'] = $registered_fields;
 	}
 
-	/**
-	 * @group additional_fields
-	 */
 	public function test_additional_fields_for_created_thread() {
 		$registered_fields = $GLOBALS['wp_rest_additional_fields'];
 
@@ -1316,9 +1215,6 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$GLOBALS['wp_rest_additional_fields'] = $registered_fields;
 	}
 
-	/**
-	 * @group additional_fields
-	 */
 	public function test_additional_fields_for_created_reply() {
 		$registered_fields = $GLOBALS['wp_rest_additional_fields'];
 
@@ -1379,9 +1275,6 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$GLOBALS['wp_rest_additional_fields'] = $registered_fields;
 	}
 
-	/**
-	 * @group additional_fields
-	 */
 	public function test_additional_fields_for_last_message_updated() {
 		$registered_fields = $GLOBALS['wp_rest_additional_fields'];
 
@@ -1450,9 +1343,6 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$GLOBALS['wp_rest_additional_fields'] = $registered_fields;
 	}
 
-	/**
-	 * @group additional_fields
-	 */
 	public function test_additional_fields_for_specific_message_updated() {
 		$registered_fields = $GLOBALS['wp_rest_additional_fields'];
 
@@ -1525,9 +1415,6 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$GLOBALS['wp_rest_additional_fields'] = $registered_fields;
 	}
 
-	/**
-	 * @group prepare_recipient_for_response
-	 */
 	public function test_prepare_prepare_recipient_for_response() {
 		$u1 = static::factory()->user->create();
 		$u2 = static::factory()->user->create();
@@ -1573,9 +1460,6 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 		}
 	}
 
-	/**
-	 * @group get_item
-	 */
 	public function test_prepare_item() {
 		global $wp_rest_additional_fields;
 

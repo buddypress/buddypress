@@ -1,8 +1,6 @@
 <?php
 /**
  * @group core
- * @group core-theme-compatibility
- * @group bp_current_theme_supports
  */
 class BP_Tests_Theme_Compatibility_Functions extends BP_UnitTestCase {
 

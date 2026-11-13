@@ -2,7 +2,6 @@
 
 /**
  * @group xprofile
- * @group BP_XProfile_Query
  */
 class BP_Tests_BP_XProfile_Query extends BP_UnitTestCase {
 	protected $group;
@@ -466,7 +465,7 @@ class BP_Tests_BP_XProfile_Query extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP7202
+	 * @see https://buddypress.trac.wordpress.org/ticket/7202
 	 */
 	public function test_relation_and_with_compare_not_in() {
 		$this->create_fields( 1 );
@@ -593,7 +592,7 @@ class BP_Tests_BP_XProfile_Query extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group BP7202
+	 * @see https://buddypress.trac.wordpress.org/ticket/7202
 	 */
 	public function test_find_compatible_table_alias_should_match_negative_siblings_joined_with_relation_and() {
 		$this->create_fields( 1 );

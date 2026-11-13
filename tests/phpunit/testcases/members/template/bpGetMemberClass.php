@@ -5,7 +5,7 @@
  */
 class BP_Tests_Members_Template_BpGetMemberClass extends BP_UnitTestCase {
 	/**
-	 * @ticket BP6996
+	 * @see https://buddypress.trac.wordpress.org/ticket/6996
 	 */
 	public function test_should_contain_member_type_classes() {
 		buddypress()->members->types = array();

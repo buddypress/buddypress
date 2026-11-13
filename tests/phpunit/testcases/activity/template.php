@@ -5,7 +5,7 @@
 class BP_Tests_Activity_Template extends BP_UnitTestCase {
 
 	/**
-	 * @ticket BP4735
+	 * @see https://buddypress.trac.wordpress.org/ticket/4735
 	 */
 	public function test_user_can_delete() {
 		$bp            = buddypress();
@@ -81,8 +81,7 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 	 * Make sure that action filters ('activity_update', etc) work when
 	 * limiting query to user favorites
 	 *
-	 * @ticket BP4872
-	 * @group scope
+	 * @see https://buddypress.trac.wordpress.org/ticket/4872
 	 */
 	public function test_bp_has_activities_favorites_action_filter() {
 		$user_id = self::factory()->user->create();
@@ -147,11 +146,6 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 		$activities_template = null;
 	}
 
-	/**
-	 * @group scope
-	 * @group filter_query
-	 * @group BP_Activity_Query
-	 */
 	public function test_bp_has_activities_just_me_scope_with_no_user_id() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -211,11 +205,6 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 		wp_set_current_user( $old_user );
 	}
 
-	/**
-	 * @group scope
-	 * @group filter_query
-	 * @group BP_Activity_Query
-	 */
 	public function test_bp_has_activities_mentions_scope() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -278,11 +267,6 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 		$activities_template = null;
 	}
 
-	/**
-	 * @group scope
-	 * @group filter_query
-	 * @group BP_Activity_Query
-	 */
 	public function test_bp_has_activities_friends_and_mentions_scope() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -359,11 +343,6 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 		$activities_template = null;
 	}
 
-	/**
-	 * @group scope
-	 * @group filter_query
-	 * @group BP_Activity_Query
-	 */
 	public function test_bp_has_activities_groups_and_friends_scope() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -447,11 +426,6 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 		$activities_template = null;
 	}
 
-	/**
-	 * @group scope
-	 * @group filter_query
-	 * @group BP_Activity_Query
-	 */
 	public function test_bp_has_activities_scope_friends_no_items() {
 		$u1 = self::factory()->user->create();
 
@@ -484,11 +458,6 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 		$activities_template = $reset_activities_template;
 	}
 
-	/**
-	 * @group scope
-	 * @group filter_query
-	 * @group BP_Activity_Query
-	 */
 	public function test_bp_has_activities_scope_favorites_no_items() {
 		$u1 = self::factory()->user->create();
 
@@ -521,11 +490,6 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 		$activities_template = $reset_activities_template;
 	}
 
-	/**
-	 * @group scope
-	 * @group filter_query
-	 * @group BP_Activity_Query
-	 */
 	public function test_bp_has_activities_scope_groups_no_items() {
 		$u1 = self::factory()->user->create();
 
@@ -558,11 +522,6 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 		$activities_template = $reset_activities_template;
 	}
 
-	/**
-	 * @group scope
-	 * @group filter_query
-	 * @group BP_Activity_Query
-	 */
 	public function test_bp_has_activities_scope_mentions_no_items() {
 		$u1 = self::factory()->user->create();
 
@@ -596,8 +555,7 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group scope
-	 * @ticket BP6720
+	 * @see https://buddypress.trac.wordpress.org/ticket/6720
 	 */
 	public function test_bp_has_activities_scope_friends_should_respect_id_order_when_record_dates_are_same() {
 		$u1 = self::factory()->user->create();
@@ -641,8 +599,7 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group scope
-	 * @ticket BP6720
+	 * @see https://buddypress.trac.wordpress.org/ticket/6720
 	 */
 	public function test_bp_has_activities_scope_groups_should_respect_id_order_when_record_dates_are_same() {
 		$u1 = self::factory()->user->create();
@@ -690,10 +647,6 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 		$this->assertSame( array( $a2, $a1 ), wp_list_pluck( $found, 'id' ) );
 	}
 
-	/**
-	 * @group filter_query
-	 * @group BP_Activity_Query
-	 */
 	public function test_bp_has_activities_with_filter_query_nested_conditions() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -770,10 +723,6 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 		$activities_template = null;
 	}
 
-	/**
-	 * @group filter_query
-	 * @group BP_Activity_Query
-	 */
 	public function test_bp_has_activities_with_filter_query_compare_not_in_operator() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -838,10 +787,6 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 		$activities_template = null;
 	}
 
-	/**
-	 * @group filter_query
-	 * @group BP_Activity_Query
-	 */
 	public function test_bp_has_activities_with_filter_query_compare_between_operator() {
 		$u1 = self::factory()->user->create();
 
@@ -904,10 +849,6 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 		$activities_template = null;
 	}
 
-	/**
-	 * @group filter_query
-	 * @group BP_Activity_Query
-	 */
 	public function test_bp_has_activities_with_filter_query_compare_arithmetic_comparisons() {
 		$u1 = self::factory()->user->create();
 
@@ -1037,11 +978,6 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 		$activities_template = null;
 	}
 
-	/**
-	 * @group filter_query
-	 * @group BP_Activity_Query
-	 * @group post_type_comment_activities
-	 */
 	public function test_bp_has_activities_with_filter_query_compare_regex() {
 		$u1 = self::factory()->user->create();
 
@@ -1138,8 +1074,7 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP6169
-	 * @group bp_has_activities
+	 * @see https://buddypress.trac.wordpress.org/ticket/6169
 	 */
 	public function test_bp_has_activities_private_group_home_scope() {
 		global $activities_template;
@@ -1198,8 +1133,7 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP6169
-	 * @group bp_has_activities
+	 * @see https://buddypress.trac.wordpress.org/ticket/6169
 	 */
 	public function test_bp_has_activities_hidden_group_home_scope() {
 		global $activities_template;
@@ -1282,8 +1216,7 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP5029
-	 * @group bp_has_activities
+	 * @see https://buddypress.trac.wordpress.org/ticket/5029
 	 */
 	public function test_bp_has_activities_with_display_comments_false() {
 		$now = time();
@@ -1319,8 +1252,7 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP5029
-	 * @group bp_has_activities
+	 * @see https://buddypress.trac.wordpress.org/ticket/5029
 	 */
 	public function test_bp_has_activities_with_display_comments_0() {
 		$now = time();
@@ -1356,8 +1288,7 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP5029
-	 * @group bp_has_activities
+	 * @see https://buddypress.trac.wordpress.org/ticket/5029
 	 */
 	public function test_bp_has_activities_with_display_comments_0_querystring() {
 		$now = time();
@@ -1389,8 +1320,7 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP5029
-	 * @group bp_has_activities
+	 * @see https://buddypress.trac.wordpress.org/ticket/5029
 	 */
 	public function test_bp_has_activities_with_display_comments_none_querystring() {
 		$now = time();
@@ -1422,7 +1352,6 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group bp_has_activities
 	 * @group cache
 	 */
 	public function test_bp_has_activities_with_update_meta_cache_false() {
@@ -1455,7 +1384,6 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group bp_has_activities
 	 * @group cache
 	 */
 	public function test_bp_has_activities_with_update_meta_cache_true() {
@@ -1487,10 +1415,6 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 		$this->assertNotEmpty( wp_cache_get( $a2, 'activity_meta' ) );
 	}
 
-	/**
-	 * @group bp_has_activities
-	 * @group post_type_comment_activities
-	 */
 	public function test_bp_has_activities_with_type_new_blog_comments() {
 		add_filter( 'bp_disable_blogforum_comments', '__return_false' );
 
@@ -1564,9 +1488,6 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 		remove_filter( 'bp_disable_blogforum_comments', '__return_false' );
 	}
 
-	/**
-	 * @group bp_activity_can_comment_reply
-	 */
 	public function test_bp_activity_can_comment_reply_thread_comments_on() {
 		$tc = get_option( 'thread_comments' );
 		update_option( 'thread_comments', '1' );
@@ -1601,9 +1522,6 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 		$activities_template = null;
 	}
 
-	/**
-	 * @group bp_activity_can_comment_reply
-	 */
 	public function test_bp_activity_can_comment_reply_thread_comments_off() {
 		$tc = get_option( 'thread_comments' );
 		update_option( 'thread_comments', '0' );
@@ -1632,9 +1550,6 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 		$activities_template = null;
 	}
 
-	/**
-	 * @group bp_activity_can_comment
-	 */
 	public function test_bp_activity_can_comment() {
 		global $activities_template;
 		$reset_activities_template = $activities_template;
@@ -1671,9 +1586,6 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 		$activities_template = $reset_activities_template;
 	}
 
-	/**
-	 * @group bp_activity_can_comment
-	 */
 	public function test_bp_activity_can_comment_post_type_activity() {
 		global $activities_template;
 		$bp = buddypress();
@@ -1718,9 +1630,6 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 		$bp->activity->track = $reset_activity_track;
 	}
 
-	/**
-	 * @group bp_activity_has_more_items
-	 */
 	public function test_bp_activity_has_more_items_no_count_total_false() {
 		$a1 = self::factory()->activity->create();
 		$a2 = self::factory()->activity->create();
@@ -1736,9 +1645,6 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 		}
 	}
 
-	/**
-	 * @group bp_activity_has_more_items
-	 */
 	public function test_bp_activity_has_more_items_no_count_total_true() {
 		$a1 = self::factory()->activity->create();
 		$a2 = self::factory()->activity->create();
@@ -1757,9 +1663,6 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 		}
 	}
 
-	/**
-	 * @group bp_activity_has_more_items
-	 */
 	public function test_bp_activity_has_more_items_count_total_false() {
 		$a1 = self::factory()->activity->create();
 		$a2 = self::factory()->activity->create();
@@ -1777,9 +1680,6 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 		}
 	}
 
-	/**
-	 * @group bp_activity_has_more_items
-	 */
 	public function test_bp_activity_has_more_items_count_total_true() {
 		$a1 = self::factory()->activity->create();
 		$a2 = self::factory()->activity->create();
@@ -1801,7 +1701,6 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 	/**
 	 * Integration test for 'date_query' param
 	 *
-	 * @group date_query
 	 */
 	public function test_bp_has_activities_with_date_query() {
 
@@ -1832,10 +1731,6 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 		$this->assertSame( $ids, array( $a1 ) );
 	}
 
-	/**
-	 * @group pagination
-	 * @group BP_Activity_Template
-	 */
 	public function test_bp_activity_template_should_give_precedence_to_acpage_URL_param() {
 		$request            = $_REQUEST;
 		$_REQUEST['acpage'] = '5';
@@ -1851,10 +1746,6 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 		$_REQUEST = $request;
 	}
 
-	/**
-	 * @group pagination
-	 * @group BP_Activity_Template
-	 */
 	public function test_bp_activity_template_should_reset_0_pag_page_URL_param_to_default_pag_page_value() {
 		$request            = $_REQUEST;
 		$_REQUEST['acpage'] = '0';
@@ -1870,10 +1761,6 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 		$_REQUEST = $request;
 	}
 
-	/**
-	 * @group pagination
-	 * @group BP_Activity_Template
-	 */
 	public function test_bp_activity_template_should_give_precedence_to_num_URL_param() {
 		$request         = $_REQUEST;
 		$_REQUEST['num'] = '14';
@@ -1889,10 +1776,6 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 		$_REQUEST = $request;
 	}
 
-	/**
-	 * @group pagination
-	 * @group BP_Activity_Template
-	 */
 	public function test_bp_activity_template_should_reset_0_pag_num_URL_param_to_default_pag_num_value() {
 		$request         = $_REQUEST;
 		$_REQUEST['num'] = '0';

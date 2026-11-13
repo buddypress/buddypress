@@ -3,7 +3,6 @@
  * Blog Avatar Controller Tests.
  *
  * @group blogs
- * @group blog-avatar
  * @group attachments
  */
 class BP_Tests_Blog_Avatar_REST_Controller extends BP_Test_REST_Controller_Testcase {
@@ -24,16 +23,10 @@ class BP_Tests_Blog_Avatar_REST_Controller extends BP_Test_REST_Controller_Testc
 		$this->assertCount( 1, $routes[ $endpoint ] );
 	}
 
-	/**
-	 * @group get_items
-	 */
 	public function test_get_items() {
 		$this->markTestSkipped( 'This endpoint has no collection route or get_items() method.' );
 	}
 
-	/**
-	 * @group get_item
-	 */
 	public function test_get_item() {
 		$this->skipWithoutMultisite();
 
@@ -56,9 +49,6 @@ class BP_Tests_Blog_Avatar_REST_Controller extends BP_Test_REST_Controller_Testc
 		$this->assertSame( $all_data, $expected );
 	}
 
-	/**
-	 * @group get_item
-	 */
 	public function test_get_item_with_support_for_the_community_visibility() {
 		$this->skipWithoutMultisite();
 
@@ -72,9 +62,6 @@ class BP_Tests_Blog_Avatar_REST_Controller extends BP_Test_REST_Controller_Testc
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
 	}
 
-	/**
-	 * @group get_item
-	 */
 	public function test_get_item_site_icon() {
 		$this->skipWithoutMultisite();
 
@@ -111,9 +98,6 @@ class BP_Tests_Blog_Avatar_REST_Controller extends BP_Test_REST_Controller_Testc
 		$this->assertSame( $all_data, $expected );
 	}
 
-	/**
-	 * @group get_item
-	 */
 	public function test_get_item_no_grav() {
 		$this->skipWithoutMultisite();
 
@@ -149,9 +133,6 @@ class BP_Tests_Blog_Avatar_REST_Controller extends BP_Test_REST_Controller_Testc
 		$this->assertSame( $all_data, $expected );
 	}
 
-	/**
-	 * @group get_item
-	 */
 	public function test_get_item_invalid_user_id() {
 		$this->skipWithoutMultisite();
 
@@ -182,9 +163,6 @@ class BP_Tests_Blog_Avatar_REST_Controller extends BP_Test_REST_Controller_Testc
 		return $blog_results;
 	}
 
-	/**
-	 * @group get_item
-	 */
 	public function test_get_item_invalid_blog_id() {
 		$this->skipWithoutMultisite();
 
@@ -193,9 +171,6 @@ class BP_Tests_Blog_Avatar_REST_Controller extends BP_Test_REST_Controller_Testc
 		$this->assertErrorResponse( 'bp_rest_blog_invalid_id', $response, 404 );
 	}
 
-	/**
-	 * @group create_item
-	 */
 	public function test_create_item() {
 		// This endpoint does not support creating blog avatars.
 		$this->skipWithoutMultisite();
@@ -205,9 +180,6 @@ class BP_Tests_Blog_Avatar_REST_Controller extends BP_Test_REST_Controller_Testc
 		$this->assertErrorResponse( 'rest_no_route', $response, 404 );
 	}
 
-	/**
-	 * @group update_item
-	 */
 	public function test_update_item() {
 		// This endpoint does not support updating blog avatars.
 		$this->skipWithoutMultisite();
@@ -219,9 +191,6 @@ class BP_Tests_Blog_Avatar_REST_Controller extends BP_Test_REST_Controller_Testc
 		}
 	}
 
-	/**
-	 * @group delete_item
-	 */
 	public function test_delete_item() {
 		// This endpoint does not support deleting blog avatars.
 		$this->skipWithoutMultisite();
@@ -231,9 +200,6 @@ class BP_Tests_Blog_Avatar_REST_Controller extends BP_Test_REST_Controller_Testc
 		$this->assertErrorResponse( 'rest_no_route', $response, 404 );
 	}
 
-	/**
-	 * @group prepare_item
-	 */
 	public function test_prepare_item() {
 		global $wp_rest_additional_fields;
 

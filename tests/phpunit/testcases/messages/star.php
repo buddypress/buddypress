@@ -1,14 +1,9 @@
 <?php
 /**
  * @group messages
- * @group star
  */
 class BP_Tests_Messages_Star_ extends BP_UnitTestCase {
 
-	/**
-	 * @group bp_messages_is_message_starred
-	 * @group bp_messages_star_set_action
-	 */
 	public function test_is_message_starred() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -52,10 +47,6 @@ class BP_Tests_Messages_Star_ extends BP_UnitTestCase {
 		$this->assertFalse( bp_messages_is_message_starred( $m2, $u1 ) );
 	}
 
-	/**
-	 * @group bp_messages_star_set_action
-	 * @group bulk
-	 */
 	public function test_star_set_action_bulk_unstar() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -106,9 +97,6 @@ class BP_Tests_Messages_Star_ extends BP_UnitTestCase {
 		$this->assertFalse( bp_messages_is_message_starred( $m2, $u1 ) );
 	}
 
-	/**
-	 * @group bp_messages_filter_starred_message_threads
-	 */
 	public function test_get_starred_threads_should_not_include_deleted_thread() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();

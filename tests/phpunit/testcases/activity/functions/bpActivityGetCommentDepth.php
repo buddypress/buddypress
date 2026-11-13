@@ -2,11 +2,10 @@
 
 /**
  * @group activity
- * @group bp_activity_get_comment_depth
  */
 class BP_Tests_Activity_Functions_BpActivityGetCommentDepth extends BP_UnitTestCase {
 	/**
-	 * @ticket BP7329
+	 * @see https://buddypress.trac.wordpress.org/ticket/7329
 	 */
 	public function test_depth_inside_activity_comment_loop() {
 		$u = self::factory()->user->create();
@@ -74,7 +73,7 @@ class BP_Tests_Activity_Functions_BpActivityGetCommentDepth extends BP_UnitTestC
 	}
 
 	/**
-	 * @ticket BP7329
+	 * @see https://buddypress.trac.wordpress.org/ticket/7329
 	 */
 	public function test_depth_outside_of_activity_comment_loop() {
 		$u = self::factory()->user->create();

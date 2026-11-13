@@ -2,7 +2,6 @@
 
 /**
  * @group xprofile
- * @group functions
  */
 class BP_Tests_XProfile_Functions extends BP_UnitTestCase {
 	public function test_get_hidden_field_types_for_user_loggedout() {
@@ -48,8 +47,7 @@ class BP_Tests_XProfile_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group bp_xprofile_update_meta
-	 * @ticket BP5180
+	 * @see https://buddypress.trac.wordpress.org/ticket/5180
 	 */
 	public function test_bp_xprofile_update_meta_with_line_breaks() {
 		$g = self::factory()->xprofile_group->create();
@@ -65,7 +63,6 @@ Bar!';
 	}
 
 	/**
-	 * @group bp_xprofile_fullname_field_id
 	 * @group cache
 	 */
 	public function test_bp_xprofile_fullname_field_id_invalidation() {
@@ -77,17 +74,11 @@ Bar!';
 		$this->assertFalse( wp_cache_get( 'fullname_field_id', 'bp_xprofile' ) );
 	}
 
-	/**
-	 * @group xprofile_get_field_visibility_level
-	 */
 	public function test_bp_xprofile_get_field_visibility_level_missing_params() {
 		$this->assertSame( '', xprofile_get_field_visibility_level( 0, 1 ) );
 		$this->assertSame( '', xprofile_get_field_visibility_level( 1, 0 ) );
 	}
 
-	/**
-	 * @group xprofile_get_field_visibility_level
-	 */
 	public function test_bp_xprofile_get_field_visibility_level_user_set() {
 		$u = self::factory()->user->create();
 		$g = self::factory()->xprofile_group->create();
@@ -103,9 +94,6 @@ Bar!';
 		$this->assertSame( 'loggedin', xprofile_get_field_visibility_level( $f, $u ) );
 	}
 
-	/**
-	 * @group xprofile_get_field_visibility_level
-	 */
 	public function test_bp_xprofile_get_field_visibility_level_user_unset() {
 		$u = self::factory()->user->create();
 		$g = self::factory()->xprofile_group->create();
@@ -120,9 +108,6 @@ Bar!';
 
 	}
 
-	/**
-	 * @group xprofile_get_field_visibility_level
-	 */
 	public function test_bp_xprofile_get_field_visibility_level_admin_override() {
 		$u = self::factory()->user->create();
 		$g = self::factory()->xprofile_group->create();
@@ -138,34 +123,20 @@ Bar!';
 		$this->assertSame( 'adminsonly', xprofile_get_field_visibility_level( $f, $u ) );
 	}
 
-	/**
-	 * @group xprofilemeta
-	 * @group bp_xprofile_delete_meta
-	 */
 	public function test_bp_xprofile_delete_meta_empty_object_id() {
 		$this->assertFalse( bp_xprofile_delete_meta( '', 'group' ) );
 	}
 
-	/**
-	 * @group xprofilemeta
-	 * @group bp_xprofile_delete_meta
-	 */
 	public function test_bp_xprofile_delete_meta_empty_object_type() {
 		$this->assertFalse( bp_xprofile_delete_meta( 1, '' ) );
 	}
 
-	/**
-	 * @group xprofilemeta
-	 * @group bp_xprofile_delete_meta
-	 */
 	public function test_bp_xprofile_delete_meta_illegal_object_type() {
 		$this->assertFalse( bp_xprofile_delete_meta( 1, 'foo' ) );
 	}
 
 	/**
-	 * @group xprofilemeta
-	 * @group bp_xprofile_delete_meta
-	 * @ticket BP5399
+	 * @see https://buddypress.trac.wordpress.org/ticket/5399
 	 */
 	public function test_bp_xprofile_delete_meta_illegal_characters() {
 		$g = self::factory()->xprofile_group->create();
@@ -178,9 +149,7 @@ Bar!';
 	}
 
 	/**
-	 * @group xprofilemeta
-	 * @group bp_xprofile_delete_meta
-	 * @ticket BP5399
+	 * @see https://buddypress.trac.wordpress.org/ticket/5399
 	 */
 	public function test_bp_xprofile_delete_meta_trim_meta_value() {
 		$g = self::factory()->xprofile_group->create();
@@ -191,10 +160,6 @@ Bar!';
 		$this->assertSame( 'bar', bp_xprofile_get_meta( $g, 'group', 'foo' ) );
 	}
 
-	/**
-	 * @group xprofilemeta
-	 * @group bp_xprofile_delete_meta
-	 */
 	public function test_bp_xprofile_delete_meta_meta_value_match() {
 		$g = self::factory()->xprofile_group->create();
 		bp_xprofile_update_meta( $g, 'group', 'foo', 'bar' );
@@ -203,10 +168,6 @@ Bar!';
 		$this->assertSame( '', bp_xprofile_get_meta( $g, 'group', 'foo' ) );
 	}
 
-	/**
-	 * @group xprofilemeta
-	 * @group bp_xprofile_delete_meta
-	 */
 	public function test_bp_xprofile_delete_meta_delete_all() {
 		$g = self::factory()->xprofile_group->create();
 		bp_xprofile_update_meta( $g, 'group', 'foo', 'bar' );
@@ -220,10 +181,6 @@ Bar!';
 		$this->assertSame( '', bp_xprofile_get_meta( $g, 'group', 'foo2' ) );
 	}
 
-	/**
-	 * @group xprofilemeta
-	 * @group bp_xprofile_delete_meta
-	 */
 	public function test_bp_xprofile_delete_meta_with_delete_all_but_no_meta_key() {
 		// With no meta key, don't delete for all items - just delete
 		// all for a single item
@@ -240,10 +197,6 @@ Bar!';
 		$this->assertSame( 'bar1', bp_xprofile_get_meta( $g2, 'group', 'foo1' ) );
 	}
 
-	/**
-	 * @group xprofilemeta
-	 * @group bp_xprofile_delete_meta
-	 */
 	public function test_bp_xprofile_delete_meta_with_delete_all() {
 		// With no meta key, don't delete for all items - just delete
 		// all for a single item
@@ -261,34 +214,18 @@ Bar!';
 		$this->assertSame( 'bar1', bp_xprofile_get_meta( $g2, 'group', 'foo1' ) );
 	}
 
-	/**
-	 * @group xprofilemeta
-	 * @group bp_xprofile_get_meta
-	 */
 	public function test_bp_xprofile_get_meta_empty_object_id() {
 		$this->assertFalse( bp_xprofile_get_meta( 0, 'group' ) );
 	}
 
-	/**
-	 * @group xprofilemeta
-	 * @group bp_xprofile_get_meta
-	 */
 	public function test_bp_xprofile_get_meta_empty_object_type() {
 		$this->assertFalse( bp_xprofile_get_meta( 1, '' ) );
 	}
 
-	/**
-	 * @group xprofilemeta
-	 * @group bp_xprofile_get_meta
-	 */
 	public function test_bp_xprofile_get_meta_illegal_object_type() {
 		$this->assertFalse( bp_xprofile_get_meta( 1, 'foo' ) );
 	}
 
-	/**
-	 * @group xprofilemeta
-	 * @group bp_xprofile_get_meta
-	 */
 	public function test_bp_xprofile_get_meta_no_meta_key() {
 		$g = self::factory()->xprofile_group->create();
 		bp_xprofile_update_meta( $g, 'group', 'foo', 'bar' );
@@ -305,10 +242,6 @@ Bar!';
 		$this->assertSame( $expected, bp_xprofile_get_meta( $g, 'group' ) );
 	}
 
-	/**
-	 * @group xprofilemeta
-	 * @group bp_xprofile_get_meta
-	 */
 	public function test_bp_xprofile_get_meta_single_true() {
 		$g = self::factory()->xprofile_group->create();
 		bp_xprofile_add_meta( $g, 'group', 'foo', 'bar' );
@@ -317,10 +250,6 @@ Bar!';
 		$this->assertSame( 'bar', bp_xprofile_get_meta( $g, 'group', 'foo', true ) );
 	}
 
-	/**
-	 * @group xprofilemeta
-	 * @group bp_xprofile_get_meta
-	 */
 	public function test_bp_xprofile_get_meta_single_false() {
 		$g = self::factory()->xprofile_group->create();
 		bp_xprofile_add_meta( $g, 'group', 'foo', 'bar' );
@@ -328,10 +257,6 @@ Bar!';
 		$this->assertSame( array( 'bar', 'baz' ), bp_xprofile_get_meta( $g, 'group', 'foo', false ) );
 	}
 
-	/**
-	 * @group xprofilemeta
-	 * @group bp_xprofile_get_meta
-	 */
 	public function test_bp_xprofile_get_meta_no_meta_key_no_results() {
 		$g = self::factory()->xprofile_group->create();
 
@@ -339,34 +264,20 @@ Bar!';
 		$this->assertSame( $expected, bp_xprofile_get_meta( $g, 'group' ) );
 	}
 
-	/**
-	 * @group xprofilemeta
-	 * @group bp_xprofile_update_meta
-	 */
 	public function test_bp_xprofile_update_meta_no_object_id() {
 		$this->assertFalse( bp_xprofile_update_meta( 0, 'group', 'foo', 'bar' ) );
 	}
 
-	/**
-	 * @group xprofilemeta
-	 * @group bp_xprofile_update_meta
-	 */
 	public function test_bp_xprofile_update_meta_no_object_type() {
 		$this->assertFalse( bp_xprofile_update_meta( 1, '', 'foo', 'bar' ) );
 	}
 
-	/**
-	 * @group xprofilemeta
-	 * @group bp_xprofile_update_meta
-	 */
 	public function test_bp_xprofile_update_meta_illegal_object_type() {
 		$this->assertFalse( bp_xprofile_update_meta( 1, 'foo', 'foo', 'bar' ) );
 	}
 
 	/**
-	 * @group xprofilemeta
-	 * @group bp_xprofile_update_meta
-	 * @ticket BP5399
+	 * @see https://buddypress.trac.wordpress.org/ticket/5399
 	 */
 	public function test_bp_xprofile_update_meta_illegal_characters() {
 		$g = self::factory()->xprofile_group->create();
@@ -375,10 +286,6 @@ Bar!';
 		$this->assertSame( '', bp_xprofile_get_meta( $g, 'group', 'foo' ) );
 	}
 
-	/**
-	 * @group xprofilemeta
-	 * @group bp_xprofile_update_meta
-	 */
 	public function test_bp_xprofile_update_meta_stripslashes() {
 		$g = self::factory()->xprofile_group->create();
 		$v = "Totally \'tubular\'";
@@ -386,10 +293,6 @@ Bar!';
 		$this->assertSame( stripslashes( $v ), bp_xprofile_get_meta( $g, 'group', 'foo' ) );
 	}
 
-	/**
-	 * @group xprofilemeta
-	 * @group bp_xprofile_update_meta
-	 */
 	public function test_bp_xprofile_update_meta_empty_value_delete() {
 		$g = self::factory()->xprofile_group->create();
 		bp_xprofile_update_meta( $g, 'group', 'foo', 'bar' );
@@ -397,10 +300,6 @@ Bar!';
 		$this->assertSame( '', bp_xprofile_get_meta( $g, 'group', 'foo' ) );
 	}
 
-	/**
-	 * @group xprofilemeta
-	 * @group bp_xprofile_update_meta
-	 */
 	public function test_bp_xprofile_update_meta_new() {
 		$g = self::factory()->xprofile_group->create();
 		$this->assertSame( '', bp_xprofile_get_meta( $g, 'group', 'foo' ) );
@@ -408,10 +307,6 @@ Bar!';
 		$this->assertSame( 'bar', bp_xprofile_get_meta( $g, 'group', 'foo' ) );
 	}
 
-	/**
-	 * @group xprofilemeta
-	 * @group bp_xprofile_update_meta
-	 */
 	public function test_bp_xprofile_update_meta_existing() {
 		$g = self::factory()->xprofile_group->create();
 		bp_xprofile_update_meta( $g, 'group', 'foo', 'bar' );
@@ -420,10 +315,6 @@ Bar!';
 		$this->assertSame( 'baz', bp_xprofile_get_meta( $g, 'group', 'foo' ) );
 	}
 
-	/**
-	 * @group xprofilemeta
-	 * @group bp_xprofile_update_meta
-	 */
 	public function test_bp_xprofile_update_meta_same_value() {
 		$g = self::factory()->xprofile_group->create();
 		bp_xprofile_update_meta( $g, 'group', 'foo', 'bar' );
@@ -431,10 +322,6 @@ Bar!';
 		$this->assertFalse( bp_xprofile_update_meta( $g, 'group', 'foo', 'bar' ) );
 	}
 
-	/**
-	 * @group xprofilemeta
-	 * @group bp_xprofile_update_meta
-	 */
 	public function test_bp_xprofile_update_meta_prev_value() {
 		$g = self::factory()->xprofile_group->create();
 		bp_xprofile_add_meta( $g, 'group', 'foo', 'bar' );
@@ -444,9 +331,7 @@ Bar!';
 	}
 
 	/**
-	 * @group xprofilemeta
-	 * @group bp_xprofile_update_meta
-	 * @ticket BP5919
+	 * @see https://buddypress.trac.wordpress.org/ticket/5919
 	 */
 	public function test_bp_xprofile_update_meta_where_sql_filter_keywords_are_in_quoted_value() {
 		$g = self::factory()->xprofile_group->create();
@@ -457,9 +342,7 @@ Bar!';
 	}
 
 	/**
-	 * @group xprofilemeta
-	 * @group bp_xprofile_update_meta
-	 * @ticket BP5919
+	 * @see https://buddypress.trac.wordpress.org/ticket/5919
 	 */
 	public function test_bp_xprofile_update_meta_where_meta_id_is_in_quoted_value() {
 		$g = self::factory()->xprofile_group->create();
@@ -469,45 +352,26 @@ Bar!';
 		$this->assertSame( $value, bp_xprofile_get_meta( $g, 'group', 'foo' ) );
 	}
 
-	/**
-	 * @group xprofilemeta
-	 * @group bp_xprofile_add_meta
-	 */
 	public function test_bp_xprofile_add_meta_no_meta_key() {
 		$this->assertFalse( bp_xprofile_add_meta( 1, 'group', '', 'bar' ) );
 	}
 
-	/**
-	 * @group xprofilemeta
-	 * @group bp_xprofile_add_meta
-	 */
 	public function test_bp_xprofile_add_meta_empty_object_id() {
 		$this->assertFalse( bp_xprofile_add_meta( 0, 'group', 'foo', 'bar' ) );
 	}
 
-	/**
-	 * @group xprofilemeta
-	 * @group bp_xprofile_add_meta
-	 */
 	public function test_bp_xprofile_add_meta_existing_unique() {
 		$g = self::factory()->xprofile_group->create();
 		bp_xprofile_add_meta( $g, 'group', 'foo', 'bar' );
 		$this->assertFalse( bp_xprofile_add_meta( $g, 'group', 'foo', 'baz', true ) );
 	}
 
-	/**
-	 * @group xprofilemeta
-	 * @group bp_xprofile_add_meta
-	 */
 	public function test_bp_xprofile_add_meta_existing_not_unique() {
 		$g = self::factory()->xprofile_group->create();
 		bp_xprofile_add_meta( $g, 'group', 'foo', 'bar' );
 		$this->assertNotEmpty( bp_xprofile_add_meta( $g, 'group', 'foo', 'baz' ) );
 	}
 
-	/**
-	 * @group bp_get_member_profile_data
-	 */
 	public function test_bp_get_member_profile_data_inside_loop() {
 		$u = self::factory()->user->create();
 		$g = self::factory()->xprofile_group->create();
@@ -529,9 +393,7 @@ Bar!';
 
 		$this->assertSame( 'foo', $found );
 	}
-	/**
-	 * @group bp_get_member_profile_data
-	 */
+
 	public function test_bp_get_member_profile_data_outside_of_loop() {
 		$u = self::factory()->user->create();
 		$g = self::factory()->xprofile_group->create();
@@ -549,9 +411,6 @@ Bar!';
 		$this->assertSame( 'foo', $found );
 	}
 
-	/**
-	 * @group xprofile_set_field_data
-	 */
 	public function test_get_field_data_integer_zero() {
 		$u = self::factory()->user->create();
 		$g = self::factory()->xprofile_group->create();
@@ -566,8 +425,7 @@ Bar!';
 	}
 
 	/**
-	 * @group xprofile_set_field_data
-	 * @ticket BP5836
+	 * @see https://buddypress.trac.wordpress.org/ticket/5836
 	 */
 	public function test_xprofile_sync_bp_profile_new_user() {
 		$post_vars = $_POST;
@@ -600,9 +458,6 @@ Bar!';
 		$this->assertSame( $display_name, xprofile_get_field_data( bp_xprofile_fullname_field_id(), $id ) );
 	}
 
-	/**
-	 * @group xprofile_insert_field
-	 */
 	public function test_xprofile_insert_field_type_option() {
 		$g = self::factory()->xprofile_group->create();
 		$parent = self::factory()->xprofile_field->create( array(
@@ -623,8 +478,7 @@ Bar!';
 	}
 
 	/**
-	 * @group xprofile_insert_field
-	 * @ticket BP6354
+	 * @see https://buddypress.trac.wordpress.org/ticket/6354
 	 */
 	public function test_xprofile_insert_field_should_process_falsey_values_for_boolean_params_on_existing_fields() {
 		$g = self::factory()->xprofile_group->create();
@@ -682,7 +536,7 @@ Bar!';
 	}
 
 	/**
-	 * @ticket BP9130
+	 * @see https://buddypress.trac.wordpress.org/ticket/9130
 	 */
 	public function test_xprofile_update_keep_parent_id() {
 		$g      = self::factory()->xprofile_group->create();
@@ -717,9 +571,6 @@ Bar!';
 		$this->assertSame( $parent, $field->parent_id );
 	}
 
-	/**
-	 * @group xprofile_insert_field
-	 */
 	public function test_xprofile_insert_field_type_option_option_order() {
 		$g = self::factory()->xprofile_group->create();
 		$parent = self::factory()->xprofile_field->create( array(
@@ -742,8 +593,7 @@ Bar!';
 	}
 
 	/**
-	 * @group xprofile_insert_field
-	 * @ticket BP6137
+	 * @see https://buddypress.trac.wordpress.org/ticket/6137
 	 */
 	public function test_xprofile_insert_field_should_set_is_default_option_to_false_for_new_option() {
 		$g = self::factory()->xprofile_group->create();
@@ -768,8 +618,7 @@ Bar!';
 	}
 
 	/**
-	 * @group xprofile_insert_field
-	 * @ticket BP6137
+	 * @see https://buddypress.trac.wordpress.org/ticket/6137
 	 */
 	public function test_xprofile_insert_field_should_set_is_default_option_to_true_for_new_option() {
 		$g = self::factory()->xprofile_group->create();
@@ -794,8 +643,7 @@ Bar!';
 	}
 
 	/**
-	 * @group xprofile_insert_field
-	 * @ticket BP6137
+	 * @see https://buddypress.trac.wordpress.org/ticket/6137
 	 */
 	public function test_xprofile_insert_field_should_set_is_default_option_to_false_for_existing_option() {
 		$g = self::factory()->xprofile_group->create();
@@ -830,8 +678,7 @@ Bar!';
 	}
 
 	/**
-	 * @group xprofile_insert_field
-	 * @ticket BP6137
+	 * @see https://buddypress.trac.wordpress.org/ticket/6137
 	 */
 	public function test_xprofile_insert_field_should_set_is_default_option_to_true_for_existing_option() {
 		$g = self::factory()->xprofile_group->create();
@@ -866,10 +713,6 @@ Bar!';
 		$this->assertSame( 1, $field2->is_default_option );
 	}
 
-	/**
-	 * @group xprofile_update_field_group_position
-	 * @group bp_profile_get_field_groups
-	 */
 	public function test_bp_profile_get_field_groups_update_position() {
 		$g1 = self::factory()->xprofile_group->create();
 		$g2 = self::factory()->xprofile_group->create();
@@ -890,7 +733,7 @@ Bar!';
 	}
 
 	/**
-	 * @ticket BP6638
+	 * @see https://buddypress.trac.wordpress.org/ticket/6638
 	 */
 	public function test_xprofile_get_field_should_return_bp_xprofile_field_object() {
 		global $wpdb;
@@ -908,7 +751,7 @@ Bar!';
 	}
 
 	/**
-	 * @ticket BP6638
+	 * @see https://buddypress.trac.wordpress.org/ticket/6638
 	 * @group cache
 	 */
 	public function test_xprofile_get_field_should_prime_field_cache() {
@@ -951,7 +794,7 @@ Bar!';
 	}
 
 	/**
-	 * @ticket BP5625
+	 * @see https://buddypress.trac.wordpress.org/ticket/5625
 	 */
 	public function test_bp_xprofie_is_richtext_enabled_for_field_should_default_to_true_for_textareas() {
 		$g = self::factory()->xprofile_group->create();
@@ -964,7 +807,7 @@ Bar!';
 	}
 
 	/**
-	 * @ticket BP5625
+	 * @see https://buddypress.trac.wordpress.org/ticket/5625
 	 */
 	public function test_bp_xprofie_is_richtext_enabled_for_field_should_default_to_false_for_non_textareas() {
 		$g = self::factory()->xprofile_group->create();
@@ -976,9 +819,6 @@ Bar!';
 		$this->assertFalse( bp_xprofile_is_richtext_enabled_for_field( $f ) );
 	}
 
-	/**
-	 * @group bp_get_field_css_class
-	 */
 	public function test_bp_get_field_css_class_empty_param() {
 		// Fake the global
 		global $profile_template;
@@ -1009,9 +849,6 @@ Bar!';
 		$profile_template = $reset_profile_template;
 	}
 
-	/**
-	 * @group bp_get_field_css_class
-	 */
 	public function test_bp_get_field_css_class_space_delimited_string() {
 		// Fake the global
 		global $profile_template;
@@ -1044,9 +881,6 @@ Bar!';
 		$profile_template = $reset_profile_template;
 	}
 
-	/**
-	 * @group bp_get_field_css_class
-	 */
 	public function test_bp_get_field_css_class_array() {
 		// Fake the global
 		global $profile_template;
@@ -1079,9 +913,6 @@ Bar!';
 		$profile_template = $reset_profile_template;
 	}
 
-	/**
-	 * @group xprofile_filter_link_profile_data
-	 */
 	public function test_field_comma_seperated_values_are_autolinked() {
 		$field_group_id = self::factory()->xprofile_group->create();
 		$field_id = self::factory()->xprofile_field->create( array( 'field_group_id' => $field_group_id ) );
@@ -1095,9 +926,6 @@ Bar!';
 		unset( $GLOBALS['field'] );
 	}
 
-	/**
-	 * @group xprofile_filter_link_profile_data
-	 */
 	public function test_field_semicolon_seperated_values_are_autolinked() {
 		$field_group_id = self::factory()->xprofile_group->create();
 		$field_id = self::factory()->xprofile_field->create( array( 'field_group_id' => $field_group_id ) );
@@ -1112,8 +940,8 @@ Bar!';
 	}
 
 	/**
-	 * @ticket BP7817
-	 * @ticket BP7698
+	 * @see https://buddypress.trac.wordpress.org/ticket/7817
+	 * @see https://buddypress.trac.wordpress.org/ticket/7698
 	 */
 	public function test_bp_xprofile_personal_data_exporter() {
 		$u = self::factory()->user->create();
@@ -1169,7 +997,7 @@ Bar!';
 	}
 
 	/**
-	 * @ticket BP8175
+	 * @see https://buddypress.trac.wordpress.org/ticket/8175
 	 */
 	public function test_xprofile_data_should_be_deleted_on_user_delete_non_multisite() {
 		$this->skipWithMultisite();
@@ -1192,7 +1020,7 @@ Bar!';
 	}
 
 	/**
-	 * @ticket BP8175
+	 * @see https://buddypress.trac.wordpress.org/ticket/8175
 	 */
 	public function test_xprofile_data_should_be_deleted_on_user_delete_multisite() {
 		$this->skipWithoutMultisite();
@@ -1215,7 +1043,7 @@ Bar!';
 	}
 
 	/**
-	 * @ticket BP8175
+	 * @see https://buddypress.trac.wordpress.org/ticket/8175
 	 */
 	public function test_xprofile_data_should_not_be_deleted_on_wp_delete_user_multisite() {
 		$this->skipWithoutMultisite();
@@ -1238,7 +1066,7 @@ Bar!';
 	}
 
 	/**
-	 * @ticket BP8568
+	 * @see https://buddypress.trac.wordpress.org/ticket/8568
 	 */
 	public function test_xprofile_sync_wp_profile_signup_with_wp_first_and_last_name_fields() {
 		add_filter( 'bp_disable_profile_sync', '__return_true' );
@@ -1292,7 +1120,7 @@ Bar!';
 	}
 
 	/**
-	 * @ticket BP8568
+	 * @see https://buddypress.trac.wordpress.org/ticket/8568
 	 */
 	public function test_xprofile_sync_wp_profile_signup_without_wp_first_and_last_name_fields() {
 		add_filter( 'bp_disable_profile_sync', '__return_true' );
@@ -1322,7 +1150,7 @@ Bar!';
 	}
 
 	/**
-	 * @ticket BP8568
+	 * @see https://buddypress.trac.wordpress.org/ticket/8568
 	 */
 	public function test_xprofile_sync_wp_profile_activate_signup_with_wp_first_and_last_name_fields() {
 		add_filter( 'bp_disable_profile_sync', '__return_true' );
@@ -1381,7 +1209,7 @@ Bar!';
 	}
 
 	/**
-	 * @ticket BP8568
+	 * @see https://buddypress.trac.wordpress.org/ticket/8568
 	 */
 	public function test_xprofile_sync_wp_profile_activate_signup_without_wp_first_and_last_name_fields() {
 		add_filter( 'bp_disable_profile_sync', '__return_true' );
@@ -1416,7 +1244,7 @@ Bar!';
 	}
 
 	/**
-	 * @ticket BP9207
+	 * @see https://buddypress.trac.wordpress.org/ticket/9207
 	 */
 	public function test_bp_xprofile_get_signup_field_ids() {
 		add_filter( 'bp_get_signup_allowed', '__return_true' );

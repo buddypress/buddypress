@@ -1,9 +1,8 @@
 <?php
 
 /**
- * @group member_types
  * @group xprofile
- * @ticket BP5192
+ * @see https://buddypress.trac.wordpress.org/ticket/5192
  */
 class BP_Tests_XProfile_BpXprofileField_MemberTypes extends BP_UnitTestCase {
 	protected $field_group_id;

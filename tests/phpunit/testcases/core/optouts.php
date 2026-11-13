@@ -1,12 +1,11 @@
 <?php
 /**
  * @group core
- * @group optouts
  */
  class BP_Tests_Optouts extends BP_UnitTestCase {
 
 	 /**
-	  * @ticket BP8552
+	  * @see https://buddypress.trac.wordpress.org/ticket/8552
 	  */
 	 public function test_bp_optouts_query_cache_results() {
 		 global $wpdb;

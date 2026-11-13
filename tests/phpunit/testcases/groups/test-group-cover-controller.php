@@ -3,7 +3,6 @@
  * Group Cover Controller Tests.
  *
  * @group groups
- * @group group-cover
  * @group attachments
  */
 class BP_Tests_Group_Cover_REST_Controller extends BP_Test_REST_Controller_Testcase {
@@ -34,16 +33,10 @@ class BP_Tests_Group_Cover_REST_Controller extends BP_Test_REST_Controller_Testc
 		$this->assertCount( 3, $routes[ $endpoint ] );
 	}
 
-	/**
-	 * @group get_items
-	 */
 	public function test_get_items() {
 		$this->markTestSkipped( 'This endpoint has no collection route or get_items() method.' );
 	}
 
-	/**
-	 * @group get_item
-	 */
 	public function test_get_item() {
 		$this->with_cover_upload_dir(
 			function ( $upload_dir, $upload_url ) {
@@ -64,9 +57,6 @@ class BP_Tests_Group_Cover_REST_Controller extends BP_Test_REST_Controller_Testc
 		);
 	}
 
-	/**
-	 * @group get_item
-	 */
 	public function test_get_item_with_support_for_the_community_visibility() {
 		toggle_component_visibility();
 
@@ -77,9 +67,6 @@ class BP_Tests_Group_Cover_REST_Controller extends BP_Test_REST_Controller_Testc
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
 	}
 
-	/**
-	 * @group get_item
-	 */
 	public function test_get_item_with_no_image() {
 		$request  = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '/%d/cover', $this->group_id ) );
 		$response = $this->server->dispatch( $request );
@@ -87,18 +74,12 @@ class BP_Tests_Group_Cover_REST_Controller extends BP_Test_REST_Controller_Testc
 		$this->assertErrorResponse( 'bp_rest_attachments_group_cover_no_image', $response, 500 );
 	}
 
-	/**
-	 * @group get_item
-	 */
 	public function test_get_item_invalid_group_id() {
 		$request  = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '/%d/cover', REST_TESTS_IMPOSSIBLY_HIGH_NUMBER ) );
 		$response = $this->server->dispatch( $request );
 		$this->assertErrorResponse( 'bp_rest_group_invalid_id', $response, 404 );
 	}
 
-	/**
-	 * @group create_item
-	 */
 	public function test_create_item() {
 		if ( ! wp_image_editor_supports( array( 'mime_type' => 'image/jpeg' ) ) ) {
 			$this->markTestSkipped( 'A JPEG-capable image editor is required to generate cover images.' );
@@ -152,9 +133,6 @@ class BP_Tests_Group_Cover_REST_Controller extends BP_Test_REST_Controller_Testc
 		);
 	}
 
-	/**
-	 * @group create_item
-	 */
 	public function test_create_item_no_valid_image_directory() {
 		wp_set_current_user( $this->user );
 		$reset_files = $_FILES;
@@ -176,9 +154,6 @@ class BP_Tests_Group_Cover_REST_Controller extends BP_Test_REST_Controller_Testc
 		$_FILES = $reset_files;
 	}
 
-	/**
-	 * @group create_item
-	 */
 	public function test_create_item_image_upload_disabled() {
 		wp_set_current_user( $this->user );
 		$reset_files = $_FILES;
@@ -203,9 +178,6 @@ class BP_Tests_Group_Cover_REST_Controller extends BP_Test_REST_Controller_Testc
 		$_FILES = $reset_files;
 	}
 
-	/**
-	 * @group create_item
-	 */
 	public function test_create_item_empty_image() {
 		wp_set_current_user( $this->user );
 
@@ -214,18 +186,12 @@ class BP_Tests_Group_Cover_REST_Controller extends BP_Test_REST_Controller_Testc
 		$this->assertErrorResponse( 'bp_rest_attachments_group_cover_no_image_file', $response, 500 );
 	}
 
-	/**
-	 * @group create_item
-	 */
 	public function test_create_item_user_not_logged_in() {
 		$request  = new WP_REST_Request( 'POST', sprintf( $this->endpoint_url . '/%d/cover', $this->group_id ) );
 		$response = $this->server->dispatch( $request );
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
 	}
 
-	/**
-	 * @group create_item
-	 */
 	public function test_create_item_unauthorized_user() {
 		$u1 = $this->bp::factory()->user->create();
 
@@ -236,9 +202,6 @@ class BP_Tests_Group_Cover_REST_Controller extends BP_Test_REST_Controller_Testc
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
 	}
 
-	/**
-	 * @group create_item
-	 */
 	public function test_create_item_invalid_group_id() {
 		wp_set_current_user( $this->user );
 
@@ -247,9 +210,6 @@ class BP_Tests_Group_Cover_REST_Controller extends BP_Test_REST_Controller_Testc
 		$this->assertErrorResponse( 'bp_rest_group_invalid_id', $response, 404 );
 	}
 
-	/**
-	 * @group update_item
-	 */
 	public function test_update_item() {
 		// This endpoint does not support updating group cover images.
 		foreach ( array( 'PUT', 'PATCH' ) as $method ) {
@@ -260,9 +220,6 @@ class BP_Tests_Group_Cover_REST_Controller extends BP_Test_REST_Controller_Testc
 		}
 	}
 
-	/**
-	 * @group delete_item
-	 */
 	public function test_delete_item() {
 		$this->with_cover_upload_dir(
 			function ( $upload_dir, $upload_url ) {
@@ -297,18 +254,12 @@ class BP_Tests_Group_Cover_REST_Controller extends BP_Test_REST_Controller_Testc
 		);
 	}
 
-	/**
-	 * @group delete_item
-	 */
 	public function test_delete_item_user_not_logged_in() {
 		$request  = new WP_REST_Request( 'DELETE', sprintf( $this->endpoint_url . '/%d/cover', $this->group_id ) );
 		$response = $this->server->dispatch( $request );
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
 	}
 
-	/**
-	 * @group delete_item
-	 */
 	public function test_delete_item_unauthorized_user() {
 		$u1 = $this->bp::factory()->user->create();
 
@@ -319,9 +270,6 @@ class BP_Tests_Group_Cover_REST_Controller extends BP_Test_REST_Controller_Testc
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
 	}
 
-	/**
-	 * @group delete_item
-	 */
 	public function test_delete_item_invalid_group_id() {
 		wp_set_current_user( $this->user );
 
@@ -330,9 +278,6 @@ class BP_Tests_Group_Cover_REST_Controller extends BP_Test_REST_Controller_Testc
 		$this->assertErrorResponse( 'bp_rest_group_invalid_id', $response, 404 );
 	}
 
-	/**
-	 * @group delete_item
-	 */
 	public function test_delete_item_failed() {
 		wp_set_current_user( $this->user );
 
@@ -342,9 +287,6 @@ class BP_Tests_Group_Cover_REST_Controller extends BP_Test_REST_Controller_Testc
 		$this->assertErrorResponse( 'bp_rest_attachments_group_cover_delete_failed', $response, 500 );
 	}
 
-	/**
-	 * @group prepare_item
-	 */
 	public function test_prepare_item() {
 		global $wp_rest_additional_fields;
 

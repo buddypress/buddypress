@@ -1,7 +1,6 @@
 <?php
 /**
  * @group core
- * @group BP_Walker_Nav_Menu
  */
 class BP_Tests_Walker_Nav_Menu extends BP_UnitTestCase {
 	protected $reset_user_id;

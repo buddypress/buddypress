@@ -172,6 +172,10 @@ On a Multisite WordPress configuration
 npm run test-php-multisite
 ```
 
+Use PHPUnit's `--group` option to select a component: `activity`, `blogs`, `core`, `friends`, `groups`, `members`, `messages`, `notifications`, `settings`, or `xprofile`. Put component groups on the test class so they apply to every test method.
+
+Keep cross-cutting groups limited to `admin`, `attachments`, `cache`, `deprecated`, `routing`, and `testsuite`. Use `--filter` to select a test class, method, or REST operation instead of adding a group for it. Preserve ticket references as `@see` links, not `@ticket` annotations, because PHPUnit also treats tickets as groups.
+
 ### Customizing your BuddyPress local development environment
 
 To develop BuddyPress we use the development version of [WordPress](https://core.trac.wordpress.org/browser/trunk), and we set two debugging constants:

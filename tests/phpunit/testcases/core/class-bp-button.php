@@ -2,7 +2,6 @@
 
 /**
  * @group core
- * @group BP_Button
  */
 class BP_Tests_BP_Button extends BP_UnitTestCase {
 	protected $permalink_structure = '';
@@ -18,9 +17,6 @@ class BP_Tests_BP_Button extends BP_UnitTestCase {
 		parent::tear_down();
 	}
 
-	/**
-	 * @group block_self
-	 */
 	public function test_block_self_own_profile() {
 		$u = self::factory()->user->create();
 		wp_set_current_user( $u );
@@ -37,9 +33,6 @@ class BP_Tests_BP_Button extends BP_UnitTestCase {
 		$this->assertSame( '', $b->contents );
 	}
 
-	/**
-	 * @group block_self
-	 */
 	public function test_block_self_others_profile() {
 		$u1 = self::factory()->user->create();
 		wp_set_current_user( $u1 );
@@ -57,9 +50,6 @@ class BP_Tests_BP_Button extends BP_UnitTestCase {
 		$this->assertNotEmpty( $b->contents );
 	}
 
-	/**
-	 * @group block_self
-	 */
 	public function test_block_self_inside_members_loop() {
 		$now = time();
 		$u1 = self::factory()->user->create( array(
@@ -97,9 +87,6 @@ class BP_Tests_BP_Button extends BP_UnitTestCase {
 		$GLOBALS['members_template'] = null;
 	}
 
-	/**
-	 * @group block_self
-	 */
 	public function test_block_self_false_inside_members_loop() {
 		$now = time();
 		$u1 = self::factory()->user->create( array(
@@ -137,9 +124,6 @@ class BP_Tests_BP_Button extends BP_UnitTestCase {
 		$GLOBALS['members_template'] = null;
 	}
 
-	/**
-	 * @group block_self
-	 */
 	public function test_block_self_inside_members_loop_on_my_profile_page() {
 		$now = time();
 		$u1 = self::factory()->user->create( array(
@@ -180,7 +164,7 @@ class BP_Tests_BP_Button extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP7226
+	 * @see https://buddypress.trac.wordpress.org/ticket/7226
 	 */
 	public function test_bp_button_new_args() {
 		$b = new BP_Button( array(
@@ -217,7 +201,7 @@ class BP_Tests_BP_Button extends BP_UnitTestCase {
 
 
 	/**
-	 * @ticket BP7226
+	 * @see https://buddypress.trac.wordpress.org/ticket/7226
 	 */
 	public function test_bp_button_new_element_attrs_should_not_render_for_empty_attrs() {
 		$b = new BP_Button( array(

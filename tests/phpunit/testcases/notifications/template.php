@@ -1,9 +1,6 @@
 <?php
 /**
  * @group notifications
- * @group template
- * @group pagination
- * @group BP_Notifications_Template
  */
 class BP_Tests_Notifications_Template extends BP_UnitTestCase {
 	public function test_bp_notifications_template_should_give_precedence_to_npage_URL_param() {

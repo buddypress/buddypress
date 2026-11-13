@@ -2,13 +2,10 @@
 
 /**
  * @group xprofile
- * @group BP_XProfile_ProfileData
  */
 #[AllowDynamicProperties]
 class BP_Tests_BP_XProfile_ProfileData_TestCases extends BP_UnitTestCase {
-	/**
-	 * @group exists
-	 */
+
 	public function test_exists_when_doesnt_exist() {
 		$u = self::factory()->user->create();
 		$g = self::factory()->xprofile_group->create();
@@ -21,9 +18,6 @@ class BP_Tests_BP_XProfile_ProfileData_TestCases extends BP_UnitTestCase {
 		$this->assertFalse( $d->exists() );
 	}
 
-	/**
-	 * @group exists
-	 */
 	public function test_exists_when_exists_uncached() {
 		$u = self::factory()->user->create();
 		$g = self::factory()->xprofile_group->create();
@@ -40,9 +34,6 @@ class BP_Tests_BP_XProfile_ProfileData_TestCases extends BP_UnitTestCase {
 		$this->assertTrue( $d->exists() );
 	}
 
-	/**
-	 * @group exists
-	 */
 	public function test_exists_when_exists_in_cache() {
 		$u = self::factory()->user->create();
 		$g = self::factory()->xprofile_group->create();
@@ -59,9 +50,6 @@ class BP_Tests_BP_XProfile_ProfileData_TestCases extends BP_UnitTestCase {
 		$this->assertTrue( $d->exists() );
 	}
 
-	/**
-	 * @group get_fielddataid_byid
-	 */
 	public function test_get_fielddataid_byid_when_doesnt_exist() {
 		$u = self::factory()->user->create();
 		$g = self::factory()->xprofile_group->create();
@@ -75,9 +63,6 @@ class BP_Tests_BP_XProfile_ProfileData_TestCases extends BP_UnitTestCase {
 		$this->assertSame( 0, BP_XProfile_ProfileData::get_fielddataid_byid( $f, $u ) );
 	}
 
-	/**
-	 * @group get_fielddataid_byid
-	 */
 	public function test_get_fielddataid_byid_when_exists_uncached() {
 		$u = self::factory()->user->create();
 		$g = self::factory()->xprofile_group->create();
@@ -97,9 +82,6 @@ class BP_Tests_BP_XProfile_ProfileData_TestCases extends BP_UnitTestCase {
 		$this->assertSame( $d->id, BP_XProfile_ProfileData::get_fielddataid_byid( $f, $u ) );
 	}
 
-	/**
-	 * @group get_fielddataid_byid
-	 */
 	public function test_get_fielddataid_byid_when_exists_in_cache() {
 		$u = self::factory()->user->create();
 		$g = self::factory()->xprofile_group->create();
@@ -115,9 +97,6 @@ class BP_Tests_BP_XProfile_ProfileData_TestCases extends BP_UnitTestCase {
 		$this->assertSame( 5, BP_XProfile_ProfileData::get_fielddataid_byid( $f, $u ) );
 	}
 
-	/**
-	 * @group get_value_byid
-	 */
 	public function test_get_value_byid_singleuser_uncached() {
 		$u = self::factory()->user->create();
 		$g = self::factory()->xprofile_group->create();
@@ -137,9 +116,6 @@ class BP_Tests_BP_XProfile_ProfileData_TestCases extends BP_UnitTestCase {
 		$this->assertSame( 'foo', BP_XProfile_ProfileData::get_value_byid( $f, $u ) );
 	}
 
-	/**
-	 * @group get_value_byid
-	 */
 	public function test_get_value_byid_multipleusers_uncached() {
 		$time = date( 'Y-m-d H:i:s', time() - 60*60*24 );
 
@@ -213,9 +189,6 @@ class BP_Tests_BP_XProfile_ProfileData_TestCases extends BP_UnitTestCase {
 		$this->assertSame( $expected_values, $actual_values );
 	}
 
-	/**
-	 * @group get_value_byid
-	 */
 	public function test_get_value_byid_singleuser_cached() {
 		$u = self::factory()->user->create();
 		$g = self::factory()->xprofile_group->create();
@@ -234,9 +207,6 @@ class BP_Tests_BP_XProfile_ProfileData_TestCases extends BP_UnitTestCase {
 		$this->assertSame( 'foo', BP_XProfile_ProfileData::get_value_byid( $f, $u ) );
 	}
 
-	/**
-	 * @group get_value_byid
-	 */
 	public function test_get_value_byid_multipleusers_cached() {
 		$time = date( 'Y-m-d H:i:s', time() - 60*60*24 );
 
@@ -303,9 +273,6 @@ class BP_Tests_BP_XProfile_ProfileData_TestCases extends BP_UnitTestCase {
 		$this->assertSame( $expected_values, $actual_values );
 	}
 
-	/**
-	 * @group get_all_for_user
-	 */
 	public function test_get_all_for_user_uncached() {
 		$u = self::factory()->user->create();
 		$g1 = self::factory()->xprofile_group->create();
@@ -382,9 +349,6 @@ class BP_Tests_BP_XProfile_ProfileData_TestCases extends BP_UnitTestCase {
 		$this->assertSame( $expected, BP_XProfile_ProfileData::get_all_for_user( $u ) );
 	}
 
-	/**
-	 * @group get_all_for_user
-	 */
 	public function test_get_all_for_user_cached() {
 		$u = self::factory()->user->create();
 		$g1 = self::factory()->xprofile_group->create();
@@ -459,8 +423,7 @@ class BP_Tests_BP_XProfile_ProfileData_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP8388
-	 * @group xprofile_remove_data
+	 * @see https://buddypress.trac.wordpress.org/ticket/8388
 	 */
 	public function test_cache_invalidated_when_xprofile_remove_data_called() {
 		$u = self::factory()->user->create();

@@ -26,9 +26,6 @@ class BP_Tests_Groups_Notifications extends BP_UnitTestCase {
 		parent::tear_down();
 	}
 
-	/**
-	 * @group groups_format_notifications
-	 */
 	public function test_groups_format_notifications_bp_groups_multiple_new_membership_requests_notification() {
 		add_filter( 'bp_groups_multiple_new_membership_requests_notification', array( $this, 'notification_filter_callback' ) );
 		$n = groups_format_notifications( 'new_membership_request', $this->group, $this->requesting_user_id, 5 );
@@ -37,9 +34,6 @@ class BP_Tests_Groups_Notifications extends BP_UnitTestCase {
 		$this->assertSame( 'bp_groups_multiple_new_membership_requests_notification', $this->filter_fired );
 	}
 
-	/**
-	 * @group groups_format_notifications
-	 */
 	public function test_groups_format_notifications_bp_groups_single_new_membership_request_notification() {
 		add_filter( 'bp_groups_single_new_membership_request_notification', array( $this, 'notification_filter_callback' ) );
 		$n = groups_format_notifications( 'new_membership_request', $this->group, 0, 1 );
@@ -48,9 +42,6 @@ class BP_Tests_Groups_Notifications extends BP_UnitTestCase {
 		$this->assertSame( 'bp_groups_single_new_membership_request_notification', $this->filter_fired );
 	}
 
-	/**
-	 * @group groups_format_notifications
-	 */
 	public function test_groups_format_notifications_bp_groups_multiple_membership_request_accepted_notification() {
 		add_filter( 'bp_groups_multiple_membership_request_accepted_notification', array( $this, 'notification_filter_callback' ) );
 		$n = groups_format_notifications( 'membership_request_accepted', $this->group, 0, 5 );
@@ -59,9 +50,6 @@ class BP_Tests_Groups_Notifications extends BP_UnitTestCase {
 		$this->assertSame( 'bp_groups_multiple_membership_request_accepted_notification', $this->filter_fired );
 	}
 
-	/**
-	 * @group groups_format_notifications
-	 */
 	public function test_groups_format_notifications_bp_groups_single_membership_request_accepted_notification() {
 		add_filter( 'bp_groups_single_membership_request_accepted_notification', array( $this, 'notification_filter_callback' ) );
 		$n = groups_format_notifications( 'membership_request_accepted', $this->group, 0, 1 );
@@ -70,9 +58,6 @@ class BP_Tests_Groups_Notifications extends BP_UnitTestCase {
 		$this->assertSame( 'bp_groups_single_membership_request_accepted_notification', $this->filter_fired );
 	}
 
-	/**
-	 * @group groups_format_notifications
-	 */
 	public function test_groups_format_notifications_bp_groups_multiple_membership_request_rejected_notification() {
 		add_filter( 'bp_groups_multiple_membership_request_rejected_notification', array( $this, 'notification_filter_callback' ) );
 		$n = groups_format_notifications( 'membership_request_rejected', $this->group, 0, 5 );
@@ -81,9 +66,6 @@ class BP_Tests_Groups_Notifications extends BP_UnitTestCase {
 		$this->assertSame( 'bp_groups_multiple_membership_request_rejected_notification', $this->filter_fired );
 	}
 
-	/**
-	 * @group groups_format_notifications
-	 */
 	public function test_groups_format_notifications_bp_groups_single_membership_request_rejected_notification() {
 		add_filter( 'bp_groups_single_membership_request_rejected_notification', array( $this, 'notification_filter_callback' ) );
 		$n = groups_format_notifications( 'membership_request_rejected', $this->group, 0, 1 );
@@ -92,9 +74,6 @@ class BP_Tests_Groups_Notifications extends BP_UnitTestCase {
 		$this->assertSame( 'bp_groups_single_membership_request_rejected_notification', $this->filter_fired );
 	}
 
-	/**
-	 * @group groups_format_notifications
-	 */
 	public function test_groups_format_notifications_bp_groups_multiple_member_promoted_to_admin_notification() {
 		add_filter( 'bp_groups_multiple_member_promoted_to_admin_notification', array( $this, 'notification_filter_callback' ) );
 		$n = groups_format_notifications( 'member_promoted_to_admin', $this->group, 0, 5 );
@@ -103,9 +82,6 @@ class BP_Tests_Groups_Notifications extends BP_UnitTestCase {
 		$this->assertSame( 'bp_groups_multiple_member_promoted_to_admin_notification', $this->filter_fired );
 	}
 
-	/**
-	 * @group groups_format_notifications
-	 */
 	public function test_groups_format_notifications_bp_groups_single_member_promoted_to_admin_notification() {
 		add_filter( 'bp_groups_single_member_promoted_to_admin_notification', array( $this, 'notification_filter_callback' ) );
 		$n = groups_format_notifications( 'member_promoted_to_admin', $this->group, 0, 1 );
@@ -114,9 +90,6 @@ class BP_Tests_Groups_Notifications extends BP_UnitTestCase {
 		$this->assertSame( 'bp_groups_single_member_promoted_to_admin_notification', $this->filter_fired );
 	}
 
-	/**
-	 * @group groups_format_notifications
-	 */
 	public function test_groups_format_notifications_bp_groups_multiple_member_promoted_to_mod_notification() {
 		add_filter( 'bp_groups_multiple_member_promoted_to_mod_notification', array( $this, 'notification_filter_callback' ) );
 		$n = groups_format_notifications( 'member_promoted_to_mod', $this->group, 0, 5 );
@@ -125,9 +98,6 @@ class BP_Tests_Groups_Notifications extends BP_UnitTestCase {
 		$this->assertSame( 'bp_groups_multiple_member_promoted_to_mod_notification', $this->filter_fired );
 	}
 
-	/**
-	 * @group groups_format_notifications
-	 */
 	public function test_groups_format_notifications_bp_groups_single_member_promoted_to_mod_notification() {
 		add_filter( 'bp_groups_single_member_promoted_to_mod_notification', array( $this, 'notification_filter_callback' ) );
 		$n = groups_format_notifications( 'member_promoted_to_mod', $this->group, 0, 1 );
@@ -136,9 +106,6 @@ class BP_Tests_Groups_Notifications extends BP_UnitTestCase {
 		$this->assertSame( 'bp_groups_single_member_promoted_to_mod_notification', $this->filter_fired );
 	}
 
-	/**
-	 * @group groups_format_notifications
-	 */
 	public function test_groups_format_notifications_bp_groups_multiple_group_invite_notification() {
 		add_filter( 'bp_groups_multiple_group_invite_notification', array( $this, 'notification_filter_callback' ) );
 		$n = groups_format_notifications( 'group_invite', $this->group, 0, 5 );
@@ -147,9 +114,6 @@ class BP_Tests_Groups_Notifications extends BP_UnitTestCase {
 		$this->assertSame( 'bp_groups_multiple_group_invite_notification', $this->filter_fired );
 	}
 
-	/**
-	 * @group groups_format_notifications
-	 */
 	public function test_groups_format_notifications_bp_groups_single_group_invite_notification() {
 		add_filter( 'bp_groups_single_group_invite_notification', array( $this, 'notification_filter_callback' ) );
 		$n = groups_format_notifications( 'group_invite', $this->group, 0, 1 );
@@ -158,9 +122,6 @@ class BP_Tests_Groups_Notifications extends BP_UnitTestCase {
 		$this->assertSame( 'bp_groups_single_group_invite_notification', $this->filter_fired );
 	}
 
-	/**
-	 * @group bp_groups_delete_promotion_notifications
-	 */
 	public function test_bp_groups_delete_promotion_notifications() {
 		// Dummy group and user IDs
 		$u = 5;
@@ -221,7 +182,7 @@ class BP_Tests_Groups_Notifications extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group BP7375
+	 * @see https://buddypress.trac.wordpress.org/ticket/7375
 	 */
 	public function test_membership_request_notifications_should_be_cleared_when_request_is_accepted() {
 		$users = self::factory()->user->create_many( 3 );

@@ -26,7 +26,7 @@ class BP_Tests_Routing_Core extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP9300
+	 * @see https://buddypress.trac.wordpress.org/ticket/9300
 	 */
 	public function test_buddypress_directory_is_home_false() {
 

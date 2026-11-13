@@ -2,8 +2,7 @@
 /**
  * Suggestions API tests for authenticated (logged in) users.
  *
- * @group api
- * @group suggestions
+ * @group core
  */
 class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 	protected static $current_user = null;
@@ -182,7 +181,6 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 		$this->assertSame( 'katie', $suggestions[0]->ID );
 	}
 
-
 	public function test_suggestions_with_type_groupmembers_public() {
 		$suggestions = bp_core_get_suggestions( array(
 			'group_id' => self::$group_ids['public'],
@@ -290,7 +288,6 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 		$this->assertNotWPError( $suggestions );
 		$this->assertCount( 2, $suggestions );  // cat, caterpillar
 	}
-
 
 	public function test_suggestions_with_type_groupmembers_public_and_exclude_group_from_results() {
 		$suggestions = bp_core_get_suggestions( array(

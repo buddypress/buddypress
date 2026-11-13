@@ -1,6 +1,6 @@
 <?php
 /**
- * @group bp_community_visibility
+ * @group core
  */
 class BP_Tests_BP_Community_Visibility_TestCases extends BP_UnitTestCase {
 	protected $old_user;

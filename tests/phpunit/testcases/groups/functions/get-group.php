@@ -2,8 +2,6 @@
 
 /**
  * @group groups
- * @group functions
- * @group bp_get_group
  */
 class BP_Tests_Get_Groups_Param extends BP_UnitTestCase {
 	public $groups_template = null;

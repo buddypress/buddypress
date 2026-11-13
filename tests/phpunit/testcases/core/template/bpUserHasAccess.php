@@ -1,7 +1,6 @@
 <?php
 /**
  * @group core
- * @group template
  */
 class BP_Tests_Core_Template_BpUserHasAccess extends BP_UnitTestCase {
 	protected $permalink_structure = '';

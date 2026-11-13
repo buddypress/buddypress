@@ -22,9 +22,6 @@ class BP_Tests_Friends_Notifications extends BP_UnitTestcase {
 		parent::tear_down();
 	}
 
-	/**
-	 * @group friends_format_notifications
-	 */
 	public function test_friends_format_notifications_bp_friends_multiple_friendship_accepted_notification_filter() {
 		add_filter( 'bp_friends_multiple_friendship_accepted_notification', array( $this, 'notification_filter_callback' ) );
 		$n = friends_format_notifications( 'friendship_accepted', $this->friend, 0, 5 );
@@ -33,9 +30,6 @@ class BP_Tests_Friends_Notifications extends BP_UnitTestcase {
 		$this->assertSame( 'bp_friends_multiple_friendship_accepted_notification', $this->filter_fired );
 	}
 
-	/**
-	 * @group friends_format_notifications
-	 */
 	public function test_friends_format_notifications_bp_friends_single_friendship_accepted_notification_filter() {
 		add_filter( 'bp_friends_single_friendship_accepted_notification', array( $this, 'notification_filter_callback' ) );
 		$n = friends_format_notifications( 'friendship_accepted', $this->friend, 0, 1 );
@@ -44,9 +38,6 @@ class BP_Tests_Friends_Notifications extends BP_UnitTestcase {
 		$this->assertSame( 'bp_friends_single_friendship_accepted_notification', $this->filter_fired );
 	}
 
-	/**
-	 * @group friends_format_notifications
-	 */
 	public function test_friends_format_notifications_bp_friends_multiple_friendship_request_notification_filter() {
 		add_filter( 'bp_friends_multiple_friendship_request_notification', array( $this, 'notification_filter_callback' ) );
 		$n = friends_format_notifications( 'friendship_request', $this->friend, 0, 5 );
@@ -55,9 +46,6 @@ class BP_Tests_Friends_Notifications extends BP_UnitTestcase {
 		$this->assertSame( 'bp_friends_multiple_friendship_request_notification', $this->filter_fired );
 	}
 
-	/**
-	 * @group friends_format_notifications
-	 */
 	public function test_friends_format_notifications_bp_friends_single_friendship_request_notification_filter() {
 		add_filter( 'bp_friends_single_friendship_request_notification', array( $this, 'notification_filter_callback' ) );
 		$n = friends_format_notifications( 'friendship_request', $this->friend, 0, 1 );

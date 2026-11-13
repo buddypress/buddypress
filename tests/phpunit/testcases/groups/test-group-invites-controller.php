@@ -2,7 +2,7 @@
 /**
  * Group Invites Controller Tests.
  *
- * @group group-invites
+ * @group groups
  */
 class BP_Tests_Group_Invites_REST_Controller extends BP_Test_REST_Controller_Testcase {
 	protected $group_id;
@@ -55,9 +55,6 @@ class BP_Tests_Group_Invites_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertCount( 3, $routes[ $put_endpoint ] );
 	}
 
-	/**
-	 * @group get_items
-	 */
 	public function test_get_items() {
 		$u1 = static::factory()->user->create();
 		$u2 = static::factory()->user->create();
@@ -88,9 +85,6 @@ class BP_Tests_Group_Invites_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertEqualSets( array( $u1, $u2, $u3, $u4 ), $u_ids );
 	}
 
-	/**
-	 * @group get_items
-	 */
 	public function test_get_items_with_support_for_the_community_visibility() {
 		toggle_component_visibility();
 
@@ -113,9 +107,6 @@ class BP_Tests_Group_Invites_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertErrorResponse( 'bp_rest_group_invites_cannot_get_items', $response, rest_authorization_required_code() );
 	}
 
-	/**
-	 * @group get_items
-	 */
 	public function test_get_items_as_group_admin() {
 		$u1 = static::factory()->user->create();
 		$u2 = static::factory()->user->create();
@@ -147,9 +138,6 @@ class BP_Tests_Group_Invites_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertEqualSets( array( $u1, $u2, $u3, $u5 ), $u_ids );
 	}
 
-	/**
-	 * @group get_items
-	 */
 	public function test_get_items_as_user() {
 		$u1 = static::factory()->user->create();
 		$u2 = static::factory()->user->create();
@@ -200,9 +188,6 @@ class BP_Tests_Group_Invites_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertEqualSets( array( $inv1, $inv3 ), $inv_ids );
 	}
 
-	/**
-	 * @group get_items
-	 */
 	public function test_get_items_as_inviter() {
 		$u1 = static::factory()->user->create();
 		$u2 = static::factory()->user->create();
@@ -257,9 +242,6 @@ class BP_Tests_Group_Invites_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertEqualSets( array( $u1, $u3 ), $u_ids );
 	}
 
-	/**
-	 * @group get_items
-	 */
 	public function test_get_items_user_not_logged_in() {
 		wp_set_current_user( 0 );
 
@@ -275,9 +257,6 @@ class BP_Tests_Group_Invites_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
 	}
 
-	/**
-	 * @group get_items
-	 */
 	public function test_get_items_without_permission() {
 		$u1 = static::factory()->user->create();
 		wp_set_current_user( $u1 );
@@ -294,9 +273,6 @@ class BP_Tests_Group_Invites_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertErrorResponse( 'bp_rest_group_invites_cannot_get_items', $response, rest_authorization_required_code() );
 	}
 
-	/**
-	 * @group get_item
-	 */
 	public function test_get_item() {
 		$u1 = static::factory()->user->create();
 
@@ -319,9 +295,6 @@ class BP_Tests_Group_Invites_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertSame( $u1, $all_data['user_id'] );
 	}
 
-	/**
-	 * @group get_item
-	 */
 	public function test_get_item_with_support_for_the_community_visibility() {
 		toggle_component_visibility();
 
@@ -343,9 +316,6 @@ class BP_Tests_Group_Invites_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
 	}
 
-	/**
-	 * @group get_item
-	 */
 	public function test_get_item_as_user() {
 		$u1 = static::factory()->user->create();
 
@@ -368,9 +338,6 @@ class BP_Tests_Group_Invites_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertSame( $u1, $all_data['user_id'] );
 	}
 
-	/**
-	 * @group get_item
-	 */
 	public function test_get_item_as_inviter() {
 		$u1 = static::factory()->user->create();
 
@@ -393,9 +360,6 @@ class BP_Tests_Group_Invites_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertSame( $u1, $all_data['user_id'] );
 	}
 
-	/**
-	 * @group create_item
-	 */
 	public function test_create_item() {
 		$u1 = static::factory()->user->create();
 
@@ -421,9 +385,6 @@ class BP_Tests_Group_Invites_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertTrue( (bool) $all_data['invite_sent'] );
 	}
 
-	/**
-	 * @group create_item
-	 */
 	public function test_create_item_as_group_admin() {
 		$u1 = static::factory()->user->create();
 
@@ -449,9 +410,6 @@ class BP_Tests_Group_Invites_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertTrue( (bool) $all_data['invite_sent'] );
 	}
 
-	/**
-	 * @group create_item
-	 */
 	public function test_inviter_cannot_invite_member_to_group_if_already_member() {
 		// $this->user is a creator of the group.
 		wp_set_current_user( $this->user );
@@ -470,9 +428,6 @@ class BP_Tests_Group_Invites_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertErrorResponse( 'bp_rest_group_invite_cannot_create_item', $response, 500 );
 	}
 
-	/**
-	 * @group create_item
-	 */
 	public function test_create_item_user_not_logged_in() {
 		$u = static::factory()->user->create();
 
@@ -491,9 +446,6 @@ class BP_Tests_Group_Invites_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
 	}
 
-	/**
-	 * @group create_item
-	 */
 	public function test_create_item_invalid_member_id() {
 		wp_set_current_user( $this->user );
 
@@ -511,9 +463,6 @@ class BP_Tests_Group_Invites_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertErrorResponse( 'bp_rest_member_invalid_id', $response, 404 );
 	}
 
-	/**
-	 * @group create_item
-	 */
 	public function test_create_item_invalid_inviter_id() {
 		$u = static::factory()->user->create();
 
@@ -532,9 +481,6 @@ class BP_Tests_Group_Invites_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertErrorResponse( 'bp_rest_member_invalid_id', $response, 404 );
 	}
 
-	/**
-	 * @group create_item
-	 */
 	public function test_create_item_invalid_group_id() {
 		$u = static::factory()->user->create();
 
@@ -554,9 +500,6 @@ class BP_Tests_Group_Invites_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertErrorResponse( 'bp_rest_group_invalid_id', $response, 404 );
 	}
 
-	/**
-	 * @group create_item
-	 */
 	public function test_create_item_without_permission() {
 		$u1 = static::factory()->user->create();
 		$u2 = static::factory()->user->create();
@@ -576,9 +519,6 @@ class BP_Tests_Group_Invites_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertErrorResponse( 'bp_rest_group_invite_cannot_create_item', $response, rest_authorization_required_code() );
 	}
 
-	/**
-	 * @group update_item
-	 */
 	public function test_update_item() {
 		$u1 = static::factory()->user->create();
 
@@ -604,9 +544,6 @@ class BP_Tests_Group_Invites_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertSame( $u1, $all_data['id'] );
 	}
 
-	/**
-	 * @group update_item
-	 */
 	public function test_update_item_as_invitee() {
 		$u1        = static::factory()->user->create();
 		$invite_id = groups_invite_user(
@@ -631,9 +568,6 @@ class BP_Tests_Group_Invites_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertSame( $u1, $all_data['id'] );
 	}
 
-	/**
-	 * @group update_item
-	 */
 	public function test_update_item_invalid_id() {
 		wp_set_current_user( $this->user );
 
@@ -643,9 +577,6 @@ class BP_Tests_Group_Invites_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertErrorResponse( 'bp_rest_group_invite_invalid_id', $response, 404 );
 	}
 
-	/**
-	 * @group update_item
-	 */
 	public function test_update_item_user_not_logged_in() {
 		$u1 = static::factory()->user->create();
 
@@ -664,9 +595,6 @@ class BP_Tests_Group_Invites_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
 	}
 
-	/**
-	 * @group update_item
-	 */
 	public function test_update_item_without_permission() {
 		$u1 = static::factory()->user->create();
 		$u2 = static::factory()->user->create();
@@ -688,9 +616,6 @@ class BP_Tests_Group_Invites_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertErrorResponse( 'bp_rest_group_invite_cannot_update_item', $response, rest_authorization_required_code() );
 	}
 
-	/**
-	 * @group delete_item
-	 */
 	public function test_delete_item() {
 		$u1        = static::factory()->user->create();
 		$invite_id = groups_invite_user(
@@ -715,9 +640,6 @@ class BP_Tests_Group_Invites_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertSame( $invite_id, $all_data['previous']['id'] );
 	}
 
-	/**
-	 * @group delete_item
-	 */
 	public function test_delete_item_as_user() {
 		$u1 = static::factory()->user->create();
 
@@ -742,9 +664,6 @@ class BP_Tests_Group_Invites_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertSame( $invite_id, $all_data['previous']['id'] );
 	}
 
-	/**
-	 * @group delete_item
-	 */
 	public function test_delete_item_as_inviter() {
 		$u1 = static::factory()->user->create();
 		$u2 = static::factory()->user->create();
@@ -772,9 +691,6 @@ class BP_Tests_Group_Invites_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertSame( $invite_id, $all_data['previous']['id'] );
 	}
 
-	/**
-	 * @group delete_item
-	 */
 	public function test_delete_item_as_group_admin() {
 		$u1 = static::factory()->user->create();
 		$u2 = static::factory()->user->create();
@@ -803,9 +719,6 @@ class BP_Tests_Group_Invites_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertSame( $invite_id, $all_data['previous']['id'] );
 	}
 
-	/**
-	 * @group delete_item
-	 */
 	public function test_delete_item_user_not_logged_in() {
 		$u1 = static::factory()->user->create();
 
@@ -830,9 +743,6 @@ class BP_Tests_Group_Invites_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
 	}
 
-	/**
-	 * @group delete_item
-	 */
 	public function test_delete_item_without_permission() {
 		$u1 = static::factory()->user->create();
 		$u2 = static::factory()->user->create();
@@ -861,9 +771,6 @@ class BP_Tests_Group_Invites_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertErrorResponse( 'bp_rest_group_invite_cannot_delete_item', $response, rest_authorization_required_code() );
 	}
 
-	/**
-	 * @group update_item
-	 */
 	public function test_delete_item_invalid_id() {
 		wp_set_current_user( $this->user );
 
@@ -873,9 +780,6 @@ class BP_Tests_Group_Invites_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertErrorResponse( 'bp_rest_group_invite_invalid_id', $response, 404 );
 	}
 
-	/**
-	 * @group get_item
-	 */
 	public function test_prepare_item() {
 		global $wp_rest_additional_fields;
 

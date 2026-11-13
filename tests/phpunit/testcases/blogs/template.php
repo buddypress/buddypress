@@ -4,9 +4,7 @@
  * @group blogs
  */
 class BP_Tests_Blogs_Template extends BP_UnitTestCase {
-	/**
-	 * @group bp_get_blog_last_active
-	 */
+
 	public function test_bp_get_blog_last_active_default_params() {
 		// Fake the global
 		global $blogs_template;
@@ -21,9 +19,6 @@ class BP_Tests_Blogs_Template extends BP_UnitTestCase {
 		$blogs_template = null;
 	}
 
-	/**
-	 * @group bp_get_blog_last_active
-	 */
 	public function test_bp_get_blog_last_active_active_format_true() {
 		// Fake the global
 		global $blogs_template;
@@ -38,9 +33,6 @@ class BP_Tests_Blogs_Template extends BP_UnitTestCase {
 		$blogs_template = null;
 	}
 
-	/**
-	 * @group bp_get_blog_last_active
-	 */
 	public function test_bp_get_blog_last_active_active_format_false() {
 		// Fake the global
 		global $blogs_template;
@@ -55,16 +47,10 @@ class BP_Tests_Blogs_Template extends BP_UnitTestCase {
 		$blogs_template = null;
 	}
 
-	/**
-	 * @group bp_get_blog_last_active
-	 */
 	public function test_bp_get_blog_last_active_active_no_last_activity() {
 		$this->assertSame( __( 'Never active', 'buddypress' ), bp_get_blog_last_active() );
 	}
 
-	/**
-	 * @group bp_get_blog_latest_post
-	 */
 	public function test_bp_get_blog_latest_post_default_params() {
 		// Fake the global
 		global $blogs_template;
@@ -80,9 +66,6 @@ class BP_Tests_Blogs_Template extends BP_UnitTestCase {
 		$blogs_template = null;
 	}
 
-	/**
-	 * @group bp_get_blog_latest_post
-	 */
 	public function test_bp_get_blog_latest_post_latest_format_true() {
 		// Fake the global
 		global $blogs_template;
@@ -98,9 +81,6 @@ class BP_Tests_Blogs_Template extends BP_UnitTestCase {
 		$blogs_template = null;
 	}
 
-	/**
-	 * @group bp_get_blog_latest_post
-	 */
 	public function test_bp_get_blog_latest_post_latest_format_false() {
 		// Fake the global
 		global $blogs_template;
@@ -116,9 +96,6 @@ class BP_Tests_Blogs_Template extends BP_UnitTestCase {
 		$blogs_template = null;
 	}
 
-	/**
-	 * @group bp_blog_signup_enabled
-	 */
 	public function test_bp_signup_enabled_when_registration_setting_does_not_exist_should_default_to_true() {
 		$old_settings = $settings = buddypress()->site_options;
 		if ( is_array( $settings ) && isset( $settings['registration'] ) ) {
@@ -131,9 +108,6 @@ class BP_Tests_Blogs_Template extends BP_UnitTestCase {
 		buddypress()->site_options = $old_settings;
 	}
 
-	/**
-	 * @group bp_blog_signup_enabled
-	 */
 	public function test_bp_signup_enabled_when_registration_setting_is_all_should_return_true() {
 		$old_settings = $settings = buddypress()->site_options;
 
@@ -149,9 +123,6 @@ class BP_Tests_Blogs_Template extends BP_UnitTestCase {
 		buddypress()->site_options = $old_settings;
 	}
 
-	/**
-	 * @group bp_blog_signup_enabled
-	 */
 	public function test_bp_signup_enabled_when_registration_setting_is_blog_should_return_true() {
 		$old_settings = $settings = buddypress()->site_options;
 
@@ -167,9 +138,6 @@ class BP_Tests_Blogs_Template extends BP_UnitTestCase {
 		buddypress()->site_options = $old_settings;
 	}
 
-	/**
-	 * @group bp_blog_signup_enabled
-	 */
 	public function test_bp_signup_enabled_when_registration_setting_is_user_should_return_false() {
 		$old_settings = $settings = buddypress()->site_options;
 
@@ -185,9 +153,6 @@ class BP_Tests_Blogs_Template extends BP_UnitTestCase {
 		buddypress()->site_options = $old_settings;
 	}
 
-	/**
-	 * @group bp_blog_signup_enabled
-	 */
 	public function test_bp_signup_enabled_when_registration_setting_is_none_should_return_false() {
 		$old_settings = $settings = buddypress()->site_options;
 
@@ -203,10 +168,6 @@ class BP_Tests_Blogs_Template extends BP_UnitTestCase {
 		buddypress()->site_options = $old_settings;
 	}
 
-	/**
-	 * @group pagination
-	 * @group BP_Blogs_Template
-	 */
 	public function test_bp_blogs_template_should_give_precedence_to_bpage_URL_param() {
 		$this->skipWithoutMultisite();
 
@@ -232,10 +193,6 @@ class BP_Tests_Blogs_Template extends BP_UnitTestCase {
 		$_REQUEST = $request;
 	}
 
-	/**
-	 * @group pagination
-	 * @group BP_Blogs_Template
-	 */
 	public function test_bp_blogs_template_should_reset_0_pag_page_URL_param_to_default_pag_page_value() {
 		$this->skipWithoutMultisite();
 
@@ -261,10 +218,6 @@ class BP_Tests_Blogs_Template extends BP_UnitTestCase {
 		$_REQUEST = $request;
 	}
 
-	/**
-	 * @group pagination
-	 * @group BP_Blogs_Template
-	 */
 	public function test_bp_blogs_template_should_give_precedence_to_num_URL_param() {
 		$this->skipWithoutMultisite();
 
@@ -290,10 +243,6 @@ class BP_Tests_Blogs_Template extends BP_UnitTestCase {
 		$_REQUEST = $request;
 	}
 
-	/**
-	 * @group pagination
-	 * @group BP_Blogs_Template
-	 */
 	public function test_bp_blogs_template_should_reset_0_pag_num_URL_param_to_default_pag_num_value() {
 		$this->skipWithoutMultisite();
 
@@ -319,11 +268,6 @@ class BP_Tests_Blogs_Template extends BP_UnitTestCase {
 		$_REQUEST = $request;
 	}
 
-	/**
-	 * @group avatar
-	 * @group BP_Blogs_Template
-	 * @group bp_get_blog_avatar
-	 */
 	public function test_bp_get_blog_avatar_ids_provided() {
 		$this->skipWithoutMultisite();
 
@@ -360,11 +304,6 @@ class BP_Tests_Blogs_Template extends BP_UnitTestCase {
 		$this->assertSame( $expected, $avatar );
 	}
 
-	/**
-	 * @group avatar
-	 * @group BP_Blogs_Template
-	 * @group bp_get_blog_avatar
-	 */
 	public function test_bp_get_blog_avatar_has_site_icon() {
 		$this->skipWithoutMultisite();
 
@@ -398,11 +337,6 @@ class BP_Tests_Blogs_Template extends BP_UnitTestCase {
 		$this->assertStringContainsString( 'alt="test"', $avatar );
 	}
 
-	/**
-	 * @group avatar
-	 * @group BP_Blogs_Template
-	 * @group bp_get_blog_avatar
-	 */
 	public function test_bp_get_blog_default_avatar() {
 		$this->skipWithoutMultisite();
 
@@ -432,9 +366,6 @@ class BP_Tests_Blogs_Template extends BP_UnitTestCase {
 
 	/**
 	 * @BP9228
-	 * @group avatar
-	 * @group BP_Blogs_Template
-	 * @group bp_get_blog_avatar
 	 */
 	public function test_bp_get_blog_default_avatar_inside_blogs_template() {
 		$this->skipWithoutMultisite();

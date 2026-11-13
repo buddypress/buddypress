@@ -2,7 +2,6 @@
 /**
  * @group members
  * @group routing
- * @group root_profiles
  */
 class BP_Tests_Routing_Members_Root_Profiles extends BP_UnitTestCase {
 	protected $u;
@@ -53,7 +52,7 @@ class BP_Tests_Routing_Members_Root_Profiles extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP6475
+	 * @see https://buddypress.trac.wordpress.org/ticket/6475
 	 */
 	public function test_member_permalink_when_members_page_is_nested_under_wp_page() {
 		$p = self::factory()->post->create( array(

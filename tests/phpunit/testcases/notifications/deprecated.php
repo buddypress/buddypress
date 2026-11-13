@@ -8,7 +8,6 @@
 class BP_Tests_Notifications_Deprecated extends BP_UnitTestCase {
 
 	/**
-	 * @group get
 	 * @expectedDeprecated bp_notifications_get_where_conditions
 	 */
 	public function test_get_where_conditions_filter_is_deprecated() {

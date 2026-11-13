@@ -2,11 +2,10 @@
 
 /**
  * @group core
- * @group nav
  */
 class BP_Tests_Core_Nav_BpCoreRemoveNavItem extends BP_UnitTestCase {
 	/**
-	 * @ticket BP7203
+	 * @see https://buddypress.trac.wordpress.org/ticket/7203
 	 */
 	public function test_remove_subnav_item_array_as_screen_function() {
 		$bp = buddypress();

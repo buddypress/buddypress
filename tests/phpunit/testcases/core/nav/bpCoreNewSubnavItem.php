@@ -1,7 +1,6 @@
 <?php
 /**
  * @group core
- * @group nav
  */
 class BP_Tests_Core_Nav_BpCoreNewSubnavItem extends BP_UnitTestCase {
 	protected $permalink_structure = '';
@@ -99,7 +98,7 @@ class BP_Tests_Core_Nav_BpCoreNewSubnavItem extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP7931
+	 * @see https://buddypress.trac.wordpress.org/ticket/7931
 	 */
 	public function test_subnav_should_not_404_on_early_bp_setup_nav_priority() {
 		// Register a subnav on 'bp_setup_nav' hook early (at priority zero).

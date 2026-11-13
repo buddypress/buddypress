@@ -2,13 +2,9 @@
 
 /**
  * @group messages
- * @group template
  */
 class BP_Tests_Messages_Template extends BP_UnitTestCase {
 
-	/**
-	 * @group bp_has_message_threads
-	 */
 	public function test_has_message_threads() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -37,12 +33,6 @@ class BP_Tests_Messages_Template extends BP_UnitTestCase {
 		$this->assertSame( array( $message_1->thread_id ), wp_list_pluck( $messages_template->threads, 'thread_id' ) );
 	}
 
-
-
-	/**
-	 * @group bp_has_message_threads
-	 * @group meta_query
-	 */
 	public function test_thread_has_messages_meta_query() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -134,10 +124,6 @@ class BP_Tests_Messages_Template extends BP_UnitTestCase {
 		$this->assertEqualSets( array( $t1, $t2 ), wp_list_pluck( $messages_template->threads, 'thread_id' ) );
 	}
 
-	/**
-	 * @group bp_has_message_threads
-	 * @group meta_query
-	 */
 	public function test_thread_has_messages_meta_query_multiple_clauses_relation_and() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -234,9 +220,6 @@ class BP_Tests_Messages_Template extends BP_UnitTestCase {
 		$this->assertEqualSets( array( $t1 ), wp_list_pluck( $messages_template->threads, 'thread_id' ) );
 	}
 
-	/**
-	 * @group bp_has_message_threads
-	 */
 	public function test_has_message_threads_anonymous_user_should_not_see_threads() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -260,10 +243,6 @@ class BP_Tests_Messages_Template extends BP_UnitTestCase {
 
 	}
 
-	/**
-	 * @group pagination
-	 * @group BP_Messages_Box_Template
-	 */
 	public function test_bp_messages_template_should_give_precedence_to_mpage_URL_param() {
 		$request = $_REQUEST;
 		$_REQUEST['mpage'] = '5';
@@ -277,10 +256,6 @@ class BP_Tests_Messages_Template extends BP_UnitTestCase {
 		$_REQUEST = $request;
 	}
 
-	/**
-	 * @group pagination
-	 * @group BP_Messages_Box_Template
-	 */
 	public function test_bp_messages_template_should_reset_0_pag_page_URL_param_to_default_pag_page_value() {
 		$request = $_REQUEST;
 		$_REQUEST['mpage'] = '0';
@@ -294,10 +269,6 @@ class BP_Tests_Messages_Template extends BP_UnitTestCase {
 		$_REQUEST = $request;
 	}
 
-	/**
-	 * @group pagination
-	 * @group BP_Messages_Box_Template
-	 */
 	public function test_bp_messages_template_should_give_precedence_to_num_URL_param() {
 		$request = $_REQUEST;
 		$_REQUEST['num'] = '14';
@@ -311,10 +282,6 @@ class BP_Tests_Messages_Template extends BP_UnitTestCase {
 		$_REQUEST = $request;
 	}
 
-	/**
-	 * @group pagination
-	 * @group BP_Messages_Box_Template
-	 */
 	public function test_bp_messages_template_should_reset_0_pag_num_URL_param_to_default_pag_num_value() {
 		$request = $_REQUEST;
 		$_REQUEST['num'] = '0';
@@ -328,10 +295,6 @@ class BP_Tests_Messages_Template extends BP_UnitTestCase {
 		$_REQUEST = $request;
 	}
 
-	/**
-	 * @group pagination
-	 * @group BP_Messages_Box_Template
-	 */
 	public function test_setting_per_page_messages_and_recipients() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -393,9 +356,7 @@ class BP_Tests_Messages_Template extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group pagination
-	 * @group BP_Messages_Box_Template
-	 * @group BP8750
+	 * @see https://buddypress.trac.wordpress.org/ticket/8750
 	 */
 	public function test_thread_unread_count_setting_per_page_recipients() {
 		$u1 = self::factory()->user->create();
@@ -442,9 +403,7 @@ class BP_Tests_Messages_Template extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group pagination
-	 * @group BP_Messages_Box_Template
-	 * @group BP8750
+	 * @see https://buddypress.trac.wordpress.org/ticket/8750
 	 */
 	public function test_thread_unread_count_setting_per_page_recipients_with_specific_user_id() {
 		$u1 = self::factory()->user->create();

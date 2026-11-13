@@ -7,7 +7,6 @@
 class BP_Tests_Friends_Deprecated extends BP_UnitTestCase {
 
 	/**
-	 * @group __construct
 	 * @expectedDeprecated BP_Friends_Friendship::__construct
 	 */
 	public function test_deprecated_arg() {

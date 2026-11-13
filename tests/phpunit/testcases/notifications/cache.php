@@ -116,9 +116,6 @@ class BP_Tests_Notifications_Cache extends BP_UnitTestCase {
 		$this->assertFalse( wp_cache_get( $u, 'bp_notifications_unread_count' ) );
 	}
 
-	/**
-	 * @group bp_notifications_update_meta_cache
-	 */
 	public function test_bp_notifications_update_meta_cache() {
 		$u = self::factory()->user->create();
 
@@ -184,7 +181,7 @@ class BP_Tests_Notifications_Cache extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP8637
+	 * @see https://buddypress.trac.wordpress.org/ticket/8637
 	 */
 	public function test_bp_notifications_clear_all_for_user_cache_before_update() {
 		$u = self::factory()->user->create();
@@ -230,7 +227,7 @@ class BP_Tests_Notifications_Cache extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP8642
+	 * @see https://buddypress.trac.wordpress.org/ticket/8642
 	 */
 	public function test_bp_notifications_clear_all_for_user_cache_before_update_when_marked_unread() {
 		$u = self::factory()->user->create();
@@ -263,7 +260,7 @@ class BP_Tests_Notifications_Cache extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP8637
+	 * @see https://buddypress.trac.wordpress.org/ticket/8637
 	 */
 	public function test_bp_notifications_clear_all_for_user_cache_before_delete() {
 		$u = self::factory()->user->create();
@@ -314,7 +311,7 @@ class BP_Tests_Notifications_Cache extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP8637
+	 * @see https://buddypress.trac.wordpress.org/ticket/8637
 	 */
 	public function test_bp_notifications_clear_all_for_user_cache_before_update_when_item_ids() {
 		$s = self::factory()->user->create();
@@ -355,7 +352,7 @@ class BP_Tests_Notifications_Cache extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP8642
+	 * @see https://buddypress.trac.wordpress.org/ticket/8642
 	 */
 	public function test_bp_notifications_clear_all_for_user_cache_before_update_when_item_ids_and_marked_unread() {
 		$s                = self::factory()->user->create();
@@ -402,7 +399,7 @@ class BP_Tests_Notifications_Cache extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP8637
+	 * @see https://buddypress.trac.wordpress.org/ticket/8637
 	 */
 	public function test_bp_notifications_clear_all_for_user_cache_before_delete_when_item_ids() {
 		$s = self::factory()->user->create();

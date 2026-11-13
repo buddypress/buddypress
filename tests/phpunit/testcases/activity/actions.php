@@ -1,8 +1,6 @@
 <?php
 /**
  * @group activity
- * @group bp_activity_catch_transition_post_type_status
- * @group activity_tracking
  */
 class BP_Tests_Activity_Actions extends BP_UnitTestCase {
 
@@ -151,7 +149,7 @@ class BP_Tests_Activity_Actions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP8579
+	 * @see https://buddypress.trac.wordpress.org/ticket/8579
 	 */
 	public function test_bp_activity_catch_transition_post_type_status_publish_publish_author_changed() {
 		$u1 = self::factory()->user->create(
@@ -187,7 +185,7 @@ class BP_Tests_Activity_Actions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP8579
+	 * @see https://buddypress.trac.wordpress.org/ticket/8579
 	 */
 	public function test_bp_activity_catch_transition_post_type_status_publish_publish_content_changed() {
 		$u1 = self::factory()->user->create(

@@ -30,7 +30,7 @@ class BP_Tests_Routing_Activity extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP9330
+	 * @see https://buddypress.trac.wordpress.org/ticket/9330
 	 * @dataProvider activity_homepage_urls
 	 */
 	public function test_activity_directory_as_homepage( $query_string ) {

@@ -1,7 +1,6 @@
 <?php
 /**
  * @group groups
- * @group BP_Groups_Member
  */
 class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 	static public $user_ids;
@@ -30,7 +29,6 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		array_map( array( __CLASS__, 'delete_user' ), self::$user_ids );
 		array_map( 'groups_delete_group', self::$group_ids );
 	}
-
 
 	public function test_get_recently_joined_clauses_restrict_duplicate_joins_and_total() {
 		$user = self::factory()->user->create();
@@ -739,11 +737,6 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$this->assertSame( array( $g2 ), $ids );
 	}
 
-
-
-	/**
-	 * @group bp_groups_user_can_send_invites
-	 */
 	public function test_bp_groups_user_can_send_invites() {
 		$this->set_permalink_structure( '/%postname%/' );
 		$u_nonmembers = self::factory()->user->create();
@@ -838,11 +831,6 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 
 	}
 
-	/**
-	 * @group groups_reject_membership_request
-	 * @group group_membership_requests
-	 * @group group_membership
-	 */
 	public function test_bp_groups_reject_membership_request_remove_request() {
 		$u1 = self::factory()->user->create();
 		$g = self::factory()->group->create( array(
@@ -860,11 +848,6 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$this->assertFalse( $u1_has_request );
 	}
 
-	/**
-	 * @group groups_reject_membership_request
-	 * @group group_membership_requests
-	 * @group group_membership
-	 */
 	public function test_bp_groups_reject_membership_request_leave_memberships_intact() {
 		$u1 = self::factory()->user->create();
 		$g = self::factory()->group->create( array(
@@ -879,11 +862,6 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$this->assertTrue( is_numeric( $u1_is_member ) && $u1_is_member > 0 );
 	}
 
-	/**
-	 * @group groups_reject_membership_request
-	 * @group group_membership_requests
-	 * @group group_membership
-	 */
 	public function test_bp_groups_reject_membership_request_leave_invites_intact() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -908,11 +886,6 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$this->assertTrue( is_numeric( $u2_has_invite ) && $u2_has_invite > 0 );
 	}
 
-	/**
-	 * @group groups_delete_membership_request
-	 * @group group_membership_requests
-	 * @group group_membership
-	 */
 	public function test_bp_groups_delete_membership_request_remove_request() {
 		$u1 = self::factory()->user->create();
 		$g = self::factory()->group->create( array(
@@ -929,11 +902,6 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$this->assertFalse( $u1_has_request );
 	}
 
-	/**
-	 * @group groups_delete_membership_request
-	 * @group group_membership_requests
-	 * @group group_membership
-	 */
 	public function test_bp_groups_delete_membership_request_leave_memberships_intact() {
 		$u1 = self::factory()->user->create();
 		$g = self::factory()->group->create( array(
@@ -948,11 +916,6 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$this->assertTrue( is_numeric( $u1_is_member ) && $u1_is_member > 0 );
 	}
 
-	/**
-	 * @group groups_delete_membership_request
-	 * @group group_membership_requests
-	 * @group group_membership
-	 */
 	public function test_bp_groups_delete_membership_request_leave_invites_intact() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -978,11 +941,6 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$this->assertTrue( is_numeric( $u2_has_invite ) && $u2_has_invite > 0 );
 	}
 
-	/**
-	 * @group groups_reject_invite
-	 * @group group_invitations
-	 * @group group_membership
-	 */
 	public function test_bp_groups_reject_invite_remove_invite() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -1008,11 +966,6 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$this->assertFalse( $u2_has_invite );
 	}
 
-	/**
-	 * @group groups_reject_invite
-	 * @group group_invitations
-	 * @group group_membership
-	 */
 	public function test_bp_groups_reject_invite_leave_memberships_intact() {
 		$u1 = self::factory()->user->create();
 		$g = self::factory()->group->create( array(
@@ -1030,11 +983,6 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$this->assertTrue( is_numeric( $u1_is_member ) && $u1_is_member > 0 );
 	}
 
-	/**
-	 * @group groups_reject_invite
-	 * @group group_invitations
-	 * @group group_membership
-	 */
 	public function test_bp_groups_reject_invite_leave_requests_intact() {
 		$u1 = self::factory()->user->create();
 		$g = self::factory()->group->create( array(
@@ -1051,11 +999,6 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$this->assertTrue( is_numeric( $u1_has_request ) && $u1_has_request > 0 );
 	}
 
-	/**
-	 * @group groups_delete_invite
-	 * @group group_invitations
-	 * @group group_membership
-	 */
 	public function test_bp_groups_delete_invite_remove_invite() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -1081,11 +1024,6 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$this->assertFalse( $u2_has_invite );
 	}
 
-	/**
-	 * @group groups_delete_invite
-	 * @group group_invitations
-	 * @group group_membership
-	 */
 	public function test_bp_groups_delete_invite_remove_draft_invite() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -1115,11 +1053,6 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$this->assertFalse( $u2_has_invite );
 	}
 
-	/**
-	 * @group groups_delete_invite
-	 * @group group_invitations
-	 * @group group_membership
-	 */
 	public function test_bp_groups_delete_invite_leave_memberships_intact() {
 		$u1 = self::factory()->user->create();
 		$g  = self::factory()->group->create( array(
@@ -1136,11 +1069,6 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$this->assertTrue( is_numeric( $u1_is_member ) && $u1_is_member > 0 );
 	}
 
-	/**
-	 * @group groups_delete_invite
-	 * @group group_invitations
-	 * @group group_membership
-	 */
 	public function test_bp_groups_delete_invite_leave_requests_intact() {
 		$u1 = self::factory()->user->create();
 		$g = self::factory()->group->create( array(
@@ -1157,11 +1085,6 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$this->assertTrue( is_numeric( $u1_has_request ) && $u1_has_request > 0 );
 	}
 
-	/**
-	 * @group groups_uninvite_user
-	 * @group group_invitations
-	 * @group group_membership
-	 */
 	public function test_bp_groups_uninvite_user_remove_invite() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -1186,11 +1109,6 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$this->assertFalse( $u2_has_invite );
 	}
 
-	/**
-	 * @group groups_uninvite_user
-	 * @group group_invitations
-	 * @group group_membership
-	 */
 	public function test_bp_groups_uninvite_user_leave_memberships_intact() {
 		$u1 = self::factory()->user->create();
 		$g = self::factory()->group->create( array(
@@ -1209,11 +1127,6 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$this->assertTrue( is_numeric( $u1_is_member ) && $u1_is_member > 0 );
 	}
 
-	/**
-	 * @group groups_uninvite_user
-	 * @group group_invitations
-	 * @group group_membership
-	 */
 	public function test_bp_groups_uninvite_user_leave_requests_intact() {
 		$u1 = self::factory()->user->create();
 		$g = self::factory()->group->create( array(
@@ -1230,10 +1143,6 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$this->assertTrue( is_numeric( $u1_has_request ) && $u1_has_request > 0 );
 	}
 
-	/**
-	 * @group groups_join_group
-	 * @group group_membership
-	 */
 	public function test_groups_join_group_basic_join() {
 		$u1 = self::factory()->user->create();
 		$g = self::factory()->group->create();
@@ -1243,10 +1152,6 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$this->assertTrue( is_numeric( $membership_id ) && $membership_id > 0 );
 	}
 
-	/**
-	 * @group groups_join_group
-	 * @group group_membership
-	 */
 	public function test_groups_join_group_basic_join_use_current_user() {
 		$u1 = self::factory()->user->create();
 		$g = self::factory()->group->create();
@@ -1257,10 +1162,6 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$this->assertTrue( is_numeric( $membership_id ) && $membership_id > 0 );
 	}
 
-	/**
-	 * @group groups_join_group
-	 * @group group_membership
-	 */
 	public function test_groups_join_group_already_member() {
 		$u1 = self::factory()->user->create();
 		$g = self::factory()->group->create();
@@ -1269,10 +1170,6 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$this->assertTrue( groups_join_group( $g, $u1 ) );
 	}
 
-	/**
-	 * @group groups_join_group
-	 * @group group_membership
-	 */
 	public function test_groups_join_group_cleanup_invites() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -1293,10 +1190,6 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$this->assertFalse( groups_check_user_has_invite( $u2, $g, 'any' ) );
 	}
 
-	/**
-	 * @group groups_join_group
-	 * @group group_membership
-	 */
 	public function test_groups_join_group_cleanup_requests() {
 		$u1 = self::factory()->user->create();
 		$g = self::factory()->group->create();
@@ -1311,10 +1204,6 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$this->assertFalse( groups_check_for_membership_request( $u1, $g ) );
 	}
 
-	/**
-	 * @group groups_leave_group
-	 * @group group_membership
-	 */
 	public function test_groups_leave_group_basic_leave_self_initiated() {
 		$u1 = self::factory()->user->create();
 		$g = self::factory()->group->create( array( 'creator_id' => $u1 ) );
@@ -1329,10 +1218,6 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$this->assertSame( $before - 1, $after );
 	}
 
-	/**
-	 * @group groups_leave_group
-	 * @group group_membership
-	 */
 	public function test_groups_leave_group_basic_leave_use_current_user() {
 		$u1 = self::factory()->user->create();
 		$g = self::factory()->group->create( array( 'creator_id' => $u1 ) );
@@ -1347,10 +1232,6 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$this->assertSame( $before - 1, $after );
 	}
 
-	/**
-	 * @group groups_leave_group
-	 * @group group_membership
-	 */
 	public function test_groups_leave_group_basic_leave_group_admin_initiated() {
 		$u1 = self::factory()->user->create();
 		$g = self::factory()->group->create( array( 'creator_id' => $u1 ) );
@@ -1365,10 +1246,6 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$this->assertSame( $before - 1, $after );
 	}
 
-	/**
-	 * @group groups_leave_group
-	 * @group group_membership
-	 */
 	public function test_groups_leave_group_basic_leave_site_admin_initiated() {
 		$u1 = self::factory()->user->create();
 		$u1_siteadmin = new WP_User( $u1 );
@@ -1385,10 +1262,6 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$this->assertSame( $before - 1, $after );
 	}
 
-	/**
-	 * @group groups_leave_group
-	 * @group group_membership
-	 */
 	public function test_groups_leave_group_single_admin_prevent_leave() {
 		$u1 = self::factory()->user->create();
 		$g = self::factory()->group->create( array( 'creator_id' => $u1 ) );
@@ -1403,10 +1276,6 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$this->assertSame( $before, $after );
 	}
 
-	/**
-	 * @group groups_leave_group
-	 * @group group_membership
-	 */
 	public function test_groups_leave_group_multiple_admins_allow_leave() {
 		$u1 = self::factory()->user->create();
 		$g = self::factory()->group->create( array( 'creator_id' => $u1 ) );
@@ -1423,11 +1292,6 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$this->assertSame( $before - 1, $after );
 	}
 
-	/**
-	 * @group groups_get_invites_for_user
-	 * @group group_invitations
-	 * @group group_membership
-	 */
 	public function test_groups_get_invites_for_user() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -1459,11 +1323,6 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$this->assertSame( 3, $groups['total'] );
 	}
 
-	/**
-	 * @group groups_get_invites_for_user
-	 * @group group_invitations
-	 * @group group_membership
-	 */
 	public function test_groups_get_invites_for_user_infer_user() {
 
 		$u1 = self::factory()->user->create();
@@ -1497,11 +1356,6 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 
 	}
 
-	/**
-	 * @group groups_get_invites_for_user
-	 * @group group_invitations
-	 * @group group_membership
-	 */
 	public function test_groups_get_invites_for_user_with_exclude() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -1533,11 +1387,6 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$this->assertSame( 2, $groups['total'] );
 	}
 
-	/**
-	 * @group groups_get_invite_count_for_user
-	 * @group group_invitations
-	 * @group group_membership
-	 */
 	public function test_groups_get_invite_count_for_user() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -1567,11 +1416,6 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$this->assertSame( 3, groups_get_invite_count_for_user( $u2 ) );
 	}
 
-	/**
-	 * @group groups_get_invite_count_for_user
-	 * @group group_invitations
-	 * @group group_membership
-	 */
 	public function test_groups_get_invite_count_for_user_ignore_drafts() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -1590,11 +1434,6 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$this->assertSame( 0, groups_get_invite_count_for_user( $u2 ) );
 	}
 
-	/**
-	 * @group groups_invite_user
-	 * @group group_invitations
-	 * @group group_membership
-	 */
 	public function test_groups_invite_user() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -1614,11 +1453,6 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$this->assertTrue( is_numeric( $draft ) && $draft > 0 );
 	}
 
-	/**
-	 * @group groups_send_invites
-	 * @group group_invitations
-	 * @group group_membership
-	 */
 	public function test_groups_send_invites() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -1644,13 +1478,6 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$this->assertTrue( is_numeric( $sent ) && $sent > 0 );
 	}
 
-
-
-	/**
-	 * @group groups_accept_invite
-	 * @group group_invitations
-	 * @group group_membership
-	 */
 	public function test_groups_accept_invite() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -1677,11 +1504,6 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$this->assertFalse( $invite );
 	}
 
-	/**
-	 * @group groups_accept_invite
-	 * @group group_invitations
-	 * @group group_membership
-	 */
 	public function test_groups_accept_invite_removes_membership_requests() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -1719,12 +1541,6 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$this->assertTrue( 0 == groups_check_for_membership_request( $u2, $g1 ) );
 	}
 
-	/**
-	 * @group groups_send_invites
-	 * @group group_invitations
-	 * @group group_membership_requests
-	 * @group group_membership
-	 */
 	public function test_groups_sent_invite_plus_request_equals_member() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -1751,11 +1567,6 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$this->assertTrue( is_numeric( $member ) && $member > 0 );
 	}
 
-	/**
-	 * @group groups_delete_all_group_invites
-	 * @group group_invitations
-	 * @group group_membership
-	 */
 	public function test_groups_delete_all_group_invites() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -1787,11 +1598,6 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$this->assertEmpty( $invitees );
 	}
 
-	/**
-	 * @group groups_invite_user
-	 * @group group_invitations
-	 * @group group_membership
-	 */
 	public function test_groups_send_invites_fail_on_empty_group_id() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -1808,11 +1614,6 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$this->assertFalse( $invite_created );
 	}
 
-	/**
-	 * @group groups_invite_user
-	 * @group group_invitations
-	 * @group group_membership
-	 */
 	public function test_groups_send_invites_fail_on_empty_user_id() {
 		$u1 = self::factory()->user->create();
 		$g1 = self::factory()->group->create( array( 'creator_id' => $u1, 'status' => 'private' ) );
@@ -1829,11 +1630,6 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$this->assertFalse( $invite_created );
 	}
 
-	/**
-	 * @group groups_invite_user
-	 * @group group_invitations
-	 * @group group_membership
-	 */
 	public function test_groups_send_invites_fail_on_empty_inviter_id() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -1851,12 +1647,6 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$this->assertFalse( $invite_created );
 	}
 
-	/**
-	 * @group groups_get_invites_for_group
-	 * @group group_send_invites
-	 * @group group_invitations
-	 * @group group_membership
-	 */
 	public function test_groups_get_invites_for_group_with_sent_parameter() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -1885,11 +1675,6 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$this->assertEmpty( $i );
 	}
 
-	/**
-	 * @group groups_send_membership_request
-	 * @group group_membership_requests
-	 * @group group_membership
-	 */
 	public function test_groups_send_membership_request() {
 		$u1 = self::factory()->user->create();
 		$g1 = self::factory()->group->create( array( 'status' => 'private' ) );
@@ -1904,13 +1689,6 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$this->assertTrue( is_numeric( $request ) && $request > 0 );
 	}
 
-
-
-	/**
-	 * @group groups_accept_membership_request
-	 * @group group_membership_requests
-	 * @group group_membership
-	 */
 	public function test_groups_accept_membership_request_by_membership_id() {
 		$u1 = self::factory()->user->create();
 		$g1 = self::factory()->group->create( array( 'status' => 'private' ) );
@@ -1932,11 +1710,6 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$this->assertTrue( is_numeric( $member ) && $member > 0 );
 	}
 
-	/**
-	 * @group groups_accept_membership_request
-	 * @group group_membership_requests
-	 * @group group_membership
-	 */
 	public function test_groups_accept_membership_request_by_user_id_group_id() {
 		$u1 = self::factory()->user->create();
 		$g1 = self::factory()->group->create( array( 'status' => 'private' ) );
@@ -1954,12 +1727,6 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$this->assertTrue( is_numeric( $member ) && $member > 0 );
 	}
 
-	/**
-	 * @group groups_send_invites
-	 * @group group_invitations
-	 * @group group_membership_requests
-	 * @group group_membership
-	 */
 	public function test_groups_membership_request_plus_invite_equals_member() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -1986,11 +1753,6 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$this->assertTrue( is_numeric( $member ) && $member > 0 );
 	}
 
-	/**
-	 * @group groups_accept_all_pending_membership_requests
-	 * @group group_membership_requests
-	 * @group group_membership
-	 */
 	public function test_groups_accept_all_pending_membership_requests() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -2019,16 +1781,12 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group total_group_count
-	 * @ticket BP6813
+	 * @see https://buddypress.trac.wordpress.org/ticket/6813
 	 */
 	public function test_total_group_count_should_return_integer() {
 		$this->assertIsInt( BP_Groups_Member::total_group_count( 123 ) );
 	}
 
-	/**
-	 * @group get_memberships_by_id
-	 */
 	public function test_get_memberships_by_id_with_single_id() {
 		$users = self::factory()->user->create_many( 2 );
 		$groups = self::factory()->group->create_many( 2 );
@@ -2042,9 +1800,6 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$this->assertSame( $m0, $found[0]->id );
 	}
 
-	/**
-	 * @group get_memberships_by_id
-	 */
 	public function test_get_memberships_by_id_with_multiple_ids() {
 		$users = self::factory()->user->create_many( 2 );
 		$groups = self::factory()->group->create_many( 2 );
@@ -2065,7 +1820,7 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP7382
+	 * @see https://buddypress.trac.wordpress.org/ticket/7382
 	 */
 	public function test_user_property_should_be_accessible() {
 		$user = self::factory()->user->create();
@@ -2081,9 +1836,6 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$this->assertSame( $user, $user_obj->id );
 	}
 
-	/**
-	 * @group get_group_moderator_ids
-	 */
 	public function test_groups_get_group_mods_bad_id() {
 		$mods = groups_get_group_mods( null );
 
@@ -2091,9 +1843,6 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$this->assertEmpty( $mods );
 	}
 
-	/**
-	 * @group get_group_moderator_ids
-	 */
 	public function test_groups_get_group_admins_bad_id() {
 		$admins = groups_get_group_admins( null );
 
@@ -2102,7 +1851,7 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP7859
+	 * @see https://buddypress.trac.wordpress.org/ticket/7859
 	 */
 	public function test_get_user_memberships_type_membership() {
 		groups_join_group( self::$group_ids[0], self::$user_ids[0] );
@@ -2116,7 +1865,7 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP7476
+	 * @see https://buddypress.trac.wordpress.org/ticket/7476
 	 */
 	public function test_delete_all_for_user() {
 		$new_user = self::factory()->user->create();

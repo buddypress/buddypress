@@ -2,13 +2,9 @@
 
 /**
  * @group messages
- * @group functions
  */
 class BP_Tests_Messages_Functions extends BP_UnitTestCase {
 
-	/**
-	 * @group counts
-	 */
 	public function test_get_unread_count() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -44,8 +40,7 @@ class BP_Tests_Messages_Functions extends BP_UnitTestCase {
 	/**
 	 * @dataProvider provider_new_message_empty_content_options
 	 *
-	 * @ticket BP9175
-	 * @group messages_new_message
+	 * @see https://buddypress.trac.wordpress.org/ticket/9175
 	 *
 	 * @param mixed $content Empty message content to test.
 	 */
@@ -69,8 +64,7 @@ class BP_Tests_Messages_Functions extends BP_UnitTestCase {
 	/**
 	 * @dataProvider provider_new_message_irregular_content_options
 	 *
-	 * @ticket BP9175
-	 * @group messages_new_message
+	 * @see https://buddypress.trac.wordpress.org/ticket/9175
 	 *
 	 * @param string $content Irregular message content to test.
 	 */
@@ -115,9 +109,6 @@ class BP_Tests_Messages_Functions extends BP_UnitTestCase {
 		);
 	}
 
-	/**
-	 * @group messages_new_message
-	 */
 	public function test_messages_new_message_invalid_recipient_error_message() {
 		$u1 = self::factory()->user->create();
 
@@ -133,9 +124,6 @@ class BP_Tests_Messages_Functions extends BP_UnitTestCase {
 		$this->assertSame( 'Message could not be sent because you have entered an invalid username. Please try again.', $t1->get_error_message() );
 	}
 
-	/**
-	 * @group messages_new_message
-	 */
 	public function test_messages_new_message_with_numeric_string_sender_id() {
 		$sender    = self::factory()->user->create();
 		$recipient = self::factory()->user->create();
@@ -151,9 +139,6 @@ class BP_Tests_Messages_Functions extends BP_UnitTestCase {
 		$this->assertSame( 1, messages_get_unread_count( $recipient ) );
 	}
 
-	/**
-	 * @group messages_new_message
-	 */
 	public function test_messages_new_message_wp_error_generic() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -185,8 +170,8 @@ class BP_Tests_Messages_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP7819
-	 * @ticket BP7698
+	 * @see https://buddypress.trac.wordpress.org/ticket/7819
+	 * @see https://buddypress.trac.wordpress.org/ticket/7698
 	 */
 	public function test_bp_messages_personal_data_exporter() {
 		$u1 = self::factory()->user->create();
@@ -248,7 +233,7 @@ class BP_Tests_Messages_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP8080
+	 * @see https://buddypress.trac.wordpress.org/ticket/8080
 	 */
 	public function test_bp_messages_personal_data_exporter_check_sender() {
 		$u1       = self::factory()->user->create();

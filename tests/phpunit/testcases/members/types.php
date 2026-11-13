@@ -2,7 +2,6 @@
 
 /**
  * @group members
- * @group member_types
  */
 class BP_Tests_Members_Types extends BP_UnitTestCase {
 	public function set_up() {
@@ -22,7 +21,7 @@ class BP_Tests_Members_Types extends BP_UnitTestCase {
 
 	/**
 	 * @dataProvider illegal_names
-	 * @ticket BP5192
+	 * @see https://buddypress.trac.wordpress.org/ticket/5192
 	 *
 	 * @param string $name Invalid member type name.
 	 */
@@ -39,7 +38,7 @@ class BP_Tests_Members_Types extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP6139
+	 * @see https://buddypress.trac.wordpress.org/ticket/6139
 	 */
 	public function test_bp_register_member_type_should_sanitize_member_type_key() {
 		$key = 'F//oo% -Bar';
@@ -62,7 +61,7 @@ class BP_Tests_Members_Types extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP6125
+	 * @see https://buddypress.trac.wordpress.org/ticket/6125
 	 */
 	public function test_bp_register_member_type_should_respect_custom_name_label() {
 		$object = bp_register_member_type( 'foo', array(
@@ -77,7 +76,7 @@ class BP_Tests_Members_Types extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP6125
+	 * @see https://buddypress.trac.wordpress.org/ticket/6125
 	 */
 	public function test_bp_register_member_type_should_respect_custom_singular_name_label() {
 		$object = bp_register_member_type( 'foo', array(
@@ -92,7 +91,7 @@ class BP_Tests_Members_Types extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP6286
+	 * @see https://buddypress.trac.wordpress.org/ticket/6286
 	 */
 	public function test_bp_register_member_type_has_directory_should_default_to_true() {
 		$object = bp_register_member_type( 'foo', array(
@@ -104,7 +103,7 @@ class BP_Tests_Members_Types extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP6286
+	 * @see https://buddypress.trac.wordpress.org/ticket/6286
 	 */
 	public function test_bp_register_member_type_has_directory_true() {
 		$object = bp_register_member_type( 'foo', array(
@@ -116,7 +115,7 @@ class BP_Tests_Members_Types extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP6286
+	 * @see https://buddypress.trac.wordpress.org/ticket/6286
 	 */
 	public function test_bp_register_member_type_should_store_has_directory_false() {
 		$object = bp_register_member_type( 'foo', array(
@@ -128,7 +127,7 @@ class BP_Tests_Members_Types extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP6286
+	 * @see https://buddypress.trac.wordpress.org/ticket/6286
 	 */
 	public function test_bp_register_member_type_should_store_has_directory_string() {
 		$object = bp_register_member_type( 'foo', array(
@@ -228,7 +227,7 @@ class BP_Tests_Members_Types extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group BP6193
+	 * @see https://buddypress.trac.wordpress.org/ticket/6193
 	 */
 	public function test_bp_members_prefetch_member_type_array_cache_set() {
 		$u1 = self::factory()->user->create();
@@ -273,7 +272,7 @@ class BP_Tests_Members_Types extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group BP6242
+	 * @see https://buddypress.trac.wordpress.org/ticket/6242
 	 * @group cache
 	 */
 	public function test_bp_get_member_type_should_not_conflict_with_term_cache() {
@@ -303,21 +302,21 @@ class BP_Tests_Members_Types extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group BP6188
+	 * @see https://buddypress.trac.wordpress.org/ticket/6188
 	 */
 	public function test_bp_remove_member_type_should_return_false_when_member_type_is_empty() {
 		$this->assertFalse( bp_remove_member_type( 5, '' ) );
 	}
 
 	/**
-	 * @group BP6188
+	 * @see https://buddypress.trac.wordpress.org/ticket/6188
 	 */
 	public function test_bp_remove_member_type_should_return_false_when_member_type_is_invalid() {
 		$this->assertFalse( bp_remove_member_type( 5, 'foo' ) );
 	}
 
 	/**
-	 * @group BP6188
+	 * @see https://buddypress.trac.wordpress.org/ticket/6188
 	 */
 	public function test_bp_remove_member_type_should_return_false_when_member_is_not_of_provided_type() {
 		$u1 = self::factory()->user->create();
@@ -331,7 +330,7 @@ class BP_Tests_Members_Types extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group BP6188
+	 * @see https://buddypress.trac.wordpress.org/ticket/6188
 	 */
 	public function test_bp_remove_member_type_should_return_true_for_successful_deletion() {
 		$u1 = self::factory()->user->create();
@@ -346,7 +345,7 @@ class BP_Tests_Members_Types extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP8639
+	 * @see https://buddypress.trac.wordpress.org/ticket/8639
 	 */
 	public function test_bp_remove_member_type_should_return_false_when_user_has_no_member_type() {
 		$u1 = self::factory()->user->create();
@@ -356,21 +355,21 @@ class BP_Tests_Members_Types extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group BP6138
+	 * @see https://buddypress.trac.wordpress.org/ticket/6138
 	 */
 	public function test_bp_has_member_type_should_return_false_when_member_type_is_empty() {
 		$this->assertFalse( bp_has_member_type( 5, '' ) );
 	}
 
 	/**
-	 * @group BP6138
+	 * @see https://buddypress.trac.wordpress.org/ticket/6138
 	 */
 	public function test_bp_has_member_type_should_return_false_when_member_type_is_invalid() {
 		$this->assertFalse( bp_has_member_type( 5, 'foo' ) );
 	}
 
 	/**
-	 * @group BP6138
+	 * @see https://buddypress.trac.wordpress.org/ticket/6138
 	 */
 	public function test_bp_has_member_type_should_return_false_when_member_id_is_empty() {
 		bp_register_member_type( 'foo' );
@@ -379,7 +378,7 @@ class BP_Tests_Members_Types extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group BP6138
+	 * @see https://buddypress.trac.wordpress.org/ticket/6138
 	 */
 	public function test_bp_has_member_type_should_return_false_when_member_is_not_of_provided_type() {
 		$u1 = self::factory()->user->create();
@@ -391,7 +390,7 @@ class BP_Tests_Members_Types extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group BP6138
+	 * @see https://buddypress.trac.wordpress.org/ticket/6138
 	 */
 	public function test_bp_has_member_type_should_return_true_on_success() {
 		$u1 = self::factory()->user->create();

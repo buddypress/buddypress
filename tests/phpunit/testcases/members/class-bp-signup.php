@@ -2,9 +2,6 @@
 
 /**
  * @group members
- * @group signups
- * @group signup
- * @group BP_Signup
  */
 class BP_Tests_BP_Signup extends BP_UnitTestCase {
 	protected $signup_allowed;
@@ -32,7 +29,6 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 
 		parent::tear_down();
 	}
-
 
 	public function test_get_sql_clauses_filter_duplicate_join_and_cached_totals() {
 		$first  = self::factory()->signup->create();
@@ -100,8 +96,6 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 		$this->assertArrayHasKey( 'where_conditions', $contexts['paged'][1] );
 	}
 
-
-
 	public function test_get_default_sql_text_is_unchanged() {
 		$bp     = buddypress();
 		$first  = self::factory()->signup->create();
@@ -131,9 +125,6 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 		$this->assertSame( 2, $found['total'] );
 	}
 
-	/**
-	 * @group add
-	 */
 	public function test_add() {
 		$time = bp_core_current_time();
 		$args = array(
@@ -161,9 +152,6 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 		$this->assertSame( '12345', $s->activation_key );
 	}
 
-	/**
-	 * @group add
-	 */
 	public function test_add_no_visibility_level_set_should_use_default_visiblity_level() {
 		// Update field_1's default visibility to 'adminsonly'.
 		bp_xprofile_update_field_meta( 1, 'default_visibility', 'adminsonly' );
@@ -197,9 +185,6 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 		$this->assertSame( 'adminsonly', $vis );
 	}
 
-	/**
-	 * @group get
-	 */
 	public function test_get_with_offset() {
 		self::factory()->signup->create();
 		$s2 = self::factory()->signup->create();
@@ -213,9 +198,6 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 		$this->assertSame( array( $s2 ), $ss['signups'] );
 	}
 
-	/**
-	 * @group get
-	 */
 	public function test_get_with_number() {
 		self::factory()->signup->create();
 		$s2 = self::factory()->signup->create();
@@ -229,9 +211,6 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 		$this->assertSame( array( $s3, $s2 ), $ss['signups'] );
 	}
 
-	/**
-	 * @group get
-	 */
 	public function test_get_with_usersearch() {
 		$s1 = self::factory()->signup->create( array(
 			'user_email' => 'fghij@example.com',
@@ -247,9 +226,6 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 		$this->assertSame( array( $s1 ), $ss['signups'] );
 	}
 
-	/**
-	 * @group get
-	 */
 	public function test_get_with_orderby_email() {
 		$s1 = self::factory()->signup->create( array(
 			'user_email' => 'fghij@example.com',
@@ -271,9 +247,6 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 		$this->assertSame( array( $s3, $s1, $s2 ), $ss['signups'] );
 	}
 
-	/**
-	 * @group get
-	 */
 	public function test_get_with_orderby_email_asc() {
 		$s1 = self::factory()->signup->create( array(
 			'user_email' => 'fghij@example.com',
@@ -295,9 +268,6 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 		$this->assertSame( array( $s2, $s1, $s3 ), $ss['signups'] );
 	}
 
-	/**
-	 * @group get
-	 */
 	public function test_get_with_orderby_login_asc() {
 		$s1 = self::factory()->signup->create( array(
 			'user_login' => 'fghij',
@@ -319,9 +289,6 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 		$this->assertSame( array( $s2, $s1, $s3 ), $ss['signups'] );
 	}
 
-	/**
-	 * @group get
-	 */
 	public function test_get_with_orderby_registered_asc() {
 		$now = time();
 
@@ -345,9 +312,6 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 		$this->assertSame( array( $s2, $s1, $s3 ), $ss['signups'] );
 	}
 
-	/**
-	 * @group get
-	 */
 	public function test_get_with_include() {
 		$s1 = self::factory()->signup->create();
 		self::factory()->signup->create();
@@ -362,9 +326,6 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 		$this->assertContains( $s3, $ss['signups'] );
 	}
 
-	/**
-	 * @group get
-	 */
 	public function test_get_with_activation_key() {
 		self::factory()->signup->create( array(
 			'activation_key' => 'foo',
@@ -384,9 +345,6 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 		$this->assertSame( array( $s2 ), $ss['signups'] );
 	}
 
-	/**
-	 * @group get
-	 */
 	public function test_get_with_user_login() {
 		self::factory()->signup->create( array(
 			'user_login' => 'aaaafoo',
@@ -406,9 +364,6 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 		$this->assertSame( array( $s2 ), $ss['signups'] );
 	}
 
-	/**
-	 * @group activate
-	 */
 	public function test_activate_user_accounts() {
 		$signups = array();
 
@@ -442,9 +397,6 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 		$this->assertEqualSets( $results['activated'], wp_list_pluck( $users, 'ID' ) );
 	}
 
-	/**
-	 * @group get
-	 */
 	public function test_get_signup_ids_only() {
 		$s1 = self::factory()->signup->create();
 		$s2 = self::factory()->signup->create();
@@ -459,7 +411,7 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP8552
+	 * @see https://buddypress.trac.wordpress.org/ticket/8552
 	 * @group cache
 	 */
 	public function test_signup_query_with_ids_cache_results() {
@@ -495,7 +447,7 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP8552
+	 * @see https://buddypress.trac.wordpress.org/ticket/8552
 	 * @group cache
 	 */
 	public function test_signup_query_with_all_cache_results() {
@@ -745,9 +697,6 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 
 	}
 
-	/**
-	 * @group resend
-	 */
 	public function test_bp_core_signup_send_validation_email_should_increment_sent_count() {
 		$activation_key = wp_generate_password( 32, false );
 		$user_email     = 'accountone@example.com';
@@ -766,8 +715,7 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP9137
-	 * @group resend
+	 * @see https://buddypress.trac.wordpress.org/ticket/9137
 	 */
 	public function test_bp_core_signup_resend_email_activation() {
 		$s1 = self::factory()->signup->create_and_get(

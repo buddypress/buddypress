@@ -2,8 +2,6 @@
 
 /**
  * @group core
- * @group functions
- * @group bp_verify_nonce_request
  */
 class BP_Tests_Core_Functions_BPVerifyNonceRequest extends BP_UnitTestCase {
 	private $http_host = '';

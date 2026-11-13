@@ -2,7 +2,7 @@
 /**
  * Components Controller Tests.
  *
- * @group components
+ * @group core
  */
 class BP_Tests_Components_REST_Controller extends BP_Test_REST_Controller_Testcase {
 	protected $controller = 'BP_Core_Components_REST_Controller';
@@ -16,9 +16,6 @@ class BP_Tests_Components_REST_Controller extends BP_Test_REST_Controller_Testca
 		$this->assertCount( 2, $routes[ $this->endpoint_url ] );
 	}
 
-	/**
-	 * @group get_items
-	 */
 	public function test_get_items() {
 		wp_set_current_user( $this->user );
 
@@ -37,9 +34,6 @@ class BP_Tests_Components_REST_Controller extends BP_Test_REST_Controller_Testca
 		$this->check_component_data( $component, $all_data[0] );
 	}
 
-	/**
-	 * @group get_items
-	 */
 	public function test_get_items_paginated() {
 		wp_set_current_user( $this->user );
 
@@ -62,9 +56,6 @@ class BP_Tests_Components_REST_Controller extends BP_Test_REST_Controller_Testca
 		$this->assertCount( 10, $all_data );
 	}
 
-	/**
-	 * @group get_items
-	 */
 	public function test_get_items_invalid_status() {
 		wp_set_current_user( $this->user );
 
@@ -80,9 +71,6 @@ class BP_Tests_Components_REST_Controller extends BP_Test_REST_Controller_Testca
 		$this->assertErrorResponse( 'rest_invalid_param', $response, 400 );
 	}
 
-	/**
-	 * @group get_items
-	 */
 	public function test_get_items_user_is_not_logged_in() {
 		$request = new WP_REST_Request( 'GET', $this->endpoint_url );
 		$request->set_param( 'context', 'view' );
@@ -91,9 +79,6 @@ class BP_Tests_Components_REST_Controller extends BP_Test_REST_Controller_Testca
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, 401 );
 	}
 
-	/**
-	 * @group get_items
-	 */
 	public function test_get_items_without_permission() {
 		$u = static::factory()->user->create();
 
@@ -106,9 +91,6 @@ class BP_Tests_Components_REST_Controller extends BP_Test_REST_Controller_Testca
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, 403 );
 	}
 
-	/**
-	 * @group get_items
-	 */
 	public function test_get_items_active_permission() {
 		$u = static::factory()->user->create(
 			array(
@@ -131,9 +113,6 @@ class BP_Tests_Components_REST_Controller extends BP_Test_REST_Controller_Testca
 		$this->assertNotEmpty( array_filter( $all_features ) );
 	}
 
-	/**
-	 * @group get_items
-	 */
 	public function test_get_items_active_component_features() {
 		wp_set_current_user( $this->user );
 
@@ -152,9 +131,6 @@ class BP_Tests_Components_REST_Controller extends BP_Test_REST_Controller_Testca
 		$this->assertTrue( $members_info['features']['avatar'] );
 	}
 
-	/**
-	 * @group get_items
-	 */
 	public function test_get_items_inactive_component_features() {
 		wp_set_current_user( $this->user );
 
@@ -185,9 +161,6 @@ class BP_Tests_Components_REST_Controller extends BP_Test_REST_Controller_Testca
 		return $retval;
 	}
 
-	/**
-	 * @group get_items
-	 */
 	public function test_get_items_inactive_component() {
 		wp_set_current_user( $this->user );
 
@@ -218,9 +191,6 @@ class BP_Tests_Components_REST_Controller extends BP_Test_REST_Controller_Testca
 		$this->assertEmpty( $features['activity'] );
 	}
 
-	/**
-	 * @group get_item
-	 */
 	public function test_get_item() {
 		// This endpoint has no single-item get_item() route.
 		$request = new WP_REST_Request( 'GET', $this->endpoint_url . '/members' );
@@ -229,16 +199,10 @@ class BP_Tests_Components_REST_Controller extends BP_Test_REST_Controller_Testca
 		$this->assertErrorResponse( 'rest_no_route', $response, 404 );
 	}
 
-	/**
-	 * @group create_item
-	 */
 	public function test_create_item() {
 		$this->markTestSkipped( 'This endpoint does not support creating components.' );
 	}
 
-	/**
-	 * @group update_item
-	 */
 	public function test_update_item() {
 		wp_set_current_user( $this->user );
 
@@ -265,9 +229,6 @@ class BP_Tests_Components_REST_Controller extends BP_Test_REST_Controller_Testca
 		}
 	}
 
-	/**
-	 * @group update_item
-	 */
 	public function test_update_item_nonexistent_component() {
 		wp_set_current_user( $this->user );
 
@@ -283,9 +244,6 @@ class BP_Tests_Components_REST_Controller extends BP_Test_REST_Controller_Testca
 		$this->assertErrorResponse( 'bp_rest_component_nonexistent', $response, 404 );
 	}
 
-	/**
-	 * @group update_item
-	 */
 	public function test_update_item_empty_action() {
 		wp_set_current_user( $this->user );
 
@@ -301,9 +259,6 @@ class BP_Tests_Components_REST_Controller extends BP_Test_REST_Controller_Testca
 		$this->assertErrorResponse( 'rest_invalid_param', $response, 400 );
 	}
 
-	/**
-	 * @group update_item
-	 */
 	public function test_update_item_invalid_action() {
 		wp_set_current_user( $this->user );
 
@@ -319,9 +274,6 @@ class BP_Tests_Components_REST_Controller extends BP_Test_REST_Controller_Testca
 		$this->assertErrorResponse( 'rest_invalid_param', $response, 400 );
 	}
 
-	/**
-	 * @group update_item
-	 */
 	public function test_update_item_user_is_not_logged_in() {
 		$request = new WP_REST_Request( 'PUT', $this->endpoint_url );
 		$request->set_query_params(
@@ -335,9 +287,6 @@ class BP_Tests_Components_REST_Controller extends BP_Test_REST_Controller_Testca
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, 401 );
 	}
 
-	/**
-	 * @group update_item
-	 */
 	public function test_update_item_without_permission() {
 		$u = static::factory()->user->create();
 
@@ -355,9 +304,6 @@ class BP_Tests_Components_REST_Controller extends BP_Test_REST_Controller_Testca
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, 403 );
 	}
 
-	/**
-	 * @group update_item
-	 */
 	public function test_update_item_site_admin_only() {
 		$u = static::factory()->user->create(
 			array(
@@ -383,9 +329,6 @@ class BP_Tests_Components_REST_Controller extends BP_Test_REST_Controller_Testca
 		$this->assertSame( $before, bp_get_option( 'bp-active-components' ) );
 	}
 
-	/**
-	 * @group delete_item
-	 */
 	public function test_delete_item() {
 		// This endpoint does not support deleting components.
 		$request = new WP_REST_Request( 'DELETE', $this->endpoint_url );

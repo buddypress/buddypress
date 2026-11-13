@@ -179,7 +179,6 @@ class BP_Tests_Activity_Deprecated extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group get
 	 * @expectedDeprecated bp_activity_get_where_conditions
 	 */
 	public function test_get_with_legacy_where_conditions_filter() {
@@ -204,8 +203,7 @@ class BP_Tests_Activity_Deprecated extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group get_id
-	 * @group BP8596
+	 * @see https://buddypress.trac.wordpress.org/ticket/8596
 	 * @expectedDeprecated BP_Activity_Activity::get_id
 	 */
 	public function test_get_id_with_deprecated_args() {

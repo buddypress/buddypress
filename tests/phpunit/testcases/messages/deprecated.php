@@ -7,7 +7,6 @@
  */
 class BP_Tests_Messages_Deprecated extends BP_UnitTestCase {
 	/**
-	 * @group get_current_threads_for_user
 	 * @expectedDeprecated BP_Messages_Thread::get_current_threads_for_user
 	 */
 	public function test_get_current_threads_for_user_with_old_args() {
@@ -35,7 +34,6 @@ class BP_Tests_Messages_Deprecated extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group bp_has_message_threads
 	 *
 	 * @expectedDeprecated BP_Messages_Box_Template::__construct
 	 */

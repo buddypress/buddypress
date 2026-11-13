@@ -26,7 +26,7 @@ class BP_Tests_Routing_Groups extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP9330
+	 * @see https://buddypress.trac.wordpress.org/ticket/9330
 	 * @dataProvider groups_homepage_urls
 	 */
 	public function test_groups_directory_as_homepage( $query_string ) {
@@ -61,7 +61,6 @@ class BP_Tests_Routing_Groups extends BP_UnitTestCase {
 		);
 	}
 
-
 	public function test_member_groups() {
 		$this->go_to(
 			bp_members_get_user_url(
@@ -87,9 +86,6 @@ class BP_Tests_Routing_Groups extends BP_UnitTestCase {
 		$this->assertTrue( bp_is_user_groups() && bp_is_current_action( 'invites' ) );
 	}
 
-	/**
-	 * @group group_types
-	 */
 	public function test_group_directory_with_type() {
 		bp_groups_register_group_type(
 			'foo',
@@ -109,9 +105,6 @@ class BP_Tests_Routing_Groups extends BP_UnitTestCase {
 		$this->assertTrue( bp_is_groups_component() && ! bp_is_group() && bp_is_current_action( bp_get_groups_group_type_base() ) && bp_is_action_variable( 'foo', 0 ) );
 	}
 
-	/**
-	 * @group group_types
-	 */
 	public function test_group_directory_with_type_that_has_custom_directory_slug() {
 		bp_groups_register_group_type( 'bar', array( 'has_directory' => 'bars' ) );
 
@@ -126,9 +119,6 @@ class BP_Tests_Routing_Groups extends BP_UnitTestCase {
 		$this->assertTrue( bp_is_groups_component() && ! bp_is_group() && bp_is_current_action( bp_get_groups_group_type_base() ) && bp_is_action_variable( 'bars', 0 ) );
 	}
 
-	/**
-	 * @group group_types
-	 */
 	public function test_group_directory_should_404_for_group_types_that_have_no_directory() {
 		bp_groups_register_group_type( 'taz', array( 'has_directory' => false ) );
 
@@ -143,9 +133,6 @@ class BP_Tests_Routing_Groups extends BP_UnitTestCase {
 		$this->assertEmpty( bp_get_current_group_directory_type() );
 	}
 
-	/**
-	 * @group group_types
-	 */
 	public function test_group_directory_should_404_for_invalid_group_types() {
 		$this->go_to(
 			bp_get_groups_directory_url(
@@ -157,9 +144,6 @@ class BP_Tests_Routing_Groups extends BP_UnitTestCase {
 		$this->assertEmpty( bp_get_current_group_directory_type() );
 	}
 
-	/**
-	 * @group group_previous_slug
-	 */
 	public function test_group_previous_slug_current_slug_should_resolve() {
 		$g1 = self::factory()->group->create(
 			array(
@@ -178,9 +162,6 @@ class BP_Tests_Routing_Groups extends BP_UnitTestCase {
 		$this->assertSame( groups_get_current_group()->slug, 'ralph' );
 	}
 
-	/**
-	 * @group group_previous_slug
-	 */
 	public function test_group_previous_slug_should_resolve() {
 		$g1 = self::factory()->group->create(
 			array(
@@ -207,9 +188,6 @@ class BP_Tests_Routing_Groups extends BP_UnitTestCase {
 		$this->assertSame( $g1, bp_get_current_group_id() );
 	}
 
-	/**
-	 * @group group_previous_slug
-	 */
 	public function test_group_previous_slug_most_recent_takes_precedence() {
 		$g1 = self::factory()->group->create(
 			array(
@@ -251,7 +229,7 @@ class BP_Tests_Routing_Groups extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP9019
+	 * @see https://buddypress.trac.wordpress.org/ticket/9019
 	 * @dataProvider group_creation_steps
 	 */
 	public function test_bp_is_group_during_group_creation( $step, $resumed ) {
@@ -305,7 +283,7 @@ class BP_Tests_Routing_Groups extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP9019
+	 * @see https://buddypress.trac.wordpress.org/ticket/9019
 	 * @dataProvider non_single_group_pages
 	 */
 	public function test_bp_is_group_on_directory_and_non_group_pages( $page ) {
@@ -339,7 +317,7 @@ class BP_Tests_Routing_Groups extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP9019
+	 * @see https://buddypress.trac.wordpress.org/ticket/9019
 	 */
 	public function test_bp_is_group_when_groups_are_inactive() {
 		$active_components = buddypress()->active_components;
@@ -354,7 +332,7 @@ class BP_Tests_Routing_Groups extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP9019
+	 * @see https://buddypress.trac.wordpress.org/ticket/9019
 	 */
 	public function test_bp_is_group_on_single_group_pages() {
 		$g = self::factory()->group->create();

@@ -2,12 +2,10 @@
 
 /**
  * @group notifications
- * @group template
  */
 class BP_Tests_Notifications_BPNotificationsTemplate extends BP_UnitTestCase {
 	/**
-	 * @group pagination
-	 * @group BP6229
+	 * @see https://buddypress.trac.wordpress.org/ticket/6229
 	 */
 	public function test_pagination_params_in_url_should_be_passed_to_query() {
 		$u = self::factory()->user->create();

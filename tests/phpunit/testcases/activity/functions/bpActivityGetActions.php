@@ -32,9 +32,6 @@ class BP_Tests_Activity_Functions_BpActivityGetActions extends BP_UnitTestCase {
 		parent::tear_down();
 	}
 
-	/**
-	 * @group activity_action
-	 */
 	public function test_bp_activity_get_actions_should_sort_by_position() {
 		register_post_type( 'foo5', array(
 			'public'      => true,
@@ -82,7 +79,7 @@ class BP_Tests_Activity_Functions_BpActivityGetActions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP6865
+	 * @see https://buddypress.trac.wordpress.org/ticket/6865
 	 */
 	public function test_bp_activity_get_actions_sort() {
 		bp_activity_set_action(
@@ -116,7 +113,7 @@ class BP_Tests_Activity_Functions_BpActivityGetActions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP6865
+	 * @see https://buddypress.trac.wordpress.org/ticket/6865
 	 */
 	public function test_sort_new_post_type_once() {
 		register_post_type( 'foo', array(
@@ -144,7 +141,7 @@ class BP_Tests_Activity_Functions_BpActivityGetActions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP6865
+	 * @see https://buddypress.trac.wordpress.org/ticket/6865
 	 */
 	public function test_sort_new_post_type_twice() {
 		$reset_activity_track = buddypress()->activity->track;
@@ -189,7 +186,7 @@ class BP_Tests_Activity_Functions_BpActivityGetActions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP6865
+	 * @see https://buddypress.trac.wordpress.org/ticket/6865
 	 */
 	public function test_sort_no_post_type_registered() {
 		bp_activity_set_action(

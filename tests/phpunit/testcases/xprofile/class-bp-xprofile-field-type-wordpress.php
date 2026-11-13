@@ -1,8 +1,7 @@
 <?php
 /**
  * @group xprofile
- * @group BP_Tests_XProfile_Field_Type_WordPress
- * @ticket BP7162
+ * @see https://buddypress.trac.wordpress.org/ticket/7162
  */
 class BP_Tests_XProfile_Field_Type_WordPress extends BP_UnitTestCase {
 
@@ -11,9 +10,6 @@ class BP_Tests_XProfile_Field_Type_WordPress extends BP_UnitTestCase {
 		$this->assertTrue( $field->is_valid( 'Hello WordPress Fields!' ) );
 	}
 
-	/**
-	 * @group xprofile_set_field_data
-	 */
 	public function test_wp_textbox_set_last_name_field_data() {
 		$user_id  = self::factory()->user->create();
 		$group_id = self::factory()->xprofile_group->create();
@@ -35,9 +31,6 @@ class BP_Tests_XProfile_Field_Type_WordPress extends BP_UnitTestCase {
 		$this->assertSame( 'bar', $user->last_name );
 	}
 
-	/**
-	 * @group bp_xprofile_get_groups
-	 */
 	public function test_wp_textbox_get_user_url_field_data() {
 		$user_id  = self::factory()->user->create(
 			array(
@@ -70,9 +63,6 @@ class BP_Tests_XProfile_Field_Type_WordPress extends BP_UnitTestCase {
 		$this->assertSame( 'https://buddypress.org', $field->data->value );
 	}
 
-	/**
-	 * @group xprofile_get_field_data
-	 */
 	public function test_wp_textbox_get_first_name_field_value() {
 		$user_id  = self::factory()->user->create(
 			array(
@@ -96,10 +86,6 @@ class BP_Tests_XProfile_Field_Type_WordPress extends BP_UnitTestCase {
 		$this->assertSame( 'foo', $field_data );
 	}
 
-	/**
-	 * @group bp_member_profile_data
-	 * @group bp_get_member_profile_data
-	 */
 	public function test_wp_biography_get_field_value() {
 		global $members_template;
 		$reset_members_template = $members_template;

@@ -2,7 +2,6 @@
 
 /**
  * @group core
- * @group BP_Core_User
  */
 class BP_Tests_BP_Core_User_TestCases extends BP_UnitTestCase {
 
@@ -63,8 +62,6 @@ class BP_Tests_BP_Core_User_TestCases extends BP_UnitTestCase {
 		$this->assertSame( 'F', $contexts['paged'][0]['letter'] );
 	}
 
-
-
 	public function test_search_users_sql_clauses_restrict_duplicate_join_and_total() {
 		$first  = self::factory()->user->create( array( 'display_name' => 'Formula Ada' ) );
 		$second = self::factory()->user->create( array( 'display_name' => 'Formula Bea' ) );
@@ -122,20 +119,6 @@ class BP_Tests_BP_Core_User_TestCases extends BP_UnitTestCase {
 		$this->assertSame( 'Formula', $contexts['paged'][0]['search_terms'] );
 	}
 
-
-
-
-
-
-
-
-
-
-
-
-	/**
-	 * @group get_users_by_letter
-	 */
 	public function test_get_users_by_letter() {
 		self::factory()->user->create( array(
 			'display_name' => 'foo',
@@ -151,9 +134,6 @@ class BP_Tests_BP_Core_User_TestCases extends BP_UnitTestCase {
 		$this->assertSame( 1, $q['total'] );
 	}
 
-	/**
-	 * @group search_users
-	 */
 	public function test_search_users() {
 		$u1 = self::factory()->user->create( array(
 			'display_name' => 'foo',
@@ -168,7 +148,6 @@ class BP_Tests_BP_Core_User_TestCases extends BP_UnitTestCase {
 		$this->assertSame( array( $u2 ), $found );
 		$this->assertSame( 1, $q['total'] );
 	}
-
 
 	public function test_get_users_by_letter_default_sql_text_is_unchanged() {
 		global $wpdb;
@@ -252,9 +231,6 @@ class BP_Tests_BP_Core_User_TestCases extends BP_UnitTestCase {
 		$this->assertSame( 2, $users['total'] );
 	}
 
-	/**
-	 * @group last_activity
-	 */
 	public function test_get_last_activity() {
 		$u = self::factory()->user->create();
 		$time = bp_core_current_time();
@@ -270,7 +246,6 @@ class BP_Tests_BP_Core_User_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group last_activity
 	 * @group cache
 	 */
 	public function test_get_last_activity_store_in_cache() {
@@ -288,7 +263,6 @@ class BP_Tests_BP_Core_User_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group last_activity
 	 * @group cache
 	 */
 	public function test_get_last_activity_store_in_cache_multiple_users() {
@@ -309,7 +283,6 @@ class BP_Tests_BP_Core_User_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group last_activity
 	 * @group cache
 	 */
 	public function test_get_last_activity_from_cache_single_user() {
@@ -332,7 +305,6 @@ class BP_Tests_BP_Core_User_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group last_activity
 	 * @group cache
 	 */
 	public function test_get_last_activity_in_cache_multiple_users() {
@@ -357,9 +329,6 @@ class BP_Tests_BP_Core_User_TestCases extends BP_UnitTestCase {
 		$this->assertSame( $cached, $uncached );
 	}
 
-	/**
-	 * @group last_activity
-	 */
 	public function test_update_last_activity() {
 		$u = self::factory()->user->create();
 		$time = bp_core_current_time();
@@ -376,9 +345,6 @@ class BP_Tests_BP_Core_User_TestCases extends BP_UnitTestCase {
 		$this->assertSame( $time2, $found );
 	}
 
-	/**
-	 * @group last_activity
-	 */
 	public function test_delete_last_activity() {
 		$u = self::factory()->user->create();
 		$time = bp_core_current_time();

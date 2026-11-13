@@ -4,9 +4,6 @@
  */
 class BP_Tests_xProfile_Template extends BP_UnitTestCase {
 
-	/**
-	 * @group bp_has_profile
-	 */
 	public function test_bp_has_profile_default() {
 		global $profile_template;
 		$reset_profile_template = $profile_template;
@@ -35,10 +32,6 @@ class BP_Tests_xProfile_Template extends BP_UnitTestCase {
 		$profile_template = $reset_profile_template;
 	}
 
-	/**
-	 * @group bp_has_profile
-	 * @group bp_xprofile_signup_args
-	 */
 	public function test_bp_has_profile_signup_from_same_group() {
 		global $profile_template;
 		$reset_profile_template = $profile_template;
@@ -78,10 +71,6 @@ class BP_Tests_xProfile_Template extends BP_UnitTestCase {
 		$profile_template = $reset_profile_template;
 	}
 
-	/**
-	 * @group bp_has_profile
-	 * @group bp_xprofile_signup_args
-	 */
 	public function test_bp_has_profile_signup_from_different_group() {
 		global $profile_template;
 		$reset_profile_template = $profile_template;
@@ -131,9 +120,6 @@ class BP_Tests_xProfile_Template extends BP_UnitTestCase {
 		$profile_template = $reset_profile_template;
 	}
 
-	/**
-	 * @group bp_has_profile
-	 */
 	public function test_bp_has_profile_get_multiple_groups() {
 		global $profile_template;
 		$reset_profile_template = $profile_template;
@@ -182,10 +168,6 @@ class BP_Tests_xProfile_Template extends BP_UnitTestCase {
 		$profile_template = $reset_profile_template;
 	}
 
-	/**
-	 * @group bp_get_the_profile_field_ids
-	 * @group bp_has_profile
-	 */
 	public function test_bp_get_the_profile_field_ids() {
 		global $profile_template;
 		$reset_profile_template = $profile_template;
@@ -216,9 +198,6 @@ class BP_Tests_xProfile_Template extends BP_UnitTestCase {
 		$profile_template = $reset_profile_template;
 	}
 
-	/**
-	 * @group bp_get_the_profile_field_ids
-	 */
 	public function test_bp_get_the_profile_field_ids_no_group() {
 		global $profile_template;
 		$reset_profile_template = $profile_template;

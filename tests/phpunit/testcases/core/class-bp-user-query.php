@@ -2,7 +2,6 @@
 
 /**
  * @group core
- * @group BP_User_Query
  */
 class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 	/**
@@ -24,7 +23,7 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP4938
+	 * @see https://buddypress.trac.wordpress.org/ticket/4938
 	 */
 	public function test_bp_user_query_friends_with_include() {
 		$u1 = self::factory()->user->create();
@@ -67,7 +66,7 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP7248
+	 * @see https://buddypress.trac.wordpress.org/ticket/7248
 	 */
 	public function test_include_array_contaning_only_0_should_result_in_no_results_query() {
 		$q = new BP_User_Query( array(
@@ -78,7 +77,7 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP7248
+	 * @see https://buddypress.trac.wordpress.org/ticket/7248
 	 */
 	public function test_include_array_contaning_0_but_also_real_IDs_should_not_result_in_no_results_query() {
 		$q = new BP_User_Query( array(
@@ -88,9 +87,6 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 		$this->assertStringNotContainsString( '0 = 1', $q->uid_clauses['where'] );
 	}
 
-	/**
-	 * @group user_ids
-	 */
 	public function test_bp_user_query_user_ids_with_invalid_user_id() {
 		$now = time();
 		$u1 = self::factory()->user->create();
@@ -136,9 +132,6 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 		$this->assertSame( $expected, $user_ids );
 	}
 
-	/**
-	 * @group online
-	 */
 	public function test_bp_user_query_type_online() {
 		$now = time();
 		$u1 = self::factory()->user->create( array(
@@ -160,9 +153,6 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 		$this->assertSame( array( $u1, $u2 ), $user_ids );
 	}
 
-	/**
-	 * @group online
-	 */
 	public function test_bp_user_query_type_online_five_minute_interval() {
 		$now = time();
 		$u1 = self::factory()->user->create( array(
@@ -185,7 +175,6 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 		$user_ids = wp_list_pluck( $users, 'ID' );
 		$this->assertSame( array( $u1, $u2 ), $user_ids );
 	}
-
 
 	public function test_bp_user_query_search_with_apostrophe() {
 		// Apostrophe. Search_terms must escaped to mimic POST payload
@@ -252,9 +241,6 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 
 	}
 
-	/**
-	 * @group search_terms
-	 */
 	public function test_bp_user_query_search_core_fields() {
 		$user_id = self::factory()->user->create( array(
 			'user_login' => 'foo',
@@ -304,9 +290,6 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 		}
 	}
 
-	/**
-	 * @group exclude
-	 */
 	public function test_bp_user_query_with_exclude() {
 		// Grab list of existing users who should also be excluded
 		global $wpdb;
@@ -327,8 +310,7 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group exclude
-	 * @ticket BP8040
+	 * @see https://buddypress.trac.wordpress.org/ticket/8040
 	 */
 	public function test_bp_user_query_should_ignore_empty_exclude() {
 		$u1 = self::factory()->user->create();
@@ -344,10 +326,7 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 		$this->assertContains( $u1, $found_user_ids );
 		$this->assertContains( $u2, $found_user_ids );
 	}
-	/**
-	 * @group type
-	 * @group spam
-	 */
+
 	public function test_bp_user_query_type_alphabetical_spam_xprofileon() {
 		$this->skipWithMultisite();
 
@@ -382,10 +361,6 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 		$this->assertNotContains( $u1, $found_user_ids );
 	}
 
-	/**
-	 * @group type
-	 * @group spam
-	 */
 	public function test_bp_user_query_type_alphabetical_spam_xprofileoff() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -418,8 +393,7 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group meta
-	 * @group BP5904
+	 * @see https://buddypress.trac.wordpress.org/ticket/5904
 	 */
 	public function test_bp_user_query_with_user_meta_argument() {
 		$u1 = self::factory()->user->create();
@@ -440,8 +414,7 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group meta
-	 * @group BP5904
+	 * @see https://buddypress.trac.wordpress.org/ticket/5904
 	 */
 	public function test_bp_user_query_with_user_meta_argument_no_user() {
 		$u1 = self::factory()->user->create();
@@ -457,9 +430,6 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 		$this->assertEmpty( $found_user_ids );
 	}
 
-	/**
-	 * @group member_types
-	 */
 	public function test_member_type_single_value() {
 		bp_register_member_type( 'foo' );
 		bp_register_member_type( 'bar' );
@@ -475,9 +445,6 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 		$this->assertSame( array( $users[1] ), $found );
 	}
 
-	/**
-	 * @group member_types
-	 */
 	public function test_member_type_array_with_single_value() {
 		bp_register_member_type( 'foo' );
 		bp_register_member_type( 'bar' );
@@ -493,9 +460,6 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 		$this->assertSame( array( $users[1] ), $found );
 	}
 
-	/**
-	 * @group member_types
-	 */
 	public function test_member_type_comma_separated_values() {
 		bp_register_member_type( 'foo' );
 		bp_register_member_type( 'bar' );
@@ -511,9 +475,6 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 		$this->assertEqualSets( array( $users[0], $users[1] ), $found );
 	}
 
-	/**
-	 * @group member_types
-	 */
 	public function test_member_type_array_with_multiple_values() {
 		bp_register_member_type( 'foo' );
 		bp_register_member_type( 'bar' );
@@ -529,9 +490,6 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 		$this->assertEqualSets( array( $users[0], $users[1] ), $found );
 	}
 
-	/**
-	 * @group member_types
-	 */
 	public function test_member_type_comma_separated_values_should_discard_non_existent_taxonomies() {
 		bp_register_member_type( 'foo' );
 		bp_register_member_type( 'bar' );
@@ -548,8 +506,7 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group member_types
-	 * @ticket BP6334
+	 * @see https://buddypress.trac.wordpress.org/ticket/6334
 	 */
 	public function test_should_return_no_results_when_no_users_match_the_specified_member_type() {
 		bp_register_member_type( 'foo' );
@@ -562,9 +519,6 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 		$this->assertEmpty( $q->results );
 	}
 
-	/**
-	 * @group member_types
-	 */
 	public function test_member_type__in_single_value() {
 		bp_register_member_type( 'foo' );
 		bp_register_member_type( 'bar' );
@@ -580,9 +534,6 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 		$this->assertSame( array( $users[1] ), $found );
 	}
 
-	/**
-	 * @group member_types
-	 */
 	public function test_member_type__in_array_with_single_value() {
 		bp_register_member_type( 'foo' );
 		bp_register_member_type( 'bar' );
@@ -598,9 +549,6 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 		$this->assertSame( array( $users[1] ), $found );
 	}
 
-	/**
-	 * @group member_types
-	 */
 	public function test_member_type__in_comma_separated_values() {
 		bp_register_member_type( 'foo' );
 		bp_register_member_type( 'bar' );
@@ -616,9 +564,6 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 		$this->assertEqualSets( array( $users[0], $users[1] ), $found );
 	}
 
-	/**
-	 * @group member_types
-	 */
 	public function test_member_type__in_array_with_multiple_values() {
 		bp_register_member_type( 'foo' );
 		bp_register_member_type( 'bar' );
@@ -634,9 +579,6 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 		$this->assertEqualSets( array( $users[0], $users[1] ), $found );
 	}
 
-	/**
-	 * @group member_types
-	 */
 	public function test_member_type__in_comma_separated_values_should_discard_non_existent_taxonomies() {
 		bp_register_member_type( 'foo' );
 		bp_register_member_type( 'bar' );
@@ -652,9 +594,6 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 		$this->assertEqualSets( array( $users[0] ), $found );
 	}
 
-	/**
-	 * @group member_types
-	 */
 	public function test_should_return_no_results_when_no_users_match_the_specified_member_type__in() {
 		bp_register_member_type( 'foo' );
 		$users = self::factory()->user->create_many( 3 );
@@ -666,9 +605,6 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 		$this->assertEmpty( $q->results );
 	}
 
-	/**
-	 * @group member_types
-	 */
 	public function test_member_type_should_take_precedence_over_member_type__in() {
 		bp_register_member_type( 'foo' );
 		bp_register_member_type( 'bar' );
@@ -685,9 +621,6 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 		$this->assertEqualSets( array( $users[1] ), $found );
 	}
 
-	/**
-	 * @group member_types
-	 */
 	public function test_member_type__not_in_returns_members_from_other_types_and_members_with_no_types() {
 		bp_register_member_type( 'foo' );
 		bp_register_member_type( 'bar' );
@@ -703,9 +636,6 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 		$this->assertEqualSets( array( $users[1], $users[2] ), $found );
 	}
 
-	/**
-	 * @group member_types
-	 */
 	public function test_should_return_no_results_when_all_users_match_the_specified_member_type__not_in() {
 		bp_register_member_type( 'foo' );
 		$users = self::factory()->user->create_many( 3 );
@@ -720,9 +650,6 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 		$this->assertEmpty( $q->results );
 	}
 
-	/**
-	 * @group member_types
-	 */
 	public function test_member_type__not_in_takes_precedence_over_member_type() {
 		bp_register_member_type( 'foo' );
 		$users = self::factory()->user->create_many( 3 );
@@ -738,9 +665,6 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 		$this->assertEmpty( $q->results );
 	}
 
-	/**
-	 * @group member_types
-	 */
 	public function test_member_type__not_in_takes_precedence_over_member_type__in() {
 		bp_register_member_type( 'foo' );
 		$users = self::factory()->user->create_many( 3 );
@@ -758,7 +682,6 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 
 	/**
 	 * @group cache
-	 * @group member_types
 	 */
 	public function test_member_type_should_be_prefetched_into_cache_during_user_query() {
 		bp_register_member_type( 'foo' );
@@ -778,9 +701,6 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 		$this->assertSame( '', wp_cache_get( $users[3], 'bp_member_member_type' ) );
 	}
 
-	/**
-	 * @group date_query
-	 */
 	public function test_date_query_before() {
 		$u1 = self::factory()->user->create( array(
 			'last_activity' => date( 'Y-m-d H:i:s', time() ),
@@ -806,9 +726,6 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 		$this->assertSame( $u2, $query->user_ids[0] );
 	}
 
-	/**
-	 * @group date_query
-	 */
 	public function test_date_query_range() {
 		$u1 = self::factory()->user->create( array(
 			'last_activity' => date( 'Y-m-d H:i:s', time() ),
@@ -836,9 +753,6 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 		$this->assertSame( $u2, $query->user_ids[0] );
 	}
 
-	/**
-	 * @group date_query
-	 */
 	public function test_date_query_after() {
 		$u1 = self::factory()->user->create( array(
 			'last_activity' => date( 'Y-m-d H:i:s', time() ),

@@ -2,11 +2,11 @@
 
 /**
  * @group testsuite
- * @group factory
+ * @group core
  */
 class BP_Tests_Testsuite_Factory extends BP_UnitTestCase {
 	/**
-	 * @ticket BP7234
+	 * @see https://buddypress.trac.wordpress.org/ticket/7234
 	 */
 	public function test_message_create_and_get_should_return_message_object() {
 		$m = self::factory()->message->create_and_get();
@@ -15,7 +15,7 @@ class BP_Tests_Testsuite_Factory extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP7234
+	 * @see https://buddypress.trac.wordpress.org/ticket/7234
 	 */
 	public function test_message_should_create_default_sender_and_recipient() {
 		$m = self::factory()->message->create_and_get();
@@ -25,7 +25,7 @@ class BP_Tests_Testsuite_Factory extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP7243
+	 * @see https://buddypress.trac.wordpress.org/ticket/7243
 	 */
 	public function test_friendship_should_create_default_initiator_and_friend() {
 		$f = self::factory()->friendship->create_and_get();
@@ -38,7 +38,7 @@ class BP_Tests_Testsuite_Factory extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP7243
+	 * @see https://buddypress.trac.wordpress.org/ticket/7243
 	 */
 	public function test_friendship_should_respect_passed_initiator_and_friend() {
 		$u1 = self::factory()->user->create();

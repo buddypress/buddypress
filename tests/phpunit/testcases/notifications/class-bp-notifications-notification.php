@@ -5,9 +5,6 @@
  */
 class BP_Tests_BP_Notifications_Notification_TestCases extends BP_UnitTestCase {
 
-	/**
-	 * @group get
-	 */
 	public function test_get_null_component_name() {
 		$u = self::factory()->user->create();
 		$n1 = self::factory()->notification->create( array(
@@ -49,8 +46,7 @@ class BP_Tests_BP_Notifications_Notification_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group get_total_count
-	 * @ticket BP5300
+	 * @see https://buddypress.trac.wordpress.org/ticket/5300
 	 */
 	public function test_get_total_count_null_component_name() {
 		$u = self::factory()->user->create();
@@ -91,8 +87,7 @@ class BP_Tests_BP_Notifications_Notification_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group get_total_count
-	 * @ticket BP5300
+	 * @see https://buddypress.trac.wordpress.org/ticket/5300
 	 */
 	public function test_get_total_count_with_component_name() {
 		$u = self::factory()->user->create();
@@ -126,10 +121,6 @@ class BP_Tests_BP_Notifications_Notification_TestCases extends BP_UnitTestCase {
 		$this->assertSame( 2, $n );
 	}
 
-	/**
-	 * @group order_by
-	 * @group sort_order
-	 */
 	public function test_order_by_date() {
 		$now = time();
 		$u = self::factory()->user->create();
@@ -161,9 +152,6 @@ class BP_Tests_BP_Notifications_Notification_TestCases extends BP_UnitTestCase {
 		$this->assertSame( $expected, $actual );
 	}
 
-	/**
-	 * @group is_new
-	 */
 	public function test_is_new_true() {
 		$u = self::factory()->user->create();
 		self::factory()->notification->create( array(
@@ -195,9 +183,6 @@ class BP_Tests_BP_Notifications_Notification_TestCases extends BP_UnitTestCase {
 		$this->assertSame( $expected, $actual );
 	}
 
-	/**
-	 * @group is_new
-	 */
 	public function test_is_new_false() {
 		$u = self::factory()->user->create();
 		$n1 = self::factory()->notification->create( array(
@@ -227,9 +212,6 @@ class BP_Tests_BP_Notifications_Notification_TestCases extends BP_UnitTestCase {
 		$this->assertSame( $expected, $actual );
 	}
 
-	/**
-	 * @group is_new
-	 */
 	public function test_is_new_both() {
 		$u = self::factory()->user->create();
 		$n1 = self::factory()->notification->create( array(
@@ -261,10 +243,6 @@ class BP_Tests_BP_Notifications_Notification_TestCases extends BP_UnitTestCase {
 		$this->assertSame( $expected, $actual );
 	}
 
-	/**
-	 * @group get
-	 * @group search_terms
-	 */
 	public function test_get_with_search_terms() {
 		$u = self::factory()->user->create();
 		self::factory()->notification->create( array(
@@ -293,9 +271,7 @@ class BP_Tests_BP_Notifications_Notification_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group get
-	 * @group pagination
-	 * @group BP6229
+	 * @see https://buddypress.trac.wordpress.org/ticket/6229
 	 */
 	public function test_get_paged_sql() {
 		$u = self::factory()->user->create();
@@ -325,10 +301,6 @@ class BP_Tests_BP_Notifications_Notification_TestCases extends BP_UnitTestCase {
 		);
 	}
 
-	/**
-	 * @group get
-	 * @group meta_query
-	 */
 	public function test_get_notifications_meta_query() {
 		$u        = self::factory()->user->create();
 		$meta_key = 'foo';
@@ -373,10 +345,6 @@ class BP_Tests_BP_Notifications_Notification_TestCases extends BP_UnitTestCase {
 		$this->assertSame( [ $n2 ], wp_list_pluck( $found_2, 'id' ) );
 	}
 
-	/**
-	 * @group get
-	 * @group meta_query
-	 */
 	public function test_get_notifications_sorted_sql_with_meta_query() {
 		$u        = self::factory()->user->create();
 		$meta_key = 'foo';
@@ -459,9 +427,6 @@ class BP_Tests_BP_Notifications_Notification_TestCases extends BP_UnitTestCase {
 		$this->assertSame( [ $n3, $n4 ], wp_list_pluck( $found_4, 'id' ) );
 	}
 
-	/**
-	 * @group get
-	 */
 	public function test_self_removing_sql_clauses_filter_at_priority_zero() {
 		$user_id = self::factory()->user->create();
 		$allowed = self::factory()->notification->create( array( 'user_id' => $user_id, 'component_name' => 'groups' ) );
@@ -534,9 +499,6 @@ class BP_Tests_BP_Notifications_Notification_TestCases extends BP_UnitTestCase {
 		$this->assertSame( 1, $total );
 	}
 
-	/**
-	 * @group get
-	 */
 	public function test_get_sql_filters_receive_paged_and_count_contexts() {
 		$user_id    = self::factory()->user->create();
 		$query_type = array();

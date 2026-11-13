@@ -5,8 +5,7 @@
  */
 class BP_Tests_Core_Filters extends BP_UnitTestCase {
 	/**
-	 * @group bp_core_components_subdirectory_reserved_names
-	 * @ticket 8187
+	 * @see https://buddypress.trac.wordpress.org/ticket/8187
 	 */
 	public function test_bp_core_components_subdirectory_reserved_names() {
 		$this->skipWithoutMultisite();

@@ -2,7 +2,6 @@
 
 /**
  * @group groups
- * @group template
  */
 #[AllowDynamicProperties]
 class BP_Tests_Groups_Template_Is_Visible extends BP_UnitTestCase {

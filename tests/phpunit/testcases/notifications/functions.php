@@ -6,9 +6,6 @@
 #[AllowDynamicProperties]
 class BP_Tests_Notifications_Functions extends BP_UnitTestCase {
 
-	/**
-	 * @group bp_notifications_add_notification
-	 */
 	public function test_bp_notifications_add_notification_no_dupes() {
 		$args = array(
 			'user_id'           => 5,
@@ -23,9 +20,6 @@ class BP_Tests_Notifications_Functions extends BP_UnitTestCase {
 		$this->assertFalse( bp_notifications_add_notification( $args ) );
 	}
 
-	/**
-	 * @group bp_notifications_add_notification
-	 */
 	public function test_bp_notifications_add_notification_allow_duplicate() {
 		$args = array(
 			'user_id'           => 5,
@@ -43,7 +37,6 @@ class BP_Tests_Notifications_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group bp_notifications_get_unread_notification_count
 	 * @group cache
 	 */
 	public function test_bp_notifications_get_unread_notification_count_cache() {
@@ -72,9 +65,6 @@ class BP_Tests_Notifications_Functions extends BP_UnitTestCase {
 		$this->assertSame( 0, $n );
 	}
 
-	/**
-	 * @group bp_has_notifications
-	 */
 	public function test_bp_has_notifications_filtering() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -118,8 +108,7 @@ class BP_Tests_Notifications_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group bp_notifications_delete_notifications_on_user_delete
-	 * @ticket BP6681
+	 * @see https://buddypress.trac.wordpress.org/ticket/6681
 	 */
 	public function test_bp_notifications_delete_notifications_on_user_delete_should_delete_all_notifications() {
 		$u = self::factory()->user->create();
@@ -179,8 +168,7 @@ class BP_Tests_Notifications_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group  notification_callback
-	 * @ticket BP7141
+	 * @see https://buddypress.trac.wordpress.org/ticket/7141
 	 */
 	public function test_notification_callback_parameter_integrity() {
 		$u = self::factory()->user->create();
@@ -237,7 +225,7 @@ class BP_Tests_Notifications_Functions extends BP_UnitTestCase {
 
 	/**
 	 * @group cache
-	 * @ticket BP7130
+	 * @see https://buddypress.trac.wordpress.org/ticket/7130
 	 */
 	public function test_get_grouped_notifications_for_user_cache_invalidation() {
 		$u = self::factory()->user->create();
@@ -269,7 +257,7 @@ class BP_Tests_Notifications_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP7827
+	 * @see https://buddypress.trac.wordpress.org/ticket/7827
 	 */
 	public function test_bp_notifications_personal_data_exporter() {
 		$u = self::factory()->user->create();
@@ -300,7 +288,7 @@ class BP_Tests_Notifications_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP8175
+	 * @see https://buddypress.trac.wordpress.org/ticket/8175
 	 */
 	public function test_notifications_data_should_be_deleted_on_user_delete_non_multisite() {
 		$this->skipWithMultisite();
@@ -324,7 +312,7 @@ class BP_Tests_Notifications_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP8175
+	 * @see https://buddypress.trac.wordpress.org/ticket/8175
 	 */
 	public function test_notifications_data_should_be_deleted_on_user_delete_multisite() {
 		$this->skipWithoutMultisite();
@@ -348,7 +336,7 @@ class BP_Tests_Notifications_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP8175
+	 * @see https://buddypress.trac.wordpress.org/ticket/8175
 	 */
 	public function test_notifications_data_should_not_be_deleted_on_wp_delete_user_multisite() {
 		$this->skipWithoutMultisite();
@@ -372,7 +360,7 @@ class BP_Tests_Notifications_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP8426
+	 * @see https://buddypress.trac.wordpress.org/ticket/8426
 	 */
 	public function test_bp_notifications_mark_notifications_by_ids() {
 		$u = self::factory()->user->create();
@@ -441,8 +429,7 @@ class BP_Tests_Notifications_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP8426
-	 * @group delete_notifications_by_ids
+	 * @see https://buddypress.trac.wordpress.org/ticket/8426
 	 */
 	public function test_bp_notifications_delete_notifications_by_ids() {
 		$u = self::factory()->user->create();
@@ -508,9 +495,6 @@ class BP_Tests_Notifications_Functions extends BP_UnitTestCase {
 		$this->assertSame( 1, (int) $n_obj->is_new );
 	}
 
-	/**
-	 * @group bulk_manage_notifications
-	 */
 	public function test_bp_notifications_bulk_manage_notifications_user_must_own_items() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();

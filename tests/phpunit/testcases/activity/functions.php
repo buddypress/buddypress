@@ -6,7 +6,7 @@
 class BP_Tests_Activity_Functions extends BP_UnitTestCase {
 
 	/**
-	 * @ticket BP4488
+	 * @see https://buddypress.trac.wordpress.org/ticket/4488
 	 */
 	public function test_thumbnail_content_images() {
 		// No images
@@ -22,9 +22,6 @@ class BP_Tests_Activity_Functions extends BP_UnitTestCase {
 		$this->assertSame( bp_activity_thumbnail_content_images( $post_content ), '<img src="http://example.com/foo.jpg" width="40" height="40" alt="Thumbnail" class="align-left thumbnail" /> Awesome.' );
 	}
 
-	/**
-	 * @group delete
-	 */
 	public function test_delete_activity_by_id() {
 
 		// create an activity update
@@ -47,9 +44,6 @@ class BP_Tests_Activity_Functions extends BP_UnitTestCase {
 		$this->assertSame( 0, $get['total'] );
 	}
 
-	/**
-	 * @group delete
-	 */
 	public function test_delete_activity_by_type() {
 
 		// Setup criteria
@@ -73,9 +67,6 @@ class BP_Tests_Activity_Functions extends BP_UnitTestCase {
 		$this->assertSame( 0, $get['total'] );
 	}
 
-	/**
-	 * @group delete
-	 */
 	public function test_delete_activity_by_component() {
 
 		// Setup criteria
@@ -99,9 +90,6 @@ class BP_Tests_Activity_Functions extends BP_UnitTestCase {
 		$this->assertSame( 0, $get['total'] );
 	}
 
-	/**
-	 * @group delete
-	 */
 	public function test_delete_activity_by_user_id() {
 
 		// Setup criteria
@@ -125,9 +113,6 @@ class BP_Tests_Activity_Functions extends BP_UnitTestCase {
 		$this->assertSame( 0, $get['total'] );
 	}
 
-	/**
-	 * @group delete
-	 */
 	public function test_delete_activity_meta() {
 
 		// create an activity update
@@ -148,9 +133,6 @@ class BP_Tests_Activity_Functions extends BP_UnitTestCase {
 		$this->assertEmpty( $m1 );
 	}
 
-	/**
-	 * @group delete
-	 */
 	public function test_delete_activity_all_meta() {
 
 		// create an activity update
@@ -183,9 +165,6 @@ class BP_Tests_Activity_Functions extends BP_UnitTestCase {
 		$this->assertEmpty( $m5 );
 	}
 
-	/**
-	 * @group delete
-	 */
 	public function test_delete_activity_and_comments() {
 
 		// create an activity update
@@ -223,9 +202,6 @@ class BP_Tests_Activity_Functions extends BP_UnitTestCase {
 		$this->assertSame( 0, $get['total'] );
 	}
 
-	/**
-	 * @group delete
-	 */
 	public function test_delete_activity_meta_for_comments() {
 
 		// create an activity update
@@ -269,8 +245,7 @@ class BP_Tests_Activity_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group bp_activity_update_meta
-	 * @ticket BP5180
+	 * @see https://buddypress.trac.wordpress.org/ticket/5180
 	 */
 	public function test_bp_activity_update_meta_with_line_breaks() {
 		$a = self::factory()->activity->create();
@@ -283,8 +258,7 @@ Bar!';
 	}
 
 	/**
-	 * @group bp_activity_update_meta
-	 * @ticket BP5083
+	 * @see https://buddypress.trac.wordpress.org/ticket/5083
 	 */
 	public function test_bp_activity_update_meta_with_0() {
 		$a = self::factory()->activity->create();
@@ -295,18 +269,12 @@ Bar!';
 		$this->assertNotSame( false, bp_activity_get_meta( $a, '0_test' ) );
 	}
 
-	/**
-	 * @group activitymeta
-	 * @group bp_activity_update_meta
-	 */
 	public function test_bp_activity_update_meta_non_numeric_id() {
 		$this->assertFalse( bp_activity_update_meta( 'foo', 'bar', 'baz' ) );
 	}
 
 	/**
-	 * @group activitymeta
-	 * @group bp_activity_update_meta
-	 * @ticket BP5399
+	 * @see https://buddypress.trac.wordpress.org/ticket/5399
 	 */
 	public function test_bp_activity_update_meta_with_illegal_key_characters() {
 		$a = self::factory()->activity->create();
@@ -316,10 +284,6 @@ Bar!';
 		$this->assertSame( '', bp_activity_get_meta( $a, 'foo' ) );
 	}
 
-	/**
-	 * @group activitymeta
-	 * @group bp_activity_update_meta
-	 */
 	public function test_bp_activity_update_meta_stripslashes() {
 		$a = self::factory()->activity->create();
 		$value = "This string is totally slashin\'!";
@@ -328,20 +292,12 @@ Bar!';
 		$this->assertSame( stripslashes( $value ), bp_activity_get_meta( $a, 'foo' ) );
 	}
 
-	/**
-	 * @group activitymeta
-	 * @group bp_activity_update_meta
-	 */
 	public function test_bp_activity_update_meta_false_value_deletes() {
 		$a = self::factory()->activity->create();
 		bp_activity_update_meta( $a, 'foo', false );
 		$this->assertSame( '', bp_activity_get_meta( $a, 'foo' ) );
 	}
 
-	/**
-	 * @group activitymeta
-	 * @group bp_activity_update_meta
-	 */
 	public function test_bp_activity_update_meta_new() {
 		$a = self::factory()->activity->create();
 		$this->assertSame( '', bp_activity_get_meta( $a, 'foo' ), '"foo" meta should be empty for this activity item.' );
@@ -349,10 +305,6 @@ Bar!';
 		$this->assertSame( 'bar', bp_activity_get_meta( $a, 'foo' ) );
 	}
 
-	/**
-	 * @group activitymeta
-	 * @group bp_activity_update_meta
-	 */
 	public function test_bp_activity_update_meta_existing() {
 		$a = self::factory()->activity->create();
 		bp_activity_update_meta( $a, 'foo', 'bar' );
@@ -361,10 +313,6 @@ Bar!';
 		$this->assertSame( 'baz', bp_activity_get_meta( $a, 'foo' ) );
 	}
 
-	/**
-	 * @group activitymeta
-	 * @group bp_activity_update_meta
-	 */
 	public function test_bp_activity_update_meta_same_value() {
 		$a = self::factory()->activity->create();
 		bp_activity_update_meta( $a, 'foo', 'bar' );
@@ -373,10 +321,6 @@ Bar!';
 		$this->assertSame( 'bar', bp_activity_get_meta( $a, 'foo' ) );
 	}
 
-	/**
-	 * @group activitymeta
-	 * @group bp_activity_update_meta
-	 */
 	public function test_bp_activity_update_meta_prev_value() {
 		$a = self::factory()->activity->create();
 		bp_activity_add_meta( $a, 'foo', 'bar' );
@@ -386,26 +330,16 @@ Bar!';
 		$this->assertTrue( bp_activity_update_meta( $a, 'foo', 'bar2', 'bar' ) );
 	}
 
-	/**
-	 * @group activitymeta
-	 * @group bp_activity_get_meta
-	 */
 	public function test_bp_activity_get_meta_empty_activity_id() {
 		$this->assertFalse( bp_activity_get_meta( 0 ) );
 	}
 
-	/**
-	 * @group activitymeta
-	 * @group bp_activity_get_meta
-	 */
 	public function test_bp_activity_get_meta_non_numeric_activity_id() {
 		$this->assertFalse( bp_activity_get_meta( 'foo' ) );
 	}
 
 	/**
-	 * @group activitymeta
-	 * @group bp_activity_get_meta
-	 * @ticket BP5399
+	 * @see https://buddypress.trac.wordpress.org/ticket/5399
 	 */
 	public function test_bp_activity_get_meta_with_illegal_characters() {
 		$a = self::factory()->activity->create();
@@ -415,10 +349,6 @@ Bar!';
 		$this->assertSame( '', bp_activity_get_meta( $a, $krazy_key ) );
 	}
 
-	/**
-	 * @group activitymeta
-	 * @group bp_activity_get_meta
-	 */
 	public function test_bp_activity_get_meta_multiple() {
 		$a = self::factory()->activity->create();
 		bp_activity_update_meta( $a, 'foo', 'bar' );
@@ -437,9 +367,7 @@ Bar!';
 	}
 
 	/**
-	 * @group bp_activity_get_meta
-	 * @group activitymeta
-	 * @ticket BP5399
+	 * @see https://buddypress.trac.wordpress.org/ticket/5399
 	 */
 	public function test_bp_activity_get_meta_no_results_returns_false() {
 		$a = self::factory()->activity->create();
@@ -447,10 +375,6 @@ Bar!';
 		$this->assertSame( '', bp_activity_get_meta( $a, 'foo' ) );
 	}
 
-	/**
-	 * @group activitymeta
-	 * @group bp_activity_get_meta
-	 */
 	public function test_bp_activity_get_meta_single_true() {
 		$a = self::factory()->activity->create();
 		bp_activity_add_meta( $a, 'foo', 'bar' );
@@ -459,10 +383,6 @@ Bar!';
 		$this->assertSame( 'bar', bp_activity_get_meta( $a, 'foo', true ) );
 	}
 
-	/**
-	 * @group activitymeta
-	 * @group bp_activity_get_meta
-	 */
 	public function test_bp_activity_get_meta_single_false() {
 		$a = self::factory()->activity->create();
 		bp_activity_add_meta( $a, 'foo', 'bar' );
@@ -471,8 +391,6 @@ Bar!';
 	}
 
 	/**
-	 * @group activitymeta
-	 * @group bp_activity_get_meta
 	 * @group cache
 	 */
 	public function test_bp_activity_get_meta_cache_all_on_get() {
@@ -488,18 +406,12 @@ Bar!';
 		$this->assertNotEmpty( $c['foo1'] );
 	}
 
-	/**
-	 * @group activitymeta
-	 * @group bp_activity_delete_meta
-	 */
 	public function test_bp_activity_delete_meta_non_numeric_activity_id() {
 		$this->assertFalse( bp_activity_delete_meta( 'foo', 'bar' ) );
 	}
 
 	/**
-	 * @group activitymeta
-	 * @group bp_activity_delete_meta
-	 * @ticket BP5399
+	 * @see https://buddypress.trac.wordpress.org/ticket/5399
 	 */
 	public function test_bp_activity_delete_meta_trim_meta_value() {
 		$a = self::factory()->activity->create();
@@ -508,10 +420,6 @@ Bar!';
 		$this->assertSame( 'bar', bp_activity_get_meta( $a, 'foo' ) );
 	}
 
-	/**
-	 * @group activitymeta
-	 * @group bp_activity_delete_meta
-	 */
 	public function test_bp_activity_delete_meta_single() {
 		$a = self::factory()->activity->create();
 		bp_activity_update_meta( $a, 'foo', 'bar' );
@@ -519,10 +427,6 @@ Bar!';
 		$this->assertSame( '', bp_activity_get_meta( $a, 'foo' ) );
 	}
 
-	/**
-	 * @group activitymeta
-	 * @group bp_activity_delete_meta
-	 */
 	public function test_bp_activity_delete_meta_all_for_activity() {
 		$a = self::factory()->activity->create();
 		bp_activity_update_meta( $a, 'foo', 'bar' );
@@ -532,10 +436,6 @@ Bar!';
 		$this->assertSame( '', bp_activity_get_meta( $a, 'foo1' ) );
 	}
 
-	/**
-	 * @group activitymeta
-	 * @group bp_activity_delete_meta
-	 */
 	public function test_bp_activity_delete_meta_with_meta_value() {
 		$a = self::factory()->activity->create();
 		bp_activity_update_meta( $a, 'foo', 'bar' );
@@ -543,10 +443,6 @@ Bar!';
 		$this->assertSame( '', bp_activity_get_meta( $a, 'foo' ) );
 	}
 
-	/**
-	 * @group activitymeta
-	 * @group bp_activity_delete_meta
-	 */
 	public function test_bp_activity_delete_meta_with_delete_all_but_no_meta_key() {
 		// With no meta key, don't delete for all items - just delete
 		// all for a single item
@@ -563,10 +459,6 @@ Bar!';
 		$this->assertSame( 'bar1', bp_activity_get_meta( $a2, 'foo1' ) );
 	}
 
-	/**
-	 * @group activitymeta
-	 * @group bp_activity_delete_meta
-	 */
 	public function test_bp_activity_delete_meta_with_delete_all() {
 		// With no meta key, don't delete for all items - just delete
 		// all for a single item
@@ -584,45 +476,26 @@ Bar!';
 		$this->assertSame( 'bar1', bp_activity_get_meta( $a2, 'foo1' ) );
 	}
 
-	/**
-	 * @group activitymeta
-	 * @group bp_activity_add_meta
-	 */
 	public function test_bp_activity_add_meta_no_meta_key() {
 		$this->assertFalse( bp_activity_add_meta( 1, '', 'bar' ) );
 	}
 
-	/**
-	 * @group activitymeta
-	 * @group bp_activity_add_meta
-	 */
 	public function test_bp_activity_add_meta_empty_object_id() {
 		$this->assertFalse( bp_activity_add_meta( 0, 'foo', 'bar' ) );
 	}
 
-	/**
-	 * @group activitymeta
-	 * @group bp_activity_add_meta
-	 */
 	public function test_bp_activity_add_meta_existing_unique() {
 		$a = self::factory()->activity->create();
 		bp_activity_add_meta( $a, 'foo', 'bar' );
 		$this->assertFalse( bp_activity_add_meta( $a, 'foo', 'baz', true ) );
 	}
 
-	/**
-	 * @group activitymeta
-	 * @group bp_activity_add_meta
-	 */
 	public function test_bp_activity_add_meta_existing_not_unique() {
 		$a = self::factory()->activity->create();
 		bp_activity_add_meta( $a, 'foo', 'bar' );
 		$this->assertNotEmpty( bp_activity_add_meta( $a, 'foo', 'baz' ) );
 	}
 
-	/**
-	 * @group bp_activity_get_user_mentionname
-	 */
 	public function test_bp_activity_get_user_mentionname_compatibilitymode_off() {
 		add_filter( 'bp_is_username_compatibility_mode', '__return_false' );
 
@@ -636,9 +509,6 @@ Bar!';
 		remove_filter( 'bp_is_username_compatibility_mode', '__return_false' );
 	}
 
-	/**
-	 * @group bp_activity_get_user_mentionname
-	 */
 	public function test_bp_activity_get_user_mentionname_compatibilitymode_on() {
 		add_filter( 'bp_is_username_compatibility_mode', '__return_true' );
 
@@ -658,9 +528,6 @@ Bar!';
 		remove_filter( 'bp_is_username_compatibility_mode', '__return_true' );
 	}
 
-	/**
-	 * @group bp_activity_get_userid_from_mentionname
-	 */
 	public function test_bp_activity_get_userid_from_mentionname_compatibilitymode_off() {
 		add_filter( 'bp_is_username_compatibility_mode', '__return_false' );
 
@@ -674,9 +541,6 @@ Bar!';
 		remove_filter( 'bp_is_username_compatibility_mode', '__return_false' );
 	}
 
-	/**
-	 * @group bp_activity_get_userid_from_mentionname
-	 */
 	public function test_bp_activity_get_userid_from_mentionname_compatibilitymode_on() {
 		add_filter( 'bp_is_username_compatibility_mode', '__return_true' );
 
@@ -711,10 +575,6 @@ Bar!';
 		remove_filter( 'bp_is_username_compatibility_mode', '__return_true' );
 	}
 
-	/**
-	 * @group activity_action
-	 * @group bp_activity_format_activity_action_activity_update
-	 */
 	public function test_bp_activity_format_activity_action_activity_update() {
 		$u = self::factory()->user->create();
 		$a = self::factory()->activity->create( array(
@@ -730,10 +590,6 @@ Bar!';
 		$this->assertSame( $expected, $a_obj->action );
 	}
 
-	/**
-	 * @group activity_action
-	 * @group bp_activity_format_activity_action_activity_comment
-	 */
 	public function test_bp_activity_format_activity_action_activity_comment() {
 		$u = self::factory()->user->create();
 		$a = self::factory()->activity->create( array(
@@ -750,9 +606,7 @@ Bar!';
 	}
 
 	/**
-	 * @group activity_action
-	 * @group bp_activity_format_activity_action_activity_comment
-	 * @ticket BP8120
+	 * @see https://buddypress.trac.wordpress.org/ticket/8120
 	 */
 	public function test_bp_activity_format_activity_action_children_activity_comment() {
 		$u = self::factory()->user->create();
@@ -794,11 +648,6 @@ Bar!';
 		$this->assertSame( sprintf( '%s posted a new activity comment', $user_link ), $comment_two->action );
 	}
 
-	/**
-	 * @group activity_action
-	 * @group bp_activity_format_activity_action_custom_post_type_post
-	 * @group activity_tracking
-	 */
 	public function test_bp_activity_format_activity_action_custom_post_type_post_nonms() {
 		$this->skipWithMultisite();
 
@@ -839,11 +688,6 @@ Bar!';
 		_unregister_post_type( 'foo' );
 	}
 
-	/**
-	 * @group activity_action
-	 * @group bp_activity_format_activity_action_custom_post_type_post_ms
-	 * @group activity_tracking
-	 */
 	public function test_bp_activity_format_activity_action_custom_post_type_post_ms() {
 		$this->skipWithoutMultisite();
 
@@ -896,11 +740,6 @@ Bar!';
 		$this->assertSame( $expected, $a_obj->action );
 	}
 
-
-	/**
-	 * @group activity_action
-	 * @group bp_activity_format_activity_action_custom_post_type_post
-	 */
 	public function test_bp_activity_format_activity_action_custom_string_post_type_post_nonms() {
 		$this->skipWithMultisite();
 
@@ -949,11 +788,6 @@ Bar!';
 		_unregister_post_type( 'foo' );
 	}
 
-	/**
-	 * @group activity_action
-	 * @group bp_activity_format_activity_action_custom_post_type_post_ms
-	 * @group activity_tracking
-	 */
 	public function test_bp_activity_format_activity_action_custom_string_post_type_post_ms() {
 		$this->skipWithoutMultisite();
 
@@ -1012,10 +846,6 @@ Bar!';
 		$this->assertSame( $expected, $a_obj->action );
 	}
 
-	/**
-	 * @group bp_activity_set_post_type_tracking_args
-	 * @group activity_tracking
-	 */
 	public function test_bp_activity_set_post_type_tracking_args() {
 		$bp = buddypress();
 
@@ -1048,10 +878,6 @@ Bar!';
 		remove_post_type_support( 'page', 'buddypress-activity' );
 	}
 
-	/**
-	 * @group bp_activity_set_post_type_tracking_args
-	 * @group activity_tracking
-	 */
 	public function test_bp_activity_set_post_type_tracking_args_check_post_type_global() {
 		$labels = array(
 			'bp_activity_admin_filter' => 'New Foo',
@@ -1086,11 +912,6 @@ Bar!';
 		$this->assertSame( $set_bp_activity, $register_bp_activity );
 	}
 
-	/**
-	 * @group activity_action
-	 * @group bp_activity_format_activity_action_custom_post_type_post_ms
-	 * @group post_type_comment_activities
-	 */
 	public function test_bp_activity_format_activity_action_custom_post_type_comment() {
 		$bp    = buddypress();
 		$reset = $bp->activity->track;
@@ -1170,7 +991,6 @@ Bar!';
 	}
 
 	/**
-	 * @group bp_activity_new_comment
 	 * @group cache
 	 */
 	public function test_bp_activity_new_comment_clear_comment_caches() {
@@ -1224,7 +1044,6 @@ Bar!';
 	}
 
 	/**
-	 * @group bp_activity_new_comment
 	 * @group cache
 	 */
 	public function test_bp_activity_new_comment_clear_activity_caches() {
@@ -1296,7 +1115,6 @@ Bar!';
 	}
 
 	/**
-	 * @group bp_activity_delete_comment
 	 * @group cache
 	 */
 	public function test_bp_activity_delete_comment_clear_cache() {
@@ -1326,8 +1144,7 @@ Bar!';
 	}
 
 	/**
-	 * @group  bp_activity_delete_comment
-	 * @ticket BP7450
+	 * @see https://buddypress.trac.wordpress.org/ticket/7450
 	 */
 	public function test_bp_activity_delete_comment_shouldnt_delete_all_comments_when_parameters_are_empty() {
 		$u = self::factory()->user->create();
@@ -1373,8 +1190,7 @@ Bar!';
 	}
 
 	/**
-	 * @group bp_activity_new_comment
-	 * @group BP5907
+	 * @see https://buddypress.trac.wordpress.org/ticket/5907
 	 */
 	public function test_bp_activity_comment_on_deleted_activity() {
 		$u = self::factory()->user->create();
@@ -1392,10 +1208,6 @@ Bar!';
 		$this->assertEmpty( $c );
 	}
 
-	/**
-	 * @group favorites
-	 * @group bp_activity_add_user_favorite
-	 */
 	public function test_add_user_favorite_already_favorited() {
 		$u = self::factory()->user->create();
 		$a = self::factory()->activity->create();
@@ -1411,10 +1223,6 @@ Bar!';
 
 	}
 
-	/**
-	 * @group favorites
-	 * @group bp_activity_add_user_favorite
-	 */
 	public function test_add_user_favorite_not_yet_favorited() {
 		$u = self::factory()->user->create();
 		$a = self::factory()->activity->create();
@@ -1425,10 +1233,6 @@ Bar!';
 
 	}
 
-	/**
-	 * @group favorites
-	 * @group bp_activity_remove_user_favorite
-	 */
 	public function test_remove_user_favorite_bad_activity_id() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -1446,10 +1250,6 @@ Bar!';
 
 	}
 
-	/**
-	 * @group favorites
-	 * @group bp_activity_add_user_favorite
-	 */
 	public function test_add_user_favorite_not_an_activity_id() {
 		$u1 = self::factory()->user->create();
 		$a = self::factory()->activity->create();
@@ -1471,16 +1271,10 @@ Bar!';
 
 	}
 
-	/**
-	 * @group bp_activity_post_update
-	 */
 	public function test_bp_activity_post_update_empty_content() {
 		$this->assertFalse( bp_activity_post_update( array( 'user_id' => 3, ) ) );
 	}
 
-	/**
-	 * @group bp_activity_post_update
-	 */
 	public function test_bp_activity_post_update_empty_content_wp_error() {
 		$activity = bp_activity_post_update( array(
 			'user_id'    => 3,
@@ -1491,9 +1285,6 @@ Bar!';
 		$this->assertSame( 'bp_activity_missing_content', $activity->get_error_code() );
 	}
 
-	/**
-	 * @group bp_activity_post_update
-	 */
 	public function test_bp_activity_post_update_inactive_user() {
 		$this->assertFalse( bp_activity_post_update( array(
 			'user_id' => 3456,
@@ -1501,9 +1292,6 @@ Bar!';
 		) ) );
 	}
 
-	/**
-	 * @group bp_activity_post_update
-	 */
 	public function test_bp_activity_post_update_inactive_user_wp_error() {
 		$activity = bp_activity_post_update( array(
 			'user_id'    => 3456,
@@ -1515,9 +1303,6 @@ Bar!';
 		$this->assertSame( 'bp_activity_inactive_user', $activity->get_error_code() );
 	}
 
-	/**
-	 * @group bp_activity_post_update
-	 */
 	public function test_bp_activity_post_update_success() {
 		$u = self::factory()->user->create();
 
@@ -1529,9 +1314,6 @@ Bar!';
 		$this->assertNotEmpty( $a );
 	}
 
-	/**
-	 * @group bp_activity_get_activity_id
-	 */
 	public function test_bp_activity_get_activity_id() {
 		$args = array(
 			'user_id' => 5,
@@ -1566,9 +1348,6 @@ Bar!';
 		$this->assertSame( array(), $found['activities'] );
 	}
 
-	/**
-	 * @group bp_activity_user_can_read
-	 */
 	public function test_user_can_access_their_own_activity() {
 		$u = self::factory()->user->create();
 
@@ -1581,9 +1360,6 @@ Bar!';
 		$this->assertTrue( bp_activity_user_can_read( $o, $u ) );
 	}
 
-	/**
-	 * @group bp_activity_user_can_read
-	 */
 	public function test_admin_can_access_someone_elses_activity() {
 		$u = self::factory()->user->create();
 		$u2 = self::factory()->user->create( array( 'role' => 'administrator' ) );
@@ -1600,9 +1376,6 @@ Bar!';
 		$this->assertTrue( bp_activity_user_can_read( $o, $u2 ) );
 	}
 
-	/**
-	 * @group bp_activity_user_can_read
-	 */
 	public function test_user_cannot_access_spam_activity() {
 		$u = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -1619,9 +1392,6 @@ Bar!';
 		$this->assertFalse( bp_activity_user_can_read( $o, $u2 ) );
 	}
 
-	/**
-	 * @group bp_activity_user_can_read
-	 */
 	public function test_admin_can_access_spam_activity() {
 		$u = self::factory()->user->create();
 		$u2 = self::factory()->user->create( array( 'role' => 'administrator' ) );
@@ -1638,9 +1408,6 @@ Bar!';
 		$this->assertTrue( bp_activity_user_can_read( $o, $u2 ) );
 	}
 
-	/**
-	 * @group bp_activity_user_can_read
-	 */
 	public function test_group_admin_access_someone_elses_activity_in_a_group() {
 		$u  = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -1665,9 +1432,6 @@ Bar!';
 		$this->assertTrue( bp_activity_user_can_read( $o, $u2 ) );
 	}
 
-	/**
-	 * @group bp_activity_user_can_read
-	 */
 	public function test_non_member_can_access_to_someone_elses_activity_in_a_group() {
 		$u  = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -1691,7 +1455,6 @@ Bar!';
 	/**
 	 * Group activity access applies when Groups is visible to members only.
 	 *
-	 * @group bp_activity_user_can_read
 	 */
 	public function test_group_activity_access_when_groups_are_members_only() {
 		$original_visibility = get_option( '_bp_community_visibility', false );
@@ -1763,7 +1526,6 @@ Bar!';
 	/**
 	 * Group access does not override an Activity component visibility denial.
 	 *
-	 * @group bp_activity_user_can_read
 	 */
 	public function test_group_activity_does_not_override_activity_component_visibility() {
 		$original_visibility = get_option( '_bp_community_visibility', false );
@@ -1808,9 +1570,6 @@ Bar!';
 		}
 	}
 
-	/**
-	 * @group bp_activity_user_can_read
-	 */
 	public function test_user_access_to_his_activity_in_hidden_group() {
 		$u  = self::factory()->user->create();
 		$g  = self::factory()->group->create( array(
@@ -1830,9 +1589,6 @@ Bar!';
 		$this->assertTrue( bp_activity_user_can_read( $o, $u ) );
 	}
 
-	/**
-	 * @group bp_activity_user_can_read
-	 */
 	public function test_user_access_to_his_activity_in_private_group() {
 		$u  = self::factory()->user->create();
 		$g  = self::factory()->group->create( array(
@@ -1852,9 +1608,6 @@ Bar!';
 		$this->assertTrue( bp_activity_user_can_read( $o, $u ) );
 	}
 
-	/**
-	 * @group bp_activity_user_can_read
-	 */
 	public function test_banned_user_cannot_access_to_his_activity_in_a_private_group() {
 		$u  = self::factory()->user->create();
 		$g  = self::factory()->group->create( array(
@@ -1877,9 +1630,6 @@ Bar!';
 		$this->assertFalse( bp_activity_user_can_read( $o, $u ) );
 	}
 
-	/**
-	 * @group bp_activity_user_can_read
-	 */
 	public function test_removed_member_cannot_access_to_his_activity_in_a_private_group() {
 		$u  = self::factory()->user->create();
 		$g  = self::factory()->group->create( array(
@@ -1909,8 +1659,8 @@ Bar!';
 	}
 
 	/**
-	 * @ticket BP7818
-	 * @ticket BP7698
+	 * @see https://buddypress.trac.wordpress.org/ticket/7818
+	 * @see https://buddypress.trac.wordpress.org/ticket/7698
 	 */
 	public function test_bp_activity_personal_data_exporter() {
 		$u = self::factory()->user->create();
@@ -1959,7 +1709,7 @@ Bar!';
 	}
 
 	/**
-	 * @ticket BP8175
+	 * @see https://buddypress.trac.wordpress.org/ticket/8175
 	 */
 	public function test_activity_data_should_be_deleted_on_user_delete_non_multisite() {
 		$this->skipWithMultisite();
@@ -2009,7 +1759,7 @@ Bar!';
 	}
 
 	/**
-	 * @ticket BP8175
+	 * @see https://buddypress.trac.wordpress.org/ticket/8175
 	 */
 	public function test_activity_data_should_be_deleted_on_user_delete_multisite() {
 		$this->skipWithoutMultisite();
@@ -2059,7 +1809,7 @@ Bar!';
 	}
 
 	/**
-	 * @ticket BP8175
+	 * @see https://buddypress.trac.wordpress.org/ticket/8175
 	 */
 	public function test_activity_data_should_not_be_deleted_on_wp_delete_user_multisite() {
 		$this->skipWithoutMultisite();
@@ -2109,7 +1859,7 @@ Bar!';
 	}
 
 	/**
-	 * @ticket BP8591
+	 * @see https://buddypress.trac.wordpress.org/ticket/8591
 	 */
 	public function test_activity_admin_screen_count_activities() {
 		$u1 = self::factory()->user->create();

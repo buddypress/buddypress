@@ -7,7 +7,6 @@
  */
 class BP_Tests_Groups_Deprecated extends BP_UnitTestCase {
 	/**
-	 * @group __construct
 	 * @expectedDeprecated BP_Groups_Group::__construct
 	 */
 	public function test_deprecated_arg() {
@@ -61,7 +60,6 @@ class BP_Tests_Groups_Deprecated extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group get
 	 * @expectedDeprecated BP_Groups_Group::group_exists
 	 */
 	public function test_get_group_with_slug_with_deprecated_args() {
@@ -122,9 +120,6 @@ class BP_Tests_Groups_Deprecated extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group groups_send_invites
-	 * @group group_invitations
-	 * @group group_membership
 	 * @expectedDeprecated groups_send_invites
 	 */
 	public function test_groups_send_invites_deprecated_args() {
@@ -150,9 +145,6 @@ class BP_Tests_Groups_Deprecated extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group groups_send_membership_request
-	 * @group group_membership_requests
-	 * @group group_membership
 	 * @expectedDeprecated groups_send_membership_request
 	 */
 	public function test_groups_send_membership_request_deprecated_args() {
@@ -168,7 +160,6 @@ class BP_Tests_Groups_Deprecated extends BP_UnitTestCase {
 
 	/**
 	 * @expectedDeprecated groups_edit_base_group_details
-	 * @group groups_edit_base_group_details
 	 */
 	public function test_groups_edit_base_group_details_test_backcompat_arguments() {
 		$g1 = self::factory()->group->create();

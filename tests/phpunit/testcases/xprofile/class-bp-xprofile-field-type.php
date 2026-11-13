@@ -4,7 +4,6 @@ include_once BP_TESTS_DIR . 'assets/bptest-xprofile-field-type.php';
 
 /**
  * @group xprofile
- * @group BP_XProfile_Field_Type
  */
 class BP_Tests_XProfile_Field_Type extends BP_UnitTestCase {
 
@@ -162,9 +161,6 @@ class BP_Tests_XProfile_Field_Type extends BP_UnitTestCase {
 		$this->assertTrue( $field->is_valid( array() ) );
 	}
 
-	/**
-	 * @group url
-	 */
 	public function test_url_validate_url() {
 		$field = bp_xprofile_create_field_type( 'url' );
 
@@ -183,9 +179,6 @@ class BP_Tests_XProfile_Field_Type extends BP_UnitTestCase {
 		$this->assertFalse( $field->is_valid( 'foo.com' ) );
 	}
 
-	/**
-	 * @group BP_XProfile_Field_Group_Type_Placeholder
-	 */
 	public function test_placeholder_validate_any_value() {
 		$field = bp_xprofile_create_field_type( 'foo' );
 		$this->assertTrue( $field->is_valid( '' ) );
@@ -201,7 +194,7 @@ class BP_Tests_XProfile_Field_Type extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP7162
+	 * @see https://buddypress.trac.wordpress.org/ticket/7162
 	 */
 	public function test_xprofile_field_type_test_supports() {
 		$group_id = self::factory()->xprofile_group->create();

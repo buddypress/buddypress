@@ -1,7 +1,8 @@
 <?php
 /**
  * @group routing
- * @ticket BP9330
+ * @see https://buddypress.trac.wordpress.org/ticket/9330
+ * @group core
  */
 class BP_Tests_Routing_Directory_Homepage extends BP_UnitTestCase {
 	/**

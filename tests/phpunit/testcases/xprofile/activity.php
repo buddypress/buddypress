@@ -26,9 +26,6 @@ class BP_Tests_XProfile_Activity extends BP_UnitTestCase {
 		self::commit_transaction();
 	}
 
-	/**
-	 * @group bp_xprofile_updated_profile_activity
-	 */
 	public function test_bp_xprofile_updated_profile_activity_with_errors() {
 		$d = self::$updated_profile_data;
 
@@ -52,9 +49,6 @@ class BP_Tests_XProfile_Activity extends BP_UnitTestCase {
 		$this->assertFalse( bp_xprofile_updated_profile_activity( $du, array( $df ), true ) );
 	}
 
-	/**
-	 * @group bp_xprofile_updated_profile_activity
-	 */
 	public function test_bp_xprofile_updated_profile_activity_throttled() {
 		$d = self::$updated_profile_data;
 
@@ -86,9 +80,6 @@ class BP_Tests_XProfile_Activity extends BP_UnitTestCase {
 		$this->assertFalse( bp_xprofile_updated_profile_activity( $d['u'], array( $d['f'] ), false ) );
 	}
 
-	/**
-	 * @group bp_xprofile_updated_profile_activity
-	 */
 	public function test_bp_xprofile_updated_profile_activity_outside_of_throttle() {
 		$d = self::$updated_profile_data;
 
@@ -132,9 +123,6 @@ class BP_Tests_XProfile_Activity extends BP_UnitTestCase {
 		$this->assertSame( 1, $existing['total'] );
 	}
 
-	/**
-	 * @group bp_xprofile_updated_profile_activity
-	 */
 	public function test_bp_xprofile_updated_profile_activity_no_existing_activity() {
 		$d = self::$updated_profile_data;
 
@@ -167,9 +155,6 @@ class BP_Tests_XProfile_Activity extends BP_UnitTestCase {
 		$this->assertSame( 1, $existing['total'] );
 	}
 
-	/**
-	 * @group bp_xprofile_updated_profile_activity
-	 */
 	public function test_bp_xprofile_updated_profile_activity_no_changes() {
 		$d = self::$updated_profile_data;
 
@@ -189,9 +174,6 @@ class BP_Tests_XProfile_Activity extends BP_UnitTestCase {
 		$this->assertFalse( bp_xprofile_updated_profile_activity( $d['u'], array( $d['f'] ), false, $old_values, $new_values ) );
 	}
 
-	/**
-	 * @group bp_xprofile_updated_profile_activity
-	 */
 	public function test_bp_xprofile_updated_profile_activity_no_public_changes() {
 		$d = self::$updated_profile_data;
 
@@ -211,9 +193,6 @@ class BP_Tests_XProfile_Activity extends BP_UnitTestCase {
 		$this->assertFalse( bp_xprofile_updated_profile_activity( $d['u'], array( $d['f'] ), false, $old_values, $new_values ) );
 	}
 
-	/**
-	 * @group bp_xprofile_updated_profile_activity
-	 */
 	public function test_bp_xprofile_updated_profile_activity_public_changed_to_private() {
 		$d = self::$updated_profile_data;
 
@@ -233,9 +212,6 @@ class BP_Tests_XProfile_Activity extends BP_UnitTestCase {
 		$this->assertFalse( bp_xprofile_updated_profile_activity( $d['u'], array( $d['f'] ), false, $old_values, $new_values ) );
 	}
 
-	/**
-	 * @group bp_xprofile_updated_profile_activity
-	 */
 	public function test_bp_xprofile_updated_profile_activity_private_changed_to_public() {
 		$d = self::$updated_profile_data;
 
@@ -255,9 +231,6 @@ class BP_Tests_XProfile_Activity extends BP_UnitTestCase {
 		$this->assertTrue( bp_xprofile_updated_profile_activity( $d['u'], array( $d['f'] ), false, $old_values, $new_values ) );
 	}
 
-	/**
-	 * @group bp_xprofile_updated_profile_activity
-	 */
 	public function test_bp_xprofile_updated_profile_activity_field_didnt_previously_exist() {
 		$d = self::$updated_profile_data;
 
@@ -272,9 +245,6 @@ class BP_Tests_XProfile_Activity extends BP_UnitTestCase {
 		$this->assertTrue( bp_xprofile_updated_profile_activity( $d['u'], array( $d['f'] ), false, $old_values, $new_values ) );
 	}
 
-	/**
-	 * @group bp_xprofile_updated_profile_activity
-	 */
 	public function test_bp_xprofile_updated_profile_activity_public_changes() {
 		$d = self::$updated_profile_data;
 
@@ -294,10 +264,6 @@ class BP_Tests_XProfile_Activity extends BP_UnitTestCase {
 		$this->assertTrue( bp_xprofile_updated_profile_activity( $d['u'], array( $d['f'] ), false, $old_values, $new_values ) );
 	}
 
-	/**
-	 * @group activity_action
-	 * @group bp_xprofile_format_activity_action_updated_profile
-	 */
 	public function test_bp_xprofile_format_activity_action_updated_profile() {
 		$u = self::factory()->user->create();
 		$a = self::factory()->activity->create( array(

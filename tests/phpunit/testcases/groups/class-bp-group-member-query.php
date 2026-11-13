@@ -1,7 +1,6 @@
 <?php
 /**
  * @group groups
- * @group BP_Group_Member_Query
  */
 class BP_Tests_BP_Group_Member_Query_TestCases extends BP_UnitTestCase {
 
@@ -271,9 +270,6 @@ class BP_Tests_BP_Group_Member_Query_TestCases extends BP_UnitTestCase {
 		$this->assertSame( array( $u1, $u2, $u3, $u4, ), $ids );
 	}
 
-	/**
-	 * @group role
-	 */
 	public function test_with_group_role_banned() {
 		$g = self::factory()->group->create();
 		$u1 = self::factory()->user->create();
@@ -344,9 +340,6 @@ class BP_Tests_BP_Group_Member_Query_TestCases extends BP_UnitTestCase {
 		$this->assertSame( array( $u3 ), $ids );
 	}
 
-	/**
-	 * @group type
-	 */
 	public function test_get_with_type_last_joined() {
 		$g = self::factory()->group->create();
 		$u1 = self::factory()->user->create();
@@ -370,9 +363,6 @@ class BP_Tests_BP_Group_Member_Query_TestCases extends BP_UnitTestCase {
 		$this->assertSame( array( $u2, $u1 ), $ids );
 	}
 
-	/**
-	 * @group type
-	 */
 	public function test_get_with_type_first_joined() {
 		$g = self::factory()->group->create();
 		$u1 = self::factory()->user->create();
@@ -424,10 +414,6 @@ class BP_Tests_BP_Group_Member_Query_TestCases extends BP_UnitTestCase {
 		$this->assertSame( array( $u1, $u2 ), array_keys( $first_joined->results ) );
 	}
 
-	/**
-	 * @group type
-	 * @group group_activity
-	 */
 	public function test_get_with_type_group_activity_with_activity_component_disabled() {
 		$g = self::factory()->group->create();
 		$u1 = self::factory()->user->create();
@@ -495,10 +481,6 @@ class BP_Tests_BP_Group_Member_Query_TestCases extends BP_UnitTestCase {
 		$this->assertSame( wp_list_pluck( $query_members2->results, 'ID' ), wp_list_pluck( $query_members1->results, 'ID' ) );
 	}
 
-	/**
-	 * @group type
-	 * @group group_activity
-	 */
 	public function test_get_with_type_group_activity() {
 		$g = self::factory()->group->create();
 		$u1 = self::factory()->user->create();
@@ -552,10 +534,6 @@ class BP_Tests_BP_Group_Member_Query_TestCases extends BP_UnitTestCase {
 		$this->assertSame( array( $u2, $u1, $u3 ), $ids );
 	}
 
-	/**
-	 * @group type
-	 * @group group_activity
-	 */
 	public function test_get_with_type_group_activity_no_dupes() {
 		$g = self::factory()->group->create();
 		$u1 = self::factory()->user->create();
@@ -590,9 +568,7 @@ class BP_Tests_BP_Group_Member_Query_TestCases extends BP_UnitTestCase {
 		$ids = array_keys( $query_members->results );
 		$this->assertSame( array( $u1, ), $ids );
 	}
-	/**
-	 * @group type
-	 */
+
 	public function test_get_with_type_alphabetical() {
 		$g = self::factory()->group->create();
 		$u1 = self::factory()->user->create( array(
@@ -627,9 +603,6 @@ class BP_Tests_BP_Group_Member_Query_TestCases extends BP_UnitTestCase {
 		$this->assertSame( array( $u1, $u3, $u2 ), $ids );
 	}
 
-	/**
-	 * @group invite_sent
-	 */
 	public function test_with_invite_sent_true() {
 		$u = self::factory()->user->create();
 		$g = self::factory()->group->create( array( 'status' => 'private', 'creator_id' => $u )  );
@@ -660,9 +633,6 @@ class BP_Tests_BP_Group_Member_Query_TestCases extends BP_UnitTestCase {
 		$this->assertSame( array( $u2 ), $ids );
 	}
 
-	/**
-	 * @group invite_sent
-	 */
 	public function test_with_invite_sent_false() {
 		$u = self::factory()->user->create();
 		$g = self::factory()->group->create( array( 'status' => 'private', 'creator_id' => $u )  );
@@ -693,9 +663,6 @@ class BP_Tests_BP_Group_Member_Query_TestCases extends BP_UnitTestCase {
 		$this->assertSame( array( $u1 ), $ids );
 	}
 
-	/**
-	 * @group inviter_id
-	 */
 	public function test_with_inviter_id_false() {
 		$u = self::factory()->user->create();
 		$g = self::factory()->group->create( array( 'status' => 'private', 'creator_id' => $u )  );
@@ -723,9 +690,6 @@ class BP_Tests_BP_Group_Member_Query_TestCases extends BP_UnitTestCase {
 		$this->assertSame( array( $u1 ), $ids );
 	}
 
-	/**
-	 * @group inviter_id
-	 */
 	public function test_with_inviter_id_specific() {
 		$a1 = self::factory()->user->create();
 		$a2 = self::factory()->user->create();
@@ -772,9 +736,6 @@ class BP_Tests_BP_Group_Member_Query_TestCases extends BP_UnitTestCase {
 		$this->assertSame( array( $u2, $u4 ), $ids );
 	}
 
-	/**
-	 * @group inviter_id
-	 */
 	public function test_with_inviter_id_any() {
 		$a1 = self::factory()->user->create();
 		$a2 = self::factory()->user->create();

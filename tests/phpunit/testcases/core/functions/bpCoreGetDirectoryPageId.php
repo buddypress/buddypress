@@ -2,7 +2,7 @@
 
 /**
  * @group core
- * @group BP7025
+ * @see https://buddypress.trac.wordpress.org/ticket/7025
  * @covers ::bp_core_get_directory_page_id
  */
 class BP_Tests_Core_BpCoreGetDirectoryPageId extends BP_UnitTestCase {

@@ -1,13 +1,9 @@
 <?php
 /**
  * @group xprofile
- * @group BP_XProfile_Field
  */
 class BP_Tests_BP_XProfile_Field_TestCases extends BP_UnitTestCase {
 
-	/**
-	 * @group xprofile_field_save
-	 */
 	public function test_can_delete_save() {
 		$group = self::factory()->xprofile_group->create();
 		$field = self::factory()->xprofile_field->create(
@@ -24,9 +20,6 @@ class BP_Tests_BP_XProfile_Field_TestCases extends BP_UnitTestCase {
 		$this->assertSame( 0, $f2->can_delete );
 	}
 
-	/**
-	 * @group xprofile_get_field_id_from_name
-	 */
 	public function test_get_id_from_name_field_name_option_value_conflict() {
 		$group = self::factory()->xprofile_group->create();
 
@@ -60,9 +53,6 @@ class BP_Tests_BP_XProfile_Field_TestCases extends BP_UnitTestCase {
 		unset( $_POST['checkbox_option'] );
 	}
 
-	/**
-	 * @group xprofile_field_admin_validate
-	 */
 	public function test_admin_validate_zero_field_name() {
 
 		// Mock POST global values
@@ -84,9 +74,6 @@ class BP_Tests_BP_XProfile_Field_TestCases extends BP_UnitTestCase {
 		);
 	}
 
-	/**
-	 * @group xprofile_field_admin_validate
-	 */
 	public function test_admin_validate_field_options() {
 
 		// Mock POST global values
@@ -115,7 +102,7 @@ class BP_Tests_BP_XProfile_Field_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP6545
+	 * @see https://buddypress.trac.wordpress.org/ticket/6545
 	 */
 	public function test_newly_created_field_should_have_field_id_property_set() {
 		$field           = new BP_XProfile_Field();
@@ -128,7 +115,7 @@ class BP_Tests_BP_XProfile_Field_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP6638
+	 * @see https://buddypress.trac.wordpress.org/ticket/6638
 	 */
 	public function test_default_visibility_should_be_lazy_loaded() {
 		global $wpdb;
@@ -157,7 +144,7 @@ class BP_Tests_BP_XProfile_Field_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP6638
+	 * @see https://buddypress.trac.wordpress.org/ticket/6638
 	 */
 	public function test_allow_custom_visibility_should_be_lazy_loaded() {
 		global $wpdb;
@@ -186,7 +173,7 @@ class BP_Tests_BP_XProfile_Field_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP7073
+	 * @see https://buddypress.trac.wordpress.org/ticket/7073
 	 */
 	public function test_bad_field_id_should_not_be_cached() {
 		BP_XProfile_Field::get_instance( 12345 );
@@ -195,7 +182,7 @@ class BP_Tests_BP_XProfile_Field_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP7112
+	 * @see https://buddypress.trac.wordpress.org/ticket/7112
 	 */
 	public function test_update_position_should_invalidate_cache() {
 		$group = self::factory()->xprofile_group->create();
@@ -218,7 +205,7 @@ class BP_Tests_BP_XProfile_Field_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP7351
+	 * @see https://buddypress.trac.wordpress.org/ticket/7351
 	 */
 	public function test_empty_datebox_fields_should_not_return_unix_epoch() {
 		$user  = self::factory()->user->create();
@@ -245,7 +232,7 @@ class BP_Tests_BP_XProfile_Field_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP6658
+	 * @see https://buddypress.trac.wordpress.org/ticket/6658
 	 */
 	public function test_delete_field_should_delete_default_field_metadata() {
 		$group = self::factory()->xprofile_group->create();
@@ -263,7 +250,7 @@ class BP_Tests_BP_XProfile_Field_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP6658
+	 * @see https://buddypress.trac.wordpress.org/ticket/6658
 	 */
 	public function test_delete_field_should_delete_custom_field_metadata() {
 		$group = self::factory()->xprofile_group->create();

@@ -3,7 +3,8 @@
  * Tests for attachments during group creation.
  *
  * @group attachments
- * @group BP9019
+ * @see https://buddypress.trac.wordpress.org/ticket/9019
+ * @group groups
  */
 class BP_Tests_Group_Creation_Attachments extends BP_UnitTestCase {
 	private $permalink_structure;
@@ -31,7 +32,7 @@ class BP_Tests_Group_Creation_Attachments extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP9019
+	 * @see https://buddypress.trac.wordpress.org/ticket/9019
 	 */
 	public function test_avatar_script_data_during_group_creation() {
 		$group = $this->go_to_creation_step( 'group-avatar' );
@@ -40,7 +41,7 @@ class BP_Tests_Group_Creation_Attachments extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP9019
+	 * @see https://buddypress.trac.wordpress.org/ticket/9019
 	 */
 	public function test_cover_image_script_data_during_group_creation() {
 		$group = $this->go_to_creation_step( 'group-cover-image' );
@@ -63,7 +64,7 @@ class BP_Tests_Group_Creation_Attachments extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP9019
+	 * @see https://buddypress.trac.wordpress.org/ticket/9019
 	 */
 	public function test_cover_image_inline_css_during_group_creation() {
 		add_filter( 'bp_is_groups_cover_image_active', '__return_true' );

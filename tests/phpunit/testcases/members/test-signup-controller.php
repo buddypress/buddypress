@@ -2,8 +2,6 @@
 /**
  * Signup Controller Tests.
  *
- * @group signup
- * @group signups
  * @group members
  */
 class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
@@ -53,9 +51,6 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 		$this->assertCount( 1, $routes[ $this->endpoint_url . '/resend' ] );
 	}
 
-	/**
-	 * @group get_items
-	 */
 	public function test_get_items() {
 		wp_set_current_user( $this->user );
 
@@ -73,9 +68,6 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 		$this->check_signup_data( $signup, $all_data[0] );
 	}
 
-	/**
-	 * @group get_items
-	 */
 	public function test_get_paginated_items() {
 		wp_set_current_user( $this->user );
 
@@ -103,9 +95,6 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 		$this->assertSame( 2, $headers['X-WP-TotalPages'] );
 	}
 
-	/**
-	 * @group get_items
-	 */
 	public function test_get_items_user_not_logged_in() {
 		$request = new WP_REST_Request( 'GET', $this->endpoint_url );
 		$request->set_param( 'context', 'view' );
@@ -114,9 +103,6 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
 	}
 
-	/**
-	 * @group get_items
-	 */
 	public function test_get_items_unauthorized_user() {
 		$u = static::factory()->user->create();
 
@@ -129,9 +115,6 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
 	}
 
-	/**
-	 * @group get_item
-	 */
 	public function test_get_item() {
 		wp_set_current_user( $this->user );
 
@@ -149,9 +132,6 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 		$this->check_signup_data( $signup, $all_data );
 	}
 
-	/**
-	 * @group get_item
-	 */
 	public function test_get_item_with_invalid_signup_id() {
 		wp_set_current_user( $this->user );
 
@@ -162,9 +142,6 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 		$this->assertErrorResponse( 'bp_rest_invalid_id', $response, 404 );
 	}
 
-	/**
-	 * @group get_item
-	 */
 	public function test_get_item_user_not_logged_in() {
 		$request = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '/%s', $this->signup_id ) );
 		$request->set_param( 'context', 'view' );
@@ -173,9 +150,6 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
 	}
 
-	/**
-	 * @group get_item
-	 */
 	public function test_get_item_unauthorized_user() {
 		$u = static::factory()->user->create();
 
@@ -188,9 +162,6 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
 	}
 
-	/**
-	 * @group create_item
-	 */
 	public function test_create_item() {
 		$request = new WP_REST_Request( 'POST', $this->endpoint_url );
 
@@ -208,9 +179,6 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 		$this->assertTrue( ! isset( $signup['activation_key'] ) );
 	}
 
-	/**
-	 * @group create_item
-	 */
 	public function test_creating_multiple_pending_accounts_with_different_usernames() {
 		$request = new WP_REST_Request( 'POST', $this->endpoint_url );
 		$suffix  = strtolower( wp_generate_password( 12, false, false ) );
@@ -261,9 +229,6 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 		$this->assertSame( 200, $response->get_status() );
 	}
 
-	/**
-	 * @group create_item
-	 */
 	public function test_create_item_with_signup_fields() {
 		$g1 = $this->bp::factory()->xprofile_group->create();
 
@@ -354,9 +319,6 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 		$this->assertContains( $f2, $field_ids );
 	}
 
-	/**
-	 * @group create_item
-	 */
 	public function test_create_item_without_the_required_field_name_field() {
 		$g1 = $this->bp::factory()->xprofile_group->create();
 
@@ -422,9 +384,6 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 		$this->assertErrorResponse( 'bp_rest_signup_field_required', $response, 500 );
 	}
 
-	/**
-	 * @group create_item
-	 */
 	public function test_create_item_without_a_custom_required_field_name_field() {
 		$g1 = $this->bp::factory()->xprofile_group->create();
 
@@ -492,9 +451,6 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 		$this->assertErrorResponse( 'bp_rest_signup_field_required', $response, 500 );
 	}
 
-	/**
-	 * @group create_item
-	 */
 	public function test_create_item_a_custom_required_field_name_field_value_missing() {
 		$g1 = $this->bp::factory()->xprofile_group->create();
 
@@ -564,9 +520,6 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 		$this->assertErrorResponse( 'bp_rest_signup_field_required', $response, 500 );
 	}
 
-	/**
-	 * @group create_item
-	 */
 	public function test_create_item_without_the_default_required_field_value() {
 		$request = new WP_REST_Request( 'POST', $this->endpoint_url );
 		$request->set_param( 'context', 'edit' );
@@ -584,9 +537,6 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 		$this->assertErrorResponse( 'bp_rest_signup_field_required', $response, 500 );
 	}
 
-	/**
-	 * @group create_item
-	 */
 	public function test_create_item_without_the_signup_field_data_param() {
 		$request = new WP_REST_Request( 'POST', $this->endpoint_url );
 		$request->set_param( 'context', 'edit' );
@@ -597,9 +547,6 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 		$this->assertErrorResponse( 'rest_invalid_param', $response, 400 );
 	}
 
-	/**
-	 * @group create_item
-	 */
 	public function test_create_item_unauthorized_password() {
 		$request = new WP_REST_Request( 'POST', $this->endpoint_url );
 		$request->set_param( 'context', 'edit' );
@@ -610,9 +557,6 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 		$this->assertErrorResponse( 'rest_user_invalid_password', $response, 400 );
 	}
 
-	/**
-	 * @group activate_item
-	 */
 	public function test_update_item() {
 		$s1     = $this->create_signup();
 		$signup = new BP_Signup( $s1 );
@@ -628,9 +572,6 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 		$this->check_signup_data( $signup, $all_data );
 	}
 
-	/**
-	 * @group activate_item
-	 */
 	public function test_update_item_invalid_invalid_activation_key() {
 		$request = new WP_REST_Request( 'PUT', sprintf( $this->endpoint_url . '/activate/%s', 'randomkey' ) );
 		$request->set_param( 'context', 'edit' );
@@ -639,9 +580,6 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 		$this->assertErrorResponse( 'bp_rest_invalid_activation_key', $response, 404 );
 	}
 
-	/**
-	 * @group delete_item
-	 */
 	public function test_delete_item() {
 		wp_set_current_user( $this->user );
 
@@ -659,9 +597,6 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 		$this->assertTrue( $deleted['deleted'] );
 	}
 
-	/**
-	 * @group delete_item
-	 */
 	public function test_delete_item_invalid_signup_id() {
 		wp_set_current_user( $this->user );
 
@@ -672,9 +607,6 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 		$this->assertErrorResponse( 'bp_rest_invalid_id', $response, 404 );
 	}
 
-	/**
-	 * @group delete_item
-	 */
 	public function test_delete_item_user_not_logged_in() {
 		$request = new WP_REST_Request( 'DELETE', sprintf( $this->endpoint_url . '/%d', $this->signup_id ) );
 		$request->set_param( 'context', 'edit' );
@@ -683,9 +615,6 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
 	}
 
-	/**
-	 * @group delete_item
-	 */
 	public function test_delete_item_unauthorized_user() {
 		$u = static::factory()->user->create();
 		wp_set_current_user( $u );
@@ -697,9 +626,6 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
 	}
 
-	/**
-	 * @group resend_item
-	 */
 	public function test_resend_activation_email() {
 		$signup_id = $this->create_signup();
 
@@ -715,9 +641,6 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 		$this->assertTrue( $all_data['sent'] );
 	}
 
-	/**
-	 * @group resend_item
-	 */
 	public function test_resend_activation_email_to_active_signup() {
 		$signup_id = $this->create_signup();
 		$signup    = new BP_Signup( $signup_id );
@@ -740,9 +663,6 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 		}
 	}
 
-	/**
-	 * @group resend_item
-	 */
 	public function test_resend_activation_email_to_locked_signup() {
 		$signup_id = $this->create_signup();
 
@@ -766,9 +686,6 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 		);
 	}
 
-	/**
-	 * @group resend_item
-	 */
 	public function test_resend_activation_email_to_locked_signup_with_hook() {
 		$signup_id = $this->create_signup();
 
@@ -790,9 +707,6 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 		remove_filter( 'bp_core_signup_resend_activation_lock_time', '__return_zero' );
 	}
 
-	/**
-	 * @group resend_item
-	 */
 	public function test_resend_activation_email_invalid_signup_id() {
 		$request = new WP_REST_Request( 'PUT', $this->endpoint_url . '/resend' );
 		$request->set_param( 'id', REST_TESTS_IMPOSSIBLY_HIGH_NUMBER );

@@ -40,10 +40,6 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 		parent::tear_down();
 	}
 
-	/**
-	 * @group bp_activity_remove_screen_notifications
-	 * @group mentions
-	 */
 	public function test_bp_activity_remove_screen_notifications_on_single_activity_permalink() {
 		$this->set_permalink_structure( '/%postname%/' );
 		$this->create_notifications();
@@ -73,10 +69,6 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 		$this->assertSame( array(), $notifications );
 	}
 
-	/**
-	 * @group bp_activity_remove_screen_notifications
-	 * @group mentions
-	 */
 	public function test_bp_activity_remove_screen_notifications_on_single_activity_permalink_logged_out() {
 		$this->create_notifications();
 		$this->set_permalink_structure( '/%postname%/' );
@@ -112,10 +104,6 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 		wp_set_current_user( $this->u1 );
 	}
 
-	/**
-	 * @group bp_activity_remove_screen_notifications
-	 * @group mentions
-	 */
 	public function test_bp_activity_remove_screen_notifications_on_single_activity_permalink_wrong_user() {
 		$this->create_notifications();
 		$this->set_permalink_structure( '/%postname%/' );
@@ -151,10 +139,6 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 		wp_set_current_user( $this->u1 );
 	}
 
-	/**
-	 * @group bp_activity_remove_screen_notifications
-	 * @group mentions
-	 */
 	public function test_bp_activity_remove_screen_notifications_on_mentions() {
 		$this->create_notifications();
 		$this->set_permalink_structure( '/%postname%/' );
@@ -185,10 +169,6 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 		$this->assertSame( array(), $notifications );
 	}
 
-	/**
-	 * @group bp_activity_remove_screen_notifications
-	 * @group mentions
-	 */
 	public function test_bp_activity_remove_screen_notifications_on_mentions_logged_out() {
 		$this->create_notifications();
 		$this->set_permalink_structure( '/%postname%/' );
@@ -225,10 +205,6 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 		wp_set_current_user( $this->u1 );
 	}
 
-	/**
-	 * @group bp_activity_remove_screen_notifications
-	 * @group mentions
-	 */
 	public function test_bp_activity_remove_screen_notifications_on_mentions_wrong_user() {
 		$this->create_notifications();
 		$this->set_permalink_structure( '/%postname%/' );
@@ -265,10 +241,6 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 		wp_set_current_user( $this->u1 );
 	}
 
-	/**
-	 * @group bp_notifications_delete_all_notifications_by_type
-	 * @group bp_activity_at_mention_delete_notification
-	 */
 	public function test_bp_activity_at_mention_delete_notification() {
 		$this->create_notifications();
 		$this->set_permalink_structure( '/%postname%/' );
@@ -292,9 +264,7 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group bp_activity_remove_screen_notifications
-	 * @group mentions
-	 * @ticket BP6687
+	 * @see https://buddypress.trac.wordpress.org/ticket/6687
 	 */
 	public function test_bp_activity_remove_screen_notifications_on_new_mentions_cleared() {
 		$this->create_notifications();
@@ -349,9 +319,6 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 		) );
 	}
 
-	/**
-	 * @group bp_activity_format_notifications
-	 */
 	public function test_bp_activity_format_notifications_new_at_mention() {
 		$this->test_format_filter = array();
 
@@ -393,10 +360,6 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 		return $return;
 	}
 
-	/**
-	 * @group bp_activity_update_reply_add_notification
-	 * @group bp_activity_comment_reply_add_notification
-	 */
 	public function test_bp_activity_comment_add_notification() {
 		$this->set_permalink_structure( '/%postname%/' );
 		$a = self::factory()->activity->create( array(
@@ -473,7 +436,7 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP7135
+	 * @see https://buddypress.trac.wordpress.org/ticket/7135
 	 */
 	public function test_activity_reply_notifications_for_blog_comment_to_activity_comment_sync() {
 		$old_user = get_current_user_id();

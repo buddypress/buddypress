@@ -81,7 +81,7 @@ class BP_Tests_Core_Functions_BpCoreGetDirectoryPageIds extends BP_UnitTestCase 
 	}
 
 	/**
-	 * @ticket BP6280
+	 * @see https://buddypress.trac.wordpress.org/ticket/6280
 	 */
 	public function test_inactive_components_should_not_be_removed_if_status_is_all() {
 		$old_page_ids = bp_core_get_directory_page_ids( 'all' );
@@ -96,7 +96,7 @@ class BP_Tests_Core_Functions_BpCoreGetDirectoryPageIds extends BP_UnitTestCase 
 	}
 
 	/**
-	 * @ticket BP6280
+	 * @see https://buddypress.trac.wordpress.org/ticket/6280
 	 */
 	public function test_inactive_components_should_be_removed_if_status_is_active() {
 		$old_page_ids = bp_core_get_directory_page_ids( 'all' );
@@ -111,7 +111,7 @@ class BP_Tests_Core_Functions_BpCoreGetDirectoryPageIds extends BP_UnitTestCase 
 	}
 
 	/**
-	 * @ticket BP6280
+	 * @see https://buddypress.trac.wordpress.org/ticket/6280
 	 */
 	public function test_inactive_components_should_be_removed_if_status_is_unspecified() {
 		$old_page_ids = bp_core_get_directory_page_ids( 'all' );
@@ -290,7 +290,7 @@ class BP_Tests_Core_Functions_BpCoreGetDirectoryPageIds extends BP_UnitTestCase 
 	}
 
 	/**
-	 * @ticket BP8592
+	 * @see https://buddypress.trac.wordpress.org/ticket/8592
 	 */
 	public function test_bp_core_get_directory_pages_ids_ms_non_root_blog_trashed_same_page_id() {
 		$this->skipWithoutMultisite();
@@ -328,7 +328,7 @@ class BP_Tests_Core_Functions_BpCoreGetDirectoryPageIds extends BP_UnitTestCase 
 	}
 
 	/**
-	 * @ticket BP7193
+	 * @see https://buddypress.trac.wordpress.org/ticket/7193
 	 */
 	public function test_bp_core_get_directory_pages_autocreate_register_pages_single_site() {
 		$this->skipWithMultisite();
@@ -355,7 +355,7 @@ class BP_Tests_Core_Functions_BpCoreGetDirectoryPageIds extends BP_UnitTestCase 
 	}
 
 	/**
-	 * @ticket BP7193
+	 * @see https://buddypress.trac.wordpress.org/ticket/7193
 	 */
 	public function test_bp_core_get_directory_pages_autocreate_register_pages_multisite() {
 		$this->skipWithoutMultisite();

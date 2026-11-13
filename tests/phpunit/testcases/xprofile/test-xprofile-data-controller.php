@@ -3,7 +3,6 @@
  * XProfile Data Controller Tests.
  *
  * @group xprofile
- * @group xprofile-data
  */
 class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Testcase {
 	protected $group_id;
@@ -45,16 +44,10 @@ class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertCount( 3, $routes[ $endpoint ] );
 	}
 
-	/**
-	 * @group get_items
-	 */
 	public function test_get_items() {
 		$this->markTestSkipped( 'This endpoint has no collection route or get_items() method.' );
 	}
 
-	/**
-	 * @group get_item
-	 */
 	public function test_get_item() {
 		wp_set_current_user( $this->user );
 		xprofile_set_field_data( $this->field_id, $this->user, 'foo' );
@@ -72,9 +65,6 @@ class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertSame( $all_data['value']['unserialized'], array( 'foo' ) );
 	}
 
-	/**
-	 * @group get_item
-	 */
 	public function test_get_item_with_support_for_the_community_visibility() {
 		toggle_component_visibility();
 
@@ -87,9 +77,6 @@ class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
 	}
 
-	/**
-	 * @group get_item
-	 */
 	public function test_get_item_hidden_for_user() {
 		$f = $this->bp::factory()->xprofile_field->create( array( 'field_group_id' => $this->group_id ) );
 		xprofile_set_field_data( $f, $this->user, 'bar' );
@@ -101,9 +88,6 @@ class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertSame( 403, $response->get_status() );
 	}
 
-	/**
-	 * @group update_item
-	 */
 	public function test_update_item() {
 		wp_set_current_user( $this->user );
 
@@ -117,9 +101,6 @@ class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->check_create_field_response( $response );
 	}
 
-	/**
-	 * @group update_item
-	 */
 	public function test_update_checkbox() {
 		$field_id = $this->bp::factory()->xprofile_field->create(
 			array(
@@ -167,9 +148,6 @@ class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertSame( $data['value']['unserialized'], array( 'Field', 'Value' ) );
 	}
 
-	/**
-	 * @group update_item
-	 */
 	public function test_update_multiselectbox() {
 		$field_id = $this->bp::factory()->xprofile_field->create(
 			array(
@@ -227,9 +205,6 @@ class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertSame( $data['value']['unserialized'], array( 'Option 1', 'Option 2' ) );
 	}
 
-	/**
-	 * @group update_item
-	 */
 	public function test_update_multiselectbox_with_invalid_item() {
 		$field_id = $this->bp::factory()->xprofile_field->create(
 			array(
@@ -261,9 +236,6 @@ class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertErrorResponse( 'rest_user_cannot_save_xprofile_data', $response, 500 );
 	}
 
-	/**
-	 * @group update_item
-	 */
 	public function test_update_multiselectbox_with_empty_value() {
 		$field_id = $this->bp::factory()->xprofile_field->create(
 			array(
@@ -302,9 +274,8 @@ class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Tes
 	}
 
 	/**
-	 * @group update_item
 	 *
-	 * @ticket https://buddypress.trac.wordpress.org/ticket/9127
+	 * @see https://buddypress.trac.wordpress.org/ticket/9127
 	 */
 	public function test_update_multiselectbox_with_apostrophe_value() {
 		$field_id = $this->bp::factory()->xprofile_field->create(
@@ -355,9 +326,8 @@ class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Tes
 	}
 
 	/**
-	 * @group update_item
 	 *
-	 * @ticket https://buddypress.trac.wordpress.org/ticket/9127
+	 * @see https://buddypress.trac.wordpress.org/ticket/9127
 	 */
 	public function test_update_checkbox_with_apostrophe_value() {
 		$field_id = $this->bp::factory()->xprofile_field->create(
@@ -406,9 +376,6 @@ class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertSame( $data['value']['raw'], "a:1:{i:0;s:21:\"I don\\'t travel often\";}" );
 	}
 
-	/**
-	 * @group update_item
-	 */
 	public function test_update_textbox() {
 		$field_id = $this->bp::factory()->xprofile_field->create(
 			array(
@@ -438,9 +405,8 @@ class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Tes
 	}
 
 	/**
-	 * @group update_item
 	 *
-	 * @ticket https://buddypress.trac.wordpress.org/ticket/9127
+	 * @see https://buddypress.trac.wordpress.org/ticket/9127
 	 */
 	public function test_update_textbox_with_apostrophe_value() {
 		$field_id = $this->bp::factory()->xprofile_field->create(
@@ -480,9 +446,6 @@ class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertSame( $data['value']['raw'], "I don't travel often" );
 	}
 
-	/**
-	 * @group update_item
-	 */
 	public function test_update_selectbox() {
 		$field_id = $this->bp::factory()->xprofile_field->create(
 			array(
@@ -521,9 +484,6 @@ class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertSame( $data['value']['raw'], 'select box' );
 	}
 
-	/**
-	 * @group update_item
-	 */
 	public function test_update_item_user_not_logged_in() {
 		$request = new WP_REST_Request( 'POST', sprintf( $this->endpoint_url . '/%d/data/%d', $this->field_id, $this->user ) );
 		$request->set_param( 'context', 'edit' );
@@ -535,9 +495,6 @@ class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
 	}
 
-	/**
-	 * @group update_item
-	 */
 	public function test_update_item_user_without_permission() {
 		$u = static::factory()->user->create();
 		wp_set_current_user( $u );
@@ -552,9 +509,6 @@ class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
 	}
 
-	/**
-	 * @group update_item
-	 */
 	public function test_update_item_user_without_permission_with_param() {
 		$u1 = static::factory()->user->create();
 		$u2 = static::factory()->user->create();
@@ -571,9 +525,6 @@ class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
 	}
 
-	/**
-	 * @group update_item
-	 */
 	public function test_update_item_invalid_field_id() {
 		wp_set_current_user( $this->user );
 
@@ -588,9 +539,6 @@ class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertErrorResponse( 'bp_rest_invalid_id', $response, 404 );
 	}
 
-	/**
-	 * @group update_item
-	 */
 	public function test_update_item_invalid_member_id() {
 		wp_set_current_user( $this->user );
 
@@ -605,16 +553,10 @@ class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertErrorResponse( 'bp_rest_invalid_id', $response, 404 );
 	}
 
-	/**
-	 * @group create_item
-	 */
 	public function test_create_item() {
 		$this->markTestSkipped( 'POST requests are handled by update_item(); no create_item() method exists.' );
 	}
 
-	/**
-	 * @group delete_item
-	 */
 	public function test_delete_item() {
 		$g = $this->bp::factory()->xprofile_group->create();
 		$f = $this->bp::factory()->xprofile_field->create( array( 'field_group_id' => $g ) );
@@ -641,9 +583,6 @@ class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertEmpty( $field_data->last_updated );
 	}
 
-	/**
-	 * @group delete_item
-	 */
 	public function test_delete_item_field_owner_can_delete() {
 		$u = $this->bp::factory()->user->create();
 		$g = $this->bp::factory()->xprofile_group->create();
@@ -675,9 +614,6 @@ class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertEmpty( $field_data->last_updated );
 	}
 
-	/**
-	 * @group delete_item
-	 */
 	public function test_delete_item_invalid_field_id() {
 		wp_set_current_user( $this->user );
 
@@ -688,9 +624,6 @@ class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertErrorResponse( 'bp_rest_invalid_id', $response, 404 );
 	}
 
-	/**
-	 * @group delete_item
-	 */
 	public function test_delete_item_invalid_user_id() {
 		wp_set_current_user( $this->user );
 
@@ -700,9 +633,6 @@ class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertErrorResponse( 'bp_rest_invalid_id', $response, 404 );
 	}
 
-	/**
-	 * @group delete_item
-	 */
 	public function test_delete_item_user_not_logged_in() {
 		$request = new WP_REST_Request( 'DELETE', sprintf( $this->endpoint_url . '/%d/data/%d', $this->field_id, $this->user ) );
 		$request->set_param( 'context', 'edit' );
@@ -711,9 +641,6 @@ class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
 	}
 
-	/**
-	 * @group delete_item
-	 */
 	public function test_delete_item_without_permission() {
 		$u = static::factory()->user->create();
 		wp_set_current_user( $u );
@@ -725,9 +652,6 @@ class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
 	}
 
-	/**
-	 * @group prepare_item
-	 */
 	public function test_prepare_item() {
 		wp_set_current_user( $this->user );
 		xprofile_set_field_data( $this->field_id, $this->user, 'foo' );
@@ -745,9 +669,6 @@ class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertSame( $all_data['value']['unserialized'], array( 'foo' ) );
 	}
 
-	/**
-	 * @group additional_fields
-	 */
 	public function test_additional_fields() {
 		bp_rest_register_field(
 			'xprofile',

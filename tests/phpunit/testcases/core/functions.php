@@ -5,125 +5,80 @@
  */
 class BP_Tests_Core_Functions extends BP_UnitTestCase {
 
-	/**
-	 * @group bp_esc_sql_order
-	 */
 	public function test_bp_esc_sql_order_ASC() {
 		$this->assertSame( 'ASC', bp_esc_sql_order( 'ASC' ) );
 	}
 
-	/**
-	 * @group bp_esc_sql_order
-	 */
 	public function test_bp_esc_sql_order_DESC() {
 		$this->assertSame( 'DESC', bp_esc_sql_order( 'DESC' ) );
 	}
 
-	/**
-	 * @group bp_esc_sql_order
-	 */
 	public function test_bp_esc_sql_order_desc_lowercase() {
 		$this->assertSame( 'DESC', bp_esc_sql_order( 'desc' ) );
 	}
 
-	/**
-	 * @group bp_esc_sql_order
-	 */
 	public function test_bp_esc_sql_order_desc_whitespace() {
 		$this->assertSame( 'DESC', bp_esc_sql_order( ' desc ' ) );
 	}
 
-	/**
-	 * @group bp_esc_sql_order
-	 */
 	public function test_bp_esc_sql_order_invalid() {
 		$this->assertSame( 'ASC', bp_esc_sql_order( 'In ur base killin ur d00dz' ) );
 	}
 
-	/**
-	 * @group bp_core_time_since
-	 */
 	public function test_bp_core_time_since_years_months() {
 		$now = time();
 		$then = $now - ( 3 * YEAR_IN_SECONDS ) - ( 3 * 30 * DAY_IN_SECONDS );
 		$this->assertSame( '3 years, 3 months ago', bp_core_time_since( $then, $now ) );
 	}
 
-	/**
-	 * @group bp_core_time_since
-	 */
 	public function test_bp_core_time_since_years_nomonths() {
 		$now = time();
 		$then = $now - ( 3 * YEAR_IN_SECONDS );
 		$this->assertSame( '3 years ago', bp_core_time_since( $then, $now ) );
 	}
 
-	/**
-	 * @group bp_core_time_since
-	 */
 	public function test_bp_core_time_since_months_weeks() {
 		$now = time();
 		$then = $now - ( 3 * 30 * DAY_IN_SECONDS ) - ( 3 * WEEK_IN_SECONDS );
 		$this->assertSame( '3 months, 3 weeks ago', bp_core_time_since( $then, $now ) );
 	}
 
-	/**
-	 * @group bp_core_time_since
-	 */
 	public function test_bp_core_time_since_months_noweeks() {
 		$now = time();
 		$then = $now - ( 3 * 30 * DAY_IN_SECONDS );
 		$this->assertSame( '3 months ago', bp_core_time_since( $then, $now ) );
 	}
 
-	/**
-	 * @group bp_core_time_since
-	 */
 	public function test_bp_core_time_since_weeks_days() {
 		$now = time();
 		$then = $now - ( 3 * WEEK_IN_SECONDS ) - ( 3 * DAY_IN_SECONDS );
 		$this->assertSame( '3 weeks, 3 days ago', bp_core_time_since( $then, $now ) );
 	}
 
-	/**
-	 * @group bp_core_time_since
-	 */
 	public function test_bp_core_time_since_weeks_nodays() {
 		$now = time();
 		$then = $now - ( 3 * WEEK_IN_SECONDS );
 		$this->assertSame( '3 weeks ago', bp_core_time_since( $then, $now ) );
 	}
 
-	/**
-	 * @group bp_core_time_since
-	 */
 	public function test_bp_core_time_since_days_hours() {
 		$now = time();
 		$then = $now - ( 3 * DAY_IN_SECONDS ) - ( 3 * HOUR_IN_SECONDS );
 		$this->assertSame( '3 days, 3 hours ago', bp_core_time_since( $then, $now ) );
 	}
 
-	/**
-	 * @group bp_core_time_since
-	 */
 	public function test_bp_core_time_since_days_nohours() {
 		$now = time();
 		$then = $now - ( 3 * DAY_IN_SECONDS );
 		$this->assertSame( '3 days ago', bp_core_time_since( $then, $now ) );
 	}
 
-	/**
-	 * @group bp_core_time_since
-	 */
 	public function test_bp_core_time_since_hours_minutes() {
 		$now = time();
 		$then = $now - ( 3 * HOUR_IN_SECONDS ) - ( 3 * MINUTE_IN_SECONDS );
 		$this->assertSame( '3 hours, 3 minutes ago', bp_core_time_since( $then, $now ) );
 	}
 
-	/**
-	 * @group bp_core_time_since
-	 */
 	public function test_bp_core_time_since_hours_nominutes() {
 		$now = time();
 		$then = $now - ( 3 * HOUR_IN_SECONDS );
@@ -131,8 +86,7 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group bp_core_time_since
-	 * @ticket BP5017
+	 * @see https://buddypress.trac.wordpress.org/ticket/5017
 	 */
 	public function test_bp_core_time_since_minutes_seconds() {
 		$now = time();
@@ -140,18 +94,12 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 		$this->assertSame( '3 minutes ago', bp_core_time_since( $then, $now ) );
 	}
 
-	/**
-	 * @group bp_core_time_since
-	 */
 	public function test_bp_core_time_since_minutes_noseconds() {
 		$now = time();
 		$then = $now - ( 3 * MINUTE_IN_SECONDS );
 		$this->assertSame( '3 minutes ago', bp_core_time_since( $then, $now ) );
 	}
 
-	/**
-	 * @group bp_core_time_since
-	 */
 	public function test_bp_core_time_since_seconds() {
 		$now = time();
 		$then = $now - 3;
@@ -161,7 +109,6 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 	/**
 	 * Sanity check for the singular version of 'year'
 	 *
-	 * @group bp_core_time_since
 	 */
 	public function test_bp_core_time_since_year() {
 		$now = time();
@@ -169,27 +116,18 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 		$this->assertSame( '1 year ago', bp_core_time_since( $then, $now ) );
 	}
 
-	/**
-	 * @group bp_core_time_since
-	 */
 	public function test_bp_core_time_since_rightnow() {
 		$now = time();
 		$then = $now;
 		$this->assertSame( 'right now', bp_core_time_since( $then, $now ) );
 	}
 
-	/**
-	 * @group bp_core_time_since
-	 */
 	public function test_bp_core_time_since_future() {
 		$now = time();
 		$then = $now + 100;
 		$this->assertSame( 'sometime ago', bp_core_time_since( $then, $now ) );
 	}
 
-	/**
-	 * @group bp_format_time
-	 */
 	public function test_bp_format_time_gmt_offset_no_timezone_string() {
 		$time          = 1395169200;
 		$gmt_offset    = '-6';
@@ -204,9 +142,6 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 		$this->assertSame( 'March 18, 2014 at 1:00 pm', bp_format_time( $time, $just_date, $localize_time ) );
 	}
 
-	/**
-	 * @group bp_format_time
-	 */
 	public function test_bp_format_time_timezone_string_no_gmt_offset() {
 		$time           = 1395169200;
 		$timzone_string = 'America/Chicago';
@@ -221,9 +156,6 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 		$this->assertSame( 'March 18, 2014 at 2:00 pm', bp_format_time( $time, $just_date, $localize_time ) );
 	}
 
-	/**
-	 * @group bp_format_time
-	 */
 	public function test_bp_format_time_gmt_offset_no_localize() {
 		$time          = 1395169200;
 		$gmt_offset    = '-6';
@@ -238,9 +170,6 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 		$this->assertSame( 'March 18, 2014 at 7:00 pm', bp_format_time( $time, $just_date, $localize_time ) );
 	}
 
-	/**
-	 * @group bp_format_time
-	 */
 	public function test_bp_format_time_timezone_string_no_localize() {
 		$time           = 1395169200;
 		$timzone_string = 'America/Chicago';
@@ -255,16 +184,10 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 		$this->assertSame( 'March 18, 2014 at 7:00 pm', bp_format_time( $time, $just_date, $localize_time ) );
 	}
 
-	/**
-	 * @group bp_core_get_iso8601_date
-	 */
 	public function test_bp_core_get_iso8601_date_invalid_date() {
 		$this->assertSame( '', bp_core_get_iso8601_date( 'Not a date' ) );
 	}
 
-	/**
-	 * @group bp_sort_by_key
-	 */
 	public function test_bp_sort_by_key_arrays_num() {
 		$items = array(
 			array(
@@ -299,9 +222,6 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 		$this->assertSame( $expected, bp_sort_by_key( $items, 'value', 'num' ) );
 	}
 
-	/**
-	 * @group bp_sort_by_key
-	 */
 	public function test_bp_sort_by_key_objects_num() {
 		$items = array(
 			new stdClass,
@@ -339,9 +259,6 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 		);
 	}
 
-	/**
-	 * @group bp_sort_by_key
-	 */
 	public function test_bp_sort_by_key_num_should_respect_0() {
 		$items = array(
 			array(
@@ -376,9 +293,6 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 		$this->assertSame( $expected, bp_sort_by_key( $items, 'value', 'num' ) );
 	}
 
-	/**
-	 * @group bp_alpha_sort_by_key
-	 */
 	public function test_bp_alpha_sort_by_key_arrays() {
 		$items = array(
 			array(
@@ -413,9 +327,6 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 		$this->assertSame( $expected, bp_alpha_sort_by_key( $items, 'name' ) );
 	}
 
-	/**
-	 * @group bp_alpha_sort_by_key
-	 */
 	public function test_bp_alpha_sort_by_key_objects() {
 		$items = array(
 			new stdClass,
@@ -453,9 +364,6 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 		);
 	}
 
-	/**
-	 * @group bp_sort_by_key
-	 */
 	public function test_bp_sort_by_key_arrays_num_preserve_keys() {
 		$items = array(
 			'p' => array(
@@ -490,9 +398,6 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 		$this->assertSame( $expected, bp_sort_by_key( $items, 'value', 'num', true ) );
 	}
 
-	/**
-	 * @group bp_sort_by_key
-	 */
 	public function test_bp_sort_by_key_num_should_respect_0_preserve_keys() {
 		$items = array(
 			's' => array(
@@ -527,10 +432,6 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 		$this->assertSame( $expected, bp_sort_by_key( $items, 'value', 'num', true ) );
 	}
 
-	/**
-	 * @group pagination
-	 * @group bp_sanitize_pagination_arg
-	 */
 	public function test_bp_sanitize_pagination_arg_zero() {
 		$request          = $_REQUEST;
 		$arg              = 'bp_pagination_test';
@@ -543,10 +444,6 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 		$_REQUEST = $request;
 	}
 
-	/**
-	 * @group pagination
-	 * @group bp_sanitize_pagination_arg
-	 */
 	public function test_bp_sanitize_pagination_arg_negative() {
 		$request          = $_REQUEST;
 		$arg              = 'bp_pagination_test';
@@ -559,9 +456,6 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 		$_REQUEST = $request;
 	}
 
-	/**
-	 * @group bp_core_get_directory_pages
-	 */
 	public function test_bp_core_get_directory_pages_after_page_edit() {
 		// Set the cache
 		$pages = bp_core_get_directory_pages();
@@ -584,9 +478,6 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 		$this->assertFalse( wp_cache_get( 'directory_pages', 'bp_pages' ) );
 	}
 
-	/**
-	 * @group bp_core_get_root_options
-	 */
 	public function test_bp_core_get_root_options_cache_invalidate() {
 		$keys = array_keys( bp_get_default_options() );
 		$keys[] = 'registration';
@@ -619,9 +510,6 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 		}
 	}
 
-	/**
-	 * @group bp_core_get_root_option
-	 */
 	public function test_bp_core_get_root_option_with_unpopulated_cache() {
 		// Back up and unset global cache.
 		$old_options = buddypress()->site_options;
@@ -633,9 +521,6 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 		buddypress()->site_options = $old_options;
 	}
 
-	/**
-	 * @group bp_core_get_root_option
-	 */
 	public function test_bp_core_get_root_option_with_populated_cache() {
 		// Back up and unset global cache.
 		$old_options = buddypress()->site_options;
@@ -645,10 +530,6 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 		$this->assertSame( $expected, bp_core_get_root_option( 'avatar_default' ) );
 	}
 
-	/**
-	 * @group bp_core_time_since
-	 * @group bp_core_current_time
-	 */
 	public function test_bp_core_time_since_timezone_minute_ago() {
 		// backup timezone
 		$tz_backup = date_default_timezone_get();
@@ -664,10 +545,6 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 		}
 	}
 
-	/**
-	 * @group bp_core_time_since
-	 * @group bp_core_current_time
-	 */
 	public function test_bp_core_time_since_timezone() {
 		// backup timezone
 		$tz_backup = date_default_timezone_get();
@@ -683,9 +560,6 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 		}
 	}
 
-	/**
-	 * @group bp_core_time_since
-	 */
 	public function test_bp_core_time_since_mysql_and_unix_timestamp_return_same_value() {
 		$mysql_date   = '2008-03-25 17:13:55';
 
@@ -696,8 +570,7 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group bp_core_time_since
-	 * @ticket BP9284
+	 * @see https://buddypress.trac.wordpress.org/ticket/9284
 	 * @dataProvider user_registration_site_offsets_provider
 	 */
 	public function test_user_registered_should_be_utc_with_site_offset( $gmt_offset ) {
@@ -725,8 +598,7 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group bp_core_time_since
-	 * @ticket BP9284
+	 * @see https://buddypress.trac.wordpress.org/ticket/9284
 	 * @dataProvider user_registration_site_offsets_provider
 	 */
 	public function test_bp_core_time_since_user_registered_with_site_offset( $gmt_offset ) {
@@ -762,8 +634,7 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group bp_attachments
-	 * @group bp_upload_dir
+	 * @group attachments
 	 */
 	public function test_bp_upload_dir() {
 		$expected_upload_dir = wp_upload_dir();
@@ -782,9 +653,6 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 		$this->assertSame( $expected_upload_dir, $tested_upload_dir );
 	}
 
-	/**
-	 * @group bp_is_active
-	 */
 	public function test_bp_is_active_component() {
 		$bp = buddypress();
 		$reset_active_components = $bp->active_components;
@@ -812,9 +680,6 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 		$bp->active_components = $reset_active_components;
 	}
 
-	/**
-	 * @group bp_get_root_slug
-	 */
 	public function test_bp_get_root_slug_with_legacy_component_sentinels() {
 		$bp                      = buddypress();
 		$active_components       = $bp->active_components;
@@ -836,9 +701,6 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 		}
 	}
 
-	/**
-	 * @group bp_is_active
-	 */
 	public function test_bp_is_active_feature() {
 		$bp = buddypress();
 		$reset_active_components = $bp->active_components;
@@ -872,7 +734,7 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group bp_attachments
+	 * @group attachments
 	 */
 	public function test_bp_attachments_get_allowed_types() {
 		$supported = array( 'jpg', 'jpeg', 'jpe', 'gif', 'png', 'webp' );
@@ -908,9 +770,6 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 		$this->assertStringContainsString( $link_color, $result );
 	}
 
-	/**
-	 * @group bp_core_add_page_mappings
-	 */
 	public function test_bp_core_add_page_mappings() {
 		$bp = buddypress();
 		$reset_bp_pages = $bp->pages;
@@ -935,8 +794,7 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group bp_core_add_page_mappings
-	 * @ticket BP8187
+	 * @see https://buddypress.trac.wordpress.org/ticket/8187
 	 */
 	public function test_bp_core_add_page_mappings_in_multisite_subdirectory() {
 		$this->skipWithoutMultisite();
@@ -994,7 +852,7 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP8765
+	 * @see https://buddypress.trac.wordpress.org/ticket/8765
 	 */
 	public function test_bp_core_check_for_moderation() {
 		$u = self::factory()->user->create();

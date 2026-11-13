@@ -2,8 +2,7 @@
 /**
  * Suggestions API tests specifically for non-authenticated (anonymous) users.
  *
- * @group api
- * @group suggestions
+ * @group core
  */
 class BP_Tests_Suggestions_Non_Authenticated extends BP_UnitTestCase {
 	protected static $group_ids    = array();
