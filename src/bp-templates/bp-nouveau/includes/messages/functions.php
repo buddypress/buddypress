@@ -60,7 +60,7 @@ function bp_nouveau_messages_register_scripts( $scripts = array() ) {
 				'version'      => bp_get_version(),
 				'footer'       => true,
 			),
-			'bp-nouveau-messages' => array(
+			'bp-nouveau-messages'    => array(
 				'file'         => 'js/buddypress-messages%s.js',
 				'dependencies' => array( 'bp-nouveau', 'json2', 'wp-backbone', 'bp-nouveau-messages-at' ),
 				'footer'       => true,
@@ -140,33 +140,33 @@ function bp_nouveau_messages_localize_scripts( $params = array() ) {
 	}
 
 	$params['messages'] = array(
-		'errors'            => array(
+		'errors'          => array(
 			'send_to'         => __( 'Please add at least one recipient.', 'buddypress' ),
 			'subject'         => __( 'Please add a subject to your message.', 'buddypress' ),
 			'message_content' => __( 'Please add some content to your message.', 'buddypress' ),
 		),
-		'nonces'            => array(
+		'nonces'          => array(
 			'send' => wp_create_nonce( 'messages_send_message' ),
 		),
-		'loading'           => __( 'Loading messages. Please wait.', 'buddypress' ),
-		'doingAction'       => array(
+		'loading'         => __( 'Loading messages. Please wait.', 'buddypress' ),
+		'doingAction'     => array(
 			'read'   => __( 'Marking messages as read. Please wait.', 'buddypress' ),
 			'unread' => __( 'Marking messages as unread. Please wait.', 'buddypress' ),
 			'delete' => __( 'Deleting messages. Please wait.', 'buddypress' ),
 			'star'   => __( 'Starring messages. Please wait.', 'buddypress' ),
 			'unstar' => __( 'Unstarring messages. Please wait.', 'buddypress' ),
 		),
-		'bulk_actions'      => bp_nouveau_messages_get_bulk_actions(),
-		'howto'             => __( 'Click on the message title to preview it in the Active conversation box below.', 'buddypress' ),
-		'howtoBulk'         => __( 'Use the select box to define your bulk action and click on the &#10003; button to apply.', 'buddypress' ),
-		'toOthers'          => array(
+		'bulk_actions'    => bp_nouveau_messages_get_bulk_actions(),
+		'howto'           => __( 'Click on the message title to preview it in the Active conversation box below.', 'buddypress' ),
+		'howtoBulk'       => __( 'Use the select box to define your bulk action and click on the &#10003; button to apply.', 'buddypress' ),
+		'toOthers'        => array(
 			'one'  => __( '(and 1 other)', 'buddypress' ),
 
 			/* translators: %s: number of message recipients */
 			'more' => __( '(and %d others)', 'buddypress' ),
 		),
-		'rootUrl'           => wp_parse_url( $root_url, PHP_URL_PATH ),
-		'supportedRoutes'   => $routes,
+		'rootUrl'         => wp_parse_url( $root_url, PHP_URL_PATH ),
+		'supportedRoutes' => $routes,
 	);
 
 	// Star private messages.
@@ -174,11 +174,11 @@ function bp_nouveau_messages_localize_scripts( $params = array() ) {
 		$params['messages'] = array_merge(
 			$params['messages'],
 			array(
-				'strings' => array(
-					'text_unstar'  => __( 'Unstar', 'buddypress' ),
-					'text_star'    => __( 'Star', 'buddypress' ),
-					'title_unstar' => __( 'Starred', 'buddypress' ),
-					'title_star'   => __( 'Not starred', 'buddypress' ),
+				'strings'          => array(
+					'text_unstar'         => __( 'Unstar', 'buddypress' ),
+					'text_star'           => __( 'Star', 'buddypress' ),
+					'title_unstar'        => __( 'Starred', 'buddypress' ),
+					'title_star'          => __( 'Not starred', 'buddypress' ),
 					'title_unstar_thread' => __( 'Remove all starred messages in this thread', 'buddypress' ),
 					'title_star_thread'   => __( 'Star the first message in this thread', 'buddypress' ),
 				),

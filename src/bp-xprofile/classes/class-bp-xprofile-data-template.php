@@ -383,7 +383,7 @@ class BP_XProfile_Data_Template {
 		for ( $i = 0, $count = count( $this->group->fields ); $i < $count; ++$i ) {
 			$field = &$this->group->fields[ $i ];
 
-			if ( ! empty( $field->data ) && ( $field->data->value !== null ) ) {
+			if ( ! empty( $field->data ) && ( null !== $field->data->value ) ) {
 				$has_data = true;
 			}
 		}

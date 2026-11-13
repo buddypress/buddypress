@@ -34,14 +34,15 @@ module.exports = function( grunt ) {
 			'!bp-templates/bp-nouveau/css/buddypress.css',
 			'!bp-templates/bp-nouveau/css/twenty*.css',
 			'!bp-templates/bp-nouveau/css/primary-nav.css',
-			'!bp-templates/bp-nouveau/sass/priority-nav.scss',
-			'!bp-templates/bp-nouveau/sass/bp-tooltips.scss',
+			'!bp-templates/bp-nouveau/css/priority-nav.css',
+			'!bp-templates/bp-nouveau/css/bp-tooltips.css',
 			'!bp-core/admin/css/hello.css',
+			'!bp-core/css/bp-tooltips.css',
 			'!src/js/**',
 			'!**/blocks/*/index.css'
 		],
 
-		sass = require('node-sass');
+		sass = require('sass');
 
 	require( 'matchdep' ).filterDev( ['grunt-*', '!grunt-legacy-util'] ).forEach( grunt.loadNpmTasks );
 	grunt.util = require( 'grunt-legacy-util' );
@@ -351,18 +352,10 @@ module.exports = function( grunt ) {
 					src: [SOURCE_DIR + '/**/*.js'].concat( BP_EXCLUDED_JS, BP_EXCLUDED_MISC )
 				}
 			}
-		},
-		patch: {
-			options: {
-				tracUrl: 'buddypress.trac.wordpress.org'
-			}
-		},
-		upload_patch: {
-			options: {
-				tracUrl: 'buddypress.trac.wordpress.org'
-			}
 		}
 	});
+
+	grunt.registerMultiTask( 'imagemin', 'Losslessly optimizes PNG, JPEG and GIF images.', require( './tools/imagemin/task.js' )( grunt ) );
 
 	/**
 	 * Register tasks.
@@ -388,9 +381,6 @@ module.exports = function( grunt ) {
 	grunt.registerTask( 'test', 'Run all unit test tasks.', ['phpunit:default', 'phpunit:multisite'] );
 
 	grunt.registerTask( 'jstest', 'Runs all JavaScript tasks.', [ 'jsvalidate:src', 'jshint' ] );
-
-	// Patch task.
-	grunt.renameTask( 'patch_wordpress', 'patch' );
 
 	// Default task.
 	grunt.registerTask( 'default', ['src'] );

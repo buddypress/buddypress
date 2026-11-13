@@ -190,7 +190,7 @@ class BP_Tests_XProfile_BpXprofileField_MemberTypes extends BP_UnitTestCase {
 
 		$found = BP_XProfile_Field::get_fields_for_member_type( 'foo' );
 
-		$this->assertTrue( $num_queries + 2 <= $wpdb->num_queries );
+		$this->assertGreaterThanOrEqual( $num_queries + 2, $wpdb->num_queries );
 		$this->assertEqualSets( array( 1 ), array_keys( $found ) );
 	}
 

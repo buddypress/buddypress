@@ -305,7 +305,7 @@ class BP_Activity_Activity {
 		 *                      False otherwise.
 		 * @param string $type  The type of the activity we are about to insert.
 		 */
-		$type_requires_content = (bool) apply_filters( 'bp_activity_type_requires_content', $this->type === 'activity_update', $this->type );
+		$type_requires_content = (bool) apply_filters( 'bp_activity_type_requires_content', 'activity_update' === $this->type, $this->type );
 		if ( $type_requires_content && ! $this->content ) {
 			if ( 'bool' === $this->error_type ) {
 				return false;
@@ -426,16 +426,16 @@ class BP_Activity_Activity {
 			);
 
 			$old_args_keys = array(
-				0 => 'max',
-				1 => 'page',
-				2 => 'per_page',
-				3 => 'sort',
-				4 => 'search_terms',
-				5 => 'filter',
-				6 => 'display_comments',
-				7 => 'show_hidden',
-				8 => 'exclude',
-				9 => 'in',
+				0  => 'max',
+				1  => 'page',
+				2  => 'per_page',
+				3  => 'sort',
+				4  => 'search_terms',
+				5  => 'filter',
+				6  => 'display_comments',
+				7  => 'show_hidden',
+				8  => 'exclude',
+				9  => 'in',
 				10 => 'spam',
 			);
 
@@ -676,6 +676,7 @@ class BP_Activity_Activity {
 		 * Filters the MySQL WHERE conditions for the Activity items get method.
 		 *
 		 * @since 1.9.0
+		 * @deprecated 15.0.0 Use the `bp_activity_get_sql_clauses` filter instead.
 		 *
 		 * @param array  $where_conditions Current conditions for MySQL WHERE statement.
 		 * @param array  $r                Parsed arguments passed into method.
@@ -683,7 +684,7 @@ class BP_Activity_Activity {
 		 * @param string $from_sql         Current FROM MySQL statement at point of execution.
 		 * @param string $join_sql         Current INNER JOIN MySQL statement at point of execution.
 		 */
-		$where_conditions = apply_filters( 'bp_activity_get_where_conditions', $where_conditions, $r, $select_sql, $from_sql, $join_sql );
+		$where_conditions = apply_filters_deprecated( 'bp_activity_get_where_conditions', array( $where_conditions, $r, $select_sql, $from_sql, $join_sql ), '15.0.0', 'bp_activity_get_sql_clauses' );
 
 		// Join the where conditions together.
 		$where_sql = 'WHERE ' . join( ' AND ', $where_conditions );
@@ -692,6 +693,7 @@ class BP_Activity_Activity {
 		 * Filter the MySQL JOIN clause for the main activity query.
 		 *
 		 * @since 2.5.0
+		 * @deprecated 15.0.0 Use the `bp_activity_get_sql_clauses` filter instead.
 		 *
 		 * @param string $join_sql   JOIN clause.
 		 * @param array  $r          Method parameters.
@@ -699,7 +701,49 @@ class BP_Activity_Activity {
 		 * @param string $from_sql   Current FROM MySQL statement.
 		 * @param string $where_sql  Current WHERE MySQL statement.
 		 */
-		$join_sql = apply_filters( 'bp_activity_get_join_sql', $join_sql, $r, $select_sql, $from_sql, $where_sql );
+		$join_sql = apply_filters_deprecated( 'bp_activity_get_join_sql', array( $join_sql, $r, $select_sql, $from_sql, $where_sql ), '15.0.0', 'bp_activity_get_sql_clauses' );
+
+		$sql_clauses = array(
+			'select'           => $select_sql,
+			'from'             => $from_sql,
+			'join'             => $join_sql,
+			'where_conditions' => $where_conditions,
+			'groupby'          => '',
+			'orderby'          => $order_by,
+			'limits'           => '',
+		);
+
+		$has_sql_clauses_filter = has_filter( 'bp_activity_get_sql_clauses' );
+
+		/**
+		 * Filters the SQL clauses for the Activity items get method.
+		 *
+		 * FROM, JOIN, and WHERE clauses are shared with the count query.
+		 * Selection and pagination retain the local query structure.
+		 *
+		 * @since 15.0.0
+		 *
+		 * @param array $sql_clauses {
+		 *     SQL clauses for the query.
+		 *
+		 *     @type string   $select           SELECT clause.
+		 *     @type string   $from             FROM clause.
+		 *     @type string   $join             JOIN clauses.
+		 *     @type string[] $where_conditions WHERE conditions without the WHERE keyword.
+		 *     @type string   $groupby          Reserved; grouping retains the local query structure.
+		 *     @type string   $orderby          Ordering expression, without ORDER BY or direction.
+		 *     @type string   $limits           Reserved; pagination is assembled locally.
+		 * }
+		 * @param array $r Parsed arguments passed into the method.
+		 */
+		$sql_clauses = apply_filters( 'bp_activity_get_sql_clauses', $sql_clauses, $r );
+
+		$select_sql       = $sql_clauses['select'];
+		$from_sql         = $sql_clauses['from'];
+		$join_sql         = $sql_clauses['join'];
+		$where_conditions = $sql_clauses['where_conditions'];
+		$where_sql        = 'WHERE ' . join( ' AND ', $where_conditions );
+		$order_by         = $sql_clauses['orderby'];
 
 		// Sanitize page and per_page parameters.
 		$page     = absint( $r['page'] );
@@ -731,12 +775,15 @@ class BP_Activity_Activity {
 			// Legacy queries joined against the user table.
 			$select_sql = 'SELECT DISTINCT a.*, u.user_email, u.user_nicename, u.user_login, u.display_name';
 			$from_sql   = " FROM {$bp->activity->table_name} a LEFT JOIN {$wpdb->users} u ON a.user_id = u.ID";
+			if ( $has_sql_clauses_filter ) {
+				$from_sql = " {$sql_clauses['from']} LEFT JOIN {$wpdb->users} u ON a.user_id = u.ID";
+			}
 
 			if ( ! empty( $page ) && ! empty( $per_page ) ) {
 				$pag_sql = $wpdb->prepare( 'LIMIT %d, %d', absint( ( $page - 1 ) * $per_page ), $per_page );
 
 				/** This filter is documented in bp-activity/classes/class-bp-activity-activity.php */
-				$activity_sql = apply_filters( 'bp_activity_get_user_join_filter', "{$select_sql} {$from_sql} {$join_sql} {$where_sql} ORDER BY a.date_recorded {$sort}, a.id {$sort} {$pag_sql}", $select_sql, $from_sql, $where_sql, $sort, $pag_sql );
+				$activity_sql = apply_filters_deprecated( 'bp_activity_get_user_join_filter', array( "{$select_sql} {$from_sql} {$join_sql} {$where_sql} ORDER BY a.date_recorded {$sort}, a.id {$sort} {$pag_sql}", $select_sql, $from_sql, $where_sql, $sort, $pag_sql ), '15.0.0', 'bp_activity_get_sql' );
 			} else {
 				$pag_sql = '';
 
@@ -744,6 +791,7 @@ class BP_Activity_Activity {
 				 * Filters the legacy MySQL query statement so plugins can alter before results are fetched.
 				 *
 				 * @since 1.5.0
+				 * @deprecated 15.0.0 Use the `bp_activity_get_sql` filter instead.
 				 *
 				 * @param string $value      Concatenated MySQL statement pieces to be query results with for legacy query.
 				 * @param string $select_sql Final SELECT MySQL statement portion for legacy query.
@@ -752,8 +800,20 @@ class BP_Activity_Activity {
 				 * @param string $sort       Final sort direction for legacy query.
 				 * @param string $pag_sql    LIMIT clause for paged queries; empty for unpaged queries.
 				 */
-				$activity_sql = apply_filters( 'bp_activity_get_user_join_filter', "{$select_sql} {$from_sql} {$join_sql} {$where_sql} ORDER BY a.date_recorded {$sort}, a.id {$sort}", $select_sql, $from_sql, $where_sql, $sort, $pag_sql );
+				$activity_sql = apply_filters_deprecated( 'bp_activity_get_user_join_filter', array( "{$select_sql} {$from_sql} {$join_sql} {$where_sql} ORDER BY a.date_recorded {$sort}, a.id {$sort}", $select_sql, $from_sql, $where_sql, $sort, $pag_sql ), '15.0.0', 'bp_activity_get_sql' );
 			}
+
+			/**
+			 * Filters the final SQL for the Activity items get method.
+			 *
+			 * @since 15.0.0
+			 *
+			 * @param string $activity_sql SQL used to query the paged results.
+			 * @param string $query_type   Query type for this call: `paged`.
+			 * @param array  $r            Parsed arguments passed into the method.
+			 * @param array  $sql_clauses  SQL clauses for the query.
+			 */
+			$activity_sql = apply_filters( 'bp_activity_get_sql', $activity_sql, 'paged', $r, $sql_clauses );
 
 			$activities = $wpdb->get_results( $activity_sql );
 
@@ -782,11 +842,15 @@ class BP_Activity_Activity {
 			 * Filters the paged activities MySQL statement.
 			 *
 			 * @since 2.0.0
+			 * @deprecated 15.0.0 Use the `bp_activity_get_sql` filter instead.
 			 *
 			 * @param string $activity_ids_sql MySQL statement used to query for Activity IDs.
 			 * @param array  $r                Array of arguments passed into method.
 			 */
-			$activity_ids_sql = apply_filters( 'bp_activity_paged_activities_sql', $activity_ids_sql, $r );
+			$activity_ids_sql = apply_filters_deprecated( 'bp_activity_paged_activities_sql', array( $activity_ids_sql, $r ), '15.0.0', 'bp_activity_get_sql' );
+
+			/** This filter is documented in bp-activity/classes/class-bp-activity-activity.php */
+			$activity_ids_sql = apply_filters( 'bp_activity_get_sql', $activity_ids_sql, 'paged', $r, $sql_clauses );
 
 			if ( $r['cache_results'] ) {
 				/*
@@ -853,17 +917,24 @@ class BP_Activity_Activity {
 		// Only query the count total if requested.
 		if ( ! empty( $r['count_total'] ) || $only_get_count ) {
 			$total_activities_sql = "SELECT count(DISTINCT a.id) FROM {$bp->activity->table_name} a {$join_sql} {$where_sql}";
+			if ( $has_sql_clauses_filter ) {
+				$total_activities_sql = "SELECT count(DISTINCT a.id) {$sql_clauses['from']} {$join_sql} {$where_sql}";
+			}
 
 			/**
 			 * Filters the total activities MySQL statement.
 			 *
 			 * @since 1.5.0
+			 * @deprecated 15.0.0 Use the `bp_activity_get_sql` filter instead.
 			 *
 			 * @param string $total_activities_sql MySQL statement used to query for total activities.
 			 * @param string $where_sql            MySQL WHERE statement portion.
 			 * @param string $sort                 Sort direction for query.
 			 */
-			$total_activities_sql = apply_filters( 'bp_activity_total_activities_sql', $total_activities_sql, $where_sql, $sort );
+			$total_activities_sql = apply_filters_deprecated( 'bp_activity_total_activities_sql', array( $total_activities_sql, $where_sql, $sort ), '15.0.0', 'bp_activity_get_sql' );
+
+			/** This filter is documented in bp-activity/classes/class-bp-activity-activity.php */
+			$total_activities_sql = apply_filters( 'bp_activity_get_sql', $total_activities_sql, 'count', $r, $sql_clauses );
 
 			/*
 			 * Queries that include 'last_activity' are cached separately,
@@ -1919,6 +1990,7 @@ class BP_Activity_Activity {
 		$activities    = bp_activity_get_sitewide( array( 'max' => $limit ) );
 		$activity_feed = array();
 
+		// phpcs:disable WordPress.PHP.NoSilencedErrors.Discouraged -- Activity content can contain unmatched placeholders.
 		for ( $i = 0, $count = count( $activities ); $i < $count; ++$i ) {
 			$title                              = explode( '<span', $activities[ $i ]['content'] );
 			$activity_feed[ $i ]['title']       = wp_strip_all_tags( $title[0] );
@@ -1926,6 +1998,7 @@ class BP_Activity_Activity {
 			$activity_feed[ $i ]['description'] = @sprintf( $activities[ $i ]['content'], '' );
 			$activity_feed[ $i ]['pubdate']     = $activities[ $i ]['date_recorded'];
 		}
+		// phpcs:enable WordPress.PHP.NoSilencedErrors.Discouraged
 
 		return $activity_feed;
 	}

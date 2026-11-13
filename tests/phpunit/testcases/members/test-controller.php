@@ -240,7 +240,7 @@ class BP_Tests_Members_REST_Controller extends BP_Test_REST_Controller_Testcase 
 
 		$user_ids = wp_list_pluck( $all_data, 'id' );
 
-		$this->assertFalse( in_array( $u2, $user_ids, true ) );
+		$this->assertNotContains( $u2, $user_ids );
 		$this->assertSame( array( $u ), $user_ids );
 	}
 
@@ -301,7 +301,7 @@ class BP_Tests_Members_REST_Controller extends BP_Test_REST_Controller_Testcase 
 
 		$this->assertNotEmpty( $all_data );
 		$this->assertCount( 1, $all_data );
-		$this->assertFalse( in_array( $u2, $user_ids, true ) );
+		$this->assertNotContains( $u2, $user_ids );
 		$this->assertSame( array( $u ), $user_ids );
 	}
 
@@ -367,7 +367,7 @@ class BP_Tests_Members_REST_Controller extends BP_Test_REST_Controller_Testcase 
 
 		$this->assertNotEmpty( $all_data );
 		$this->assertCount( 2, $all_data );
-		$this->assertFalse( in_array( $u2, $user_ids, true ) );
+		$this->assertNotContains( $u2, $user_ids );
 		$this->assertSame( array( $u3, $u ), $user_ids );
 	}
 
@@ -432,8 +432,11 @@ class BP_Tests_Members_REST_Controller extends BP_Test_REST_Controller_Testcase 
 
 		friends_add_friend( $u1, $u2, true );
 
-		$date_last_activity = date( 'Y-m-d H:i:s', bp_core_current_time( true, 'timestamp' ) );
+		$date_last_activity = '2020-01-02 03:04:05';
 		bp_update_user_last_activity( $u1, $date_last_activity );
+
+		// Other members expose stored activity, not the current user's live timestamp.
+		wp_set_current_user( $u2 );
 
 		$request = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '/%d', $u1 ) );
 		$request->set_param( 'context', 'view' );
@@ -449,6 +452,7 @@ class BP_Tests_Members_REST_Controller extends BP_Test_REST_Controller_Testcase 
 			bp_rest_prepare_date_response( $date_last_activity, get_date_from_gmt( $date_last_activity ) ),
 			$member['last_activity']['date']
 		);
+		$this->assertSame( bp_rest_prepare_date_response( $date_last_activity ), $member['last_activity']['date_gmt'] );
 		$this->assertSame( $member['latest_update']['id'], $a1 );
 		$this->assertSame( 1, $member['total_friend_count'] );
 
@@ -460,6 +464,12 @@ class BP_Tests_Members_REST_Controller extends BP_Test_REST_Controller_Testcase 
 	public function test_get_item_me_extras() {
 		// Set current user.
 		wp_set_current_user( $this->user );
+		bp_update_user_last_activity( $this->user, '2019-01-02 03:04:05' );
+
+		$date_now = '2020-01-02 03:04:05';
+		$fixed_time = static function ( $value ) use ( $date_now ) {
+			return is_numeric( $value ) ? strtotime( $date_now . ' UTC' ) : $date_now;
+		};
 
 		$request = new WP_REST_Request( 'GET', $this->endpoint_url . '/me' );
 		$request->set_query_params(
@@ -467,13 +477,23 @@ class BP_Tests_Members_REST_Controller extends BP_Test_REST_Controller_Testcase 
 				'populate_extras' => true,
 			)
 		);
-		$response = $this->server->dispatch( $request );
+		add_filter( 'bp_core_current_time', $fixed_time );
+		try {
+			$response = $this->server->dispatch( $request );
+		} finally {
+			remove_filter( 'bp_core_current_time', $fixed_time );
+		}
 
 		$this->assertSame( 200, $response->get_status() );
 
 		$me = $response->get_data();
 		$this->assertNotEmpty( $me );
 
+		$this->assertSame(
+			bp_rest_prepare_date_response( $date_now, get_date_from_gmt( $date_now ) ),
+			$me['last_activity']['date']
+		);
+		$this->assertSame( bp_rest_prepare_date_response( $date_now ), $me['last_activity']['date_gmt'] );
 		$this->assertSame( 'right now', $me['last_activity']['timediff'] );
 
 	}
@@ -506,7 +526,7 @@ class BP_Tests_Members_REST_Controller extends BP_Test_REST_Controller_Testcase 
 	 * @group get_item
 	 * @group avatar
 	 */
-	function test_get_item_schema_show_avatar() {
+	public function test_get_item_schema_show_avatar() {
 		buddypress()->avatar->show_avatars = false;
 
 		// Re-initialize the controller to cache-bust schemas from prior test runs.
@@ -1127,7 +1147,7 @@ class BP_Tests_Members_REST_Controller extends BP_Test_REST_Controller_Testcase 
 		$response = $this->server->dispatch( $request );
 
 		$create_data = $response->get_data();
-		$this->assertTrue( $expected === $create_data['foo_field'] );
+		$this->assertSame( $expected, $create_data['foo_field'] );
 
 		// GET
 		$request = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '/%d', $create_data['id'] ) );
@@ -1135,7 +1155,7 @@ class BP_Tests_Members_REST_Controller extends BP_Test_REST_Controller_Testcase 
 		$response = $this->server->dispatch( $request );
 
 		$get_data = $response->get_data();
-		$this->assertTrue( $expected === $get_data['foo_field'] );
+		$this->assertSame( $expected, $get_data['foo_field'] );
 
 		$GLOBALS['wp_rest_additional_fields'] = $registered_fields;
 	}
@@ -1178,7 +1198,7 @@ class BP_Tests_Members_REST_Controller extends BP_Test_REST_Controller_Testcase 
 		$response = $this->server->dispatch( $request );
 
 		$update_data = $response->get_data();
-		$this->assertTrue( $expected === $update_data['bar_field'] );
+		$this->assertSame( $expected, $update_data['bar_field'] );
 
 		$GLOBALS['wp_rest_additional_fields'] = $registered_fields;
 	}

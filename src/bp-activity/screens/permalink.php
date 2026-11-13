@@ -27,7 +27,7 @@ function bp_activity_action_permalink_router() {
 	$activity = bp_activity_get_specific(
 		array(
 			'activity_ids' => bp_action_variable( 0 ),
-			'show_hidden' => true,
+			'show_hidden'  => true,
 		)
 	);
 
@@ -44,7 +44,7 @@ function bp_activity_action_permalink_router() {
 	$path_chunks = bp_members_get_path_chunks( array( bp_get_activity_slug(), $activity->id ) );
 
 	// Redirect based on the type of activity.
-	if ( bp_is_active( 'groups' ) && $activity->component === buddypress()->groups->id ) {
+	if ( bp_is_active( 'groups' ) && buddypress()->groups->id === $activity->component ) {
 
 		// Activity is a user update.
 		if ( ! empty( $activity->user_id ) ) {

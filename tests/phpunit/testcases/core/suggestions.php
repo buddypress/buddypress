@@ -9,11 +9,9 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 	protected static $current_user = null;
 	protected static $group_ids    = array();
 	protected static $group_slugs  = array();
-	protected static $old_user_id  = 0;
 	protected static $user_ids     = array();
 
 	public static function wpSetUpBeforeClass( $factory ) {
-		self::$old_user_id  = get_current_user_id();
 		self::$current_user = $factory->user->create( array(
 			'display_name' => 'Katie Parker',
 			'user_login'   => 'katie',
@@ -114,18 +112,13 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 		wp_set_current_user( self::$current_user );
 	}
 
-	public function tear_down() {
-		wp_set_current_user( self::$old_user_id );
-		parent::tear_down();
-	}
-
 	public function test_suggestions_with_type_members() {
 		$suggestions = bp_core_get_suggestions( array(
 			'type' => 'members',
 			'term' => 'smith',
 		) );
 
-		$this->assertFalse( is_wp_error( $suggestions ) );
+		$this->assertNotWPError( $suggestions );
 		$this->assertCount( 3, $suggestions );  // aardvark, smith, zoom.
 	}
 
@@ -136,7 +129,7 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 			'term'  => 'smith',
 		) );
 
-		$this->assertFalse( is_wp_error( $suggestions ) );
+		$this->assertNotWPError( $suggestions );
 		$this->assertCount( 2, $suggestions );  // two of: aardvark, smith, zoom.
 	}
 
@@ -146,7 +139,7 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 			'type'         => 'members',
 			'term'         => 'smith',
 		) );
-		$this->assertFalse( is_wp_error( $suggestions ) );
+		$this->assertNotWPError( $suggestions );
 		$this->assertCount( 1, $suggestions );  // aardvark.
 
 		$suggestions = bp_core_get_suggestions( array(
@@ -154,7 +147,7 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 			'type'         => 'members',
 			'term'         => 'cat',
 		) );
-		$this->assertFalse( is_wp_error( $suggestions ) );
+		$this->assertNotWPError( $suggestions );
 		$this->assertCount( 2, $suggestions );  // cat, caterpillar.
 	}
 
@@ -164,7 +157,7 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 			'term' => 'aardvark',
 		) );
 
-		$this->assertFalse( is_wp_error( $suggestions ) );
+		$this->assertNotWPError( $suggestions );
 		$this->assertCount( 1, $suggestions );  // aardvark.
 	}
 
@@ -174,7 +167,7 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 			'term' => 'eleanor',
 		) );
 
-		$this->assertFalse( is_wp_error( $suggestions ) );
+		$this->assertNotWPError( $suggestions );
 		$this->assertCount( 1, $suggestions );  // snake.
 	}
 
@@ -184,7 +177,7 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 			'term' => 'katie',
 		) );
 
-		$this->assertFalse( is_wp_error( $suggestions ) );
+		$this->assertNotWPError( $suggestions );
 		$this->assertCount( 1, $suggestions );
 		$this->assertSame( 'katie', $suggestions[0]->ID );
 	}
@@ -197,7 +190,7 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 			'term'     => 'smith',
 		) );
 
-		$this->assertFalse( is_wp_error( $suggestions ) );
+		$this->assertNotWPError( $suggestions );
 		$this->assertCount( 2, $suggestions );  // aardvark, smith.
 	}
 
@@ -209,7 +202,7 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 			'term'     => 'smith',
 		) );
 
-		$this->assertFalse( is_wp_error( $suggestions ) );
+		$this->assertNotWPError( $suggestions );
 		$this->assertCount( 1, $suggestions );  // one of: aardvark, smith.
 	}
 
@@ -221,7 +214,7 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 			'term'         => 'smith',
 		) );
 
-		$this->assertFalse( is_wp_error( $suggestions ) );
+		$this->assertNotWPError( $suggestions );
 		$this->assertCount( 1, $suggestions );  // aardvark.
 	}
 
@@ -232,7 +225,7 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 			'term'     => 'aardvark',
 		) );
 
-		$this->assertFalse( is_wp_error( $suggestions ) );
+		$this->assertNotWPError( $suggestions );
 		$this->assertCount( 1, $suggestions );  // aardvark.
 	}
 
@@ -243,7 +236,7 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 			'term'     => 'robert',
 		) );
 
-		$this->assertFalse( is_wp_error( $suggestions ) );
+		$this->assertNotWPError( $suggestions );
 		$this->assertCount( 1, $suggestions );  // smith.
 	}
 
@@ -254,7 +247,7 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 			'term'     => 'smith',
 		) );
 
-		$this->assertFalse( is_wp_error( $suggestions ) );
+		$this->assertNotWPError( $suggestions );
 		$this->assertCount( 2, $suggestions );  // aardvark, smith.
 	}
 
@@ -274,7 +267,7 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 			'type'     => 'members',
 			'term'     => 'pig',
 		) );
-		$this->assertFalse( is_wp_error( $suggestions ) );
+		$this->assertNotWPError( $suggestions );
 		$this->assertCount( 1, $suggestions );  // pig
 	}
 
@@ -294,7 +287,7 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 			'type'     => 'members',
 			'term'     => 'cat',
 		) );
-		$this->assertFalse( is_wp_error( $suggestions ) );
+		$this->assertNotWPError( $suggestions );
 		$this->assertCount( 2, $suggestions );  // cat, caterpillar
 	}
 
@@ -305,7 +298,7 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 			'type'     => 'members',
 			'term'     => 'smith',
 		) );
-		$this->assertFalse( is_wp_error( $suggestions ) );
+		$this->assertNotWPError( $suggestions );
 		$this->assertCount( 2, $suggestions );  // aardvark, smith.
 
 		$suggestions = bp_core_get_suggestions( array(
@@ -313,7 +306,7 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 			'type'     => 'members',
 			'term'     => 'smith',
 		) );
-		$this->assertFalse( is_wp_error( $suggestions ) );
+		$this->assertNotWPError( $suggestions );
 		$this->assertCount( 1, $suggestions );  // zoom
 	}
 
@@ -335,7 +328,7 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 			'type'     => 'members',
 			'term'     => 'cat',
 		) );
-		$this->assertFalse( is_wp_error( $suggestions ) );
+		$this->assertNotWPError( $suggestions );
 		$this->assertEmpty( $suggestions );
 
 		// "zoo" is not the private group, so will show up here.
@@ -344,7 +337,7 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 			'type'     => 'members',
 			'term'     => 'zoo',
 		) );
-		$this->assertFalse( is_wp_error( $suggestions ) );
+		$this->assertNotWPError( $suggestions );
 		$this->assertCount( 1, $suggestions );  // zoo
 	}
 
@@ -366,7 +359,7 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 			'type'     => 'members',
 			'term'     => 'alpaca red',
 		) );
-		$this->assertFalse( is_wp_error( $suggestions ) );
+		$this->assertNotWPError( $suggestions );
 		$this->assertEmpty( $suggestions );
 
 		// "zoo" is not the hidden group, so will show up here.
@@ -375,7 +368,7 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 			'type'     => 'members',
 			'term'     => 'zoo',
 		) );
-		$this->assertFalse( is_wp_error( $suggestions ) );
+		$this->assertNotWPError( $suggestions );
 		$this->assertCount( 1, $suggestions );  // zoo
 	}
 
@@ -390,7 +383,7 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 			'type' => 'members',
 		) );
 
-		$this->assertFalse( is_wp_error( $suggestions ) );
+		$this->assertNotWPError( $suggestions );
 		$this->assertIsArray( $suggestions );
 		$this->assertEmpty( $suggestions );
 	}
@@ -401,7 +394,7 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 			'type' => 'members',
 		) );
 
-		$this->assertFalse( is_wp_error( $suggestion ) );
+		$this->assertNotWPError( $suggestion );
 		$this->assertIsArray(  $suggestion );
 		$this->assertNotEmpty( $suggestion );
 
@@ -419,7 +412,7 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 			'type' => 'members',
 		) );
 
-		$this->assertFalse( is_wp_error( $suggestions ) );
+		$this->assertNotWPError( $suggestions );
 		$this->assertIsArray( $suggestions );
 		$this->assertNotEmpty( $suggestions );
 
@@ -436,14 +429,14 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 			'term' => 'lisa',
 			'type' => 'members',
 		) );
-		$this->assertFalse( is_wp_error( $lowercase ) );
+		$this->assertNotWPError( $lowercase );
 		$this->assertCount( 1, $lowercase );
 
 		$uppercase = bp_core_get_suggestions( array(
 			'term' => 'LISA',
 			'type' => 'members',
 		) );
-		$this->assertFalse( is_wp_error( $uppercase ) );
+		$this->assertNotWPError( $uppercase );
 		$this->assertCount( 1, $uppercase );
 
 		$this->assertSame( $lowercase[0]->ID, $uppercase[0]->ID );
@@ -456,7 +449,7 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 			'type' => 'members',
 		) );
 
-		$this->assertFalse( is_wp_error( $suggestion ) );
+		$this->assertNotWPError( $suggestion );
 		$this->assertIsArray( $suggestion );
 		$this->assertNotEmpty( $suggestion );
 

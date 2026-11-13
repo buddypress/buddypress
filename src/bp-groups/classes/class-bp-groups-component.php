@@ -278,7 +278,7 @@ class BP_Groups_Component extends BP_Component {
 		 */
 		$current_group_class = apply_filters( 'bp_groups_current_group_class', 'BP_Groups_Group' );
 
-		if ( $current_group_class === 'BP_Groups_Group' ) {
+		if ( 'BP_Groups_Group' === $current_group_class ) {
 			$current_group = groups_get_group( $group_id );
 
 		} else {
@@ -1071,7 +1071,7 @@ class BP_Groups_Component extends BP_Component {
 			return parent::parse_query( $query );
 		}
 
-		if ( bp_is_site_home() && bp_is_directory_homepage( $this->id ) ) {
+		if ( bp_is_site_home( $query ) && bp_is_directory_homepage( $this->id ) ) {
 			$query->set( $this->rewrite_ids['directory'], 1 );
 		}
 

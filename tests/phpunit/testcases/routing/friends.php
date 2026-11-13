@@ -4,26 +4,23 @@
  * @group routing
  */
 class BP_Tests_Routing_Friends extends BP_UnitTestCase {
-	protected $old_current_user = 0;
 	protected $permalink_structure = '';
 
 	public function set_up() {
 		parent::set_up();
 
-		$this->old_current_user = get_current_user_id();
 		$this->permalink_structure = get_option( 'permalink_structure', '' );
 		wp_set_current_user( self::factory()->user->create( array( 'role' => 'subscriber' ) ) );
+		$this->set_permalink_structure( '/%postname%/' );
 	}
 
 	public function tear_down() {
-		wp_set_current_user( $this->old_current_user );
 		$this->set_permalink_structure( $this->permalink_structure );
 
 		parent::tear_down();
 	}
 
-	function test_member_friends() {
-		$this->set_permalink_structure( '/%postname%/' );
+	public function test_member_friends() {
 		$this->go_to(
 			bp_members_get_user_url(
 				bp_loggedin_user_id(),
@@ -35,8 +32,7 @@ class BP_Tests_Routing_Friends extends BP_UnitTestCase {
 		$this->assertTrue( bp_is_user_friends() );
 	}
 
-	function test_member_friends_requests() {
-		$this->set_permalink_structure( '/%postname%/' );
+	public function test_member_friends_requests() {
 		$this->go_to(
 			bp_members_get_user_url(
 				bp_loggedin_user_id(),

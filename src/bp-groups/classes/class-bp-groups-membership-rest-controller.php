@@ -680,6 +680,7 @@ class BP_Groups_Membership_REST_Controller extends WP_REST_Controller {
 			$member_data,
 			array(
 				'group'             => (int) $group_member->group_id,
+				'group_id'          => (int) $group_member->group_id,
 				'is_mod'            => (bool) $group_member->is_mod,
 				'is_admin'          => (bool) $group_member->is_admin,
 				'is_banned'         => (bool) $group_member->is_banned,

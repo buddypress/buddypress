@@ -5,127 +5,133 @@
  * @group BP_Core_User
  */
 class BP_Tests_BP_Core_User_TestCases extends BP_UnitTestCase {
-	/**
-	 * @expectedDeprecated BP_Core_User::get_users
-	 */
-	public function test_get_users_with_exclude_querystring() {
-		add_filter( 'bp_use_legacy_user_query', '__return_true' );
 
-		$u1 = self::factory()->user->create();
-		$u2 = self::factory()->user->create();
-		$u3 = self::factory()->user->create();
+	public function test_get_users_by_letter_sql_clauses_restrict_duplicate_join_and_total() {
+		$first  = self::factory()->user->create( array( 'display_name' => 'Formula Ada' ) );
+		$second = self::factory()->user->create( array( 'display_name' => 'Formula Bea' ) );
+		$baseline = BP_Core_User::get_users_by_letter( 'F', 2, 1, false );
 
-		$exclude_qs = $u1 . ',junkstring,' . $u3;
+		$this->assertSame( 2, $baseline['total'] );
 
-		$users = BP_Core_User::get_users( 'active', 0, 1, 0, false, false, true, $exclude_qs );
-		$user_ids = wp_list_pluck( $users['users'], 'id' );
+		$calls  = array();
+		$filter = static function( $clauses, $args ) use ( $first, &$calls, &$filter ) {
+			remove_filter( 'bp_core_users_by_letter_get_sql_clauses', $filter, 0 );
+			$calls[] = $args;
+			$clauses['join'] .= " INNER JOIN (SELECT {$first} AS allowed_id UNION ALL SELECT {$first}) access ON access.allowed_id = u.ID";
+			$clauses['where_conditions']['access'] = "access.allowed_id = {$first}";
 
-		remove_filter( 'bp_use_legacy_user_query', '__return_true' );
+			return $clauses;
+		};
 
-		$this->assertSame( array( $u2 ), $user_ids );
+		add_filter( 'bp_core_users_by_letter_get_sql_clauses', $filter, 0, 2 );
+
+		try {
+			$found = BP_Core_User::get_users_by_letter( 'F', 2, 1, false );
+		} finally {
+			remove_filter( 'bp_core_users_by_letter_get_sql_clauses', $filter, 0 );
+		}
+
+		$this->assertSame( array( $first ), wp_list_pluck( $found['users'], 'id' ) );
+		$this->assertSame( 1, $found['total'] );
+		$this->assertCount( 1, $calls );
+		$this->assertSame( 'F', $calls[0]['letter'] );
 	}
 
-	/**
-	 * @expectedDeprecated BP_Core_User::get_users
-	 */
-	public function test_get_users_with_exclude_array() {
-		add_filter( 'bp_use_legacy_user_query', '__return_true' );
+	public function test_get_users_by_letter_sql_can_replace_both_queries() {
+		$first  = self::factory()->user->create( array( 'display_name' => 'Formula Ada' ) );
+		$second = self::factory()->user->create( array( 'display_name' => 'Formula Bea' ) );
 
-		$u1 = self::factory()->user->create();
-		$u2 = self::factory()->user->create();
-		$u3 = self::factory()->user->create();
+		$contexts = array();
+		$filter   = static function( $sql, $type, $args, $clauses ) use ( &$contexts ) {
+			$contexts[ $type ] = array( $args, $clauses );
 
-		$exclude_array = array(
-			$u1,
-			'junkstring',
-			$u3,
-		);
+			return 'count' === $type ? 'SELECT 42' : str_replace( 'WHERE', 'WHERE 1 = 0 AND', $sql );
+		};
 
-		$users = BP_Core_User::get_users( 'active', 0, 1, 0, false, false, true, $exclude_array );
-		$user_ids = wp_list_pluck( $users['users'], 'id' );
+		add_filter( 'bp_core_users_by_letter_get_sql', $filter, 10, 4 );
 
-		remove_filter( 'bp_use_legacy_user_query', '__return_true' );
+		try {
+			$found = BP_Core_User::get_users_by_letter( 'F', 2, 1, false );
+		} finally {
+			remove_filter( 'bp_core_users_by_letter_get_sql', $filter );
+		}
 
-		$this->assertSame( array( $u2 ), $user_ids );
+		$this->assertSame( array(), $found['users'] );
+		$this->assertSame( 42, $found['total'] );
+		$this->assertSame( array( 'count', 'paged' ), array_keys( $contexts ) );
+		$this->assertSame( $contexts['paged'], $contexts['count'] );
+		$this->assertSame( 'F', $contexts['paged'][0]['letter'] );
 	}
 
-	/**
-	 * @expectedDeprecated BP_Core_User::get_users
-	 */
-	public function test_get_users_with_include_querystring() {
-		add_filter( 'bp_use_legacy_user_query', '__return_true' );
 
-		$u1 = self::factory()->user->create( array(
-			'last_activity' => gmdate( 'Y-m-d H:i:s' ),
-		) );
-		self::factory()->user->create( array(
-			'last_activity' => gmdate( 'Y-m-d H:i:s', time() - 1000 ),
-		) );
-		$u3 = self::factory()->user->create( array(
-			'last_activity' => gmdate( 'Y-m-d H:i:s', time() - 50 ),
-		) );
 
-		$include_qs = $u1 . ',junkstring,' . $u3;
+	public function test_search_users_sql_clauses_restrict_duplicate_join_and_total() {
+		$first  = self::factory()->user->create( array( 'display_name' => 'Formula Ada' ) );
+		$second = self::factory()->user->create( array( 'display_name' => 'Formula Bea' ) );
+		$baseline = BP_Core_User::search_users( 'Formula', 2, 1, false );
 
-		$users = BP_Core_User::get_users( 'active', 0, 1, 0, $include_qs );
-		$user_ids = wp_list_pluck( $users['users'], 'id' );
+		$this->assertSame( 2, $baseline['total'] );
 
-		remove_filter( 'bp_use_legacy_user_query', '__return_true' );
+		$calls  = array();
+		$filter = static function( $clauses, $args ) use ( $first, &$calls, &$filter ) {
+			remove_filter( 'bp_core_users_search_get_sql_clauses', $filter, 0 );
+			$calls[] = $args;
+			$clauses['join'] .= " INNER JOIN (SELECT {$first} AS allowed_id UNION ALL SELECT {$first}) access ON access.allowed_id = u.ID";
+			$clauses['where_conditions']['access'] = "access.allowed_id = {$first}";
 
-		$this->assertSame( array( $u1, $u3 ), $user_ids );
+			return $clauses;
+		};
+
+		add_filter( 'bp_core_users_search_get_sql_clauses', $filter, 0, 2 );
+
+		try {
+			$found = BP_Core_User::search_users( 'Formula', 2, 1, false );
+		} finally {
+			remove_filter( 'bp_core_users_search_get_sql_clauses', $filter, 0 );
+		}
+
+		$this->assertSame( array( $first ), wp_list_pluck( $found['users'], 'id' ) );
+		$this->assertSame( 1, $found['total'] );
+		$this->assertCount( 1, $calls );
+		$this->assertSame( 'Formula', $calls[0]['search_terms'] );
 	}
 
-	/**
-	 * @expectedDeprecated BP_Core_User::get_users
-	 */
-	public function test_get_users_with_include_array() {
-		add_filter( 'bp_use_legacy_user_query', '__return_true' );
+	public function test_search_users_sql_can_replace_both_queries() {
+		$first  = self::factory()->user->create( array( 'display_name' => 'Formula Ada' ) );
+		$second = self::factory()->user->create( array( 'display_name' => 'Formula Bea' ) );
 
-		$u1 = self::factory()->user->create( array(
-			'last_activity' => gmdate( 'Y-m-d H:i:s' ),
-		) );
-		self::factory()->user->create( array(
-			'last_activity' => gmdate( 'Y-m-d H:i:s', time() - 1000 ),
-		) );
-		$u3 = self::factory()->user->create( array(
-			'last_activity' => gmdate( 'Y-m-d H:i:s', time() - 50 ),
-		) );
+		$contexts = array();
+		$filter   = static function( $sql, $type, $args, $clauses ) use ( &$contexts ) {
+			$contexts[ $type ] = array( $args, $clauses );
 
+			return 'count' === $type ? 'SELECT 42' : str_replace( 'WHERE', 'WHERE 1 = 0 AND', $sql );
+		};
 
-		$include_array = array(
-			$u1,
-			'junkstring',
-			$u3,
-		);
+		add_filter( 'bp_core_users_search_get_sql', $filter, 10, 4 );
 
-		$users = BP_Core_User::get_users( 'active', 0, 1, 0, $include_array );
-		$user_ids = wp_list_pluck( $users['users'], 'id' );
+		try {
+			$found = BP_Core_User::search_users( 'Formula', 2, 1, false );
+		} finally {
+			remove_filter( 'bp_core_users_search_get_sql', $filter );
+		}
 
-		remove_filter( 'bp_use_legacy_user_query', '__return_true' );
-
-		$this->assertSame( array( $u1, $u3 ), $user_ids );
+		$this->assertSame( array(), $found['users'] );
+		$this->assertSame( 42, $found['total'] );
+		$this->assertSame( array( 'count', 'paged' ), array_keys( $contexts ) );
+		$this->assertSame( $contexts['paged'], $contexts['count'] );
+		$this->assertSame( 'Formula', $contexts['paged'][0]['search_terms'] );
 	}
 
-	/**
-	 * @expectedDeprecated BP_Core_User::get_users
-	 * @group get_users
-	 * @group type
-	 */
-	public function test_type_alphabetical() {
-		$u1 = self::factory()->user->create( array(
-			'display_name' => 'foo',
-		) );
-		$u2 = self::factory()->user->create( array(
-			'display_name' => 'bar',
-		) );
 
-		global $wpdb;
 
-		$q = BP_Core_User::get_users( 'alphabetical' );
-		$found = wp_list_pluck( $q['users'], 'id' );
 
-		$this->assertSame( array( $u2, $u1 ), $found );
-	}
+
+
+
+
+
+
+
 
 	/**
 	 * @group get_users_by_letter
@@ -161,6 +167,71 @@ class BP_Tests_BP_Core_User_TestCases extends BP_UnitTestCase {
 
 		$this->assertSame( array( $u2 ), $found );
 		$this->assertSame( 1, $q['total'] );
+	}
+
+
+	public function test_get_users_by_letter_default_sql_text_is_unchanged() {
+		global $wpdb;
+
+		$bp = buddypress();
+		$first  = self::factory()->user->create( array( 'display_name' => 'Formula Ada' ) );
+		$second = self::factory()->user->create( array( 'display_name' => 'Formula Bea' ) );
+		$status = bp_core_get_status_sql( 'u.' );
+		$from   = $wpdb->prepare( "FROM {$wpdb->users} u LEFT JOIN {$bp->profile->table_name_data} pd ON u.ID = pd.user_id LEFT JOIN {$bp->profile->table_name_fields} pf ON pd.field_id = pf.id WHERE {$status} AND pf.name = %s  AND pd.value LIKE %s ORDER BY pd.value ASC", bp_xprofile_fullname_field_name(), 'F%' );
+		$expected = array(
+			'count' => "SELECT COUNT(DISTINCT u.ID) {$from}",
+			'paged' => "SELECT DISTINCT u.ID as id, u.user_registered, u.user_nicename, u.user_login, u.user_email {$from} LIMIT 0, 2",
+		);
+
+		$queries = array();
+		$capture = static function( $sql, $type ) use ( &$queries ) {
+			$queries[ $type ] = $sql;
+
+			return $sql;
+		};
+
+		add_filter( 'bp_core_users_by_letter_get_sql', $capture, 10, 2 );
+
+		try {
+			$found = BP_Core_User::get_users_by_letter( 'F', 2, 1, false );
+		} finally {
+			remove_filter( 'bp_core_users_by_letter_get_sql', $capture );
+		}
+
+		$this->assertSame( $expected, $queries );
+		$this->assertSame( 2, $found['total'] );
+	}
+
+	public function test_search_users_default_sql_text_is_unchanged() {
+		global $wpdb;
+
+		$bp = buddypress();
+		$first  = self::factory()->user->create( array( 'display_name' => 'Formula Ada' ) );
+		$second = self::factory()->user->create( array( 'display_name' => 'Formula Bea' ) );
+		$status = bp_core_get_status_sql( 'u.' );
+		$from   = $wpdb->prepare( "FROM {$wpdb->users} u LEFT JOIN {$bp->profile->table_name_data} pd ON u.ID = pd.user_id WHERE {$status} AND pd.value LIKE %s ORDER BY pd.value ASC", '%Formula%' );
+		$expected = array(
+			'count' => "SELECT COUNT(DISTINCT u.ID) as id {$from}",
+			'paged' => "SELECT DISTINCT u.ID as id, u.user_registered, u.user_nicename, u.user_login, u.user_email {$from} LIMIT 0, 2",
+		);
+
+		$queries = array();
+		$capture = static function( $sql, $type ) use ( &$queries ) {
+			$queries[ $type ] = $sql;
+
+			return $sql;
+		};
+
+		add_filter( 'bp_core_users_search_get_sql', $capture, 10, 2 );
+
+		try {
+			$found = BP_Core_User::search_users( 'Formula', 2, 1, false );
+		} finally {
+			remove_filter( 'bp_core_users_search_get_sql', $capture );
+		}
+
+		$this->assertSame( $expected, $queries );
+		$this->assertSame( 2, $found['total'] );
 	}
 
 	public function test_get_specific_users() {

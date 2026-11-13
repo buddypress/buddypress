@@ -334,7 +334,7 @@ function bp_groups_filter_activity_scope( $retval = array(), $filter = array() )
 
 	// Should we show all items regardless of sitewide visibility?
 	$show_hidden = array();
-	if ( ! empty( $user_id ) && ( $user_id !== bp_loggedin_user_id() ) ) {
+	if ( ! empty( $user_id ) && ( bp_loggedin_user_id() !== $user_id ) ) {
 		$show_hidden = array(
 			'column' => 'hide_sitewide',
 			'value'  => 0,
@@ -383,7 +383,7 @@ function bp_groups_filter_activity_favorites_scope( $retval, $filter ) {
 		$user_id = bp_displayed_user_id() ? bp_displayed_user_id() : bp_loggedin_user_id();
 	}
 
-	if ( ! $user_id || ! is_user_logged_in() || $user_id !== bp_loggedin_user_id() ) {
+	if ( ! $user_id || ! is_user_logged_in() || bp_loggedin_user_id() !== $user_id ) {
 		return $retval;
 	}
 
@@ -401,10 +401,10 @@ function bp_groups_filter_activity_favorites_scope( $retval, $filter ) {
 	);
 
 	return array(
-		'relation' => 'OR',
+		'relation'          => 'OR',
 
 		// Allow hidden items for items unconnected to groups.
-		'non_groups' => array(
+		'non_groups'        => array(
 			'relation' => 'AND',
 			array(
 				'column'  => 'component',
@@ -444,7 +444,7 @@ function bp_groups_filter_activity_favorites_scope( $retval, $filter ) {
 		),
 
 		// For hidden group items, limit to those in the user's groups.
-		'hidden_groups' => array(
+		'hidden_groups'     => array(
 			'relation' => 'AND',
 			array(
 				'column'  => 'component',
@@ -468,7 +468,7 @@ function bp_groups_filter_activity_favorites_scope( $retval, $filter ) {
 			),
 		),
 
-		'override' => array(
+		'override'          => array(
 			'display_comments' => true,
 			'filter'           => array( 'user_id' => 0 ),
 			'show_hidden'      => true,

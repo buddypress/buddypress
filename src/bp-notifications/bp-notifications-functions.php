@@ -470,9 +470,9 @@ function bp_notifications_delete_all_notifications_by_type( $item_id, $component
 function bp_notifications_delete_notifications_from_user( $user_id, $component_name, $component_action ) {
 	return BP_Notifications_Notification::delete(
 		array(
-			'item_id'           => $user_id,
-			'component_name'    => $component_name,
-			'component_action'  => $component_action,
+			'item_id'          => $user_id,
+			'component_name'   => $component_name,
+			'component_action' => $component_action,
 		)
 	);
 }

@@ -55,7 +55,7 @@ bp_nouveau_member_hook( 'before', 'settings_template' ); ?>
 				bp_form_field_attributes(
 					'password',
 					array(
-						'data-pw' => wp_generate_password( 24 ),
+						'data-pw'          => wp_generate_password( 24 ),
 						'aria-describedby' => 'pass-strength-result',
 					)
 				);

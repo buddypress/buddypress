@@ -437,7 +437,7 @@ class BP_Tests_Notifications_Functions extends BP_UnitTestCase {
 		sort( $read );
 		$this->assertSame( $unread, $read );
 		$this->assertSame( $n, $n_obj->id );
-		$this->assertTrue( 1 === (int) $n_obj->is_new );
+		$this->assertSame( 1, (int) $n_obj->is_new );
 	}
 
 	/**
@@ -505,7 +505,7 @@ class BP_Tests_Notifications_Functions extends BP_UnitTestCase {
 
 		$this->assertEmpty( $deleted );
 		$this->assertSame( $n, $n_obj->id );
-		$this->assertTrue( 1 === (int) $n_obj->is_new );
+		$this->assertSame( 1, (int) $n_obj->is_new );
 	}
 
 	/**
@@ -549,7 +549,7 @@ class BP_Tests_Notifications_Functions extends BP_UnitTestCase {
 			)
 		);
 		$n_obj = reset( $n_get );
-		$this->assertTrue( 1 === (int) $n_obj->is_new );
+		$this->assertSame( 1, (int) $n_obj->is_new );
 
 		// Check status of $n3 (which should be affected).
 		$n_get = BP_Notifications_Notification::get(
@@ -561,7 +561,7 @@ class BP_Tests_Notifications_Functions extends BP_UnitTestCase {
 			)
 		);
 		$n_obj = reset( $n_get );
-		$this->assertTrue( 0 === (int) $n_obj->is_new );
+		$this->assertSame( 0, (int) $n_obj->is_new );
 	}
 
 }

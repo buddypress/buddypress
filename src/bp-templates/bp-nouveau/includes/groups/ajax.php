@@ -16,57 +16,57 @@ add_action(
 	function () {
 	$ajax_actions = array(
 		array(
-			'groups_filter'                      => array(
+			'groups_filter' => array(
 				'function' => 'bp_nouveau_ajax_object_template_loader',
-				'nopriv' => true,
+				'nopriv'   => true,
 			),
 		),
 		array(
-			'groups_join_group'                  => array(
+			'groups_join_group' => array(
 				'function' => 'bp_nouveau_ajax_joinleave_group',
-				'nopriv' => false,
+				'nopriv'   => false,
 			),
 		),
 		array(
-			'groups_leave_group'                 => array(
+			'groups_leave_group' => array(
 				'function' => 'bp_nouveau_ajax_joinleave_group',
-				'nopriv' => false,
+				'nopriv'   => false,
 			),
 		),
 		array(
-			'groups_accept_invite'               => array(
+			'groups_accept_invite' => array(
 				'function' => 'bp_nouveau_ajax_joinleave_group',
-				'nopriv' => false,
+				'nopriv'   => false,
 			),
 		),
 		array(
-			'groups_reject_invite'               => array(
+			'groups_reject_invite' => array(
 				'function' => 'bp_nouveau_ajax_joinleave_group',
-				'nopriv' => false,
+				'nopriv'   => false,
 			),
 		),
 		array(
-			'groups_request_membership'          => array(
+			'groups_request_membership' => array(
 				'function' => 'bp_nouveau_ajax_joinleave_group',
-				'nopriv' => false,
+				'nopriv'   => false,
 			),
 		),
 		array(
 			'groups_get_group_potential_invites' => array(
 				'function' => 'bp_nouveau_ajax_get_users_to_invite',
-				'nopriv' => false,
+				'nopriv'   => false,
 			),
 		),
 		array(
-			'groups_send_group_invites'          => array(
+			'groups_send_group_invites' => array(
 				'function' => 'bp_nouveau_ajax_send_group_invites',
-				'nopriv' => false,
+				'nopriv'   => false,
 			),
 		),
 		array(
-			'groups_delete_group_invite'         => array(
+			'groups_delete_group_invite' => array(
 				'function' => 'bp_nouveau_ajax_remove_group_invite',
-				'nopriv' => false,
+				'nopriv'   => false,
 			),
 		),
 	);
@@ -245,7 +245,7 @@ function bp_nouveau_ajax_joinleave_group() {
 			case 'groups_request_membership':
 				if ( ! groups_send_membership_request(
 					array(
-						'user_id' => $user_id,
+						'user_id'  => $user_id,
 						'group_id' => $group->id,
 					)
 				) ) {
@@ -298,8 +298,10 @@ function bp_nouveau_ajax_joinleave_group() {
 					if ( ! $bp_is_group && isset( $bp->template_message ) && isset( $bp->template_message_type ) ) {
 						unset( $bp->template_message, $bp->template_message_type );
 
-						@setcookie( 'bp-message', false, time() - 1000, COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
-						@setcookie( 'bp-message-type', false, time() - 1000, COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
+						if ( ! headers_sent() ) {
+							setcookie( 'bp-message', false, time() - 1000, COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
+							setcookie( 'bp-message-type', false, time() - 1000, COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
+						}
 					}
 				}
 				break;
@@ -368,6 +370,14 @@ function bp_nouveau_ajax_get_users_to_invite() {
 		'nouveau_ajax_get_users_to_invite'
 	);
 
+	$request                   = array_intersect_key(
+		$request,
+		array(
+			'scope'    => '',
+			'group_id' => '',
+		)
+	);
+	$request['group_id']       = empty( $request['group_id'] ) ? 0 : (int) $request['group_id'];
 	$bp->groups->invites_scope = 'members';
 	$message                   = __( 'Select members to invite by clicking the + button. Once you\'ve made your selection, use the "Send Invites" navigation item to continue.', 'buddypress' );
 

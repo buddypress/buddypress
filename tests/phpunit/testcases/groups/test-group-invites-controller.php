@@ -845,6 +845,7 @@ class BP_Tests_Group_Invites_REST_Controller extends BP_Test_REST_Controller_Tes
 				'send_invite' => 1,
 			)
 		);
+
 		wp_set_current_user( $u2 );
 
 		$request = new WP_REST_Request( 'DELETE', $this->endpoint_url . '/' . $invite_id );
@@ -854,6 +855,7 @@ class BP_Tests_Group_Invites_REST_Controller extends BP_Test_REST_Controller_Tes
 				'group_id' => $this->group_id,
 			)
 		);
+
 		$response = $this->server->dispatch( $request );
 
 		$this->assertErrorResponse( 'bp_rest_group_invite_cannot_delete_item', $response, rest_authorization_required_code() );
@@ -875,7 +877,72 @@ class BP_Tests_Group_Invites_REST_Controller extends BP_Test_REST_Controller_Tes
 	 * @group get_item
 	 */
 	public function test_prepare_item() {
-		$this->markTestSkipped( 'Coverage for prepare_item_for_response() has not been implemented.' );
+		global $wp_rest_additional_fields;
+
+		$original_fields = $wp_rest_additional_fields;
+
+		$invite                = new BP_Invitation();
+		$invite->id            = 123;
+		$invite->user_id       = $this->g1admin;
+		$invite->inviter_id    = $this->user;
+		$invite->item_id       = $this->group_id;
+		$invite->invite_sent   = 1;
+		$invite->date_modified = '2020-01-02 03:04:05';
+		$invite->type          = 'invite';
+		$invite->content       = 'Invitation message';
+
+		register_rest_field(
+			'bp_group_invites',
+			'test_edit_field',
+			array(
+				'get_callback' => static function () {
+					return 'Additional value';
+				},
+				'schema'       => array(
+					'type'    => 'string',
+					'context' => array( 'edit' ),
+				),
+			)
+		);
+
+		try {
+			foreach ( array( null, 'view', 'edit' ) as $context ) {
+				$request = new WP_REST_Request( 'GET', $this->endpoint_url . '/' . $invite->id );
+				if ( null !== $context ) {
+					$request->set_param( 'context', $context );
+				}
+
+				$response = $this->endpoint->prepare_item_for_response( $invite, $request );
+
+				$this->assertInstanceOf( 'WP_REST_Response', $response );
+				$this->assertSame( 200, $response->get_status() );
+
+				$data = $response->get_data();
+				$this->assertSame( 123, $data['id'] );
+				$this->assertSame( $this->g1admin, $data['user_id'] );
+				$this->assertSame( $this->user, $data['inviter_id'] );
+				$this->assertSame( $this->group_id, $data['group_id'] );
+				$this->assertSame( 1, $data['invite_sent'] );
+				$this->assertSame( 'invite', $data['type'] );
+				$this->assertSame( '2020-01-02T03:04:05', $data['date_modified_gmt'] );
+				$this->assertSame( 'Invitation message', $data['message']['raw'] );
+				$this->assertSame( apply_filters( 'the_content', 'Invitation message' ), $data['message']['rendered'] );
+
+				$links = $response->get_links();
+				$this->assertSame( rest_url( $this->endpoint_url . '/' . $invite->id ), $links['self'][0]['href'] );
+				$this->assertSame( rest_url( $this->endpoint_url . '/' ), $links['collection'][0]['href'] );
+				$this->assertSame( bp_rest_get_object_url( $this->g1admin, 'members' ), $links['user'][0]['href'] );
+				$this->assertTrue( $links['user'][0]['attributes']['embeddable'] );
+
+				if ( 'edit' === $context ) {
+					$this->assertSame( 'Additional value', $data['test_edit_field'] );
+				} else {
+					$this->assertArrayNotHasKey( 'test_edit_field', $data );
+				}
+			}
+		} finally {
+			$wp_rest_additional_fields = $original_fields;
+		}
 	}
 
 	protected function check_invited_user_data( $user, $data ) {

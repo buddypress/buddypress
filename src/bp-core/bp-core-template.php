@@ -832,7 +832,7 @@ function bp_create_excerpt( $text, $length = 225, $options = array() ) {
 					array_unshift( $open_tags, $tag[2] );
 				} elseif ( preg_match( '/<\/([\w]+)[^>]*>/s', $tag[0], $close_tag ) ) {
 					$pos = array_search( $close_tag[1], $open_tags, true );
-					if ( $pos !== false ) {
+					if ( false !== $pos ) {
 						array_splice( $open_tags, $pos, 1 );
 					}
 				}
@@ -1642,7 +1642,7 @@ function bp_is_current_component( $component = '' ) {
  * @return bool True if the current action matches $action.
  */
 function bp_is_current_action( $action = '' ) {
-	return (bool) ( $action === bp_current_action() );
+	return (bool) ( bp_current_action() === $action );
 }
 
 /**
@@ -1671,7 +1671,7 @@ function bp_is_action_variable( $action_variable = '', $position = false ) {
 	if ( false !== $position ) {
 		// When a $position is specified, check that slot in the action_variables array.
 		if ( $action_variable ) {
-			$is_action_variable = $action_variable === bp_action_variable( $position );
+			$is_action_variable = bp_action_variable( $position ) === $action_variable;
 		} else {
 			// If no $action_variable is provided, we are essentially checking to see
 			// whether the slot is empty.
@@ -1703,7 +1703,7 @@ function bp_is_action_variable( $action_variable = '', $position = false ) {
  * @return bool True if $item is the current item.
  */
 function bp_is_current_item( $item = '' ) {
-	$retval = ( $item === bp_current_item() );
+	$retval = ( bp_current_item() === $item );
 
 	/**
 	 * Filters whether or not an item is the current item.
@@ -1945,16 +1945,29 @@ function bp_is_blog_page() {
  * Checks whether the requested URL is site home's one.
  *
  * @since 12.1.0
+ * @since 14.5.5 Added the optional `$query` parameter and ignored query strings.
  *
- * @return bool True if the requested URL is site home's one. False otherwise.
+ * @param WP_Query|null $query Optional. Parsed query to check alongside the URL.
+ * @return bool True if the request matches the site homepage. False otherwise.
  */
-function bp_is_site_home() {
+function bp_is_site_home( $query = null ) {
+	// A homepage URL can still request another resource, such as /?p=123.
+	if ( $query instanceof WP_Query && 'page' === get_option( 'show_on_front', 'posts' ) ) {
+		if ( ! $query->is_page() || (int) $query->get( 'page_id' ) !== (int) get_option( 'page_on_front' ) ) {
+			return false;
+		}
+	}
+
 	$requested_url = bp_get_requested_url();
 	$home_url      = home_url( '/' );
 
 	if ( is_customize_preview() && ! bp_is_email_customizer() ) {
 		$requested_url = wp_parse_url( $requested_url, PHP_URL_PATH );
 		$home_url      = wp_parse_url( $home_url, PHP_URL_PATH );
+	} elseif ( ! bp_is_email_customizer() ) {
+		// Query parameters do not change the homepage URL's location.
+		$requested_url = preg_replace( '/[?#].*$/', '', $requested_url );
+		$home_url      = preg_replace( '/[?#].*$/', '', $home_url );
 	}
 
 	return $home_url === $requested_url;
@@ -2652,9 +2665,11 @@ function bp_is_groups_directory() {
 /**
  * Does the current page belong to a single group?
  *
- * Will return true for any subpage of a single group.
+ * Will return true for any subpage of a single group, but not for the group
+ * creation screens (see bp_is_group_create()).
  *
  * @since 1.2.0
+ * @since 15.0.0 Excludes group creation screens.
  *
  * @return bool True if the current page is part of a single group.
  */
@@ -2662,7 +2677,7 @@ function bp_is_group() {
 	$retval = bp_is_active( 'groups' );
 
 	if ( ! empty( $retval ) ) {
-		$retval = bp_is_groups_component() && groups_get_current_group();
+		$retval = bp_is_groups_component() && groups_get_current_group() && ! bp_is_group_create();
 	}
 
 	return (bool) $retval;

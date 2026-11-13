@@ -31,7 +31,7 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 	}
 
 	public function test_get_messages_with_invalid_thread_id() {
-		$this->assertTrue( empty( BP_Messages_Thread::get_messages( 0 ) ) );
+		$this->assertEmpty( BP_Messages_Thread::get_messages( 0 ) );
 	}
 
 	public function test_get_messages_using_arguments() {
@@ -305,31 +305,108 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 
 	/**
 	 * @group get_current_threads_for_user
-	 * @expectedDeprecated BP_Messages_Thread::get_current_threads_for_user
 	 */
-	public function test_get_current_threads_for_user_with_old_args() {
-		$u1 = self::factory()->user->create();
-		$u2 = self::factory()->user->create();
+	public function test_self_removing_sql_clauses_filter_at_priority_zero() {
+		$sender    = self::factory()->user->create();
+		$recipient = self::factory()->user->create();
+		$allowed   = self::factory()->message->create_and_get( array(
+			'sender_id'  => $sender,
+			'recipients' => array( $recipient ),
+		) );
+		self::factory()->message->create_and_get( array(
+			'sender_id'  => $sender,
+			'recipients' => array( $recipient ),
+		) );
+
+		$calls  = 0;
+		$filter = static function( $clauses ) use ( $allowed, &$calls, &$filter ) {
+			remove_filter( 'bp_messages_thread_get_sql_clauses', $filter, 0 );
+			++$calls;
+			$clauses['where_conditions']['allowed'] = "m.thread_id = {$allowed->thread_id}";
+
+			return $clauses;
+		};
+
+		add_filter( 'bp_messages_thread_get_sql_clauses', $filter, 0 );
+
+		try {
+			$found = BP_Messages_Thread::get_current_threads_for_user( array( 'user_id' => $recipient ) );
+		} finally {
+			remove_filter( 'bp_messages_thread_get_sql_clauses', $filter, 0 );
+		}
+
+		$this->assertSame( array( $allowed->thread_id ), wp_parse_id_list( wp_list_pluck( $found['threads'], 'thread_id' ) ) );
+		$this->assertSame( 1, $found['total'] );
+		$this->assertSame( 1, $calls );
+	}
+
+	public function test_get_current_threads_for_user_with_sql_clauses_filter() {
+		global $wpdb;
+
+		$sender_1 = self::factory()->user->create();
+		$sender_2 = self::factory()->user->create();
+		$recipient = self::factory()->user->create();
+
+		$message_1 = self::factory()->message->create_and_get( array(
+			'sender_id'  => $sender_1,
+			'recipients' => array( $recipient ),
+		) );
+		self::factory()->message->create_and_get( array(
+			'sender_id'  => $sender_2,
+			'recipients' => array( $recipient ),
+		) );
+
+		$filter = static function ( $sql_clauses ) use ( $wpdb, $sender_1 ) {
+			$sql_clauses['join'] .= " INNER JOIN {$wpdb->users} bp_messages_sender ON bp_messages_sender.ID = m.sender_id";
+			$sql_clauses['where_conditions']['sender'] = $wpdb->prepare( 'bp_messages_sender.ID = %d', $sender_1 );
+
+			return $sql_clauses;
+		};
+
+		add_filter( 'bp_messages_thread_get_sql_clauses', $filter );
+
+		try {
+			$threads = BP_Messages_Thread::get_current_threads_for_user( array( 'user_id' => $recipient ) );
+		} finally {
+			remove_filter( 'bp_messages_thread_get_sql_clauses', $filter );
+		}
+
+		$this->assertSame( array( $message_1->thread_id ), wp_parse_id_list( wp_list_pluck( $threads['threads'], 'thread_id' ) ) );
+		$this->assertSame( 1, $threads['total'] );
+	}
+
+	/**
+	 * @group get_current_threads_for_user
+	 */
+	public function test_get_current_threads_for_user_with_sql_filter() {
+		$sender    = self::factory()->user->create();
+		$recipient = self::factory()->user->create();
+
+		$query_types = array();
 
 		self::factory()->message->create_and_get( array(
-			'sender_id' => $u1,
-			'recipients' => array( $u2 ),
-			'subject' => 'Foo',
+			'sender_id'  => $sender,
+			'recipients' => array( $recipient ),
 		) );
 
-		$message_2 = self::factory()->message->create_and_get( array(
-			'sender_id' => $u1,
-			'recipients' => array( $u2 ),
-			'subject' => 'Bar',
-		) );
+		$filter = static function ( $sql, $query_type ) use ( &$query_types ) {
+			$query_types[] = $query_type;
 
-		$threads = BP_Messages_Thread::get_current_threads_for_user( $u1, 'sentbox', 'all', null, null, 'ar' );
+			return $sql;
+		};
 
-		$expected = array( $message_2->thread_id );
-		$found = wp_parse_id_list( wp_list_pluck( $threads['threads'], 'thread_id' ) );
+		add_filter( 'bp_messages_thread_get_sql', $filter, 10, 2 );
 
-		$this->assertSame( $expected, $found );
+		try {
+			BP_Messages_Thread::get_current_threads_for_user( array( 'user_id' => $recipient ) );
+		} finally {
+			remove_filter( 'bp_messages_thread_get_sql', $filter );
+		}
+
+		$this->assertSame( array( 'paged', 'count' ), $query_types );
 	}
+
+
 
 	/**
 	 * @group get_current_threads_for_user

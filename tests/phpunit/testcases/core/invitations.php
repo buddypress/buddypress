@@ -60,6 +60,117 @@ class BP_Tests_Invitations extends BP_UnitTestCase {
 		$this->assertSameSets( $first_query, $second_query, 'Results of the query are expected to match.' );
 	}
 
+	public function test_self_removing_sql_clauses_filter_with_duplicate_join_at_priority_zero() {
+		$user_id = self::factory()->user->create();
+		$manager = new BPTest_Invitation_Manager_Extension();
+		$allowed = $manager->add_invitation( array(
+			'user_id'    => $user_id,
+			'inviter_id' => self::factory()->user->create(),
+			'item_id'    => 1,
+		) );
+		$other = $manager->add_invitation( array(
+			'user_id'    => $user_id,
+			'inviter_id' => self::factory()->user->create(),
+			'item_id'    => 2,
+		) );
+
+		$table = BP_Invitation_Manager::get_table_name();
+
+		$calls  = 0;
+		$filter = static function( $clauses ) use ( $allowed, $table, &$calls, &$filter ) {
+			remove_filter( 'bp_invitations_get_sql_clauses', $filter, 0 );
+			++$calls;
+			$clauses['from'] = "FROM {$table} i";
+			$clauses['join'] .= " INNER JOIN (SELECT {$allowed} AS allowed_id UNION ALL SELECT {$allowed}) access ON access.allowed_id = i.id";
+			$clauses['where_conditions']['allowed'] = "access.allowed_id = {$allowed}";
+
+			if ( 'SELECT COUNT(*)' === $clauses['select'] ) {
+				$clauses['select'] = 'SELECT COUNT(DISTINCT i.id)';
+			}
+
+			return $clauses;
+		};
+
+		$args = array( 'fields' => 'ids', 'cache_results' => true, 'per_page' => 1, 'page' => 1 );
+
+		add_filter( 'bp_invitations_get_sql_clauses', $filter, 0 );
+
+		try {
+			$found = BP_Invitation::get( $args );
+
+			add_filter( 'bp_invitations_get_sql_clauses', $filter, 0 );
+			$total = BP_Invitation::get_total_count( array() );
+
+			add_filter( 'bp_invitations_get_sql_clauses', $filter, 0 );
+			$args['page'] = 2;
+			$second_page = BP_Invitation::get( $args );
+		} finally {
+			remove_filter( 'bp_invitations_get_sql_clauses', $filter, 0 );
+		}
+
+		$this->assertSame( array( $allowed ), $found );
+		$this->assertSame( 1, $total );
+		$this->assertSame( array(), $second_page );
+		$this->assertSame( 3, $calls );
+		$this->assertSameSets( array( $allowed, $other ), BP_Invitation::get( array( 'fields' => 'ids', 'cache_results' => true ) ) );
+	}
+
+	public function test_get_sql_filters() {
+		$user_id       = self::factory()->user->create();
+		$invites_class = new BPTest_Invitation_Manager_Extension();
+		$invitation_id = $invites_class->add_invitation(
+			array(
+				'user_id'     => $user_id,
+				'inviter_id'  => self::factory()->user->create(),
+				'item_id'     => 1,
+				'send_invite' => 'sent',
+			)
+		);
+		$invites_class->add_invitation(
+			array(
+				'user_id'     => $user_id,
+				'inviter_id'  => self::factory()->user->create(),
+				'item_id'     => 2,
+				'send_invite' => 'sent',
+			)
+		);
+
+		$query_types = array();
+		$clauses_filter = static function ( $sql_clauses ) use ( $invitation_id ) {
+			$sql_clauses['where_conditions'][] = "id = {$invitation_id}";
+
+			return $sql_clauses;
+		};
+
+		$sql_filter = static function ( $sql, $query_type ) use ( &$query_types ) {
+			$query_types[] = $query_type;
+
+			return $sql;
+		};
+
+		add_filter( 'bp_invitations_get_sql_clauses', $clauses_filter );
+		add_filter( 'bp_invitations_get_sql', $sql_filter, 10, 2 );
+
+		try {
+			$invitation_ids = BP_Invitation::get(
+				array(
+					'cache_results' => false,
+					'fields'        => 'ids',
+				)
+			);
+			$total = BP_Invitation::get_total_count( array() );
+		} finally {
+			remove_filter( 'bp_invitations_get_sql_clauses', $clauses_filter );
+			remove_filter( 'bp_invitations_get_sql', $sql_filter );
+		}
+
+		$this->assertSame( array( $invitation_id ), $invitation_ids );
+		$this->assertSame( 1, $total );
+		$this->assertSame( array( 'paged', 'count' ), $query_types );
+	}
+
+
+
 	/**
 	 * @ticket BP8552
 	 * @group cache

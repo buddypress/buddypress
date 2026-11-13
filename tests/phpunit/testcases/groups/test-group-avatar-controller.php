@@ -232,14 +232,68 @@ class BP_Tests_Group_Avatar_REST_Controller extends BP_Test_REST_Controller_Test
 	 * @group update_item
 	 */
 	public function test_update_item() {
-		$this->markTestSkipped( 'This endpoint does not support updating group avatars.' );
+		// This endpoint does not support updating group avatars.
+		foreach ( array( 'PUT', 'PATCH' ) as $method ) {
+			$request  = new WP_REST_Request( $method, sprintf( $this->endpoint_url . '/%d/avatar', $this->group_id ) );
+			$response = $this->server->dispatch( $request );
+			$this->assertErrorResponse( 'rest_no_route', $response, 404 );
+		}
 	}
 
 	/**
 	 * @group delete_item
 	 */
 	public function test_delete_item() {
-		$this->markTestSkipped( 'Coverage for deleting group avatars has not been implemented.' );
+		$upload_dir = get_temp_dir() . 'bp-rest-group-avatar-' . wp_generate_uuid4();
+		$upload_url = set_url_scheme( 'http://example.org/bp-test-avatars' );
+		$avatar_dir = $upload_dir . '/group-avatars/' . $this->group_id;
+		$full       = $avatar_dir . '/test-bpfull.jpg';
+		$thumb      = $avatar_dir . '/test-bpthumb.jpg';
+
+		$upload_path_filter = static function () use ( $upload_dir ) {
+			return $upload_dir;
+		};
+		$upload_url_filter = static function () use ( $upload_url ) {
+			return $upload_url;
+		};
+
+		add_filter( 'bp_core_avatar_upload_path', $upload_path_filter );
+		add_filter( 'bp_core_avatar_url', $upload_url_filter );
+
+		try {
+			// Seed stored avatars without repeating upload and cropping coverage.
+			$this->assertTrue( wp_mkdir_p( $avatar_dir ) );
+			$this->assertTrue( copy( $this->image_file, $full ) );
+			$this->assertTrue( copy( $this->image_file, $thumb ) );
+			$this->assertTrue( bp_get_group_has_avatar( $this->group_id ) );
+
+			wp_set_current_user( $this->user );
+
+			$request = new WP_REST_Request( 'DELETE', sprintf( $this->endpoint_url . '/%d/avatar', $this->group_id ) );
+			$request->set_param( 'context', 'edit' );
+			$response = $this->server->dispatch( $request );
+
+			$this->assertSame( 200, $response->get_status() );
+
+			$data = $response->get_data();
+			$this->assertTrue( $data['deleted'] );
+			$this->assertInstanceOf( 'stdClass', $data['previous'] );
+			$this->assertSame(
+				array(
+					'full'  => $upload_url . '/group-avatars/' . $this->group_id . '/test-bpfull.jpg',
+					'thumb' => $upload_url . '/group-avatars/' . $this->group_id . '/test-bpthumb.jpg',
+				),
+				(array) $data['previous']
+			);
+			$this->assertFalse( file_exists( $full ) );
+			$this->assertFalse( file_exists( $thumb ) );
+			$this->assertDirectoryDoesNotExist( $avatar_dir );
+			$this->assertFalse( bp_get_group_has_avatar( $this->group_id ) );
+		} finally {
+			$this->bp->rrmdir( $upload_dir );
+			remove_filter( 'bp_core_avatar_upload_path', $upload_path_filter );
+			remove_filter( 'bp_core_avatar_url', $upload_url_filter );
+		}
 	}
 
 	/**
@@ -278,7 +332,49 @@ class BP_Tests_Group_Avatar_REST_Controller extends BP_Test_REST_Controller_Test
 	 * @group prepare_item
 	 */
 	public function test_prepare_item() {
-		$this->markTestSkipped( 'Coverage for prepare_item_for_response() has not been implemented.' );
+		global $wp_rest_additional_fields;
+
+		$original_fields = $wp_rest_additional_fields;
+		$avatar          = (object) array(
+			'full'  => 'https://example.org/avatar-full.jpg',
+			'thumb' => 'https://example.org/avatar-thumb.jpg',
+		);
+
+		register_rest_field(
+			'bp_attachments_group_avatar',
+			'test_edit_field',
+			array(
+				'get_callback' => static function () {
+					return 'Additional value';
+				},
+				'schema'       => array(
+					'type'    => 'string',
+					'context' => array( 'edit' ),
+				),
+			)
+		);
+
+		try {
+			foreach ( array( null, 'view', 'edit' ) as $context ) {
+				$request = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '/%d/avatar', $this->group_id ) );
+				if ( null !== $context ) {
+					$request->set_param( 'context', $context );
+				}
+
+				$response = $this->endpoint->prepare_item_for_response( $avatar, $request );
+				$expected = (array) $avatar;
+
+				if ( 'edit' === $context ) {
+					$expected['test_edit_field'] = 'Additional value';
+				}
+
+				$this->assertInstanceOf( 'WP_REST_Response', $response );
+				$this->assertSame( 200, $response->get_status() );
+				$this->assertSame( $expected, $response->get_data() );
+			}
+		} finally {
+			$wp_rest_additional_fields = $original_fields;
+		}
 	}
 
 	public function test_get_item_schema() {

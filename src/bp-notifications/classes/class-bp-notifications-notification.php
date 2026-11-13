@@ -404,6 +404,7 @@ class BP_Notifications_Notification {
 		 * Filters the MySQL WHERE conditions for the Notifications items get method.
 		 *
 		 * @since 2.3.0
+		 * @deprecated 15.0.0 Use the `bp_notifications_get_sql_clauses` filter instead.
 		 *
 		 * @param array  $where_conditions Current conditions for MySQL WHERE statement.
 		 * @param array  $args             Parsed arguments passed into method.
@@ -412,7 +413,7 @@ class BP_Notifications_Notification {
 		 * @param string $join_sql         Current INNER JOIN MySQL statement at point of execution.
 		 * @param string $meta_query_sql   Current meta query WHERE statement at point of execution.
 		 */
-		$where_conditions = apply_filters( 'bp_notifications_get_where_conditions', $where_conditions, $args, $select_sql, $from_sql, $join_sql, $meta_query_sql );
+		$where_conditions = apply_filters_deprecated( 'bp_notifications_get_where_conditions', array( $where_conditions, $args, $select_sql, $from_sql, $join_sql, $meta_query_sql ), '15.0.0', 'bp_notifications_get_sql_clauses' );
 
 		// Custom WHERE.
 		if ( ! empty( $where_conditions ) ) {
@@ -752,6 +753,60 @@ class BP_Notifications_Notification {
 		// Concatenate query parts.
 		$sql = "{$select_sql} {$from_sql} {$join_sql} {$where_sql} {$order_sql} {$pag_sql}";
 
+		$sql_clauses = array(
+			'select'           => $select_sql,
+			'from'             => $from_sql,
+			'join'             => $join_sql,
+			'where_conditions' => empty( $where_sql ) ? array() : array( substr( $where_sql, 6 ) ),
+			'groupby'          => '',
+			'orderby'          => $order_sql,
+			'limits'           => $pag_sql,
+		);
+
+		// Keep callback changes even if it removes itself while filtering.
+		$has_sql_clauses_filter = has_filter( 'bp_notifications_get_sql_clauses' );
+
+		/**
+		 * Filters the SQL clauses for notification results.
+		 *
+		 * Also runs independently in get_total_count(). Callbacks must apply
+		 * the same restrictions in both methods to keep totals aligned. Joins
+		 * that multiply rows also need distinct result and count selections.
+		 *
+		 * @since 15.0.0
+		 *
+		 * @param array $sql_clauses {
+		 *     SQL clauses for the query.
+		 *
+		 *     @type string   $select           SELECT clause.
+		 *     @type string   $from             FROM clause.
+		 *     @type string   $join             JOIN clauses.
+		 *     @type string[] $where_conditions WHERE conditions without the WHERE keyword.
+		 *     @type string   $groupby          GROUP BY clause.
+		 *     @type string   $orderby          ORDER BY clause.
+		 *     @type string   $limits           LIMIT clause.
+		 * }
+		 * @param array $r Parsed arguments passed into the method.
+		 */
+		$sql_clauses = apply_filters( 'bp_notifications_get_sql_clauses', $sql_clauses, $r );
+
+		if ( $has_sql_clauses_filter ) {
+			$where_sql = empty( $sql_clauses['where_conditions'] ) ? '' : 'WHERE ' . implode( ' AND ', $sql_clauses['where_conditions'] );
+			$sql       = implode( ' ', array_filter( array( $sql_clauses['select'], $sql_clauses['from'], $sql_clauses['join'], $where_sql, $sql_clauses['groupby'], $sql_clauses['orderby'], $sql_clauses['limits'] ) ) );
+		}
+
+		/**
+		 * Filters the final SQL for the notifications get method.
+		 *
+		 * @since 15.0.0
+		 *
+		 * @param string $sql         SQL used to query results.
+		 * @param string $query_type  Query type for this call: `paged`.
+		 * @param array  $r           Parsed arguments passed into the method.
+		 * @param array  $sql_clauses SQL clauses for the query.
+		 */
+		$sql = apply_filters( 'bp_notifications_get_sql', $sql, 'paged', $r, $sql_clauses );
+
 		// Perform query.
 		$results = $wpdb->get_results( $sql );
 
@@ -824,6 +879,38 @@ class BP_Notifications_Notification {
 
 		// Concatenate query parts.
 		$sql = "{$select_sql} {$from_sql} {$join_sql} {$where_sql}";
+
+		$sql_clauses = array(
+			'select'           => $select_sql,
+			'from'             => $from_sql,
+			'join'             => $join_sql,
+			'where_conditions' => empty( $where_sql ) ? array() : array( substr( $where_sql, 6 ) ),
+			'groupby'          => '',
+			'orderby'          => '',
+			'limits'           => '',
+		);
+
+		$has_sql_clauses_filter = has_filter( 'bp_notifications_get_sql_clauses' );
+
+		/** This filter is documented in bp-notifications/classes/class-bp-notifications-notification.php */
+		$sql_clauses = apply_filters( 'bp_notifications_get_sql_clauses', $sql_clauses, $r );
+
+		if ( $has_sql_clauses_filter ) {
+			$where_sql = empty( $sql_clauses['where_conditions'] ) ? '' : 'WHERE ' . implode( ' AND ', $sql_clauses['where_conditions'] );
+			$sql       = implode( ' ', array_filter( array( $sql_clauses['select'], $sql_clauses['from'], $sql_clauses['join'], $where_sql, $sql_clauses['groupby'], $sql_clauses['orderby'], $sql_clauses['limits'] ) ) );
+		}
+
+		/**
+		 * Filters the final SQL for the notifications total.
+		 *
+		 * @since 15.0.0
+		 *
+		 * @param string $sql         SQL used to query the total.
+		 * @param string $query_type  Query type for this call: `count`.
+		 * @param array  $r           Parsed arguments passed into the method.
+		 * @param array  $sql_clauses SQL clauses for the query.
+		 */
+		$sql = apply_filters( 'bp_notifications_get_sql', $sql, 'count', $r, $sql_clauses );
 
 		// Return the queried results.
 		return (int) $wpdb->get_var( $sql );
@@ -1215,7 +1302,7 @@ class BP_Notifications_Notification {
 
 		return array(
 			'notifications' => &$notifications,
-			'total' => $total_count,
+			'total'         => $total_count,
 		);
 	}
 

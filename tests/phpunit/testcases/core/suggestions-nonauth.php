@@ -144,7 +144,7 @@ class BP_Tests_Suggestions_Non_Authenticated extends BP_UnitTestCase {
 			'type'     => 'members',
 			'term'     => 'smith',
 		) );
-		$this->assertFalse( is_wp_error( $suggestions ) );
+		$this->assertNotWPError( $suggestions );
 		$this->assertCount( 2, $suggestions );  // aardvark, smith.
 
 		$suggestions = bp_core_get_suggestions( array(
@@ -152,7 +152,7 @@ class BP_Tests_Suggestions_Non_Authenticated extends BP_UnitTestCase {
 			'type'     => 'members',
 			'term'     => 'smith',
 		) );
-		$this->assertFalse( is_wp_error( $suggestions ) );
+		$this->assertNotWPError( $suggestions );
 		$this->assertCount( 1, $suggestions );  // zoom
 	}
 

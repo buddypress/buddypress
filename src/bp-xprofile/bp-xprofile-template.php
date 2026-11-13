@@ -189,7 +189,7 @@ function bp_field_css_class( $extra_classes = false ) {
 		// Add the field visibility level.
 		$css_classes[] = 'visibility-' . esc_attr( bp_get_the_profile_field_visibility_level() );
 
-		if ( $profile_template->current_field % 2 === 1 ) {
+		if ( 1 === $profile_template->current_field % 2 ) {
 			$css_classes[] = 'alt';
 		}
 
@@ -616,7 +616,9 @@ function bp_the_profile_field_value() {
 	function bp_get_the_profile_field_value() {
 		global $field;
 
-		$field->data->value = bp_unserialize_profile_field( $field->data->value );
+		if ( (bool) $field->type_obj->supports_multiple_defaults ) {
+			$field->data->value = bp_unserialize_profile_field( $field->data->value );
+		}
 
 		/**
 		 * Filters the XProfile field value.
@@ -1000,8 +1002,7 @@ function bp_the_profile_field_visibility_level_label() {
  */
 function bp_unserialize_profile_field( $value ) {
 	if ( is_serialized( $value ) ) {
-		// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_unserialize -- Support existing serialized profile field values.
-		$field_value = @unserialize( $value );
+		$field_value = maybe_unserialize( $value );
 		$field_value = implode( ', ', $field_value );
 		return $field_value;
 	}

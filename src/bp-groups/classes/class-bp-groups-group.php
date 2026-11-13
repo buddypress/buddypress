@@ -791,18 +791,18 @@ class BP_Groups_Group {
 		}
 
 		$args = array(
-			'meta_query'         => array(
+			'meta_query'        => array(
 				array(
 					'key'   => 'previous_slug',
 					'value' => $slug,
 				),
 			),
-			'orderby'            => 'meta_id',
-			'order'              => 'DESC',
-			'per_page'           => 1,
-			'page'               => 1,
-			'update_meta_cache'  => false,
-			'show_hidden'        => true,
+			'orderby'           => 'meta_id',
+			'order'             => 'DESC',
+			'per_page'          => 1,
+			'page'              => 1,
+			'update_meta_cache' => false,
+			'show_hidden'       => true,
 		);
 
 		$groups = self::get( $args );
@@ -894,7 +894,7 @@ class BP_Groups_Group {
 
 		return array(
 			'groups' => $paged_groups,
-			'total' => $groups['total'],
+			'total'  => $groups['total'],
 		);
 	}
 
@@ -939,7 +939,7 @@ class BP_Groups_Group {
 
 		return array(
 			'groups' => $paged_groups,
-			'total' => $groups['total'],
+			'total'  => $groups['total'],
 		);
 	}
 
@@ -1046,7 +1046,7 @@ class BP_Groups_Group {
 
 		return array(
 			'requests' => $requests,
-			'total' => $total,
+			'total'    => $total,
 		);
 	}
 
@@ -1062,6 +1062,7 @@ class BP_Groups_Group {
 	 * @since 2.8.0 Changed `$search_terms` parameter handling and added `$search_columns` parameter.
 	 * @since 2.9.0 Added `$slug` parameter.
 	 * @since 10.0.0 Added `$date_query` parameter.
+	 * @since 15.0.0 Added `$status__not_in` parameter.
 	 *
 	 * @param array $args {
 	 *     Array of parameters. All items are optional.
@@ -1116,6 +1117,8 @@ class BP_Groups_Group {
 	 *     @type array|string $status             Optional. Array or comma-separated list of group statuses to limit
 	 *                                            results to. If specified, $show_hidden is ignored.
 	 *                                            Default: empty array.
+	 *     @type array|string $status__not_in     Optional. Array or comma-separated list of group statuses to exclude
+	 *                                            from results. Default: empty array.
 	 *     @type string       $fields             Which fields to return. Specify 'ids' to fetch a list of IDs.
 	 *                                            Default: 'all' (return BP_Groups_Group objects).
 	 *                                            If set, meta and admin caches will not be prefetched.
@@ -1184,6 +1187,7 @@ class BP_Groups_Group {
 			'exclude'            => false,
 			'show_hidden'        => false,
 			'status'             => array(),
+			'status__not_in'     => array(),
 			'fields'             => 'all',
 		);
 
@@ -1216,7 +1220,16 @@ class BP_Groups_Group {
 			$r['status']                = array_map( 'sanitize_title', $r['status'] );
 			$status_in                  = "'" . implode( "','", $r['status'] ) . "'";
 			$where_conditions['status'] = "g.status IN ({$status_in})";
-		} elseif ( empty( $r['show_hidden'] ) ) {
+		}
+
+		if ( ! empty( $r['status__not_in'] ) ) {
+			if ( ! is_array( $r['status__not_in'] ) ) {
+				$r['status__not_in'] = preg_split( '/[\s,]+/', $r['status__not_in'] );
+			}
+			$r['status__not_in']                = array_map( 'sanitize_title', $r['status__not_in'] );
+			$status_not_in                      = "'" . implode( "','", $r['status__not_in'] ) . "'";
+			$where_conditions['status__not_in'] = "g.status NOT IN ({$status_not_in})";
+		} elseif ( empty( $r['status'] ) && empty( $r['show_hidden'] ) ) {
 			$where_conditions['hidden'] = "g.status != 'hidden'";
 		}
 
@@ -1249,10 +1262,11 @@ class BP_Groups_Group {
 			}
 			$search = trim( $search, '*' );
 
+			// Before-save filters can add slashes. Match both stored forms without changing the data.
+			$search_terms  = array_unique( array( $search, wp_slash( $search ) ) );
 			$searches      = array();
 			$leading_wild  = ( 'leading' === $wild || 'both' === $wild ) ? '%' : '';
 			$trailing_wild = ( 'trailing' === $wild || 'both' === $wild ) ? '%' : '';
-			$wildcarded    = $leading_wild . bp_esc_like( $search ) . $trailing_wild;
 
 			$search_columns = array( 'name', 'description' );
 			if ( $r['search_columns'] ) {
@@ -1260,7 +1274,10 @@ class BP_Groups_Group {
 			}
 
 			foreach ( $search_columns as $search_column ) {
-				$searches[] = $wpdb->prepare( "$search_column LIKE %s", $wildcarded );
+				foreach ( $search_terms as $search_term ) {
+					$wildcarded = $leading_wild . bp_esc_like( $search_term ) . $trailing_wild;
+					$searches[] = $wpdb->prepare( "$search_column LIKE %s", $wildcarded );
+				}
 			}
 
 			$where_conditions['search'] = '(' . implode( ' OR ', $searches ) . ')';
@@ -1410,24 +1427,77 @@ class BP_Groups_Group {
 			$sql['pagination'] = $wpdb->prepare( 'LIMIT %d, %d', intval( ( $r['page'] - 1 ) * $r['per_page'] ), $per_page );
 		}
 
+		$sql_clauses = array(
+			'select'           => $sql['select'],
+			'from'             => 'FROM ' . $sql['from'],
+			'join'             => '',
+			'where_conditions' => $where_conditions,
+			'groupby'          => '',
+			'orderby'          => $sql['orderby'],
+			'limits'           => $sql['pagination'],
+		);
+
+		// Keep callback changes even if it removes itself while filtering.
+		$has_clause_filter = has_filter( 'bp_groups_group_get_sql_clauses' );
+
+		/**
+		 * Filters shared SQL clauses for group results and their total.
+		 *
+		 * The count uses its own distinct SELECT without grouping, ordering, or limits.
+		 *
+		 * @since 15.0.0
+		 *
+		 * @param array $sql_clauses {
+		 *     SQL clauses for the query.
+		 *
+		 *     @type string   $select           SELECT clause.
+		 *     @type string   $from             FROM clause.
+		 *     @type string   $join             JOIN clauses.
+		 *     @type string[] $where_conditions WHERE conditions without the WHERE keyword.
+		 *     @type string   $groupby          GROUP BY clause.
+		 *     @type string   $orderby          ORDER BY clause.
+		 *     @type string   $limits           LIMIT clause.
+		 * }
+		 * @param array $r Parsed arguments passed into the method.
+		 */
+		$sql_clauses = apply_filters( 'bp_groups_group_get_sql_clauses', $sql_clauses, $r );
+
 		$where = '';
 		if ( ! empty( $where_conditions ) ) {
 			$sql['where'] = implode( ' AND ', $where_conditions );
 			$where        = "WHERE {$sql['where']}";
 		}
 
+		$where_sql        = '';
 		$paged_groups_sql = "{$sql['select']} FROM {$sql['from']} {$where} {$sql['orderby']} {$sql['pagination']}";
+		if ( $has_clause_filter ) {
+			$where_sql        = empty( $sql_clauses['where_conditions'] ) ? '' : 'WHERE ' . implode( ' AND ', $sql_clauses['where_conditions'] );
+			$paged_groups_sql = implode( ' ', array_filter( array( $sql_clauses['select'], $sql_clauses['from'], $sql_clauses['join'], $where_sql, $sql_clauses['groupby'], $sql_clauses['orderby'], $sql_clauses['limits'] ) ) );
+		}
 
 		/**
 		 * Filters the pagination SQL statement.
 		 *
 		 * @since 1.5.0
+		 * @deprecated 15.0.0 Use the `bp_groups_group_get_sql` filter instead.
 		 *
 		 * @param string $paged_groups_sql Concatenated SQL statement.
 		 * @param array  $sql              Array of SQL parts before concatenation.
 		 * @param array  $r                Array of parsed arguments for the get method.
 		 */
-		$paged_groups_sql = apply_filters( 'bp_groups_get_paged_groups_sql', $paged_groups_sql, $sql, $r );
+		$paged_groups_sql = apply_filters_deprecated( 'bp_groups_get_paged_groups_sql', array( $paged_groups_sql, $sql, $r ), '15.0.0', 'bp_groups_group_get_sql' );
+
+		/**
+		 * Filters the final SQL for group results.
+		 *
+		 * @since 15.0.0
+		 *
+		 * @param string $paged_groups_sql SQL used to query results.
+		 * @param string $query_type       Query type for this call: `paged`.
+		 * @param array  $r                Parsed arguments passed into the method.
+		 * @param array  $sql_clauses      SQL clauses for the query.
+		 */
+		$paged_groups_sql = apply_filters( 'bp_groups_group_get_sql', $paged_groups_sql, 'paged', $r, $sql_clauses );
 
 		/*
 		 * Ensure the database query is able to be cached.
@@ -1497,16 +1567,33 @@ class BP_Groups_Group {
 		// Find the total number of groups in the results set.
 		$total_groups_sql = "SELECT COUNT(DISTINCT g.id) FROM {$sql['from']} $where";
 
+		if ( $has_clause_filter ) {
+			$total_groups_sql = "SELECT COUNT(DISTINCT g.id) {$sql_clauses['from']} {$sql_clauses['join']} {$where_sql}";
+		}
+
 		/**
 		 * Filters the SQL used to retrieve total group results.
 		 *
 		 * @since 1.5.0
+		 * @deprecated 15.0.0 Use the `bp_groups_group_get_sql` filter instead.
 		 *
 		 * @param string $total_groups_sql  Concatenated SQL statement used for retrieving total group results.
 		 * @param array  $sql               Array of SQL parts for the query.
 		 * @param array  $r                 Array of parsed arguments for the get method.
 		 */
-		$total_groups_sql = apply_filters( 'bp_groups_get_total_groups_sql', $total_groups_sql, $sql, $r );
+		$total_groups_sql = apply_filters_deprecated( 'bp_groups_get_total_groups_sql', array( $total_groups_sql, $sql, $r ), '15.0.0', 'bp_groups_group_get_sql' );
+
+		/**
+		 * Filters the final SQL for group totals.
+		 *
+		 * @since 15.0.0
+		 *
+		 * @param string $total_groups_sql SQL used to query the total.
+		 * @param string $query_type       Query type for this call: `count`.
+		 * @param array  $r                Parsed arguments passed into the method.
+		 * @param array  $sql_clauses      SQL clauses for the query.
+		 */
+		$total_groups_sql = apply_filters( 'bp_groups_group_get_sql', $total_groups_sql, 'count', $r, $sql_clauses );
 
 		if ( $r['cache_results'] && $query_is_cacheable ) {
 			$cached = bp_core_get_incremented_cache( $total_groups_sql, 'bp_groups' );
@@ -1632,7 +1719,7 @@ class BP_Groups_Group {
 
 		$site_id  = bp_get_taxonomy_term_site_id( bp_get_group_type_tax_name() );
 		$switched = false;
-		if ( $site_id !== get_current_blog_id() ) {
+		if ( get_current_blog_id() !== $site_id ) {
 			switch_to_blog( $site_id );
 			$switched = true;
 		}
@@ -1704,7 +1791,7 @@ class BP_Groups_Group {
 		}
 
 		return array(
-			'order' => $order,
+			'order'   => $order,
 			'orderby' => $orderby,
 		);
 	}

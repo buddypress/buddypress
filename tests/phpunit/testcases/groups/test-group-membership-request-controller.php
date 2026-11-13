@@ -799,7 +799,68 @@ class BP_Tests_Group_Membership_Request_REST_Controller extends BP_Test_REST_Con
 	 * @group get_item
 	 */
 	public function test_prepare_item() {
-		$this->markTestSkipped( 'Coverage for prepare_item_for_response() has not been implemented.' );
+		global $wp_rest_additional_fields;
+
+		$original_fields = $wp_rest_additional_fields;
+
+		$invite                = new BP_Invitation();
+		$invite->id            = 123;
+		$invite->user_id       = $this->g1admin;
+		$invite->item_id       = $this->group_id;
+		$invite->date_modified = '2020-01-02 03:04:05';
+		$invite->type          = 'request';
+		$invite->content       = 'Membership request message';
+
+		register_rest_field(
+			'bp_group_membership_request',
+			'test_edit_field',
+			array(
+				'get_callback' => static function () {
+					return 'Additional value';
+				},
+				'schema'       => array(
+					'type'    => 'string',
+					'context' => array( 'edit' ),
+				),
+			)
+		);
+
+		try {
+			foreach ( array( null, 'view', 'edit' ) as $context ) {
+				$request = new WP_REST_Request( 'GET', $this->endpoint_url . '/' . $invite->id );
+				if ( null !== $context ) {
+					$request->set_param( 'context', $context );
+				}
+
+				$response = $this->endpoint->prepare_item_for_response( $invite, $request );
+
+				$this->assertInstanceOf( 'WP_REST_Response', $response );
+				$this->assertSame( 200, $response->get_status() );
+
+				$data = $response->get_data();
+				$this->assertSame( 123, $data['id'] );
+				$this->assertSame( $this->g1admin, $data['user_id'] );
+				$this->assertSame( $this->group_id, $data['group_id'] );
+				$this->assertSame( 'request', $data['type'] );
+				$this->assertSame( '2020-01-02T03:04:05', $data['date_modified'] );
+				$this->assertSame( 'Membership request message', $data['message']['raw'] );
+				$this->assertSame( apply_filters( 'the_content', 'Membership request message' ), $data['message']['rendered'] );
+
+				$links = $response->get_links();
+				$this->assertSame( rest_url( $this->endpoint_url . '/' . $invite->id ), $links['self'][0]['href'] );
+				$this->assertSame( rest_url( $this->endpoint_url . '/' ), $links['collection'][0]['href'] );
+				$this->assertSame( bp_rest_get_object_url( $this->g1admin, 'members' ), $links['user'][0]['href'] );
+				$this->assertTrue( $links['user'][0]['attributes']['embeddable'] );
+
+				if ( 'edit' === $context ) {
+					$this->assertSame( 'Additional value', $data['test_edit_field'] );
+				} else {
+					$this->assertArrayNotHasKey( 'test_edit_field', $data );
+				}
+			}
+		} finally {
+			$wp_rest_additional_fields = $original_fields;
+		}
 	}
 
 	public function test_get_item_schema() {

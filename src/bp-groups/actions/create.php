@@ -88,12 +88,12 @@ function groups_action_create_group() {
 
 			$bp->groups->new_group_id = groups_create_group(
 				array(
-					'group_id'    => $new_group_id,
-					'name'        => $_POST['group-name'],
-					'description' => $_POST['group-desc'],
-					'slug'        => groups_check_slug( sanitize_title( esc_attr( $_POST['group-name'] ) ) ),
+					'group_id'     => $new_group_id,
+					'name'         => $_POST['group-name'],
+					'description'  => $_POST['group-desc'],
+					'slug'         => groups_check_slug( sanitize_title( esc_attr( $_POST['group-name'] ) ) ),
 					'date_created' => bp_core_current_time(),
-					'status'      => 'public',
+					'status'       => 'public',
 				)
 			);
 
@@ -202,10 +202,10 @@ function groups_action_create_group() {
 		}
 
 		// Reset cookie info.
-		setcookie( 'bp_new_group_id', $bp->groups->new_group_id, time() + 60 * 60 * 24, COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
+		setcookie( 'bp_new_group_id', $bp->groups->new_group_id, time() + DAY_IN_SECONDS, COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
 
 		// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode
-		setcookie( 'bp_completed_create_steps', base64_encode( wp_json_encode( $bp->groups->completed_create_steps ) ), time() + 60 * 60 * 24, COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
+		setcookie( 'bp_completed_create_steps', base64_encode( wp_json_encode( $bp->groups->completed_create_steps ) ), time() + DAY_IN_SECONDS, COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
 
 		// If we have completed all steps and hit done on the final step we
 		// can redirect to the completed group.
@@ -221,7 +221,7 @@ function groups_action_create_group() {
 			if ( bp_is_active( 'activity' ) ) {
 				groups_record_activity(
 					array(
-						'type' => 'created_group',
+						'type'    => 'created_group',
 						'item_id' => $bp->groups->new_group_id,
 					)
 				);
@@ -243,7 +243,7 @@ function groups_action_create_group() {
 			 * we need to loop the step array and fetch the next step that way.
 			 */
 			foreach ( $keys as $key ) {
-				if ( $key === bp_get_groups_current_create_step() ) {
+				if ( bp_get_groups_current_create_step() === $key ) {
 					$next = 1;
 					continue;
 				}

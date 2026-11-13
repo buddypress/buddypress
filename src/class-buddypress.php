@@ -711,12 +711,11 @@ class BuddyPress {
 		// Get the list of versions needing their deprecated functions to be loaded.
 		$deprecated_functions_versions = bp_get_deprecated_functions_versions();
 
-		// Maybe load deprecated functionality.
-		if ( $deprecated_functions_versions && ! $this->is_phpunit_running ) {
+		// Load deprecated functionality.
+		if ( $deprecated_functions_versions ) {
 			$this->load_deprecated = true;
 
 			foreach ( $deprecated_functions_versions as $deprecated_functions_version ) {
-				// Load all or last 2 deprecated versions.
 				require $this->plugin_dir . sprintf( 'bp-core/deprecated/%s.php', number_format( $deprecated_functions_version, 1 ) );
 			}
 		}

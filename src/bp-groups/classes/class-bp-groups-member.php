@@ -226,7 +226,7 @@ class BP_Groups_Member {
 	 * @return BP_Core_User|null
 	 */
 	public function __get( $key ) {
-		if ( $key === 'user' ) {
+		if ( 'user' === $key ) {
 			return $this->get_user_object();
 		}
 
@@ -581,7 +581,7 @@ class BP_Groups_Member {
 		$bp = buddypress();
 
 		// If the user is logged in and viewing their own groups, we can show hidden and private groups.
-		if ( (int) $user_id !== bp_loggedin_user_id() ) {
+		if ( bp_loggedin_user_id() !== (int) $user_id ) {
 			$group_sql    = $wpdb->prepare( "SELECT DISTINCT m.group_id FROM {$bp->groups->table_name_members} m, {$bp->groups->table_name} g WHERE g.status != 'hidden' AND m.user_id = %d AND m.is_confirmed = 1 AND m.is_banned = 0{$pag_sql}", $user_id );
 			$total_groups = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(DISTINCT m.group_id) FROM {$bp->groups->table_name_members} m, {$bp->groups->table_name} g WHERE g.status != 'hidden' AND m.user_id = %d AND m.is_confirmed = 1 AND m.is_banned = 0", $user_id ) );
 		} else {
@@ -650,14 +650,95 @@ class BP_Groups_Member {
 			$filter_sql        = $wpdb->prepare( ' AND ( g.name LIKE %s OR g.description LIKE %s )', $search_terms_like, $search_terms_like );
 		}
 
-		if ( (int) $user_id !== bp_loggedin_user_id() ) {
+		if ( bp_loggedin_user_id() !== (int) $user_id ) {
 			$hidden_sql = " AND g.status != 'hidden'";
 		}
 
 		$bp = buddypress();
 
-		$paged_groups = $wpdb->get_results( "SELECT g.*, gm1.meta_value as total_member_count, gm2.meta_value as last_activity FROM {$bp->groups->table_name_groupmeta} gm1, {$bp->groups->table_name_groupmeta} gm2, {$bp->groups->table_name_members} m, {$bp->groups->table_name} g WHERE g.id = m.group_id AND g.id = gm1.group_id AND g.id = gm2.group_id AND gm2.meta_key = 'last_activity' AND gm1.meta_key = 'total_member_count'{$hidden_sql}{$filter_sql} AND {$user_id_sql} AND m.is_confirmed = 1 AND m.is_banned = 0 ORDER BY m.date_modified DESC {$pag_sql}" );
-		$total_groups = $wpdb->get_var( "SELECT COUNT(DISTINCT m.group_id) FROM {$bp->groups->table_name_members} m, {$bp->groups->table_name} g WHERE m.group_id = g.id{$hidden_sql}{$filter_sql} AND {$user_id_sql} AND m.is_banned = 0 AND m.is_confirmed = 1 ORDER BY m.date_modified DESC" );
+		$r           = compact( 'user_id', 'limit', 'page', 'filter' );
+		$sql_clauses = array(
+			'select'           => 'SELECT g.*, gm1.meta_value as total_member_count, gm2.meta_value as last_activity',
+			'from'             => "FROM {$bp->groups->table_name_members} m",
+			'join'             => "INNER JOIN {$bp->groups->table_name} g ON g.id = m.group_id INNER JOIN {$bp->groups->table_name_groupmeta} gm1 ON g.id = gm1.group_id INNER JOIN {$bp->groups->table_name_groupmeta} gm2 ON g.id = gm2.group_id",
+			'where_conditions' => array(
+				"gm2.meta_key = 'last_activity'",
+				"gm1.meta_key = 'total_member_count'",
+				$user_id_sql,
+				'm.is_confirmed = 1',
+				'm.is_banned = 0',
+			),
+			'groupby'          => '',
+			'orderby'          => 'ORDER BY m.date_modified DESC',
+			'limits'           => $pag_sql,
+		);
+
+		foreach ( array( $hidden_sql, $filter_sql ) as $condition ) {
+			if ( '' !== $condition ) {
+				$sql_clauses['where_conditions'][] = preg_replace( '/^\s*AND\s+/i', '', $condition );
+			}
+		}
+
+		// Retain changes from callbacks that remove themselves while filtering.
+		$has_clause_filter = has_filter( 'bp_groups_member_recently_joined_get_sql_clauses' );
+
+		/**
+		 * Filters shared SQL clauses for groups recently joined by a user.
+		 *
+		 * Filtered queries share the group metadata JOINs.
+		 * Multiplying JOINs need a distinct SELECT or grouping for results.
+		 * The count uses distinct group IDs without grouping, ordering, or limits.
+		 *
+		 * @since 15.0.0
+		 *
+		 * @param array $sql_clauses {
+		 *     SQL clauses for the query.
+		 *
+		 *     @type string   $select           SELECT clause.
+		 *     @type string   $from             FROM clause.
+		 *     @type string   $join             JOIN clauses.
+		 *     @type string[] $where_conditions WHERE conditions without the WHERE keyword.
+		 *     @type string   $groupby          GROUP BY clause.
+		 *     @type string   $orderby          ORDER BY clause.
+		 *     @type string   $limits           LIMIT clause.
+		 * }
+		 * @param array $r Method arguments with defaults applied.
+		 */
+		$sql_clauses = apply_filters( 'bp_groups_member_recently_joined_get_sql_clauses', $sql_clauses, $r );
+
+		$paged_groups_sql = "SELECT g.*, gm1.meta_value as total_member_count, gm2.meta_value as last_activity FROM {$bp->groups->table_name_groupmeta} gm1, {$bp->groups->table_name_groupmeta} gm2, {$bp->groups->table_name_members} m, {$bp->groups->table_name} g WHERE g.id = m.group_id AND g.id = gm1.group_id AND g.id = gm2.group_id AND gm2.meta_key = 'last_activity' AND gm1.meta_key = 'total_member_count'{$hidden_sql}{$filter_sql} AND {$user_id_sql} AND m.is_confirmed = 1 AND m.is_banned = 0 ORDER BY m.date_modified DESC {$pag_sql}";
+		$total_groups_sql = "SELECT COUNT(DISTINCT m.group_id) FROM {$bp->groups->table_name_members} m, {$bp->groups->table_name} g WHERE m.group_id = g.id{$hidden_sql}{$filter_sql} AND {$user_id_sql} AND m.is_banned = 0 AND m.is_confirmed = 1 ORDER BY m.date_modified DESC";
+		if ( $has_clause_filter ) {
+			$where_sql        = empty( $sql_clauses['where_conditions'] ) ? '' : 'WHERE ' . implode( ' AND ', $sql_clauses['where_conditions'] );
+			$paged_groups_sql = implode( ' ', array_filter( array( $sql_clauses['select'], $sql_clauses['from'], $sql_clauses['join'], $where_sql, $sql_clauses['groupby'], $sql_clauses['orderby'], $sql_clauses['limits'] ) ) );
+			$total_groups_sql = "SELECT COUNT(DISTINCT m.group_id) {$sql_clauses['from']} {$sql_clauses['join']} {$where_sql}";
+		}
+
+		/**
+		 * Filters the final SQL for this group membership collection's results.
+		 *
+		 * @since 15.0.0
+		 *
+		 * @param string $paged_groups_sql Final SQL query.
+		 * @param string $query_type       Query type for this call: `paged`.
+		 * @param array  $r                Method arguments with defaults applied.
+		 * @param array  $sql_clauses      SQL clauses for the query.
+		 */
+		$paged_groups_sql = apply_filters( 'bp_groups_member_recently_joined_get_sql', $paged_groups_sql, 'paged', $r, $sql_clauses );
+		$paged_groups     = $wpdb->get_results( $paged_groups_sql );
+
+		/**
+		 * Filters the final SQL for this group membership collection's total.
+		 *
+		 * @since 15.0.0
+		 *
+		 * @param string $total_groups_sql Final SQL query.
+		 * @param string $query_type       Query type for this call: `count`.
+		 * @param array  $r                Method arguments with defaults applied.
+		 * @param array  $sql_clauses      SQL clauses for the query.
+		 */
+		$total_groups_sql = apply_filters( 'bp_groups_member_recently_joined_get_sql', $total_groups_sql, 'count', $r, $sql_clauses );
+		$total_groups     = $wpdb->get_var( $total_groups_sql );
 
 		$paged_groups = self::cast_group_query_results( $paged_groups );
 
@@ -703,14 +784,97 @@ class BP_Groups_Member {
 			$filter_sql        = $wpdb->prepare( ' AND ( g.name LIKE %s OR g.description LIKE %s )', $search_terms_like, $search_terms_like );
 		}
 
-		if ( (int) $user_id !== bp_loggedin_user_id() ) {
+		if ( bp_loggedin_user_id() !== (int) $user_id ) {
 			$hidden_sql = " AND g.status != 'hidden'";
 		}
 
 		$bp = buddypress();
 
-		$paged_groups = $wpdb->get_results( "SELECT g.*, gm1.meta_value as total_member_count, gm2.meta_value as last_activity FROM {$bp->groups->table_name_groupmeta} gm1, {$bp->groups->table_name_groupmeta} gm2, {$bp->groups->table_name_members} m, {$bp->groups->table_name} g WHERE g.id = m.group_id AND g.id = gm1.group_id AND g.id = gm2.group_id AND gm2.meta_key = 'last_activity' AND gm1.meta_key = 'total_member_count'{$hidden_sql}{$filter_sql} AND {$user_id_sql} AND m.is_confirmed = 1 AND m.is_banned = 0 AND m.is_admin = 1 ORDER BY m.date_modified ASC {$pag_sql}" );
-		$total_groups = $wpdb->get_var( "SELECT COUNT(DISTINCT m.group_id) FROM {$bp->groups->table_name_members} m, {$bp->groups->table_name} g WHERE m.group_id = g.id{$hidden_sql}{$filter_sql} AND {$user_id_sql} AND m.is_confirmed = 1 AND m.is_banned = 0 AND m.is_admin = 1 ORDER BY date_modified ASC" );
+		$r           = compact( 'user_id', 'limit', 'page', 'filter' );
+		$sql_clauses = array(
+			'select'           => 'SELECT g.*, gm1.meta_value as total_member_count, gm2.meta_value as last_activity',
+			'from'             => "FROM {$bp->groups->table_name_members} m",
+			'join'             => "INNER JOIN {$bp->groups->table_name} g ON g.id = m.group_id INNER JOIN {$bp->groups->table_name_groupmeta} gm1 ON g.id = gm1.group_id INNER JOIN {$bp->groups->table_name_groupmeta} gm2 ON g.id = gm2.group_id",
+			'where_conditions' => array(
+				"gm2.meta_key = 'last_activity'",
+				"gm1.meta_key = 'total_member_count'",
+				$user_id_sql,
+				'm.is_confirmed = 1',
+				'm.is_banned = 0',
+				'm.is_admin = 1',
+			),
+			'groupby'          => '',
+			'orderby'          => 'ORDER BY m.date_modified ASC',
+			'limits'           => $pag_sql,
+		);
+
+		foreach ( array( $hidden_sql, $filter_sql ) as $condition ) {
+			if ( '' !== $condition ) {
+				$sql_clauses['where_conditions'][] = preg_replace( '/^\s*AND\s+/i', '', $condition );
+			}
+		}
+
+		// Retain changes from callbacks that remove themselves while filtering.
+		$has_clause_filter = has_filter( 'bp_groups_member_is_admin_of_get_sql_clauses' );
+
+		/**
+		 * Filters shared SQL clauses for groups administered by a user.
+		 *
+		 * Filtered queries share the group metadata JOINs.
+		 * Multiplying JOINs need a distinct SELECT or grouping for results.
+		 * The count uses distinct group IDs without grouping, ordering, or limits.
+		 *
+		 * @since 15.0.0
+		 *
+		 * @param array $sql_clauses {
+		 *     SQL clauses for the query.
+		 *
+		 *     @type string   $select           SELECT clause.
+		 *     @type string   $from             FROM clause.
+		 *     @type string   $join             JOIN clauses.
+		 *     @type string[] $where_conditions WHERE conditions without the WHERE keyword.
+		 *     @type string   $groupby          GROUP BY clause.
+		 *     @type string   $orderby          ORDER BY clause.
+		 *     @type string   $limits           LIMIT clause.
+		 * }
+		 * @param array $r Method arguments with defaults applied.
+		 */
+		$sql_clauses = apply_filters( 'bp_groups_member_is_admin_of_get_sql_clauses', $sql_clauses, $r );
+
+		$paged_groups_sql = "SELECT g.*, gm1.meta_value as total_member_count, gm2.meta_value as last_activity FROM {$bp->groups->table_name_groupmeta} gm1, {$bp->groups->table_name_groupmeta} gm2, {$bp->groups->table_name_members} m, {$bp->groups->table_name} g WHERE g.id = m.group_id AND g.id = gm1.group_id AND g.id = gm2.group_id AND gm2.meta_key = 'last_activity' AND gm1.meta_key = 'total_member_count'{$hidden_sql}{$filter_sql} AND {$user_id_sql} AND m.is_confirmed = 1 AND m.is_banned = 0 AND m.is_admin = 1 ORDER BY m.date_modified ASC {$pag_sql}";
+		$total_groups_sql = "SELECT COUNT(DISTINCT m.group_id) FROM {$bp->groups->table_name_members} m, {$bp->groups->table_name} g WHERE m.group_id = g.id{$hidden_sql}{$filter_sql} AND {$user_id_sql} AND m.is_confirmed = 1 AND m.is_banned = 0 AND m.is_admin = 1 ORDER BY date_modified ASC";
+
+		if ( $has_clause_filter ) {
+			$where_sql        = empty( $sql_clauses['where_conditions'] ) ? '' : 'WHERE ' . implode( ' AND ', $sql_clauses['where_conditions'] );
+			$paged_groups_sql = implode( ' ', array_filter( array( $sql_clauses['select'], $sql_clauses['from'], $sql_clauses['join'], $where_sql, $sql_clauses['groupby'], $sql_clauses['orderby'], $sql_clauses['limits'] ) ) );
+			$total_groups_sql = "SELECT COUNT(DISTINCT m.group_id) {$sql_clauses['from']} {$sql_clauses['join']} {$where_sql}";
+		}
+
+		/**
+		 * Filters the final SQL for this group membership collection's results.
+		 *
+		 * @since 15.0.0
+		 *
+		 * @param string $paged_groups_sql Final SQL query.
+		 * @param string $query_type       Query type for this call: `paged`.
+		 * @param array  $r                Method arguments with defaults applied.
+		 * @param array  $sql_clauses      SQL clauses for the query.
+		 */
+		$paged_groups_sql = apply_filters( 'bp_groups_member_is_admin_of_get_sql', $paged_groups_sql, 'paged', $r, $sql_clauses );
+		$paged_groups     = $wpdb->get_results( $paged_groups_sql );
+
+		/**
+		 * Filters the final SQL for this group membership collection's total.
+		 *
+		 * @since 15.0.0
+		 *
+		 * @param string $total_groups_sql Final SQL query.
+		 * @param string $query_type       Query type for this call: `count`.
+		 * @param array  $r                Method arguments with defaults applied.
+		 * @param array  $sql_clauses      SQL clauses for the query.
+		 */
+		$total_groups_sql = apply_filters( 'bp_groups_member_is_admin_of_get_sql', $total_groups_sql, 'count', $r, $sql_clauses );
+		$total_groups     = $wpdb->get_var( $total_groups_sql );
 
 		$paged_groups = self::cast_group_query_results( $paged_groups );
 
@@ -758,14 +922,97 @@ class BP_Groups_Member {
 			$filter_sql        = $wpdb->prepare( ' AND ( g.name LIKE %s OR g.description LIKE %s )', $search_terms_like, $search_terms_like );
 		}
 
-		if ( (int) $user_id !== bp_loggedin_user_id() ) {
+		if ( bp_loggedin_user_id() !== (int) $user_id ) {
 			$hidden_sql = " AND g.status != 'hidden'";
 		}
 
 		$bp = buddypress();
 
-		$paged_groups = $wpdb->get_results( "SELECT g.*, gm1.meta_value as total_member_count, gm2.meta_value as last_activity FROM {$bp->groups->table_name_groupmeta} gm1, {$bp->groups->table_name_groupmeta} gm2, {$bp->groups->table_name_members} m, {$bp->groups->table_name} g WHERE g.id = m.group_id AND g.id = gm1.group_id AND g.id = gm2.group_id AND gm2.meta_key = 'last_activity' AND gm1.meta_key = 'total_member_count'{$hidden_sql}{$filter_sql} AND {$user_id_sql} AND m.is_confirmed = 1 AND m.is_banned = 0 AND m.is_mod = 1 ORDER BY m.date_modified ASC {$pag_sql}" );
-		$total_groups = $wpdb->get_var( "SELECT COUNT(DISTINCT m.group_id) FROM {$bp->groups->table_name_members} m, {$bp->groups->table_name} g WHERE m.group_id = g.id{$hidden_sql}{$filter_sql} AND {$user_id_sql} AND m.is_confirmed = 1 AND m.is_banned = 0 AND m.is_mod = 1 ORDER BY date_modified ASC" );
+		$r           = compact( 'user_id', 'limit', 'page', 'filter' );
+		$sql_clauses = array(
+			'select'           => 'SELECT g.*, gm1.meta_value as total_member_count, gm2.meta_value as last_activity',
+			'from'             => "FROM {$bp->groups->table_name_members} m",
+			'join'             => "INNER JOIN {$bp->groups->table_name} g ON g.id = m.group_id INNER JOIN {$bp->groups->table_name_groupmeta} gm1 ON g.id = gm1.group_id INNER JOIN {$bp->groups->table_name_groupmeta} gm2 ON g.id = gm2.group_id",
+			'where_conditions' => array(
+				"gm2.meta_key = 'last_activity'",
+				"gm1.meta_key = 'total_member_count'",
+				$user_id_sql,
+				'm.is_confirmed = 1',
+				'm.is_banned = 0',
+				'm.is_mod = 1',
+			),
+			'groupby'          => '',
+			'orderby'          => 'ORDER BY m.date_modified ASC',
+			'limits'           => $pag_sql,
+		);
+
+		foreach ( array( $hidden_sql, $filter_sql ) as $condition ) {
+			if ( '' !== $condition ) {
+				$sql_clauses['where_conditions'][] = preg_replace( '/^\s*AND\s+/i', '', $condition );
+			}
+		}
+
+		// Retain changes from callbacks that remove themselves while filtering.
+		$has_clause_filter = has_filter( 'bp_groups_member_is_mod_of_get_sql_clauses' );
+
+		/**
+		 * Filters shared SQL clauses for groups moderated by a user.
+		 *
+		 * Filtered queries share the group metadata JOINs.
+		 * Multiplying JOINs need a distinct SELECT or grouping for results.
+		 * The count uses distinct group IDs without grouping, ordering, or limits.
+		 *
+		 * @since 15.0.0
+		 *
+		 * @param array $sql_clauses {
+		 *     SQL clauses for the query.
+		 *
+		 *     @type string   $select           SELECT clause.
+		 *     @type string   $from             FROM clause.
+		 *     @type string   $join             JOIN clauses.
+		 *     @type string[] $where_conditions WHERE conditions without the WHERE keyword.
+		 *     @type string   $groupby          GROUP BY clause.
+		 *     @type string   $orderby          ORDER BY clause.
+		 *     @type string   $limits           LIMIT clause.
+		 * }
+		 * @param array $r Method arguments with defaults applied.
+		 */
+		$sql_clauses = apply_filters( 'bp_groups_member_is_mod_of_get_sql_clauses', $sql_clauses, $r );
+
+		$paged_groups_sql = "SELECT g.*, gm1.meta_value as total_member_count, gm2.meta_value as last_activity FROM {$bp->groups->table_name_groupmeta} gm1, {$bp->groups->table_name_groupmeta} gm2, {$bp->groups->table_name_members} m, {$bp->groups->table_name} g WHERE g.id = m.group_id AND g.id = gm1.group_id AND g.id = gm2.group_id AND gm2.meta_key = 'last_activity' AND gm1.meta_key = 'total_member_count'{$hidden_sql}{$filter_sql} AND {$user_id_sql} AND m.is_confirmed = 1 AND m.is_banned = 0 AND m.is_mod = 1 ORDER BY m.date_modified ASC {$pag_sql}";
+		$total_groups_sql = "SELECT COUNT(DISTINCT m.group_id) FROM {$bp->groups->table_name_members} m, {$bp->groups->table_name} g WHERE m.group_id = g.id{$hidden_sql}{$filter_sql} AND {$user_id_sql} AND m.is_confirmed = 1 AND m.is_banned = 0 AND m.is_mod = 1 ORDER BY date_modified ASC";
+
+		if ( $has_clause_filter ) {
+			$where_sql        = empty( $sql_clauses['where_conditions'] ) ? '' : 'WHERE ' . implode( ' AND ', $sql_clauses['where_conditions'] );
+			$paged_groups_sql = implode( ' ', array_filter( array( $sql_clauses['select'], $sql_clauses['from'], $sql_clauses['join'], $where_sql, $sql_clauses['groupby'], $sql_clauses['orderby'], $sql_clauses['limits'] ) ) );
+			$total_groups_sql = "SELECT COUNT(DISTINCT m.group_id) {$sql_clauses['from']} {$sql_clauses['join']} {$where_sql}";
+		}
+
+		/**
+		 * Filters the final SQL for this group membership collection's results.
+		 *
+		 * @since 15.0.0
+		 *
+		 * @param string $paged_groups_sql Final SQL query.
+		 * @param string $query_type       Query type for this call: `paged`.
+		 * @param array  $r                Method arguments with defaults applied.
+		 * @param array  $sql_clauses      SQL clauses for the query.
+		 */
+		$paged_groups_sql = apply_filters( 'bp_groups_member_is_mod_of_get_sql', $paged_groups_sql, 'paged', $r, $sql_clauses );
+		$paged_groups     = $wpdb->get_results( $paged_groups_sql );
+
+		/**
+		 * Filters the final SQL for this group membership collection's total.
+		 *
+		 * @since 15.0.0
+		 *
+		 * @param string $total_groups_sql Final SQL query.
+		 * @param string $query_type       Query type for this call: `count`.
+		 * @param array  $r                Method arguments with defaults applied.
+		 * @param array  $sql_clauses      SQL clauses for the query.
+		 */
+		$total_groups_sql = apply_filters( 'bp_groups_member_is_mod_of_get_sql', $total_groups_sql, 'count', $r, $sql_clauses );
+		$total_groups     = $wpdb->get_var( $total_groups_sql );
 
 		$paged_groups = self::cast_group_query_results( $paged_groups );
 
@@ -814,12 +1061,93 @@ class BP_Groups_Member {
 			$filter_sql        = $wpdb->prepare( ' AND ( g.name LIKE %s OR g.description LIKE %s )', $search_terms_like, $search_terms_like );
 		}
 
-		if ( (int) $user_id !== bp_loggedin_user_id() && ! bp_current_user_can( 'bp_moderate' ) ) {
+		if ( bp_loggedin_user_id() !== (int) $user_id && ! bp_current_user_can( 'bp_moderate' ) ) {
 			$hidden_sql = " AND g.status != 'hidden'";
 		}
 
-		$paged_groups = $wpdb->get_results( "SELECT g.*, gm1.meta_value as total_member_count, gm2.meta_value as last_activity FROM {$bp->groups->table_name_groupmeta} gm1, {$bp->groups->table_name_groupmeta} gm2, {$bp->groups->table_name_members} m, {$bp->groups->table_name} g WHERE g.id = m.group_id AND g.id = gm1.group_id AND g.id = gm2.group_id AND gm2.meta_key = 'last_activity' AND gm1.meta_key = 'total_member_count'{$hidden_sql}{$filter_sql} AND {$user_id_sql} AND m.is_banned = 1  ORDER BY m.date_modified ASC {$pag_sql}" );
-		$total_groups = $wpdb->get_var( "SELECT COUNT(DISTINCT m.group_id) FROM {$bp->groups->table_name_members} m, {$bp->groups->table_name} g WHERE m.group_id = g.id{$hidden_sql}{$filter_sql} AND {$user_id_sql} AND m.is_banned = 1 ORDER BY date_modified ASC" );
+		$r           = compact( 'user_id', 'limit', 'page', 'filter' );
+		$sql_clauses = array(
+			'select'           => 'SELECT g.*, gm1.meta_value as total_member_count, gm2.meta_value as last_activity',
+			'from'             => "FROM {$bp->groups->table_name_members} m",
+			'join'             => "INNER JOIN {$bp->groups->table_name} g ON g.id = m.group_id INNER JOIN {$bp->groups->table_name_groupmeta} gm1 ON g.id = gm1.group_id INNER JOIN {$bp->groups->table_name_groupmeta} gm2 ON g.id = gm2.group_id",
+			'where_conditions' => array(
+				"gm2.meta_key = 'last_activity'",
+				"gm1.meta_key = 'total_member_count'",
+				$user_id_sql,
+				'm.is_banned = 1',
+			),
+			'groupby'          => '',
+			'orderby'          => 'ORDER BY m.date_modified ASC',
+			'limits'           => $pag_sql,
+		);
+
+		foreach ( array( $hidden_sql, $filter_sql ) as $condition ) {
+			if ( '' !== $condition ) {
+				$sql_clauses['where_conditions'][] = preg_replace( '/^\s*AND\s+/i', '', $condition );
+			}
+		}
+
+		// Retain changes from callbacks that remove themselves while filtering.
+		$has_clause_filter = has_filter( 'bp_groups_member_is_banned_of_get_sql_clauses' );
+
+		/**
+		 * Filters shared SQL clauses for groups from which a user is banned.
+		 *
+		 * Filtered queries share the group metadata JOINs.
+		 * Multiplying JOINs need a distinct SELECT or grouping for results.
+		 * The count uses distinct group IDs without grouping, ordering, or limits.
+		 *
+		 * @since 15.0.0
+		 *
+		 * @param array $sql_clauses {
+		 *     SQL clauses for the query.
+		 *
+		 *     @type string   $select           SELECT clause.
+		 *     @type string   $from             FROM clause.
+		 *     @type string   $join             JOIN clauses.
+		 *     @type string[] $where_conditions WHERE conditions without the WHERE keyword.
+		 *     @type string   $groupby          GROUP BY clause.
+		 *     @type string   $orderby          ORDER BY clause.
+		 *     @type string   $limits           LIMIT clause.
+		 * }
+		 * @param array $r Method arguments with defaults applied.
+		 */
+		$sql_clauses = apply_filters( 'bp_groups_member_is_banned_of_get_sql_clauses', $sql_clauses, $r );
+
+		$paged_groups_sql = "SELECT g.*, gm1.meta_value as total_member_count, gm2.meta_value as last_activity FROM {$bp->groups->table_name_groupmeta} gm1, {$bp->groups->table_name_groupmeta} gm2, {$bp->groups->table_name_members} m, {$bp->groups->table_name} g WHERE g.id = m.group_id AND g.id = gm1.group_id AND g.id = gm2.group_id AND gm2.meta_key = 'last_activity' AND gm1.meta_key = 'total_member_count'{$hidden_sql}{$filter_sql} AND {$user_id_sql} AND m.is_banned = 1  ORDER BY m.date_modified ASC {$pag_sql}";
+		$total_groups_sql = "SELECT COUNT(DISTINCT m.group_id) FROM {$bp->groups->table_name_members} m, {$bp->groups->table_name} g WHERE m.group_id = g.id{$hidden_sql}{$filter_sql} AND {$user_id_sql} AND m.is_banned = 1 ORDER BY date_modified ASC";
+
+		if ( $has_clause_filter ) {
+			$where_sql        = empty( $sql_clauses['where_conditions'] ) ? '' : 'WHERE ' . implode( ' AND ', $sql_clauses['where_conditions'] );
+			$paged_groups_sql = implode( ' ', array_filter( array( $sql_clauses['select'], $sql_clauses['from'], $sql_clauses['join'], $where_sql, $sql_clauses['groupby'], $sql_clauses['orderby'], $sql_clauses['limits'] ) ) );
+			$total_groups_sql = "SELECT COUNT(DISTINCT m.group_id) {$sql_clauses['from']} {$sql_clauses['join']} {$where_sql}";
+		}
+
+		/**
+		 * Filters the final SQL for this group membership collection's results.
+		 *
+		 * @since 15.0.0
+		 *
+		 * @param string $paged_groups_sql Final SQL query.
+		 * @param string $query_type       Query type for this call: `paged`.
+		 * @param array  $r                Method arguments with defaults applied.
+		 * @param array  $sql_clauses      SQL clauses for the query.
+		 */
+		$paged_groups_sql = apply_filters( 'bp_groups_member_is_banned_of_get_sql', $paged_groups_sql, 'paged', $r, $sql_clauses );
+		$paged_groups     = $wpdb->get_results( $paged_groups_sql );
+
+		/**
+		 * Filters the final SQL for this group membership collection's total.
+		 *
+		 * @since 15.0.0
+		 *
+		 * @param string $total_groups_sql Final SQL query.
+		 * @param string $query_type       Query type for this call: `count`.
+		 * @param array  $r                Method arguments with defaults applied.
+		 * @param array  $sql_clauses      SQL clauses for the query.
+		 */
+		$total_groups_sql = apply_filters( 'bp_groups_member_is_banned_of_get_sql', $total_groups_sql, 'count', $r, $sql_clauses );
+		$total_groups     = $wpdb->get_var( $total_groups_sql );
 
 		$paged_groups = self::cast_group_query_results( $paged_groups );
 
@@ -848,7 +1176,7 @@ class BP_Groups_Member {
 
 		$bp = buddypress();
 
-		if ( (int) $user_id !== bp_loggedin_user_id() && ! bp_current_user_can( 'bp_moderate' ) ) {
+		if ( bp_loggedin_user_id() !== (int) $user_id && ! bp_current_user_can( 'bp_moderate' ) ) {
 			return (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(DISTINCT m.group_id) FROM {$bp->groups->table_name_members} m, {$bp->groups->table_name} g WHERE m.group_id = g.id AND g.status != 'hidden' AND m.user_id = %d AND m.is_confirmed = 1 AND m.is_banned = 0", $user_id ) );
 		}
 

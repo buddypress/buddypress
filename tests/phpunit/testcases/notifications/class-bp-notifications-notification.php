@@ -458,4 +458,112 @@ class BP_Tests_BP_Notifications_Notification_TestCases extends BP_UnitTestCase {
 
 		$this->assertSame( [ $n3, $n4 ], wp_list_pluck( $found_4, 'id' ) );
 	}
+
+	/**
+	 * @group get
+	 */
+	public function test_self_removing_sql_clauses_filter_at_priority_zero() {
+		$user_id = self::factory()->user->create();
+		$allowed = self::factory()->notification->create( array( 'user_id' => $user_id, 'component_name' => 'groups' ) );
+		self::factory()->notification->create( array( 'user_id' => $user_id, 'component_name' => 'messages' ) );
+
+		$calls  = 0;
+		$filter = static function( $clauses ) use ( $allowed, &$calls, &$filter ) {
+			remove_filter( 'bp_notifications_get_sql_clauses', $filter, 0 );
+			++$calls;
+			$clauses['where_conditions']['allowed'] = "n.id = {$allowed}";
+
+			return $clauses;
+		};
+
+		$args = array( 'user_id' => $user_id );
+
+		add_filter( 'bp_notifications_get_sql_clauses', $filter, 0 );
+
+		try {
+			$found = BP_Notifications_Notification::get( $args );
+
+			// Each public method filters its own query independently.
+
+			add_filter( 'bp_notifications_get_sql_clauses', $filter, 0 );
+			$total = BP_Notifications_Notification::get_total_count( $args );
+		} finally {
+			remove_filter( 'bp_notifications_get_sql_clauses', $filter, 0 );
+		}
+
+		$this->assertSame( array( $allowed ), wp_list_pluck( $found, 'id' ) );
+		$this->assertSame( 1, $total );
+		$this->assertSame( 2, $calls );
+	}
+
+	public function test_get_sql_clauses_filters_paged_results_and_total() {
+		$user_id = self::factory()->user->create();
+		$first   = self::factory()->notification->create( array( 'user_id' => $user_id, 'component_name' => 'groups' ) );
+		self::factory()->notification->create( array( 'user_id' => $user_id, 'component_name' => 'messages' ) );
+
+		$args = array( 'user_id' => $user_id, 'component_name' => array( 'groups', 'messages' ), 'per_page' => 2, 'page' => 1 );
+
+		$this->assertSame( 2, BP_Notifications_Notification::get_total_count( $args ) );
+
+		$calls  = array();
+		$filter = static function( $clauses, $parsed_args ) use ( $first, &$calls ) {
+			$calls[] = $parsed_args;
+			$clauses['join'] .= " INNER JOIN (SELECT {$first} AS notification_id UNION ALL SELECT {$first}) access ON access.notification_id = n.id";
+			$clauses['where_conditions'][] = "access.notification_id = {$first}";
+
+			// A one-to-many JOIN needs distinct rows in both queries.
+			$clauses['select'] = 'SELECT COUNT(*)' === $clauses['select'] ? 'SELECT COUNT(DISTINCT n.id)' : 'SELECT DISTINCT n.*';
+
+			return $clauses;
+		};
+
+		add_filter( 'bp_notifications_get_sql_clauses', $filter, 10, 2 );
+
+		try {
+			$found = BP_Notifications_Notification::get( $args );
+			$total = BP_Notifications_Notification::get_total_count( $args );
+		} finally {
+			remove_filter( 'bp_notifications_get_sql_clauses', $filter );
+		}
+
+		$this->assertCount( 2, $calls );
+		$this->assertSame( $user_id, $calls[0]['user_id'] );
+		$this->assertSame( $calls[0], $calls[1] );
+
+		$this->assertSame( array( $first ), wp_list_pluck( $found, 'id' ) );
+		$this->assertSame( 1, $total );
+	}
+
+	/**
+	 * @group get
+	 */
+	public function test_get_sql_filters_receive_paged_and_count_contexts() {
+		$user_id    = self::factory()->user->create();
+		$query_type = array();
+		$contexts   = array();
+		$filter     = static function( $sql, $type, $args, $clauses ) use ( &$query_type, &$contexts ) {
+			$query_type[]     = $type;
+			$contexts[ $type ] = array( $args, $clauses );
+
+			return 'count' === $type ? 'SELECT 42' : str_replace( 'WHERE', 'WHERE 1 = 0 AND', $sql );
+		};
+
+		add_filter( 'bp_notifications_get_sql', $filter, 10, 4 );
+
+		try {
+			$found = BP_Notifications_Notification::get( array( 'user_id' => $user_id ) );
+			$total = BP_Notifications_Notification::get_total_count( array( 'user_id' => $user_id ) );
+		} finally {
+			remove_filter( 'bp_notifications_get_sql', $filter );
+		}
+
+		$this->assertSame( array( 'paged', 'count' ), $query_type );
+		$this->assertSame( array(), $found );
+		$this->assertSame( 42, $total );
+		$this->assertSame( $user_id, $contexts['paged'][0]['user_id'] );
+		$this->assertSame( $contexts['paged'][0], $contexts['count'][0] );
+		$this->assertArrayHasKey( 'where_conditions', $contexts['count'][1] );
+	}
+
+
 }

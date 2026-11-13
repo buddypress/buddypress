@@ -263,11 +263,11 @@ class BP_XProfile_Field_Type_Checkbox_Acceptance extends BP_XProfile_Field_Type 
 		}
 
 		$r = array(
-			'type'     => 'checkbox',
-			'name'     => bp_get_the_profile_field_input_name(),
-			'id'       => bp_get_the_profile_field_input_name(),
-			'value'    => 1,
-			'class'    => 'checkbox-acceptance',
+			'type'  => 'checkbox',
+			'name'  => bp_get_the_profile_field_input_name(),
+			'id'    => bp_get_the_profile_field_input_name(),
+			'value' => 1,
+			'class' => 'checkbox-acceptance',
 		);
 
 		if ( bp_get_the_profile_field_is_required() ) {

@@ -200,16 +200,16 @@ class BP_Activity_Template {
 			);
 
 			$old_args_keys = array(
-				0 => 'page',
-				1 => 'per_page',
-				2 => 'max',
-				3 => 'include',
-				4 => 'sort',
-				5 => 'filter',
-				6 => 'search_terms',
-				7 => 'display_comments',
-				8 => 'show_hidden',
-				9 => 'exclude',
+				0  => 'page',
+				1  => 'per_page',
+				2  => 'max',
+				3  => 'include',
+				4  => 'sort',
+				5  => 'filter',
+				6  => 'search_terms',
+				7  => 'display_comments',
+				8  => 'show_hidden',
+				9  => 'exclude',
 				10 => 'in',
 				11 => 'spam',
 				12 => 'page_arg',
@@ -246,7 +246,22 @@ class BP_Activity_Template {
 			$defaults
 		);
 
-		extract( $r );
+		$include           = $r['include'];
+		$max               = $r['max'];
+		$count_total       = $r['count_total'];
+		$sort              = $r['sort'];
+		$display_comments  = $r['display_comments'];
+		$show_hidden       = $r['show_hidden'];
+		$spam              = $r['spam'];
+		$update_meta_cache = $r['update_meta_cache'];
+		$search_terms      = $r['search_terms'];
+		$meta_query        = $r['meta_query'];
+		$date_query        = $r['date_query'];
+		$filter_query      = $r['filter_query'];
+		$filter            = $r['filter'];
+		$scope             = $r['scope'];
+		$exclude           = $r['exclude'];
+		$in                = $r['in'];
 
 		$this->pag_arg  = sanitize_key( $r['page_arg'] );
 		$this->pag_page = bp_sanitize_pagination_arg( $this->pag_arg, $r['page'] );
@@ -462,7 +477,7 @@ class BP_Activity_Template {
 		}
 
 		// Loop has just started.
-		if ( $this->current_activity === 0 ) {
+		if ( 0 === $this->current_activity ) {
 
 			/**
 			 * Fires if the current activity item is the first in the activity loop.

@@ -360,7 +360,21 @@ function bp_core_no_access( $args = '' ) {
 	 */
 	$r = apply_filters( 'bp_core_no_access', $r );
 
-	extract( $r, EXTR_SKIP );
+	if ( array_key_exists( 'mode', $r ) ) {
+		$mode = $r['mode'];
+	}
+
+	if ( array_key_exists( 'redirect', $r ) ) {
+		$redirect = $r['redirect'];
+	}
+
+	if ( array_key_exists( 'root', $r ) ) {
+		$root = $r['root'];
+	}
+
+	if ( array_key_exists( 'message', $r ) ) {
+		$message = $r['message'];
+	}
 
 	/*
 	 * @ignore Ignore these filters and use 'bp_core_no_access' above.

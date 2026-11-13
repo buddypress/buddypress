@@ -421,17 +421,17 @@ function bp_has_members( $args = '' ) {
 	$member_type = bp_get_current_member_type();
 	if ( ! $member_type && ! empty( $_GET['member_type'] ) ) {
 		if ( is_array( $_GET['member_type'] ) ) {
-			$member_type = $_GET['member_type'];
-		} else {
+			$member_type = array_filter( wp_unslash( $_GET['member_type'] ), 'is_string' );
+		} elseif ( is_string( $_GET['member_type'] ) ) {
 			// Can be a comma-separated list.
-			$member_type = explode( ',', $_GET['member_type'] );
+			$member_type = explode( ',', wp_unslash( $_GET['member_type'] ) );
 		}
 	}
 
 	$search_terms_default = null;
 	$search_query_arg     = bp_core_get_component_search_query_arg( 'members' );
-	if ( ! empty( $_REQUEST[ $search_query_arg ] ) ) {
-		$search_terms_default = stripslashes( $_REQUEST[ $search_query_arg ] );
+	if ( ! empty( $_REQUEST[ $search_query_arg ] ) && is_string( $_REQUEST[ $search_query_arg ] ) ) {
+		$search_terms_default = wp_unslash( $_REQUEST[ $search_query_arg ] );
 	}
 
 	// Type: active ( default ) | random | newest | popular | online | alphabetical.
@@ -467,8 +467,8 @@ function bp_has_members( $args = '' ) {
 
 	// Pass a filter if ?s= is set.
 	if ( is_null( $r['search_terms'] ) ) {
-		if ( ! empty( $_REQUEST['s'] ) ) {
-			$r['search_terms'] = $_REQUEST['s'];
+		if ( ! empty( $_REQUEST['s'] ) && is_string( $_REQUEST['s'] ) ) {
+			$r['search_terms'] = wp_unslash( $_REQUEST['s'] );
 		} else {
 			$r['search_terms'] = false;
 		}
@@ -1438,16 +1438,16 @@ function bp_member_random_profile_data() {
 function bp_member_hidden_fields() {
 	$query_arg = bp_core_get_component_search_query_arg( 'members' );
 
-	if ( isset( $_REQUEST[ $query_arg ] ) ) {
-		echo '<input type="hidden" id="search_terms" value="' . esc_attr( $_REQUEST[ $query_arg ] ) . '" name="search_terms" />';
+	if ( isset( $_REQUEST[ $query_arg ] ) && is_string( $_REQUEST[ $query_arg ] ) ) {
+		echo '<input type="hidden" id="search_terms" value="' . esc_attr( wp_unslash( $_REQUEST[ $query_arg ] ) ) . '" name="search_terms" />';
 	}
 
-	if ( isset( $_REQUEST['letter'] ) ) {
-		echo '<input type="hidden" id="selected_letter" value="' . esc_attr( $_REQUEST['letter'] ) . '" name="selected_letter" />';
+	if ( isset( $_REQUEST['letter'] ) && is_string( $_REQUEST['letter'] ) ) {
+		echo '<input type="hidden" id="selected_letter" value="' . esc_attr( wp_unslash( $_REQUEST['letter'] ) ) . '" name="selected_letter" />';
 	}
 
-	if ( isset( $_REQUEST['members_search'] ) ) {
-		echo '<input type="hidden" id="search_terms" value="' . esc_attr( $_REQUEST['members_search'] ) . '" name="search_terms" />';
+	if ( isset( $_REQUEST['members_search'] ) && is_string( $_REQUEST['members_search'] ) ) {
+		echo '<input type="hidden" id="search_terms" value="' . esc_attr( wp_unslash( $_REQUEST['members_search'] ) ) . '" name="search_terms" />';
 	}
 }
 
@@ -1460,8 +1460,8 @@ function bp_directory_members_search_form() {
 
 	$query_arg = bp_core_get_component_search_query_arg( 'members' );
 
-	if ( ! empty( $_REQUEST[ $query_arg ] ) ) {
-		$search_value = stripslashes( $_REQUEST[ $query_arg ] );
+	if ( ! empty( $_REQUEST[ $query_arg ] ) && is_string( $_REQUEST[ $query_arg ] ) ) {
+		$search_value = wp_unslash( $_REQUEST[ $query_arg ] );
 	} else {
 		$search_value = bp_get_search_default_text( 'members' );
 	}
@@ -3322,8 +3322,8 @@ function bp_has_members_invitations( $args = '' ) {
 	// Set the search terms (by default an empty string to get all notifications).
 	$search_terms = '';
 
-	if ( isset( $_REQUEST['s'] ) ) {
-		$search_terms = stripslashes( $_REQUEST['s'] );
+	if ( isset( $_REQUEST['s'] ) && is_string( $_REQUEST['s'] ) ) {
+		$search_terms = wp_unslash( $_REQUEST['s'] );
 	}
 
 	// Parse the args.

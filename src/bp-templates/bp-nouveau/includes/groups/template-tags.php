@@ -843,7 +843,7 @@ function bp_nouveau_groups_manage_members_buttons( $args = array() ) {
 			$user_id = $GLOBALS['members_template']->member->user_id;
 
 			$buttons = array(
-				'unban_member' => array(
+				'unban_member'  => array(
 					'id'                => 'unban_member',
 					'position'          => 5,
 					'component'         => 'groups',
@@ -862,7 +862,7 @@ function bp_nouveau_groups_manage_members_buttons( $args = array() ) {
 						'title' => '',
 					),
 				),
-				'ban_member' => array(
+				'ban_member'    => array(
 					'id'                => 'ban_member',
 					'position'          => 15,
 					'component'         => 'groups',
@@ -881,7 +881,7 @@ function bp_nouveau_groups_manage_members_buttons( $args = array() ) {
 						'title' => '',
 					),
 				),
-				'promote_mod' => array(
+				'promote_mod'   => array(
 					'id'                => 'promote_mod',
 					'position'          => 25,
 					'component'         => 'groups',
@@ -893,10 +893,10 @@ function bp_nouveau_groups_manage_members_buttons( $args = array() ) {
 					),
 					'button_element'    => $button_element,
 					'button_attr'       => array(
-						'id'               => '',
-						'class'            => 'button confirm member-promote-to-mod',
-						'rel'              => '',
-						'title'            => '',
+						'id'    => '',
+						'class' => 'button confirm member-promote-to-mod',
+						'rel'   => '',
+						'title' => '',
 					),
 					'link_text'         => __( 'Promote to Mod', 'buddypress' ),
 				),

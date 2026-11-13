@@ -37,38 +37,7 @@ class BP_Tests_Messages_Template extends BP_UnitTestCase {
 		$this->assertSame( array( $message_1->thread_id ), wp_list_pluck( $messages_template->threads, 'thread_id' ) );
 	}
 
-	/**
-	 * @group bp_has_message_threads
-	 *
-	 * @expectedDeprecated BP_Messages_Box_Template::__construct
-	 */
-	public function test_has_message_threads_old_args() {
-		$u1 = self::factory()->user->create();
-		$u2 = self::factory()->user->create();
 
-		// create initial thread
-		$message_1 = self::factory()->message->create_and_get( array(
-			'sender_id'  => $u1,
-			'recipients' => array( $u2 ),
-		) );
-
-		// create some replies to thread
-		$message_2 = self::factory()->message->create_and_get( array(
-			'thread_id' => $message_1->thread_id,
-			'sender_id' => $u2,
-			'recipients' => array( $u1 ),
-		) );
-		$message_3 = self::factory()->message->create_and_get( array(
-			'thread_id' => $message_1->thread_id,
-			'sender_id' => $u2,
-			'recipients' => array( $u1 ),
-		) );
-
-		$messages_template = new BP_Messages_Box_Template( $u1 );
-
-		$this->assertSame( 1, $messages_template->thread_count );
-		$this->assertSame( array( $message_1->thread_id ), wp_list_pluck( $messages_template->threads, 'thread_id' ) );
-	}
 
 	/**
 	 * @group bp_has_message_threads
@@ -458,7 +427,6 @@ class BP_Tests_Messages_Template extends BP_UnitTestCase {
 		);
 
 		// set $u1 as current user.
-		$old_current_user = get_current_user_id();
 		wp_set_current_user( $u1 );
 
 		$messages_template = new BP_Messages_Box_Template(
@@ -467,8 +435,6 @@ class BP_Tests_Messages_Template extends BP_UnitTestCase {
 				'recipients_per_page' => 1,
 			)
 		);
-
-		wp_set_current_user( $old_current_user );
 
 		$thread = reset( $messages_template->threads );
 

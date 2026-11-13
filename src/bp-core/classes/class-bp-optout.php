@@ -604,18 +604,72 @@ class BP_Optout {
 			)
 		);
 
-		$paged_optouts_sql = "{$sql['select']} {$sql['fields']} {$sql['from']} {$sql['where']} {$sql['orderby']} {$sql['pagination']}";
+		$sql_clauses = array(
+			'select'           => "{$sql['select']} {$sql['fields']}",
+			'from'             => $sql['from'],
+			'join'             => '',
+			'where_conditions' => empty( $sql['where'] ) ? array() : array( substr( $sql['where'], 6 ) ),
+			'groupby'          => '',
+			'orderby'          => $sql['orderby'],
+			'limits'           => $sql['pagination'],
+		);
+
+		$has_sql_clauses_filter = has_filter( 'bp_optouts_get_sql_clauses' );
+
+		/**
+		 * Filters the SQL clauses for the opt-outs get method.
+		 *
+		 * Also runs independently in get_total_count(). Callbacks must apply
+		 * the same restrictions in both methods to keep totals aligned. Joins
+		 * that multiply rows also need distinct result and count selections.
+		 *
+		 * @since 15.0.0
+		 *
+		 * @param array $sql_clauses {
+		 *     SQL clauses for the query.
+		 *
+		 *     @type string   $select           SELECT clause.
+		 *     @type string   $from             FROM clause.
+		 *     @type string   $join             JOIN clauses.
+		 *     @type string[] $where_conditions WHERE conditions without the WHERE keyword.
+		 *     @type string   $groupby          GROUP BY clause.
+		 *     @type string   $orderby          ORDER BY clause.
+		 *     @type string   $limits           LIMIT clause.
+		 * }
+		 * @param array $r Parsed arguments passed into the method.
+		 */
+		$sql_clauses = apply_filters( 'bp_optouts_get_sql_clauses', $sql_clauses, $r );
+
+		if ( $has_sql_clauses_filter ) {
+			$where_sql         = empty( $sql_clauses['where_conditions'] ) ? '' : 'WHERE ' . implode( ' AND ', $sql_clauses['where_conditions'] );
+			$paged_optouts_sql = implode( ' ', array_filter( array( $sql_clauses['select'], $sql_clauses['from'], $sql_clauses['join'], $where_sql, $sql_clauses['groupby'], $sql_clauses['orderby'], $sql_clauses['limits'] ) ) );
+		} else {
+			$paged_optouts_sql = "{$sql['select']} {$sql['fields']} {$sql['from']} {$sql['where']} {$sql['orderby']} {$sql['pagination']}";
+		}
 
 		/**
 		 * Filters the pagination SQL statement.
 		 *
 		 * @since 8.0.0
+		 * @deprecated 15.0.0 Use the `bp_optouts_get_sql` filter instead.
 		 *
 		 * @param string $paged_optouts_sql Concatenated SQL statement.
 		 * @param array  $sql               Array of SQL parts before concatenation.
 		 * @param array  $r                 Array of parsed arguments for the get method.
 		 */
-		$paged_optouts_sql = apply_filters( 'bp_optouts_get_paged_optouts_sql', $paged_optouts_sql, $sql, $r );
+		$paged_optouts_sql = apply_filters_deprecated( 'bp_optouts_get_paged_optouts_sql', array( $paged_optouts_sql, $sql, $r ), '15.0.0', 'bp_optouts_get_sql' );
+
+		/**
+		 * Filters the final SQL for the opt-outs get method.
+		 *
+		 * @since 15.0.0
+		 *
+		 * @param string $paged_optouts_sql SQL used to query the paged results.
+		 * @param string $query_type        Query type for this call: `paged`.
+		 * @param array  $r                 Parsed arguments passed into the method.
+		 * @param array  $sql_clauses       SQL clauses for the query.
+		 */
+		$paged_optouts_sql = apply_filters( 'bp_optouts_get_sql', $paged_optouts_sql, 'paged', $r, $sql_clauses );
 
 		if ( $r['cache_results'] ) {
 			$cached = bp_core_get_incremented_cache( $paged_optouts_sql, 'bp_optouts' );
@@ -691,11 +745,43 @@ class BP_Optout {
 			'bp_optout_get_total_count'
 		);
 
-		// Build the query.
 		$select_sql = 'SELECT COUNT(*)';
 		$from_sql   = "FROM {$optouts_table_name}";
 		$where_sql  = self::get_where_sql( $r );
-		$sql        = "{$select_sql} {$from_sql} {$where_sql}";
+
+		$sql_clauses = array(
+			'select'           => $select_sql,
+			'from'             => $from_sql,
+			'join'             => '',
+			'where_conditions' => array_filter( array( substr( $where_sql, 6 ) ) ),
+			'groupby'          => '',
+			'orderby'          => '',
+			'limits'           => '',
+		);
+
+		$has_sql_clauses_filter = has_filter( 'bp_optouts_get_sql_clauses' );
+
+		/** This filter is documented in bp-core/classes/class-bp-optout.php */
+		$sql_clauses = apply_filters( 'bp_optouts_get_sql_clauses', $sql_clauses, $r );
+
+		if ( $has_sql_clauses_filter ) {
+			$where_sql = empty( $sql_clauses['where_conditions'] ) ? '' : 'WHERE ' . implode( ' AND ', $sql_clauses['where_conditions'] );
+			$sql       = implode( ' ', array_filter( array( $sql_clauses['select'], $sql_clauses['from'], $sql_clauses['join'], $where_sql, $sql_clauses['groupby'], $sql_clauses['orderby'], $sql_clauses['limits'] ) ) );
+		} else {
+			$sql = "{$select_sql} {$from_sql} {$where_sql}";
+		}
+
+		/**
+		 * Filters the final SQL for the opt-outs total.
+		 *
+		 * @since 15.0.0
+		 *
+		 * @param string $sql         SQL used to query the total.
+		 * @param string $query_type  Query type for this call: `count`.
+		 * @param array  $r           Parsed arguments passed into the method.
+		 * @param array  $sql_clauses SQL clauses for the query.
+		 */
+		$sql = apply_filters( 'bp_optouts_get_sql', $sql, 'count', $r, $sql_clauses );
 
 		// Return the queried results.
 		return $wpdb->get_var( $sql );

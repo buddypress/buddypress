@@ -538,7 +538,7 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 
 		$this->assertNotEmpty( $data );
 		$this->assertTrue( $data['deleted'] );
-		$this->assertTrue( $data['previous']['subject']['raw'] === 'Foo Bar' );
+		$this->assertSame( 'Foo Bar', $data['previous']['subject']['raw'] );
 	}
 
 	/**
@@ -605,7 +605,7 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 
 		$this->assertNotEmpty( $data );
 		$this->assertTrue( $data['dismissed'] );
-		$this->assertTrue( $data['previous']['subject']['rendered'] === 'Taz' );
+		$this->assertSame( 'Taz', $data['previous']['subject']['rendered'] );
 		$this->assertContains( $n->id, bp_get_user_meta( $u1, 'closed_notices', true ) );
 	}
 
@@ -659,7 +659,67 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 	 * @group prepare_item
 	 */
 	public function test_prepare_item() {
-		$this->markTestSkipped( 'Coverage for prepare_item_for_response() has not been implemented.' );
+		global $wp_rest_additional_fields;
+
+		$original_fields = $wp_rest_additional_fields;
+
+		$notice            = new BP_Messages_Notice();
+		$notice->id        = 123;
+		$notice->subject   = 'Notice subject';
+		$notice->message   = 'Notice message';
+		$notice->date_sent = '2020-01-02 03:04:05';
+		$notice->is_active = 1;
+
+		register_rest_field(
+			'bp_sitewide_notices',
+			'test_edit_field',
+			array(
+				'get_callback' => static function () {
+					return 'Additional value';
+				},
+				'schema'       => array(
+					'type'    => 'string',
+					'context' => array( 'edit' ),
+				),
+			)
+		);
+
+		try {
+			foreach ( array( null, 'view', 'edit' ) as $context ) {
+				$request = new WP_REST_Request( 'GET', $this->endpoint_url . '/' . $notice->id );
+				if ( null !== $context ) {
+					$request->set_param( 'context', $context );
+				}
+
+				$response = $this->endpoint->prepare_item_for_response( $notice, $request );
+
+				$this->assertInstanceOf( 'WP_REST_Response', $response );
+				$this->assertSame( 200, $response->get_status() );
+
+				$data = $response->get_data();
+				$this->assertSame( 123, $data['id'] );
+				$this->check_notice_data( $notice, $data, $context );
+				$this->assertSame( '2020-01-02T03:04:05', $data['date_gmt'] );
+
+				if ( 'edit' !== $context ) {
+					$this->assertArrayNotHasKey( 'raw', $data['subject'] );
+					$this->assertArrayNotHasKey( 'raw', $data['message'] );
+					$this->assertArrayNotHasKey( 'is_active', $data );
+				}
+
+				$links = $response->get_links();
+				$this->assertSame( rest_url( $this->endpoint_url . '/' . $notice->id ), $links['self'][0]['href'] );
+				$this->assertSame( rest_url( $this->endpoint_url . '/' ), $links['collection'][0]['href'] );
+
+				if ( 'edit' === $context ) {
+					$this->assertSame( 'Additional value', $data['test_edit_field'] );
+				} else {
+					$this->assertArrayNotHasKey( 'test_edit_field', $data );
+				}
+			}
+		} finally {
+			$wp_rest_additional_fields = $original_fields;
+		}
 	}
 
 	protected function check_notice_data( $notice, $data, $context = 'view' ) {

@@ -52,10 +52,10 @@ function bp_core_admin_get_type_default_meta_values( $type_taxonomy ) {
  */
 function bp_core_admin_insert_type( $args = array() ) {
 	$default_args = array(
-		'taxonomy'   => '',
-		'bp_type_id' => '',
+		'taxonomy'              => '',
+		'bp_type_id'            => '',
 		'bp_type_singular_name' => '',
-		'bp_type_name' => '',
+		'bp_type_name'          => '',
 	);
 
 	$args = array_map( 'wp_unslash', $args );

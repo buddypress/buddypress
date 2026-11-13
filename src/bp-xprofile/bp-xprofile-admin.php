@@ -187,7 +187,7 @@ function xprofile_admin_screen( $message = '', $type = 'error' ) {
 			wp_nonce_field( 'bp_reorder_groups', '_wpnonce_reorder_groups', false );
 
 			if ( ! empty( $message ) ) :
-				$type = ( $type === 'error' ) ? 'error' : 'updated';
+				$type = ( 'error' === $type ) ? 'error' : 'updated';
 				?>
 
 				<div id="message" class="<?php echo esc_attr( $type ); ?> fade notice is-dismissible">
@@ -613,7 +613,7 @@ function xprofile_admin_delete_group_screen( $group_id ) {
 		$delete_url = wp_nonce_url(
 			add_query_arg(
 				array(
-					'mode' => 'do_delete_group',
+					'mode'     => 'do_delete_group',
 					'group_id' => $group_id,
 				),
 				$base_url
@@ -716,10 +716,15 @@ function xprofile_admin_manage_field( $group_id, $field_id = null ) {
 				if ( isset( $_POST['has-member-types'] ) ) {
 					$member_types = array();
 					if ( isset( $_POST['member-types'] ) ) {
-						$member_types = stripslashes_deep( $_POST['member-types'] );
+						$member_types = null;
+						if ( is_array( $_POST['member-types'] ) ) {
+							$member_types = array_filter( wp_unslash( $_POST['member-types'] ), 'is_string' );
+						}
 					}
 
-					$field->set_member_types( $member_types );
+					if ( is_array( $member_types ) ) {
+						$field->set_member_types( $member_types );
+					}
 				}
 
 				// Validate default visibility.

@@ -100,8 +100,8 @@ class BP_Tests_Group_REST_Controller extends BP_Test_REST_Controller_Testcase {
 		$status   = wp_list_pluck( $data, 'status' );
 
 		$this->assertCount( 2, wp_list_pluck( $data, 'id' ) );
-		$this->assertTrue( in_array( 'public', $status, true ) );
-		$this->assertTrue( in_array( 'hidden', $status, true ) );
+		$this->assertContains( 'public', $status );
+		$this->assertContains( 'hidden', $status );
 	}
 
 	/**
@@ -143,8 +143,8 @@ class BP_Tests_Group_REST_Controller extends BP_Test_REST_Controller_Testcase {
 		$status   = wp_list_pluck( $data, 'status' );
 
 		$this->assertCount( 2, wp_list_pluck( $data, 'id' ) );
-		$this->assertTrue( in_array( 'hidden', $status, true ) );
-		$this->assertTrue( in_array( 'private', $status, true ) );
+		$this->assertContains( 'hidden', $status );
+		$this->assertContains( 'private', $status );
 	}
 
 	/**
@@ -374,7 +374,12 @@ class BP_Tests_Group_REST_Controller extends BP_Test_REST_Controller_Testcase {
 
 		$all_data = $response->get_data();
 
-		$this->assertSame( $expected_types, wp_list_pluck( $all_data, 'types', 'id' ) );
+		$actual_types = wp_list_pluck( $all_data, 'types', 'id' );
+
+		ksort( $expected_types );
+		ksort( $actual_types );
+
+		$this->assertSame( $expected_types, $actual_types );
 	}
 
 	/**
@@ -551,9 +556,9 @@ class BP_Tests_Group_REST_Controller extends BP_Test_REST_Controller_Testcase {
 
 		$group = $response->get_data();
 
-		$this->assertTrue( ! is_null( $group['total_member_count'] ) );
-		$this->assertTrue( ! is_null( $group['last_activity'] ) );
-		$this->assertTrue( ! is_null( $group['last_activity_diff'] ) );
+		$this->assertNotNull( $group['total_member_count'] );
+		$this->assertNotNull( $group['last_activity'] );
+		$this->assertNotNull( $group['last_activity_diff'] );
 	}
 
 	/**
@@ -575,7 +580,7 @@ class BP_Tests_Group_REST_Controller extends BP_Test_REST_Controller_Testcase {
 
 		$a_data = $response->get_data();
 
-		$this->assertTrue( str_contains( $a_data['description']['rendered'], '</a>' ) );
+		$this->assertStringContainsString( '</a>', $a_data['description']['rendered'] );
 	}
 
 	/**
@@ -1073,7 +1078,7 @@ class BP_Tests_Group_REST_Controller extends BP_Test_REST_Controller_Testcase {
 		$found_groups = wp_list_pluck( $all_data, 'id' );
 
 		$this->assertCount( 1, $found_groups );
-		$this->assertTrue( in_array( $found_groups[0], $groups, true ) );
+		$this->assertContains( $found_groups[0], $groups );
 	}
 
 	/**
@@ -1209,6 +1214,10 @@ class BP_Tests_Group_REST_Controller extends BP_Test_REST_Controller_Testcase {
 		foreach ( $expected as $type ) {
 			bp_groups_register_group_type( $type );
 		}
+
+		// Build the schema after registering the types, not from an earlier request.
+		$controller = new BP_Groups_REST_Controller();
+		$controller->register_routes();
 
 		$request    = new WP_REST_Request( 'OPTIONS', $this->endpoint_url );
 		$response   = $this->server->dispatch( $request );

@@ -14,16 +14,14 @@ class BP_Tests_Groups_Template_Status_Message extends BP_UnitTestCase {
 		$this->current_user = bp_loggedin_user_id();
 		wp_set_current_user( 0 );
 
-		if ( isset( $GLOBALS['groups_template'] ) ) {
-			$this->groups_template = $GLOBALS['groups_template'];
-		}
+		// Start with no loop and restore the previous value, including null.
+		$this->groups_template      = isset( $GLOBALS['groups_template'] ) ? $GLOBALS['groups_template'] : null;
+		$GLOBALS['groups_template'] = null;
 	}
 
 	public function tear_down() {
 		wp_set_current_user( $this->current_user );
-		if ( $this->groups_template ) {
-			$GLOBALS['groups_template'] = $this->groups_template;
-		}
+		$GLOBALS['groups_template'] = $this->groups_template;
 
 		parent::tear_down();
 	}

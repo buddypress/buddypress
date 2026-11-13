@@ -919,16 +919,6 @@ function bp_core_admin_debug_information( $debug_info = array() ) {
 				'label' => 'BP_PLUGIN_URL',
 				'value' => BP_PLUGIN_URL,
 			),
-			'BP_IGNORE_DEPRECATED'                  => array(
-				'label' => 'BP_IGNORE_DEPRECATED',
-				'value' => defined( 'BP_IGNORE_DEPRECATED' ) && BP_IGNORE_DEPRECATED ? __( 'Enabled', 'buddypress' ) : __( 'Disabled', 'buddypress' ),
-				'debug' => defined( 'BP_IGNORE_DEPRECATED' ) ? BP_IGNORE_DEPRECATED : 'undefined',
-			),
-			'BP_LOAD_DEPRECATED'                    => array(
-				'label' => 'BP_LOAD_DEPRECATED',
-				'value' => defined( 'BP_LOAD_DEPRECATED' ) && BP_LOAD_DEPRECATED ? __( 'Enabled', 'buddypress' ) : __( 'Disabled', 'buddypress' ),
-				'debug' => defined( 'BP_LOAD_DEPRECATED' ) ? BP_LOAD_DEPRECATED : 'undefined',
-			),
 			'BP_ROOT_BLOG'                          => array(
 				'label' => 'BP_ROOT_BLOG',
 				'value' => BP_ROOT_BLOG,
@@ -980,7 +970,7 @@ function bp_core_admin_debug_information( $debug_info = array() ) {
 				'value' => defined( 'BP_EMBED_DISABLE_PRIVATE_MESSAGES' ) ? BP_EMBED_DISABLE_PRIVATE_MESSAGES : __( 'Undefined', 'buddypress' ),
 				'debug' => defined( 'BP_EMBED_DISABLE_PRIVATE_MESSAGES' ) ? BP_EMBED_DISABLE_PRIVATE_MESSAGES : 'undefined',
 			),
-			'BP_EMBED_DISABLE_ACTIVITY'     => array(
+			'BP_EMBED_DISABLE_ACTIVITY'             => array(
 				'label' => 'BP_EMBED_DISABLE_ACTIVITY',
 				'value' => defined( 'BP_EMBED_DISABLE_ACTIVITY' ) ? BP_EMBED_DISABLE_ACTIVITY : __( 'Undefined', 'buddypress' ),
 				'debug' => defined( 'BP_EMBED_DISABLE_ACTIVITY' ) ? BP_EMBED_DISABLE_ACTIVITY : 'undefined',

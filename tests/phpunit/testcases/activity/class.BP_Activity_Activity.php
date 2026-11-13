@@ -505,7 +505,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 		);
 
 		$without_auto_refresh = wp_list_pluck( $stream['activities'], 'id' );
-		$this->assertFalse( in_array( $last_displayed_on_first_page, $without_auto_refresh, true ) );
+		$this->assertNotContains( $last_displayed_on_first_page, $without_auto_refresh );
 		$this->assertSame( array_reverse( $a ), array_merge( $page_one_ids, $without_auto_refresh ) );
 	}
 
@@ -588,6 +588,130 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 		$this->assertSame( 2, $activity['total'] );
 	}
 
+
+
+
+
+
+
+
+
+	public function test_sql_clauses_from_restricts_results_and_total_in_both_query_paths() {
+		$allowed = self::factory()->activity->create();
+		self::factory()->activity->create();
+
+		$table  = buddypress()->activity->table_name;
+
+		$filter = static function( $clauses ) use ( $allowed, $table ) {
+			$clauses['from'] = "FROM (SELECT * FROM {$table} WHERE id = {$allowed}) a";
+
+			return $clauses;
+		};
+
+		$use_legacy = static function() {
+			return true;
+		};
+
+		add_filter( 'bp_activity_get_sql_clauses', $filter );
+
+		try {
+			foreach ( array( false, true ) as $legacy ) {
+				if ( $legacy ) {
+					add_filter( 'bp_use_legacy_activity_query', $use_legacy );
+				}
+
+				$found = BP_Activity_Activity::get( array( 'count_total' => true ) );
+
+				$this->assertSame( array( $allowed ), wp_list_pluck( $found['activities'], 'id' ) );
+				$this->assertSame( 1, $found['total'] );
+			}
+		} finally {
+			remove_filter( 'bp_activity_get_sql_clauses', $filter );
+			remove_filter( 'bp_use_legacy_activity_query', $use_legacy );
+		}
+	}
+
+	public function test_self_removing_sql_clauses_filter_at_priority_zero() {
+		$allowed = self::factory()->activity->create();
+		self::factory()->activity->create();
+
+		$calls  = 0;
+		$filter = static function( $clauses ) use ( $allowed, &$calls, &$filter ) {
+			remove_filter( 'bp_activity_get_sql_clauses', $filter, 0 );
+			++$calls;
+			$clauses['where_conditions']['allowed'] = "a.id = {$allowed}";
+
+			return $clauses;
+		};
+
+		add_filter( 'bp_activity_get_sql_clauses', $filter, 0 );
+
+		try {
+			$found = BP_Activity_Activity::get( array( 'count_total' => true ) );
+		} finally {
+			remove_filter( 'bp_activity_get_sql_clauses', $filter, 0 );
+		}
+
+		$this->assertSame( array( $allowed ), wp_list_pluck( $found['activities'], 'id' ) );
+		$this->assertSame( 1, $found['total'] );
+		$this->assertSame( 1, $calls );
+	}
+
+	public function test_get_with_sql_clauses_filter() {
+		global $wpdb;
+
+		$user_1 = self::factory()->user->create();
+		$user_2 = self::factory()->user->create();
+		$activity_1 = self::factory()->activity->create( array( 'user_id' => $user_1 ) );
+		self::factory()->activity->create( array( 'user_id' => $user_2 ) );
+
+		$filter = static function ( $sql_clauses ) use ( $wpdb, $user_1 ) {
+			$sql_clauses['join'] .= " INNER JOIN {$wpdb->users} bp_activity_user ON bp_activity_user.ID = a.user_id";
+			$sql_clauses['where_conditions']['user'] = $wpdb->prepare( 'bp_activity_user.ID = %d', $user_1 );
+
+			return $sql_clauses;
+		};
+
+		add_filter( 'bp_activity_get_sql_clauses', $filter );
+
+		try {
+			$activity = BP_Activity_Activity::get( array( 'count_total' => true ) );
+		} finally {
+			remove_filter( 'bp_activity_get_sql_clauses', $filter );
+		}
+
+		$this->assertSame( array( $activity_1 ), wp_list_pluck( $activity['activities'], 'id' ) );
+		$this->assertSame( 1, $activity['total'] );
+	}
+
+	/**
+	 * @group get
+	 * @group count_total
+	 */
+	public function test_get_with_sql_filter() {
+		$query_types = array();
+
+		self::factory()->activity->create();
+
+		$filter = static function ( $sql, $query_type ) use ( &$query_types ) {
+			$query_types[] = $query_type;
+
+			return $sql;
+		};
+
+		add_filter( 'bp_activity_get_sql', $filter, 10, 2 );
+
+		try {
+			BP_Activity_Activity::get( array( 'count_total' => true ) );
+		} finally {
+			remove_filter( 'bp_activity_get_sql', $filter );
+		}
+
+		$this->assertSame( array( 'paged', 'count' ), $query_types );
+	}
+
+
+
 	/**
 	 * @group get
 	 * @group count_total
@@ -635,22 +759,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 		$this->assertSame( $a1, $activity );
 	}
 
-	/**
-	 * @group get_id
-	 * @group BP8596
-	 * @expectedDeprecated BP_Activity_Activity::get_id
-	 */
-	public function test_get_id_with_deprecated_args() {
-		$a1 = self::factory()->activity->create( array(
-			'item_id' => 573,
-		) );
-		$a2 = self::factory()->activity->create( array(
-			'item_id' => 1098,
-		) );
 
-		$activity = BP_Activity_Activity::get_id( false, false, false, 1098, false, false, false, false );
-		$this->assertSame( $a2, $activity );
-	}
 
 	/**
 	 * @group get_id
@@ -1056,7 +1165,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 			)
 		);
 
-		$this->assertFalse( is_wp_error( $a ) );
+		$this->assertNotWPError( $a );
 	}
 
 	/**

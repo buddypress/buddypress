@@ -328,7 +328,7 @@ function bp_set_theme_compat_feature( $theme_id, $feature = array() ) {
 	$theme_compat_theme = $bp->theme_compat->theme;
 
 	// Bail if the Theme Compat theme is not in use.
-	if ( $theme_id !== bp_get_theme_compat_id() ) {
+	if ( bp_get_theme_compat_id() !== $theme_id ) {
 		return;
 	}
 

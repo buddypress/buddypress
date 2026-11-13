@@ -541,23 +541,105 @@ class BP_Core_User {
 			$exclude_sql = '';
 		}
 
+		$r           = compact( 'letter', 'limit', 'page', 'populate_extras', 'exclude' );
+		$sql_clauses = array(
+			'select'           => 'SELECT DISTINCT u.ID as id, u.user_registered, u.user_nicename, u.user_login, u.user_email',
+			'from'             => "FROM {$wpdb->users} u",
+			'join'             => "LEFT JOIN {$bp->profile->table_name_data} pd ON u.ID = pd.user_id LEFT JOIN {$bp->profile->table_name_fields} pf ON pd.field_id = pf.id",
+			'where_conditions' => array(
+				$status_sql,
+				$wpdb->prepare( 'pf.name = %s', bp_xprofile_fullname_field_name() ),
+				$wpdb->prepare( 'pd.value LIKE %s', $letter_like ),
+			),
+			'groupby'          => '',
+			'orderby'          => 'ORDER BY pd.value ASC',
+			'limits'           => $pag_sql,
+		);
+
+		if ( '' !== $exclude_sql ) {
+			$sql_clauses['where_conditions'][] = preg_replace( '/^\s*AND\s+/i', '', $exclude_sql );
+		}
+
+		// Keep callback changes even if it removes itself while filtering.
+		$has_clause_filter = has_filter( 'bp_core_users_by_letter_get_sql_clauses' );
+
+		/**
+		 * Filters shared SQL clauses for this user collection and its total.
+		 *
+		 * The count uses distinct IDs and retains its own ordering.
+		 *
+		 * @since 15.0.0
+		 *
+		 * @param array $sql_clauses {
+		 *     SQL clauses for the query.
+		 *
+		 *     @type string   $select           SELECT clause.
+		 *     @type string   $from             FROM clause.
+		 *     @type string   $join             JOIN clauses.
+		 *     @type string[] $where_conditions WHERE conditions without the WHERE keyword.
+		 *     @type string   $groupby          GROUP BY clause.
+		 *     @type string   $orderby          ORDER BY clause.
+		 *     @type string   $limits           LIMIT clause.
+		 * }
+		 * @param array $r Method arguments with defaults applied.
+		 */
+		$sql_clauses = apply_filters( 'bp_core_users_by_letter_get_sql_clauses', $sql_clauses, $r );
+
+		$where_sql = empty( $sql_clauses['where_conditions'] ) ? '' : 'WHERE ' . implode( ' AND ', $sql_clauses['where_conditions'] );
+
+		$total_users_sql = $wpdb->prepare( "SELECT COUNT(DISTINCT u.ID) FROM {$wpdb->users} u LEFT JOIN {$bp->profile->table_name_data} pd ON u.ID = pd.user_id LEFT JOIN {$bp->profile->table_name_fields} pf ON pd.field_id = pf.id WHERE {$status_sql} AND pf.name = %s {$exclude_sql} AND pd.value LIKE %s ORDER BY pd.value ASC", bp_xprofile_fullname_field_name(), $letter_like );
+		if ( $has_clause_filter ) {
+			$total_users_sql = "SELECT COUNT(DISTINCT u.ID) {$sql_clauses['from']} {$sql_clauses['join']} {$where_sql} {$sql_clauses['orderby']}";
+		}
+
 		/**
 		 * Filters the SQL used to query for total user count by first letter.
 		 *
 		 * @since 1.0.0
+		 * @deprecated 15.0.0 Use the `bp_core_users_by_letter_get_sql` filter instead.
 		 *
 		 * @param string $value SQL prepared statement for the user count query.
 		 */
-		$total_users_sql = apply_filters( 'bp_core_users_by_letter_count_sql', $wpdb->prepare( "SELECT COUNT(DISTINCT u.ID) FROM {$wpdb->users} u LEFT JOIN {$bp->profile->table_name_data} pd ON u.ID = pd.user_id LEFT JOIN {$bp->profile->table_name_fields} pf ON pd.field_id = pf.id WHERE {$status_sql} AND pf.name = %s {$exclude_sql} AND pd.value LIKE %s ORDER BY pd.value ASC", bp_xprofile_fullname_field_name(), $letter_like ) );
+		$total_users_sql = apply_filters_deprecated( 'bp_core_users_by_letter_count_sql', array( $total_users_sql ), '15.0.0', 'bp_core_users_by_letter_get_sql' );
+
+		/**
+		 * Filters the final SQL for this user collection's total.
+		 *
+		 * @since 15.0.0
+		 *
+		 * @param string $total_users_sql Final SQL query.
+		 * @param string $query_type      Query type for this call: `count`.
+		 * @param array  $r               Method arguments with defaults applied.
+		 * @param array  $sql_clauses     SQL clauses for the query.
+		 */
+		$total_users_sql = apply_filters( 'bp_core_users_by_letter_get_sql', $total_users_sql, 'count', $r, $sql_clauses );
+
+		$paged_users_sql = $wpdb->prepare( "SELECT DISTINCT u.ID as id, u.user_registered, u.user_nicename, u.user_login, u.user_email FROM {$wpdb->users} u LEFT JOIN {$bp->profile->table_name_data} pd ON u.ID = pd.user_id LEFT JOIN {$bp->profile->table_name_fields} pf ON pd.field_id = pf.id WHERE {$status_sql} AND pf.name = %s {$exclude_sql} AND pd.value LIKE %s ORDER BY pd.value ASC{$pag_sql}", bp_xprofile_fullname_field_name(), $letter_like );
+		if ( $has_clause_filter ) {
+			$paged_users_sql = implode( ' ', array_filter( array( $sql_clauses['select'], $sql_clauses['from'], $sql_clauses['join'], $where_sql, $sql_clauses['groupby'], $sql_clauses['orderby'], $sql_clauses['limits'] ) ) );
+		}
 
 		/**
 		 * Filters the SQL used to query for users by first letter.
 		 *
 		 * @since 1.0.0
+		 * @deprecated 15.0.0 Use the `bp_core_users_by_letter_get_sql` filter instead.
 		 *
 		 * @param string $value SQL prepared statement for the user query.
 		 */
-		$paged_users_sql = apply_filters( 'bp_core_users_by_letter_sql', $wpdb->prepare( "SELECT DISTINCT u.ID as id, u.user_registered, u.user_nicename, u.user_login, u.user_email FROM {$wpdb->users} u LEFT JOIN {$bp->profile->table_name_data} pd ON u.ID = pd.user_id LEFT JOIN {$bp->profile->table_name_fields} pf ON pd.field_id = pf.id WHERE {$status_sql} AND pf.name = %s {$exclude_sql} AND pd.value LIKE %s ORDER BY pd.value ASC{$pag_sql}", bp_xprofile_fullname_field_name(), $letter_like ) );
+		$paged_users_sql = apply_filters_deprecated( 'bp_core_users_by_letter_sql', array( $paged_users_sql ), '15.0.0', 'bp_core_users_by_letter_get_sql' );
+
+		/**
+		 * Filters the final SQL for this user collection's results.
+		 *
+		 * @since 15.0.0
+		 *
+		 * @param string $paged_users_sql Final SQL query.
+		 * @param string $query_type      Query type for this call: `paged`.
+		 * @param array  $r               Method arguments with defaults applied.
+		 * @param array  $sql_clauses     SQL clauses for the query.
+		 */
+		$paged_users_sql = apply_filters( 'bp_core_users_by_letter_get_sql', $paged_users_sql, 'paged', $r, $sql_clauses );
 
 		$total_users = $wpdb->get_var( $total_users_sql );
 		$paged_users = $wpdb->get_results( $paged_users_sql );
@@ -714,23 +796,100 @@ class BP_Core_User {
 		$search_terms_like = '%' . bp_esc_like( $search_terms ) . '%';
 		$status_sql        = bp_core_get_status_sql( 'u.' );
 
+		$r           = compact( 'search_terms', 'limit', 'page', 'populate_extras' );
+		$sql_clauses = array(
+			'select'           => 'SELECT DISTINCT u.ID as id, u.user_registered, u.user_nicename, u.user_login, u.user_email',
+			'from'             => "FROM {$wpdb->users} u",
+			'join'             => "LEFT JOIN {$bp->profile->table_name_data} pd ON u.ID = pd.user_id",
+			'where_conditions' => array(
+				$status_sql,
+				$wpdb->prepare( 'pd.value LIKE %s', $search_terms_like ),
+			),
+			'groupby'          => '',
+			'orderby'          => 'ORDER BY pd.value ASC',
+			'limits'           => $pag_sql,
+		);
+
+		// Keep callback changes even if it removes itself while filtering.
+		$has_clause_filter = has_filter( 'bp_core_users_search_get_sql_clauses' );
+
+		/**
+		 * Filters shared SQL clauses for this user collection and its total.
+		 *
+		 * The count uses distinct IDs and retains its own ordering.
+		 *
+		 * @since 15.0.0
+		 *
+		 * @param array $sql_clauses {
+		 *     SQL clauses for the query.
+		 *
+		 *     @type string   $select           SELECT clause.
+		 *     @type string   $from             FROM clause.
+		 *     @type string   $join             JOIN clauses.
+		 *     @type string[] $where_conditions WHERE conditions without the WHERE keyword.
+		 *     @type string   $groupby          GROUP BY clause.
+		 *     @type string   $orderby          ORDER BY clause.
+		 *     @type string   $limits           LIMIT clause.
+		 * }
+		 * @param array $r Method arguments with defaults applied.
+		 */
+		$sql_clauses = apply_filters( 'bp_core_users_search_get_sql_clauses', $sql_clauses, $r );
+
+		$where_sql = empty( $sql_clauses['where_conditions'] ) ? '' : 'WHERE ' . implode( ' AND ', $sql_clauses['where_conditions'] );
+
+		$total_users_sql = $wpdb->prepare( "SELECT COUNT(DISTINCT u.ID) as id FROM {$wpdb->users} u LEFT JOIN {$bp->profile->table_name_data} pd ON u.ID = pd.user_id WHERE {$status_sql} AND pd.value LIKE %s ORDER BY pd.value ASC", $search_terms_like );
+		if ( $has_clause_filter ) {
+			$total_users_sql = "SELECT COUNT(DISTINCT u.ID) as id {$sql_clauses['from']} {$sql_clauses['join']} {$where_sql} {$sql_clauses['orderby']}";
+		}
+
 		/**
 		 * Filters the SQL used to query for searched users count.
 		 *
 		 * @since 1.0.0
+		 * @deprecated 15.0.0 Use the `bp_core_users_search_get_sql` filter instead.
 		 *
 		 * @param string $value SQL statement for the searched users count query.
 		 */
-		$total_users_sql = apply_filters( 'bp_core_search_users_count_sql', $wpdb->prepare( "SELECT COUNT(DISTINCT u.ID) as id FROM {$wpdb->users} u LEFT JOIN {$bp->profile->table_name_data} pd ON u.ID = pd.user_id WHERE {$status_sql} AND pd.value LIKE %s ORDER BY pd.value ASC", $search_terms_like ), $search_terms );
+		$total_users_sql = apply_filters_deprecated( 'bp_core_search_users_count_sql', array( $total_users_sql, $search_terms ), '15.0.0', 'bp_core_users_search_get_sql' );
+
+		/**
+		 * Filters the final SQL for this user collection's total.
+		 *
+		 * @since 15.0.0
+		 *
+		 * @param string $total_users_sql Final SQL query.
+		 * @param string $query_type      Query type for this call: `count`.
+		 * @param array  $r               Method arguments with defaults applied.
+		 * @param array  $sql_clauses     SQL clauses for the query.
+		 */
+		$total_users_sql = apply_filters( 'bp_core_users_search_get_sql', $total_users_sql, 'count', $r, $sql_clauses );
+
+		$paged_users_sql = $wpdb->prepare( "SELECT DISTINCT u.ID as id, u.user_registered, u.user_nicename, u.user_login, u.user_email FROM {$wpdb->users} u LEFT JOIN {$bp->profile->table_name_data} pd ON u.ID = pd.user_id WHERE {$status_sql} AND pd.value LIKE %s ORDER BY pd.value ASC{$pag_sql}", $search_terms_like );
+		if ( $has_clause_filter ) {
+			$paged_users_sql = implode( ' ', array_filter( array( $sql_clauses['select'], $sql_clauses['from'], $sql_clauses['join'], $where_sql, $sql_clauses['groupby'], $sql_clauses['orderby'], $sql_clauses['limits'] ) ) );
+		}
 
 		/**
 		 * Filters the SQL used to query for searched users.
 		 *
 		 * @since 1.0.0
+		 * @deprecated 15.0.0 Use the `bp_core_users_search_get_sql` filter instead.
 		 *
 		 * @param string $value SQL statement for the searched users query.
 		 */
-		$paged_users_sql = apply_filters( 'bp_core_search_users_sql', $wpdb->prepare( "SELECT DISTINCT u.ID as id, u.user_registered, u.user_nicename, u.user_login, u.user_email FROM {$wpdb->users} u LEFT JOIN {$bp->profile->table_name_data} pd ON u.ID = pd.user_id WHERE {$status_sql} AND pd.value LIKE %s ORDER BY pd.value ASC{$pag_sql}", $search_terms_like ), $search_terms, $pag_sql );
+		$paged_users_sql = apply_filters_deprecated( 'bp_core_search_users_sql', array( $paged_users_sql, $search_terms, $pag_sql ), '15.0.0', 'bp_core_users_search_get_sql' );
+
+		/**
+		 * Filters the final SQL for this user collection's results.
+		 *
+		 * @since 15.0.0
+		 *
+		 * @param string $paged_users_sql Final SQL query.
+		 * @param string $query_type      Query type for this call: `paged`.
+		 * @param array  $r               Method arguments with defaults applied.
+		 * @param array  $sql_clauses     SQL clauses for the query.
+		 */
+		$paged_users_sql = apply_filters( 'bp_core_users_search_get_sql', $paged_users_sql, 'paged', $r, $sql_clauses );
 
 		$total_users = $wpdb->get_var( $total_users_sql );
 		$paged_users = $wpdb->get_results( $paged_users_sql );

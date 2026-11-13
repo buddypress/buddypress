@@ -6,19 +6,18 @@
  */
 #[AllowDynamicProperties]
 class BP_Tests_Groups_Template_Is_Visible extends BP_UnitTestCase {
+	protected $groups_template = null;
 
 	public function set_up() {
 		parent::set_up();
 
-		if ( isset( $GLOBALS['groups_template'] ) ) {
-			$this->groups_template = $GLOBALS['groups_template'];
-		}
+		// Start with no loop and restore the previous value, including null.
+		$this->groups_template      = isset( $GLOBALS['groups_template'] ) ? $GLOBALS['groups_template'] : null;
+		$GLOBALS['groups_template'] = null;
 	}
 
 	public function tear_down() {
-		if ( $this->groups_template ) {
-			$GLOBALS['groups_template'] = $this->groups_template;
-		}
+		$GLOBALS['groups_template'] = $this->groups_template;
 
 		parent::tear_down();
 	}

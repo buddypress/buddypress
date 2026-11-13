@@ -256,7 +256,7 @@ class BP_Tests_Group_Membership_REST_Controller extends BP_Test_REST_Controller_
 
 		remove_filter( 'bp_rest_group_members_get_items_query_args', array( $this, 'group_members_query_args' ) );
 
-		$this->assertTrue( 'bar' === $this->search_terms );
+		$this->assertSame( 'bar', $this->search_terms );
 
 		$all_data = $response->get_data();
 		$results  = wp_list_pluck( $all_data, 'id' );
@@ -600,7 +600,7 @@ class BP_Tests_Group_Membership_REST_Controller extends BP_Test_REST_Controller_
 		$user          = bp_rest_get_user( $data['id'] );
 		$member_object = new BP_Groups_Member( $user->ID, $g1 );
 
-		$this->assertTrue( $u1 === $user->ID );
+		$this->assertSame( $u1, $user->ID );
 		$this->assertFalse( (bool) $member_object->is_banned );
 	}
 
@@ -632,7 +632,7 @@ class BP_Tests_Group_Membership_REST_Controller extends BP_Test_REST_Controller_
 		$member_object = new BP_Groups_Member( $user->ID, $g1 );
 
 		$this->assertFalse( groups_is_user_member( $user->ID, $g1 ) );
-		$this->assertTrue( $u4 === $user->ID );
+		$this->assertSame( $u4, $user->ID );
 		$this->assertFalse( (bool) $member_object->is_banned );
 	}
 
@@ -672,7 +672,7 @@ class BP_Tests_Group_Membership_REST_Controller extends BP_Test_REST_Controller_
 		$user          = bp_rest_get_user( $data['id'] );
 		$member_object = new BP_Groups_Member( $user->ID, $g1 );
 
-		$this->assertTrue( $u1 === $user->ID );
+		$this->assertSame( $u1, $user->ID );
 		$this->assertFalse( (bool) $member_object->is_banned );
 	}
 
@@ -736,7 +736,7 @@ class BP_Tests_Group_Membership_REST_Controller extends BP_Test_REST_Controller_
 		$user          = bp_rest_get_user( $data['id'] );
 		$member_object = new BP_Groups_Member( $user->ID, $this->group_id );
 
-		$this->assertTrue( $u === $user->ID );
+		$this->assertSame( $u, $user->ID );
 		$this->assertTrue( (bool) $member_object->is_mod );
 	}
 
@@ -771,7 +771,7 @@ class BP_Tests_Group_Membership_REST_Controller extends BP_Test_REST_Controller_
 		$user          = bp_rest_get_user( $data['id'] );
 		$member_object = new BP_Groups_Member( $user->ID, $g1 );
 
-		$this->assertTrue( $u1 === $user->ID );
+		$this->assertSame( $u1, $user->ID );
 		$this->assertTrue( (bool) $member_object->is_mod );
 	}
 
@@ -891,7 +891,7 @@ class BP_Tests_Group_Membership_REST_Controller extends BP_Test_REST_Controller_
 		$user          = bp_rest_get_user( $data['id'] );
 		$member_object = new BP_Groups_Member( $user->ID, $g1 );
 
-		$this->assertTrue( $u2 === $user->ID );
+		$this->assertSame( $u2, $user->ID );
 		$this->assertFalse( (bool) $member_object->is_mod );
 		$this->assertFalse( (bool) $member_object->is_admin );
 		$this->assertTrue( (bool) groups_is_user_member( $u2, $g1 ) );
@@ -983,7 +983,7 @@ class BP_Tests_Group_Membership_REST_Controller extends BP_Test_REST_Controller_
 
 		$member_object = new BP_Groups_Member( $user->ID, $g1 );
 
-		$this->assertTrue( $u2 === $user->ID );
+		$this->assertSame( $u2, $user->ID );
 		$this->assertFalse( (bool) $member_object->is_mod );
 		$this->assertFalse( (bool) $member_object->is_admin );
 		$this->assertTrue( (bool) groups_is_user_member( $u2, $g1 ) );
@@ -1023,7 +1023,7 @@ class BP_Tests_Group_Membership_REST_Controller extends BP_Test_REST_Controller_
 
 		$member_object = new BP_Groups_Member( $user->ID, $g1 );
 
-		$this->assertTrue( $u2 === $user->ID );
+		$this->assertSame( $u2, $user->ID );
 		$this->assertFalse( (bool) $member_object->is_mod );
 		$this->assertFalse( (bool) $member_object->is_admin );
 		$this->assertTrue( (bool) groups_is_user_member( $u2, $g1 ) );
@@ -1094,7 +1094,7 @@ class BP_Tests_Group_Membership_REST_Controller extends BP_Test_REST_Controller_
 
 		$member_object = new BP_Groups_Member( $user->ID, $g1 );
 
-		$this->assertTrue( $u2 === $user->ID );
+		$this->assertSame( $u2, $user->ID );
 		$this->assertTrue( (bool) $member_object->is_mod );
 		$this->assertFalse( (bool) $member_object->is_admin );
 	}
@@ -1552,7 +1552,81 @@ class BP_Tests_Group_Membership_REST_Controller extends BP_Test_REST_Controller_
 	 * @group get_item
 	 */
 	public function test_prepare_item() {
-		$this->markTestSkipped( 'Coverage for prepare_item_for_response() has not been implemented.' );
+		global $wp_rest_additional_fields;
+
+		$original_fields = $wp_rest_additional_fields;
+
+		wp_set_current_user( $this->user );
+
+		$member                = new BP_Groups_Member( $this->user, $this->group_id );
+		$member->date_modified = '2020-01-02 03:04:05';
+
+		register_rest_field(
+			'bp_group_members',
+			'test_edit_field',
+			array(
+				'get_callback' => static function () {
+					return 'Additional value';
+				},
+				'schema'       => array(
+					'type'    => 'string',
+					'context' => array( 'edit' ),
+				),
+			)
+		);
+
+		try {
+			foreach ( array( null, 'view', 'embed', 'edit' ) as $context ) {
+				$request = new WP_REST_Request( 'GET', $this->endpoint_url . '/' . $this->group_id . '/members' );
+				$request->set_param( 'group_id', $this->group_id );
+				if ( null !== $context ) {
+					$request->set_param( 'context', $context );
+				}
+
+				$response = $this->endpoint->prepare_item_for_response( $member, $request );
+
+				$this->assertInstanceOf( 'WP_REST_Response', $response );
+				$this->assertSame( 200, $response->get_status() );
+
+				$data = $response->get_data();
+				$this->assertSame( $this->user, $data['id'] );
+				$this->assertArrayHasKey( 'group', $data );
+				$this->assertSame( $this->group_id, $data['group'] );
+				$this->assertArrayHasKey( 'group_id', $data );
+				$this->assertSame( $this->group_id, $data['group_id'] );
+
+				if ( 'embed' === $context ) {
+					$this->assertArrayNotHasKey( 'is_admin', $data );
+					$this->assertArrayNotHasKey( 'date_modified_gmt', $data );
+				} else {
+					$this->assertTrue( $data['is_admin'] );
+					$this->assertFalse( $data['is_mod'] );
+					$this->assertFalse( $data['is_banned'] );
+					$this->assertTrue( $data['is_confirmed'] );
+					$this->assertSame( '2020-01-02T03:04:05', $data['date_modified_gmt'] );
+				}
+
+				if ( 'edit' === $context ) {
+					$this->assertArrayHasKey( 'roles', $data );
+				} else {
+					$this->assertArrayNotHasKey( 'roles', $data );
+				}
+
+				$links = $response->get_links();
+				$this->assertSame( bp_rest_get_object_url( $this->user, 'members' ), $links['self'][0]['href'] );
+				$this->assertSame( rest_url( $this->endpoint_url . '/' . $this->group_id . '/members' ), $links['collection'][0]['href'] );
+				$this->assertSame( rest_url( $this->endpoint_url . '/' . $this->group_id ), $links['group'][0]['href'] );
+				$this->assertTrue( $links['group'][0]['attributes']['embeddable'] );
+
+				if ( 'edit' === $context ) {
+					$this->assertSame( 'Additional value', $data['test_edit_field'] );
+				} else {
+					$this->assertArrayNotHasKey( 'test_edit_field', $data );
+				}
+			}
+		} finally {
+			$wp_rest_additional_fields = $original_fields;
+		}
 	}
 
 	/**

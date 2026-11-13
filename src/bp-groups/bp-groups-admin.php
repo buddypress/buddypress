@@ -177,7 +177,7 @@ function bp_groups_admin_load() {
 			'layout_columns',
 			array(
 				'default' => 2,
-				'max' => 2,
+				'max'     => 2,
 			)
 		);
 
@@ -417,7 +417,7 @@ function bp_groups_admin_load() {
 
 			if ( in_array( $sent_invite_status, (array) $allowed_invite_status, true ) ) {
 				$invite_status             = $sent_invite_status;
-				$is_updating_invite_status = $invite_status !== groups_get_groupmeta( $group->id, 'invite_status' );
+				$is_updating_invite_status = groups_get_groupmeta( $group->id, 'invite_status' ) !== $invite_status;
 			}
 		}
 
@@ -919,7 +919,7 @@ function bp_groups_admin_delete() {
 			add_query_arg(
 				array(
 					'action' => 'do_delete',
-					'gid' => implode( ',', $gids ),
+					'gid'    => implode( ',', $gids ),
 				),
 				$base_url
 			),
@@ -982,14 +982,14 @@ function bp_groups_admin_index() {
 			<a class="page-title-action" href="<?php echo esc_url( $create_url ); ?>"><?php esc_html_e( 'Add New', 'buddypress' ); ?></a>
 		<?php endif; ?>
 
-		<?php if ( ! empty( $_REQUEST['s'] ) ) : ?>
+		<?php if ( ! empty( $_REQUEST['s'] ) && is_string( $_REQUEST['s'] ) ) : ?>
 			<?php
 			printf(
 				'<span class="subtitle">' .
 				/* translators: %s: the group search terms */
 				esc_html__( 'Search results for &#8220;%s&#8221;', 'buddypress' ) .
 				'</span>',
-				esc_html( wp_html_excerpt( stripslashes( $_REQUEST['s'] ), 50 ) )
+				esc_html( wp_html_excerpt( wp_unslash( $_REQUEST['s'] ), 50 ) )
 			);
 			?>
 		<?php endif; ?>

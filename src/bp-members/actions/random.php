@@ -19,7 +19,7 @@ function bp_core_get_random_member() {
 
 	$user = bp_core_get_users(
 		array(
-			'type' => 'random',
+			'type'     => 'random',
 			'per_page' => 1,
 		)
 	);

@@ -3,11 +3,8 @@
  * @group admin
  */
 class BP_Tests_Admin_Functions extends BP_UnitTestCase {
-	protected $old_current_user = 0;
-
 	public function set_up() {
 		parent::set_up();
-		$this->old_current_user = get_current_user_id();
 		wp_set_current_user( self::factory()->user->create( array( 'role' => 'administrator' ) ) );
 
 		if ( ! function_exists( 'bp_admin' ) ) {
@@ -17,11 +14,6 @@ class BP_Tests_Admin_Functions extends BP_UnitTestCase {
 		if ( ! function_exists( 'bp_new_site' ) ) {
 			bp_admin();
 		}
-	}
-
-	public function tear_down() {
-		wp_set_current_user( $this->old_current_user );
-		parent::tear_down();
 	}
 
 	public function test_bp_admin_list_table_current_bulk_action() {
@@ -39,6 +31,7 @@ class BP_Tests_Admin_Functions extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group BP9065
 	 * @group bp_core_admin_get_active_components_from_submitted_settings
 	 */
 	public function test_bp_core_admin_get_active_components_from_submitted_settings() {
@@ -81,12 +74,12 @@ class BP_Tests_Admin_Functions extends BP_UnitTestCase {
 			'xprofile' => 1,
 		);
 
-		$submitted2 = array(
+		$submitted = array(
 			'groups' => 1,
 		);
 
 		$expected = array( 'activity' => 1, 'groups' => 1, 'members' => 1, 'messages' => 1, 'settings' => 1, 'xprofile' => 1 );
-		$actual   = bp_core_admin_get_active_components_from_submitted_settings( $submitted2 );
+		$actual   = bp_core_admin_get_active_components_from_submitted_settings( $submitted );
 		ksort( $expected );
 		ksort( $actual );
 		$this->assertSame( $expected, $actual );
@@ -101,13 +94,30 @@ class BP_Tests_Admin_Functions extends BP_UnitTestCase {
 			'xprofile' => 1,
 		);
 
-		$submitted4 = array();
+		$submitted = array();
 
 		$expected = array( 'activity' => 1, 'members' => 1, 'messages' => 1, 'settings' => 1, 'xprofile' => 1 );
-		$actual   = bp_core_admin_get_active_components_from_submitted_settings( $submitted4 );
+		$actual   = bp_core_admin_get_active_components_from_submitted_settings( $submitted );
 		ksort( $expected );
 		ksort( $actual );
 		$this->assertSame( $expected, $actual );
+
+		// Discard malformed component settings.
+		unset( $_GET['action'] );
+		$submitted = array(
+			'activity' => '1',
+			'groups'   => array( 'invalid' ),
+			'members'  => 'not-numeric',
+			'messages' => 1,
+			0          => 1,
+		);
+		$expected  = array(
+			'activity' => '1',
+			'messages' => 1,
+		);
+		$actual    = bp_core_admin_get_active_components_from_submitted_settings( $submitted );
+		$this->assertSame( $expected, $actual );
+		$this->assertSame( array(), bp_core_admin_get_active_components_from_submitted_settings( 'invalid' ) );
 
 		// reset
 		if ( $get_action ) {
@@ -117,6 +127,79 @@ class BP_Tests_Admin_Functions extends BP_UnitTestCase {
 		}
 
 		buddypress()->active_components = $ac;
+	}
+
+	/**
+	 * Ensure admin list tables reject array-shaped searches.
+	 *
+	 * @group BP9065
+	 */
+	public function test_admin_list_tables_should_reject_array_search_values() {
+		if ( ! class_exists( 'WP_List_Table' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/class-wp-list-table.php';
+		}
+
+		if ( ! class_exists( 'WP_Users_List_Table' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/class-wp-users-list-table.php';
+		}
+
+		$class_files = array(
+			'BP_Activity_List_Table'            => 'bp-activity/classes/class-bp-activity-list-table.php',
+			'BP_Groups_List_Table'              => 'bp-groups/classes/class-bp-groups-list-table.php',
+			'BP_Members_List_Table'             => 'bp-members/classes/class-bp-members-list-table.php',
+			'BP_Members_Invitations_List_Table' => 'bp-members/classes/class-bp-members-invitations-list-table.php',
+			'BP_Optouts_List_Table'             => 'bp-core/classes/class-bp-optouts-list-table.php',
+		);
+
+		if ( is_multisite() ) {
+			if ( ! class_exists( 'WP_MS_Users_List_Table' ) ) {
+				require_once ABSPATH . 'wp-admin/includes/class-wp-ms-users-list-table.php';
+			}
+
+			$class_files['BP_Members_MS_List_Table'] = 'bp-members/classes/class-bp-members-ms-list-table.php';
+		}
+
+		foreach ( $class_files as $class_name => $class_file ) {
+			if ( ! class_exists( $class_name ) ) {
+				require_once BP_PLUGIN_DIR . $class_file;
+			}
+		}
+
+		$request            = $_REQUEST;
+		$get                = $_GET;
+		$had_current_screen = array_key_exists( 'current_screen', $GLOBALS );
+		$current_screen     = $had_current_screen ? $GLOBALS['current_screen'] : null;
+		$had_usersearch     = array_key_exists( 'usersearch', $GLOBALS );
+		$usersearch         = $had_usersearch ? $GLOBALS['usersearch'] : null;
+
+		try {
+			$_REQUEST                 = array( 's' => array( 'invalid' ) );
+			$_GET                     = array();
+			$GLOBALS['current_screen'] = WP_Screen::get( 'users_page_bp-request-input' );
+
+			foreach ( array_keys( $class_files ) as $class_name ) {
+				$list_table = new $class_name();
+				$list_table->prepare_items();
+				$this->assertIsArray( $list_table->items );
+			}
+
+			$this->assertSame( '', $GLOBALS['usersearch'] );
+		} finally {
+			$_REQUEST = $request;
+			$_GET     = $get;
+
+			if ( $had_current_screen ) {
+				$GLOBALS['current_screen'] = $current_screen;
+			} else {
+				unset( $GLOBALS['current_screen'] );
+			}
+
+			if ( $had_usersearch ) {
+				$GLOBALS['usersearch'] = $usersearch;
+			} else {
+				unset( $GLOBALS['usersearch'] );
+			}
+		}
 	}
 
 	/**
@@ -159,8 +242,10 @@ class BP_Tests_Admin_Functions extends BP_UnitTestCase {
 		$reset_bp_pages = $bp->pages;
 		$reset_admin_notices = $bp->admin->notices;
 
-		// Reset pages
-		$bp->pages = bp_core_get_directory_pages();
+		// This scenario requires missing registration pages and no earlier notices.
+		$bp->pages = clone bp_core_get_directory_pages();
+		unset( $bp->pages->register, $bp->pages->activate );
+		$bp->admin->notices = array();
 
 		add_filter( 'bp_get_signup_allowed', '__return_true', 999 );
 
@@ -255,6 +340,53 @@ class BP_Tests_Admin_Functions extends BP_UnitTestCase {
 			$correct_description = $correct_descriptions[ $d_term->slug ];
 			$this->assertSame( $correct_description, $d_term->description );
 		}
+	}
+
+	/**
+	 * @ticket BP9329
+	 */
+	public function test_bp_email_get_type_schema_should_allow_custom_types() {
+		add_filter( 'bp_email_get_schema', array( $this, 'filter_bp_email_get_schema' ) );
+		add_filter( 'bp_email_get_type_schema', array( $this, 'filter_bp_email_get_type_schema' ) );
+
+		try {
+			$types = bp_email_get_type_schema( 'all' );
+			$this->assertArrayHasKey( 'test-email-type', $types );
+			$this->assertSame( 'Test email type description.', $types['test-email-type']['description'] );
+
+			$descriptions = bp_email_get_type_schema( 'description' );
+			$this->assertSame( 'Test email type description.', $descriptions['test-email-type'] );
+
+			require_once( BP_PLUGIN_DIR . '/bp-core/admin/bp-core-admin-schema.php' );
+			bp_core_install_emails();
+
+			$term = get_term_by( 'slug', 'test-email-type', bp_get_email_tax_type() );
+			$this->assertInstanceOf( 'WP_Term', $term );
+			$this->assertSame( 'Test email type description.', $term->description );
+		} finally {
+			remove_filter( 'bp_email_get_schema', array( $this, 'filter_bp_email_get_schema' ) );
+			remove_filter( 'bp_email_get_type_schema', array( $this, 'filter_bp_email_get_type_schema' ) );
+		}
+	}
+
+	public function filter_bp_email_get_schema( $emails ) {
+		$emails['test-email-type'] = array(
+			'post_title'   => 'Test email type',
+			'post_content' => 'Test email type content.',
+			'post_excerpt' => 'Test email type content.',
+		);
+
+		return $emails;
+	}
+
+	public function filter_bp_email_get_type_schema( $types ) {
+		$types['test-email-type'] = array(
+			'description'      => 'Test email type description.',
+			'named_salutation' => false,
+			'unsubscribe'      => false,
+		);
+
+		return $types;
 	}
 
 	public function is_active_filter( $is_active, $component ) {

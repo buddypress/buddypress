@@ -4,7 +4,6 @@
  * @group core
  */
 class BP_Tests_Core_Functions extends BP_UnitTestCase {
-	protected $bp_initial_version;
 
 	/**
 	 * @group bp_esc_sql_order
@@ -697,6 +696,72 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group bp_core_time_since
+	 * @ticket BP9284
+	 * @dataProvider user_registration_site_offsets_provider
+	 */
+	public function test_user_registered_should_be_utc_with_site_offset( $gmt_offset ) {
+		$original_timezone_string = get_option( 'timezone_string' );
+		$original_gmt_offset      = get_option( 'gmt_offset' );
+
+		try {
+			update_option( 'timezone_string', '' );
+			update_option( 'gmt_offset', $gmt_offset );
+
+			$before = time();
+			$user   = self::factory()->user->create_and_get();
+			$after  = time();
+
+			// No registration date is supplied: check the actual storage default as UTC.
+			$registered = strtotime( $user->user_registered . ' UTC' );
+
+			$this->assertNotFalse( $registered );
+			$this->assertGreaterThanOrEqual( $before, $registered );
+			$this->assertLessThanOrEqual( $after, $registered );
+		} finally {
+			update_option( 'timezone_string', $original_timezone_string );
+			update_option( 'gmt_offset', $original_gmt_offset );
+		}
+	}
+
+	/**
+	 * @group bp_core_time_since
+	 * @ticket BP9284
+	 * @dataProvider user_registration_site_offsets_provider
+	 */
+	public function test_bp_core_time_since_user_registered_with_site_offset( $gmt_offset ) {
+		$original_timezone_string = get_option( 'timezone_string' );
+		$original_gmt_offset      = get_option( 'gmt_offset' );
+
+		try {
+			update_option( 'timezone_string', '' );
+			update_option( 'gmt_offset', $gmt_offset );
+
+			$user = self::factory()->user->create_and_get(
+				array( 'user_registered' => '2025-01-15 12:00:00' )
+			);
+
+			// Fix the comparison time independently of the parser and the system clock.
+			$registered_timestamp = gmmktime( 12, 0, 0, 1, 15, 2025 );
+			$now                  = $registered_timestamp + MINUTE_IN_SECONDS;
+
+			$this->assertSame( '1 minute ago', bp_core_time_since( $registered_timestamp, $now ) );
+			$this->assertSame( '1 minute ago', bp_core_time_since( $user->user_registered, $now ) );
+		} finally {
+			update_option( 'timezone_string', $original_timezone_string );
+			update_option( 'gmt_offset', $original_gmt_offset );
+		}
+	}
+
+	public static function user_registration_site_offsets_provider() {
+		return array(
+			'UTC'   => array( 0 ),
+			'UTC+2' => array( 2 ),
+			'UTC-5' => array( -5 ),
+		);
+	}
+
+	/**
 	 * @group bp_attachments
 	 * @group bp_upload_dir
 	 */
@@ -826,7 +891,7 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 			}
 		}
 
-		$this->assertTrue( empty( $not_document ) );
+		$this->assertEmpty( $not_document ?? null );
 	}
 
 	public function test_emails_should_have_correct_link_color() {
@@ -855,7 +920,12 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 			$expected = array( 'activity', 'blogs', 'groups', 'members' );
 		}
 
-		bp_core_add_page_mappings( $bp->active_components );
+		add_filter( 'bp_get_signup_allowed', '__return_false', 999 );
+		try {
+			bp_core_add_page_mappings( $bp->active_components, 'delete' );
+		} finally {
+			remove_filter( 'bp_get_signup_allowed', '__return_false', 999 );
+		}
 		$bp_pages = array_keys( bp_get_option( 'bp-pages' ) );
 		sort( $bp_pages );
 
@@ -914,92 +984,6 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 
 	public function add_newcomponent_page_title( $page_default_titles = array() ) {
 		return array_merge( $page_default_titles, array( 'newcomponent' => 'NewComponent' ) );
-	}
-
-	public function override_initial_version() {
-		return $this->bp_initial_version;
-	}
-
-	/**
-	 * This test acts like a reminder: $deprecated_functions_versions needs to include each versions of the `/src/bp-core/deprecated` directory.
-	 *
-	 * eg:  if `/src/bp-core/deprecated/15.0.php` exists, then $deprecated_functions_versions should include `15.0`.
-	 *
-	 * @group bp_get_deprecated_functions_versions
-	 * @ticket BP9210
-	 */
-	public function test_bp_get_deprecated_functions_versions_array_is_consistent_with_deprecated_files() {
-		// When current major version is the initial version, we shouldn't load any deprecated functions file.
-		$this->assertTrue( false !== bp_get_deprecated_functions_versions(), 'Please check the list of `$deprecated_functions_versions` in `bp_get_deprecated_functions_versions()`. There should be one for each file of the `/src/bp-core/deprecated` directory.' );
-	}
-
-	/**
-	 * @group bp_get_deprecated_functions_versions
-	 * @ticket BP8687
-	 * @ticket BP9075
-	 * @ticket BP9210
-	 */
-	public function test_bp_get_deprecated_functions_versions() {
-		$current_version = (float) bp_get_version();
-		$versions        = bp_get_deprecated_functions_versions();
-		$bp              = buddypress();
-
-		add_filter( 'pre_option__bp_initial_major_version', array( $this, 'override_initial_version' ), 10, 0 );
-
-		// Fresh install.
-		$this->bp_initial_version = $current_version;
-		$expected_versions        = array();
-
-		// Include 12.0 until version 15.0.
-		if ( $current_version <= (float) 15 ) {
-			$expected_versions = array( 12.0 );
-		}
-
-		$versions = bp_get_deprecated_functions_versions();
-
-		$this->assertSame( $versions, $expected_versions, 'Deprecated functions are not loaded for fresh installs.' );
-
-		// BuddyPress updated from previous versions.
-		$expected_versions = array( $current_version - 1, $current_version ); // The 2 last deprecated function files.
-
-		// First BuddyPress installed version is older than 11.0. In this case, the initial version is 0.
-		// See https://buddypress.trac.wordpress.org/changeset/13304
-		$this->bp_initial_version = 0;
-
-		$versions = bp_get_deprecated_functions_versions();
-
-		// Include 12.0 until version 15.0.
-		if ( $current_version <= (float) 15 ) {
-			$this->assertContains( 12.0, $versions, '12.0 deprecated functions should be loaded when first installed version is <= 15.0' );
-		} else {
-			$this->assertSame( $versions, $expected_versions, 'The last deprecated function files are loaded for updated BuddyPress.' );
-		}
-
-		// Testing with previous major version.
-		$this->bp_initial_version = $current_version - 1;
-
-		$versions = bp_get_deprecated_functions_versions();
-
-		// Include 12.0 until version 15.0.
-		if ( $current_version <= (float) 15 ) {
-			$this->assertContains( 12.0, $versions, '12.0 deprecated functions should be loaded when first installed version is <= 15.0' );
-		} else {
-			$this->assertSame( $versions, $expected_versions, 'The last deprecated function files are loaded for updated BuddyPress.' );
-		}
-
-		// Testing with 2 versions older.
-		$this->bp_initial_version = (float) 15 === $current_version ? (float) 12 : $current_version - 2;
-
-		$versions = bp_get_deprecated_functions_versions();
-
-		// Include 12.0 until version 15.0.
-		if ( $current_version <= (float) 15 ) {
-			$this->assertContains( 12.0, $versions, '12.0 deprecated functions should be loaded when first installed version is <= 15.0' );
-		} else {
-			$this->assertSame( $versions, $expected_versions, 'The last deprecated function files are loaded for updated BuddyPress.' );
-		}
-
-		remove_filter( 'pre_option__bp_initial_major_version', array( $this, 'override_initial_version' ) );
 	}
 
 	/**

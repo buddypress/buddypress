@@ -53,7 +53,7 @@ function bp_activity_action_delete_activity( $activity_id = 0 ) {
 	// Delete the activity item and provide user feedback.
 	if ( bp_activity_delete(
 		array(
-			'id' => $activity_id,
+			'id'      => $activity_id,
 			'user_id' => $activity->user_id,
 		)
 	) ) {

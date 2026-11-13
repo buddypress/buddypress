@@ -771,9 +771,9 @@ class BP_Messages_Thread {
 			$pag_sql = $wpdb->prepare( ' LIMIT %d, %d', intval( ( $r['page'] - 1 ) * $r['limit'] ), intval( $r['limit'] ) );
 		}
 
-		if ( $r['type'] === 'unread' ) {
+		if ( 'unread' === $r['type'] ) {
 			$type_sql = ' AND r.unread_count != 0 ';
-		} elseif ( $r['type'] === 'read' ) {
+		} elseif ( 'read' === $r['type'] ) {
 			$type_sql = ' AND r.unread_count = 0 ';
 		}
 
@@ -830,15 +830,92 @@ class BP_Messages_Thread {
 			}
 		}
 
-		// Set up SQL array.
-		$sql           = array();
-		$sql['select'] = 'SELECT m.thread_id, MAX(m.date_sent) AS date_sent';
-		$sql['from']   = "FROM {$bp->messages->table_name_recipients} r INNER JOIN {$bp->messages->table_name_messages} m ON m.thread_id = r.thread_id {$meta_query_sql['join']}";
-		$sql['where']  = "WHERE {$deleted_sql} {$user_id_sql} {$sender_sql} {$includes_sql} {$type_sql} {$search_sql} {$meta_query_sql['where']}";
-		$sql['misc']   = "GROUP BY m.thread_id ORDER BY date_sent DESC {$pag_sql}";
+		$sql_clauses = array(
+			'select'           => 'SELECT m.thread_id, MAX(m.date_sent) AS date_sent',
+			'from'             => "FROM {$bp->messages->table_name_recipients} r INNER JOIN {$bp->messages->table_name_messages} m ON m.thread_id = r.thread_id",
+			'join'             => $meta_query_sql['join'],
+			'where_conditions' => array_filter(
+				array_map(
+					static function ( $condition ) {
+						return preg_replace( '/^AND\\s+/i', '', trim( $condition ) );
+					},
+					array(
+						$deleted_sql,
+						$user_id_sql,
+						$sender_sql,
+						$includes_sql,
+						$type_sql,
+						$search_sql,
+						$meta_query_sql['where'],
+					)
+				)
+			),
+			'groupby'          => 'GROUP BY m.thread_id',
+			'orderby'          => 'ORDER BY date_sent DESC',
+			'limits'           => $pag_sql,
+		);
+
+		$has_sql_clauses_filter = has_filter( 'bp_messages_thread_get_sql_clauses' );
+
+		/**
+		 * Filters the SQL clauses for a user's message threads query.
+		 *
+		 * @since 15.0.0
+		 *
+		 * @param array $sql_clauses {
+		 *     SQL clauses for the query.
+		 *
+		 *     @type string   $select           SELECT clause.
+		 *     @type string   $from             FROM clause.
+		 *     @type string   $join             JOIN clauses.
+		 *     @type string[] $where_conditions WHERE conditions without the WHERE keyword.
+		 *     @type string   $groupby          GROUP BY clause.
+		 *     @type string   $orderby          ORDER BY clause.
+		 *     @type string   $limits           LIMIT clause.
+		 * }
+		 * @param array $r Parsed arguments passed into the method.
+		 */
+		$sql_clauses = apply_filters( 'bp_messages_thread_get_sql_clauses', $sql_clauses, $r );
+
+		if ( $has_sql_clauses_filter ) {
+			$where_conditions = array_filter(
+				array_map(
+					static function ( $condition ) {
+						return preg_replace( '/^AND\\s+/i', '', trim( $condition ) );
+					},
+					$sql_clauses['where_conditions']
+				)
+			);
+			$where_sql        = 'WHERE ' . implode( ' AND ', $where_conditions );
+			$misc_sql         = implode( ' ', array_filter( array( $sql_clauses['groupby'], $sql_clauses['orderby'], $sql_clauses['limits'] ) ) );
+		} else {
+			$where_sql = "WHERE {$deleted_sql} {$user_id_sql} {$sender_sql} {$includes_sql} {$type_sql} {$search_sql} {$meta_query_sql['where']}";
+			$misc_sql  = "GROUP BY m.thread_id ORDER BY date_sent DESC {$pag_sql}";
+		}
+
+		$sql = array(
+			'select' => $sql_clauses['select'],
+			'from'   => $sql_clauses['from'] . ' ' . $sql_clauses['join'],
+			'where'  => $where_sql,
+			'misc'   => $misc_sql,
+		);
+
+		$paged_sql = implode( ' ', $sql );
+
+		/**
+		 * Filters the final SQL for a user's message threads query.
+		 *
+		 * @since 15.0.0
+		 *
+		 * @param string $paged_sql   SQL used to query the paged results.
+		 * @param string $query_type  Query type for this call: `paged`.
+		 * @param array  $r           Parsed arguments passed into the method.
+		 * @param array  $sql_clauses SQL clauses for the query.
+		 */
+		$paged_sql = apply_filters( 'bp_messages_thread_get_sql', $paged_sql, 'paged', $r, $sql_clauses );
 
 		// Get thread IDs.
-		$thread_ids = $wpdb->get_results( implode( ' ', $sql ) );
+		$thread_ids = $wpdb->get_results( $paged_sql );
 		if ( empty( $thread_ids ) ) {
 			return false;
 		}
@@ -847,7 +924,22 @@ class BP_Messages_Thread {
 		$sql['select'] = 'SELECT COUNT( DISTINCT m.thread_id )';
 		unset( $sql['misc'] );
 
-		$total_threads = $wpdb->get_var( implode( ' ', $sql ) );
+		$total_sql = implode( ' ', $sql );
+
+		/**
+		 * Filters the final SQL for a user's message threads total.
+		 *
+		 * @since 15.0.0
+		 *
+		 * @param string $total_sql   SQL used to query the total.
+		 * @param string $query_type  Query type for this call: `count`.
+		 * @param array  $r           Parsed arguments passed into the method.
+		 * @param array  $sql_clauses SQL clauses for the query.
+		 */
+		$total_sql = apply_filters( 'bp_messages_thread_get_sql', $total_sql, 'count', $r, $sql_clauses );
+
+		$total_threads  = $wpdb->get_var( $total_sql );
+		$sorted_threads = array();
 
 		// Sort threads by date_sent.
 		foreach ( (array) $thread_ids as $thread ) {
@@ -857,7 +949,7 @@ class BP_Messages_Thread {
 		arsort( $sorted_threads );
 
 		$threads = array();
-		foreach ( (array) $sorted_threads as $thread_id => $date_sent ) {
+		foreach ( $sorted_threads as $thread_id => $date_sent ) {
 			$threads[] = new BP_Messages_Thread(
 				$thread_id,
 				'ASC',
@@ -1037,13 +1129,13 @@ class BP_Messages_Thread {
 
 		$type_sql       = '';
 		$exclude_sender = $type_sql;
-		if ( $box !== 'sentbox' ) {
+		if ( 'sentbox' !== $box ) {
 			$exclude_sender = 'AND sender_only != 1';
 		}
 
-		if ( $type === 'unread' ) {
+		if ( 'unread' === $type ) {
 			$type_sql = 'AND unread_count != 0';
-		} elseif ( $type === 'read' ) {
+		} elseif ( 'read' === $type ) {
 			$type_sql = 'AND unread_count = 0';
 		}
 

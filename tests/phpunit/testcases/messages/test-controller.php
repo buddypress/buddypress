@@ -184,7 +184,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 			)
 		);
 
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'GET', $this->endpoint_url );
 		$request->set_param( 'context', 'view' );
@@ -342,7 +342,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 			'subject'    => 'Foo',
 		) );
 
-		$this->bp::set_current_user( $u3 );
+		wp_set_current_user( $u3 );
 
 		$request = new WP_REST_Request( 'GET', $this->endpoint_url . '/' . $m->thread_id );
 		$request->set_param( 'context', 'view' );
@@ -649,7 +649,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 	 *
 	 * @return array
 	 */
-	public function provider_create_item_with_empty_content_options() {
+	public static function provider_create_item_with_empty_content_options() {
 		return array(
 			array( '' ),
 			array( '' ),
@@ -664,7 +664,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 	 *
 	 * @return array
 	 */
-	public function provider_create_item_irregular_content_options() {
+	public static function provider_create_item_irregular_content_options() {
 		return array(
 			array( '0' ),
 			array( '00' ),
@@ -849,7 +849,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 			'subject'    => 'Foo',
 		) );
 
-		$this->bp::set_current_user( $u3 );
+		wp_set_current_user( $u3 );
 
 		$request = new WP_REST_Request( 'PUT', sprintf( $this->endpoint_url . '/%d', $m->thread_id ) );
 		$request->set_param( 'user_id', $u2 );
@@ -887,7 +887,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 
 		$this->assertNotEmpty( $data );
 		$this->assertTrue( $data['deleted'] );
-		$this->assertTrue( $data['previous']['subject']['rendered'] === 'Foo' );
+		$this->assertSame( 'Foo', $data['previous']['subject']['rendered'] );
 	}
 
 	/**
@@ -917,7 +917,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 
 		$this->assertNotEmpty( $data );
 		$this->assertTrue( $data['deleted'] );
-		$this->assertTrue( $data['previous']['subject']['rendered'] === 'Foo' );
+		$this->assertSame( 'Foo', $data['previous']['subject']['rendered'] );
 	}
 
 	/**
@@ -984,7 +984,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 			'subject'    => 'Foo',
 		) );
 
-		$this->bp::set_current_user( $u3 );
+		wp_set_current_user( $u3 );
 
 		$request = new WP_REST_Request( 'DELETE', $this->endpoint_url . '/' . $m->thread_id );
 		$request->set_param( 'user_id', $u2 );
@@ -1262,7 +1262,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 
 		$last_message = wp_list_filter( $get_data['messages'], array( 'id' => $get_data['message_id'] ) );
 		$last_message = reset( $last_message );
-		$this->assertTrue( $expected === $last_message['taz_field'] );
+		$this->assertSame( $expected, $last_message['taz_field'] );
 
 		$GLOBALS['wp_rest_additional_fields'] = $registered_fields;
 	}
@@ -1311,7 +1311,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 
 		$last_message = wp_list_filter( $create_data['messages'], array( 'id' => $create_data['message_id'] ) );
 		$last_message = reset( $last_message );
-		$this->assertTrue( $expected === $last_message['foo_field'] );
+		$this->assertSame( $expected, $last_message['foo_field'] );
 
 		$GLOBALS['wp_rest_additional_fields'] = $registered_fields;
 	}
@@ -1374,7 +1374,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 
 		$last_message = wp_list_filter( $create_data['messages'], array( 'id' => $create_data['message_id'] ) );
 		$last_message = reset( $last_message );
-		$this->assertTrue( $expected === $last_message['bar_field'] );
+		$this->assertSame( $expected, $last_message['bar_field'] );
 
 		$GLOBALS['wp_rest_additional_fields'] = $registered_fields;
 	}
@@ -1445,7 +1445,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 
 		$last_message = wp_list_filter( $update_data['messages'], array( 'id' => $update_data['message_id'] ) );
 		$last_message = reset( $last_message );
-		$this->assertTrue( $expected === $last_message['boz_field'] );
+		$this->assertSame( $expected, $last_message['boz_field'] );
 
 		$GLOBALS['wp_rest_additional_fields'] = $registered_fields;
 	}
@@ -1520,7 +1520,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 
 		$specific_message = wp_list_filter( $update_data['messages'], array( 'id' => $r1->id ) );
 		$specific_message = reset( $specific_message );
-		$this->assertTrue( $expected === $specific_message['top_field'] );
+		$this->assertSame( $expected, $specific_message['top_field'] );
 
 		$GLOBALS['wp_rest_additional_fields'] = $registered_fields;
 	}
@@ -1577,7 +1577,81 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 	 * @group get_item
 	 */
 	public function test_prepare_item() {
-		$this->markTestSkipped( 'Coverage for prepare_item_for_response() has not been implemented.' );
+		global $wp_rest_additional_fields;
+
+		$original_fields = $wp_rest_additional_fields;
+
+		wp_set_current_user( $this->user );
+
+		$recipient = $this->bp::factory()->user->create();
+		$message   = $this->bp::factory()->message->create_and_get(
+			array(
+				'sender_id'  => $this->user,
+				'recipients' => array( $recipient ),
+				'subject'    => 'Thread subject',
+				'content'    => 'Thread message',
+				'date_sent'  => '2020-01-02 03:04:05',
+			)
+		);
+		$thread = $this->endpoint->get_thread_object( $message->thread_id, $this->user );
+
+		register_rest_field(
+			'bp_messages',
+			'test_edit_field',
+			array(
+				'get_callback' => static function () {
+					return 'Additional value';
+				},
+				'schema'       => array(
+					'type'    => 'string',
+					'context' => array( 'edit' ),
+				),
+			)
+		);
+
+		try {
+			foreach ( array( null, 'view', 'edit' ) as $context ) {
+				$request = new WP_REST_Request( 'GET', $this->endpoint_url . '/' . $thread->thread_id );
+				if ( null !== $context ) {
+					$request->set_param( 'context', $context );
+				}
+
+				$response = $this->endpoint->prepare_item_for_response( $thread, $request );
+
+				$this->assertInstanceOf( 'WP_REST_Response', $response );
+				$this->assertSame( 200, $response->get_status() );
+
+				$data = $response->get_data();
+				$this->check_thread_data( $thread, $data );
+				$this->assertSame( '2020-01-02T03:04:05', $data['date_gmt'] );
+				$this->assertCount( 1, $data['messages'] );
+				$this->assertSame( $thread->last_message_id, $data['messages'][0]['id'] );
+				$this->assertEqualSets( array( $this->user, $recipient ), wp_list_pluck( $data['recipients'], 'user_id' ) );
+				$this->assertArrayHasKey( 'rendered', $data['messages'][0]['message'] );
+
+				if ( 'edit' === $context ) {
+					$this->assertSame( 'Thread subject', $data['subject']['raw'] );
+					$this->assertSame( 'Thread message', $data['message']['raw'] );
+					$this->assertSame( 'Thread message', $data['messages'][0]['message']['raw'] );
+				} else {
+					$this->assertArrayNotHasKey( 'raw', $data['subject'] );
+					$this->assertArrayNotHasKey( 'raw', $data['message'] );
+					$this->assertArrayNotHasKey( 'raw', $data['messages'][0]['message'] );
+				}
+
+				$links = $response->get_links();
+				$this->assertSame( rest_url( $this->endpoint_url . '/' . $thread->thread_id ), $links['self'][0]['href'] );
+				$this->assertSame( rest_url( $this->endpoint_url . '/' ), $links['collection'][0]['href'] );
+
+				if ( 'edit' === $context ) {
+					$this->assertSame( 'Additional value', $data['test_edit_field'] );
+				} else {
+					$this->assertArrayNotHasKey( 'test_edit_field', $data );
+				}
+			}
+		} finally {
+			$wp_rest_additional_fields = $original_fields;
+		}
 	}
 
 	protected function check_thread_data( $thread, $data ) {

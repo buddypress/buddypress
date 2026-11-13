@@ -845,7 +845,7 @@ function bp_friends_prime_mentions_results() {
 		$result->ID    = $user->user_nicename;
 		$result->image = bp_core_fetch_avatar(
 			array(
-				'html' => false,
+				'html'    => false,
 				'item_id' => $user->ID,
 			)
 		);

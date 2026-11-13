@@ -83,6 +83,7 @@ class BP_Attachment_Avatar extends BP_Attachment {
 	 *
 	 * Adds an error if the avatar size or type don't match BuddyPress needs.
 	 * The error code is the index of $upload_error_strings.
+	 * Also removes the `-bpfull` and `-bpthumb` suffixes from the file name.
 	 *
 	 * @since 2.3.0
 	 *
@@ -95,12 +96,26 @@ class BP_Attachment_Avatar extends BP_Attachment {
 			return $file;
 		}
 
+		/*
+		 * Cropping moves or deletes the existing avatar files, which it finds by these
+		 * suffixes. Remove them, so the uploaded original is not taken for one of them.
+		 */
+		if ( isset( $file['name'] ) && is_string( $file['name'] ) ) {
+			$file['name'] = str_replace( array( '-bpfull', '-bpthumb' ), '', $file['name'] );
+
+			if ( '' === pathinfo( $file['name'], PATHINFO_FILENAME ) ) {
+				$file['name'] = 'avatar' . $file['name'];
+			}
+		}
+
+		$file_array = array( 'file' => $file );
+
 		// File size is too big.
-		if ( ! bp_core_check_avatar_size( array( 'file' => $file ) ) ) {
+		if ( ! bp_core_check_avatar_size( $file_array ) ) {
 			$file['error'] = 9;
 
 			// File is of invalid type.
-		} elseif ( ! bp_core_check_avatar_type( array( 'file' => $file ) ) ) {
+		} elseif ( ! bp_core_check_avatar_type( $file_array ) ) {
 			$file['error'] = 10;
 		}
 
@@ -181,6 +196,7 @@ class BP_Attachment_Avatar extends BP_Attachment {
 	 * @return bool
 	 */
 	public static function is_too_small( $file = '' ) {
+		// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- Invalid or unreadable images must fail quietly.
 		$uploaded_image = @getimagesize( $file );
 		$full_width     = bp_core_avatar_full_width();
 		$full_height    = bp_core_avatar_full_height();
@@ -308,8 +324,9 @@ class BP_Attachment_Avatar extends BP_Attachment {
 		}
 
 		// Get the file extension.
+		// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- Invalid or unreadable images must fail quietly.
 		$data = @getimagesize( $absolute_path );
-		$ext  = $data['mime'] === 'image/png' ? 'png' : 'jpg';
+		$ext  = 'image/png' === $data['mime'] ? 'png' : 'jpg';
 
 		$args['original_file'] = $absolute_path;
 		$args['src_abs']       = false;
@@ -336,8 +353,7 @@ class BP_Attachment_Avatar extends BP_Attachment {
 		}
 
 		// Remove the original.
-		// phpcs:ignore WordPress.WP.AlternativeFunctions.unlink_unlink
-		@unlink( $absolute_path );
+		wp_delete_file( $absolute_path );
 
 		// Return the full, thumb cropped avatars and the timestamp.
 		return array_merge(
@@ -380,7 +396,7 @@ class BP_Attachment_Avatar extends BP_Attachment {
 	private function get_group_id() {
 		$group_id = 0;
 
-		if ( bp_is_group() ) {
+		if ( bp_is_group() || bp_is_group_create() ) {
 			$group_id = bp_get_current_group_id();
 		}
 

@@ -14,6 +14,11 @@ class BP_Tests_Blog_Avatar_REST_Controller extends BP_Test_REST_Controller_Testc
 		$routes   = $this->server->get_routes();
 		$endpoint = $this->endpoint_url . '/(?P<id>[\d]+)/avatar';
 
+		if ( ! is_multisite() ) {
+			$this->assertArrayNotHasKey( $endpoint, $routes );
+			return;
+		}
+
 		// Single.
 		$this->assertArrayHasKey( $endpoint, $routes );
 		$this->assertCount( 1, $routes[ $endpoint ] );
@@ -192,28 +197,87 @@ class BP_Tests_Blog_Avatar_REST_Controller extends BP_Test_REST_Controller_Testc
 	 * @group create_item
 	 */
 	public function test_create_item() {
-		$this->markTestSkipped( 'This endpoint does not support creating blog avatars.' );
+		// This endpoint does not support creating blog avatars.
+		$this->skipWithoutMultisite();
+
+		$request  = new WP_REST_Request( 'POST', $this->endpoint_url . '/1/avatar' );
+		$response = $this->server->dispatch( $request );
+		$this->assertErrorResponse( 'rest_no_route', $response, 404 );
 	}
 
 	/**
 	 * @group update_item
 	 */
 	public function test_update_item() {
-		$this->markTestSkipped( 'This endpoint does not support updating blog avatars.' );
+		// This endpoint does not support updating blog avatars.
+		$this->skipWithoutMultisite();
+
+		foreach ( array( 'PUT', 'PATCH' ) as $method ) {
+			$request  = new WP_REST_Request( $method, $this->endpoint_url . '/1/avatar' );
+			$response = $this->server->dispatch( $request );
+			$this->assertErrorResponse( 'rest_no_route', $response, 404 );
+		}
 	}
 
 	/**
 	 * @group delete_item
 	 */
 	public function test_delete_item() {
-		$this->markTestSkipped( 'This endpoint does not support deleting blog avatars.' );
+		// This endpoint does not support deleting blog avatars.
+		$this->skipWithoutMultisite();
+
+		$request  = new WP_REST_Request( 'DELETE', $this->endpoint_url . '/1/avatar' );
+		$response = $this->server->dispatch( $request );
+		$this->assertErrorResponse( 'rest_no_route', $response, 404 );
 	}
 
 	/**
 	 * @group prepare_item
 	 */
 	public function test_prepare_item() {
-		$this->markTestSkipped( 'Coverage for prepare_item_for_response() has not been implemented.' );
+		global $wp_rest_additional_fields;
+
+		$original_fields = $wp_rest_additional_fields;
+		$avatar          = (object) array(
+			'full'  => 'https://example.org/avatar-full.jpg',
+			'thumb' => 'https://example.org/avatar-thumb.jpg',
+		);
+
+		register_rest_field(
+			'bp_attachments_blog_avatar',
+			'test_edit_field',
+			array(
+				'get_callback' => static function () {
+					return 'Additional value';
+				},
+				'schema'       => array(
+					'type'    => 'string',
+					'context' => array( 'edit' ),
+				),
+			)
+		);
+
+		try {
+			foreach ( array( null, 'view', 'edit' ) as $context ) {
+				$request = new WP_REST_Request( 'GET', $this->endpoint_url );
+				if ( null !== $context ) {
+					$request->set_param( 'context', $context );
+				}
+
+				$response = $this->endpoint->prepare_item_for_response( $avatar, $request );
+				$expected = (array) $avatar;
+
+				if ( 'edit' === $context ) {
+					$expected['test_edit_field'] = 'Additional value';
+				}
+
+				$this->assertInstanceOf( 'WP_REST_Response', $response );
+				$this->assertSame( 200, $response->get_status() );
+				$this->assertSame( $expected, $response->get_data() );
+			}
+		} finally {
+			$wp_rest_additional_fields = $original_fields;
+		}
 	}
 
 	public function test_get_item_schema() {

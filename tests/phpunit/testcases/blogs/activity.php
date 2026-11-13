@@ -252,7 +252,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 
 			// Assert that post title is different.
 			$post_title = bp_activity_get_meta( $aid, 'post_title' );
-			$this->assertFalse( 'Updated' === $post_title, 'Post title should not be the same across all sites with the same post comment ID' );
+			$this->assertNotSame( 'Updated', $post_title, 'Post title should not be the same across all sites with the same post comment ID' );
 		}
 	}
 
@@ -277,7 +277,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 		) );
 
 		$a_obj = new BP_Activity_Activity( $a );
-		$this->assertTrue( ! empty( $a_obj->action ) );
+		$this->assertNotEmpty( $a_obj->action ?? null );
 	}
 
 	/**
@@ -319,8 +319,8 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 		$approved_comments = get_approved_comments( $post_id );
 		$comment = reset( $approved_comments );
 
-		$this->assertTrue( (int) $comment->comment_ID === (int) bp_activity_get_meta( $a2, 'bp_blogs_post_comment_id' ), 'The comment ID should be in the activity meta' );
-		$this->assertTrue( (int) $a2 === (int) get_comment_meta( $comment->comment_ID, 'bp_activity_comment_id', true ), 'The activity ID should be in the comment meta' );
+		$this->assertSame( (int) $comment->comment_ID, (int) bp_activity_get_meta( $a2, 'bp_blogs_post_comment_id' ), 'The comment ID should be in the activity meta' );
+		$this->assertSame( (int) $a2, (int) get_comment_meta( $comment->comment_ID, 'bp_activity_comment_id', true ), 'The activity ID should be in the comment meta' );
 
 		// reset
 		remove_filter( 'bp_disable_blogforum_comments', '__return_false' );
@@ -427,8 +427,8 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 		$post_comments = get_comments( array( 'post_id' => $post_id, 'status' => 'approve' ) );
 		$comment = reset( $post_comments );
 
-		$this->assertTrue( (int) $comment->comment_ID === (int) bp_activity_get_meta( $a2, 'bp_blogs_post_comment_id' ), 'The comment ID should be in the activity meta' );
-		$this->assertTrue( (int) $a2 === (int) get_comment_meta( $comment->comment_ID, 'bp_activity_comment_id', true ), 'The activity ID should be in the comment meta' );
+		$this->assertSame( (int) $comment->comment_ID, (int) bp_activity_get_meta( $a2, 'bp_blogs_post_comment_id' ), 'The comment ID should be in the activity meta' );
+		$this->assertSame( (int) $a2, (int) get_comment_meta( $comment->comment_ID, 'bp_activity_comment_id', true ), 'The activity ID should be in the comment meta' );
 
 		// reset
 		remove_filter( 'bp_disable_blogforum_comments', '__return_false' );
@@ -484,8 +484,8 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 		$post_comments = get_comments( array( 'post_id' => $post_id, 'status' => 'approve' ) );
 		$comment = reset( $post_comments );
 
-		$this->assertTrue( (int) $comment->comment_ID === (int) bp_activity_get_meta( $a2, 'bp_blogs_post_comment_id' ), 'The comment ID should be in the activity meta' );
-		$this->assertTrue( (int) $a2 === (int) get_comment_meta( $comment->comment_ID, 'bp_activity_comment_id', true ), 'The activity ID should be in the comment meta' );
+		$this->assertSame( (int) $comment->comment_ID, (int) bp_activity_get_meta( $a2, 'bp_blogs_post_comment_id' ), 'The comment ID should be in the activity meta' );
+		$this->assertSame( (int) $a2, (int) get_comment_meta( $comment->comment_ID, 'bp_activity_comment_id', true ), 'The activity ID should be in the comment meta' );
 
 		// reset
 		remove_filter( 'bp_disable_blogforum_comments', '__return_false' );
@@ -541,8 +541,8 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 		$post_comments = get_comments( array( 'post_id' => $post_id, 'status' => 'approve' ) );
 		$comment = reset( $post_comments );
 
-		$this->assertTrue( (int) $comment->comment_ID === (int) bp_activity_get_meta( $a2, 'bp_blogs_post_comment_id' ), 'The comment ID should be in the activity meta' );
-		$this->assertTrue( (int) $a2 === (int) get_comment_meta( $comment->comment_ID, 'bp_activity_comment_id', true ), 'The activity ID should be in the comment meta' );
+		$this->assertSame( (int) $comment->comment_ID, (int) bp_activity_get_meta( $a2, 'bp_blogs_post_comment_id' ), 'The comment ID should be in the activity meta' );
+		$this->assertSame( (int) $a2, (int) get_comment_meta( $comment->comment_ID, 'bp_activity_comment_id', true ), 'The activity ID should be in the comment meta' );
 
 		// reset
 		remove_filter( 'bp_disable_blogforum_comments', '__return_false' );

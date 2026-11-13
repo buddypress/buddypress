@@ -4,7 +4,6 @@ BP Tooltips
 [data-bp-tooltip] {
 	position: relative;
 }
-
 [data-bp-tooltip]:after {
 	background: #fff;
 	border: 1px solid #aaa;
@@ -36,7 +35,6 @@ BP Tooltips
 	word-wrap: break-word;
 	z-index: 998;
 }
-
 [data-bp-tooltip]:hover:after, [data-bp-tooltip]:active:after, [data-bp-tooltip]:focus:after {
 	display: inline-block;
 	opacity: 1;

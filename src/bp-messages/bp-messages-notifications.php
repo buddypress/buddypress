@@ -233,10 +233,10 @@ function bp_messages_screen_conversation_mark_notifications() {
 	// Get unread PM notifications for the user.
 	$new_pm_notifications = BP_Notifications_Notification::get(
 		array(
-			'user_id'           => bp_loggedin_user_id(),
-			'component_name'    => buddypress()->messages->id,
-			'component_action'  => 'new_message',
-			'is_new'            => 1,
+			'user_id'          => bp_loggedin_user_id(),
+			'component_name'   => buddypress()->messages->id,
+			'component_action' => 'new_message',
+			'is_new'           => 1,
 		)
 	);
 	$unread_message_ids   = wp_list_pluck( $new_pm_notifications, 'item_id' );

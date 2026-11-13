@@ -134,7 +134,7 @@ class BP_Activity_Query extends BP_Recursive_Query {
 
 		$sql_chunks = array(
 			'where' => array(),
-			'join' => array(),
+			'join'  => array(),
 		);
 
 		$column = isset( $clause['column'] ) ? $this->validate_column( $clause['column'] ) : '';

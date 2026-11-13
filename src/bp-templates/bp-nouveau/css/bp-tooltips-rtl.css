@@ -1,7 +1,6 @@
 [data-bp-tooltip] {
 	position: relative;
 }
-
 [data-bp-tooltip]:after {
 	background-color: #fff;
 	display: none;
@@ -10,7 +9,6 @@
 	transform: translate3d(0, 0, 0);
 	visibility: hidden;
 }
-
 [data-bp-tooltip]:after {
 	border: 1px solid #737373;
 	border-radius: 1px;
@@ -32,7 +30,6 @@
 	word-wrap: break-word;
 	z-index: 100000;
 }
-
 [data-bp-tooltip]:hover:after, [data-bp-tooltip]:active:after, [data-bp-tooltip]:focus:after {
 	display: block;
 	opacity: 1;

@@ -414,7 +414,7 @@ class BP_XProfile_Data_REST_Controller extends WP_REST_Controller {
 			'last_updated_gmt' => bp_rest_prepare_date_response( $field_data->last_updated ),
 			'value'            => array(
 				'raw'          => $field_data->value,
-				'unserialized' => $this->fields_endpoint->get_profile_field_unserialized_value( $field_data->value ),
+				'unserialized' => $this->fields_endpoint->get_profile_field_unserialized_value( $field_data->value, $field_data->field_id ),
 				'rendered'     => $this->fields_endpoint->get_profile_field_rendered_value( $field_data->value, $field_data->field_id ),
 			),
 		);

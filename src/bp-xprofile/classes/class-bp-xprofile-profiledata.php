@@ -441,11 +441,11 @@ class BP_XProfile_ProfileData {
 
 		$groups = bp_xprofile_get_groups(
 			array(
-				'user_id'                => $user_id,
-				'hide_empty_groups'      => true,
-				'hide_empty_fields'      => true,
-				'fetch_fields'           => true,
-				'fetch_field_data'       => true,
+				'user_id'           => $user_id,
+				'hide_empty_groups' => true,
+				'hide_empty_fields' => true,
+				'fetch_fields'      => true,
+				'fetch_field_data'  => true,
 			)
 		);
 
@@ -669,7 +669,7 @@ class BP_XProfile_ProfileData {
 
 		if ( is_array( $fields ) ) {
 			for ( $i = 0, $count = count( $fields ); $i < $count; ++$i ) {
-				if ( $i === 0 ) {
+				if ( 0 === $i ) {
 					$field_sql .= $wpdb->prepare( 'AND ( f.name = %s ', $fields[ $i ] );
 				} else {
 					$field_sql .= $wpdb->prepare( 'OR f.name = %s ', $fields[ $i ] );

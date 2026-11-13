@@ -45,6 +45,101 @@
 		 );
 	 }
 
+	public function test_self_removing_sql_clauses_filter_with_duplicate_join_at_priority_zero() {
+		$allowed = self::factory()->optout->create();
+		$other   = self::factory()->optout->create();
+
+		$table   = BP_Optout::get_table_name();
+
+		$calls  = 0;
+		$filter = static function( $clauses ) use ( $allowed, $table, &$calls, &$filter ) {
+			remove_filter( 'bp_optouts_get_sql_clauses', $filter, 0 );
+			++$calls;
+			$clauses['from'] = "FROM {$table} o";
+			$clauses['join'] .= " INNER JOIN (SELECT {$allowed} AS allowed_id UNION ALL SELECT {$allowed}) access ON access.allowed_id = o.id";
+			$clauses['where_conditions']['allowed'] = "access.allowed_id = {$allowed}";
+
+			if ( 'SELECT COUNT(*)' === $clauses['select'] ) {
+				$clauses['select'] = 'SELECT COUNT(DISTINCT o.id)';
+			}
+
+			return $clauses;
+		};
+
+		$args = array( 'fields' => 'ids', 'cache_results' => true, 'per_page' => 1, 'page' => 1 );
+
+		add_filter( 'bp_optouts_get_sql_clauses', $filter, 0 );
+
+		try {
+			$found = BP_Optout::get( $args );
+
+			add_filter( 'bp_optouts_get_sql_clauses', $filter, 0 );
+			$total = BP_Optout::get_total_count( array() );
+
+			add_filter( 'bp_optouts_get_sql_clauses', $filter, 0 );
+			$args['page'] = 2;
+			$second_page = BP_Optout::get( $args );
+		} finally {
+			remove_filter( 'bp_optouts_get_sql_clauses', $filter, 0 );
+		}
+
+		$this->assertSame( array( $allowed ), $found );
+		$this->assertSame( 1, (int) $total );
+		$this->assertSame( array(), $second_page );
+		$this->assertSame( 3, $calls );
+		$this->assertSameSets( array( $allowed, $other ), BP_Optout::get( array( 'fields' => 'ids', 'cache_results' => true ) ) );
+	}
+
+	public function test_get_sql_filters() {
+		$optout_id = self::factory()->optout->create(
+			array(
+				'email_address' => 'one@wp.org',
+				'user_id'       => self::factory()->user->create(),
+			)
+		);
+		self::factory()->optout->create(
+			array(
+				'email_address' => 'two@wp.org',
+				'user_id'       => self::factory()->user->create(),
+			)
+		);
+
+		$query_types = array();
+		$clauses_filter = static function ( $sql_clauses ) use ( $optout_id ) {
+			$sql_clauses['where_conditions'][] = "id = {$optout_id}";
+
+			return $sql_clauses;
+		};
+
+		$sql_filter = static function ( $sql, $query_type ) use ( &$query_types ) {
+			$query_types[] = $query_type;
+
+			return $sql;
+		};
+
+		add_filter( 'bp_optouts_get_sql_clauses', $clauses_filter );
+		add_filter( 'bp_optouts_get_sql', $sql_filter, 10, 2 );
+
+		try {
+			$optout_ids = BP_Optout::get(
+				array(
+					'cache_results' => false,
+					'fields'        => 'ids',
+				)
+			);
+			$total = BP_Optout::get_total_count( array() );
+		} finally {
+			remove_filter( 'bp_optouts_get_sql_clauses', $clauses_filter );
+			remove_filter( 'bp_optouts_get_sql', $sql_filter );
+		}
+
+		$this->assertSame( array( $optout_id ), $optout_ids );
+		$this->assertSame( 1, (int) $total );
+		$this->assertSame( array( 'paged', 'count' ), $query_types );
+	}
+
+
+
 	public function test_bp_optouts_add_optout_vanilla() {
 
 		$u1 = self::factory()->user->create();

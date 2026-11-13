@@ -234,8 +234,8 @@ function bp_has_activities( $args = '' ) {
 
 	$search_terms_default = false;
 	$search_query_arg     = bp_core_get_component_search_query_arg( 'activity' );
-	if ( ! empty( $_REQUEST[ $search_query_arg ] ) ) {
-		$search_terms_default = stripslashes( $_REQUEST[ $search_query_arg ] );
+	if ( ! empty( $_REQUEST[ $search_query_arg ] ) && is_string( $_REQUEST[ $search_query_arg ] ) ) {
+		$search_terms_default = wp_unslash( $_REQUEST[ $search_query_arg ] );
 	}
 
 	/*
@@ -302,8 +302,8 @@ function bp_has_activities( $args = '' ) {
 	}
 
 	// Search terms.
-	if ( ! empty( $_REQUEST['s'] ) && empty( $r['search_terms'] ) ) {
-		$r['search_terms'] = $_REQUEST['s'];
+	if ( ! empty( $_REQUEST['s'] ) && is_string( $_REQUEST['s'] ) && empty( $r['search_terms'] ) ) {
+		$r['search_terms'] = wp_unslash( $_REQUEST['s'] );
 	}
 
 	// Do not exceed the maximum per page.
@@ -1473,7 +1473,7 @@ function bp_activity_has_content() {
 			$personal_types    = array( 'new_avatar', 'new_member', 'updated_profile' );
 
 			// Do not use generated-content activities when displaying a personal activity stream.
-			if ( (int) $user_id === (int) bp_displayed_user_id() && in_array( $activity_type, $personal_types, true ) ) {
+			if ( (int) bp_displayed_user_id() === (int) $user_id && in_array( $activity_type, $personal_types, true ) ) {
 				return false;
 			}
 
@@ -1876,7 +1876,7 @@ function bp_activity_user_can_delete( $activity = false ) {
 		// Users are allowed to delete their own activity. This is actually
 		// quite powerful, because doing so also deletes all comments to that
 		// activity item. We should revisit this eventually.
-		if ( isset( $activity->user_id ) && ( $activity->user_id === bp_loggedin_user_id() ) ) {
+		if ( isset( $activity->user_id ) && ( bp_loggedin_user_id() === $activity->user_id ) ) {
 			$can_delete = true;
 		}
 
@@ -2726,7 +2726,7 @@ function bp_activity_comment_form_nojs_display() {
 	function bp_get_activity_comment_form_nojs_display() {
 		global $activities_template;
 
-		if ( isset( $_GET['ac'] ) && ( $_GET['ac'] === ( $activities_template->activity->id . '/' ) ) ) {
+		if ( isset( $_GET['ac'] ) && ( ( $activities_template->activity->id . '/' ) === $_GET['ac'] ) ) {
 			return 'style="display: block"';
 		}
 

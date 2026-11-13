@@ -3,21 +3,17 @@
 	clear: both;
 	overflow: hidden;
 }
-
 .buddypress_object_nav .bp-navs ul {
 	margin: 0;
 	padding: 0;
 }
-
 .buddypress_object_nav .bp-navs ul li {
 	list-style: none;
 	margin: 0;
 }
-
 .buddypress_object_nav .bp-navs ul li.last select {
 	max-width: 185px;
 }
-
 .buddypress_object_nav .bp-navs ul li a,
 .buddypress_object_nav .bp-navs ul li span {
 	border: 0;
@@ -25,7 +21,6 @@
 	padding: 5px 10px;
 	text-decoration: none;
 }
-
 .buddypress_object_nav .bp-navs ul li .count {
 	background: #eaeaea;
 	border: 1px solid #ccc;
@@ -38,18 +33,15 @@
 	text-align: center;
 	vertical-align: middle;
 }
-
 .buddypress_object_nav .bp-navs ul li.selected a,
 .buddypress_object_nav .bp-navs ul li.current a {
 	color: #333;
 	opacity: 1;
 }
-
 .buddypress_object_nav .bp-navs ul li.selected a .count,
 .buddypress_object_nav .bp-navs ul li.current a .count {
 	background-color: #fff;
 }
-
 .buddypress_object_nav .bp-navs ul li.dynamic a .count,
 .buddypress_object_nav .bp-navs ul li.dynamic.selected a .count,
 .buddypress_object_nav .bp-navs ul li.dynamic.current a .count {
@@ -57,38 +49,30 @@
 	border: 0;
 	color: #fafafa;
 }
-
 .buddypress_object_nav .bp-navs ul li.dynamic a:hover .count {
 	background-color: #5087e5;
 	border: 0;
 	color: #fff;
 }
-
 .buddypress_object_nav .bp-navs ul li a .count:empty {
 	display: none;
 }
-
 .buddypress_object_nav .main-navs.dir-navs {
 	margin-bottom: 20px;
 }
-
 .buddypress_object_nav .bp-navs.group-create-links ul li:not(.current) {
 	color: #767676;
 }
-
 .buddypress_object_nav .bp-navs.group-create-links ul li:not(.current) a {
 	color: #767676;
 }
-
 .buddypress_object_nav .bp-navs.group-create-links ul li:not(.current) a:focus, .buddypress_object_nav .bp-navs.group-create-links ul li:not(.current) a:hover {
 	background: none;
 	color: #555;
 }
-
 .buddypress_object_nav .bp-navs.group-create-links ul li:not(.current) a[disabled]:focus, .buddypress_object_nav .bp-navs.group-create-links ul li:not(.current) a[disabled]:hover {
 	color: #767676;
 }
-
 .buddypress_object_nav .bp-navs.group-create-links ul li.current a {
 	text-align: center;
 }

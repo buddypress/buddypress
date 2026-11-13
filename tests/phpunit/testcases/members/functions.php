@@ -32,7 +32,7 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 		$this->grant_super_admin( $admin_user );
 
 		// 1. Admin can delete user account
-		$this->set_current_user( $admin_user );
+		wp_set_current_user( $admin_user );
 		$user1 = self::factory()->user->create();
 		bp_core_delete_account( $user1 );
 		$maybe_user = new WP_User( $user1 );
@@ -51,14 +51,14 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 		// User cannot delete other's account
 		$user3 = self::factory()->user->create();
 		$user4 = self::factory()->user->create();
-		$this->set_current_user( $user3 );
+		wp_set_current_user( $user3 );
 		bp_core_delete_account( $user4 );
 		$maybe_user = new WP_User( $user4 );
 		$this->assertNotSame( 0, $maybe_user->ID );
 		unset( $maybe_user );
 
 		// Cleanup
-		$this->set_current_user( $current_user );
+		wp_set_current_user( $current_user );
 		bp_update_option( 'bp-disable-account-deletion', $deletion_disabled );
 	}
 
@@ -726,19 +726,19 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 	public function test_bp_core_get_illegal_names() {
 
 		// Making sure BP custom illegals are in the array.
-		$this->assertTrue( in_array( 'profile', bp_core_get_illegal_names(), true ) );
-		$this->assertTrue( in_array( 'forums', bp_core_get_illegal_names(), true ) );
+		$this->assertContains( 'profile', bp_core_get_illegal_names() );
+		$this->assertContains( 'forums', bp_core_get_illegal_names() );
 
 		add_filter( 'illegal_user_logins', array( $this, '_illegal_user_logins' ) );
 
 		// Testing fake custom illegal names.
-		$this->assertTrue( in_array( 'testuser', bp_core_get_illegal_names(), true ) );
-		$this->assertTrue( in_array( 'admins', bp_core_get_illegal_names(), true ) );
-		$this->assertFalse( in_array( 'buddypresss', bp_core_get_illegal_names(), true ) );
+		$this->assertContains( 'testuser', bp_core_get_illegal_names() );
+		$this->assertContains( 'admins', bp_core_get_illegal_names() );
+		$this->assertNotContains( 'buddypresss', bp_core_get_illegal_names() );
 
 		// Making sure BP custom illegals are in the array after including the custom ones.
-		$this->assertTrue( in_array( 'profile', bp_core_get_illegal_names(), true ) );
-		$this->assertTrue( in_array( 'forums', bp_core_get_illegal_names(), true ) );
+		$this->assertContains( 'profile', bp_core_get_illegal_names() );
+		$this->assertContains( 'forums', bp_core_get_illegal_names() );
 
 		remove_filter( 'illegal_user_logins', array( $this, '_illegal_user_logins' ) );
 	}
@@ -851,7 +851,7 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 	 *
 	 * @return array[]
 	 */
-	public function provider_bp_core_validate_user_signup_errors() {
+	public static function provider_bp_core_validate_user_signup_errors() {
 		return array(
 			array( '', 'test@example.com', 'Please enter a username' ),
 			array( '@-t', 'test@example.com', 'Username must be at least 4 characters.' ),

@@ -30,7 +30,7 @@ function groups_screen_group_invite() {
 			foreach ( (array) $_POST['friends'] as $friend ) {
 				groups_invite_user(
 					array(
-						'user_id' => $friend,
+						'user_id'  => $friend,
 						'group_id' => $bp->groups->current_group->id,
 					)
 				);

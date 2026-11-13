@@ -125,7 +125,7 @@ do_action( 'bp_before_member_messages_loop' ); ?>
 								<?php
 								bp_message_thread_avatar(
 									array(
-										'width' => 25,
+										'width'  => 25,
 										'height' => 25,
 									)
 								);
@@ -139,7 +139,7 @@ do_action( 'bp_before_member_messages_loop' ); ?>
 								<?php
 								bp_message_thread_avatar(
 									array(
-										'width' => 25,
+										'width'  => 25,
 										'height' => 25,
 									)
 								);

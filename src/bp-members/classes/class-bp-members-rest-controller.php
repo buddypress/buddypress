@@ -344,7 +344,9 @@ class BP_Members_REST_Controller extends WP_REST_Users_Controller {
 		$retval = $error;
 
 		$user             = bp_rest_get_user( $request->get_param( 'id' ) );
-		$member_type_edit = ! empty( $request->get_param( 'member_type' ) );
+		$types            = $request->get_param( 'types' );
+		$member_type      = $request->get_param( 'member_type' );
+		$member_type_edit = ! ( empty( $types ) && empty( $member_type ) );
 
 		if ( ! $user instanceof WP_User ) {
 			$retval = new WP_Error(
@@ -843,7 +845,7 @@ class BP_Members_REST_Controller extends WP_REST_Users_Controller {
 						'id'    => $item->id,
 						'value' => array(
 							'raw'          => $item->data->value,
-							'unserialized' => $fields_endpoint->get_profile_field_unserialized_value( $item->data->value ),
+							'unserialized' => $fields_endpoint->get_profile_field_unserialized_value( $item->data->value, $item ),
 							'rendered'     => $fields_endpoint->get_profile_field_rendered_value( $item->data->value, $item ),
 						),
 					);

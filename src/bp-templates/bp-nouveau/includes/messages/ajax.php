@@ -24,7 +24,7 @@ add_action(
 		array(
 			'messages_send_reply' => array(
 				'function' => 'bp_nouveau_ajax_messages_send_reply',
-				'nopriv'  => false,
+				'nopriv'   => false,
 			),
 		),
 		array(
@@ -82,9 +82,9 @@ add_action(
 			),
 		),
 		array(
-			'messages_dismiss_sitewide_notice'  => array(
+			'messages_dismiss_sitewide_notice' => array(
 				'function' => 'bp_nouveau_ajax_dismiss_sitewide_notice',
-				'nopriv' => false,
+				'nopriv'   => false,
 			),
 		),
 	);
@@ -203,14 +203,14 @@ function bp_nouveau_ajax_get_message_recipients_data( $user_id ) {
 
 	if ( ! $user_link ) {
 		return array(
-			'avatar' => esc_url_raw( bp_core_avatar_default( 'gravatar', $avatar_args ) ),
+			'avatar'    => esc_url_raw( bp_core_avatar_default( 'gravatar', $avatar_args ) ),
 			'user_link' => '',
 			'user_name' => '',
 		);
 	}
 
 	return array(
-		'avatar' => esc_url_raw( bp_core_fetch_avatar( $avatar_args ) ),
+		'avatar'    => esc_url_raw( bp_core_fetch_avatar( $avatar_args ) ),
 		'user_link' => esc_url( $user_link ),
 		'user_name' => esc_html( bp_core_get_user_displayname( $user_id ) ),
 	);
@@ -343,7 +343,7 @@ function bp_nouveau_ajax_messages_send_reply() {
 		$star_link = bp_get_the_message_star_action_link(
 			array(
 				'message_id' => bp_get_the_thread_message_id(),
-				'url_only'  => true,
+				'url_only'   => true,
 			)
 		);
 
@@ -637,7 +637,7 @@ function bp_nouveau_ajax_get_thread_messages() {
 			$star_link = bp_get_the_message_star_action_link(
 				array(
 					'message_id' => bp_get_the_thread_message_id(),
-					'url_only'  => true,
+					'url_only'   => true,
 				)
 			);
 
@@ -797,10 +797,10 @@ function bp_nouveau_ajax_star_thread_messages() {
 			}
 
 			$messages[ $mid ] = array(
-				'star_link' => bp_get_the_message_star_action_link(
+				'star_link'  => bp_get_the_message_star_action_link(
 					array(
 						'message_id' => $mid,
-						'url_only'  => true,
+						'url_only'   => true,
 					)
 				),
 				'is_starred' => 'star' === $action,
@@ -823,10 +823,10 @@ function bp_nouveau_ajax_star_thread_messages() {
 		);
 
 		$messages[ $id ] = array(
-			'star_link' => bp_get_the_message_star_action_link(
+			'star_link'  => bp_get_the_message_star_action_link(
 				array(
 					'message_id' => $id,
-					'url_only'  => true,
+					'url_only'   => true,
 				)
 			),
 			'is_starred' => 'star' === $action,

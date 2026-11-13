@@ -389,22 +389,76 @@ class BP_Signup {
 			}
 		}
 
+		$sql_clauses = array(
+			'select'           => $sql['select'],
+			'from'             => 'FROM ' . $sql['from'],
+			'join'             => '',
+			'where_conditions' => $sql['where'],
+			'groupby'          => '',
+			'orderby'          => $sql['orderby'],
+			'limits'           => $sql['limit'],
+		);
+
+		// Keep callback changes even if it removes itself while filtering.
+		$has_clause_filter = has_filter( 'bp_members_signups_get_sql_clauses' );
+
+		/**
+		 * Filters shared SQL clauses for signup results and their total.
+		 *
+		 * The count uses its own distinct SELECT without grouping, ordering, or limits.
+		 *
+		 * @since 15.0.0
+		 *
+		 * @param array $sql_clauses {
+		 *     SQL clauses for the query.
+		 *
+		 *     @type string   $select           SELECT clause.
+		 *     @type string   $from             FROM clause.
+		 *     @type string   $join             JOIN clauses.
+		 *     @type string[] $where_conditions WHERE conditions without the WHERE keyword.
+		 *     @type string   $groupby          GROUP BY clause.
+		 *     @type string   $orderby          ORDER BY clause.
+		 *     @type string   $limits           LIMIT clause.
+		 * }
+		 * @param array $r Parsed arguments passed into the method.
+		 */
+		$sql_clauses = apply_filters( 'bp_members_signups_get_sql_clauses', $sql_clauses, $r );
+
 		// Implode WHERE clauses.
 		$sql['where'] = 'WHERE ' . implode( ' AND ', $sql['where'] );
 
+		$where_sql         = '';
 		$paged_signups_sql = "{$sql['select']} FROM {$sql['from']} {$sql['where']} {$sql['orderby']} {$sql['limit']}";
+
+		if ( $has_clause_filter ) {
+			$where_sql         = empty( $sql_clauses['where_conditions'] ) ? '' : 'WHERE ' . implode( ' AND ', $sql_clauses['where_conditions'] );
+			$paged_signups_sql = implode( ' ', array_filter( array( $sql_clauses['select'], $sql_clauses['from'], $sql_clauses['join'], $where_sql, $sql_clauses['groupby'], $sql_clauses['orderby'], $sql_clauses['limits'] ) ) );
+		}
 
 		/**
 		 * Filters the Signups paged query.
 		 *
 		 * @since 2.0.0
+		 * @deprecated 15.0.0 Use the `bp_members_signups_get_sql` filter instead.
 		 *
 		 * @param string $paged_signups_sql SQL statement.
 		 * @param array  $sql               Array of SQL statement parts.
 		 * @param array  $args              Array of original arguments for get() method.
 		 * @param array  $r                 Array of parsed arguments for get() method.
 		 */
-		$paged_signups_sql = apply_filters( 'bp_members_signups_paged_query', $paged_signups_sql, $sql, $args, $r );
+		$paged_signups_sql = apply_filters_deprecated( 'bp_members_signups_paged_query', array( $paged_signups_sql, $sql, $args, $r ), '15.0.0', 'bp_members_signups_get_sql' );
+
+		/**
+		 * Filters the final SQL for signup results.
+		 *
+		 * @since 15.0.0
+		 *
+		 * @param string $paged_signups_sql SQL used to query results.
+		 * @param string $query_type        Query type for this call: `paged`.
+		 * @param array  $r                 Parsed arguments passed into the method.
+		 * @param array  $sql_clauses       SQL clauses for the query.
+		 */
+		$paged_signups_sql = apply_filters( 'bp_members_signups_get_sql', $paged_signups_sql, 'paged', $r, $sql_clauses );
 
 		if ( $r['cache_results'] ) {
 			$cached = bp_core_get_incremented_cache( $paged_signups_sql, 'bp_signups' );
@@ -442,17 +496,34 @@ class BP_Signup {
 		// Find the total number of signups in the results set.
 		$total_signups_sql = "SELECT COUNT(DISTINCT signup_id) FROM {$sql['from']} {$sql['where']}";
 
+		if ( $has_clause_filter ) {
+			$total_signups_sql = "SELECT COUNT(DISTINCT signup_id) {$sql_clauses['from']} {$sql_clauses['join']} {$where_sql}";
+		}
+
 		/**
 		 * Filters the signups count query.
 		 *
 		 * @since 2.0.0
+		 * @deprecated 15.0.0 Use the `bp_members_signups_get_sql` filter instead.
 		 *
 		 * @param string $total_signups_sql SQL statement.
 		 * @param array  $sql               Array of SQL statement parts.
 		 * @param array  $args              Array of original arguments for get() method.
 		 * @param array  $r                 Array of parsed arguments for get() method.
 		 */
-		$total_signups_sql = apply_filters( 'bp_members_signups_count_query', $total_signups_sql, $sql, $args, $r );
+		$total_signups_sql = apply_filters_deprecated( 'bp_members_signups_count_query', array( $total_signups_sql, $sql, $args, $r ), '15.0.0', 'bp_members_signups_get_sql' );
+
+		/**
+		 * Filters the final SQL for signup totals.
+		 *
+		 * @since 15.0.0
+		 *
+		 * @param string $total_signups_sql SQL used to query the total.
+		 * @param string $query_type        Query type for this call: `count`.
+		 * @param array  $r                 Parsed arguments passed into the method.
+		 * @param array  $sql_clauses       SQL clauses for the query.
+		 */
+		$total_signups_sql = apply_filters( 'bp_members_signups_get_sql', $total_signups_sql, 'count', $r, $sql_clauses );
 
 		if ( $r['cache_results'] ) {
 			$cached = bp_core_get_incremented_cache( $total_signups_sql, 'bp_signups' );
@@ -701,7 +772,7 @@ class BP_Signup {
 			// Signups table.
 			buddypress()->members->table_name_signups,
 			array(
-				'active' => 1,
+				'active'    => 1,
 				'activated' => current_time( 'mysql', true ),
 			),
 			array(
@@ -776,8 +847,8 @@ class BP_Signup {
 		$r = bp_parse_args(
 			$args,
 			array(
-				'signup_id'  => 0,
-				'meta'       => array(),
+				'signup_id' => 0,
+				'meta'      => array(),
 			),
 			'bp_core_signups_update_args'
 		);
@@ -1113,7 +1184,7 @@ class BP_Signup {
 		foreach ( $signups as $signup ) {
 			$user_id = username_exists( $signup->user_login );
 
-			if ( ! empty( $user_id ) && $signup->activation_key === bp_get_user_meta( $user_id, 'activation_key', true ) ) {
+			if ( ! empty( $user_id ) && bp_get_user_meta( $user_id, 'activation_key', true ) === $signup->activation_key ) {
 
 				if ( 2 !== (int) self::check_user_status( $user_id ) ) {
 

@@ -152,7 +152,7 @@ function bp_activity_embed_excerpt( $content = '' ) {
 		$content = bp_activity_truncate_entry(
 			$content,
 			array(
-				'html' => false,
+				'html'              => false,
 				'filter_shortcodes' => true,
 				'strip_tags'        => true,
 				'force_truncate'    => true,

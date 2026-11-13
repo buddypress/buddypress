@@ -755,7 +755,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		bp_custom_group_boxes();
 		$content = ob_get_clean();
 
-		$this->assertTrue( $content === 'Widget Displayed' );
+		$this->assertSame( 'Widget Displayed', $content );
 	}
 
 	/**
@@ -784,7 +784,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		bp_custom_group_boxes();
 		$content = ob_get_clean();
 
-		$this->assertFalse( $content === 'Widget Displayed' );
+		$this->assertNotSame( 'Widget Displayed', $content );
 	}
 
 	/**
@@ -817,7 +817,8 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 			$slugs[] = $nav_obj->slug;
 		}
 
-		$this->assertTrue( in_array( $e_slug, $slugs, true ) && in_array( $f_slug, $slugs, true ) );
+		$this->assertContains( $e_slug, $slugs );
+		$this->assertContains( $f_slug, $slugs );
 
 		// Clean up
 		buddypress()->bp_options_nav = $old_options_nav;

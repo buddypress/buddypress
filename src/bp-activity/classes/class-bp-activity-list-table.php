@@ -142,8 +142,8 @@ class BP_Activity_List_Table extends WP_List_Table {
 		}
 
 		// Are we doing a search?
-		if ( ! empty( $_REQUEST['s'] ) ) {
-			$search_terms = $_REQUEST['s'];
+		if ( ! empty( $_REQUEST['s'] ) && is_string( $_REQUEST['s'] ) ) {
+			$search_terms = wp_unslash( $_REQUEST['s'] );
 
 			// Set the view as a search request.
 			$this->view = 'search';
@@ -524,7 +524,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 				<?php foreach ( $activity_actions as $component => $actions ) : ?>
 					<?php
 					// Older avatar activity items use 'profile' for component. See r4273.
-					if ( $component === 'profile' ) {
+					if ( 'profile' === $component ) {
 						$component = 'xprofile';
 					}
 
@@ -534,7 +534,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 					}
 
 					if ( bp_is_active( $component ) ) {
-						if ( $component === 'xprofile' ) {
+						if ( 'xprofile' === $component ) {
 							$component_name = buddypress()->profile->name;
 						} else {
 							$component_name = buddypress()->$component->name;
@@ -921,8 +921,8 @@ class BP_Activity_List_Table extends WP_List_Table {
 			$activity = bp_activity_get_specific(
 				array(
 					'activity_ids' => $activity_id,
-					'show_hidden' => true,
-					'spam' => 'all',
+					'show_hidden'  => true,
+					'spam'         => 'all',
 				)
 			);
 

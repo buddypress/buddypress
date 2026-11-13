@@ -487,7 +487,7 @@ class BP_Tests_XProfile_Fields_REST_Controller extends BP_Test_REST_Controller_T
 		$response = $this->server->dispatch( $request );
 
 		$create_data = $response->get_data();
-		$this->assertTrue( $expected === $create_data['foo_field_key'] );
+		$this->assertSame( $expected, $create_data['foo_field_key'] );
 
 		// GET
 		$request = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '/%d', $create_data['id'] ) );
@@ -495,7 +495,7 @@ class BP_Tests_XProfile_Fields_REST_Controller extends BP_Test_REST_Controller_T
 		$response = $this->server->dispatch( $request );
 
 		$get_data = $response->get_data();
-		$this->assertTrue( $expected === $get_data['foo_field_key'] );
+		$this->assertSame( $expected, $get_data['foo_field_key'] );
 
 		$GLOBALS['wp_rest_additional_fields'] = $registered_fields;
 	}
@@ -540,7 +540,7 @@ class BP_Tests_XProfile_Fields_REST_Controller extends BP_Test_REST_Controller_T
 		$response = $this->server->dispatch( $request );
 
 		$update_data = $response->get_data();
-		$this->assertTrue( $expected === $update_data['bar_field_key'] );
+		$this->assertSame( $expected, $update_data['bar_field_key'] );
 
 		$GLOBALS['wp_rest_additional_fields'] = $registered_fields;
 	}
@@ -628,6 +628,54 @@ class BP_Tests_XProfile_Fields_REST_Controller extends BP_Test_REST_Controller_T
 	}
 
 	public function test_context_param() {
-		$this->markTestSkipped( 'Coverage for the collection route context argument has not been implemented.' );
+		wp_set_current_user( $this->user );
+
+		$request  = new WP_REST_Request( 'OPTIONS', $this->endpoint_url );
+		$response = $this->server->dispatch( $request );
+
+		$this->assertSame( 200, $response->get_status() );
+
+		$data         = $response->get_data();
+		$context_args = $data['endpoints'][0]['args']['context'];
+
+		$this->assertSame( 'view', $context_args['default'] );
+		$this->assertSame( array( 'view', 'edit' ), $context_args['enum'] );
+
+		$field_id = $this->bp::factory()->xprofile_field->create(
+			array(
+				'field_group_id' => $this->group_id,
+				'description'    => 'Field description',
+			)
+		);
+
+		foreach ( array( null, 'view', 'edit' ) as $context ) {
+			$request = new WP_REST_Request( 'GET', $this->endpoint_url );
+			$request->set_param( 'profile_group_id', $this->group_id );
+			if ( null !== $context ) {
+				$request->set_param( 'context', $context );
+			}
+
+			$response = $this->server->dispatch( $request );
+
+			$this->assertSame( 200, $response->get_status() );
+
+			$fields = wp_list_filter( $response->get_data(), array( 'id' => $field_id ) );
+			$this->assertCount( 1, $fields );
+
+			$data = reset( $fields );
+			$this->assertArrayHasKey( 'rendered', $data['description'] );
+
+			if ( 'edit' === $context ) {
+				$this->assertSame( 'Field description', $data['description']['raw'] );
+			} else {
+				$this->assertArrayNotHasKey( 'raw', $data['description'] );
+			}
+		}
+
+		$request = new WP_REST_Request( 'GET', $this->endpoint_url );
+		$request->set_param( 'context', 'invalid' );
+		$response = $this->server->dispatch( $request );
+
+		$this->assertErrorResponse( 'rest_invalid_param', $response, 400 );
 	}
 }

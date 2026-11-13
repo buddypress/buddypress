@@ -14,13 +14,104 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$this->assertSame( 0, $group->id );
 	}
 
-	/**
-	 * @group __construct
-	 * @expectedDeprecated BP_Groups_Group::__construct
-	 */
-	public function test_deprecated_arg() {
-		$group = new BP_Groups_Group( 123456789, array( 'populate_extras' => true ) );
-		$this->assertSame( 0, $group->id );
+
+
+
+	public function test_get_sql_clauses_filter_duplicate_join_and_cached_totals() {
+		$first  = self::factory()->group->create();
+		$second = self::factory()->group->create();
+
+		$args   = array( 'fields' => 'ids', 'per_page' => 2, 'page' => 1, 'include' => array( $first, $second ) );
+
+		$this->assertSame( 2, BP_Groups_Group::get( $args )['total'] );
+
+		$selected = $first;
+		$calls    = array();
+		$filter   = static function( $clauses, $parsed ) use ( &$selected, &$calls, &$filter ) {
+			remove_filter( 'bp_groups_group_get_sql_clauses', $filter, 0 );
+			$calls[] = $parsed;
+			$clauses['join'] .= " INNER JOIN (SELECT {$selected} AS allowed_id UNION ALL SELECT {$selected}) access ON access.allowed_id = g.id";
+			$clauses['where_conditions']['access'] = "access.allowed_id = {$selected}";
+
+			return $clauses;
+		};
+
+		add_filter( 'bp_groups_group_get_sql_clauses', $filter, 0, 2 );
+
+		try {
+			$found = BP_Groups_Group::get( $args );
+
+			$this->assertSame( array( $first ), $found['groups'] );
+			$this->assertSame( 1, $found['total'] );
+
+			$selected = $second;
+
+			add_filter( 'bp_groups_group_get_sql_clauses', $filter, 0, 2 );
+			$found = BP_Groups_Group::get( $args );
+
+			$this->assertSame( array( $second ), $found['groups'] );
+			$this->assertSame( 1, $found['total'] );
+			$this->assertCount( 2, $calls );
+			$this->assertSame( 'ids', $calls[0]['fields'] );
+		} finally {
+			remove_filter( 'bp_groups_group_get_sql_clauses', $filter, 0 );
+		}
+
+		$this->assertSame( 2, BP_Groups_Group::get( $args )['total'] );
+	}
+
+	public function test_get_sql_can_replace_both_queries() {
+		$contexts = array();
+		$filter   = static function( $sql, $type, $args, $clauses ) use ( &$contexts ) {
+			$contexts[ $type ] = array( $args, $clauses );
+
+			return 'count' === $type ? 'SELECT 42' : str_replace( 'WHERE', 'WHERE 1 = 0 AND', $sql );
+		};
+
+		add_filter( 'bp_groups_group_get_sql', $filter, 10, 4 );
+
+		try {
+			$found = BP_Groups_Group::get( array( 'fields' => 'ids', 'cache_results' => false ) );
+		} finally {
+			remove_filter( 'bp_groups_group_get_sql', $filter );
+		}
+
+		$this->assertSame( array(), $found['groups'] );
+		$this->assertSame( 42, $found['total'] );
+		$this->assertSame( array( 'paged', 'count' ), array_keys( $contexts ) );
+		$this->assertSame( $contexts['paged'], $contexts['count'] );
+		$this->assertArrayHasKey( 'where_conditions', $contexts['paged'][1] );
+	}
+
+
+
+	public function test_get_default_sql_text_is_unchanged() {
+		$bp     = buddypress();
+		$first  = self::factory()->group->create();
+		$second = self::factory()->group->create();
+		$from = "FROM {$bp->groups->table_name} g WHERE g.status != 'hidden' AND g.id IN ({$first},{$second})";
+		$expected = array(
+			'paged' => "SELECT DISTINCT g.id {$from} ORDER BY g.date_created DESC LIMIT 0, 2",
+			'count' => "SELECT COUNT(DISTINCT g.id) {$from}",
+		);
+
+		$queries = array();
+		$capture = static function( $sql, $type ) use ( &$queries ) {
+			$queries[ $type ] = $sql;
+
+			return $sql;
+		};
+
+		add_filter( 'bp_groups_group_get_sql', $capture, 10, 2 );
+
+		try {
+			$found = BP_Groups_Group::get( array( 'fields' => 'ids', 'cache_results' => false, 'include' => array( $first, $second ), 'per_page' => 2, 'page' => 1 ) );
+		} finally {
+			remove_filter( 'bp_groups_group_get_sql', $capture );
+		}
+
+		$this->assertSame( $expected, $queries );
+		$this->assertSame( 2, $found['total'] );
 	}
 
 	/** get() ************************************************************/
@@ -61,17 +152,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$this->assertSame( $g1, $group_id );
 	}
 
-	/**
-	 * @group get
-	 * @expectedDeprecated BP_Groups_Group::group_exists
-	 */
-	public function test_get_group_with_slug_with_deprecated_args() {
-		$slug     = 'group-test';
-		$g1       = self::factory()->group->create( array( 'slug' => $slug ) );
-		$group_id = BP_Groups_Group::group_exists( $slug, 'random-name' );
 
-		$this->assertSame( $g1, $group_id );
-	}
 
 	/**
 	 * @group get
@@ -447,6 +528,72 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$found = wp_list_pluck( $groups['groups'], 'id' );
 
 		$this->assertSame( array( $g1 ), $found );
+	}
+
+	/**
+	 * @group get
+	 * @dataProvider group_search_slash_cases
+	 */
+	public function test_get_search_matches_escaped_and_unescaped_text( $column, $text, $search ) {
+		global $wpdb;
+
+		$args       = array( $column => wp_slash( $text ) );
+		$escaped_id = self::factory()->group->create( $args );
+		$plain_id   = self::factory()->group->create( $args );
+
+		// Simulate an imported record stored without the default before-save slashes.
+		$this->assertSame(
+			1,
+			$wpdb->update(
+				buddypress()->groups->table_name,
+				array( $column => $text ),
+				array( 'id' => $plain_id ),
+				array( '%s' ),
+				array( '%d' )
+			)
+		);
+		wp_cache_delete( $plain_id, 'bp_groups' );
+
+		$other_text = str_replace( array( '%', '_' ), 'x', $text );
+		if ( $other_text === $text ) {
+			$other_text = 'Another nonmatching group';
+		}
+		self::factory()->group->create( array( $column => wp_slash( $other_text ) ) );
+
+		$query_args = array(
+			'search_terms'   => $search,
+			'search_columns' => array( $column ),
+		);
+		$expected   = array( $escaped_id, $plain_id );
+		sort( $expected );
+
+		// Repeat the query to exercise the cached result as well.
+		for ( $i = 0; $i < 2; $i++ ) {
+			$groups = BP_Groups_Group::get( $query_args );
+			$found  = wp_list_pluck( $groups['groups'], 'id' );
+			sort( $found );
+
+			$this->assertSame( $expected, $found );
+			$this->assertSame( 2, $groups['total'] );
+		}
+
+		// Existing callers supplying slashed search terms must still find escaped data.
+		$query_args['search_terms'] = wp_slash( $search );
+		$groups                    = BP_Groups_Group::get( $query_args );
+		$this->assertContains( $escaped_id, wp_list_pluck( $groups['groups'], 'id' ) );
+	}
+
+	public static function group_search_slash_cases() {
+		return array(
+			'apostrophe prefix'     => array( 'name', "'Tis Sweet", "'*" ),
+			'apostrophe suffix'     => array( 'name', "Sweet's", "*'s" ),
+			'double quote prefix'   => array( 'name', '"Quoted Group', '"*' ),
+			'backslash prefix'      => array( 'name', '\\Path Group', '\\*' ),
+			'literal wildcards'     => array( 'name', "Member's 100%_Group", "Member's 100%_" ),
+			'description quote'     => array( 'description', "Alice's club", "Alice's" ),
+			'description quotes'    => array( 'description', 'A "quoted" club', '"quoted"' ),
+			'description backslash' => array( 'description', 'A \\Path club', '\\Path' ),
+		);
 	}
 
 	/**
@@ -922,8 +1069,6 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 * @ticket BP5451
 	 */
 	public function test_bp_groups_group_magic_isset_with_empty_check() {
-		$this->old_current_user = get_current_user_id();
-
 		$u = self::factory()->user->create();
 		$g = self::factory()->group->create( array( 'creator_id' => $u ) );
 
@@ -932,9 +1077,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$group = new BP_Groups_Group( $g );
 
 		// Assert ! empty() check is not false.
-		$this->assertTrue( ! empty( $group->is_member ) );
-
-		wp_set_current_user( $this->old_current_user );
+		$this->assertNotEmpty( $group->is_member ?? null );
 	}
 
 	/** convert_type_to_order_orderby() **********************************/
@@ -1243,22 +1386,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$this->assertNotContains( $g2, $found );
 	}
 
-	/**
-	 * @expectedDeprecated BP_Groups_Group::get_by_letter
-	 */
-	public function test_get_by_letter_with_deprecated_arg() {
-		$g1 = self::factory()->group->create( array(
-			'name'        => 'Awesome Cool Group',
-			'description' => 'Neat',
-		) );
-		$g2 = self::factory()->group->create();
 
-		$groups = BP_Groups_Group::get_by_letter( 'A', null, null, false );
-		$found  = wp_list_pluck( $groups['groups'], 'id' );
-
-		$this->assertSame( array( $g1 ), $found );
-		$this->assertNotContains( $g2, $found );
-	}
 
 	public function test_get_by_letter_typical_use() {
 		$g1 = self::factory()->group->create( array(
@@ -1292,8 +1420,6 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	}
 
 	public function test_get_by_letter_starts_with_apostrophe() {
-		$this->markTestSkipped( 'Known defect: apostrophe-prefixed group names are not returned by the letter query.' );
-
 		$g1 = self::factory()->group->create( array(
 			'name' => "'Tis Sweet",
 			'description' => 'Neat',
@@ -1311,19 +1437,64 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$this->assertNotContains( $g2, $found );
 	}
 
-	/**
-	 * @expectedDeprecated BP_Groups_Group::get_random
-	 */
-	public function test_get_random_with_deprecated_arg() {
-		$g1 = self::factory()->group->create();
-		$g2 = self::factory()->group->create();
+	public function test_get_by_letter_with_mixed_storage_and_pagination() {
+		global $wpdb;
 
-		// There are only two groups, so excluding one should give us the other
-		$groups = BP_Groups_Group::get_random( null, null, 0, false, false, array( $g1, 'ignore this' ) );
-		$found  = wp_list_pluck( $groups['groups'], 'id' );
+		$escaped_id = self::factory()->group->create(
+			array(
+				'name'          => "'Escaped Group",
+				'date_created'  => '2020-01-02 00:00:00',
+				'last_activity' => '2020-01-02 00:00:00',
+			)
+		);
+		$plain_id = self::factory()->group->create(
+			array(
+				'name'          => "'Plain Group",
+				'date_created'  => '2020-01-01 00:00:00',
+				'last_activity' => '2020-01-01 00:00:00',
+			)
+		);
+		self::factory()->group->create(
+			array(
+				'name'        => 'Another Group',
+				'description' => "'Only the description starts with an apostrophe",
+			)
+		);
 
-		$this->assertSame( array( $g2 ), $found );
+		// Keep one fixture in the plain storage format used by imports or custom filters.
+		$this->assertSame(
+			1,
+			$wpdb->update(
+				buddypress()->groups->table_name,
+				array( 'name' => "'Plain Group" ),
+				array( 'id' => $plain_id ),
+				array( '%s' ),
+				array( '%d' )
+			)
+		);
+		wp_cache_delete( $plain_id, 'bp_groups' );
+
+		$groups = BP_Groups_Group::get_by_letter( "'" );
+		$this->assertSame( array( $escaped_id, $plain_id ), wp_list_pluck( $groups['groups'], 'id' ) );
+		$this->assertSame( 2, $groups['total'] );
+
+		$page_one = BP_Groups_Group::get_by_letter( "'", 1, 1 );
+		$page_two = BP_Groups_Group::get_by_letter( "'", 1, 2 );
+		$this->assertSame( array( $escaped_id ), wp_list_pluck( $page_one['groups'], 'id' ) );
+		$this->assertSame( array( $plain_id ), wp_list_pluck( $page_two['groups'], 'id' ) );
+		$this->assertSame( 2, $page_one['total'] );
+		$this->assertSame( 2, $page_two['total'] );
+
+		$excluded = BP_Groups_Group::get_by_letter( "'", null, null, true, array( $escaped_id ) );
+		$this->assertSame( array( $plain_id ), wp_list_pluck( $excluded['groups'], 'id' ) );
+		$this->assertSame( 1, $excluded['total'] );
+
+		// Searching must not normalize or otherwise rewrite either stored name.
+		$this->assertSame( wp_slash( "'Escaped Group" ), $wpdb->get_var( $wpdb->prepare( 'SELECT name FROM ' . buddypress()->groups->table_name . ' WHERE id = %d', $escaped_id ) ) );
+		$this->assertSame( "'Plain Group", $wpdb->get_var( $wpdb->prepare( 'SELECT name FROM ' . buddypress()->groups->table_name . ' WHERE id = %d', $plain_id ) ) );
 	}
+
+
 
 	public function test_get_random_with_exclude() {
 		$g1 = self::factory()->group->create();

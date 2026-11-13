@@ -67,7 +67,7 @@ class BP_Groups_Member_Suggestions extends BP_Members_Suggestions {
 		// Check that the specified group_id exists, and that the current user can access it.
 		$the_group = groups_get_group( absint( $this->args['group_id'] ) );
 
-		if ( $the_group->id === 0 || ! $the_group->user_has_access ) {
+		if ( 0 === $the_group->id || ! $the_group->user_has_access ) {
 			return new WP_Error( 'access_denied' );
 		}
 
@@ -113,12 +113,12 @@ class BP_Groups_Member_Suggestions extends BP_Members_Suggestions {
 		// Negative Group IDs will restrict the search to members in every other group.
 		} else {
 			$group_query = array(
-				'count_total'     => '',  // Prevents total count.
-				'type'            => 'alphabetical',
+				'count_total' => '',  // Prevents total count.
+				'type'        => 'alphabetical',
 
-				'group_id'        => absint( $this->args['group_id'] ),
-				'group_role'      => array( 'admin', 'member', 'mod' ),
-				'page'            => 1,
+				'group_id'    => absint( $this->args['group_id'] ),
+				'group_role'  => array( 'admin', 'member', 'mod' ),
+				'page'        => 1,
 			);
 			$group_users = new BP_Group_Member_Query( $group_query );
 
@@ -154,7 +154,7 @@ class BP_Groups_Member_Suggestions extends BP_Members_Suggestions {
 			$result->ID      = $user->user_nicename;
 			$result->image   = bp_core_fetch_avatar(
 				array(
-					'html' => false,
+					'html'    => false,
 					'item_id' => $user->ID,
 				)
 			);

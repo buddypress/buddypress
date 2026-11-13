@@ -252,7 +252,7 @@ class BP_Blogs_Blog {
 			)
 		);
 
-		if ( ! is_user_logged_in() || ( ! bp_current_user_can( 'bp_moderate' ) && ( (int) $r['user_id'] !== bp_loggedin_user_id() ) ) ) {
+		if ( ! is_user_logged_in() || ( ! bp_current_user_can( 'bp_moderate' ) && ( bp_loggedin_user_id() !== (int) $r['user_id'] ) ) ) {
 			$hidden_sql = 'AND wb.public = 1';
 		} else {
 			$hidden_sql = '';
@@ -302,8 +302,56 @@ class BP_Blogs_Blog {
 			$search_terms_sql       = '';
 		}
 
-		$paged_blogs = $wpdb->get_results(
-			"
+		$sql_clauses = array(
+			'select'           => 'SELECT b.blog_id, b.user_id as admin_user_id, u.user_email as admin_user_email, wb.domain, wb.path, bm.meta_value as last_activity, bm_name.meta_value as name',
+			'from'             => "FROM {$bp->blogs->table_name} b",
+			'join'             => "LEFT JOIN {$bp->blogs->table_name_blogmeta} bm ON (b.blog_id = bm.blog_id)
+				LEFT JOIN {$bp->blogs->table_name_blogmeta} bm_name ON (b.blog_id = bm_name.blog_id)
+				{$search_terms_left_join}
+				LEFT JOIN {$wpdb->base_prefix}blogs wb ON (b.blog_id = wb.blog_id)
+				LEFT JOIN {$wpdb->users} u ON (b.user_id = u.ID)",
+			'where_conditions' => array(
+				"wb.archived = '0' AND wb.spam = 0 AND wb.mature = 0 AND wb.deleted = 0 {$hidden_sql}",
+				"bm.meta_key = 'last_activity' AND bm_name.meta_key = 'name'",
+			),
+			'groupby'          => 'GROUP BY b.blog_id',
+			'orderby'          => $order_sql,
+			'limits'           => $pag_sql,
+		);
+
+		foreach ( array( $search_terms_sql, $user_sql, $include_sql, $date_query_sql ) as $condition ) {
+			if ( '' !== trim( $condition ) ) {
+				$sql_clauses['where_conditions'][] = preg_replace( '/^\s*AND\s+/i', '', $condition );
+			}
+		}
+
+		// Keep callback changes even if it removes itself while filtering.
+		$has_sql_clauses_filter = has_filter( 'bp_blogs_get_sql_clauses' );
+
+		/**
+		 * Filters the shared SQL clauses for blog results and their total.
+		 *
+		 * The count uses its own SELECT without grouping, ordering, or limits.
+		 *
+		 * @since 15.0.0
+		 *
+		 * @param array $sql_clauses {
+		 *     SQL clauses for the query.
+		 *
+		 *     @type string   $select           SELECT clause.
+		 *     @type string   $from             FROM clause.
+		 *     @type string   $join             JOIN clauses.
+		 *     @type string[] $where_conditions WHERE conditions without the WHERE keyword.
+		 *     @type string   $groupby          GROUP BY clause.
+		 *     @type string   $orderby          ORDER BY clause.
+		 *     @type string   $limits           LIMIT clause.
+		 * }
+		 * @param array $r Parsed arguments passed into the method.
+		 */
+		$sql_clauses = apply_filters( 'bp_blogs_get_sql_clauses', $sql_clauses, $r );
+
+		// Retain the original SQL text when no clause callback is attached.
+		$paged_blogs_sql = "
 			SELECT b.blog_id, b.user_id as admin_user_id, u.user_email as admin_user_email, wb.domain, wb.path, bm.meta_value as last_activity, bm_name.meta_value as name
 			FROM
 			  {$bp->blogs->table_name} b
@@ -317,11 +365,9 @@ class BP_Blogs_Blog {
 			  AND bm.meta_key = 'last_activity' AND bm_name.meta_key = 'name'
 			  {$search_terms_sql} {$user_sql} {$include_sql} {$date_query_sql}
 			GROUP BY b.blog_id {$order_sql} {$pag_sql}
-		"
-		);
+		";
 
-		$total_blogs = $wpdb->get_var(
-			"
+		$total_blogs_sql = "
 			SELECT COUNT(DISTINCT b.blog_id)
 			FROM
 			  {$bp->blogs->table_name} b
@@ -333,8 +379,39 @@ class BP_Blogs_Blog {
 			  wb.archived = '0' AND wb.spam = 0 AND wb.mature = 0 AND wb.deleted = 0 {$hidden_sql}
 			  AND bm.meta_key = 'last_activity' AND bm_name.meta_key = 'name'
 			  {$search_terms_sql} {$user_sql} {$include_sql} {$date_query_sql}
-		"
-		);
+		";
+
+		if ( $has_sql_clauses_filter ) {
+			$where_sql       = empty( $sql_clauses['where_conditions'] ) ? '' : 'WHERE ' . implode( ' AND ', $sql_clauses['where_conditions'] );
+			$paged_blogs_sql = implode( ' ', array_filter( array( $sql_clauses['select'], $sql_clauses['from'], $sql_clauses['join'], $where_sql, $sql_clauses['groupby'], $sql_clauses['orderby'], $sql_clauses['limits'] ) ) );
+			$total_blogs_sql = "SELECT COUNT(DISTINCT b.blog_id) {$sql_clauses['from']} {$sql_clauses['join']} {$where_sql}";
+		}
+
+		/**
+		 * Filters the final SQL for blog results.
+		 *
+		 * @since 15.0.0
+		 *
+		 * @param string $paged_blogs_sql SQL used to query results.
+		 * @param string $query_type      Query type for this call: `paged`.
+		 * @param array  $r               Parsed arguments passed into the method.
+		 * @param array  $sql_clauses     SQL clauses for the query.
+		 */
+		$paged_blogs_sql = apply_filters( 'bp_blogs_get_sql', $paged_blogs_sql, 'paged', $r, $sql_clauses );
+		$paged_blogs     = $wpdb->get_results( $paged_blogs_sql );
+
+		/**
+		 * Filters the final SQL for the blogs total.
+		 *
+		 * @since 15.0.0
+		 *
+		 * @param string $total_blogs_sql SQL used to query the total.
+		 * @param string $query_type      Query type for this call: `count`.
+		 * @param array  $r               Parsed arguments passed into the method.
+		 * @param array  $sql_clauses     SQL clauses for the query.
+		 */
+		$total_blogs_sql = apply_filters( 'bp_blogs_get_sql', $total_blogs_sql, 'count', $r, $sql_clauses );
+		$total_blogs     = $wpdb->get_var( $total_blogs_sql );
 
 		$blog_ids = array();
 		foreach ( (array) $paged_blogs as $blog ) {
@@ -538,7 +615,7 @@ class BP_Blogs_Blog {
 		}
 
 		// If the user is logged in return the blog count including their hidden blogs.
-		if ( ( is_user_logged_in() && $user_id === bp_loggedin_user_id() ) || bp_current_user_can( 'bp_moderate' ) ) {
+		if ( ( is_user_logged_in() && bp_loggedin_user_id() === $user_id ) || bp_current_user_can( 'bp_moderate' ) ) {
 			return $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(DISTINCT b.blog_id) FROM {$bp->blogs->table_name} b LEFT JOIN {$wpdb->base_prefix}blogs wb ON b.blog_id = wb.blog_id WHERE wb.deleted = 0 AND wb.spam = 0 AND wb.mature = 0 AND wb.archived = '0' AND user_id = %d", $user_id ) );
 		}
 

@@ -8,13 +8,16 @@
  */
 class BP_Tests_BP_Signup extends BP_UnitTestCase {
 	protected $signup_allowed;
+	protected $users_can_register;
 
 	public function set_up() {
+		// Setup changes registration before the parent starts its transaction.
+		$this->users_can_register = bp_get_option( 'users_can_register' );
 		if ( is_multisite() ) {
 			$this->signup_allowed = get_site_option( 'registration' );
 			update_site_option( 'registration', 'all' );
 		} else {
-			bp_get_option( 'users_can_register' );
+			$this->signup_allowed = $this->users_can_register;
 			bp_update_option( 'users_can_register', 1 );
 		}
 
@@ -24,11 +27,108 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 	public function tear_down() {
 		if ( is_multisite() ) {
 			update_site_option( 'registration', $this->signup_allowed );
-		} else {
-			bp_update_option( 'users_can_register', $this->signup_allowed );
 		}
+		bp_update_option( 'users_can_register', $this->users_can_register );
 
 		parent::tear_down();
+	}
+
+
+	public function test_get_sql_clauses_filter_duplicate_join_and_cached_totals() {
+		$first  = self::factory()->signup->create();
+		$second = self::factory()->signup->create();
+
+		$args   = array( 'fields' => 'ids', 'number' => 2, 'include' => array( $first, $second ) );
+
+		$this->assertSame( 2, BP_Signup::get( $args )['total'] );
+
+		$selected = $first;
+		$calls    = array();
+		$filter   = static function( $clauses, $parsed ) use ( &$selected, &$calls, &$filter ) {
+			remove_filter( 'bp_members_signups_get_sql_clauses', $filter, 0 );
+			$calls[] = $parsed;
+			$clauses['join'] .= " INNER JOIN (SELECT {$selected} AS allowed_id UNION ALL SELECT {$selected}) access ON access.allowed_id = signup_id";
+			$clauses['where_conditions']['access'] = "access.allowed_id = {$selected}";
+
+			return $clauses;
+		};
+
+		add_filter( 'bp_members_signups_get_sql_clauses', $filter, 0, 2 );
+
+		try {
+			$found = BP_Signup::get( $args );
+
+			$this->assertSame( array( $first ), $found['signups'] );
+			$this->assertSame( 1, $found['total'] );
+
+			$selected = $second;
+
+			add_filter( 'bp_members_signups_get_sql_clauses', $filter, 0, 2 );
+			$found = BP_Signup::get( $args );
+
+			$this->assertSame( array( $second ), $found['signups'] );
+			$this->assertSame( 1, $found['total'] );
+			$this->assertCount( 2, $calls );
+			$this->assertSame( 'ids', $calls[0]['fields'] );
+		} finally {
+			remove_filter( 'bp_members_signups_get_sql_clauses', $filter, 0 );
+		}
+
+		$this->assertSame( 2, BP_Signup::get( $args )['total'] );
+	}
+
+	public function test_get_sql_can_replace_both_queries() {
+		$contexts = array();
+		$filter   = static function( $sql, $type, $args, $clauses ) use ( &$contexts ) {
+			$contexts[ $type ] = array( $args, $clauses );
+
+			return 'count' === $type ? 'SELECT 42' : str_replace( 'WHERE', 'WHERE 1 = 0 AND', $sql );
+		};
+
+		add_filter( 'bp_members_signups_get_sql', $filter, 10, 4 );
+
+		try {
+			$found = BP_Signup::get( array( 'fields' => 'ids', 'cache_results' => false ) );
+		} finally {
+			remove_filter( 'bp_members_signups_get_sql', $filter );
+		}
+
+		$this->assertSame( array(), $found['signups'] );
+		$this->assertSame( 42, $found['total'] );
+		$this->assertSame( array( 'paged', 'count' ), array_keys( $contexts ) );
+		$this->assertSame( $contexts['paged'], $contexts['count'] );
+		$this->assertArrayHasKey( 'where_conditions', $contexts['paged'][1] );
+	}
+
+
+
+	public function test_get_default_sql_text_is_unchanged() {
+		$bp     = buddypress();
+		$first  = self::factory()->signup->create();
+		$second = self::factory()->signup->create();
+		$from = "FROM {$bp->members->table_name_signups} WHERE active = 0";
+		$expected = array(
+			'paged' => "SELECT DISTINCT signup_id {$from} ORDER BY signup_id DESC LIMIT 0, 2",
+			'count' => "SELECT COUNT(DISTINCT signup_id) {$from}",
+		);
+
+		$queries = array();
+		$capture = static function( $sql, $type ) use ( &$queries ) {
+			$queries[ $type ] = $sql;
+
+			return $sql;
+		};
+
+		add_filter( 'bp_members_signups_get_sql', $capture, 10, 2 );
+
+		try {
+			$found = BP_Signup::get( array( 'fields' => 'ids', 'cache_results' => false, 'number' => 2 ) );
+		} finally {
+			remove_filter( 'bp_members_signups_get_sql', $capture );
+		}
+
+		$this->assertSame( $expected, $queries );
+		$this->assertSame( 2, $found['total'] );
 	}
 
 	/**
@@ -593,7 +693,7 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 	/**
 	 * @group cache
 	 */
-	public function signup_objects_should_be_cached() {
+	public function test_signup_objects_should_be_cached() {
 		global $wpdb;
 
 		$s1 = self::factory()->signup->create( array(
@@ -603,15 +703,24 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 		) );
 
 		$found1 = new BP_Signup( $s1 );
+		$this->assertNotFalse( wp_cache_get( $s1, 'bp_signups' ) );
 
-		$num_queries = $wpdb->num_queries;
+		$queries = array();
+		$track_query = function ( $query ) use ( &$queries ) {
+			$queries[] = $query;
+			return $query;
+		};
+		add_filter( 'query', $track_query );
+		try {
+			$found2 = new BP_Signup( $s1 );
+		} finally {
+			remove_filter( 'query', $track_query );
+		}
 
-		// Object should be rebuilt from cache.
-		$found2 = new BP_Signup( $s1 );
-
-		// @TODO: This fails because "get_avatar()" in populate() results in db queries.
+		$table_name = buddypress()->members->table_name_signups;
+		$signup_query = $wpdb->prepare( "SELECT * FROM {$table_name} WHERE signup_id = %d", $s1 );
 		$this->assertSame( get_object_vars( $found1 ), get_object_vars( $found2 ) );
-		$this->assertSame( $num_queries, $wpdb->num_queries );
+		$this->assertNotContains( $signup_query, $queries );
 	}
 
 	/**

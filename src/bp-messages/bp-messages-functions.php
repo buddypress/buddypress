@@ -379,9 +379,11 @@ function messages_mark_thread_unread( $thread_id, $user_id = 0 ) {
  * @param string $content    Content of the message.
  */
 function messages_add_callback_values( $recipients, $subject, $content ) {
-	@setcookie( 'bp_messages_send_to', $recipients, time() + 60 * 60 * 24, COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
-	@setcookie( 'bp_messages_subject', $subject, time() + 60 * 60 * 24, COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
-	@setcookie( 'bp_messages_content', $content, time() + 60 * 60 * 24, COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
+	if ( ! headers_sent() ) {
+		setcookie( 'bp_messages_send_to', $recipients, time() + DAY_IN_SECONDS, COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
+		setcookie( 'bp_messages_subject', $subject, time() + DAY_IN_SECONDS, COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
+		setcookie( 'bp_messages_content', $content, time() + DAY_IN_SECONDS, COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
+	}
 }
 
 /**
@@ -390,9 +392,11 @@ function messages_add_callback_values( $recipients, $subject, $content ) {
  * @see messages_add_callback_values()
  */
 function messages_remove_callback_values() {
-	@setcookie( 'bp_messages_send_to', false, time() - 1000, COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
-	@setcookie( 'bp_messages_subject', false, time() - 1000, COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
-	@setcookie( 'bp_messages_content', false, time() - 1000, COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
+	if ( ! headers_sent() ) {
+		setcookie( 'bp_messages_send_to', false, time() - 1000, COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
+		setcookie( 'bp_messages_subject', false, time() - 1000, COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
+		setcookie( 'bp_messages_content', false, time() - 1000, COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
+	}
 }
 
 /**
@@ -596,12 +600,28 @@ function messages_notification_new_message( $raw_args = array() ) {
 		$args = $raw_args;
 	}
 
-	// These should be extracted below.
 	$recipients = array();
 	$sender_id  = 0;
 
-	// Barf.
-	extract( $args );
+	if ( array_key_exists( 'recipients', $args ) ) {
+		$recipients = $args['recipients'];
+	}
+
+	if ( array_key_exists( 'sender_id', $args ) ) {
+		$sender_id = $args['sender_id'];
+	}
+
+	if ( array_key_exists( 'message', $args ) ) {
+		$message = $args['message'];
+	}
+
+	if ( array_key_exists( 'thread_id', $args ) ) {
+		$thread_id = $args['thread_id'];
+	}
+
+	if ( array_key_exists( 'subject', $args ) ) {
+		$subject = $args['subject'];
+	}
 
 	$sender_id = (int) $sender_id;
 
@@ -610,16 +630,18 @@ function messages_notification_new_message( $raw_args = array() ) {
 	}
 
 	$sender_name = bp_core_get_user_displayname( $sender_id );
+	$message     = '';
 
 	if ( isset( $message ) ) {
 		$message = wpautop( $message );
-	} else {
-		$message = '';
 	}
 
 	// Send an email to each recipient.
 	foreach ( $recipients as $recipient ) {
-		if ( $sender_id === $recipient->user_id || 'no' === bp_get_user_meta( $recipient->user_id, 'notification_messages_new_message', true ) ) {
+		if (
+			$sender_id === $recipient->user_id
+			|| 'no' === bp_get_user_meta( $recipient->user_id, 'notification_messages_new_message', true )
+		) {
 			continue;
 		}
 
@@ -659,7 +681,7 @@ function messages_notification_new_message( $raw_args = array() ) {
 	 *
 	 * @since 1.5.0
 	 * @deprecated 2.5.0 Use the filters in BP_Email.
-	 *                   $email_subject and $email_content arguments unset and deprecated.
+	 *                   `$email_subject` and `$email_content` arguments unset and deprecated.
 	 *
 	 * @param array  $recipients    User IDs of recipients.
 	 * @param string $email_subject Deprecated in 2.5; now an empty string.

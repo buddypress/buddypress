@@ -62,7 +62,7 @@ class BP_Messages_REST_Controller extends WP_REST_Controller {
 			$this->namespace,
 			$thread_endpoint,
 			array(
-				'args'        => array(
+				'args'   => array(
 					'id' => array(
 						'description' => __( 'A unique numeric ID for the Thread.', 'buddypress' ),
 						'type'        => 'integer',
