@@ -95,7 +95,9 @@ class BP_Tests_Core_Template_BpIsSiteHome extends BP_UnitTestCase {
 		$reflection = new ReflectionClass( 'WP_Customize_Manager' );
 		$customize  = $reflection->newInstanceWithoutConstructor();
 		$previewing = $reflection->getProperty( 'previewing' );
-		$previewing->setAccessible( true );
+		if ( version_compare( PHP_VERSION, '8.1', '<' ) ) {
+			$previewing->setAccessible( true );
+		}
 		$previewing->setValue( $customize, true );
 
 		$GLOBALS['wp_customize'] = $customize;
