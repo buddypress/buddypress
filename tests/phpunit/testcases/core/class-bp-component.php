@@ -217,6 +217,46 @@ class BP_Tests_BP_Component_TestCases extends BP_UnitTestCase {
 		$this->assertSame( $wp_rewrite->extra_rules_top[ $rewrite_rules['directory_type']['regex'] ], $rewrite_rules['directory_type']['query'] );
 	}
 
+	public function test_register_nav_generates_rewrite_ids_and_ignores_incomplete_subnav() {
+		$component     = new BP_Component();
+		$component->id = 'test_component';
+		$component->register_nav(
+			array( 'slug' => 'test-component' ),
+			array(
+				array( 'slug' => 'missing-parent' ),
+				array( 'parent_slug' => 'missing-child' ),
+				array( 'slug' => 'test-child', 'parent_slug' => 'test-component' ),
+			)
+		);
+
+		$this->assertSame( 'test_component', $component->main_nav['component_id'] );
+		$this->assertSame( 'bp_member_test_component', $component->main_nav['rewrite_id'] );
+		$this->assertCount( 1, $component->sub_nav );
+		$this->assertSame( 'bp_member_test_component_test_child', $component->sub_nav[0]['rewrite_id'] );
+	}
+
+	public function test_register_nav_preserves_explicit_rewrite_ids() {
+		$component = new BP_Component();
+		$component->register_nav(
+			array( 'slug' => 'test-component', 'rewrite_id' => 'custom_main' ),
+			array( array( 'slug' => 'test-child', 'parent_slug' => 'test-component', 'rewrite_id' => 'custom_child' ) )
+		);
+
+		$this->assertSame( 'custom_main', $component->main_nav['rewrite_id'] );
+		$this->assertSame( 'custom_child', $component->sub_nav[0]['rewrite_id'] );
+	}
+
+	public function test_register_nav_can_disable_rewrite_ids() {
+		$component = new BP_Component();
+		$component->register_nav(
+			array( 'slug' => 'test-component', 'rewrite_id' => false ),
+			array( array( 'slug' => 'test-child', 'parent_slug' => 'test-component', 'rewrite_id' => false ) )
+		);
+
+		$this->assertArrayNotHasKey( 'rewrite_id', $component->main_nav );
+		$this->assertArrayNotHasKey( 'rewrite_id', $component->sub_nav[0] );
+	}
+
 	/**
 	 * @group bp_rewrites
 	 */
