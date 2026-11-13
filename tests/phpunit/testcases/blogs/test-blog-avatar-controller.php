@@ -14,6 +14,11 @@ class BP_Tests_Blog_Avatar_REST_Controller extends BP_Test_REST_Controller_Testc
 		$routes   = $this->server->get_routes();
 		$endpoint = $this->endpoint_url . '/(?P<id>[\d]+)/avatar';
 
+		if ( ! is_multisite() ) {
+			$this->assertArrayNotHasKey( $endpoint, $routes );
+			return;
+		}
+
 		// Single.
 		$this->assertArrayHasKey( $endpoint, $routes );
 		$this->assertCount( 1, $routes[ $endpoint ] );

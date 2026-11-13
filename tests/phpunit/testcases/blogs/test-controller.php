@@ -11,6 +11,12 @@ class BP_Tests_Blogs_REST_Controller extends BP_Test_REST_Controller_Testcase {
 	public function test_register_routes() {
 		$routes = $this->server->get_routes();
 
+		if ( ! is_multisite() ) {
+			$this->assertArrayNotHasKey( $this->endpoint_url, $routes );
+			$this->assertArrayNotHasKey( $this->endpoint_url . '/(?P<id>[\d]+)', $routes );
+			return;
+		}
+
 		// Main.
 		$this->assertArrayHasKey( $this->endpoint_url, $routes );
 		$this->assertCount( 2, $routes[ $this->endpoint_url ] );
