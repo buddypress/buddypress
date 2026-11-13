@@ -10,6 +10,8 @@ set -euo pipefail
 : "${WP_DB_USER:?}"
 : "${WP_DB_PASSWORD?}"
 : "${TEST_SCRIPT:?}"
+: "${PHPUNIT_MAJOR:?}"
+case "$PHPUNIT_MAJOR" in 9|10) ;; *) echo 'Unsupported PHPUnit major' >&2; exit 1 ;; esac
 
 case "${OBJECT_CACHE:-}" in
 	''|redis|memcached) ;;
@@ -102,5 +104,9 @@ test -f vendor/bin/phpunit
 if [[ "$TEST_SCRIPT" == both ]]; then
 	bash .github/scripts/run-phpunit-suites.sh
 else
-	composer run "$TEST_SCRIPT"
+	if [[ "$TEST_SCRIPT" == test_multi ]]; then
+		composer run "phpunit-$PHPUNIT_MAJOR" -- --multisite
+	else
+		composer run "phpunit-$PHPUNIT_MAJOR"
+	fi
 fi

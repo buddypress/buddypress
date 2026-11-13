@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="../../vendor/phpunit/phpunit/phpunit.xsd"
+	bootstrap="bootstrap.php"
+	backupGlobals="false"
+	colors="true"
+	failOnAllIssues="true">
+	<php>
+		<const name="WP_TESTS_MULTISITE" value="1" />
+	</php>
+	<testsuites>
+		<testsuite name="BuddyPress multisite">
+			<directory suffix=".php">testcases/</directory>
+		</testsuite>
+	</testsuites>
+	<source>
+		<include>
+			<directory suffix=".php">../../src/</directory>
+			<file>../../bp-loader.php</file>
+		</include>
+	</source>
+</phpunit>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="../../vendor/phpunit/phpunit/phpunit.xsd"
+	bootstrap="bootstrap.php"
+	backupGlobals="false"
+	colors="true"
+	failOnAllIssues="true">
+	<testsuites>
+		<testsuite name="BuddyPress coverage">
+			<directory suffix=".php">testcases/</directory>
+		</testsuite>
+	</testsuites>
+	<source>
+		<include>
+			<directory suffix=".php">../../src/</directory>
+			<file>../../bp-loader.php</file>
+		</include>
+	</source>
+	<coverage>
+		<report>
+			<clover outputFile="../../clover.xml" />
+		</report>
+	</coverage>
+</phpunit>

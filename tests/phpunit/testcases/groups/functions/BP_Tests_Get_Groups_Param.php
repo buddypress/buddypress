@@ -5,22 +5,29 @@
  */
 class BP_Tests_Get_Groups_Param extends BP_UnitTestCase {
 	public $groups_template = null;
+	protected $groups_template_was_set = false;
 	private $current_group;
 
 	public function set_up() {
 		parent::set_up();
 
-		// Start with no loop and restore the previous value, including null.
-		$this->groups_template             = isset( $GLOBALS['groups_template'] ) ? $GLOBALS['groups_template'] : null;
-		$this->current_group               = buddypress()->groups->current_group;
-		$GLOBALS['groups_template']         = null;
+		$this->groups_template_was_set = array_key_exists( 'groups_template', $GLOBALS );
+		if ( $this->groups_template_was_set ) {
+			$this->groups_template = $GLOBALS['groups_template'];
+		}
+		$GLOBALS['groups_template'] = null;
+		$this->current_group = buddypress()->groups->current_group;
 		buddypress()->groups->current_group = null;
 	}
 
 	public function tear_down() {
-		$GLOBALS['groups_template']         = $this->groups_template;
-		buddypress()->groups->current_group = $this->current_group;
+		if ( $this->groups_template_was_set ) {
+			$GLOBALS['groups_template'] = $this->groups_template;
+		} else {
+			unset( $GLOBALS['groups_template'] );
+		}
 
+		buddypress()->groups->current_group = $this->current_group;
 		parent::tear_down();
 	}
 

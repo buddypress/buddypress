@@ -37,15 +37,17 @@ def build_matrices(lines, offers):
 
     def entry(php, line, cache=""):
         if line == "trunk":
-            return {"php": php, "wp_version": line, "object": cache}
+            return {"php": php, "wp_version": line, "object": cache,
+                    "phpunit_major": 10 if version_key(php) >= (8, 1) else 9}
         offer = patches[line]
         minimum = offer.get("php_version")
         if not minimum or version_key(php) < version_key(minimum)[:2]:
             raise ValueError(f"PHP {php} is below the WordPress {line} minimum")
-        return {"php": php, "wp_version": offer["version"], "object": cache}
+        return {"php": php, "wp_version": offer["version"], "object": cache,
+                "phpunit_major": 10 if version_key(php) >= (8, 1) else 9}
 
     main = [entry("8.6", "trunk", "redis"), entry("8.4", "trunk", "redis"),
-            entry("8.3", "trunk", "memcached")]
+            entry("8.3", "trunk", "memcached"), entry("8.3", "trunk", "redis")]
     main.extend(entry(php, lines[0]) for php in ("8.2", "8.1", "8.0", "7.4"))
     main.extend(entry("8.5", line, "memcached" if index == 0 else "")
                 for index, line in enumerate(lines[:3]))

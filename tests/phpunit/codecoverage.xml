@@ -7,17 +7,17 @@
 	convertWarningsToExceptions="true"
 	>
 	<testsuites>
-		<testsuite>
+		<testsuite name="BuddyPress coverage">
 			<directory suffix=".php">./testcases/</directory>
 		</testsuite>
 	</testsuites>
-	<filter>
-		<whitelist>
+	<coverage>
+		<include>
 			<directory suffix=".php">../../src/</directory>
 			<file>../../bp-loader.php</file>
-		</whitelist>
-	</filter>
-	<logging>
-		<log type="coverage-clover" target="../../clover.xml"/>
-	</logging>
+		</include>
+		<report>
+			<clover outputFile="../../clover.xml" />
+		</report>
+	</coverage>
 </phpunit>
