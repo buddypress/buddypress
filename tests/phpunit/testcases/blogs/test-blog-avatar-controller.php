@@ -197,21 +197,38 @@ class BP_Tests_Blog_Avatar_REST_Controller extends BP_Test_REST_Controller_Testc
 	 * @group create_item
 	 */
 	public function test_create_item() {
-		$this->markTestSkipped( 'This endpoint does not support creating blog avatars.' );
+		// This endpoint does not support creating blog avatars.
+		$this->skipWithoutMultisite();
+
+		$request  = new WP_REST_Request( 'POST', $this->endpoint_url . '/1/avatar' );
+		$response = $this->server->dispatch( $request );
+		$this->assertErrorResponse( 'rest_no_route', $response, 404 );
 	}
 
 	/**
 	 * @group update_item
 	 */
 	public function test_update_item() {
-		$this->markTestSkipped( 'This endpoint does not support updating blog avatars.' );
+		// This endpoint does not support updating blog avatars.
+		$this->skipWithoutMultisite();
+
+		foreach ( array( 'PUT', 'PATCH' ) as $method ) {
+			$request  = new WP_REST_Request( $method, $this->endpoint_url . '/1/avatar' );
+			$response = $this->server->dispatch( $request );
+			$this->assertErrorResponse( 'rest_no_route', $response, 404 );
+		}
 	}
 
 	/**
 	 * @group delete_item
 	 */
 	public function test_delete_item() {
-		$this->markTestSkipped( 'This endpoint does not support deleting blog avatars.' );
+		// This endpoint does not support deleting blog avatars.
+		$this->skipWithoutMultisite();
+
+		$request  = new WP_REST_Request( 'DELETE', $this->endpoint_url . '/1/avatar' );
+		$response = $this->server->dispatch( $request );
+		$this->assertErrorResponse( 'rest_no_route', $response, 404 );
 	}
 
 	/**
