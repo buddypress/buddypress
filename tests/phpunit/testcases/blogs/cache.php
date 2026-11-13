@@ -5,9 +5,7 @@
  * @group cache
  */
 class BP_Tests_Blogs_Cache extends BP_UnitTestCase {
-	/**
-	 * @group bp_blogs_update_meta_cache
-	 */
+
 	public function test_bp_blogs_update_meta_cache() {
 		$this->skipWithoutMultisite();
 
@@ -83,10 +81,6 @@ class BP_Tests_Blogs_Cache extends BP_UnitTestCase {
 		}
 	}
 
-	/**
-	 * @group bp_blogs_update_meta_cache
-	 * @group bp_has_blogs
-	 */
 	public function test_bp_blogs_update_meta_cache_bp_has_blogs() {
 		$this->skipWithoutMultisite();
 
@@ -175,10 +169,6 @@ class BP_Tests_Blogs_Cache extends BP_UnitTestCase {
 		wp_set_current_user( $old_user );
 	}
 
-	/**
-	 * @group bp_blogs_update_meta_cache
-	 * @group bp_has_blogs
-	 */
 	public function test_bp_blogs_update_meta_cache_bp_has_blogs_false() {
 		$this->skipWithoutMultisite();
 
@@ -226,10 +216,6 @@ class BP_Tests_Blogs_Cache extends BP_UnitTestCase {
 		wp_set_current_user( $old_user );
 	}
 
-	/**
-	 * @group bp_blogs_total_blogs
-	 * @group counts
-	 */
 	public function test_bp_blogs_total_count_should_respect_cached_value_of_0() {
 		$this->skipWithoutMultisite();
 
@@ -247,9 +233,6 @@ class BP_Tests_Blogs_Cache extends BP_UnitTestCase {
 		$this->assertSame( $first_query_count, $wpdb->num_queries );
 	}
 
-	/**
-	 * @group bp_blogs_total_blogs
-	 */
 	public function test_bp_blogs_total_blogs_count_after_delete_blog() {
 		$this->skipWithoutMultisite();
 
@@ -279,9 +262,6 @@ class BP_Tests_Blogs_Cache extends BP_UnitTestCase {
 		$this->assertSame( 1, bp_blogs_total_blogs() );
 	}
 
-	/**
-	 * @group update_blog_details
-	 */
 	public function test_update_blog_details_should_purge_blogmeta_cache() {
 		$this->skipWithoutMultisite();
 

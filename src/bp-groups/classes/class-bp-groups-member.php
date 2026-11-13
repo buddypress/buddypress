@@ -226,7 +226,7 @@ class BP_Groups_Member {
 	 * @return BP_Core_User|null
 	 */
 	public function __get( $key ) {
-		if ( $key === 'user' ) {
+		if ( 'user' === $key ) {
 			return $this->get_user_object();
 		}
 
@@ -581,7 +581,7 @@ class BP_Groups_Member {
 		$bp = buddypress();
 
 		// If the user is logged in and viewing their own groups, we can show hidden and private groups.
-		if ( (int) $user_id !== bp_loggedin_user_id() ) {
+		if ( bp_loggedin_user_id() !== (int) $user_id ) {
 			$group_sql    = $wpdb->prepare( "SELECT DISTINCT m.group_id FROM {$bp->groups->table_name_members} m, {$bp->groups->table_name} g WHERE g.status != 'hidden' AND m.user_id = %d AND m.is_confirmed = 1 AND m.is_banned = 0{$pag_sql}", $user_id );
 			$total_groups = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(DISTINCT m.group_id) FROM {$bp->groups->table_name_members} m, {$bp->groups->table_name} g WHERE g.status != 'hidden' AND m.user_id = %d AND m.is_confirmed = 1 AND m.is_banned = 0", $user_id ) );
 		} else {
@@ -650,7 +650,7 @@ class BP_Groups_Member {
 			$filter_sql        = $wpdb->prepare( ' AND ( g.name LIKE %s OR g.description LIKE %s )', $search_terms_like, $search_terms_like );
 		}
 
-		if ( (int) $user_id !== bp_loggedin_user_id() ) {
+		if ( bp_loggedin_user_id() !== (int) $user_id ) {
 			$hidden_sql = " AND g.status != 'hidden'";
 		}
 
@@ -784,7 +784,7 @@ class BP_Groups_Member {
 			$filter_sql        = $wpdb->prepare( ' AND ( g.name LIKE %s OR g.description LIKE %s )', $search_terms_like, $search_terms_like );
 		}
 
-		if ( (int) $user_id !== bp_loggedin_user_id() ) {
+		if ( bp_loggedin_user_id() !== (int) $user_id ) {
 			$hidden_sql = " AND g.status != 'hidden'";
 		}
 
@@ -922,7 +922,7 @@ class BP_Groups_Member {
 			$filter_sql        = $wpdb->prepare( ' AND ( g.name LIKE %s OR g.description LIKE %s )', $search_terms_like, $search_terms_like );
 		}
 
-		if ( (int) $user_id !== bp_loggedin_user_id() ) {
+		if ( bp_loggedin_user_id() !== (int) $user_id ) {
 			$hidden_sql = " AND g.status != 'hidden'";
 		}
 
@@ -1061,7 +1061,7 @@ class BP_Groups_Member {
 			$filter_sql        = $wpdb->prepare( ' AND ( g.name LIKE %s OR g.description LIKE %s )', $search_terms_like, $search_terms_like );
 		}
 
-		if ( (int) $user_id !== bp_loggedin_user_id() && ! bp_current_user_can( 'bp_moderate' ) ) {
+		if ( bp_loggedin_user_id() !== (int) $user_id && ! bp_current_user_can( 'bp_moderate' ) ) {
 			$hidden_sql = " AND g.status != 'hidden'";
 		}
 
@@ -1176,7 +1176,7 @@ class BP_Groups_Member {
 
 		$bp = buddypress();
 
-		if ( (int) $user_id !== bp_loggedin_user_id() && ! bp_current_user_can( 'bp_moderate' ) ) {
+		if ( bp_loggedin_user_id() !== (int) $user_id && ! bp_current_user_can( 'bp_moderate' ) ) {
 			return (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(DISTINCT m.group_id) FROM {$bp->groups->table_name_members} m, {$bp->groups->table_name} g WHERE m.group_id = g.id AND g.status != 'hidden' AND m.user_id = %d AND m.is_confirmed = 1 AND m.is_banned = 0", $user_id ) );
 		}
 

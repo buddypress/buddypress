@@ -322,7 +322,7 @@ function bp_groups_user_can_filter( $retval, $user_id, $capability, $site_id, $a
 			$group = groups_get_group( $group_id );
 
 			// If the check is for the logged-in user, use the BP_Groups_Group property.
-			if ( $user_id === bp_loggedin_user_id() ) {
+			if ( bp_loggedin_user_id() === $user_id ) {
 				$retval = $group->user_has_access;
 
 			/*
@@ -343,7 +343,7 @@ function bp_groups_user_can_filter( $retval, $user_id, $capability, $site_id, $a
 			$group = groups_get_group( $group_id );
 
 			// If the check is for the logged-in user, use the BP_Groups_Group property.
-			if ( $user_id === bp_loggedin_user_id() ) {
+			if ( bp_loggedin_user_id() === $user_id ) {
 				$retval = $group->is_visible;
 
 			/*

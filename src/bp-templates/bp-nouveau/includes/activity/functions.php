@@ -443,7 +443,7 @@ function bp_nouveau_activity_scope_newest_class( $classes = '' ) {
 			}
 
 			// Friends can post in groups the user is a member of.
-			if ( bp_is_active( 'friends' ) && (int) $user_id !== (int) bp_get_activity_user_id() ) {
+			if ( bp_is_active( 'friends' ) && (int) bp_get_activity_user_id() !== (int) $user_id ) {
 				if ( friends_check_friendship( $user_id, bp_get_activity_user_id() ) ) {
 					$my_classes[] = 'bp-my-friends';
 				}

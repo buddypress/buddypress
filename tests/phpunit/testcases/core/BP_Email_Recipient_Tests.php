@@ -1,7 +1,6 @@
 <?php
 /**
  * @group core
- * @group BP_Email_Recipient
  */
 class BP_Email_Recipient_Tests extends BP_UnitTestCase {
 	protected $u1;

@@ -1141,7 +1141,7 @@ function bp_admin_list_table_current_bulk_action() {
 	$action = ! empty( $_REQUEST['action'] ) ? $_REQUEST['action'] : '';
 
 	// If the bottom is set, let it override the action.
-	if ( ! empty( $_REQUEST['action2'] ) && $_REQUEST['action2'] !== '-1' ) {
+	if ( ! empty( $_REQUEST['action2'] ) && '-1' !== $_REQUEST['action2'] ) {
 		$action = $_REQUEST['action2'];
 	}
 
@@ -1383,7 +1383,7 @@ function bp_email_tax_type_metabox( $post ) {
 	<div id="taxonomy-<?php echo $tax_name; ?>" class="categorydiv">
 		<div id="<?php echo $tax_name; ?>-all" class="tabs-panel">
 			<?php
-			$name = ( $tax_name === 'category' ) ? 'post_category' : 'tax_input[' . $tax_name . ']';
+			$name = ( 'category' === $tax_name ) ? 'post_category' : 'tax_input[' . $tax_name . ']';
 			echo "<input type='hidden' name='{$name}[]' value='0' />"; // Allows for an empty term set to be sent. 0 is an invalid Term ID and will be ignored by empty() checks.
 			?>
 			<ul id="<?php echo $tax_name; ?>checklist" data-wp-lists="list:<?php echo $tax_name; ?>" class="categorychecklist form-no-clear">
@@ -1568,7 +1568,7 @@ function bp_core_admin_user_manage_spammers() {
 
 		$redirect = wp_get_referer();
 
-		$status = ( $action === 'spam' ) ? 'spam' : 'ham';
+		$status = ( 'spam' === $action ) ? 'spam' : 'ham';
 
 		// Process the user.
 		bp_core_process_spammer_status( $user_id, $status );

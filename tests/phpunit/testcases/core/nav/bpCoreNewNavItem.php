@@ -1,7 +1,6 @@
 <?php
 /**
  * @group core
- * @group nav
  */
 class BP_Tests_Core_Nav_BpCoreNewNavItem extends BP_UnitTestCase {
 	protected $permalink_structure = '';

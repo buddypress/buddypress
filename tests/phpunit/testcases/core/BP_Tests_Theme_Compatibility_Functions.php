@@ -1,10 +1,24 @@
 <?php
 /**
  * @group core
- * @group core-theme-compatibility
- * @group bp_current_theme_supports
  */
 class BP_Tests_Theme_Compatibility_Functions extends BP_UnitTestCase {
+
+	protected $theme_features;
+
+	public function set_up() {
+		parent::set_up();
+
+		// Negative cases require a theme without BuddyPress support.
+		$this->theme_features = $GLOBALS['_wp_theme_features'];
+		remove_theme_support( 'buddypress' );
+	}
+
+	public function tear_down() {
+		$GLOBALS['_wp_theme_features'] = $this->theme_features;
+
+		parent::tear_down();
+	}
 
 	public function test_bp_current_theme_doesnot_support() {
 		$this->assertFalse( bp_current_theme_supports() );

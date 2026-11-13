@@ -6,9 +6,7 @@
  */
 #[AllowDynamicProperties]
 class BP_Tests_Message_Cache extends BP_UnitTestCase {
-	/**
-	 * @group bp_messages_update_meta_cache
-	 */
+
 	public function test_bp_messages_update_meta_cache() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -91,10 +89,6 @@ class BP_Tests_Message_Cache extends BP_UnitTestCase {
 		$this->assertSame( $expected, $found );
 	}
 
-	/**
-	 * @group bp_messages_update_meta_cache
-	 * @group bp_thread_has_messages
-	 */
 	public function test_bp_messages_metadata_cache_in_message_loop() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -118,10 +112,6 @@ class BP_Tests_Message_Cache extends BP_UnitTestCase {
 		$this->assertNotEmpty( wp_cache_get( $m->id, 'message_meta' ) );
 	}
 
-	/**
-	 * @group bp_messages_delete_meta
-	 * @group messages_delete_thread
-	 */
 	public function test_bp_messages_delete_metadata_cache_on_thread_delete() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();

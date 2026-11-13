@@ -88,7 +88,9 @@ add_filter( 'bp_template_include', 'bp_template_include_theme_compat', 4, 2 );
  * @link https://buddypress.trac.wordpress.org/ticket/9309
  * @link https://core.trac.wordpress.org/ticket/64099
  */
-add_action( 'bp_core_pre_load_template', 'wp_start_template_enhancement_output_buffer', 1000 ); // Late priority to let `wp_template_enhancement_output_buffer` filters and `wp_finalized_template_enhancement_output_buffer` actions be registered.
+if ( function_exists( 'wp_start_template_enhancement_output_buffer' ) ) {
+	add_action( 'bp_core_pre_load_template', 'wp_start_template_enhancement_output_buffer', 1000 ); // Late priority to let `wp_template_enhancement_output_buffer` filters and `wp_finalized_template_enhancement_output_buffer` actions be registered.
+}
 
 // Filter BuddyPress template locations.
 add_filter( 'bp_get_template_stack', 'bp_add_template_stack_locations' );
@@ -1166,7 +1168,7 @@ add_filter( 'bp_activity_maybe_load_mentions_scripts', 'bp_maybe_load_mentions_s
  * @return string Updated value.
  */
 function bp_email_add_link_color_to_template( $value, $property_name, $transform ) {
-	if ( $property_name !== 'template' || $transform !== 'add-content' ) {
+	if ( 'template' !== $property_name || 'add-content' !== $transform ) {
 		return $value;
 	}
 
@@ -1213,7 +1215,7 @@ function bp_email_set_default_headers( $headers, $property, $transform, $email )
 	$tokens = $email->get_tokens();
 
 	// Add 'List-Unsubscribe' header if applicable.
-	if ( ! empty( $tokens['unsubscribe'] ) && $tokens['unsubscribe'] !== wp_login_url() ) {
+	if ( ! empty( $tokens['unsubscribe'] ) && wp_login_url() !== $tokens['unsubscribe'] ) {
 		$user    = get_user_by( 'email', $tokens['recipient.email'] );
 		$user_id = isset( $user->ID ) ? $user->ID : 0;
 

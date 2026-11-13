@@ -4,12 +4,11 @@ require_once BP_TESTS_DIR . 'assets/invitations-extensions.php';
 
 /**
  * @group core
- * @group invitations
  */
 class BP_Tests_Invitations extends BP_UnitTestCase {
 
 	/**
-	 * @ticket BP8552
+	 * @see https://buddypress.trac.wordpress.org/ticket/8552
 	 * @group cache
 	 */
 	public function test_invitation_query_with_ids_cache_results() {
@@ -169,43 +168,10 @@ class BP_Tests_Invitations extends BP_UnitTestCase {
 		$this->assertSame( array( 'paged', 'count' ), $query_types );
 	}
 
-	/**
-	 * @expectedDeprecated bp_invitations_get_paged_invitations_sql
-	 */
-	public function test_get_should_apply_deprecated_paged_sql_filter() {
-		$user_id       = self::factory()->user->create();
-		$invites_class = new BPTest_Invitation_Manager_Extension();
-		$invitation_id = $invites_class->add_invitation(
-			array(
-				'user_id'     => $user_id,
-				'inviter_id'  => self::factory()->user->create(),
-				'item_id'     => 1,
-				'send_invite' => 'sent',
-			)
-		);
 
-		$filter = static function ( $sql ) use ( $invitation_id ) {
-			return str_replace( 'WHERE ', "WHERE id = {$invitation_id} AND ", $sql );
-		};
-
-		add_filter( 'bp_invitations_get_paged_invitations_sql', $filter );
-
-		try {
-			$invitation_ids = BP_Invitation::get(
-				array(
-					'cache_results' => false,
-					'fields'        => 'ids',
-				)
-			);
-		} finally {
-			remove_filter( 'bp_invitations_get_paged_invitations_sql', $filter );
-		}
-
-		$this->assertSame( array( $invitation_id ), $invitation_ids );
-	}
 
 	/**
-	 * @ticket BP8552
+	 * @see https://buddypress.trac.wordpress.org/ticket/8552
 	 * @group cache
 	 */
 	public function test_invitation_query_with_all_cache_results() {

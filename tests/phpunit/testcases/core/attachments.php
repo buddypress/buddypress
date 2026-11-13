@@ -4,9 +4,7 @@
  * @group core
  */
 class BP_Tests_Core_Attachments extends BP_UnitTestCase {
-	/**
-	 * @group bp_attachments_list_directory_files
-	 */
+
 	public function test_bp_attachments_list_directory_files() {
 		$files = bp_attachments_list_directory_files( BP_TESTS_DIR . 'assets' );
 
@@ -28,9 +26,6 @@ class BP_Tests_Core_Attachments extends BP_UnitTestCase {
 		$this->assertEmpty( $scripts );
 	}
 
-	/**
-	 * @group bp_attachments_list_directory_files_recursively
-	 */
 	public function test_bp_attachments_list_directory_files_recursively() {
 		add_filter( 'mime_types', array( $this, 'filter_mime_types' ) );
 		$files = bp_attachments_list_directory_files_recursively( BP_TESTS_DIR . 'assets', 'index' );

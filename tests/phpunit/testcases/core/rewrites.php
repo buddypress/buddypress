@@ -3,7 +3,6 @@ include_once BP_TESTS_DIR . '/assets/class-bptest-component.php';
 
 /**
  * @group core
- * @group bp_rewrites_get_url
  */
 class BP_Tests_Core_Rewrites extends BP_UnitTestCase {
 	protected $permalink_structure = '';
@@ -47,9 +46,6 @@ class BP_Tests_Core_Rewrites extends BP_UnitTestCase {
 		parent::tear_down();
 	}
 
-	/**
-	 * @group bp_rewrites_get_root_url
-	 */
 	public function test_bp_rewrites_get_root_url() {
 		$root_url = get_home_url( bp_get_root_blog_id() );
 		$this->assertSame( $root_url, bp_rewrites_get_root_url() );

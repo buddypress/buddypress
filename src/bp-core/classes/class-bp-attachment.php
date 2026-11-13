@@ -299,13 +299,20 @@ abstract class BP_Attachment {
 	 * @return string
 	 */
 	public function sanitize_utf8_filename( $retval ) {
+		$is_valid_utf8 = function ( $filename ) {
+			// wp_is_valid_utf8 is added in WP 6.9.
+			return function_exists( 'wp_is_valid_utf8' ) ? wp_is_valid_utf8( $filename ) : seems_utf8( $filename ); // phpcs:ignore WordPress.WP.DeprecatedFunctions.seems_utf8Found
+		};
+
 		// PHP 5.4+ or with PECL intl 2.0+ .
 		if (
 			function_exists( 'transliterator_transliterate' )
-			// wp_is_valid_utf8 is added in WP 6.9.
-			&& function_exists( 'wp_is_valid_utf8' ) ? wp_is_valid_utf8( $retval ) : seems_utf8( $retval ) // phpcs:ignore WordPress.WP.DeprecatedFunctions.seems_utf8Found
+			&& $is_valid_utf8( $retval )
 		) {
-			$retval = transliterator_transliterate( 'Any-Latin; Latin-ASCII; [\u0080-\u7fff] remove', $retval );
+			$transliterated = transliterator_transliterate( 'Any-Latin; Latin-ASCII; [\u0080-\u7fff] remove', $retval );
+			if ( false !== $transliterated ) {
+				$retval = $transliterated;
+			}
 
 			// Older.
 		} else {
@@ -315,10 +322,12 @@ abstract class BP_Attachment {
 			// Still here? use iconv().
 			if (
 				function_exists( 'iconv' )
-				// wp_is_valid_utf8 is added in WP 6.9.
-				&& function_exists( 'wp_is_valid_utf8' ) ? wp_is_valid_utf8( $retval ) : seems_utf8( $retval ) // phpcs:ignore WordPress.WP.DeprecatedFunctions.seems_utf8Found
+				&& $is_valid_utf8( $retval )
 			) {
-				$retval = iconv( 'UTF-8', 'ASCII//TRANSLIT//IGNORE', $retval );
+				$transliterated = iconv( 'UTF-8', 'ASCII//TRANSLIT//IGNORE', $retval );
+				if ( false !== $transliterated ) {
+					$retval = $transliterated;
+				}
 			}
 		}
 
@@ -344,7 +353,7 @@ abstract class BP_Attachment {
 		// Set the allowed mimes for the upload.
 		foreach ( (array) $this->allowed_mime_types as $ext ) {
 			foreach ( $wp_mimes as $ext_pattern => $mime ) {
-				if ( $ext !== '' && strpos( $ext_pattern, $ext ) !== false ) {
+				if ( '' !== $ext && false !== strpos( $ext_pattern, $ext ) ) {
 					$valid_mimes[ $ext_pattern ] = $mime;
 				}
 			}
@@ -662,6 +671,7 @@ abstract class BP_Attachment {
 	 */
 	public static function get_image_data( $file ) {
 		// Try to get image basic data.
+		// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- Invalid or unreadable images must fail quietly.
 		list( $width, $height, $source_image_type ) = @getimagesize( $file );
 
 		// No need to carry on if we couldn't get image's basic data.

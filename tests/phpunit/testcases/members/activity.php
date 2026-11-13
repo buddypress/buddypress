@@ -6,10 +6,6 @@
  */
 class BP_Tests_Members_Activity extends BP_UnitTestCase {
 
-	/**
-	 * @group activity_action
-	 * @group bp_core_format_activity_action_new_member
-	 */
 	public function test_bp_members_format_activity_action_new_member() {
 		$u = self::factory()->user->create();
 		$a = self::factory()->activity->create( array(
@@ -25,10 +21,6 @@ class BP_Tests_Members_Activity extends BP_UnitTestCase {
 		$this->assertSame( $expected, $a_obj->action );
 	}
 
-	/**
-	 * @group activity_action
-	 * @group bp_members_format_activity_action_new_avatar
-	 */
 	public function test_bp_members_format_activity_action_new_avatar() {
 		$u = self::factory()->user->create();
 		$a = self::factory()->activity->create( array(
@@ -44,9 +36,6 @@ class BP_Tests_Members_Activity extends BP_UnitTestCase {
 		$this->assertSame( $expected, $a_obj->action );
 	}
 
-	/**
-	 * @group bp_migrate_new_member_activity_component
-	 */
 	public function test_bp_migrate_new_member_activity_component() {
 		global $wpdb;
 		$bp = buddypress();
@@ -94,9 +83,6 @@ class BP_Tests_Members_Activity extends BP_UnitTestCase {
 		$this->assertSame( $expected, $found );
 	}
 
-	/**
-	 * @group bp_members_new_avatar_activity
-	 */
 	public function test_bp_members_new_avatar_activity_throttled() {
 		$u = self::factory()->user->create();
 		$a = self::factory()->activity->create( array(
@@ -120,9 +106,6 @@ class BP_Tests_Members_Activity extends BP_UnitTestCase {
 		$this->assertNotSame( $a, $new_avatar_activities['activities'][0]->id );
 	}
 
-	/**
-	 * @group bp_members_new_avatar_activity
-	 */
 	public function test_bp_members_new_avatar_activity_outside_of_throttle_time() {
 		$u = self::factory()->user->create();
 
@@ -150,9 +133,6 @@ class BP_Tests_Members_Activity extends BP_UnitTestCase {
 		$this->assertSame( 2, $new_avatar_activities['total'] );
 	}
 
-	/**
-	 * @group bp_members_remove_previous_avatar_activity
-	 */
 	public function test_bp_members_remove_previous_avatar_activity() {
 		$u              = self::factory()->user->create();
 		$timestamp      = strtotime( bp_core_current_time() );

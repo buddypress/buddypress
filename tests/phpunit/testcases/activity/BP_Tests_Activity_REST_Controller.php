@@ -27,9 +27,6 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$this->assertCount( 3, $routes[ $this->endpoint_url . '/(?P<id>[\d]+)' ] );
 	}
 
-	/**
-	 * @group get_items
-	 */
 	public function test_get_items() {
 		wp_set_current_user( $this->user );
 
@@ -47,9 +44,6 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$this->assertContains( $this->activity_id, $a_ids );
 	}
 
-	/**
-	 * @group get_items
-	 */
 	public function test_get_items_with_support_for_the_community_visibility() {
 		toggle_component_visibility();
 
@@ -62,9 +56,6 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
 	}
 
-	/**
-	 * @group get_items
-	 */
 	public function test_get_items_multiple_types() {
 		$g1 = $this->bp::factory()->group->create(
 			array(
@@ -101,9 +92,6 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$this->assertContains( 'created_group', $all_type );
 	}
 
-	/**
-	 * @group get_items
-	 */
 	public function test_get_items_with_invalid_type() {
 		wp_set_current_user( $this->user );
 
@@ -119,9 +107,6 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$this->assertErrorResponse( 'rest_invalid_param', $response, 400 );
 	}
 
-	/**
-	 * @group get_items
-	 */
 	public function test_get_public_groups_items() {
 		$component = buddypress()->groups->id;
 
@@ -176,9 +161,6 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$this->assertContains( $a2, $a_ids );
 	}
 
-	/**
-	 * @group get_items
-	 */
 	public function test_get_items_from_a_specific_group() {
 		$component = buddypress()->groups->id;
 
@@ -239,9 +221,6 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$this->assertNotContains( $a4, $a_ids );
 	}
 
-	/**
-	 * @group get_items
-	 */
 	public function test_get_private_group_items() {
 		$component = buddypress()->groups->id;
 
@@ -300,9 +279,6 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$this->assertContains( $a1, $a_ids );
 	}
 
-	/**
-	 * @group get_items
-	 */
 	public function test_get_private_group_items_without_access() {
 		$component = buddypress()->groups->id;
 
@@ -345,9 +321,6 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$this->assertNotContains( $a1, $a_ids );
 	}
 
-	/**
-	 * @group get_items
-	 */
 	public function test_get_private_group_items_with_the_group_id_param() {
 		$component = buddypress()->groups->id;
 
@@ -405,9 +378,6 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$this->assertContains( $a1, $a_ids );
 	}
 
-	/**
-	 * @group get_items
-	 */
 	public function test_get_private_group_items_for_mod() {
 		$component = buddypress()->groups->id;
 
@@ -453,9 +423,6 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$this->assertContains( $a1, $a_ids );
 	}
 
-	/**
-	 * @group get_items
-	 */
 	public function test_get_private_group_items_for_admin() {
 		$component = buddypress()->groups->id;
 
@@ -501,9 +468,6 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$this->assertContains( $a2, $a_ids );
 	}
 
-	/**
-	 * @group get_items
-	 */
 	public function test_get_private_group_items_with_group_id_param_without_access() {
 		$component = buddypress()->groups->id;
 
@@ -545,9 +509,6 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$this->assertNotContains( $a1, $a_ids );
 	}
 
-	/**
-	 * @group get_items
-	 */
 	public function test_get_paginated_items() {
 		$u = static::factory()->user->create();
 		wp_set_current_user( $u );
@@ -576,9 +537,6 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$this->assertContains( $a, $a_ids );
 	}
 
-	/**
-	 * @group get_items
-	 */
 	public function test_get_items_with_the_groups_scope() {
 		$u = static::factory()->user->create();
 		wp_set_current_user( $u );
@@ -629,9 +587,6 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$this->assertContains( $a2, $a_ids );
 	}
 
-	/**
-	 * @group get_items
-	 */
 	public function test_get_items_with_favorite() {
 		wp_set_current_user( $this->user );
 
@@ -654,9 +609,6 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$this->assertSame( $a1, $f_id );
 	}
 
-	/**
-	 * @group get_items
-	 */
 	public function test_get_items_with_no_favorite() {
 		$u = static::factory()->user->create();
 		wp_set_current_user( $u );
@@ -678,9 +630,6 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$this->assertCount( 3, $f_ids );
 	}
 
-	/**
-	 * @group get_item
-	 */
 	public function test_get_item() {
 		wp_set_current_user( $this->user );
 
@@ -698,9 +647,6 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$this->check_activity_data( $activity, $all_data );
 	}
 
-	/**
-	 * @group get_item
-	 */
 	public function test_get_item_with_support_for_the_community_visibility() {
 		toggle_component_visibility();
 
@@ -714,9 +660,6 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
 	}
 
-	/**
-	 * @group get_item
-	 */
 	public function test_get_embedded_hidden_group_from_activity() {
 		$component = buddypress()->groups->id;
 		$u1        = static::factory()->user->create();
@@ -752,9 +695,6 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$this->assertSame( 'hidden', $embedded_group['status'] );
 	}
 
-	/**
-	 * @group get_item
-	 */
 	public function test_get_embedded_hidden_group_from_activity_without_permission() {
 		$component = buddypress()->groups->id;
 		$u1        = static::factory()->user->create();
@@ -785,9 +725,6 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
 	}
 
-	/**
-	 * @group get_item
-	 */
 	public function test_get_embedded_private_group_from_activity_without_permission() {
 		$component = buddypress()->groups->id;
 		$u1        = static::factory()->user->create();
@@ -818,9 +755,6 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
 	}
 
-	/**
-	 * @group get_item
-	 */
 	public function test_get_item_for_item_belonging_to_private_group() {
 		$component = buddypress()->groups->id;
 
@@ -868,9 +802,6 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$this->assertSame( 200, $response->get_status() );
 	}
 
-	/**
-	 * @group render_item
-	 */
 	public function test_render_item() {
 		wp_set_current_user( $this->user );
 
@@ -887,12 +818,9 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 
 		$all_data = $response->get_data();
 
-		$this->assertTrue( str_contains( $all_data['content']['rendered'], '</a>' ) );
+		$this->assertStringContainsString( '</a>', $all_data['content']['rendered'] );
 	}
 
-	/**
-	 * @group render_item
-	 */
 	public function test_render_item_with_embed_post() {
 		wp_set_current_user( $this->user );
 		$p = static::factory()->post->create();
@@ -910,12 +838,9 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 
 		$all_data = $response->get_data();
 
-		$this->assertTrue( str_contains( $all_data['content']['rendered'], 'wp-embedded-content' ) );
+		$this->assertStringContainsString( 'wp-embedded-content', $all_data['content']['rendered'] );
 	}
 
-	/**
-	 * @group create_item
-	 */
 	public function test_create_item() {
 		wp_set_current_user( $this->user );
 
@@ -930,9 +855,6 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$this->check_create_activity_response( $response );
 	}
 
-	/**
-	 * @group create_item
-	 */
 	public function test_rest_create_item() {
 		wp_set_current_user( $this->user );
 
@@ -947,9 +869,6 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$this->check_create_activity_response( $response );
 	}
 
-	/**
-	 * @group create_item
-	 */
 	public function test_create_item_with_no_content() {
 		wp_set_current_user( $this->user );
 
@@ -964,9 +883,6 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$this->assertErrorResponse( 'bp_rest_create_activity_empty_content', $response, 400 );
 	}
 
-	/**
-	 * @group create_item
-	 */
 	public function test_create_item_user_not_logged_in() {
 		$request = new WP_REST_Request( 'POST', $this->endpoint_url );
 		$request->add_header( 'content-type', 'application/json' );
@@ -979,9 +895,6 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
 	}
 
-	/**
-	 * @group create_item
-	 */
 	public function test_create_item_in_a_group() {
 		wp_set_current_user( $this->user );
 		$g = $this->bp::factory()->group->create(
@@ -1007,9 +920,6 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$this->check_create_activity_response( $response );
 	}
 
-	/**
-	 * @group create_item
-	 */
 	public function test_create_item_in_a_private_group() {
 		wp_set_current_user( $this->user );
 		$g = $this->bp::factory()->group->create(
@@ -1036,9 +946,6 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$this->check_create_activity_response( $response );
 	}
 
-	/**
-	 * @group create_item
-	 */
 	public function test_create_item_in_an_hidden_group() {
 		wp_set_current_user( $this->user );
 		$g = $this->bp::factory()->group->create(
@@ -1065,9 +972,6 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$this->check_create_activity_response( $response );
 	}
 
-	/**
-	 * @group create_item
-	 */
 	public function test_create_item_and_get_comment() {
 		wp_set_current_user( $this->user );
 
@@ -1100,7 +1004,7 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$response = $this->server->dispatch( $request );
 		$data     = $response->get_data();
 
-		$this->assertTrue( (int) $u === (int) $data['user_id'], 'The user should be able to comment an activity' );
+		$this->assertSame( (int) $u, (int) $data['user_id'], 'The user should be able to comment an activity' );
 
 		// Checks the comment is fetched.
 		$expected = $data['id'];
@@ -1119,9 +1023,6 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$this->assertSame( $expected, $get_data[0]['comments'][0]['id'] );
 	}
 
-	/**
-	 * @group create_item
-	 */
 	public function test_create_item_and_get_reply() {
 		$u = static::factory()->user->create();
 
@@ -1163,7 +1064,7 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$response = $this->server->dispatch( $request );
 		$data     = $response->get_data();
 
-		$this->assertTrue( (int) $u === (int) $data['user_id'], 'The user should be able to reply to an activity' );
+		$this->assertSame( (int) $u, (int) $data['user_id'], 'The user should be able to reply to an activity' );
 
 		// Checks the comment is fetched.
 		$expected = $data['id'];
@@ -1179,12 +1080,9 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$get_response = $this->server->dispatch( $get_request );
 		$get_data     = $get_response->get_data();
 
-		$this->assertTrue( (int) $expected === (int) $get_data[0]['comments'][0]['comments'][0]['id'] );
+		$this->assertSame( (int) $expected, (int) $get_data[0]['comments'][0]['comments'][0]['id'] );
 	}
 
-	/**
-	 * @group create_item
-	 */
 	public function test_create_item_and_get_comment_in_a_group() {
 		wp_set_current_user( $this->user );
 
@@ -1243,9 +1141,6 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$this->assertSame( $expected, $get_data[0]['comments'][0]['id'] );
 	}
 
-	/**
-	 * @group create_item
-	 */
 	public function test_create_item_with_no_content_in_a_group() {
 		wp_set_current_user( $this->user );
 		$g = $this->bp::factory()->group->create(
@@ -1272,9 +1167,6 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$this->assertErrorResponse( 'bp_rest_create_activity_empty_content', $response, 400 );
 	}
 
-	/**
-	 * @group create_item
-	 */
 	public function test_create_blog_post_item() {
 		wp_set_current_user( $this->user );
 		$p = static::factory()->post->create();
@@ -1315,9 +1207,6 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$this->assertSame( $activity->id, $response->get_data()['id'] );
 	}
 
-	/**
-	 * @group update_item
-	 */
 	public function test_update_item() {
 		wp_set_current_user( $this->user );
 
@@ -1344,9 +1233,6 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$this->assertSame( $params['content'], $activity->content );
 	}
 
-	/**
-	 * @group update_item
-	 */
 	public function test_update_item_but_keep_date_the_same() {
 		$activity_date = '1968-12-25 01:23:45';
 		$activity_id   = $this->bp::factory()->activity->create( array( 'recorded_time' => $activity_date ) );
@@ -1369,8 +1255,7 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 	}
 
 	/**
-	 * @group update_item
-	 * @group PR448
+	 * @see https://github.com/buddypress/buddypress/pull/448
 	 */
 	public function test_update_item_posted_in_a_group() {
 		wp_set_current_user( $this->user );
@@ -1420,9 +1305,6 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$this->assertSame( $params['content'], $new_data['content']['raw'] );
 	}
 
-	/**
-	 * @group update_item
-	 */
 	public function test_update_item_invalid_id() {
 		wp_set_current_user( $this->user );
 
@@ -1435,9 +1317,6 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$this->assertErrorResponse( 'bp_rest_invalid_id', $response, 404 );
 	}
 
-	/**
-	 * @group update_item
-	 */
 	public function test_update_item_user_not_logged_in() {
 		$activity = $this->endpoint->get_activity_object( $this->activity_id );
 
@@ -1452,9 +1331,6 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, 401 );
 	}
 
-	/**
-	 * @group update_item
-	 */
 	public function test_update_item_without_permission() {
 		$u = static::factory()->user->create();
 		$a = $this->bp::factory()->activity->create( array( 'user_id' => $u ) );
@@ -1476,9 +1352,6 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
 	}
 
-	/**
-	 * @group update_item
-	 */
 	public function test_update_item_without_content() {
 		$u = static::factory()->user->create();
 		$a = $this->bp::factory()->activity->create( array( 'user_id' => $u ) );
@@ -1498,9 +1371,6 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$this->assertErrorResponse( 'bp_rest_update_activity_empty_content', $response, 400 );
 	}
 
-	/**
-	 * @group update_item
-	 */
 	public function test_update_item_without_type() {
 		$u = static::factory()->user->create();
 		$a = $this->bp::factory()->activity->create( array( 'user_id' => $u ) );
@@ -1523,9 +1393,6 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$this->assertErrorResponse( 'rest_missing_callback_param', $response, 400 );
 	}
 
-	/**
-	 * @group delete_item
-	 */
 	public function test_delete_item() {
 		wp_set_current_user( $this->user );
 
@@ -1551,9 +1418,6 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$this->assertSame( 'Deleted activity', $data['previous']['content']['raw'] );
 	}
 
-	/**
-	 * @group delete_item
-	 */
 	public function test_delete_item_invalid_id() {
 		wp_set_current_user( $this->user );
 
@@ -1564,9 +1428,6 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$this->assertErrorResponse( 'bp_rest_invalid_id', $response, 404 );
 	}
 
-	/**
-	 * @group delete_item
-	 */
 	public function test_delete_item_user_not_logged_in() {
 		$activity = $this->endpoint->get_activity_object( $this->activity_id );
 		$this->assertSame( $this->activity_id, $activity->id );
@@ -1578,9 +1439,6 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
 	}
 
-	/**
-	 * @group delete_item
-	 */
 	public function test_delete_item_without_permission() {
 		$u           = static::factory()->user->create();
 		$activity_id = $this->bp::factory()->activity->create( array( 'user_id' => $u ) );
@@ -1598,9 +1456,6 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
 	}
 
-	/**
-	 * @group update_favorite
-	 */
 	public function test_update_favorite() {
 		$a = $this->bp::factory()->activity->create(
 			array(
@@ -1626,9 +1481,6 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$this->assertSame( $a, $data['id'] );
 	}
 
-	/**
-	 * @group update_favorite
-	 */
 	public function test_update_favorite_remove() {
 		$a = $this->bp::factory()->activity->create(
 			array(
@@ -1652,9 +1504,6 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$this->assertEmpty( $f_ids );
 	}
 
-	/**
-	 * @group update_favorite
-	 */
 	public function test_update_favorite_when_disabled() {
 		$a = $this->bp::factory()->activity->create(
 			array(
@@ -1695,9 +1544,6 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$this->check_activity_data( $activity, $all_data, 'edit' );
 	}
 
-	/**
-	 * @group additional_fields
-	 */
 	public function test_additional_fields() {
 		$registered_fields = $GLOBALS['wp_rest_additional_fields'];
 
@@ -1739,9 +1585,6 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$GLOBALS['wp_rest_additional_fields'] = $registered_fields;
 	}
 
-	/**
-	 * @group additional_fields
-	 */
 	public function test_update_additional_fields() {
 		$registered_fields = $GLOBALS['wp_rest_additional_fields'];
 
@@ -1773,7 +1616,7 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$response = $this->server->dispatch( $request );
 
 		$update_data = $response->get_data();
-		$this->assertTrue( $expected === $update_data['bar_field'] );
+		$this->assertSame( $expected, $update_data['bar_field'] );
 
 		$GLOBALS['wp_rest_additional_fields'] = $registered_fields;
 	}

@@ -2,9 +2,6 @@
 
 /**
  * @group groups
- * @group query
- * @group taxonomy
- * @group BP_Groups_Group
  */
 class BP_Tests_BP_Groups_Group_Query_TaxQuery extends BP_UnitTestCase {
 

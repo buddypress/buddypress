@@ -298,8 +298,10 @@ function bp_nouveau_ajax_joinleave_group() {
 					if ( ! $bp_is_group && isset( $bp->template_message ) && isset( $bp->template_message_type ) ) {
 						unset( $bp->template_message, $bp->template_message_type );
 
-						@setcookie( 'bp-message', false, time() - 1000, COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
-						@setcookie( 'bp-message-type', false, time() - 1000, COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
+						if ( ! headers_sent() ) {
+							setcookie( 'bp-message', false, time() - 1000, COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
+							setcookie( 'bp-message-type', false, time() - 1000, COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
+						}
 					}
 				}
 				break;
@@ -368,6 +370,14 @@ function bp_nouveau_ajax_get_users_to_invite() {
 		'nouveau_ajax_get_users_to_invite'
 	);
 
+	$request                   = array_intersect_key(
+		$request,
+		array(
+			'scope'    => '',
+			'group_id' => '',
+		)
+	);
+	$request['group_id']       = empty( $request['group_id'] ) ? 0 : (int) $request['group_id'];
 	$bp->groups->invites_scope = 'members';
 	$message                   = __( 'Select members to invite by clicking the + button. Once you\'ve made your selection, use the "Send Invites" navigation item to continue.', 'buddypress' );
 

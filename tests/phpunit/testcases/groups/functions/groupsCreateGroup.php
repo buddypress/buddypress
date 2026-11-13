@@ -17,7 +17,7 @@ class BP_Tests_Groups_Functions_GroupsCreateGroup extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP7619
+	 * @see https://buddypress.trac.wordpress.org/ticket/7619
 	 */
 	public function test_should_respect_creator_id() {
 		$old_user_id = bp_loggedin_user_id();
@@ -36,7 +36,7 @@ class BP_Tests_Groups_Functions_GroupsCreateGroup extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP7619
+	 * @see https://buddypress.trac.wordpress.org/ticket/7619
 	 */
 	public function test_creator_id_should_be_fall_back_to_loggedin_user_for_new_group() {
 		$old_user_id = bp_loggedin_user_id();
@@ -54,7 +54,7 @@ class BP_Tests_Groups_Functions_GroupsCreateGroup extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP7619
+	 * @see https://buddypress.trac.wordpress.org/ticket/7619
 	 */
 	public function test_creator_id_should_be_fall_back_to_existing_creator_id_for_existing_group() {
 		$group_id = self::factory()->group->create( array(

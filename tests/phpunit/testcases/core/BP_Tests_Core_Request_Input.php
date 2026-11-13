@@ -10,7 +10,7 @@
  * Tests request input validation and unslashing.
  *
  * @group core
- * @group BP9065
+ * @see https://buddypress.trac.wordpress.org/ticket/9065
  */
 class BP_Tests_Core_Request_Input extends BP_UnitTestCase {
 
@@ -166,7 +166,7 @@ class BP_Tests_Core_Request_Input extends BP_UnitTestCase {
 	/**
 	 * Ensure notification types are validated and unslashed.
 	 *
-	 * @ticket BP9065
+	 * @see https://buddypress.trac.wordpress.org/ticket/9065
 	 */
 	public function test_notification_type_is_shape_checked_and_unslashed() {
 		$_REQUEST = array( 'type' => array( 'invalid' ) );
@@ -181,7 +181,7 @@ class BP_Tests_Core_Request_Input extends BP_UnitTestCase {
 	/**
 	 * Ensure hidden search fields ignore arrays and unslash strings.
 	 *
-	 * @ticket BP9065
+	 * @see https://buddypress.trac.wordpress.org/ticket/9065
 	 */
 	public function test_hidden_search_fields_ignore_arrays_and_unslash_strings() {
 		$functions = array( 'bp_blog_hidden_fields', 'bp_group_hidden_fields', 'bp_member_hidden_fields' );
@@ -220,7 +220,7 @@ class BP_Tests_Core_Request_Input extends BP_UnitTestCase {
 	/**
 	 * Ensure list filters discard non-string values.
 	 *
-	 * @ticket BP9065
+	 * @see https://buddypress.trac.wordpress.org/ticket/9065
 	 */
 	public function test_group_and_member_type_arrays_discard_non_string_values() {
 		$_GET['group_type'] = array( 'foo', array( 'invalid' ), 'bar' );
@@ -258,7 +258,7 @@ class BP_Tests_Core_Request_Input extends BP_UnitTestCase {
 	/**
 	 * Ensure xProfile option labels discard non-string values.
 	 *
-	 * @ticket BP9065
+	 * @see https://buddypress.trac.wordpress.org/ticket/9065
 	 */
 	public function test_xprofile_option_labels_discard_non_string_values() {
 		$field       = new BP_XProfile_Field();

@@ -7,7 +7,7 @@
 class BP_Tests_Group_Cache extends BP_UnitTestCase {
 
 	/**
-	 * @ticket BP8552
+	 * @see https://buddypress.trac.wordpress.org/ticket/8552
 	 */
 	public function test_query_cache_results() {
 		global $wpdb;
@@ -41,7 +41,7 @@ class BP_Tests_Group_Cache extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP8552
+	 * @see https://buddypress.trac.wordpress.org/ticket/8552
 	 */
 	public function test_random_query_cache_results() {
 		global $wpdb;
@@ -62,9 +62,6 @@ class BP_Tests_Group_Cache extends BP_UnitTestCase {
 		$this->assertSame( 4, get_num_queries(), 'Assert random group queries are not cached.' );
 	}
 
-	/**
-	 * @group bp_groups_update_meta_cache
-	 */
 	public function test_bp_groups_update_meta_cache() {
 		$g1 = self::factory()->group->create();
 		$g2 = self::factory()->group->create();
@@ -128,10 +125,6 @@ class BP_Tests_Group_Cache extends BP_UnitTestCase {
 		$this->assertSame( $expected, $found );
 	}
 
-	/**
-	 * @group groups_update_groupmeta
-	 * @group groups_delete_group_cache_on_metadata_change
-	 */
 	public function test_bp_groups_delete_group_cache_on_metadata_add() {
 		$g = self::factory()->group->create();
 
@@ -146,10 +139,6 @@ class BP_Tests_Group_Cache extends BP_UnitTestCase {
 		$this->assertFalse( wp_cache_get( $g, 'bp_groups' ) );
 	}
 
-	/**
-	 * @group groups_update_groupmeta
-	 * @group groups_delete_group_cache_on_metadata_change
-	 */
 	public function test_bp_groups_delete_group_cache_on_metadata_change() {
 		$g = self::factory()->group->create();
 
@@ -164,9 +153,6 @@ class BP_Tests_Group_Cache extends BP_UnitTestCase {
 		$this->assertFalse( wp_cache_get( $g, 'bp_groups' ) );
 	}
 
-	/**
-	 * @group bp_groups_prefetch_activity_object_data
-	 */
 	public function test_bp_groups_prefetch_activity_object_data_all_cached() {
 		$g = self::factory()->group->create();
 
@@ -188,9 +174,6 @@ class BP_Tests_Group_Cache extends BP_UnitTestCase {
 		$this->assertNotEmpty( wp_cache_get( $g, 'bp_groups' ) );
 	}
 
-	/**
-	 * @group bp_groups_prefetch_activity_object_data
-	 */
 	public function test_bp_groups_prefetch_activity_object_data_some_cached() {
 		$g1 = self::factory()->group->create();
 		$g2 = self::factory()->group->create();
@@ -218,9 +201,6 @@ class BP_Tests_Group_Cache extends BP_UnitTestCase {
 		$this->assertNotEmpty( wp_cache_get( $g2, 'bp_groups' ) );
 	}
 
-	/**
-	 * @group groups_get_group_admins
-	 */
 	public function test_groups_get_group_admins_cache() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -243,9 +223,6 @@ class BP_Tests_Group_Cache extends BP_UnitTestCase {
 		$this->assertCount( 2, groups_get_group_admins( $g ) );
 	}
 
-	/**
-	 * @group groups_get_group_mods
-	 */
 	public function test_groups_get_group_mods_cache() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -265,9 +242,6 @@ class BP_Tests_Group_Cache extends BP_UnitTestCase {
 		$this->assertCount( 1, groups_get_group_mods( $g ) );
 	}
 
-	/**
-	 * @group groups_get_group_mods
-	 */
 	public function test_groups_get_group_mods_cache_on_member_save() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -283,9 +257,6 @@ class BP_Tests_Group_Cache extends BP_UnitTestCase {
 		$this->assertCount( 1, groups_get_group_mods( $g ) );
 	}
 
-	/**
-	 * @group groups_get_group_admins
-	 */
 	public function test_groups_get_group_admins_cache_on_member_save() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -304,10 +275,6 @@ class BP_Tests_Group_Cache extends BP_UnitTestCase {
 		$this->assertCount( 2, groups_get_group_admins( $g ) );
 	}
 
-	/**
-	 * @group groups_get_total_group_count
-	 * @group counts
-	 */
 	public function test_groups_get_total_group_count_should_respect_cached_value_of_0() {
 		global $wpdb;
 
@@ -323,10 +290,6 @@ class BP_Tests_Group_Cache extends BP_UnitTestCase {
 		$this->assertSame( $first_query_count, $wpdb->num_queries );
 	}
 
-	/**
-	 * @group groups_get_total_group_count
-	 * @group counts
-	 */
 	public function test_total_groups_count() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -344,7 +307,7 @@ class BP_Tests_Group_Cache extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP9000
+	 * @see https://buddypress.trac.wordpress.org/ticket/9000
 	 */
 	public function test_groups_get_groups_for_user_cache_once_left() {
 		$g = self::factory()->group->create();
@@ -364,7 +327,7 @@ class BP_Tests_Group_Cache extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP9000
+	 * @see https://buddypress.trac.wordpress.org/ticket/9000
 	 */
 	public function test_groups_get_groups_for_user_cache_once_removed() {
 		$g = self::factory()->group->create();

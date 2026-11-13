@@ -5,10 +5,7 @@
  * @group activity
  */
 class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
-	/**
-	 * @group bp_blogs_register_activity_actions
-	 * @group activity_tracking
-	 */
+
 	public function test_bp_blogs_loader_post_tracking_args_filter() {
 		$bp = buddypress();
 
@@ -24,10 +21,6 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 		$this->assertSame( $expected, $actions );
 	}
 
-	/**
-	 * @group activity_action
-	 * @group bp_blogs_format_activity_action_new_blog
-	 */
 	public function test_bp_blogs_format_activity_action_new_blog() {
 		$this->skipWithoutMultisite();
 
@@ -47,10 +40,6 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 		$this->assertSame( $expected, $a_obj->action );
 	}
 
-	/**
-	 * @group activity_action
-	 * @group bp_blogs_format_activity_action_new_blog_post
-	 */
 	public function test_bp_blogs_format_activity_action_new_blog_post_nonms() {
 		$this->skipWithMultisite();
 
@@ -74,10 +63,6 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 		$this->assertSame( $expected, $a_obj->action );
 	}
 
-	/**
-	 * @group activity_action
-	 * @group bp_blogs_format_activity_action_new_blog_post
-	 */
 	public function test_bp_blogs_format_activity_action_new_blog_post_ms_rootblog() {
 		$this->skipWithoutMultisite();
 
@@ -103,10 +88,6 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 		$this->assertSame( $expected, $a_obj->action );
 	}
 
-	/**
-	 * @group activity_action
-	 * @group bp_blogs_format_activity_action_new_blog_post
-	 */
 	public function test_bp_blogs_format_activity_action_new_blog_post_ms_nonrootblog() {
 		$this->skipWithoutMultisite();
 
@@ -138,11 +119,6 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 		$this->assertSame( $expected, $a_obj->action );
 	}
 
-	/**
-	 * @group activity_action
-	 * @group bp_blogs_format_activity_action_new_blog_comment
-	 * @group post_type_comment_activities
-	 */
 	public function test_bp_blogs_format_activity_action_new_blog_comment_ms_nonrootblog() {
 		$this->skipWithoutMultisite();
 
@@ -181,9 +157,6 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 		$this->assertSame( $expected, $a_obj->action );
 	}
 
-	/**
-	 * @group post_type_comment_activities
-	 */
 	public function test_bp_blogs_update_post_title_activity_meta_should_not_be_the_same_for_same_comment_id() {
 		global $wpdb;
 
@@ -252,12 +225,12 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 
 			// Assert that post title is different.
 			$post_title = bp_activity_get_meta( $aid, 'post_title' );
-			$this->assertFalse( 'Updated' === $post_title, 'Post title should not be the same across all sites with the same post comment ID' );
+			$this->assertNotSame( 'Updated', $post_title, 'Post title should not be the same across all sites with the same post comment ID' );
 		}
 	}
 
 	/**
-	 * @ticket BP6126
+	 * @see https://buddypress.trac.wordpress.org/ticket/6126
 	 */
 	public function test_check_activity_actions_are_set_when_creating_activity_object() {
 		$bp = buddypress();
@@ -277,13 +250,9 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 		) );
 
 		$a_obj = new BP_Activity_Activity( $a );
-		$this->assertTrue( ! empty( $a_obj->action ) );
+		$this->assertNotEmpty( $a_obj->action ?? null );
 	}
 
-	/**
-	 * @group bp_blogs_sync_add_from_activity_comment
-	 * @group post_type_comment_activities
-	 */
 	public function test_bp_blogs_sync_add_from_activity_comment() {
 		$old_user = get_current_user_id();
 		$u = self::factory()->user->create();
@@ -319,8 +288,8 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 		$approved_comments = get_approved_comments( $post_id );
 		$comment = reset( $approved_comments );
 
-		$this->assertTrue( (int) $comment->comment_ID === (int) bp_activity_get_meta( $a2, 'bp_blogs_post_comment_id' ), 'The comment ID should be in the activity meta' );
-		$this->assertTrue( (int) $a2 === (int) get_comment_meta( $comment->comment_ID, 'bp_activity_comment_id', true ), 'The activity ID should be in the comment meta' );
+		$this->assertSame( (int) $comment->comment_ID, (int) bp_activity_get_meta( $a2, 'bp_blogs_post_comment_id' ), 'The comment ID should be in the activity meta' );
+		$this->assertSame( (int) $a2, (int) get_comment_meta( $comment->comment_ID, 'bp_activity_comment_id', true ), 'The activity ID should be in the comment meta' );
 
 		// reset
 		remove_filter( 'bp_disable_blogforum_comments', '__return_false' );
@@ -328,10 +297,6 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 		wp_set_current_user( $old_user );
 	}
 
-	/**
-	 * @group bp_blogs_sync_delete_from_activity_comment
-	 * @group post_type_comment_activities
-	 */
 	public function test_bp_blogs_sync_delete_from_activity_comment() {
 		$old_user = get_current_user_id();
 		$u = self::factory()->user->create();
@@ -376,10 +341,6 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 		wp_set_current_user( $old_user );
 	}
 
-	/**
-	 * @group bp_blogs_sync_activity_edit_to_post_comment
-	 * @group post_type_comment_activities
-	 */
 	public function test_bp_blogs_sync_activity_edit_to_post_comment_spam_unspam_activity_comment() {
 		$old_user = get_current_user_id();
 		$u = self::factory()->user->create();
@@ -427,8 +388,8 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 		$post_comments = get_comments( array( 'post_id' => $post_id, 'status' => 'approve' ) );
 		$comment = reset( $post_comments );
 
-		$this->assertTrue( (int) $comment->comment_ID === (int) bp_activity_get_meta( $a2, 'bp_blogs_post_comment_id' ), 'The comment ID should be in the activity meta' );
-		$this->assertTrue( (int) $a2 === (int) get_comment_meta( $comment->comment_ID, 'bp_activity_comment_id', true ), 'The activity ID should be in the comment meta' );
+		$this->assertSame( (int) $comment->comment_ID, (int) bp_activity_get_meta( $a2, 'bp_blogs_post_comment_id' ), 'The comment ID should be in the activity meta' );
+		$this->assertSame( (int) $a2, (int) get_comment_meta( $comment->comment_ID, 'bp_activity_comment_id', true ), 'The activity ID should be in the comment meta' );
 
 		// reset
 		remove_filter( 'bp_disable_blogforum_comments', '__return_false' );
@@ -436,10 +397,6 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 		wp_set_current_user( $old_user );
 	}
 
-	/**
-	 * @group bp_blogs_sync_activity_edit_to_post_comment
-	 * @group post_type_comment_activities
-	 */
 	public function test_bp_blogs_sync_activity_edit_to_post_comment_spam_activity_comment_unspam_post_comment() {
 		$old_user = get_current_user_id();
 		$u = self::factory()->user->create();
@@ -484,8 +441,8 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 		$post_comments = get_comments( array( 'post_id' => $post_id, 'status' => 'approve' ) );
 		$comment = reset( $post_comments );
 
-		$this->assertTrue( (int) $comment->comment_ID === (int) bp_activity_get_meta( $a2, 'bp_blogs_post_comment_id' ), 'The comment ID should be in the activity meta' );
-		$this->assertTrue( (int) $a2 === (int) get_comment_meta( $comment->comment_ID, 'bp_activity_comment_id', true ), 'The activity ID should be in the comment meta' );
+		$this->assertSame( (int) $comment->comment_ID, (int) bp_activity_get_meta( $a2, 'bp_blogs_post_comment_id' ), 'The comment ID should be in the activity meta' );
+		$this->assertSame( (int) $a2, (int) get_comment_meta( $comment->comment_ID, 'bp_activity_comment_id', true ), 'The activity ID should be in the comment meta' );
 
 		// reset
 		remove_filter( 'bp_disable_blogforum_comments', '__return_false' );
@@ -493,10 +450,6 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 		wp_set_current_user( $old_user );
 	}
 
-	/**
-	 * @group bp_blogs_sync_activity_edit_to_post_comment
-	 * @group post_type_comment_activities
-	 */
 	public function test_bp_blogs_sync_activity_edit_to_post_comment_trash_comment_ham_activity() {
 		$old_user = get_current_user_id();
 		$u = self::factory()->user->create();
@@ -541,8 +494,8 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 		$post_comments = get_comments( array( 'post_id' => $post_id, 'status' => 'approve' ) );
 		$comment = reset( $post_comments );
 
-		$this->assertTrue( (int) $comment->comment_ID === (int) bp_activity_get_meta( $a2, 'bp_blogs_post_comment_id' ), 'The comment ID should be in the activity meta' );
-		$this->assertTrue( (int) $a2 === (int) get_comment_meta( $comment->comment_ID, 'bp_activity_comment_id', true ), 'The activity ID should be in the comment meta' );
+		$this->assertSame( (int) $comment->comment_ID, (int) bp_activity_get_meta( $a2, 'bp_blogs_post_comment_id' ), 'The comment ID should be in the activity meta' );
+		$this->assertSame( (int) $a2, (int) get_comment_meta( $comment->comment_ID, 'bp_activity_comment_id', true ), 'The activity ID should be in the comment meta' );
 
 		// reset
 		remove_filter( 'bp_disable_blogforum_comments', '__return_false' );
@@ -550,10 +503,6 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 		wp_set_current_user( $old_user );
 	}
 
-	/**
-	 * @group bp_blogs_sync_activity_edit_to_post_comment
-	 * @group post_type_comment_activities
-	 */
 	public function test_spammed_activity_comment_should_not_create_post_comment() {
 		$old_user = get_current_user_id();
 		$u = self::factory()->user->create();
@@ -605,8 +554,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP9010
-	 * @group post_type_comment_activities
+	 * @see https://buddypress.trac.wordpress.org/ticket/9010
 	 */
 	public function test_bp_blogs_new_blog_comment_query_backpat() {
 		$old_user = get_current_user_id();
@@ -664,8 +612,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP9010
-	 * @group post_type_comment_activities
+	 * @see https://buddypress.trac.wordpress.org/ticket/9010
 	 */
 	public function test_bp_blogs_new_blog_comment_query_backpat_with_array_of_actions() {
 		$old_user = get_current_user_id();

@@ -1,28 +1,14 @@
 <?php
 /**
  * @group groups
- * @group BP_Groups_Group
  */
 #[AllowDynamicProperties]
 class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 
-	/**
-	 * @group __construct
-	 */
 	public function test_non_existent_group() {
 		$group = new BP_Groups_Group( 123456789 );
 		$this->assertSame( 0, $group->id );
 	}
-
-	/**
-	 * @group __construct
-	 * @expectedDeprecated BP_Groups_Group::__construct
-	 */
-	public function test_deprecated_arg() {
-		$group = new BP_Groups_Group( 123456789, array( 'populate_extras' => true ) );
-		$this->assertSame( 0, $group->id );
-	}
-
 
 	public function test_get_sql_clauses_filter_duplicate_join_and_cached_totals() {
 		$first  = self::factory()->group->create();
@@ -90,52 +76,6 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$this->assertArrayHasKey( 'where_conditions', $contexts['paged'][1] );
 	}
 
-	/**
-	 * @expectedDeprecated bp_groups_get_paged_groups_sql
-	 * @expectedDeprecated bp_groups_get_total_groups_sql
-	 */
-	public function test_get_legacy_sql_filters_keep_arguments_and_canonical_runs_last() {
-		self::factory()->group->create();
-
-		$args   = array( 'fields' => 'ids', 'cache_results' => false );
-
-		$calls  = array();
-		$legacy = static function( $sql, $parts, $parsed ) use ( &$calls ) {
-			$calls[] = array( $parts, $parsed );
-
-			return str_replace( 'WHERE', 'WHERE 1 = 0 AND', $sql ) . ' /* legacy */';
-		};
-
-		$canonical = function( $sql, $type ) {
-			$this->assertStringContainsString( '/* legacy */', $sql );
-
-			return 'count' === $type ? 'SELECT 42' : $sql;
-		};
-
-		add_filter( 'bp_groups_get_paged_groups_sql', $legacy, 10, 3 );
-		add_filter( 'bp_groups_get_total_groups_sql', $legacy, 10, 3 );
-
-		try {
-			$legacy_only = BP_Groups_Group::get( $args );
-
-			$this->assertSame( array(), $legacy_only['groups'] );
-			$this->assertSame( 0, $legacy_only['total'] );
-
-			add_filter( 'bp_groups_group_get_sql', $canonical, 10, 2 );
-			$found = BP_Groups_Group::get( $args );
-
-			$this->assertSame( array(), $found['groups'] );
-			$this->assertSame( 42, $found['total'] );
-			$this->assertCount( 4, $calls );
-			$this->assertSame( $calls[0], $calls[1] );
-			$this->assertSame( 'ids', $calls[0][1]['fields'] );
-		} finally {
-			remove_filter( 'bp_groups_group_get_sql', $canonical );
-			remove_filter( 'bp_groups_get_paged_groups_sql', $legacy );
-			remove_filter( 'bp_groups_get_total_groups_sql', $legacy );
-		}
-	}
-
 	public function test_get_default_sql_text_is_unchanged() {
 		$bp     = buddypress();
 		$first  = self::factory()->group->create();
@@ -167,9 +107,6 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 
 	/** get() ************************************************************/
 
-	/**
-	 * @group get
-	 */
 	public function test_get_group_id_with_slug() {
 		$slug     = 'group-test';
 		$g1       = self::factory()->group->create( array( 'slug' => $slug ) );
@@ -178,23 +115,14 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$this->assertSame( $g1, $group_id );
 	}
 
-	/**
-	 * @group get
-	 */
 	public function test_get_group_id_with_empty_slug() {
 		$this->assertFalse( BP_Groups_Group::group_exists( '' ) );
 	}
 
-	/**
-	 * @group get
-	 */
 	public function test_get_group_id_from_slug_with_empty_slug() {
 		$this->assertFalse( BP_Groups_Group::get_id_from_slug( '' ) );
 	}
 
-	/**
-	 * @group get
-	 */
 	public function test_get_group_id_from_slug() {
 		$slug     = 'group-test';
 		$g1       = self::factory()->group->create( array( 'slug' => $slug ) );
@@ -203,21 +131,6 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$this->assertSame( $g1, $group_id );
 	}
 
-	/**
-	 * @group get
-	 * @expectedDeprecated BP_Groups_Group::group_exists
-	 */
-	public function test_get_group_with_slug_with_deprecated_args() {
-		$slug     = 'group-test';
-		$g1       = self::factory()->group->create( array( 'slug' => $slug ) );
-		$group_id = BP_Groups_Group::group_exists( $slug, 'random-name' );
-
-		$this->assertSame( $g1, $group_id );
-	}
-
-	/**
-	 * @group get
-	 */
 	public function test_get_with_exclude() {
 		$g1 = self::factory()->group->create();
 		$g2 = self::factory()->group->create();
@@ -233,9 +146,6 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$this->assertSame( array( $g2 ), $ids );
 	}
 
-	/**
-	 * @group get
-	 */
 	public function test_get_with_include() {
 		$g1 = self::factory()->group->create();
 		self::factory()->group->create();
@@ -251,10 +161,6 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$this->assertSame( array( $g1 ), $ids );
 	}
 
-	/**
-	 * @group get
-	 * @group group_meta_query
-	 */
 	public function test_get_with_meta_query() {
 		$g1 = self::factory()->group->create();
 		self::factory()->group->create();
@@ -272,10 +178,6 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$this->assertSame( array( $g1 ), $ids );
 	}
 
-	/**
-	 * @group get
-	 * @group group_meta_query
-	 */
 	public function test_get_empty_meta_query() {
 		$g1 = self::factory()->group->create();
 		$g2 = self::factory()->group->create();
@@ -288,10 +190,6 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$this->assertSame( array( $g1, $g2, ), $ids );
 	}
 
-	/**
-	 * @group get
-	 * @group group_meta_query
-	 */
 	public function test_get_with_meta_query_multiple_clauses() {
 		$now = time();
 		$g1 = self::factory()->group->create( array(
@@ -325,10 +223,6 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$this->assertSame( 1, $groups['total'] );
 	}
 
-	/**
-	 * @group get
-	 * @group group_meta_query
-	 */
 	public function test_get_with_meta_query_multiple_clauses_relation_or() {
 		$now = time();
 		$g1 = self::factory()->group->create( array(
@@ -363,9 +257,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group get
-	 * @group group_meta_query
-	 * @ticket BP5874
+	 * @see https://buddypress.trac.wordpress.org/ticket/5874
 	 */
 	public function test_get_with_meta_query_multiple_clauses_relation_or_shared_meta_key() {
 		$now = time();
@@ -401,9 +293,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group get
-	 * @group group_meta_query
-	 * @ticket BP5824
+	 * @see https://buddypress.trac.wordpress.org/ticket/5824
 	 */
 	public function test_get_with_meta_query_multiple_keys_with_same_value() {
 		$now = time();
@@ -430,10 +320,6 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$this->assertSame( 1, $groups['total'] );
 	}
 
-	/**
-	 * @group get
-	 * @group date_query
-	 */
 	public function test_get_with_date_query_before() {
 		self::factory()->group->create( array(
 			'last_activity' => date( 'Y-m-d H:i:s', time() ),
@@ -460,10 +346,6 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$this->assertSame( [ $u2 ], wp_list_pluck( $groups['groups'], 'id' ) );
 	}
 
-	/**
-	 * @group get
-	 * @group date_query
-	 */
 	public function test_get_with_date_query_range() {
 		self::factory()->group->create( array(
 			'last_activity' => date( 'Y-m-d H:i:s', time() ),
@@ -492,10 +374,6 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$this->assertSame( [ $u2 ], wp_list_pluck( $groups['groups'], 'id' ) );
 	}
 
-	/**
-	 * @group get
-	 * @group date_query
-	 */
 	public function test_get_with_date_query_after() {
 		$u1 = self::factory()->group->create( array(
 			'last_activity' => date( 'Y-m-d H:i:s', time() ),
@@ -518,9 +396,6 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$this->assertSame( [ $u1 ], wp_list_pluck( $groups['groups'], 'id' ) );
 	}
 
-	/**
-	 * @group get
-	 */
 	public function test_get_normal_search() {
 		$g1 = self::factory()->group->create( array(
 			'name' => 'Cool Group',
@@ -536,9 +411,6 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$this->assertSame( array( $g1 ), $found );
 	}
 
-	/**
-	 * @group get
-	 */
 	public function test_get_search_with_underscores() {
 		$g1 = self::factory()->group->create( array(
 			'name' => 'Cool Group',
@@ -554,9 +426,6 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$this->assertSame( array( $g1 ), $found );
 	}
 
-	/**
-	 * @group get
-	 */
 	public function test_get_search_with_percent_sign() {
 		$g1 = self::factory()->group->create( array(
 			'name' => 'Cool Group',
@@ -572,9 +441,6 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$this->assertSame( array( $g1 ), $found );
 	}
 
-	/**
-	 * @group get
-	 */
 	public function test_get_search_with_quotes() {
 		$g1 = self::factory()->group->create( array(
 			'name' => 'Cool Group',
@@ -592,7 +458,6 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group get
 	 * @dataProvider group_search_slash_cases
 	 */
 	public function test_get_search_matches_escaped_and_unescaped_text( $column, $text, $search ) {
@@ -657,9 +522,6 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		);
 	}
 
-	/**
-	 * @group get
-	 */
 	public function test_get_search_with_left_wildcard() {
 		$g1 = self::factory()->group->create( array(
 			'name' => 'Ye Lads',
@@ -676,9 +538,6 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$this->assertSame( array( $g1 ), $found );
 	}
 
-	/**
-	 * @group get
-	 */
 	public function test_get_search_with_left_wildcard_should_miss() {
 		self::factory()->group->create( array(
 			'name' => 'Ye Lads',
@@ -695,9 +554,6 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$this->assertSame( array(), $found );
 	}
 
-	/**
-	 * @group get
-	 */
 	public function test_get_search_with_right_wildcard() {
 		$g1 = self::factory()->group->create( array(
 			'name' => 'Ye Lads',
@@ -714,9 +570,6 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$this->assertSame( array( $g1 ), $found );
 	}
 
-	/**
-	 * @group get
-	 */
 	public function test_get_search_with_right_wildcard_should_miss() {
 		self::factory()->group->create( array(
 			'name' => 'Ye Lads',
@@ -733,9 +586,6 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$this->assertSame( array(), $found );
 	}
 
-	/**
-	 * @group get
-	 */
 	public function test_get_search_with_both_wildcard() {
 		$g1 = self::factory()->group->create( array(
 			'name' => 'Ye Lads',
@@ -752,9 +602,6 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$this->assertSame( array( $g1 ), $found );
 	}
 
-	/**
-	 * @group get
-	 */
 	public function test_get_search_limited_to_name_column() {
 		$g1 = self::factory()->group->create( array(
 			'name' => 'Ye Lads',
@@ -776,9 +623,6 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$this->assertSame( array( $g1 ), $found );
 	}
 
-	/**
-	 * @group get
-	 */
 	public function test_get_search_limited_to_description_column() {
 		self::factory()->group->create( array(
 			'name' => 'Ye Lads',
@@ -805,7 +649,6 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 * 'order' and 'orderby'. This is to make sure that existing plugins
 	 * will work appropriately
 	 *
-	 * @group get
 	 */
 	public function test_get_with_default_type_value_should_be_newest() {
 		self::factory()->group->create( array(
@@ -839,9 +682,6 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		);
 	}
 
-	/**
-	 * @group get
-	 */
 	public function test_get_with_type_newest() {
 		$time = time();
 		$g1 = self::factory()->group->create( array(
@@ -866,9 +706,6 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$this->assertSame( array( $g1, $g2, $g4, $g3 ), $found );
 	}
 
-	/**
-	 * @group get
-	 */
 	public function test_get_with_type_popular() {
 		$time = time();
 		$g1 = self::factory()->group->create( array(
@@ -898,9 +735,6 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$this->assertSame( array( $g2, $g4, $g3, $g1 ), $found );
 	}
 
-	/**
-	 * @group get
-	 */
 	public function test_get_with_type_alphabetical() {
 		$time = time();
 		$g1 = self::factory()->group->create( array(
@@ -926,9 +760,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group get
-	 * @group group_meta_query
-	 * @ticket BP5099
+	 * @see https://buddypress.trac.wordpress.org/ticket/5099
 	 */
 	public function test_meta_query_and_total_groups() {
 		$time = time();
@@ -968,8 +800,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group get
-	 * @ticket BP5477
+	 * @see https://buddypress.trac.wordpress.org/ticket/5477
 	 */
 	public function test_get_groups_page_perpage_params() {
 		// Create more than 20 groups (20 is the default per_page number)
@@ -1024,8 +855,8 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 
 	/**
 	 * @group cache
-	 * @ticket BP5451
-	 * @ticket BP6643
+	 * @see https://buddypress.trac.wordpress.org/ticket/5451
+	 * @see https://buddypress.trac.wordpress.org/ticket/6643
 	 */
 	public function test_get_queries_should_be_cached() {
 		global $wpdb;
@@ -1044,8 +875,8 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 
 	/**
 	 * @group cache
-	 * @ticket BP5451
-	 * @ticket BP6643
+	 * @see https://buddypress.trac.wordpress.org/ticket/5451
+	 * @see https://buddypress.trac.wordpress.org/ticket/6643
 	 */
 	public function test_get_query_caches_should_be_busted_by_groupmeta_update() {
 		global $wpdb;
@@ -1081,8 +912,8 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 
 	/**
 	 * @group cache
-	 * @ticket BP5451
-	 * @ticket BP6643
+	 * @see https://buddypress.trac.wordpress.org/ticket/5451
+	 * @see https://buddypress.trac.wordpress.org/ticket/6643
 	 */
 	public function test_get_query_caches_should_be_busted_by_group_save() {
 		$groups = self::factory()->group->create_many( 2 );
@@ -1108,8 +939,8 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 
 	/**
 	 * @group cache
-	 * @ticket BP5451
-	 * @ticket BP6643
+	 * @see https://buddypress.trac.wordpress.org/ticket/5451
+	 * @see https://buddypress.trac.wordpress.org/ticket/6643
 	 */
 	public function test_get_query_caches_should_be_busted_by_group_delete() {
 		$groups = self::factory()->group->create_many( 2 );
@@ -1127,7 +958,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP5451
+	 * @see https://buddypress.trac.wordpress.org/ticket/5451
 	 */
 	public function test_bp_groups_group_magic_isset_with_empty_check() {
 		$u = self::factory()->user->create();
@@ -1138,14 +969,11 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$group = new BP_Groups_Group( $g );
 
 		// Assert ! empty() check is not false.
-		$this->assertTrue( ! empty( $group->is_member ) );
+		$this->assertNotEmpty( $group->is_member ?? null );
 	}
 
 	/** convert_type_to_order_orderby() **********************************/
 
-	/**
-	 * @group convert_type_to_order_orderby
-	 */
 	public function test_convert_type_to_order_orderby_newest() {
 		$expected = array(
 			'order' => 'DESC',
@@ -1154,9 +982,6 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$this->assertSame( $expected, _BP_Groups_Group::_convert_type_to_order_orderby( 'newest' ) );
 	}
 
-	/**
-	 * @group convert_type_to_order_orderby
-	 */
 	public function test_convert_type_to_order_orderby_active() {
 		$expected = array(
 			'order' => 'DESC',
@@ -1165,9 +990,6 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$this->assertSame( $expected, _BP_Groups_Group::_convert_type_to_order_orderby( 'active' ) );
 	}
 
-	/**
-	 * @group convert_type_to_order_orderby
-	 */
 	public function test_convert_type_to_order_orderby_popular() {
 		$expected = array(
 			'order' => 'DESC',
@@ -1176,9 +998,6 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$this->assertSame( $expected, _BP_Groups_Group::_convert_type_to_order_orderby( 'popular' ) );
 	}
 
-	/**
-	 * @group convert_type_to_order_orderby
-	 */
 	public function test_convert_type_to_order_orderby_alphabetical() {
 		$expected = array(
 			'order' => 'ASC',
@@ -1187,9 +1006,6 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$this->assertSame( $expected, _BP_Groups_Group::_convert_type_to_order_orderby( 'alphabetical' ) );
 	}
 
-	/**
-	 * @group convert_type_to_order_orderby
-	 */
 	public function test_convert_type_to_order_orderby_random() {
 		$expected = array(
 			// order gets thrown out
@@ -1199,9 +1015,6 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$this->assertSame( $expected, _BP_Groups_Group::_convert_type_to_order_orderby( 'random' ) );
 	}
 
-	/**
-	 * @group convert_type_to_order_orderby
-	 */
 	public function test_convert_type_to_order_orderby_invalid() {
 		$expected = array(
 			'order' => '',
@@ -1212,56 +1025,35 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 
 	/** convert_orderby_to_order_by_term() **********************************/
 
-	/**
-	 * @group convert_orderby_to_order_by_term
-	 */
 	public function test_convert_orderby_to_order_by_term_date_created() {
 		$this->assertSame( 'g.date_created', _BP_Groups_Group::_convert_orderby_to_order_by_term( 'date_created' ) );
 	}
 
-	/**
-	 * @group convert_orderby_to_order_by_term
-	 */
 	public function test_convert_orderby_to_order_by_term_last_activity() {
 		$c = new _BP_Groups_Group();
 		$this->assertSame( 'gm_last_activity.meta_value', _BP_Groups_Group::_convert_orderby_to_order_by_term( 'last_activity' ) );
 	}
 
-	/**
-	 * @group convert_orderby_to_order_by_term
-	 */
 	public function test_convert_orderby_to_order_by_term_total_member_count() {
 		$c = new _BP_Groups_Group();
 		$this->assertSame( 'CONVERT(gm_total_member_count.meta_value, SIGNED)', _BP_Groups_Group::_convert_orderby_to_order_by_term( 'total_member_count' ) );
 	}
 
-	/**
-	 * @group convert_orderby_to_order_by_term
-	 */
 	public function test_convert_orderby_to_order_by_term_name() {
 		$c = new _BP_Groups_Group();
 		$this->assertSame( 'g.name', _BP_Groups_Group::_convert_orderby_to_order_by_term( 'name' ) );
 	}
 
-	/**
-	 * @group convert_orderby_to_order_by_term
-	 */
 	public function test_convert_orderby_to_order_by_term_random() {
 		$c = new _BP_Groups_Group();
 		$this->assertSame( 'rand()', _BP_Groups_Group::_convert_orderby_to_order_by_term( 'random' ) );
 	}
 
-	/**
-	 * @group convert_orderby_to_order_by_term
-	 */
 	public function test_convert_orderby_to_order_by_term_invalid_fallback_to_date_created() {
 		$c = new _BP_Groups_Group();
 		$this->assertSame( _BP_Groups_Group::_convert_orderby_to_order_by_term( 'date_created' ), _BP_Groups_Group::_convert_orderby_to_order_by_term( 'I am a bad boy' ) );
 	}
 
-	/**
-	 * @group groups_get_orderby_meta_id
-	 */
 	public function test_get_orderby_meta_id() {
 		$g1 = self::factory()->group->create();
 		$g2 = self::factory()->group->create();
@@ -1286,9 +1078,6 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$this->assertSame( array( $g2, $g1 ), $found );
 	}
 
-	/**
-	 * @group groups_get_orderby_meta_id
-	 */
 	public function test_get_orderby_meta_id_invalid_fallback_to_date_created() {
 		$time = time();
 		$g1 = self::factory()->group->create( array(
@@ -1447,23 +1236,6 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$this->assertNotContains( $g2, $found );
 	}
 
-	/**
-	 * @expectedDeprecated BP_Groups_Group::get_by_letter
-	 */
-	public function test_get_by_letter_with_deprecated_arg() {
-		$g1 = self::factory()->group->create( array(
-			'name'        => 'Awesome Cool Group',
-			'description' => 'Neat',
-		) );
-		$g2 = self::factory()->group->create();
-
-		$groups = BP_Groups_Group::get_by_letter( 'A', null, null, false );
-		$found  = wp_list_pluck( $groups['groups'], 'id' );
-
-		$this->assertSame( array( $g1 ), $found );
-		$this->assertNotContains( $g2, $found );
-	}
-
 	public function test_get_by_letter_typical_use() {
 		$g1 = self::factory()->group->create( array(
 			'name'        => 'Awesome Cool Group',
@@ -1570,20 +1342,6 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$this->assertSame( "'Plain Group", $wpdb->get_var( $wpdb->prepare( 'SELECT name FROM ' . buddypress()->groups->table_name . ' WHERE id = %d', $plain_id ) ) );
 	}
 
-	/**
-	 * @expectedDeprecated BP_Groups_Group::get_random
-	 */
-	public function test_get_random_with_deprecated_arg() {
-		$g1 = self::factory()->group->create();
-		$g2 = self::factory()->group->create();
-
-		// There are only two groups, so excluding one should give us the other
-		$groups = BP_Groups_Group::get_random( null, null, 0, false, false, array( $g1, 'ignore this' ) );
-		$found  = wp_list_pluck( $groups['groups'], 'id' );
-
-		$this->assertSame( array( $g2 ), $found );
-	}
-
 	public function test_get_random_with_exclude() {
 		$g1 = self::factory()->group->create();
 		$g2 = self::factory()->group->create();
@@ -1613,7 +1371,6 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group delete
 	 * @group cache
 	 */
 	public function test_delete_clear_cache() {
@@ -1631,7 +1388,6 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group save
 	 * @group cache
 	 */
 	public function test_save_clear_cache() {
@@ -1648,9 +1404,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 
 		$this->assertFalse( wp_cache_get( $g, 'bp_groups' ) );
 	}
-	/**
-	 * @group get_group_extras
-	 */
+
 	public function test_get_group_extras_non_logged_in() {
 		$paged_groups = array();
 		$paged_groups[] = new stdClass;
@@ -1680,9 +1434,6 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		wp_set_current_user( $old_user );
 	}
 
-	/**
-	 * @group get_group_extras
-	 */
 	public function test_get_group_extras_non_member() {
 		$u = self::factory()->user->create();
 		$g = self::factory()->group->create();
@@ -1712,9 +1463,6 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		wp_set_current_user( $old_user );
 	}
 
-	/**
-	 * @group get_group_extras
-	 */
 	public function test_get_group_extras_member() {
 		$u = self::factory()->user->create();
 		$g = self::factory()->group->create();
@@ -1745,9 +1493,6 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		wp_set_current_user( $old_user );
 	}
 
-	/**
-	 * @group get_group_extras
-	 */
 	public function test_get_group_extras_invited() {
 		$u = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -1786,9 +1531,6 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		wp_set_current_user( $old_user );
 	}
 
-	/**
-	 * @group get_group_extras
-	 */
 	public function test_get_group_extras_pending() {
 		$u = self::factory()->user->create();
 		$g = self::factory()->group->create( array( 'status' => 'private' ) );
@@ -1824,9 +1566,6 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		wp_set_current_user( $old_user );
 	}
 
-	/**
-	 * @group get_group_extras
-	 */
 	public function test_get_group_extras_banned() {
 		$u = self::factory()->user->create();
 		$g = self::factory()->group->create();
@@ -1864,7 +1603,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP5451
+	 * @see https://buddypress.trac.wordpress.org/ticket/5451
 	 */
 	public function test_admins_property() {
 		$user_1 = self::factory()->user->create_and_get();
@@ -1890,7 +1629,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP7497
+	 * @see https://buddypress.trac.wordpress.org/ticket/7497
 	 */
 	public function test_admins_property_should_match_users_without_wp_role() {
 		$user_1 = self::factory()->user->create_and_get();
@@ -1906,7 +1645,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP7677
+	 * @see https://buddypress.trac.wordpress.org/ticket/7677
 	 */
 	public function test_demoting_sole_admin() {
 		$user = self::factory()->user->create_and_get();
@@ -1921,7 +1660,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP5451
+	 * @see https://buddypress.trac.wordpress.org/ticket/5451
 	 */
 	public function test_mods_property() {
 		$users = self::factory()->user->create_many( 2 );
@@ -1952,8 +1691,8 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP5451
-	 * @ticket BP7658
+	 * @see https://buddypress.trac.wordpress.org/ticket/5451
+	 * @see https://buddypress.trac.wordpress.org/ticket/7658
 	 */
 	public function test_is_member_property() {
 		$u1 = self::factory()->user->create();
@@ -1977,8 +1716,8 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP5451
-	 * @ticket BP7658
+	 * @see https://buddypress.trac.wordpress.org/ticket/5451
+	 * @see https://buddypress.trac.wordpress.org/ticket/7658
 	 */
 	public function test_is_invited_property() {
 		$u1 = self::factory()->user->create();
@@ -2004,7 +1743,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP5451
+	 * @see https://buddypress.trac.wordpress.org/ticket/5451
 	 */
 	public function test_is_pending_property() {
 		$u1 = self::factory()->user->create();
@@ -2026,9 +1765,6 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$this->assertFalse( $group_b->is_pending );
 	}
 
-	/**
-	 * @group hierarchical_groups
-	 */
 	public function test_get_by_parent_id() {
 		$g1 = self::factory()->group->create();
 		$g2 = self::factory()->group->create( array(
@@ -2047,9 +1783,6 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$this->assertSame( array( $g2 ), $found );
 	}
 
-	/**
-	 * @group hierarchical_groups
-	 */
 	public function test_get_by_parent_id_ignore_grandparent() {
 		$g1 = self::factory()->group->create();
 		$g2 = self::factory()->group->create( array(
@@ -2068,9 +1801,6 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$this->assertSame( array( $g3 ), $found );
 	}
 
-	/**
-	 * @group hierarchical_groups
-	 */
 	public function test_get_by_parent_id_array() {
 		$g1 = self::factory()->group->create();
 		$g2 = self::factory()->group->create( array(
@@ -2089,9 +1819,6 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$this->assertEqualSets( array( $g2, $g3 ), $found );
 	}
 
-	/**
-	 * @group hierarchical_groups
-	 */
 	public function test_get_by_parent_id_comma_separated_string() {
 		$g1 = self::factory()->group->create();
 		$g2 = self::factory()->group->create( array(
@@ -2110,9 +1837,6 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$this->assertEqualSets( array( $g2, $g3 ), $found );
 	}
 
-	/**
-	 * @group hierarchical_groups
-	 */
 	public function test_get_by_parent_id_top_level_groups() {
 		$g1 = self::factory()->group->create();
 		$g2 = self::factory()->group->create( array(
@@ -2131,9 +1855,6 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$this->assertEqualSets( array( $g1, $g4 ), $found );
 	}
 
-	/**
-	 * @group hierarchical_groups
-	 */
 	public function test_get_by_parent_id_top_level_groups_using_false() {
 		$g1 = self::factory()->group->create();
 		$g2 = self::factory()->group->create( array(
@@ -2152,9 +1873,6 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$this->assertEqualSets( array( $g1, $g4 ), $found );
 	}
 
-	/**
-	 * @group get_by_slug
-	 */
 	public function test_get_by_slug() {
 		$g1 = self::factory()->group->create(array(
 			'slug'      => 'apr'
@@ -2174,9 +1892,6 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$this->assertEqualSets( array( $g1, $g3 ), $found );
 	}
 
-	/**
-	 * @group get_by_slug
-	 */
 	public function test_get_by_slug_accept_string() {
 		self::factory()->group->create(array(
 			'slug'      => 'apr'
@@ -2196,9 +1911,6 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$this->assertEqualSets( array( $g2 ), $found );
 	}
 
-	/**
-	 * @group get_by_slug
-	 */
 	public function test_get_by_slug_accept_comma_separated_string() {
 		$g1 = self::factory()->group->create(array(
 			'slug'      => 'apr'
@@ -2218,9 +1930,6 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$this->assertEqualSets( array( $g1, $g3 ), $found );
 	}
 
-	/**
-	 * @group get_by_slug
-	 */
 	public function test_get_by_slug_accept_space_separated_string() {
 		$g1 = self::factory()->group->create(array(
 			'slug'      => 'apr'
@@ -2240,9 +1949,6 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$this->assertEqualSets( array( $g1, $g3 ), $found );
 	}
 
-	/**
-	 * @group get_by_status
-	 */
 	public function test_get_by_status() {
 		$g1 = self::factory()->group->create(array(
 			'status'      => 'private'
@@ -2262,9 +1968,6 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$this->assertEqualSets( array( $g1, $g3 ), $found );
 	}
 
-	/**
-	 * @group get_by_status
-	 */
 	public function test_get_by_status_accept_string() {
 		self::factory()->group->create(array(
 			'status'      => 'private'
@@ -2284,9 +1987,6 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$this->assertEqualSets( array( $g2 ), $found );
 	}
 
-	/**
-	 * @group get_by_status
-	 */
 	public function test_get_by_status_accept_comma_separated_string() {
 		$g1 = self::factory()->group->create(array(
 			'status'      => 'private'
@@ -2306,9 +2006,6 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$this->assertEqualSets( array( $g1, $g3 ), $found );
 	}
 
-	/**
-	 * @group get_ids_only
-	 */
 	public function test_get_return_ids_only() {
 		$now = time();
 		$g1 = self::factory()->group->create( array(

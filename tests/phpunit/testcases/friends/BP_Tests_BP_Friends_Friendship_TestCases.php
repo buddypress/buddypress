@@ -7,20 +7,8 @@ class BP_Tests_BP_Friends_Friendship_TestCases extends BP_UnitTestCase {
 
 	/** __construct()  ***************************************************/
 
-	/**
-	 * @group __construct
-	 */
 	public function test_non_existent_friendship() {
 		$friendship = new BP_Friends_Friendship( 123456789 );
-		$this->assertSame( 0, $friendship->id );
-	}
-
-	/**
-	 * @group __construct
-	 * @expectedDeprecated BP_Friends_Friendship::__construct
-	 */
-	public function test_deprecated_arg() {
-		$friendship = new BP_Friends_Friendship( 123456789, true );
 		$this->assertSame( 0, $friendship->id );
 	}
 
@@ -40,7 +28,7 @@ class BP_Tests_BP_Friends_Friendship_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP6546
+	 * @see https://buddypress.trac.wordpress.org/ticket/6546
 	 */
 	public function test_search_friends_with_xprofile_inactive() {
 		$this->deactivate_component( 'xprofile' );
@@ -103,18 +91,12 @@ class BP_Tests_BP_Friends_Friendship_TestCases extends BP_UnitTestCase {
 		$this->assertSame( 1, $friends );
 	}
 
-	/**
-	 * @group check_is_friend
-	 */
 	public function test_check_is_friend_not_friends() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
 		$this->assertSame( 'not_friends', BP_Friends_Friendship::check_is_friend( $u1, $u2 ) );
 	}
 
-	/**
-	 * @group check_is_friend
-	 */
 	public function test_check_is_friend_pending() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -122,9 +104,6 @@ class BP_Tests_BP_Friends_Friendship_TestCases extends BP_UnitTestCase {
 		$this->assertSame( 'pending', BP_Friends_Friendship::check_is_friend( $u1, $u2 ) );
 	}
 
-	/**
-	 * @group check_is_friend
-	 */
 	public function test_check_is_friend_awaiting_response() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -132,9 +111,6 @@ class BP_Tests_BP_Friends_Friendship_TestCases extends BP_UnitTestCase {
 		$this->assertSame( 'awaiting_response', BP_Friends_Friendship::check_is_friend( $u2, $u1 ) );
 	}
 
-	/**
-	 * @group check_is_friend
-	 */
 	public function test_check_is_friend_is_friend() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -143,7 +119,7 @@ class BP_Tests_BP_Friends_Friendship_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group BP6247
+	 * @see https://buddypress.trac.wordpress.org/ticket/6247
 	 */
 	public function test_save_method_should_update_existing_row() {
 		$u1 = self::factory()->user->create();
@@ -168,9 +144,6 @@ class BP_Tests_BP_Friends_Friendship_TestCases extends BP_UnitTestCase {
 		$this->assertSame( 1, $f2->is_confirmed );
 	}
 
-	/**
-	 * @group friendship_caching
-	 */
 	public function test_new_bp_friends_friendship_object_should_hit_friendship_object_cache() {
 		global $wpdb;
 		$now = time();
@@ -193,7 +166,7 @@ class BP_Tests_BP_Friends_Friendship_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP8844
+	 * @see https://buddypress.trac.wordpress.org/ticket/8844
 	 */
 	public function test_get_random_friends() {
 		$user_id = self::factory()->user->create();
@@ -204,12 +177,12 @@ class BP_Tests_BP_Friends_Friendship_TestCases extends BP_UnitTestCase {
 		}
 
 		$random = BP_Friends_Friendship::get_random_friends( $user_id, 4 );
-		$this->assertFalse( in_array( $user_id, $random, true ), 'The requested user id should not be listed into random friends' );
+		$this->assertNotContains( $user_id, $random, 'The requested user id should not be listed into random friends' );
 		$this->assertCount( 4, $random );
 	}
 
 	/**
-	 * @ticket BP8844
+	 * @see https://buddypress.trac.wordpress.org/ticket/8844
 	 */
 	public function test_get_friend_user_ids() {
 		$user_id = self::factory()->user->create();
@@ -220,12 +193,12 @@ class BP_Tests_BP_Friends_Friendship_TestCases extends BP_UnitTestCase {
 		}
 
 		$friend_user_ids = BP_Friends_Friendship::get_friend_user_ids( $user_id );
-		$this->assertFalse( in_array( $user_id, $friend_user_ids, true ), 'The requested user id should not be listed into random friends' );
+		$this->assertNotContains( $user_id, $friend_user_ids, 'The requested user id should not be listed into random friends' );
 		$this->assertCount( 4, $friend_user_ids );
 	}
 
 	/**
-	 * @ticket BP8844
+	 * @see https://buddypress.trac.wordpress.org/ticket/8844
 	 */
 	public function test_delete_all_for_user() {
 		$user_id = self::factory()->user->create();
@@ -241,7 +214,7 @@ class BP_Tests_BP_Friends_Friendship_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP8844
+	 * @see https://buddypress.trac.wordpress.org/ticket/8844
 	 */
 	public function test_get_friendships() {
 		$u1 = self::factory()->user->create();

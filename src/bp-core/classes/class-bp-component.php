@@ -596,6 +596,7 @@ class BP_Component {
 
 				foreach ( $paths as $path ) {
 
+					// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- Optional component files can be missing or unreadable.
 					if ( @is_file( $slashed_path . $path ) ) {
 						require $slashed_path . $path;
 						break;
@@ -947,7 +948,7 @@ class BP_Component {
 					$pos = $nav['position'];
 
 					// Reset not set pos to 1.
-					if ( $pos % 10 === 0 ) {
+					if ( 0 === $pos % 10 ) {
 						$not_set_pos = 1;
 					}
 				}

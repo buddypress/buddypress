@@ -1023,7 +1023,7 @@ class BP_Members_Admin {
 		if ( ! empty( $_REQUEST['user_status'] ) ) {
 			$spam = (bool) ( 'spam' === $_REQUEST['user_status'] );
 
-			if ( $spam !== bp_is_user_spammer( $user_id ) ) {
+			if ( bp_is_user_spammer( $user_id ) !== $spam ) {
 				$doaction = $_REQUEST['user_status'];
 			}
 		}

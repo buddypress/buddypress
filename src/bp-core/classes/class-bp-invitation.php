@@ -445,18 +445,18 @@ class BP_Invitation {
 		 * specifically requested.
 		 */
 		if ( ! empty( $args['invite_sent'] ) && 'all' !== $args['invite_sent'] ) {
-			if ( $args['invite_sent'] === 'draft' ) {
+			if ( 'draft' === $args['invite_sent'] ) {
 				$where_conditions['invite_sent'] = 'invite_sent = 0';
-			} elseif ( $args['invite_sent'] === 'sent' ) {
+			} elseif ( 'sent' === $args['invite_sent'] ) {
 				$where_conditions['invite_sent'] = 'invite_sent = 1';
 			}
 		}
 
 		// Accepted.
 		if ( ! empty( $args['accepted'] ) && 'all' !== $args['accepted'] ) {
-			if ( $args['accepted'] === 'pending' ) {
+			if ( 'pending' === $args['accepted'] ) {
 				$where_conditions['accepted'] = 'accepted = 0';
-			} elseif ( $args['accepted'] === 'accepted' ) {
+			} elseif ( 'accepted' === $args['accepted'] ) {
 				$where_conditions['accepted'] = 'accepted = 1';
 			}
 		}
@@ -648,10 +648,10 @@ class BP_Invitation {
 		 * specifically requested.
 		 */
 		if ( isset( $args['invite_sent'] ) && 'all' !== $args['invite_sent'] ) {
-			if ( $args['invite_sent'] === 'draft' ) {
+			if ( 'draft' === $args['invite_sent'] ) {
 				$where_clauses['data']['invite_sent'] = 0;
 				$where_clauses['format'][]            = '%d';
-			} elseif ( $args['invite_sent'] === 'sent' ) {
+			} elseif ( 'sent' === $args['invite_sent'] ) {
 				$where_clauses['data']['invite_sent'] = 1;
 				$where_clauses['format'][]            = '%d';
 			}
@@ -659,10 +659,10 @@ class BP_Invitation {
 
 		// accepted.
 		if ( ! empty( $args['accepted'] ) && 'all' !== $args['accepted'] ) {
-			if ( $args['accepted'] === 'pending' ) {
+			if ( 'pending' === $args['accepted'] ) {
 				$where_clauses['data']['accepted'] = 0;
 				$where_clauses['format'][]         = '%d';
-			} elseif ( $args['accepted'] === 'accepted' ) {
+			} elseif ( 'accepted' === $args['accepted'] ) {
 				$where_clauses['data']['accepted'] = 1;
 				$where_clauses['format'][]         = '%d';
 			}

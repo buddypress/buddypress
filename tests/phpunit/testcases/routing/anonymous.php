@@ -1,6 +1,7 @@
 <?php
 /**
  * @group routing
+ * @group core
  */
 class BP_Tests_Routing_Anonymous extends BP_UnitTestCase {
 	public function test_wordpress_page() {

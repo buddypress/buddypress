@@ -2,7 +2,6 @@
 
 /**
  * @group groups
- * @group group_types
  */
 class BP_Tests_Groups_Types extends BP_UnitTestCase {
 	protected static $u1 = null;

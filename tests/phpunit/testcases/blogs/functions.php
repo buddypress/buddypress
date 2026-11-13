@@ -5,18 +5,13 @@
  */
 #[AllowDynamicProperties]
 class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
-	/**
-	 * @group blogmeta
-	 * @group bp_blogs_delete_blogmeta
-	 */
+
 	public function test_bp_blogs_delete_blogmeta_non_numeric_blog_id() {
 		$this->assertFalse( bp_blogs_delete_blogmeta( 'foo' ) );
 	}
 
 	/**
-	 * @group blogmeta
-	 * @group bp_blogs_delete_blogmeta
-	 * @ticket BP5399
+	 * @see https://buddypress.trac.wordpress.org/ticket/5399
 	 */
 	public function test_bp_blogs_delete_blogmeta_illegal_characters() {
 		$this->assertNotEmpty( bp_blogs_update_blogmeta( 1, 'foo', 'bar' ) );
@@ -27,9 +22,7 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group blogmeta
-	 * @group bp_blogs_delete_blogmeta
-	 * @ticket BP5399
+	 * @see https://buddypress.trac.wordpress.org/ticket/5399
 	 */
 	public function test_bp_blogs_delete_blogmeta_trim_meta_value() {
 		$this->assertNotEmpty( bp_blogs_update_blogmeta( 1, 'foo', 'bar' ) );
@@ -38,10 +31,6 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 		$this->assertSame( 'bar', bp_blogs_get_blogmeta( 1, 'foo' ) );
 	}
 
-	/**
-	 * @group blogmeta
-	 * @group bp_blogs_delete_blogmeta
-	 */
 	public function test_bp_blogs_delete_blogmeta_no_meta_key() {
 		bp_blogs_update_blogmeta( 1, 'foo', 'bar' );
 		bp_blogs_update_blogmeta( 1, 'foo2', 'bar2' );
@@ -50,10 +39,6 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 		$this->assertSame( array(), bp_blogs_get_blogmeta( 1 ) );
 	}
 
-	/**
-	 * @group blogmeta
-	 * @group bp_blogs_delete_blogmeta
-	 */
 	public function test_bp_blogs_delete_blogmeta_with_meta_value() {
 		bp_blogs_update_blogmeta( 1, 'foo', 'bar' );
 		$this->assertSame( 'bar', bp_blogs_get_blogmeta( 1, 'foo' ) );
@@ -63,10 +48,6 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 		$this->assertSame( '', bp_blogs_get_blogmeta( 1, 'foo' ) );
 	}
 
-	/**
-	 * @group blogmeta
-	 * @group bp_blogs_delete_blogmeta
-	 */
 	public function test_bp_blogs_delete_blogmeta_with_delete_all_but_no_meta_key() {
 		// With no meta key, don't delete for all items - just delete
 		// all for a single item
@@ -81,10 +62,6 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 		$this->assertSame( 'bar1', bp_blogs_get_blogmeta( 2, 'foo1' ) );
 	}
 
-	/**
-	 * @group blogmeta
-	 * @group bp_blogs_delete_blogmeta
-	 */
 	public function test_bp_blogs_delete_blogmeta_with_delete_all() {
 		// With no meta key, don't delete for all items - just delete
 		// all for a single item
@@ -100,19 +77,13 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 		$this->assertSame( 'bar1', bp_blogs_get_blogmeta( 2, 'foo1' ) );
 	}
 
-	/**
-	 * @group blogmeta
-	 * @group bp_blogs_get_blogmeta
-	 */
 	public function test_bp_blogs_get_blogmeta_empty_blog_id() {
 		$this->assertFalse( bp_blogs_get_blogmeta( 0 ) );
 		$this->assertFalse( bp_blogs_get_blogmeta( '' ) );
 	}
 
 	/**
-	 * @group blogmeta
-	 * @group bp_blogs_get_blogmeta
-	 * @ticket BP5399
+	 * @see https://buddypress.trac.wordpress.org/ticket/5399
 	 */
 	public function test_bp_blogs_get_blogmeta_illegal_characters() {
 		bp_blogs_update_blogmeta( 1, 'foo', 'bar' );
@@ -120,10 +91,6 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 		$this->assertSame( '', bp_blogs_get_blogmeta( 1, $krazy_key ) );
 	}
 
-	/**
-	 * @group blogmeta
-	 * @group bp_blogs_get_blogmeta
-	 */
 	public function test_bp_blogs_get_blogmeta_no_meta_key() {
 		bp_blogs_update_blogmeta( 1, 'foo', 'bar' );
 		bp_blogs_update_blogmeta( 1, 'foo2', 'bar2' );
@@ -140,18 +107,10 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 		$this->assertSame( $expected, bp_blogs_get_blogmeta( 1 ) );
 	}
 
-	/**
-	 * @group blogmeta
-	 * @group bp_blogs_get_blogmeta
-	 */
 	public function test_bp_blogs_get_blogmeta_no_meta_key_empty() {
 		$this->assertSame( array(), bp_blogs_get_blogmeta( 1 ) );
 	}
 
-	/**
-	 * @group blogmeta
-	 * @group bp_blogs_get_blogmeta
-	 */
 	public function test_bp_blogs_get_blogmeta_single_true() {
 		bp_blogs_add_blogmeta( 1, 'foo', 'bar' );
 		bp_blogs_add_blogmeta( 1, 'foo', 'baz' );
@@ -159,27 +118,18 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 		$this->assertSame( 'bar', bp_blogs_get_blogmeta( 1, 'foo', true ) );
 	}
 
-	/**
-	 * @group blogmeta
-	 * @group bp_blogs_get_blogmeta
-	 */
 	public function test_bp_blogs_get_blogmeta_single_false() {
 		bp_blogs_add_blogmeta( 1, 'foo', 'bar' );
 		bp_blogs_add_blogmeta( 1, 'foo', 'baz' );
 		$this->assertSame( array( 'bar', 'baz' ), bp_blogs_get_blogmeta( 1, 'foo', false ) );
 	}
-	/**
-	 * @group blogmeta
-	 * @group bp_blogs_update_blogmeta
-	 */
+
 	public function test_bp_blogs_update_blogmeta_non_numeric_blog_id() {
 		$this->assertFalse( bp_blogs_update_blogmeta( 'foo', 'foo', 'bar' ) );
 	}
 
 	/**
-	 * @group blogmeta
-	 * @group bp_blogs_update_blogmeta
-	 * @ticket BP5399
+	 * @see https://buddypress.trac.wordpress.org/ticket/5399
 	 */
 	public function test_bp_blogs_update_blogmeta_illegal_characters() {
 		$krazy_key = ' f!@#$%^o *(){}o?+';
@@ -187,29 +137,17 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 		$this->assertSame( '', bp_blogs_get_blogmeta( 1, 'foo' ) );
 	}
 
-	/**
-	 * @group blogmeta
-	 * @group bp_blogs_update_blogmeta
-	 */
 	public function test_bp_blogs_update_blogmeta_stripslashes() {
 		$slashed = 'This \"string\" is cool';
 		bp_blogs_update_blogmeta( 1, 'foo', $slashed );
 		$this->assertSame( 'This "string" is cool', bp_blogs_get_blogmeta( 1, 'foo' ) );
 	}
 
-	/**
-	 * @group blogmeta
-	 * @group bp_blogs_update_blogmeta
-	 */
 	public function test_bp_blogs_update_blogmeta_new() {
 		$this->assertNotEmpty( bp_blogs_update_blogmeta( 1, 'foo', 'bar' ) );
 		$this->assertSame( 'bar', bp_blogs_get_blogmeta( 1, 'foo' ) );
 	}
 
-	/**
-	 * @group blogmeta
-	 * @group bp_blogs_update_blogmeta
-	 */
 	public function test_bp_blogs_update_blogmeta_existing() {
 		bp_blogs_update_blogmeta( 1, 'foo', 'bar' );
 		$this->assertSame( 'bar', bp_blogs_get_blogmeta( 1, 'foo' ) );
@@ -217,20 +155,12 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 		$this->assertSame( 'baz', bp_blogs_get_blogmeta( 1, 'foo' ) );
 	}
 
-	/**
-	 * @group blogmeta
-	 * @group bp_blogs_update_blogmeta
-	 */
 	public function test_bp_blogs_update_blogmeta_existing_no_change() {
 		bp_blogs_update_blogmeta( 1, 'foo', 'bar' );
 		$this->assertSame( 'bar', bp_blogs_get_blogmeta( 1, 'foo' ) );
 		$this->assertFalse( bp_blogs_update_blogmeta( 1, 'foo', 'bar' ) );
 	}
 
-	/**
-	 * @group blogmeta
-	 * @group bp_blogs_update_blogmeta
-	 */
 	public function test_bp_blogs_update_meta_prev_value() {
 		bp_blogs_add_blogmeta( 1, 'foo', 'bar' );
 
@@ -239,43 +169,24 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 		$this->assertTrue( bp_blogs_update_blogmeta( 1, 'foo', 'bar2', 'bar' ) );
 	}
 
-	/**
-	 * @group blogmeta
-	 * @group bp_blogs_add_blogmeta
-	 */
 	public function test_bp_blogs_add_blogmeta_no_meta_key() {
 		$this->assertFalse( bp_blogs_add_blogmeta( 1, '', 'bar' ) );
 	}
 
-	/**
-	 * @group blogmeta
-	 * @group bp_blogs_add_blogmeta
-	 */
 	public function test_bp_blogs_add_blogmeta_empty_object_id() {
 		$this->assertFalse( bp_blogs_add_blogmeta( 0, 'foo', 'bar' ) );
 	}
 
-	/**
-	 * @group blogmeta
-	 * @group bp_blogs_add_blogmeta
-	 */
 	public function test_bp_blogs_add_blogmeta_existing_unique() {
 		bp_blogs_add_blogmeta( 1, 'foo', 'bar' );
 		$this->assertFalse( bp_blogs_add_blogmeta( 1, 'foo', 'baz', true ) );
 	}
 
-	/**
-	 * @group blogmeta
-	 * @group bp_blogs_add_blogmeta
-	 */
 	public function test_bp_blogs_add_blogmeta_existing_not_unique() {
 		bp_blogs_add_blogmeta( 1, 'foo', 'bar' );
 		$this->assertNotEmpty( bp_blogs_add_blogmeta( 1, 'foo', 'baz' ) );
 	}
 
-	/**
-	 * @group bp_blogs_restore_data
-	 */
 	public function test_bp_blogs_restore_data() {
 		$this->skipWithoutMultisite();
 
@@ -310,9 +221,6 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 		$this->assertSame( $expected, $blog_ids );
 	}
 
-	/**
-	 * @group bp_blogs_catch_transition_post_status
-	 */
 	public function test_transition_post_status_publish_to_publish() {
 		$post_id = self::factory()->post->create( array(
 			'post_status' => 'publish',
@@ -331,9 +239,6 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 		$this->assertTrue( $this->activity_exists_for_post( $post_id ), 'Published post should have activity (no change)' );
 	}
 
-	/**
-	 * @group bp_blogs_catch_transition_post_status
-	 */
 	public function test_transition_post_status_password_publish() {
 		$post_id = self::factory()->post->create( array(
 			'post_status'   => 'publish',
@@ -346,9 +251,6 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 		$this->assertFalse( $this->activity_exists_for_post( $post_id ), 'Published with password post should not have activity' );
 	}
 
-	/**
-	 * @group bp_blogs_catch_transition_post_status
-	 */
 	public function test_transition_post_status_publish_update_password() {
 		$post_id = self::factory()->post->create( array(
 			'post_status'   => 'publish',
@@ -367,9 +269,6 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 		$this->assertFalse( $this->activity_exists_for_post( $post_id ), 'Updated with password post should not have activity' );
 	}
 
-	/**
-	 * @group bp_blogs_catch_transition_post_status
-	 */
 	public function test_transition_post_status_private_publish() {
 		$post_id = self::factory()->post->create( array(
 			'post_status'   => 'private',
@@ -388,9 +287,6 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 		$this->assertTrue( $this->activity_exists_for_post( $post_id ), 'Published post should have activity' );
 	}
 
-	/**
-	 * @group bp_blogs_catch_transition_post_status
-	 */
 	public function test_transition_post_status_publish_private() {
 		$post_id = self::factory()->post->create( array(
 			'post_status'   => 'publish',
@@ -409,9 +305,6 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 		$this->assertFalse( $this->activity_exists_for_post( $post_id ), 'Private post should not have activity' );
 	}
 
-	/**
-	 * @group bp_blogs_catch_transition_post_status
-	 */
 	public function test_transition_post_status_draft_to_draft() {
 		$post_id = self::factory()->post->create( array(
 			'post_status' => 'draft',
@@ -429,9 +322,6 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 		$this->assertFalse( $this->activity_exists_for_post( $post_id ), 'Unpublished post should not have activity (no change)' );
 	}
 
-	/**
-	 * @group bp_blogs_catch_transition_post_status
-	 */
 	public function test_transition_post_status_draft_to_publish() {
 		$post_id = self::factory()->post->create( array(
 			'post_status' => 'draft',
@@ -449,9 +339,6 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 		$this->assertTrue( $this->activity_exists_for_post( $post_id ), 'Published post should have activity' );
 	}
 
-	/**
-	 * @group bp_blogs_catch_transition_post_status
-	 */
 	public function test_transition_post_status_publish_to_draft() {
 		$post_id = self::factory()->post->create( array(
 			'post_status' => 'publish',
@@ -469,9 +356,6 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 		$this->assertFalse( $this->activity_exists_for_post( $post_id ), 'Unpublished post should not have activity' );
 	}
 
-	/**
-	 * @group bp_blogs_catch_transition_post_status
-	 */
 	public function test_transition_post_status_wp_delete_post() {
 		$post_id = self::factory()->post->create( array(
 			'post_status' => 'publish',
@@ -486,9 +370,6 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 		$this->assertFalse( $this->activity_exists_for_post( $post_id ), 'Unpublished post should not have activity' );
 	}
 
-	/**
-	 * @group bp_blogs_catch_transition_post_status
-	 */
 	public function test_transition_post_status_wp_trash_post() {
 		$post_id = self::factory()->post->create( array(
 			'post_status' => 'publish',
@@ -503,10 +384,6 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 		$this->assertFalse( $this->activity_exists_for_post( $post_id ), 'Unpublished post should not have activity' );
 	}
 
-	/**
-	 * @group bp_blogs_catch_transition_post_status
-	 * @group post_type_comment_activities
-	 */
 	public function test_update_blog_post_and_new_blog_comment_and_activity_comment_meta() {
 		// save the current user and override logged-in user
 		$old_user = get_current_user_id();
@@ -587,11 +464,6 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 		wp_set_current_user( $old_user );
 	}
 
-	/**
-	 * @group bp_blogs_transition_activity_status
-	 * @group bp_blogs_post_type_remove_comment
-	 * @group post_type_comment_activities
-	 */
 	public function test_bp_blogs_remove_comment_should_remove_spammed_activity_comment() {
 		// save the current user and override logged-in user
 		$old_user = get_current_user_id();
@@ -644,17 +516,13 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 			'spam'             => 'all'
 		) );
 		// this is a convoluted way of testing if the activity comment still exists
-		$this->assertTrue( empty( $a['activities'][0] ) );
+		$this->assertEmpty( $a['activities'][0] ?? null );
 
 		// reset
 		wp_set_current_user( $old_user );
 		remove_filter( 'bp_disable_blogforum_comments', '__return_false' );
 	}
 
-	/**
-	 * @group bp_blogs_post_type_remove_comment
-	 * @group post_type_comment_activities
-	 */
 	public function test_bp_blogs_post_type_remove_comment() {
 		$u = self::factory()->user->create();
 		wp_set_current_user( $u );
@@ -689,12 +557,9 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 
 		// The activity comment should no longer exist
 		$ac = bp_activity_get( array( 'in' => $a ) );
-		$this->assertTrue( empty( $ac['activities'] ) );
+		$this->assertEmpty( $ac['activities'] ?? null );
 	}
 
-	/**
-	 * @group bp_blogs_catch_transition_post_status
-	 */
 	public function test_bp_blogs_is_blog_trackable_false_publish_post() {
 		add_filter( 'bp_blogs_is_blog_trackable', '__return_false' );
 
@@ -717,9 +582,6 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 		remove_filter( 'bp_blogs_is_blog_trackable', '__return_false' );
 	}
 
-	/**
-	 * @group bp_blogs_catch_transition_post_status
-	 */
 	public function test_bp_is_blog_public_zero_publish_post() {
 		$this->skipWithoutMultisite();
 
@@ -744,11 +606,6 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 		remove_filter( 'bp_is_blog_public', '__return_zero' );
 	}
 
-	/**
-	 * @group bp_blogs_record_comment
-	 * @group unique
-	 * @group post_type_comment_activities
-	 */
 	public function test_bp_blogs_record_comment_no_duplicate_activity_comments() {
 		// save the current user and override logged-in user
 		$old_user = get_current_user_id();
@@ -795,8 +652,8 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 
 		$this->assertCount( 1, $activities['activities'], 'An activity comment should be unique' );
 
-		$this->assertTrue( 2 === $this->activity_saved_comment_count, 'An activity comment should be saved only twice' );
-		$this->assertTrue( 1 === $this->comment_saved_count, 'A comment should be saved only once' );
+		$this->assertSame( 2, $this->activity_saved_comment_count, 'An activity comment should be saved only twice' );
+		$this->assertSame( 1, $this->comment_saved_count, 'A comment should be saved only once' );
 
 		// reset
 		remove_filter( 'bp_disable_blogforum_comments', '__return_false' );
@@ -809,10 +666,6 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 		wp_set_current_user( $old_user );
 	}
 
-	/**
-	 * @group bp_blogs_record_comment
-	 * @group post_type_comment_activities
-	 */
 	public function test_bp_blogs_record_comment_should_record_parent_blog_post_activity_if_not_found() {
 		// Save the current user and override logged-in user
 		$old_user = get_current_user_id();
@@ -869,10 +722,6 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 		wp_set_current_user( $old_user );
 	}
 
-	/**
-	 * @group bp_blogs_comment_sync_activity_comment
-	 * @group post_type_comment_activities
-	 */
 	public function test_bp_blogs_comment_sync_activity_comment_for_custom_post_type() {
 		$bp    = buddypress();
 		$reset = $bp->activity->track;
@@ -981,9 +830,6 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 		$this->comment_saved_count += 1;
 	}
 
-	/**
-	 * @group bp_blogs_record_existing_blogs
-	 */
 	public function test_bp_blogs_record_existing_blogs_limit() {
 		$this->skipWithoutMultisite();
 
@@ -1011,9 +857,6 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 		wp_set_current_user( $old_user );
 	}
 
-	/**
-	 * @group bp_blogs_remove_blog
-	 */
 	public function test_bp_blogs_remove_blog() {
 		$this->skipWithoutMultisite();
 
@@ -1056,9 +899,6 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 		wp_set_current_user( $old_user );
 	}
 
-	/**
-	 * @group bp_blogs_remove_blog_for_user
-	 */
 	public function test_bp_blogs_remove_blog_for_user_is_contributor() {
 		$this->skipWithoutMultisite();
 
@@ -1113,7 +953,7 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP8175
+	 * @see https://buddypress.trac.wordpress.org/ticket/8175
 	 */
 	public function test_blogs_data_should_be_deleted_on_user_delete_multisite() {
 		$this->skipWithoutMultisite();
@@ -1137,7 +977,7 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP8175
+	 * @see https://buddypress.trac.wordpress.org/ticket/8175
 	 */
 	public function test_blogs_data_should_not_be_deleted_on_wp_delete_user_multisite() {
 		$this->skipWithoutMultisite();

@@ -2,12 +2,11 @@
 
 /**
  * @group groups
- * @group functions
- * @group bp_get_group
  */
 class BP_Tests_Get_Groups_Param extends BP_UnitTestCase {
 	public $groups_template = null;
 	protected $groups_template_was_set = false;
+	private $current_group;
 
 	public function set_up() {
 		parent::set_up();
@@ -16,7 +15,9 @@ class BP_Tests_Get_Groups_Param extends BP_UnitTestCase {
 		if ( $this->groups_template_was_set ) {
 			$this->groups_template = $GLOBALS['groups_template'];
 		}
-		unset( $GLOBALS['groups_template'] );
+		$GLOBALS['groups_template'] = null;
+		$this->current_group = buddypress()->groups->current_group;
+		buddypress()->groups->current_group = null;
 	}
 
 	public function tear_down() {
@@ -26,6 +27,7 @@ class BP_Tests_Get_Groups_Param extends BP_UnitTestCase {
 			unset( $GLOBALS['groups_template'] );
 		}
 
+		buddypress()->groups->current_group = $this->current_group;
 		parent::tear_down();
 	}
 

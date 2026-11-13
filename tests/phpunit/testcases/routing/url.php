@@ -1,6 +1,6 @@
 <?php
 /**
- * @group url
+ * @group core
  */
 class BP_Tests_URL extends BP_UnitTestCase {
 	public function test_bp_core_ajax_url() {

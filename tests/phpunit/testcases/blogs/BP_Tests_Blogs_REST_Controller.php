@@ -11,6 +11,12 @@ class BP_Tests_Blogs_REST_Controller extends BP_Test_REST_Controller_Testcase {
 	public function test_register_routes() {
 		$routes = $this->server->get_routes();
 
+		if ( ! is_multisite() ) {
+			$this->assertArrayNotHasKey( $this->endpoint_url, $routes );
+			$this->assertArrayNotHasKey( $this->endpoint_url . '/(?P<id>[\d]+)', $routes );
+			return;
+		}
+
 		// Main.
 		$this->assertArrayHasKey( $this->endpoint_url, $routes );
 		$this->assertCount( 2, $routes[ $this->endpoint_url ] );
@@ -20,9 +26,6 @@ class BP_Tests_Blogs_REST_Controller extends BP_Test_REST_Controller_Testcase {
 		$this->assertCount( 1, $routes[ $this->endpoint_url . '/(?P<id>[\d]+)' ] );
 	}
 
-	/**
-	 * @group get_items
-	 */
 	public function test_get_items() {
 		$this->skipWithoutMultisite();
 
@@ -45,9 +48,6 @@ class BP_Tests_Blogs_REST_Controller extends BP_Test_REST_Controller_Testcase {
 		$this->assertNotEmpty( $blogs[0] );
 	}
 
-	/**
-	 * @group get_item
-	 */
 	public function test_get_item() {
 		$this->skipWithoutMultisite();
 
@@ -71,9 +71,6 @@ class BP_Tests_Blogs_REST_Controller extends BP_Test_REST_Controller_Testcase {
 		$this->assertSame( $blogs['user_id'], $this->user );
 	}
 
-	/**
-	 * @group get_item
-	 */
 	public function test_get_item_with_support_for_the_community_visibility() {
 		$this->skipWithoutMultisite();
 
@@ -90,9 +87,6 @@ class BP_Tests_Blogs_REST_Controller extends BP_Test_REST_Controller_Testcase {
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
 	}
 
-	/**
-	 * @group get_item
-	 */
 	public function test_get_item_invalid_blog_id() {
 		$this->skipWithoutMultisite();
 
@@ -102,9 +96,6 @@ class BP_Tests_Blogs_REST_Controller extends BP_Test_REST_Controller_Testcase {
 		$this->assertErrorResponse( 'bp_rest_blog_invalid_id', $response, 404 );
 	}
 
-	/**
-	 * @group get_item
-	 */
 	public function test_get_embedded_latest_post_from_blog_using_subdirectory() {
 		$this->skipWithoutMultisite();
 
@@ -147,9 +138,6 @@ class BP_Tests_Blogs_REST_Controller extends BP_Test_REST_Controller_Testcase {
 		$this->assertSame( $title, $embedded_post['title']['rendered'] );
 	}
 
-	/**
-	 * @group get_item
-	 */
 	public function test_get_embedded_latest_post_from_blog_using_subdomain() {
 		$this->skipWithoutMultisite();
 
@@ -194,9 +182,6 @@ class BP_Tests_Blogs_REST_Controller extends BP_Test_REST_Controller_Testcase {
 		$this->assertSame( $title, $embedded_post['title']['rendered'] );
 	}
 
-	/**
-	 * @group create_item
-	 */
 	public function test_create_item() {
 		$this->skipWithoutMultisite();
 
@@ -227,9 +212,6 @@ class BP_Tests_Blogs_REST_Controller extends BP_Test_REST_Controller_Testcase {
 		buddypress()->site_options = $old_settings;
 	}
 
-	/**
-	 * @group create_item
-	 */
 	public function test_create_item_user_not_logged_in() {
 		$this->skipWithoutMultisite();
 
@@ -244,9 +226,6 @@ class BP_Tests_Blogs_REST_Controller extends BP_Test_REST_Controller_Testcase {
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
 	}
 
-	/**
-	 * @group create_item
-	 */
 	public function test_create_item_signup_disabled() {
 		$this->skipWithoutMultisite();
 
@@ -274,9 +253,6 @@ class BP_Tests_Blogs_REST_Controller extends BP_Test_REST_Controller_Testcase {
 		buddypress()->site_options = $old_settings;
 	}
 
-	/**
-	 * @group create_item
-	 */
 	public function test_create_item_without_required_field() {
 		$this->skipWithoutMultisite();
 
@@ -297,25 +273,26 @@ class BP_Tests_Blogs_REST_Controller extends BP_Test_REST_Controller_Testcase {
 		$this->assertErrorResponse( 'rest_missing_callback_param', $response, 400 );
 	}
 
-	/**
-	 * @group update_item
-	 */
 	public function test_update_item() {
+		// This endpoint does not support updating blogs.
 		$this->skipWithoutMultisite();
-		$this->markTestSkipped( 'This endpoint does not support updating blogs.' );
+
+		foreach ( array( 'PUT', 'PATCH' ) as $method ) {
+			$request  = new WP_REST_Request( $method, $this->endpoint_url . '/1' );
+			$response = $this->server->dispatch( $request );
+			$this->assertErrorResponse( 'rest_no_route', $response, 404 );
+		}
 	}
 
-	/**
-	 * @group delete_item
-	 */
 	public function test_delete_item() {
+		// This endpoint does not support deleting blogs.
 		$this->skipWithoutMultisite();
-		$this->markTestSkipped( 'This endpoint does not support deleting blogs.' );
+
+		$request  = new WP_REST_Request( 'DELETE', $this->endpoint_url . '/1' );
+		$response = $this->server->dispatch( $request );
+		$this->assertErrorResponse( 'rest_no_route', $response, 404 );
 	}
 
-	/**
-	 * @group prepare_item
-	 */
 	public function test_prepare_item() {
 		$this->skipWithoutMultisite();
 
@@ -454,7 +431,6 @@ class BP_Tests_Blogs_REST_Controller extends BP_Test_REST_Controller_Testcase {
 	}
 
 	/**
-	 * @group additional_fields
 	 *
 	 * @param array  $data      Prepared blog data.
 	 * @param string $attribute Additional field name.
@@ -463,9 +439,6 @@ class BP_Tests_Blogs_REST_Controller extends BP_Test_REST_Controller_Testcase {
 		return bp_blogs_get_blogmeta( $data['id'], '_' . $attribute );
 	}
 
-	/**
-	 * @group additional_fields
-	 */
 	public function test_get_additional_fields() {
 		$this->skipWithoutMultisite();
 
@@ -509,7 +482,7 @@ class BP_Tests_Blogs_REST_Controller extends BP_Test_REST_Controller_Testcase {
 
 		$get_data = $response->get_data();
 
-		$this->assertTrue( $expected === $get_data[0]['foo_field'] );
+		$this->assertSame( $expected, $get_data[0]['foo_field'] );
 
 		$GLOBALS['wp_rest_additional_fields'] = $registered_fields;
 	}

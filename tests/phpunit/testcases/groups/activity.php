@@ -7,10 +7,6 @@
 class BP_Tests_Groups_Activity extends BP_UnitTestCase {
 	protected $groups_post_update_args;
 
-	/**
-	 * @group activity_action
-	 * @group bp_groups_format_activity_action_created_group
-	 */
 	public function test_bp_groups_format_activity_action_created_group() {
 		$u = self::factory()->user->create();
 		$g = self::factory()->group->create();
@@ -31,10 +27,6 @@ class BP_Tests_Groups_Activity extends BP_UnitTestCase {
 		$this->assertSame( $expected, $a_obj->action );
 	}
 
-	/**
-	 * @group activity_action
-	 * @group bp_groups_format_activity_action_joined_group
-	 */
 	public function test_bp_groups_format_activity_action_joined_group() {
 		$u = self::factory()->user->create();
 		$g = self::factory()->group->create();
@@ -55,10 +47,6 @@ class BP_Tests_Groups_Activity extends BP_UnitTestCase {
 		$this->assertSame( $expected, $a_obj->action );
 	}
 
-	/**
-	 * @group activity_action
-	 * @group bp_groups_format_activity_action_group_details_updated
-	 */
 	public function test_bp_groups_format_activity_action_group_details_updated_with_no_change() {
 		$group = self::factory()->group->create_and_get();
 		groups_edit_base_group_details(
@@ -79,13 +67,9 @@ class BP_Tests_Groups_Activity extends BP_UnitTestCase {
 			)
 		);
 
-		$this->assertTrue( empty( $a['activities'] ) );
+		$this->assertEmpty( $a['activities'] ?? null );
 	}
 
-	/**
-	 * @group activity_action
-	 * @group bp_groups_format_activity_action_group_details_updated
-	 */
 	public function test_bp_groups_format_activity_action_group_details_updated_with_notify_members_false() {
 		$group = self::factory()->group->create_and_get();
 		groups_edit_base_group_details(
@@ -106,13 +90,9 @@ class BP_Tests_Groups_Activity extends BP_UnitTestCase {
 			)
 		);
 
-		$this->assertTrue( empty( $a['activities'] ) );
+		$this->assertEmpty( $a['activities'] ?? null );
 	}
 
-	/**
-	 * @group activity_action
-	 * @group bp_groups_format_activity_action_group_details_updated
-	 */
 	public function test_bp_groups_format_activity_action_group_details_updated_with_updated_name() {
 		$old_user = get_current_user_id();
 		$u        = self::factory()->user->create();
@@ -145,10 +125,6 @@ class BP_Tests_Groups_Activity extends BP_UnitTestCase {
 		wp_set_current_user( $old_user );
 	}
 
-	/**
-	 * @group activity_action
-	 * @group bp_groups_format_activity_action_group_details_updated
-	 */
 	public function test_bp_groups_format_activity_action_group_details_updated_with_updated_description() {
 		$old_user = get_current_user_id();
 		$u        = self::factory()->user->create();
@@ -181,10 +157,6 @@ class BP_Tests_Groups_Activity extends BP_UnitTestCase {
 		wp_set_current_user( $old_user );
 	}
 
-	/**
-	 * @group activity_action
-	 * @group bp_groups_format_activity_action_group_details_updated
-	 */
 	public function test_bp_groups_format_activity_action_group_details_updated_with_updated_slug() {
 		$old_user = get_current_user_id();
 		$u        = self::factory()->user->create();
@@ -218,10 +190,6 @@ class BP_Tests_Groups_Activity extends BP_UnitTestCase {
 		wp_set_current_user( $old_user );
 	}
 
-	/**
-	 * @group activity_action
-	 * @group bp_groups_format_activity_action_group_details_updated
-	 */
 	public function test_bp_groups_format_activity_action_group_details_updated_with_updated_name_and_description() {
 		$old_user = get_current_user_id();
 		$u        = self::factory()->user->create();
@@ -254,10 +222,6 @@ class BP_Tests_Groups_Activity extends BP_UnitTestCase {
 		wp_set_current_user( $old_user );
 	}
 
-	/**
-	 * @group activity_action
-	 * @group bp_groups_format_activity_action_group_activity_update
-	 */
 	public function test_bp_groups_format_activity_action_group_activity_update() {
 		$u = self::factory()->user->create();
 		$g = self::factory()->group->create();
@@ -278,9 +242,6 @@ class BP_Tests_Groups_Activity extends BP_UnitTestCase {
 		$this->assertSame( $expected, $a_obj->action );
 	}
 
-	/**
-	 * @group groups_post_update
-	 */
 	public function test_groups_post_update() {
 		$u = self::factory()->user->create();
 		$g = self::factory()->group->create();
@@ -310,9 +271,6 @@ class BP_Tests_Groups_Activity extends BP_UnitTestCase {
 		$this->assertSame( $expected, $this->groups_post_update_args );
 	}
 
-	/**
-	 * @group groups_post_update
-	 */
 	public function test_groups_post_update_in_group() {
 		$bp = buddypress();
 		$u  = self::factory()->user->create();
@@ -337,9 +295,6 @@ class BP_Tests_Groups_Activity extends BP_UnitTestCase {
 		unset( $bp->groups->current_group );
 	}
 
-	/**
-	 * @group bp_activity_can_comment
-	 */
 	public function test_groups_activity_can_comment() {
 		$old_user = get_current_user_id();
 		$u1       = self::factory()->user->create();
@@ -395,7 +350,7 @@ class BP_Tests_Groups_Activity extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP8728
+	 * @see https://buddypress.trac.wordpress.org/ticket/8728
 	 */
 	public function test_user_can_delete_group_activity() {
 		$u1            = self::factory()->user->create();
@@ -481,7 +436,7 @@ class BP_Tests_Groups_Activity extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP8728
+	 * @see https://buddypress.trac.wordpress.org/ticket/8728
 	 */
 	public function test_group_admins_cannot_delete_activity() {
 		$u1            = self::factory()->user->create();

@@ -5,9 +5,7 @@
  * @group core
  */
 class BP_Tests_Core_Cache extends BP_UnitTestCase {
-	/**
-	 * @group bp_update_meta_cache
-	 */
+
 	public function test_bp_update_meta_cache_with_cache_misses() {
 		// Use activity just because
 		$a1 = self::factory()->activity->create();

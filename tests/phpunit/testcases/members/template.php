@@ -39,8 +39,7 @@ class BP_Tests_Members_Template extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP5898
-	 * @group bp_has_members
+	 * @see https://buddypress.trac.wordpress.org/ticket/5898
 	 */
 	public function test_bp_has_members_search_pagination_with_spaces() {
 		self::factory()->user->create( array( 'display_name' => '~ tilde u1' ) );
@@ -98,9 +97,8 @@ class BP_Tests_Members_Template extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group bp_has_members
 	 * @group friends
-	 * @ticket BP5071
+	 * @see https://buddypress.trac.wordpress.org/ticket/5071
 	 */
 	public function test_bp_has_members_friendship_requests_with_no_requests() {
 		self::factory()->user->create();
@@ -139,9 +137,6 @@ class BP_Tests_Members_Template extends BP_UnitTestCase {
 		wp_set_current_user( $old_user );
 	}
 
-	/**
-	 * @group bp_has_members
-	 */
 	public function test_bp_has_members_should_pass_member_type_param_to_query() {
 		bp_register_member_type( 'foo' );
 		bp_register_member_type( 'bar' );
@@ -164,8 +159,7 @@ class BP_Tests_Members_Template extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group bp_has_members
-	 * @ticket BP6286
+	 * @see https://buddypress.trac.wordpress.org/ticket/6286
 	 */
 	public function test_bp_has_members_should_infer_member_type_from_get_param() {
 		bp_register_member_type( 'foo' );
@@ -190,8 +184,7 @@ class BP_Tests_Members_Template extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group bp_has_members
-	 * @ticket BP6286
+	 * @see https://buddypress.trac.wordpress.org/ticket/6286
 	 */
 	public function test_bp_has_members_should_infer_member_type_from_get_param_comma_sep() {
 		bp_register_member_type( 'foo' );
@@ -218,8 +211,7 @@ class BP_Tests_Members_Template extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group bp_has_members
-	 * @ticket BP8309
+	 * @see https://buddypress.trac.wordpress.org/ticket/8309
 	 */
 	public function test_bp_has_members_xprofile_query() {
 		$group_id = self::factory()->xprofile_group->create();
@@ -253,10 +245,6 @@ class BP_Tests_Members_Template extends BP_UnitTestCase {
 		$GLOBALS['members_template'] = $old_members_template;
 	}
 
-
-	/**
-	 * @group bp_get_member_last_active
-	 */
 	public function test_bp_get_member_last_active_default_params() {
 		// Fake the global
 		global $members_template;
@@ -269,9 +257,6 @@ class BP_Tests_Members_Template extends BP_UnitTestCase {
 		$this->assertSame( bp_core_get_last_activity( $time, __( 'Active %s', 'buddypress' ) ), bp_get_member_last_active() );
 	}
 
-	/**
-	 * @group bp_get_member_last_active
-	 */
 	public function test_bp_get_member_last_active_active_format_true() {
 		// Fake the global
 		global $members_template;
@@ -284,9 +269,6 @@ class BP_Tests_Members_Template extends BP_UnitTestCase {
 		$this->assertSame( bp_core_get_last_activity( $time, __( 'Active %s', 'buddypress' ) ), bp_get_member_last_active( array( 'active_format' => true, ) ) );
 	}
 
-	/**
-	 * @group bp_get_member_last_active
-	 */
 	public function test_bp_get_member_last_active_active_format_false() {
 		// Fake the global
 		global $members_template;
@@ -299,10 +281,6 @@ class BP_Tests_Members_Template extends BP_UnitTestCase {
 		$this->assertSame( bp_core_time_since( $time ), bp_get_member_last_active( array( 'active_format' => false, ) ) );
 	}
 
-	/**
-	 * @group pagination
-	 * @group BP_Core_Members_Template
-	 */
 	public function test_bp_groups_template_should_give_precedence_to_upage_URL_param() {
 		$request = $_REQUEST;
 		$_REQUEST['upage'] = '5';
@@ -331,10 +309,6 @@ class BP_Tests_Members_Template extends BP_UnitTestCase {
 		$_REQUEST = $request;
 	}
 
-	/**
-	 * @group pagination
-	 * @group BP_Core_Members_Template
-	 */
 	public function test_bp_members_template_should_reset_0_pag_page_URL_param_to_default_pag_page_value() {
 		$request = $_REQUEST;
 		$_REQUEST['upage'] = '0';
@@ -363,10 +337,6 @@ class BP_Tests_Members_Template extends BP_UnitTestCase {
 		$_REQUEST = $request;
 	}
 
-	/**
-	 * @group pagination
-	 * @group BP_Core_Members_Template
-	 */
 	public function test_bp_members_template_should_give_precedence_to_num_URL_param() {
 		$request = $_REQUEST;
 		$_REQUEST['num'] = '14';
@@ -395,10 +365,6 @@ class BP_Tests_Members_Template extends BP_UnitTestCase {
 		$_REQUEST = $request;
 	}
 
-	/**
-	 * @group pagination
-	 * @group BP_Core_Members_Template
-	 */
 	public function test_bp_members_template_should_reset_0_pag_num_URL_param_to_default_pag_num_value() {
 		$request = $_REQUEST;
 		$_REQUEST['num'] = '0';

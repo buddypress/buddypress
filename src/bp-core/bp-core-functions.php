@@ -592,7 +592,7 @@ function bp_core_get_directory_page_ids( $status = 'active' ) {
 	if ( is_multisite() ) {
 		$bp_site_id = bp_get_root_blog_id();
 
-		if ( $bp_site_id !== get_current_blog_id() ) {
+		if ( get_current_blog_id() !== $bp_site_id ) {
 			switch_to_blog( $bp_site_id );
 			$switched = true;
 		}
@@ -801,7 +801,7 @@ function bp_core_get_directory_pages() {
 						$slug[]                        = $page_name->post_name;
 
 						// Get the slug.
-						while ( (int) $page_name->post_parent !== 0 ) {
+						while ( 0 !== (int) $page_name->post_parent ) {
 							$parent                 = $wpdb->get_results( $wpdb->prepare( "SELECT post_name, post_parent FROM {$posts_table_name} WHERE ID = %d", $page_name->post_parent ) );
 							$slug[]                 = $parent[0]->post_name;
 							$page_name->post_parent = $parent[0]->post_parent;
@@ -1473,8 +1473,7 @@ function bp_core_time_diff( $args = array() ) {
  *                               or as a date string of the format 'Y-m-d h:i:s'.
  * @param int|bool   $newer_date Optional. Unix timestamp of date to compare older
  *                               date to. Default: false (current time).
- * @return string String representing the time since the older date, eg
- *         "2 hours, 50 minutes".
+ * @return string String representing the time since the older date, e.g.: "2 hours, 50 minutes".
  */
 function bp_core_time_since( $older_date, $newer_date = false ) {
 
@@ -1648,8 +1647,10 @@ function bp_core_add_message( $message, $type = '' ) {
 	}
 
 	// Send the values to the cookie for page reload display.
-	@setcookie( 'bp-message', $message, time() + 60 * 60 * 24, COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
-	@setcookie( 'bp-message-type', $type, time() + 60 * 60 * 24, COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
+	if ( ! headers_sent() ) {
+		setcookie( 'bp-message', $message, time() + DAY_IN_SECONDS, COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
+		setcookie( 'bp-message-type', $type, time() + DAY_IN_SECONDS, COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
+	}
 
 	// Get BuddyPress.
 	$bp = buddypress();
@@ -1693,12 +1694,14 @@ function bp_core_setup_message() {
 
 	add_action( 'template_notices', 'bp_core_render_message' );
 
-	if ( isset( $_COOKIE['bp-message'] ) ) {
-		@setcookie( 'bp-message', false, time() - 1000, COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
-	}
+	if ( ! headers_sent() ) {
+		if ( isset( $_COOKIE['bp-message'] ) ) {
+			setcookie( 'bp-message', false, time() - 1000, COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
+		}
 
-	if ( isset( $_COOKIE['bp-message-type'] ) ) {
-		@setcookie( 'bp-message-type', false, time() - 1000, COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
+		if ( isset( $_COOKIE['bp-message-type'] ) ) {
+			setcookie( 'bp-message-type', false, time() - 1000, COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
+		}
 	}
 }
 add_action( 'bp_actions', 'bp_core_setup_message', 5 );
@@ -3135,7 +3138,7 @@ function bp_core_get_suggestions( $args ) {
 	}
 
 	// Members @name suggestions.
-	if ( $args['type'] === 'members' ) {
+	if ( 'members' === $args['type'] ) {
 		$class = 'BP_Members_Suggestions';
 
 		// Members @name suggestions for users in a specific Group.
@@ -4546,7 +4549,7 @@ function bp_email_get_type_schema( $field = 'description' ) {
 	 */
 	$types = (array) apply_filters( 'bp_email_get_type_schema', $types );
 
-	if ( $field !== 'all' ) {
+	if ( 'all' !== $field ) {
 		return wp_list_pluck( $types, $field );
 	} else {
 		return $types;
@@ -4993,32 +4996,12 @@ function bp_delete_optout_by_id( $id = 0 ) {
  * Get the list of versions needing their deprecated functions to be loaded.
  *
  * @since 11.0.0
+ * @since 15.0.0 Returns all versions regardless of the installation version or deprecated-loading constants.
  *
- * @return array The list of versions needing their deprecated functions to be loaded.
+ * @return float[]
  */
 function bp_get_deprecated_functions_versions() {
-	$ignore_deprecated = null;
-
-	// Do ignore deprecated => ignore all deprecated code.
-	if ( defined( 'BP_IGNORE_DEPRECATED' ) && BP_IGNORE_DEPRECATED ) {
-		$ignore_deprecated = (bool) BP_IGNORE_DEPRECATED;
-	}
-
-	// Do not ignore deprecated => load all deprecated code.
-	if ( defined( 'BP_LOAD_DEPRECATED' ) && BP_LOAD_DEPRECATED ) {
-		$ignore_deprecated = ! (bool) BP_LOAD_DEPRECATED;
-	}
-
-	/*
-	 * Respect the site owner's choice to ignore deprecated functions.
-	 * Return an empty array to inform no deprecated version files should be loaded.
-	 */
-	if ( true === $ignore_deprecated ) {
-		return array();
-	}
-
-	// List of versions containing deprecated functions.
-	$deprecated_functions_versions = array(
+	return array(
 		1.2,
 		1.5,
 		1.6,
@@ -5046,67 +5029,6 @@ function bp_get_deprecated_functions_versions() {
 		14.0,
 		15.0,
 	);
-
-	/*
-	 * Respect the site owner's choice to load all deprecated functions.
-	 * Return an empty array to inform no deprecated version files should be loaded.
-	 */
-	if ( false === $ignore_deprecated ) {
-		return $deprecated_functions_versions;
-	}
-
-	/*
-	 * Unless the `BP_IGNORE_DEPRECATED` constant is used & set to false, the development
-	 * version of BuddyPress do not load deprecated functions.
-	 */
-	if ( bp_is_running_from_src_subdirectory() ) {
-		return array();
-	}
-
-	/*
-	 * If the constant is not defined, put our logic in place so that only the
-	 * 2 last versions deprecated functions will be loaded for upgraded installations.
-	 */
-	$initial_version        = (float) bp_get_initial_version();
-	$current_major_version  = (float) bp_get_major_version( bp_get_version() );
-	$load_latest_deprecated = $initial_version < $current_major_version;
-
-	// New installations.
-	if ( ! $load_latest_deprecated ) {
-		// Run some additional checks if PHPUnit is running.
-		if ( defined( 'BP_TESTS_DIR' ) ) {
-			$deprecated_files = array_filter(
-				array_map(
-					function ( $file ) {
-						if ( str_contains( $file, '.php' ) ) {
-							return (float) str_replace( '.php', '', $file );
-						}
-
-						return null;
-					},
-					scandir( buddypress()->plugin_dir . 'bp-core/deprecated' )
-				)
-			);
-
-			if ( array_diff( $deprecated_files, $deprecated_functions_versions ) ) {
-				return false;
-			}
-		}
-
-		// Load 12.0 deprecated functions only when BP was installed with 12.0, 14.0 or 15.0.
-		if ( in_array( $initial_version, array( 12.0, 14.0, 15.0 ), true ) ) {
-			return array( 12.0 );
-		}
-
-		return array();
-	}
-
-	$keep_last = 2;
-	if ( (float) 15 >= $initial_version ) {
-		$keep_last = count( $deprecated_functions_versions ) - array_search( 12.0, $deprecated_functions_versions, true );
-	}
-
-	return array_splice( $deprecated_functions_versions, -$keep_last );
 }
 
 /**
@@ -5122,8 +5044,7 @@ function bp_get_post_type_site_id() {
 	/**
 	 * Filter here to edit the site ID.
 	 *
-	 * @todo This will need to be improved to take in account
-	 * specific configurations like multiblog.
+	 * @todo This will need to be improved to take in account specific configurations like multiblog.
 	 *
 	 * @since 12.0.0
 	 *

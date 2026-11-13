@@ -2,7 +2,6 @@
 /**
  * Sitewide Notices Controller Tests.
  *
- * @group notices
  * @group messages
  */
 class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_Testcase {
@@ -95,9 +94,6 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 		return $created;
 	}
 
-	/**
-	 * @group get_items
-	 */
 	public function test_get_items() {
 		wp_set_current_user( $this->user );
 
@@ -130,9 +126,6 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 		$this->check_notice_data( $created[ $key ], $data_n, 'edit' );
 	}
 
-	/**
-	 * @group get_items
-	 */
 	public function test_get_items_no_edit_access() {
 		wp_set_current_user( $this->user );
 		$tested = array(
@@ -156,9 +149,6 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 		$this->assertErrorResponse( 'rest_forbidden', $response, rest_authorization_required_code() );
 	}
 
-	/**
-	 * @group get_items
-	 */
 	public function test_get_items_view_active() {
 		wp_set_current_user( $this->user );
 		$tested = array(
@@ -193,9 +183,6 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 		$this->check_notice_data( $created[ $key ], $data[0] );
 	}
 
-	/**
-	 * @group get_items
-	 */
 	public function test_get_items_no_active() {
 		wp_set_current_user( $this->user );
 
@@ -210,9 +197,6 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 		$this->assertCount( 0, $data, 'There should be no active notices available' );
 	}
 
-	/**
-	 * @group get_item
-	 */
 	public function test_get_item() {
 		wp_set_current_user( $this->user );
 		$tested = array(
@@ -246,9 +230,6 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 		$this->check_notice_data( $created[ $key ], $data );
 	}
 
-	/**
-	 * @group get_item
-	 */
 	public function test_get_item_admin_access() {
 		wp_set_current_user( $this->user );
 		$tested = array(
@@ -279,9 +260,6 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 		$this->check_notice_data( $created[ $key ], $data, 'edit' );
 	}
 
-	/**
-	 * @group get_item
-	 */
 	public function test_get_item_no_access() {
 		wp_set_current_user( $this->user );
 		$tested = array(
@@ -309,9 +287,6 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
 	}
 
-	/**
-	 * @group get_item
-	 */
 	public function test_get_item_view_active() {
 		wp_set_current_user( $this->user );
 		$tested = array(
@@ -345,9 +320,6 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 		$this->check_notice_data( $created[ $key ], $data );
 	}
 
-	/**
-	 * @group get_item
-	 */
 	public function test_get_item_with_invalid_id() {
 		wp_set_current_user( $this->user );
 
@@ -358,9 +330,6 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 		$this->assertErrorResponse( 'bp_rest_invalid_id', $response, 404 );
 	}
 
-	/**
-	 * @group create_item
-	 */
 	public function test_create_item() {
 		wp_set_current_user( $this->user );
 
@@ -383,9 +352,6 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 		$this->assertSame( 'Content', $data['message']['raw'] );
 	}
 
-	/**
-	 * @group create_item
-	 */
 	public function test_create_item_no_access() {
 		wp_set_current_user( static::factory()->user->create() );
 
@@ -403,9 +369,6 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
 	}
 
-	/**
-	 * @group create_item
-	 */
 	public function test_create_item_no_subject() {
 		wp_set_current_user( $this->user );
 
@@ -423,9 +386,6 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 		$this->assertErrorResponse( 'bp_rest_user_cannot_create_sitewide_notice', $response, 500 );
 	}
 
-	/**
-	 * @group update_item
-	 */
 	public function test_update_item() {
 		wp_set_current_user( $this->user );
 		$tested = array(
@@ -453,9 +413,6 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 		$this->assertSame( 'Yeah!', $data['message']['raw'] );
 	}
 
-	/**
-	 * @group update_item
-	 */
 	public function test_update_item_no_access() {
 		wp_set_current_user( $this->user );
 		$tested = array(
@@ -478,9 +435,6 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
 	}
 
-	/**
-	 * @group update_item
-	 */
 	public function test_update_item_no_message() {
 		wp_set_current_user( $this->user );
 		$tested = array(
@@ -500,9 +454,6 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 		$this->assertErrorResponse( 'bp_rest_sitewide_notices_update_failed', $response, 500 );
 	}
 
-	/**
-	 * @group update_item
-	 */
 	public function test_update_item_with_invalid_id() {
 		wp_set_current_user( $this->user );
 
@@ -514,9 +465,6 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 		$this->assertErrorResponse( 'bp_rest_invalid_id', $response, 404 );
 	}
 
-	/**
-	 * @group delete_item
-	 */
 	public function test_delete_item() {
 		wp_set_current_user( $this->user );
 		$tested = array(
@@ -538,12 +486,9 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 
 		$this->assertNotEmpty( $data );
 		$this->assertTrue( $data['deleted'] );
-		$this->assertTrue( $data['previous']['subject']['raw'] === 'Foo Bar' );
+		$this->assertSame( 'Foo Bar', $data['previous']['subject']['raw'] );
 	}
 
-	/**
-	 * @group delete_item
-	 */
 	public function test_delete_item_no_access() {
 		wp_set_current_user( $this->user );
 		$tested = array(
@@ -565,9 +510,6 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
 	}
 
-	/**
-	 * @group delete_item
-	 */
 	public function test_delete_item_with_invalid_id() {
 		wp_set_current_user( $this->user );
 
@@ -578,9 +520,6 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 		$this->assertErrorResponse( 'bp_rest_invalid_id', $response, 404 );
 	}
 
-	/**
-	 * @group dismiss_item
-	 */
 	public function test_dismiss_item() {
 		wp_set_current_user( $this->user );
 		$tested = array(
@@ -605,13 +544,10 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 
 		$this->assertNotEmpty( $data );
 		$this->assertTrue( $data['dismissed'] );
-		$this->assertTrue( $data['previous']['subject']['rendered'] === 'Taz' );
+		$this->assertSame( 'Taz', $data['previous']['subject']['rendered'] );
 		$this->assertContains( $n->id, bp_get_user_meta( $u1, 'closed_notices', true ) );
 	}
 
-	/**
-	 * @group dismiss_item
-	 */
 	public function test_dismiss_item_no_actives() {
 		wp_set_current_user( $this->user );
 		$tested = array(
@@ -633,9 +569,6 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 		$this->assertErrorResponse( 'bp_rest_invalid_id', $response, 404 );
 	}
 
-	/**
-	 * @group dismiss_item
-	 */
 	public function test_dismiss_item_not_logged_in() {
 		wp_set_current_user( $this->user );
 		$tested = array(
@@ -655,9 +588,6 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
 	}
 
-	/**
-	 * @group prepare_item
-	 */
 	public function test_prepare_item() {
 		global $wp_rest_additional_fields;
 

@@ -1,7 +1,6 @@
 <?php
 /**
  * @group core
- * @group BP_Media_Extractor
  */
 class BP_Tests_Media_Extractor extends BP_UnitTestCase {
 	public static $media_extractor = null;
@@ -137,7 +136,6 @@ class BP_Tests_Media_Extractor extends BP_UnitTestCase {
 			$this->assertSame( count( $media[ $type ] ), $media['has'][ $type ], "Difference with the 'has' count for {$type}." );
 		}
 	}
-
 
 	public function test_extract_multiple_media_types_from_content() {
 		self::factory()->user->create( array( 'user_login' => 'paulgibbs' ) );
@@ -317,7 +315,7 @@ class BP_Tests_Media_Extractor extends BP_UnitTestCase {
 		$media = array_values( wp_list_filter( $media['images'], array( 'source' => 'galleries' ) ) );
 		$this->assertCount( 1, $media );
 
-		$this->assertSame( WP_CONTENT_URL . '/uploads/image.jpg', $media[0]['url'] );
+		$this->assertSame( wp_get_attachment_url( $attachment_id ), $media[0]['url'] );
 	}
 
 	public function test_extract_images_from_content_with_galleries_variant_ids() {
@@ -395,7 +393,7 @@ class BP_Tests_Media_Extractor extends BP_UnitTestCase {
 		$media = array_values( wp_list_filter( $media['images'], array( 'source' => 'featured_images' ) ) );
 		$this->assertCount( 1, $media );
 
-		$this->assertSame( WP_CONTENT_URL . '/uploads/image.jpg', $media[0]['url'] );
+		$this->assertSame( wp_get_attachment_url( $thumbnail_id ), $media[0]['url'] );
 	}
 
 	public function test_extract_images_from_content_without_featured_image() {
@@ -468,7 +466,6 @@ class BP_Tests_Media_Extractor extends BP_UnitTestCase {
 		$this->assertSame( 'http://example.com/source.ogv',  $media['videos'][0]['url'] );
 		$this->assertSame( 'http://example.com/source.webm', $media['videos'][1]['url'] );
 	}
-
 
 	public function test_extract_video_shortcode_with_no_src_param() {
 		$richtext = '[video http://example.com/source.ogv]';

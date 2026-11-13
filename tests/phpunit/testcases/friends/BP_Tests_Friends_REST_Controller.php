@@ -29,9 +29,6 @@ class BP_Tests_Friends_REST_Controller extends BP_Test_REST_Controller_Testcase 
 		$this->assertCount( 3, $routes[ $this->endpoint_url . '/(?P<id>[\w-]+)' ] );
 	}
 
-	/**
-	 * @group get_items
-	 */
 	public function test_get_items() {
 		$this->create_friendship();
 		$this->create_friendship();
@@ -60,9 +57,6 @@ class BP_Tests_Friends_REST_Controller extends BP_Test_REST_Controller_Testcase 
 		$this->assertSame( 1, $headers['X-WP-TotalPages'] );
 	}
 
-	/**
-	 * @group get_items
-	 */
 	public function test_get_items_user_not_logged_in() {
 		$request = new WP_REST_Request( 'GET', $this->endpoint_url );
 		$request->set_param( 'context', 'view' );
@@ -71,9 +65,6 @@ class BP_Tests_Friends_REST_Controller extends BP_Test_REST_Controller_Testcase 
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
 	}
 
-	/**
-	 * @group get_item
-	 */
 	public function test_get_item() {
 		wp_set_current_user( $this->user );
 
@@ -92,9 +83,6 @@ class BP_Tests_Friends_REST_Controller extends BP_Test_REST_Controller_Testcase 
 		);
 	}
 
-	/**
-	 * @group get_item
-	 */
 	public function test_get_item_with_invalid_friend_id() {
 		wp_set_current_user( $this->user );
 
@@ -105,9 +93,6 @@ class BP_Tests_Friends_REST_Controller extends BP_Test_REST_Controller_Testcase 
 		$this->assertErrorResponse( 'bp_rest_friends_get_item_failed', $response, 404 );
 	}
 
-	/**
-	 * @group get_item
-	 */
 	public function test_get_item_user_not_logged_in() {
 		$request = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '/%d', $this->friend ) );
 		$request->set_param( 'context', 'view' );
@@ -116,9 +101,6 @@ class BP_Tests_Friends_REST_Controller extends BP_Test_REST_Controller_Testcase 
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
 	}
 
-	/**
-	 * @group create_item
-	 */
 	public function test_create_item() {
 		wp_set_current_user( $this->user );
 
@@ -137,9 +119,6 @@ class BP_Tests_Friends_REST_Controller extends BP_Test_REST_Controller_Testcase 
 		$this->assertSame( $friendship['initiator_id'], $this->user );
 	}
 
-	/**
-	 * @group create_item
-	 */
 	public function test_create_item_to_myself_from_someone_else() {
 		$u1 = static::factory()->user->create();
 		$u2 = static::factory()->user->create();
@@ -160,9 +139,6 @@ class BP_Tests_Friends_REST_Controller extends BP_Test_REST_Controller_Testcase 
 		$this->assertErrorResponse( 'bp_rest_friends_create_item_failed', $response, 403 );
 	}
 
-	/**
-	 * @group create_item
-	 */
 	public function test_admins_create_item_to_myself_from_someone_else() {
 		$u = static::factory()->user->create();
 
@@ -182,9 +158,6 @@ class BP_Tests_Friends_REST_Controller extends BP_Test_REST_Controller_Testcase 
 		$this->assertErrorResponse( 'bp_rest_friends_create_item_failed', $response, 403 );
 	}
 
-	/**
-	 * @group create_item
-	 */
 	public function test_create_item_already_friends() {
 		$user = static::factory()->user->create();
 
@@ -205,9 +178,6 @@ class BP_Tests_Friends_REST_Controller extends BP_Test_REST_Controller_Testcase 
 		$this->assertErrorResponse( 'bp_rest_friends_create_item_failed', $response, 500 );
 	}
 
-	/**
-	 * @group create_item
-	 */
 	public function test_create_item_user_not_logged_in() {
 		$request = new WP_REST_Request( 'POST', $this->endpoint_url );
 		$request->add_header( 'content-type', 'application/x-www-form-urlencoded' );
@@ -219,9 +189,6 @@ class BP_Tests_Friends_REST_Controller extends BP_Test_REST_Controller_Testcase 
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
 	}
 
-	/**
-	 * @group create_item
-	 */
 	public function test_regular_user_can_not_create_friendship_to_others() {
 		wp_set_current_user( static::factory()->user->create() );
 
@@ -235,9 +202,6 @@ class BP_Tests_Friends_REST_Controller extends BP_Test_REST_Controller_Testcase 
 		$this->assertErrorResponse( 'bp_rest_friends_create_item_failed', $response, 403 );
 	}
 
-	/**
-	 * @group create_item
-	 */
 	public function test_admins_can_create_friendship_to_others() {
 		wp_set_current_user( $this->user );
 
@@ -255,9 +219,6 @@ class BP_Tests_Friends_REST_Controller extends BP_Test_REST_Controller_Testcase 
 		$this->assertNotEmpty( $friendship['initiator_id'] );
 	}
 
-	/**
-	 * @group create_item
-	 */
 	public function test_admins_can_force_friendship_creation() {
 		wp_set_current_user( $this->user );
 
@@ -276,9 +237,6 @@ class BP_Tests_Friends_REST_Controller extends BP_Test_REST_Controller_Testcase 
 		$this->assertTrue( $friendship['is_confirmed'] );
 	}
 
-	/**
-	 * @group create_item
-	 */
 	public function test_regular_users_can_not_force_friendship_creation() {
 		$u = static::factory()->user->create();
 		wp_set_current_user( $u );
@@ -302,9 +260,6 @@ class BP_Tests_Friends_REST_Controller extends BP_Test_REST_Controller_Testcase 
 		$this->assertFalse( $friendship['is_confirmed'] );
 	}
 
-	/**
-	 * @group create_item
-	 */
 	public function test_create_item_without_initiator_id() {
 		$request = new WP_REST_Request( 'POST', $this->endpoint_url );
 		$request->add_header( 'content-type', 'application/x-www-form-urlencoded' );
@@ -317,9 +272,6 @@ class BP_Tests_Friends_REST_Controller extends BP_Test_REST_Controller_Testcase 
 		$this->assertErrorResponse( 'rest_missing_callback_param', $response, 400 );
 	}
 
-	/**
-	 * @group create_item
-	 */
 	public function test_create_item_without_friend_id() {
 		$request = new WP_REST_Request( 'POST', $this->endpoint_url );
 		$request->add_header( 'content-type', 'application/x-www-form-urlencoded' );
@@ -328,9 +280,6 @@ class BP_Tests_Friends_REST_Controller extends BP_Test_REST_Controller_Testcase 
 		$this->assertErrorResponse( 'rest_missing_callback_param', $response, 400 );
 	}
 
-	/**
-	 * @group update_item
-	 */
 	public function test_update_item() {
 		$this->create_friendship();
 
@@ -346,9 +295,6 @@ class BP_Tests_Friends_REST_Controller extends BP_Test_REST_Controller_Testcase 
 		$this->assertTrue( $friendship['is_confirmed'] );
 	}
 
-	/**
-	 * @group update_item
-	 */
 	public function test_initiator_can_not_accept_its_own_friendship_request() {
 		$this->create_friendship();
 
@@ -360,9 +306,6 @@ class BP_Tests_Friends_REST_Controller extends BP_Test_REST_Controller_Testcase 
 		$this->assertErrorResponse( 'bp_rest_friends_cannot_update_item', $response, 500 );
 	}
 
-	/**
-	 * @group update_item
-	 */
 	public function test_update_item_invalid_friend_id() {
 		wp_set_current_user( $this->user );
 
@@ -372,9 +315,6 @@ class BP_Tests_Friends_REST_Controller extends BP_Test_REST_Controller_Testcase 
 		$this->assertErrorResponse( 'bp_rest_friends_update_item_failed', $response, 404 );
 	}
 
-	/**
-	 * @group update_item
-	 */
 	public function test_update_item_user_not_logged_in() {
 		$request  = new WP_REST_Request( 'PUT', sprintf( $this->endpoint_url . '/%d', $this->friend ) );
 		$response = $this->server->dispatch( $request );
@@ -382,9 +322,6 @@ class BP_Tests_Friends_REST_Controller extends BP_Test_REST_Controller_Testcase 
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
 	}
 
-	/**
-	 * @group delete_item
-	 */
 	public function test_delete_item() {
 		$this->create_friendship();
 
@@ -400,9 +337,6 @@ class BP_Tests_Friends_REST_Controller extends BP_Test_REST_Controller_Testcase 
 		$this->assertTrue( $deleted['deleted'] );
 	}
 
-	/**
-	 * @group delete_item
-	 */
 	public function test_delete_item_using_the_initiator() {
 		$this->create_friendship();
 
@@ -418,9 +352,6 @@ class BP_Tests_Friends_REST_Controller extends BP_Test_REST_Controller_Testcase 
 		$this->assertTrue( $deleted['deleted'] );
 	}
 
-	/**
-	 * @group delete_item
-	 */
 	public function test_reject_and_remove_item_from_database() {
 		$this->create_friendship();
 
@@ -437,9 +368,6 @@ class BP_Tests_Friends_REST_Controller extends BP_Test_REST_Controller_Testcase 
 		$this->assertTrue( $deleted['deleted'] );
 	}
 
-	/**
-	 * @group delete_item
-	 */
 	public function test_reject_and_remove_item_from_database_using_initiator() {
 		$this->create_friendship();
 
@@ -456,9 +384,6 @@ class BP_Tests_Friends_REST_Controller extends BP_Test_REST_Controller_Testcase 
 		$this->assertTrue( $deleted['deleted'] );
 	}
 
-	/**
-	 * @group delete_item
-	 */
 	public function test_reject_and_remove_item_from_database_using_initiator_and_testing_force() {
 		$this->create_friendship();
 
@@ -475,9 +400,6 @@ class BP_Tests_Friends_REST_Controller extends BP_Test_REST_Controller_Testcase 
 		$this->assertTrue( $deleted['deleted'] );
 	}
 
-	/**
-	 * @group delete_item
-	 */
 	public function test_reject_friendship_request() {
 		$this->create_friendship();
 
@@ -493,9 +415,6 @@ class BP_Tests_Friends_REST_Controller extends BP_Test_REST_Controller_Testcase 
 		$this->assertTrue( $deleted['deleted'] );
 	}
 
-	/**
-	 * @group delete_item
-	 */
 	public function test_reject_friendship_with_invalid_friendship_id() {
 		$this->create_friendship();
 
@@ -507,9 +426,6 @@ class BP_Tests_Friends_REST_Controller extends BP_Test_REST_Controller_Testcase 
 		$this->assertErrorResponse( 'bp_rest_friends_delete_item_failed', $response, 404 );
 	}
 
-	/**
-	 * @group delete_item
-	 */
 	public function test_reject_friendship_with_user_not_logged_in() {
 		$request  = new WP_REST_Request( 'DELETE', sprintf( $this->endpoint_url . '/%d', $this->friend ) );
 		$response = $this->server->dispatch( $request );
@@ -517,9 +433,6 @@ class BP_Tests_Friends_REST_Controller extends BP_Test_REST_Controller_Testcase 
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
 	}
 
-	/**
-	 * @group prepare_item
-	 */
 	public function test_prepare_item() {
 		wp_set_current_user( $this->user );
 

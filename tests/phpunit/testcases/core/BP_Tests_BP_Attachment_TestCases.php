@@ -3,8 +3,8 @@
 include_once BP_TESTS_DIR . 'assets/attachment-extensions.php';
 
 /**
- * @group bp_attachments
- * @group BP_Attachment
+ * @group attachments
+ * @group core
  */
 #[AllowDynamicProperties]
 class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
@@ -109,7 +109,7 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 		$attachment_class = new BPTest_Attachment_Extension();
 		$upload = $attachment_class->upload( $_FILES );
 
-		$this->assertTrue( empty( $upload ) );
+		$this->assertEmpty( $upload );
 
 		$_FILES = $reset_files;
 		$_POST = $reset_post;
@@ -137,9 +137,6 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 		$this->clean_files();
 	}
 
-	/**
-	 * @group upload
-	 */
 	public function test_bp_attachment_upload() {
 		$reset_files = $_FILES;
 		$reset_post = $_POST;
@@ -162,14 +159,14 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 
 		// Error: file size
 		$upload = $attachment_class->upload( $_FILES );
-		$this->assertFalse( empty( $upload['error'] ) );
+		$this->assertNotEmpty( $upload['error'] ?? null );
 
 		$attachment_class->allowed_mime_types    = array( 'pdf' );
 		$attachment_class->original_max_filesize = false;
 
 		// Error: file type
 		$upload = $attachment_class->upload( $_FILES );
-		$this->assertFalse( empty( $upload['error'] ) );
+		$this->assertNotEmpty( $upload['error'] ?? null );
 
 		$attachment_class->allowed_mime_types = array();
 
@@ -183,9 +180,6 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 		$this->clean_files();
 	}
 
-	/**
-	 * @group upload
-	 */
 	public function test_bp_attachment_upload_no_base_dir_specific_time() {
 		$reset_files = $_FILES;
 		$reset_post = $_POST;
@@ -216,10 +210,6 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 		$_POST = $reset_post;
 	}
 
-	/**
-	 * @group upload
-	 * @group avatar
-	 */
 	public function test_bp_attachment_avatar_user_upload() {
 		$reset_files = $_FILES;
 		$reset_post = $_POST;
@@ -251,14 +241,14 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 		$user_avatar = $avatar_attachment->upload( $_FILES, 'bp_members_avatar_upload_dir' );
 
 		remove_filter( 'bp_core_avatar_original_max_filesize', array( $this, 'max_filesize' ) );
-		$this->assertFalse( empty( $user_avatar['error'] ) );
+		$this->assertNotEmpty( $user_avatar['error'] ?? null );
 
 		/* File type error */
 		$_FILES[ $avatar_attachment->file_input ]['name'] = 'buddypress_logo.pdf';
 		$_FILES[ $avatar_attachment->file_input ]['type'] = 'application/pdf';
 
 		$user_avatar = $avatar_attachment->upload( $_FILES, 'bp_members_avatar_upload_dir' );
-		$this->assertFalse( empty( $user_avatar['error'] ) );
+		$this->assertNotEmpty( $user_avatar['error'] ?? null );
 
 		// clean up!
 		$bp->displayed_user = $displayed_user;
@@ -267,10 +257,6 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 		$_POST = $reset_post;
 	}
 
-	/**
-	 * @group upload
-	 * @group avatar
-	 */
 	public function test_bp_attachment_avatar_group_upload() {
 		$bp = buddypress();
 		$reset_files = $_FILES;
@@ -302,9 +288,6 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 		$_POST = $reset_post;
 	}
 
-	/**
-	 * @group crop
-	 */
 	public function test_bp_attachment_crop() {
 		$crop_args = array(
 			'original_file' => $this->image_file,
@@ -340,10 +323,6 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 		$this->clean_files();
 	}
 
-	/**
-	 * @group upload
-	 * @group cover_image
-	 */
 	public function test_bp_attachment_cover_image_user_upload() {
 		$reset_files = $_FILES;
 		$reset_post = $_POST;
@@ -376,10 +355,6 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 		$_POST = $reset_post;
 	}
 
-	/**
-	 * @group shrink
-	 * @group avatars
-	 */
 	public function test_bp_attachment_avatar_shrink() {
 		if ( false === _wp_image_editor_choose() ) {
 			$this->markTestSkipped( 'This test requires a valid image editor that is compatible with WordPress.' );
@@ -404,15 +379,13 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 
 		remove_filter( 'bp_core_avatar_original_max_width', array( $this, 'limit_to_50px' ) );
 
-		$this->assertTrue( 50 === $shrink['width'] && 50 === $shrink['height'] );
+		$this->assertSame( 50, $shrink['width'] );
+		$this->assertSame( 50, $shrink['height'] );
 
 		// Cleanup
 		$this->clean_files( 'shrink' );
 	}
 
-	/**
-	 * @group add_revision
-	 */
 	public function test_bp_attachment_add_revision() {
 		if ( false === _wp_image_editor_choose() ) {
 			$this->markTestSkipped( 'This test requires a valid image editor that is compatible with WordPress.' );
@@ -448,10 +421,6 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 		$this->clean_files( 'add_revision' );
 	}
 
-	/**
-	 * @group add_revision
-	 * @group avatars
-	 */
 	public function test_bp_attachment_add_avatar_history() {
 		if ( false === _wp_image_editor_choose() ) {
 			$this->markTestSkipped( 'This test requires a valid image editor that is compatible with WordPress.' );
@@ -492,20 +461,12 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 		return 50;
 	}
 
-	/**
-	 * @group shrink
-	 * @group avatars
-	 */
 	public function test_bp_attachment_avatar_shrink_not_needed() {
 		$shrink = BP_Attachment_Avatar::shrink( $this->image_file );
 
-		$this->assertTrue( empty( $shrink ) );
+		$this->assertEmpty( $shrink );
 	}
 
-	/**
-	 * @group shrink
-	 * @group cover_images
-	 */
 	public function test_bp_attachment_cover_image_fit() {
 		if ( false === _wp_image_editor_choose() ) {
 			$this->markTestSkipped( 'This test requires PHP to have a valid image editor that is compatible with WordPress.' );
@@ -521,30 +482,23 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 
 		$fit = $cover_image_class->fit( $abs_path_copy, array( 'width' => 50, 'height' => 50 ) );
 
-		$this->assertTrue( 50 === $fit['width'] && 50 === $fit['height'] );
+		$this->assertSame( 50, $fit['width'] );
+		$this->assertSame( 50, $fit['height'] );
 
 		// Cleanup
 		$this->clean_files( 'buddypress' );
 	}
 
-	/**
-	 * @group shrink
-	 * @group cover_images
-	 */
 	public function test_bp_attachment_cover_image_fit_not_needed() {
 		$cover_image_class = new BP_Attachment_Cover_Image();
 		$fit = $cover_image_class->fit( $this->image_file, array( 'width' => 1300, 'height' => 225 ) );
 
-		$this->assertTrue( empty( $fit ) );
+		$this->assertEmpty( $fit );
 
 		// Cleanup
 		$this->clean_files( 'buddypress' );
 	}
 
-	/**
-	 * @group avatars
-	 * @group cover_images
-	 */
 	public function test_bp_attachment_get_image_data() {
 		if ( ! is_callable( 'exif_read_data' ) ) {
 			$this->markTestSkipped( 'This test requires PHP to be compiled with EXIF support.' );
@@ -555,10 +509,6 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 		$this->assertTrue( 3 == $image_data['meta']['orientation'] );
 	}
 
-	/**
-	 * @group upload
-	 * @group cover_images
-	 */
 	public function test_bp_attachment_upload_dir_filter_arg() {
 		$reset_files = $_FILES;
 		$reset_post = $_POST;
@@ -590,7 +540,7 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 		// Restore the filter used to fake uploads
 		add_filter( 'upload_dir', array( $this, 'filter_upload_dir' ), 20, 1 );
 
-		$this->assertTrue( 1 === $attachment_class->upload_dir_filter_args );
+		$this->assertSame( 1, $attachment_class->upload_dir_filter_args );
 
 		$cover_image_class = new BP_Attachment_Cover_Image();
 
@@ -600,9 +550,122 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 		// Should be empty
 		$this->assertEmpty( $this->original_upload_dir );
 
-		$this->assertTrue( 0 === $cover_image_class->upload_dir_filter_args );
+		$this->assertSame( 0, $cover_image_class->upload_dir_filter_args );
 
 		$_FILES = $reset_files;
 		$_POST = $reset_post;
+	}
+
+	/**
+	 * @see https://buddypress.trac.wordpress.org/ticket/6746
+	 * @see https://buddypress.trac.wordpress.org/ticket/9335
+	 */
+	public function test_bp_attachment_avatar_validate_upload_removes_avatar_suffixes() {
+		$avatar_attachment = new BP_Attachment_Avatar();
+		$file              = array(
+			'tmp_name' => $this->image_file,
+			'type'     => 'image/jpeg',
+			'error'    => 0,
+			'size'     => filesize( $this->image_file ),
+		);
+
+		$names = array(
+			'1763669118-bpfull.jpg' => '1763669118.jpg',
+			'me-bpthumb.jpg'        => 'me.jpg',
+			'-bpfull.jpg'           => 'avatar.jpg',
+			'mystery-man.jpg'       => 'mystery-man.jpg',
+		);
+
+		foreach ( $names as $name => $expected ) {
+			$file['name'] = $name;
+			$validated    = $avatar_attachment->validate_upload( $file );
+
+			$this->assertSame( $expected, $validated['name'], $name );
+			$this->assertSame( 0, $validated['error'], $name );
+		}
+	}
+
+	/**
+	 * @see https://buddypress.trac.wordpress.org/ticket/6746
+	 * @see https://buddypress.trac.wordpress.org/ticket/9335
+	 * @dataProvider data_avatar_history
+	 *
+	 * @param bool $history_disabled Whether avatar history is disabled.
+	 */
+	public function test_bp_attachment_avatar_crop_upload_named_like_an_avatar( $history_disabled ) {
+		$reset_files = $_FILES;
+		$bp          = buddypress();
+
+		// Upload for real: the faked uploads of this test case never move a file.
+		remove_filter( 'bp_attachment_upload_overrides', array( $this, 'filter_overrides' ) );
+		remove_filter( 'upload_dir', array( $this, 'filter_upload_dir' ), 20 );
+
+		$u1                     = self::factory()->user->create();
+		$bp->displayed_user     = new stdClass();
+		$bp->displayed_user->id = $u1;
+		self::set_current_user( $u1 );
+
+		try {
+			if ( $history_disabled ) {
+				add_filter( 'bp_disable_avatar_history', '__return_true' );
+			}
+
+			$avatar_attachment = new BP_Attachment_Avatar();
+			$_POST['action']   = $avatar_attachment->action;
+
+			// The second upload replaces the first avatar, as when a member uploads their downloaded avatar again.
+			foreach ( array( 'canola.jpg', '1763669118-bpfull.jpg' ) as $name ) {
+				$tmp_file = trailingslashit( get_temp_dir() ) . 'bp-test-' . $name;
+
+				copy( BP_TESTS_DIR . 'assets/canola.jpg', $tmp_file );
+
+				$_FILES[ $avatar_attachment->file_input ] = array(
+					'tmp_name' => $tmp_file,
+					'name'     => $name,
+					'type'     => 'image/jpeg',
+					'error'    => 0,
+					'size'     => filesize( $tmp_file ),
+				);
+
+				$uploaded = $avatar_attachment->upload( $_FILES, 'bp_members_avatar_upload_dir' );
+				$this->assertArrayHasKey( 'file', $uploaded, $name );
+
+				$cropped = $avatar_attachment->crop(
+					array(
+						'object'        => 'user',
+						'avatar_dir'    => 'avatars',
+						'item_id'       => $u1,
+						'original_file' => '/avatars/' . $u1 . '/' . wp_basename( $uploaded['file'] ),
+						'crop_x'        => 0,
+						'crop_y'        => 0,
+					)
+				);
+
+				$this->assertIsArray( $cropped, $name );
+				$this->assertFileExists( $cropped['full'], $name );
+				$this->assertFileExists( $cropped['thumb'], $name );
+			}
+
+		} finally {
+			$this->clean_avatars();
+			$_FILES = $reset_files;
+		}
+	}
+
+	public function data_avatar_history() {
+		return array(
+			'avatar history enabled'  => array( false ),
+			'avatar history disabled' => array( true ),
+		);
+	}
+
+	/**
+	 * @see https://buddypress.trac.wordpress.org/ticket/9338
+	 */
+	public function test_bp_attachment_sanitize_utf8_filename() {
+		$avatar_attachment = new BP_Attachment_Avatar();
+
+		$this->assertSame( 'mystery-man.jpg', $avatar_attachment->sanitize_utf8_filename( 'mystery-man.jpg' ) );
+		$this->assertSame( 'cafe.jpg', $avatar_attachment->sanitize_utf8_filename( 'café.jpg' ) );
 	}
 }

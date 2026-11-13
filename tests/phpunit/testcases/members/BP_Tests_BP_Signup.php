@@ -2,19 +2,19 @@
 
 /**
  * @group members
- * @group signups
- * @group signup
- * @group BP_Signup
  */
 class BP_Tests_BP_Signup extends BP_UnitTestCase {
 	protected $signup_allowed;
+	protected $users_can_register;
 
 	public function set_up() {
+		// Setup changes registration before the parent starts its transaction.
+		$this->users_can_register = bp_get_option( 'users_can_register' );
 		if ( is_multisite() ) {
 			$this->signup_allowed = get_site_option( 'registration' );
 			update_site_option( 'registration', 'all' );
 		} else {
-			bp_get_option( 'users_can_register' );
+			$this->signup_allowed = $this->users_can_register;
 			bp_update_option( 'users_can_register', 1 );
 		}
 
@@ -24,13 +24,11 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 	public function tear_down() {
 		if ( is_multisite() ) {
 			update_site_option( 'registration', $this->signup_allowed );
-		} else {
-			bp_update_option( 'users_can_register', $this->signup_allowed );
 		}
+		bp_update_option( 'users_can_register', $this->users_can_register );
 
 		parent::tear_down();
 	}
-
 
 	public function test_get_sql_clauses_filter_duplicate_join_and_cached_totals() {
 		$first  = self::factory()->signup->create();
@@ -98,53 +96,6 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 		$this->assertArrayHasKey( 'where_conditions', $contexts['paged'][1] );
 	}
 
-	/**
-	 * @expectedDeprecated bp_members_signups_paged_query
-	 * @expectedDeprecated bp_members_signups_count_query
-	 */
-	public function test_get_legacy_sql_filters_keep_arguments_and_canonical_runs_last() {
-		self::factory()->signup->create();
-
-		$args   = array( 'fields' => 'ids', 'cache_results' => false );
-
-		$calls  = array();
-		$legacy = static function( $sql, $parts, $original, $parsed ) use ( &$calls ) {
-			$calls[] = array( $parts, $original, $parsed );
-
-			return str_replace( 'WHERE', 'WHERE 1 = 0 AND', $sql ) . ' /* legacy */';
-		};
-
-		$canonical = function( $sql, $type ) {
-			$this->assertStringContainsString( '/* legacy */', $sql );
-
-			return 'count' === $type ? 'SELECT 42' : $sql;
-		};
-
-		add_filter( 'bp_members_signups_paged_query', $legacy, 10, 4 );
-		add_filter( 'bp_members_signups_count_query', $legacy, 10, 4 );
-
-		try {
-			$legacy_only = BP_Signup::get( $args );
-
-			$this->assertSame( array(), $legacy_only['signups'] );
-			$this->assertSame( 0, $legacy_only['total'] );
-
-			add_filter( 'bp_members_signups_get_sql', $canonical, 10, 2 );
-			$found = BP_Signup::get( $args );
-
-			$this->assertSame( array(), $found['signups'] );
-			$this->assertSame( 42, $found['total'] );
-			$this->assertCount( 4, $calls );
-			$this->assertSame( $calls[0], $calls[1] );
-			$this->assertSame( 'ids', $calls[0][2]['fields'] );
-			$this->assertSame( $args, $calls[0][1] );
-		} finally {
-			remove_filter( 'bp_members_signups_get_sql', $canonical );
-			remove_filter( 'bp_members_signups_paged_query', $legacy );
-			remove_filter( 'bp_members_signups_count_query', $legacy );
-		}
-	}
-
 	public function test_get_default_sql_text_is_unchanged() {
 		$bp     = buddypress();
 		$first  = self::factory()->signup->create();
@@ -174,9 +125,6 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 		$this->assertSame( 2, $found['total'] );
 	}
 
-	/**
-	 * @group add
-	 */
 	public function test_add() {
 		$time = bp_core_current_time();
 		$args = array(
@@ -204,9 +152,6 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 		$this->assertSame( '12345', $s->activation_key );
 	}
 
-	/**
-	 * @group add
-	 */
 	public function test_add_no_visibility_level_set_should_use_default_visiblity_level() {
 		// Update field_1's default visibility to 'adminsonly'.
 		bp_xprofile_update_field_meta( 1, 'default_visibility', 'adminsonly' );
@@ -240,9 +185,6 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 		$this->assertSame( 'adminsonly', $vis );
 	}
 
-	/**
-	 * @group get
-	 */
 	public function test_get_with_offset() {
 		self::factory()->signup->create();
 		$s2 = self::factory()->signup->create();
@@ -256,9 +198,6 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 		$this->assertSame( array( $s2 ), $ss['signups'] );
 	}
 
-	/**
-	 * @group get
-	 */
 	public function test_get_with_number() {
 		self::factory()->signup->create();
 		$s2 = self::factory()->signup->create();
@@ -272,9 +211,6 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 		$this->assertSame( array( $s3, $s2 ), $ss['signups'] );
 	}
 
-	/**
-	 * @group get
-	 */
 	public function test_get_with_usersearch() {
 		$s1 = self::factory()->signup->create( array(
 			'user_email' => 'fghij@example.com',
@@ -290,9 +226,6 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 		$this->assertSame( array( $s1 ), $ss['signups'] );
 	}
 
-	/**
-	 * @group get
-	 */
 	public function test_get_with_orderby_email() {
 		$s1 = self::factory()->signup->create( array(
 			'user_email' => 'fghij@example.com',
@@ -314,9 +247,6 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 		$this->assertSame( array( $s3, $s1, $s2 ), $ss['signups'] );
 	}
 
-	/**
-	 * @group get
-	 */
 	public function test_get_with_orderby_email_asc() {
 		$s1 = self::factory()->signup->create( array(
 			'user_email' => 'fghij@example.com',
@@ -338,9 +268,6 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 		$this->assertSame( array( $s2, $s1, $s3 ), $ss['signups'] );
 	}
 
-	/**
-	 * @group get
-	 */
 	public function test_get_with_orderby_login_asc() {
 		$s1 = self::factory()->signup->create( array(
 			'user_login' => 'fghij',
@@ -362,9 +289,6 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 		$this->assertSame( array( $s2, $s1, $s3 ), $ss['signups'] );
 	}
 
-	/**
-	 * @group get
-	 */
 	public function test_get_with_orderby_registered_asc() {
 		$now = time();
 
@@ -388,9 +312,6 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 		$this->assertSame( array( $s2, $s1, $s3 ), $ss['signups'] );
 	}
 
-	/**
-	 * @group get
-	 */
 	public function test_get_with_include() {
 		$s1 = self::factory()->signup->create();
 		self::factory()->signup->create();
@@ -405,9 +326,6 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 		$this->assertContains( $s3, $ss['signups'] );
 	}
 
-	/**
-	 * @group get
-	 */
 	public function test_get_with_activation_key() {
 		self::factory()->signup->create( array(
 			'activation_key' => 'foo',
@@ -427,9 +345,6 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 		$this->assertSame( array( $s2 ), $ss['signups'] );
 	}
 
-	/**
-	 * @group get
-	 */
 	public function test_get_with_user_login() {
 		self::factory()->signup->create( array(
 			'user_login' => 'aaaafoo',
@@ -449,9 +364,6 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 		$this->assertSame( array( $s2 ), $ss['signups'] );
 	}
 
-	/**
-	 * @group activate
-	 */
 	public function test_activate_user_accounts() {
 		$signups = array();
 
@@ -485,9 +397,6 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 		$this->assertEqualSets( $results['activated'], wp_list_pluck( $users, 'ID' ) );
 	}
 
-	/**
-	 * @group get
-	 */
 	public function test_get_signup_ids_only() {
 		$s1 = self::factory()->signup->create();
 		$s2 = self::factory()->signup->create();
@@ -502,7 +411,7 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP8552
+	 * @see https://buddypress.trac.wordpress.org/ticket/8552
 	 * @group cache
 	 */
 	public function test_signup_query_with_ids_cache_results() {
@@ -538,7 +447,7 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP8552
+	 * @see https://buddypress.trac.wordpress.org/ticket/8552
 	 * @group cache
 	 */
 	public function test_signup_query_with_all_cache_results() {
@@ -736,7 +645,7 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 	/**
 	 * @group cache
 	 */
-	public function signup_objects_should_be_cached() {
+	public function test_signup_objects_should_be_cached() {
 		global $wpdb;
 
 		$s1 = self::factory()->signup->create( array(
@@ -746,15 +655,24 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 		) );
 
 		$found1 = new BP_Signup( $s1 );
+		$this->assertNotFalse( wp_cache_get( $s1, 'bp_signups' ) );
 
-		$num_queries = $wpdb->num_queries;
+		$queries = array();
+		$track_query = function ( $query ) use ( &$queries ) {
+			$queries[] = $query;
+			return $query;
+		};
+		add_filter( 'query', $track_query );
+		try {
+			$found2 = new BP_Signup( $s1 );
+		} finally {
+			remove_filter( 'query', $track_query );
+		}
 
-		// Object should be rebuilt from cache.
-		$found2 = new BP_Signup( $s1 );
-
-		// @TODO: This fails because "get_avatar()" in populate() results in db queries.
+		$table_name = buddypress()->members->table_name_signups;
+		$signup_query = $wpdb->prepare( "SELECT * FROM {$table_name} WHERE signup_id = %d", $s1 );
 		$this->assertSame( get_object_vars( $found1 ), get_object_vars( $found2 ) );
-		$this->assertSame( $num_queries, $wpdb->num_queries );
+		$this->assertNotContains( $signup_query, $queries );
 	}
 
 	/**
@@ -779,9 +697,6 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 
 	}
 
-	/**
-	 * @group resend
-	 */
 	public function test_bp_core_signup_send_validation_email_should_increment_sent_count() {
 		$activation_key = wp_generate_password( 32, false );
 		$user_email     = 'accountone@example.com';
@@ -800,8 +715,7 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP9137
-	 * @group resend
+	 * @see https://buddypress.trac.wordpress.org/ticket/9137
 	 */
 	public function test_bp_core_signup_resend_email_activation() {
 		$s1 = self::factory()->signup->create_and_get(

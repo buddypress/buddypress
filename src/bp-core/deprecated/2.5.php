@@ -106,7 +106,7 @@ function bp_core_deprecated_email_filters( $value, $property, $transform, $email
 			 * @param string $value       Email notification subject text.
 			 * @param string $poster_name Name of the person who made the comment.
 			 */
-			$value = apply_filters( 'bp_activity_new_comment_notification_subject', $value, $tokens['poster.name'] );
+			$value = apply_filters( 'bp_activity_new_comment_notification_subject', $value, $tokens['poster.name'] ?? null );
 
 		} elseif ( $property === 'content' ) {
 			/**
@@ -121,7 +121,7 @@ function bp_core_deprecated_email_filters( $value, $property, $transform, $email
 			 * @param string $thread_link   URL permalink for the activity thread.
 			 * @param string $deprecated    Removed in 2.5; now an empty string.
 			 */
-			$value = apply_filters( 'bp_activity_new_comment_notification_message', $value, $tokens['poster.name'], $tokens['content'], $tokens['thread.url'], '' );
+			$value = apply_filters( 'bp_activity_new_comment_notification_message', $value, $tokens['poster.name'] ?? null, $tokens['content'], $tokens['thread.url'], '' );
 		}
 
 	} elseif ( $email_type === 'activity-comment-author' ) {
@@ -146,7 +146,7 @@ function bp_core_deprecated_email_filters( $value, $property, $transform, $email
 			 * @param string $value       Email notification subject text.
 			 * @param string $poster_name Name of the person who made the comment.
 			 */
-			$value = apply_filters( 'bp_activity_new_comment_notification_comment_author_subject', $value, $tokens['poster.name'] );
+			$value = apply_filters( 'bp_activity_new_comment_notification_comment_author_subject', $value, $tokens['poster.name'] ?? null );
 
 		} elseif ( $property === 'content' ) {
 			/**
@@ -161,7 +161,7 @@ function bp_core_deprecated_email_filters( $value, $property, $transform, $email
 			 * @param string $deprecated    Removed in 2.5; now an empty string.
 			 * @param string $thread_link   URL permalink for the activity thread.
 			 */
-			$value = apply_filters( 'bp_activity_new_comment_notification_comment_author_message', $value, $tokens['poster.name'], $tokens['content'], '', $tokens['thread.url'] );
+			$value = apply_filters( 'bp_activity_new_comment_notification_comment_author_message', $value, $tokens['poster.name'] ?? null, $tokens['content'], '', $tokens['thread.url'] );
 		}
 
 	} elseif ( $email_type === 'activity-at-message' || $email_type === 'groups-at-message' ) {
@@ -186,7 +186,7 @@ function bp_core_deprecated_email_filters( $value, $property, $transform, $email
 			 * @param string $value       Email notification subject text.
 			 * @param string $poster_name Name of the person who made the @mention.
 			 */
-			$value = apply_filters( 'bp_activity_at_message_notification_subject', $value, $tokens['poster.name'] );
+			$value = apply_filters( 'bp_activity_at_message_notification_subject', $value, $tokens['poster.name'] ?? null );
 
 		} elseif ( $property === 'content' ) {
 			/**
@@ -201,7 +201,7 @@ function bp_core_deprecated_email_filters( $value, $property, $transform, $email
 			 * @param string $message_link  URL permalink for the activity message.
 			 * @param string $deprecated    Removed in 2.5; now an empty string.
 			 */
-			$value = apply_filters( 'bp_activity_at_message_notification_message', $value, $tokens['poster.name'], $tokens['content'], $tokens['mentioned.url'], '' );
+			$value = apply_filters( 'bp_activity_at_message_notification_message', $value, $tokens['poster.name'] ?? null, $tokens['content'], $tokens['mentioned.url'], '' );
 		}
 
 	} elseif ( $email_type === 'core-user-registration' ) {

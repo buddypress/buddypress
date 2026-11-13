@@ -27,9 +27,6 @@ class BP_Tests_Notifications_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertCount( 3, $routes[ $this->endpoint_url . '/(?P<id>[\d]+)' ] );
 	}
 
-	/**
-	 * @group get_items
-	 */
 	public function test_get_items() {
 		$notification_id = $this->bp::factory()->notification->create( array( 'user_id' => $this->user ) );
 		wp_set_current_user( $this->user );
@@ -49,9 +46,6 @@ class BP_Tests_Notifications_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertSame( $notification_id, $all_data[0]['id'] );
 	}
 
-	/**
-	 * @group get_items
-	 */
 	public function test_admin_can_get_items_from_multiple_users() {
 		$u1 = static::factory()->user->create();
 		$u2 = static::factory()->user->create();
@@ -77,9 +71,6 @@ class BP_Tests_Notifications_REST_Controller extends BP_Test_REST_Controller_Tes
 		);
 	}
 
-	/**
-	 * @group get_items
-	 */
 	public function test_user_can_not_get_items_from_multiple_users() {
 		$u1 = static::factory()->user->create();
 		$u2 = static::factory()->user->create();
@@ -98,9 +89,6 @@ class BP_Tests_Notifications_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
 	}
 
-	/**
-	 * @group get_items
-	 */
 	public function test_get_items_user_not_logged_in() {
 		$request = new WP_REST_Request( 'GET', $this->endpoint_url );
 		$request->set_param( 'context', 'view' );
@@ -109,9 +97,6 @@ class BP_Tests_Notifications_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
 	}
 
-	/**
-	 * @group get_items
-	 */
 	public function test_get_items_user_cannot_see_notifications_from_others() {
 		$u = static::factory()->user->create();
 		wp_set_current_user( $u );
@@ -123,9 +108,6 @@ class BP_Tests_Notifications_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
 	}
 
-	/**
-	 * @group get_item
-	 */
 	public function test_get_item() {
 		wp_set_current_user( $this->user );
 
@@ -144,9 +126,6 @@ class BP_Tests_Notifications_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->check_notification_data( $notification, $all_data );
 	}
 
-	/**
-	 * @group get_item
-	 */
 	public function test_get_embedded_user_from_notification_item() {
 		wp_set_current_user( $this->user );
 
@@ -170,9 +149,6 @@ class BP_Tests_Notifications_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertSame( $this->user, $embedded_user['id'] );
 	}
 
-	/**
-	 * @group get_item
-	 */
 	public function test_get_embedded_group_from_notification_item() {
 		$group_id        = $this->bp::factory()->group->create();
 		$notification_id = $this->bp::factory()->notification->create(
@@ -204,9 +180,6 @@ class BP_Tests_Notifications_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertSame( $group_id, $embedded_group['id'] );
 	}
 
-	/**
-	 * @group get_item
-	 */
 	public function test_get_embedded_activity_from_notification_item() {
 		$activity_id     = $this->bp::factory()->activity->create();
 		$notification_id = $this->bp::factory()->notification->create(
@@ -238,9 +211,6 @@ class BP_Tests_Notifications_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertSame( $activity_id, $embedded_activity['id'] );
 	}
 
-	/**
-	 * @group get_item
-	 */
 	public function test_get_embedded_blog_from_notification_item() {
 		$this->skipWithoutMultisite();
 		$this->assertTrue( bp_is_active( 'blogs' ), 'The Blogs component must be active for this test.' );
@@ -283,9 +253,6 @@ class BP_Tests_Notifications_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertSame( $blog_title, $embedded_blog['name'] );
 	}
 
-	/**
-	 * @group get_item
-	 */
 	public function test_get_item_user_not_logged_in() {
 		$notification_id = $this->bp::factory()->notification->create( $this->set_notification_data() );
 
@@ -296,9 +263,6 @@ class BP_Tests_Notifications_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
 	}
 
-	/**
-	 * @group get_item
-	 */
 	public function test_get_item_user_cannot_see_notification() {
 		$notification_id = $this->bp::factory()->notification->create( $this->set_notification_data() );
 		$u               = static::factory()->user->create();
@@ -312,9 +276,6 @@ class BP_Tests_Notifications_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
 	}
 
-	/**
-	 * @group create_item
-	 */
 	public function test_create_item() {
 		wp_set_current_user( $this->user );
 
@@ -329,9 +290,6 @@ class BP_Tests_Notifications_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->check_create_notification_response( $response );
 	}
 
-	/**
-	 * @group create_item
-	 */
 	public function test_rest_create_item() {
 		wp_set_current_user( $this->user );
 
@@ -346,9 +304,6 @@ class BP_Tests_Notifications_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->check_create_notification_response( $response );
 	}
 
-	/**
-	 * @group create_item
-	 */
 	public function test_create_item_user_not_logged_in() {
 		$request = new WP_REST_Request( 'POST', $this->endpoint_url );
 		$request->set_param( 'context', 'edit' );
@@ -361,9 +316,6 @@ class BP_Tests_Notifications_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
 	}
 
-	/**
-	 * @group create_item
-	 */
 	public function test_create_item_user_cannot_create() {
 		$u = static::factory()->user->create();
 		wp_set_current_user( $u );
@@ -379,9 +331,6 @@ class BP_Tests_Notifications_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
 	}
 
-	/**
-	 * @group update_item
-	 */
 	public function test_update_item() {
 		$notification_id = $this->bp::factory()->notification->create( $this->set_notification_data() );
 
@@ -405,9 +354,6 @@ class BP_Tests_Notifications_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertSame( $params['is_new'], $n->is_new );
 	}
 
-	/**
-	 * @group update_item
-	 */
 	public function test_update_item_invalid_id() {
 		wp_set_current_user( $this->user );
 
@@ -422,9 +368,6 @@ class BP_Tests_Notifications_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertErrorResponse( 'bp_rest_notification_invalid_id', $response, 404 );
 	}
 
-	/**
-	 * @group update_item
-	 */
 	public function test_update_item_user_not_logged_in() {
 		$request = new WP_REST_Request( 'PUT', sprintf( $this->endpoint_url . '/%d', $this->notification_id ) );
 		$request->set_param( 'context', 'edit' );
@@ -433,9 +376,6 @@ class BP_Tests_Notifications_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
 	}
 
-	/**
-	 * @group update_item
-	 */
 	public function test_update_item_user_without_access() {
 		$notification_id = $this->bp::factory()->notification->create( $this->set_notification_data() );
 
@@ -449,9 +389,6 @@ class BP_Tests_Notifications_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
 	}
 
-	/**
-	 * @group update_item
-	 */
 	public function test_update_item_same_status() {
 		$notification_id = $this->bp::factory()->notification->create( $this->set_notification_data() );
 
@@ -468,9 +405,6 @@ class BP_Tests_Notifications_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertErrorResponse( 'bp_rest_user_cannot_update_notification_status', $response, 500 );
 	}
 
-	/**
-	 * @group delete_item
-	 */
 	public function test_delete_item() {
 		$notification_id = $this->bp::factory()->notification->create( $this->set_notification_data() );
 		$notification    = $this->endpoint->get_notification_object( $notification_id );
@@ -491,9 +425,6 @@ class BP_Tests_Notifications_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->check_notification_data( $notification, $all_data['previous'] );
 	}
 
-	/**
-	 * @group delete_item
-	 */
 	public function test_delete_item_invalid_id() {
 		wp_set_current_user( $this->user );
 
@@ -504,9 +435,6 @@ class BP_Tests_Notifications_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertErrorResponse( 'bp_rest_notification_invalid_id', $response, 404 );
 	}
 
-	/**
-	 * @group delete_item
-	 */
 	public function test_delete_item_user_not_logged_in() {
 		$request = new WP_REST_Request( 'DELETE', sprintf( $this->endpoint_url . '/%d', $this->notification_id ) );
 		$request->set_param( 'context', 'edit' );
@@ -515,9 +443,6 @@ class BP_Tests_Notifications_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
 	}
 
-	/**
-	 * @group delete_item
-	 */
 	public function test_delete_item_user_without_access() {
 		$notification_id = $this->bp::factory()->notification->create( $this->set_notification_data() );
 
@@ -531,9 +456,6 @@ class BP_Tests_Notifications_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
 	}
 
-	/**
-	 * @group prepare_item
-	 */
 	public function test_prepare_item() {
 		wp_set_current_user( $this->user );
 
@@ -652,9 +574,6 @@ class BP_Tests_Notifications_REST_Controller extends BP_Test_REST_Controller_Tes
 		return bp_notifications_get_meta( $data['id'], '_' . $attribute );
 	}
 
-	/**
-	 * @group additional_fields
-	 */
 	public function test_additional_fields() {
 		$registered_fields = $GLOBALS['wp_rest_additional_fields'];
 
@@ -685,7 +604,7 @@ class BP_Tests_Notifications_REST_Controller extends BP_Test_REST_Controller_Tes
 		$response = $this->server->dispatch( $request );
 
 		$create_data = $response->get_data();
-		$this->assertTrue( $expected === $create_data['foo_field'] );
+		$this->assertSame( $expected, $create_data['foo_field'] );
 
 		// GET
 		$request = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '/%d', $create_data['id'] ) );
@@ -693,14 +612,11 @@ class BP_Tests_Notifications_REST_Controller extends BP_Test_REST_Controller_Tes
 		$response = $this->server->dispatch( $request );
 
 		$get_data = $response->get_data();
-		$this->assertTrue( $expected === $get_data['foo_field'] );
+		$this->assertSame( $expected, $get_data['foo_field'] );
 
 		$GLOBALS['wp_rest_additional_fields'] = $registered_fields;
 	}
 
-	/**
-	 * @group additional_fields
-	 */
 	public function test_update_additional_fields() {
 		$registered_fields = $GLOBALS['wp_rest_additional_fields'];
 
@@ -737,7 +653,7 @@ class BP_Tests_Notifications_REST_Controller extends BP_Test_REST_Controller_Tes
 		$response = $this->server->dispatch( $request );
 
 		$update_data = $response->get_data();
-		$this->assertTrue( $expected === $update_data['bar_field'] );
+		$this->assertSame( $expected, $update_data['bar_field'] );
 
 		$GLOBALS['wp_rest_additional_fields'] = $registered_fields;
 	}

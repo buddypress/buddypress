@@ -524,7 +524,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 				<?php foreach ( $activity_actions as $component => $actions ) : ?>
 					<?php
 					// Older avatar activity items use 'profile' for component. See r4273.
-					if ( $component === 'profile' ) {
+					if ( 'profile' === $component ) {
 						$component = 'xprofile';
 					}
 
@@ -534,7 +534,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 					}
 
 					if ( bp_is_active( $component ) ) {
-						if ( $component === 'xprofile' ) {
+						if ( 'xprofile' === $component ) {
 							$component_name = buddypress()->profile->name;
 						} else {
 							$component_name = buddypress()->$component->name;

@@ -4,9 +4,6 @@
  */
 class BP_Tests_Activity_Class extends BP_UnitTestCase {
 
-	/**
-	 * @group check_exists_by_content
-	 */
 	public function test_check_exists_by_content() {
 		$content  = 'A classy girl who know how to enjoy the freedom of a cup of coffee';
 		$activity = self::factory()->activity->create( array(
@@ -18,9 +15,6 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 		$this->assertSame( $activity, $result );
 	}
 
-	/**
-	 * @group delete_activity_item_comments
-	 */
 	public function test_delete_activity_item_comments() {
 		$parent_activity = self::factory()->activity->create( array(
 			'type' => 'activity_update',
@@ -38,9 +32,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP4804
-	 * @group delete_activity_meta_entries
-	 * @group activitymeta
+	 * @see https://buddypress.trac.wordpress.org/ticket/4804
 	 */
 	public function test_delete_activity_meta_entries() {
 		$activity = self::factory()->activity->create( array(
@@ -55,9 +47,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group get
-	 * @group fields
-	 * @ticket BP6426
+	 * @see https://buddypress.trac.wordpress.org/ticket/6426
 	 */
 	public function test_get_with_fields_parameter_by_id() {
 		$a = self::factory()->activity->create_many( 3, array(
@@ -70,9 +60,6 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 		$this->assertEqualSets( $a, $result['activities'] );
 	}
 
-	/**
-	 * @group get
-	 */
 	public function test_hide_all_for_user() {
 		$activity = self::factory()->activity->create( array(
 			'type' => 'activity_update',
@@ -87,10 +74,6 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 		$this->assertSame( $activity['activities'][0]->hide_sitewide, 1 );
 	}
 
-	/**
-	 * @group get
-	 * @group meta_query
-	 */
 	public function test_get_with_meta_query() {
 		$a1 = self::factory()->activity->create();
 		$a2 = self::factory()->activity->create();
@@ -124,9 +107,6 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 		$this->assertSame( [ $a2 ], wp_list_pluck( $activity['activities'], 'id' ) );
 	}
 
-	/**
-	 * @group get
-	 */
 	public function test_get_with_meta_query_two_clauses_with_or_relation() {
 		$now = time();
 		$a1 = self::factory()->activity->create( array(
@@ -162,10 +142,6 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 		$this->assertSame( 2, $activity['total'] );
 	}
 
-	/**
-	 * @group get
-	 * @group date_query
-	 */
 	public function test_get_with_date_query_before() {
 
 		$a1 = self::factory()->activity->create();
@@ -189,10 +165,6 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 		$this->assertSame( array( $a2 ), wp_list_pluck( $query['activities'], 'id' ) );
 	}
 
-	/**
-	 * @group get
-	 * @group date_query
-	 */
 	public function test_get_with_date_query_range() {
 
 		$a1 = self::factory()->activity->create();
@@ -218,10 +190,6 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 		$this->assertSame( array( $a3 ), wp_list_pluck( $query['activities'], 'id' ) );
 	}
 
-	/**
-	 * @group get
-	 * @group date_query
-	 */
 	public function test_get_with_date_query_after() {
 
 		$a1 = self::factory()->activity->create();
@@ -241,9 +209,6 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 		$this->assertSame( array( $a1 ), wp_list_pluck( $query['activities'], 'id' ) );
 	}
 
-	/**
-	 * @group get
-	 */
 	public function test_get_with_search_terms() {
 		$a1 = self::factory()->activity->create( array(
 			'content' => 'Boone is a cool guy',
@@ -259,9 +224,6 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 		$this->assertSame( $ids, array( $a1 ) );
 	}
 
-	/**
-	 * @group get
-	 */
 	public function test_get_with_display_comments_threaded() {
 		$u = self::factory()->user->create();
 
@@ -301,9 +263,6 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 		$this->assertSame( $expected, $found );
 	}
 
-	/**
-	 * @group get
-	 */
 	public function test_get_with_display_comments_stream() {
 		$now = time();
 		$a1 = self::factory()->activity->create( array(
@@ -335,9 +294,6 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 		$this->assertSame( array( $a1, $a3, $a2 ), $ids );
 	}
 
-	/**
-	 * @group get
-	 */
 	public function test_get_with_display_comments_false() {
 		$now = time();
 		$a1 = self::factory()->activity->create( array(
@@ -361,9 +317,6 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 		$this->assertSame( array( $a1, $a2 ), $ids );
 	}
 
-	/**
-	 * @group get
-	 */
 	public function test_get_with_offset() {
 		$now = time();
 		$a1 = self::factory()->activity->create( array(
@@ -388,9 +341,6 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 		$this->assertSame( array( $a3, $a2 ), $ids );
 	}
 
-	/**
-	 * @group get
-	 */
 	public function test_get_with_since() {
 		$now = time();
 		$a1 = self::factory()->activity->create( array(
@@ -416,8 +366,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group get
-	 * @ticket BP9094
+	 * @see https://buddypress.trac.wordpress.org/ticket/9094
 	 */
 	public function test_get_with_offset_lower() {
 		$now = time();
@@ -453,8 +402,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group get
-	 * @ticket BP9094
+	 * @see https://buddypress.trac.wordpress.org/ticket/9094
 	 */
 	public function test_get_with_offset_lower_with_pagination() {
 		$a = self::factory()->activity->create_many(
@@ -505,13 +453,10 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 		);
 
 		$without_auto_refresh = wp_list_pluck( $stream['activities'], 'id' );
-		$this->assertFalse( in_array( $last_displayed_on_first_page, $without_auto_refresh, true ) );
+		$this->assertNotContains( $last_displayed_on_first_page, $without_auto_refresh );
 		$this->assertSame( array_reverse( $a ), array_merge( $page_one_ids, $without_auto_refresh ) );
 	}
 
-	/**
-	 * @group get
-	 */
 	public function test_get_with_user_id__in() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -529,9 +474,6 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 		$this->assertSame( array( $a1, $a2 ), $ids );
 	}
 
-	/**
-	 * @group get
-	 */
 	public function test_get_with_user_id__not_in() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -548,9 +490,6 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 		$this->assertSame( array( $a1 ), $ids );
 	}
 
-	/**
-	 * @group get
-	 */
 	public function test_get_with_user_id__in_andnot_in() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -573,10 +512,6 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 		$this->assertSame( array( $a1, $a2 ), $ids );
 	}
 
-	/**
-	 * @group get
-	 * @group count_total
-	 */
 	public function test_get_with_count_total() {
 		$a1 = self::factory()->activity->create();
 		$a2 = self::factory()->activity->create();
@@ -586,178 +521,6 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 		) );
 
 		$this->assertSame( 2, $activity['total'] );
-	}
-
-	/**
-	 * @expectedDeprecated bp_activity_get_join_sql
-	 */
-	public function test_bp_activity_get_join_sql_preserves_arguments_and_runs_before_canonical_hook() {
-		$allowed = self::factory()->activity->create();
-		self::factory()->activity->create();
-
-		$arguments = array();
-		$order     = array();
-		$legacy    = static function( ...$args ) use ( $allowed, &$arguments, &$order ) {
-			$arguments = $args;
-			$order[] = 'legacy';
-
-			return $args[0] . " INNER JOIN (SELECT {$allowed} AS activity_id) allowed ON allowed.activity_id = a.id";
-		};
-
-		$canonical = static function( $sql, $type ) use ( &$order ) {
-			$order[] = $type;
-
-			return $sql;
-		};
-
-		add_filter( 'bp_activity_get_join_sql', $legacy, 10, 5 );
-		add_filter( 'bp_activity_get_sql', $canonical, 10, 2 );
-
-		try {
-			$found = BP_Activity_Activity::get( array( 'count_total' => true ) );
-		} finally {
-			remove_filter( 'bp_activity_get_join_sql', $legacy );
-			remove_filter( 'bp_activity_get_sql', $canonical );
-		}
-
-		$this->assertCount( 5, $arguments );
-		$this->assertSame( array( $allowed ), wp_list_pluck( $found['activities'], 'id' ) );
-		$this->assertSame( 1, $found['total'] );
-		$this->assertSame( array( 'legacy', 'paged', 'count' ), $order );
-
-		$this->assertIsArray( $arguments[1] );
-		$this->assertStringContainsString( 'SELECT', $arguments[2] );
-		$this->assertStringContainsString( 'FROM', $arguments[3] );
-		$this->assertStringContainsString( 'WHERE', $arguments[4] );
-	}
-
-	/**
-	 * @expectedDeprecated bp_activity_paged_activities_sql
-	 */
-	public function test_bp_activity_paged_activities_sql_preserves_arguments_and_runs_before_canonical_hook() {
-		$allowed = self::factory()->activity->create();
-		self::factory()->activity->create();
-
-		$arguments = array();
-		$order     = array();
-		$legacy    = static function( ...$args ) use ( $allowed, &$arguments, &$order ) {
-			$arguments = $args;
-			$order[] = 'legacy';
-
-			return str_replace( 'WHERE', "WHERE a.id = {$allowed} AND", $args[0] );
-		};
-
-		$canonical = static function( $sql, $type ) use ( &$order ) {
-			$order[] = $type;
-
-			return $sql;
-		};
-
-		add_filter( 'bp_activity_paged_activities_sql', $legacy, 10, 2 );
-		add_filter( 'bp_activity_get_sql', $canonical, 10, 2 );
-
-		try {
-			$found = BP_Activity_Activity::get( array( 'count_total' => true ) );
-		} finally {
-			remove_filter( 'bp_activity_paged_activities_sql', $legacy );
-			remove_filter( 'bp_activity_get_sql', $canonical );
-		}
-
-		$this->assertCount( 2, $arguments );
-		$this->assertSame( array( $allowed ), wp_list_pluck( $found['activities'], 'id' ) );
-		$this->assertSame( 2, $found['total'] );
-		$this->assertSame( array( 'legacy', 'paged', 'count' ), $order );
-
-		$this->assertIsArray( $arguments[1] );
-		$this->assertTrue( $arguments[1]['count_total'] );
-	}
-
-	/**
-	 * @expectedDeprecated bp_activity_total_activities_sql
-	 */
-	public function test_bp_activity_total_activities_sql_preserves_arguments_and_runs_before_canonical_hook() {
-		$allowed = self::factory()->activity->create();
-		self::factory()->activity->create();
-
-		$arguments = array();
-		$order     = array();
-		$legacy    = static function( ...$args ) use ( $allowed, &$arguments, &$order ) {
-			$arguments = $args;
-			$order[] = 'legacy';
-
-			return 'SELECT 42';
-		};
-
-		$canonical = static function( $sql, $type ) use ( &$order ) {
-			$order[] = $type;
-
-			return $sql;
-		};
-
-		add_filter( 'bp_activity_total_activities_sql', $legacy, 10, 3 );
-		add_filter( 'bp_activity_get_sql', $canonical, 10, 2 );
-
-		try {
-			$found = BP_Activity_Activity::get( array( 'count_total' => true ) );
-		} finally {
-			remove_filter( 'bp_activity_total_activities_sql', $legacy );
-			remove_filter( 'bp_activity_get_sql', $canonical );
-		}
-
-		$this->assertCount( 3, $arguments );
-		$this->assertSame( 42, $found['total'] );
-		$this->assertSame( array( 'paged', 'legacy', 'count' ), $order );
-
-		$this->assertStringContainsString( 'WHERE', $arguments[1] );
-		$this->assertSame( 'DESC', $arguments[2] );
-	}
-
-	/**
-	 * @expectedDeprecated bp_activity_get_user_join_filter
-	 */
-	public function test_bp_activity_get_user_join_filter_preserves_arguments_and_runs_before_canonical_hook() {
-		$allowed = self::factory()->activity->create();
-		self::factory()->activity->create();
-
-		$arguments = array();
-		$order     = array();
-		$legacy    = static function( ...$args ) use ( $allowed, &$arguments, &$order ) {
-			$arguments = $args;
-			$order[] = 'legacy';
-
-			return str_replace( 'WHERE', "WHERE a.id = {$allowed} AND", $args[0] );
-		};
-
-		$canonical = static function( $sql, $type ) use ( &$order ) {
-			$order[] = $type;
-
-			return $sql;
-		};
-
-		$use_legacy = static function() { return true; };
-
-		add_filter( 'bp_use_legacy_activity_query', $use_legacy );
-		add_filter( 'bp_activity_get_user_join_filter', $legacy, 10, 6 );
-		add_filter( 'bp_activity_get_sql', $canonical, 10, 2 );
-
-		try {
-			$found = BP_Activity_Activity::get( array( 'count_total' => true ) );
-		} finally {
-			remove_filter( 'bp_activity_get_user_join_filter', $legacy );
-			remove_filter( 'bp_activity_get_sql', $canonical );
-			remove_filter( 'bp_use_legacy_activity_query', $use_legacy );
-		}
-
-		$this->assertCount( 6, $arguments );
-		$this->assertSame( array( $allowed ), wp_list_pluck( $found['activities'], 'id' ) );
-		$this->assertSame( 2, $found['total'] );
-		$this->assertSame( array( 'legacy', 'paged', 'count' ), $order );
-
-		$this->assertStringContainsString( 'SELECT', $arguments[1] );
-		$this->assertStringContainsString( 'FROM', $arguments[2] );
-		$this->assertStringContainsString( 'WHERE', $arguments[3] );
-		$this->assertSame( 'DESC', $arguments[4] );
-		$this->assertStringContainsString( 'LIMIT', $arguments[5] );
 	}
 
 	public function test_sql_clauses_from_restricts_results_and_total_in_both_query_paths() {
@@ -848,10 +611,6 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 		$this->assertSame( 1, $activity['total'] );
 	}
 
-	/**
-	 * @group get
-	 * @group count_total
-	 */
 	public function test_get_with_sql_filter() {
 		$query_types = array();
 
@@ -874,35 +633,6 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 		$this->assertSame( array( 'paged', 'count' ), $query_types );
 	}
 
-	/**
-	 * @group get
-	 * @expectedDeprecated bp_activity_get_where_conditions
-	 */
-	public function test_get_with_legacy_where_conditions_filter() {
-		$activity_1 = self::factory()->activity->create();
-		self::factory()->activity->create();
-
-		$filter = static function ( $where_conditions ) use ( $activity_1 ) {
-			$where_conditions['activity_id'] = 'a.id = ' . (int) $activity_1;
-
-			return $where_conditions;
-		};
-
-		add_filter( 'bp_activity_get_where_conditions', $filter );
-
-		try {
-			$activity = BP_Activity_Activity::get();
-		} finally {
-			remove_filter( 'bp_activity_get_where_conditions', $filter );
-		}
-
-		$this->assertSame( array( $activity_1 ), wp_list_pluck( $activity['activities'], 'id' ) );
-	}
-
-	/**
-	 * @group get
-	 * @group count_total
-	 */
 	public function test_get_with_count_total_false() {
 		$a1 = self::factory()->activity->create();
 		$a2 = self::factory()->activity->create();
@@ -914,10 +644,6 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 		$this->assertNull( $activity['total'] );
 	}
 
-	/**
-	 * @group get
-	 * @group count_total
-	 */
 	public function test_get_with_count_total_default_to_false() {
 		$a1 = self::factory()->activity->create();
 		$a2 = self::factory()->activity->create();
@@ -927,9 +653,6 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 		$this->assertNull( $activity['total'] );
 	}
 
-	/**
-	 * @group get_id
-	 */
 	public function test_get_id_with_item_id() {
 		$a1 = self::factory()->activity->create( array(
 			'item_id' => 523,
@@ -946,26 +669,6 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 		$this->assertSame( $a1, $activity );
 	}
 
-	/**
-	 * @group get_id
-	 * @group BP8596
-	 * @expectedDeprecated BP_Activity_Activity::get_id
-	 */
-	public function test_get_id_with_deprecated_args() {
-		$a1 = self::factory()->activity->create( array(
-			'item_id' => 573,
-		) );
-		$a2 = self::factory()->activity->create( array(
-			'item_id' => 1098,
-		) );
-
-		$activity = BP_Activity_Activity::get_id( false, false, false, 1098, false, false, false, false );
-		$this->assertSame( $a2, $activity );
-	}
-
-	/**
-	 * @group get_id
-	 */
 	public function test_get_id_with_secondary_item_id() {
 		$a1 = self::factory()->activity->create( array(
 			'secondary_item_id' => 523,
@@ -982,9 +685,6 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 		$this->assertSame( $a1, $activity );
 	}
 
-	/**
-	 * @group delete
-	 */
 	public function test_delete_with_item_id() {
 		$a1 = self::factory()->activity->create( array(
 			'item_id' => 523,
@@ -999,9 +699,6 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 		$this->assertSame( array( $a1 ), $activity );
 	}
 
-	/**
-	 * @group delete
-	 */
 	public function test_delete_with_secondary_item_id() {
 		$a1 = self::factory()->activity->create( array(
 			'secondary_item_id' => 523,
@@ -1017,7 +714,6 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group get_activity_comments
 	 *
 	 * Verify the format of the activity comments array, for internal
 	 * refactoring
@@ -1112,9 +808,6 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 		$this->assertSame( $expected_comments, $actual_comments );
 	}
 
-	/**
-	 * @group get_last_updated
-	 */
 	public function test_get_last_updated() {
 		$now = time();
 		$a1 = self::factory()->activity->create( array(
@@ -1130,9 +823,6 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 		$this->assertSame( date( 'Y-m-d H:i:s', $now - 100 ), BP_Activity_Activity::get_last_updated() );
 	}
 
-	/**
-	 * @group get_recorded_components
-	 */
 	public function test_get_recorded_components_skip_last_activity_false() {
 		$a1 = self::factory()->activity->create( array(
 			'component' => 'members',
@@ -1153,9 +843,6 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 		$this->assertSame( array( 'friends', 'groups', 'members' ), BP_Activity_Activity::get_recorded_components( false ) );
 	}
 
-	/**
-	 * @group get_recorded_components
-	 */
 	public function test_get_recorded_components_skip_last_activity_true_filter_empty_component() {
 		$a1 = self::factory()->activity->create( array(
 			'component' => 'members',
@@ -1176,9 +863,6 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 		$this->assertSame( array( 'friends', 'groups' ), BP_Activity_Activity::get_recorded_components() );
 	}
 
-	/**
-	 * @group get_recorded_components
-	 */
 	public function test_get_recorded_components_skip_last_activity_true_members_component_not_empty() {
 		$a1 = self::factory()->activity->create( array(
 			'component' => 'members',
@@ -1203,9 +887,6 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 		$this->assertSame( array( 'friends', 'groups', 'members' ), BP_Activity_Activity::get_recorded_components() );
 	}
 
-	/**
-	 * @group get_recorded_components
-	 */
 	public function test_get_recorded_components_skip_last_activity_true_la_in_multiple_components() {
 		$a1 = self::factory()->activity->create( array(
 			'component' => 'members',
@@ -1229,9 +910,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 
 		$this->assertSame( array( 'friends', 'groups', ), BP_Activity_Activity::get_recorded_components() );
 	}
-	/**
-	 * @group activity_action
-	 */
+
 	public function test_instantiated_action_with_dynamic_callback() {
 		bp_activity_set_action(
 			'foo',
@@ -1252,9 +931,6 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 		$this->assertSame( 'Woo Hoo!', $a_obj->action );
 	}
 
-	/**
-	 * @group activity_action
-	 */
 	public function test_instantiated_action_without_dynamic_callback_but_with_stored_action() {
 		// No callback is registered - this mimics a legacy plugin
 
@@ -1270,9 +946,6 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 		$this->assertSame( 'baz', $a_obj->action );
 	}
 
-	/**
-	 * @group activity_action
-	 */
 	public function test_instantiated_action_without_dynamic_callback_but_with_no_stored_action() {
 		// No callback is registered - this mimics a legacy plugin
 
@@ -1288,7 +961,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP7394
+	 * @see https://buddypress.trac.wordpress.org/ticket/7394
 	 */
 	public function test_nonexistent_activity_should_have_id_0_after_population() {
 		$a = self::factory()->activity->create();
@@ -1304,7 +977,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP8236
+	 * @see https://buddypress.trac.wordpress.org/ticket/8236
 	 */
 	public function test_save_activity_requires_component() {
 		$a = bp_activity_add(
@@ -1321,7 +994,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP8236
+	 * @see https://buddypress.trac.wordpress.org/ticket/8236
 	 */
 	public function test_save_activity_requires_type() {
 		$a = bp_activity_add(
@@ -1338,7 +1011,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP8236
+	 * @see https://buddypress.trac.wordpress.org/ticket/8236
 	 */
 	public function test_save_activity_requires_content() {
 		$a = bp_activity_add(
@@ -1355,7 +1028,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP8236
+	 * @see https://buddypress.trac.wordpress.org/ticket/8236
 	 */
 	public function test_save_activity_does_not_require_content() {
 		$a = bp_activity_add(
@@ -1371,7 +1044,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP8236
+	 * @see https://buddypress.trac.wordpress.org/ticket/8236
 	 */
 	public function test_save_activity_custom_type_requires_content() {
 		add_filter( 'bp_activity_type_requires_content', '__return_true' );

@@ -1,7 +1,6 @@
 <?php
 /**
  * @group core
- * @group avatars
  */
 class BP_Tests_Avatars extends BP_UnitTestCase {
 	private $params = array();
@@ -20,7 +19,7 @@ class BP_Tests_Avatars extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP4948
+	 * @see https://buddypress.trac.wordpress.org/ticket/4948
 	 */
 	public function test_avatars_on_non_root_blog() {
 		// Do not pass 'Go', do not collect $200
@@ -48,9 +47,6 @@ class BP_Tests_Avatars extends BP_UnitTestCase {
 		$this->go_to( '/' );
 	}
 
-	/**
-	 * @group bp_get_user_has_avatar
-	 */
 	public function test_bp_get_user_has_avatar_no_avatar_uploaded() {
 		$this->clean_existing_avatars();
 
@@ -58,9 +54,6 @@ class BP_Tests_Avatars extends BP_UnitTestCase {
 		$this->assertFalse( bp_get_user_has_avatar( $u ) );
 	}
 
-	/**
-	 * @group bp_get_user_has_avatar
-	 */
 	public function test_bp_get_user_has_avatar_has_avatar_uploaded() {
 		$u = self::factory()->user->create();
 
@@ -76,9 +69,6 @@ class BP_Tests_Avatars extends BP_UnitTestCase {
 		return 'foo';
 	}
 
-	/**
-	 * @group bp_core_fetch_avatar
-	 */
 	public function test_bp_core_fetch_avatar_parameter_conservation() {
 		// First, run the check with custom parameters, specifying no gravatar.
 		$this->params = array(
@@ -172,9 +162,6 @@ class BP_Tests_Avatars extends BP_UnitTestCase {
 		$this->assertSame( $html, $expected_html );
 	}
 
-	/**
-	 * @group bp_core_fetch_avatar
-	 */
 	public function test_bp_core_fetch_avatar_class_attribute() {
 		$u = self::factory()->user->create();
 
@@ -214,9 +201,6 @@ class BP_Tests_Avatars extends BP_UnitTestCase {
 		$this->assertSame( $expected, array_intersect_key( $expected, $classes ) );
 	}
 
-	/**
-	 * @group bp_core_check_avatar_type
-	 */
 	public function test_bp_core_check_avatar_type() {
 		$plugin_dir = trailingslashit( buddypress()->plugin_dir );
 
@@ -251,10 +235,6 @@ class BP_Tests_Avatars extends BP_UnitTestCase {
 		$this->assertTrue( bp_core_check_avatar_type( $file ), 'flash is using application/octet-stream for image uploads' );
 	}
 
-	/**
-	 * @group bp_core_check_avatar_type
-	 * @group bp_core_get_allowed_avatar_types
-	 */
 	public function test_bp_core_get_allowed_avatar_types_filter() {
 		$allowed_image_types = $this->allowed_image_types;
 		add_filter( 'bp_core_get_allowed_avatar_types', array( $this, 'avatar_types_filter_add_type' ) );
@@ -277,10 +257,6 @@ class BP_Tests_Avatars extends BP_UnitTestCase {
 		remove_filter( 'bp_core_get_allowed_avatar_types', '__return_empty_array' );
 	}
 
-	/**
-	 * @group bp_core_check_avatar_type
-	 * @group bp_core_get_allowed_avatar_mimes
-	 */
 	public function test_bp_core_get_allowed_avatar_mimes() {
 		$mimes               = bp_core_get_allowed_avatar_mimes();
 		$allowed_image_mimes = $this->allowed_image_mimes;
@@ -321,7 +297,7 @@ class BP_Tests_Avatars extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group BP7056
+	 * @see https://buddypress.trac.wordpress.org/ticket/7056
 	 */
 	public function test_no_grav_default_should_respect_thumb_type() {
 		$found = bp_core_fetch_avatar( array(
@@ -336,7 +312,7 @@ class BP_Tests_Avatars extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group BP7056
+	 * @see https://buddypress.trac.wordpress.org/ticket/7056
 	 */
 	public function test_no_grav_default_should_return_thumb_avatar_for_small_enough_width() {
 		$found = bp_core_fetch_avatar( array(
@@ -352,7 +328,7 @@ class BP_Tests_Avatars extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group BP7056
+	 * @see https://buddypress.trac.wordpress.org/ticket/7056
 	 */
 	public function test_no_grav_default_should_return_full_avatar_for_thumb_when_thumb_width_is_too_wide() {
 		add_filter( 'bp_core_avatar_thumb_width', array( $this, 'filter_thumb_width' ) );
@@ -372,9 +348,6 @@ class BP_Tests_Avatars extends BP_UnitTestCase {
 		return 51;
 	}
 
-	/**
-	 * @group bp_core_delete_existing_avatar
-	 */
 	public function test_bp_core_delete_existing_avatar() {
 		$avatar_dir1 = bp_core_avatar_upload_path() . '/avatars/1';
 		$avatar_dir2 = bp_core_avatar_upload_path() . '/avatars/2';
@@ -392,7 +365,7 @@ class BP_Tests_Avatars extends BP_UnitTestCase {
 			'avatar_dir' => false
 		) );
 
-		$this->assertTrue( is_dir( $avatar_dir1 ) );
+		$this->assertDirectoryExists( $avatar_dir1 );
 
 		$test2 = bp_core_delete_existing_avatar( array(
 			'item_id'    => '2',
@@ -400,7 +373,7 @@ class BP_Tests_Avatars extends BP_UnitTestCase {
 			'avatar_dir' => false
 		) );
 
-		$this->assertFalse( is_dir( $avatar_dir2 ) );
+		$this->assertDirectoryDoesNotExist( $avatar_dir2 );
 
 		$test1 = bp_core_delete_existing_avatar( array(
 			'item_id'    => 1.1,
@@ -408,7 +381,7 @@ class BP_Tests_Avatars extends BP_UnitTestCase {
 			'avatar_dir' => false
 		) );
 
-		$this->assertTrue( is_dir( $avatar_dir1 ) );
+		$this->assertDirectoryExists( $avatar_dir1 );
 
 		$test1 = bp_core_delete_existing_avatar( array(
 			'item_id'    => 1,
@@ -416,7 +389,7 @@ class BP_Tests_Avatars extends BP_UnitTestCase {
 			'avatar_dir' => false
 		) );
 
-		$this->assertFalse( is_dir( $avatar_dir1 ) );
+		$this->assertDirectoryDoesNotExist( $avatar_dir1 );
 	}
 
 	public function set_capture( $return, $data ) {
@@ -424,9 +397,6 @@ class BP_Tests_Avatars extends BP_UnitTestCase {
 		return false;
 	}
 
-	/**
-	 * @group bp_avatar_handle_capture
-	 */
 	public function test_bp_avatar_handle_capture() {
 		$u = self::factory()->user->create();
 		$data = 'hello world';

@@ -252,7 +252,7 @@ class BP_Blogs_Blog {
 			)
 		);
 
-		if ( ! is_user_logged_in() || ( ! bp_current_user_can( 'bp_moderate' ) && ( (int) $r['user_id'] !== bp_loggedin_user_id() ) ) ) {
+		if ( ! is_user_logged_in() || ( ! bp_current_user_can( 'bp_moderate' ) && ( bp_loggedin_user_id() !== (int) $r['user_id'] ) ) ) {
 			$hidden_sql = 'AND wb.public = 1';
 		} else {
 			$hidden_sql = '';
@@ -615,7 +615,7 @@ class BP_Blogs_Blog {
 		}
 
 		// If the user is logged in return the blog count including their hidden blogs.
-		if ( ( is_user_logged_in() && $user_id === bp_loggedin_user_id() ) || bp_current_user_can( 'bp_moderate' ) ) {
+		if ( ( is_user_logged_in() && bp_loggedin_user_id() === $user_id ) || bp_current_user_can( 'bp_moderate' ) ) {
 			return $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(DISTINCT b.blog_id) FROM {$bp->blogs->table_name} b LEFT JOIN {$wpdb->base_prefix}blogs wb ON b.blog_id = wb.blog_id WHERE wb.deleted = 0 AND wb.spam = 0 AND wb.mature = 0 AND wb.archived = '0' AND user_id = %d", $user_id ) );
 		}
 

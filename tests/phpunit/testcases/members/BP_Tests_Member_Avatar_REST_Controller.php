@@ -3,7 +3,6 @@
  * Member Avatar Controller Tests.
  *
  * @group members
- * @group member-avatar
  * @group attachments
  */
 class BP_Tests_Member_Avatar_REST_Controller extends BP_Test_REST_Controller_Testcase {
@@ -26,16 +25,10 @@ class BP_Tests_Member_Avatar_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertCount( 3, $routes[ $endpoint ] );
 	}
 
-	/**
-	 * @group get_items
-	 */
 	public function test_get_items() {
 		$this->markTestSkipped( 'This endpoint has no collection route or get_items() method.' );
 	}
 
-	/**
-	 * @group get_item
-	 */
 	public function test_get_item() {
 		$u1 = $this->bp::factory()->user->create();
 
@@ -53,9 +46,6 @@ class BP_Tests_Member_Avatar_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertTrue( isset( $all_data['full'] ) && isset( $all_data['thumb'] ) );
 	}
 
-	/**
-	 * @group get_item
-	 */
 	public function test_get_item_with_support_for_the_community_visibility() {
 		toggle_component_visibility();
 
@@ -66,9 +56,6 @@ class BP_Tests_Member_Avatar_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
 	}
 
-	/**
-	 * @group get_item
-	 */
 	public function test_get_item_publicly() {
 		$request = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '/%d/avatar', $this->user ) );
 		$request->set_param( 'context', 'view' );
@@ -82,9 +69,6 @@ class BP_Tests_Member_Avatar_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertTrue( isset( $all_data['full'] ) && isset( $all_data['thumb'] ) );
 	}
 
-	/**
-	 * @group get_item
-	 */
 	public function test_get_item_invalid_member_id() {
 		$request = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '/%d/avatar', REST_TESTS_IMPOSSIBLY_HIGH_NUMBER ) );
 		$request->set_param( 'context', 'view' );
@@ -92,9 +76,6 @@ class BP_Tests_Member_Avatar_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertErrorResponse( 'bp_rest_member_invalid_id', $response, 404 );
 	}
 
-	/**
-	 * @group create_item
-	 */
 	public function test_create_item() {
 		$reset_files = $_FILES;
 		$reset_post  = $_POST;
@@ -158,9 +139,6 @@ class BP_Tests_Member_Avatar_REST_Controller extends BP_Test_REST_Controller_Tes
 		return 100;
 	}
 
-	/**
-	 * @group create_item
-	 */
 	public function test_create_item_with_upload_disabled() {
 		wp_set_current_user( $this->user );
 
@@ -173,9 +151,6 @@ class BP_Tests_Member_Avatar_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertErrorResponse( 'bp_rest_attachments_member_avatar_disabled', $response, 500 );
 	}
 
-	/**
-	 * @group create_item
-	 */
 	public function test_create_item_empty_image() {
 		wp_set_current_user( $this->user );
 
@@ -185,9 +160,6 @@ class BP_Tests_Member_Avatar_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertErrorResponse( 'bp_rest_attachments_member_avatar_no_image_file', $response, 500 );
 	}
 
-	/**
-	 * @group create_item
-	 */
 	public function test_create_item_user_not_logged_in() {
 		$request = new WP_REST_Request( 'POST', sprintf( $this->endpoint_url . '/%d/avatar', $this->user ) );
 		$request->set_param( 'context', 'edit' );
@@ -195,9 +167,6 @@ class BP_Tests_Member_Avatar_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
 	}
 
-	/**
-	 * @group create_item
-	 */
 	public function test_create_item_invalid_member_id() {
 		$u1 = $this->bp::factory()->user->create();
 
@@ -209,16 +178,15 @@ class BP_Tests_Member_Avatar_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertErrorResponse( 'bp_rest_member_invalid_id', $response, 404 );
 	}
 
-	/**
-	 * @group update_item
-	 */
 	public function test_update_item() {
-		$this->markTestSkipped( 'This endpoint does not support updating member avatars.' );
+		// This endpoint does not support updating member avatars.
+		foreach ( array( 'PUT', 'PATCH' ) as $method ) {
+			$request  = new WP_REST_Request( $method, sprintf( $this->endpoint_url . '/%d/avatar', $this->user ) );
+			$response = $this->server->dispatch( $request );
+			$this->assertErrorResponse( 'rest_no_route', $response, 404 );
+		}
 	}
 
-	/**
-	 * @group delete_item
-	 */
 	public function test_delete_item() {
 		$user_id = $this->bp::factory()->user->create();
 
@@ -265,7 +233,7 @@ class BP_Tests_Member_Avatar_REST_Controller extends BP_Test_REST_Controller_Tes
 			);
 			$this->assertFalse( file_exists( $full ) );
 			$this->assertFalse( file_exists( $thumb ) );
-			$this->assertFalse( is_dir( $avatar_dir ) );
+			$this->assertDirectoryDoesNotExist( $avatar_dir );
 			$this->assertFalse( bp_get_user_has_avatar( $user_id ) );
 		} finally {
 			$this->bp->rrmdir( $upload_dir );
@@ -274,9 +242,6 @@ class BP_Tests_Member_Avatar_REST_Controller extends BP_Test_REST_Controller_Tes
 		}
 	}
 
-	/**
-	 * @group delete_item
-	 */
 	public function test_delete_item_failed() {
 		wp_set_current_user( $this->user );
 
@@ -287,9 +252,6 @@ class BP_Tests_Member_Avatar_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertErrorResponse( 'bp_rest_attachments_member_avatar_no_uploaded_avatar', $response, 404 );
 	}
 
-	/**
-	 * @group delete_item
-	 */
 	public function test_delete_item_user_not_logged_in() {
 		$request = new WP_REST_Request( 'DELETE', sprintf( $this->endpoint_url . '/%d/avatar', $this->user ) );
 		$request->set_param( 'context', 'edit' );
@@ -297,9 +259,6 @@ class BP_Tests_Member_Avatar_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
 	}
 
-	/**
-	 * @group delete_item
-	 */
 	public function test_delete_item_invalid_member_id() {
 		$request = new WP_REST_Request( 'DELETE', sprintf( $this->endpoint_url . '/%d/avatar', REST_TESTS_IMPOSSIBLY_HIGH_NUMBER ) );
 		$request->set_param( 'context', 'edit' );
@@ -307,9 +266,6 @@ class BP_Tests_Member_Avatar_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->assertErrorResponse( 'bp_rest_member_invalid_id', $response, 404 );
 	}
 
-	/**
-	 * @group prepare_item
-	 */
 	public function test_prepare_item() {
 		global $wp_rest_additional_fields;
 

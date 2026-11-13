@@ -19,8 +19,7 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP4915
-	 * @group bp_core_delete_account
+	 * @see https://buddypress.trac.wordpress.org/ticket/4915
 	 */
 	public function test_bp_core_delete_account() {
 		// Stash
@@ -63,7 +62,7 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP8175
+	 * @see https://buddypress.trac.wordpress.org/ticket/8175
 	 */
 	public function test_last_activity_data_should_be_deleted_on_user_delete_non_multisite() {
 		$this->skipWithMultisite();
@@ -81,7 +80,7 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP8175
+	 * @see https://buddypress.trac.wordpress.org/ticket/8175
 	 */
 	public function test_last_activity_data_should_be_deleted_on_user_delete_multisite() {
 		$this->skipWithoutMultisite();
@@ -99,7 +98,7 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP8175
+	 * @see https://buddypress.trac.wordpress.org/ticket/8175
 	 */
 	public function test_last_activity_data_should_not_be_deleted_on_wp_delete_user_multisite() {
 		$this->skipWithoutMultisite();
@@ -116,10 +115,6 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 		$this->assertSame( $now, bp_get_user_last_activity( $u1 ) );
 	}
 
-	/**
-	 * @group object_cache
-	 * @group bp_core_get_directory_pages
-	 */
 	public function test_bp_members_get_user_url_after_directory_page_update() {
 		// Generate user
 		$user_id = self::factory()->user->create();
@@ -147,16 +142,10 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 		$this->assertSame( home_url( $new_members_slug ) . '/' . $user->user_nicename . '/', bp_members_get_user_url( $user_id ) );
 	}
 
-	/**
-	 * @group bp_core_get_user_displayname
-	 */
 	public function test_bp_core_get_user_displayname_empty_username() {
 		$this->assertFalse( bp_core_get_user_displayname( '' ) );
 	}
 
-	/**
-	 * @group bp_core_get_user_displayname
-	 */
 	public function test_bp_core_get_user_displayname_translate_username() {
 		$u = self::factory()->user->create();
 
@@ -167,16 +156,10 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 		$this->assertSame( $found, bp_core_get_user_displayname( $user->user_login ) );
 	}
 
-	/**
-	 * @group bp_core_get_user_displayname
-	 */
 	public function test_bp_core_get_user_displayname_bad_username() {
 		$this->assertFalse( bp_core_get_user_displayname( 'i_dont_exist' ) );
 	}
 
-	/**
-	 * @group bp_core_get_user_displayname
-	 */
 	public function test_bp_core_get_user_displayname_xprofile_exists() {
 		$xprofile_is_active                         = bp_is_active( 'xprofile' );
 		buddypress()->active_components['xprofile'] = '1';
@@ -191,16 +174,10 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 		}
 	}
 
-	/**
-	 * @group bp_core_get_user_displaynames
-	 */
 	public function test_bp_core_get_user_displayname_arrays_all_bad_entries() {
 		$this->assertSame( array(), bp_core_get_user_displaynames( array( 0, 'foo' ) ) );
 	}
 
-	/**
-	 * @group bp_core_get_user_displaynames
-	 */
 	public function test_bp_core_get_user_displaynames_all_uncached() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -215,9 +192,6 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 		$this->assertSame( $expected, bp_core_get_user_displaynames( array( $u1, $u2 ) ) );
 	}
 
-	/**
-	 * @group bp_core_get_user_displaynames
-	 */
 	public function test_bp_core_get_user_displaynames_one_not_in_xprofile() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create(
@@ -235,9 +209,6 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 		$this->assertSame( $expected, bp_core_get_user_displaynames( array( $u1, $u2 ) ) );
 	}
 
-	/**
-	 * @group bp_members_migrate_signups
-	 */
 	public function test_bp_members_migrate_signups_standard() {
 		$u     = self::factory()->user->create();
 		$u_obj = new WP_User( $u );
@@ -269,9 +240,6 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 		$this->assertSame( $key, $found_key );
 	}
 
-	/**
-	 * @group bp_members_migrate_signups
-	 */
 	public function test_bp_members_migrate_signups_activation_key_but_user_status_0() {
 		$u     = self::factory()->user->create();
 		$u_obj = new WP_User( $u );
@@ -300,9 +268,6 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 		$this->assertEmpty( $found['total'] );
 	}
 
-	/**
-	 * @group bp_members_migrate_signups
-	 */
 	public function test_bp_members_migrate_signups_no_activation_key_but_user_status_2() {
 		$u     = self::factory()->user->create();
 		$u_obj = new WP_User( $u );
@@ -327,7 +292,6 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group bp_last_activity_migrate
 	 * @expectedIncorrectUsage update_user_meta( $user_id, 'last_activity' )
 	 * @expectedIncorrectUsage get_user_meta( $user_id, 'last_activity' )
 	 */
@@ -387,16 +351,10 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 		$this->assertSame( $expected, $found );
 	}
 
-	/**
-	 * @group bp_core_get_userid_from_nicename
-	 */
 	public function test_bp_core_get_userid_from_nicename_failure() {
 		$this->assertNull( bp_core_get_userid_from_nicename( 'non_existent_user' ) );
 	}
 
-	/**
-	 * @group bp_update_user_last_activity
-	 */
 	public function test_bp_last_activity_multi_network() {
 
 		// Filter the usermeta key
@@ -418,7 +376,6 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group bp_update_user_last_activity
 	 * @global wpdb $wpdb WordPress database object.
 	 * @param string $key User meta key.
 	 * @return string
@@ -428,9 +385,6 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 		return $wpdb->prefix . $key;
 	}
 
-	/**
-	 * @group bp_core_process_spammer_status
-	 */
 	public function test_bp_core_process_spammer_status() {
 		$this->skipWithMultisite();
 
@@ -454,9 +408,6 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 		$bp->displayed_user = $displayed_user;
 	}
 
-	/**
-	 * @group bp_core_process_spammer_status
-	 */
 	public function test_bp_core_process_spammer_status_ms_bulk_spam() {
 		$this->skipWithoutMultisite();
 
@@ -485,9 +436,6 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 		$bp->displayed_user = $displayed_user;
 	}
 
-	/**
-	 * @group bp_core_process_spammer_status
-	 */
 	public function test_bp_core_process_spammer_status_ms_bulk_ham() {
 		$this->skipWithoutMultisite();
 
@@ -520,9 +468,6 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 		$this->filter_fired = current_action();
 	}
 
-	/**
-	 * @group bp_core_process_spammer_status
-	 */
 	public function test_bp_core_process_spammer_status_make_spam_user_filter() {
 		$u1 = self::factory()->user->create();
 
@@ -573,8 +518,7 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group bp_core_process_spammer_status
-	 * @ticket BP8316
+	 * @see https://buddypress.trac.wordpress.org/ticket/8316
 	 */
 	public function test_bp_core_process_spammer_status_ms_should_only_spam_sites_with_one_admin() {
 		$this->skipWithoutMultisite();
@@ -596,7 +540,7 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP6208
+	 * @see https://buddypress.trac.wordpress.org/ticket/6208
 	 *
 	 * Note - it's not possible to test this when registration is not configured properly,
 	 * because `bp_has_custom_signup_page()` stores its value in a static variable that cannot
@@ -606,18 +550,12 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 		$this->assertSame( bp_get_signup_page(), wp_registration_url() );
 	}
 
-	/**
-	 * @group bp_members_validate_user_password
-	 */
 	public function test_bp_members_validate_user_password() {
 		$validate = bp_members_validate_user_password( 'foobar', 'foobar' );
 
 		$this->assertEmpty( $validate->get_error_message() );
 	}
 
-	/**
-	 * @group bp_members_validate_user_password
-	 */
 	public function test_bp_members_validate_user_password_missing() {
 		$validate = bp_members_validate_user_password( '', '' );
 
@@ -632,18 +570,12 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 		$this->assertSame( 'missing_user_password', $validate->get_error_code() );
 	}
 
-	/**
-	 * @group bp_members_validate_user_password
-	 */
 	public function test_bp_members_validate_user_password_mismatching() {
 		$validate = bp_members_validate_user_password( 'foobar', 'barfoo' );
 
 		$this->assertSame( 'mismatching_user_password', $validate->get_error_code() );
 	}
 
-	/**
-	 * @group bp_members_validate_user_password
-	 */
 	public function test_bp_members_validate_user_password_too_short() {
 		add_filter( 'bp_members_validate_user_password', array( $this, 'filter_bp_members_validate_user_password' ), 10, 2 );
 
@@ -662,9 +594,6 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 		return $errors;
 	}
 
-	/**
-	 * @group bp_core_activate_signup
-	 */
 	public function test_bp_core_activate_signup_password() {
 		global $wpdb;
 
@@ -719,26 +648,26 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP7461
+	 * @see https://buddypress.trac.wordpress.org/ticket/7461
 	 *
 	 * Test function before and after adding custom illegal names from WordPress.
 	 */
 	public function test_bp_core_get_illegal_names() {
 
 		// Making sure BP custom illegals are in the array.
-		$this->assertTrue( in_array( 'profile', bp_core_get_illegal_names(), true ) );
-		$this->assertTrue( in_array( 'forums', bp_core_get_illegal_names(), true ) );
+		$this->assertContains( 'profile', bp_core_get_illegal_names() );
+		$this->assertContains( 'forums', bp_core_get_illegal_names() );
 
 		add_filter( 'illegal_user_logins', array( $this, '_illegal_user_logins' ) );
 
 		// Testing fake custom illegal names.
-		$this->assertTrue( in_array( 'testuser', bp_core_get_illegal_names(), true ) );
-		$this->assertTrue( in_array( 'admins', bp_core_get_illegal_names(), true ) );
-		$this->assertFalse( in_array( 'buddypresss', bp_core_get_illegal_names(), true ) );
+		$this->assertContains( 'testuser', bp_core_get_illegal_names() );
+		$this->assertContains( 'admins', bp_core_get_illegal_names() );
+		$this->assertNotContains( 'buddypresss', bp_core_get_illegal_names() );
 
 		// Making sure BP custom illegals are in the array after including the custom ones.
-		$this->assertTrue( in_array( 'profile', bp_core_get_illegal_names(), true ) );
-		$this->assertTrue( in_array( 'forums', bp_core_get_illegal_names(), true ) );
+		$this->assertContains( 'profile', bp_core_get_illegal_names() );
+		$this->assertContains( 'forums', bp_core_get_illegal_names() );
 
 		remove_filter( 'illegal_user_logins', array( $this, '_illegal_user_logins' ) );
 	}
@@ -751,9 +680,6 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 		);
 	}
 
-	/**
-	 * @group bp_core_activate_signup
-	 */
 	public function test_bp_core_activate_signup_should_add_user_role() {
 		$key = 'test';
 
@@ -779,7 +705,7 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP6155
+	 * @see https://buddypress.trac.wordpress.org/ticket/6155
 	 */
 	public function test_bp_core_get_active_member_count_excludes_spammed_users() {
 		$this->assertSame( 0, bp_core_get_active_member_count() );

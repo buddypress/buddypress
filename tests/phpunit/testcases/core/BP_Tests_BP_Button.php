@@ -2,7 +2,6 @@
 
 /**
  * @group core
- * @group BP_Button
  */
 class BP_Tests_BP_Button extends BP_UnitTestCase {
 	protected $permalink_structure = '';
@@ -18,9 +17,6 @@ class BP_Tests_BP_Button extends BP_UnitTestCase {
 		parent::tear_down();
 	}
 
-	/**
-	 * @group block_self
-	 */
 	public function test_block_self_own_profile() {
 		$u = self::factory()->user->create();
 		wp_set_current_user( $u );
@@ -37,9 +33,6 @@ class BP_Tests_BP_Button extends BP_UnitTestCase {
 		$this->assertSame( '', $b->contents );
 	}
 
-	/**
-	 * @group block_self
-	 */
 	public function test_block_self_others_profile() {
 		$u1 = self::factory()->user->create();
 		wp_set_current_user( $u1 );
@@ -57,9 +50,6 @@ class BP_Tests_BP_Button extends BP_UnitTestCase {
 		$this->assertNotEmpty( $b->contents );
 	}
 
-	/**
-	 * @group block_self
-	 */
 	public function test_block_self_inside_members_loop() {
 		$now = time();
 		$u1 = self::factory()->user->create( array(
@@ -97,9 +87,6 @@ class BP_Tests_BP_Button extends BP_UnitTestCase {
 		$GLOBALS['members_template'] = null;
 	}
 
-	/**
-	 * @group block_self
-	 */
 	public function test_block_self_false_inside_members_loop() {
 		$now = time();
 		$u1 = self::factory()->user->create( array(
@@ -137,9 +124,6 @@ class BP_Tests_BP_Button extends BP_UnitTestCase {
 		$GLOBALS['members_template'] = null;
 	}
 
-	/**
-	 * @group block_self
-	 */
 	public function test_block_self_inside_members_loop_on_my_profile_page() {
 		$now = time();
 		$u1 = self::factory()->user->create( array(
@@ -180,7 +164,7 @@ class BP_Tests_BP_Button extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP7226
+	 * @see https://buddypress.trac.wordpress.org/ticket/7226
 	 */
 	public function test_bp_button_new_args() {
 		$b = new BP_Button( array(
@@ -202,66 +186,22 @@ class BP_Tests_BP_Button extends BP_UnitTestCase {
 			)
 		) );
 
-		$this->assertIsInt( strpos( $b->contents, '<section ' ) );
-		$this->assertIsInt( strpos( $b->contents, 'class="section-class ' ) );
-		$this->assertIsInt( strpos( $b->contents, 'id="section-id"' ) );
-		$this->assertIsInt( strpos( $b->contents, 'data-parent="foo"' ) );
-		$this->assertIsInt( strpos( $b->contents, '<button ' ) );
-		$this->assertIsInt( strpos( $b->contents, 'autofocus="autofocus"' ) );
-		$this->assertIsInt( strpos( $b->contents, 'type="submit"' ) );
-		$this->assertIsInt( strpos( $b->contents, 'name="my-button"' ) );
+		$this->assertStringContainsString( '<section ', $b->contents );
+		$this->assertStringContainsString( 'class="section-class ', $b->contents );
+		$this->assertStringContainsString( 'id="section-id"', $b->contents );
+		$this->assertStringContainsString( 'data-parent="foo"', $b->contents );
+		$this->assertStringContainsString( '<button ', $b->contents );
+		$this->assertStringContainsString( 'autofocus="autofocus"', $b->contents );
+		$this->assertStringContainsString( 'type="submit"', $b->contents );
+		$this->assertStringContainsString( 'name="my-button"', $b->contents );
 	}
 
-	/**
-	 * @ticket BP7226
-	 */
-	public function test_bp_button_deprecated_args_should_still_render() {
-		$b = new BP_Button( array(
-			'id' => 'foo',
-			'component' => 'members',
-			'block_self' => false,
-			'must_be_logged_in' => false,
-			'wrapper' => 'section',
-			'wrapper_class' => 'section-class',
-			'wrapper_id' => 'section-id',
-			'link_href' => 'http://example.com',
-			'link_class' => 'link-class',
-			'link_id' => 'link-id',
-			'link_rel' => 'nofollow',
-			'link_title' => 'link-title'
-		) );
 
-		$this->assertIsInt( strpos( $b->contents, '<section ' ) );
-		$this->assertIsInt( strpos( $b->contents, 'class="section-class ' ) );
-		$this->assertIsInt( strpos( $b->contents, 'id="section-id"' ) );
-		$this->assertIsInt( strpos( $b->contents, 'href="http://example.com"' ) );
-		$this->assertIsInt( strpos( $b->contents, 'class="link-class"' ) );
-		$this->assertIsInt( strpos( $b->contents, 'id="link-id"' ) );
-		$this->assertIsInt( strpos( $b->contents, 'rel="nofollow"' ) );
-		$this->assertIsInt( strpos( $b->contents, 'title="link-title"' ) );
-	}
+
+
 
 	/**
-	 * @ticket BP7226
-	 */
-	public function test_bp_button_new_element_attrs_have_precedence_over_deprecated_element_attrs() {
-		$b = new BP_Button( array(
-			'id' => 'foo',
-			'component' => 'members',
-			'block_self' => false,
-			'must_be_logged_in' => false,
-			'button_element' => 'button',
-			'button_attr' => array(
-				'class' => 'new-class',
-			),
-			'link_class' => 'old-class'
-		) );
-
-		$this->assertIsInt( strpos( $b->contents, '<button class="new-class"' ) );
-	}
-
-	/**
-	 * @ticket BP7226
+	 * @see https://buddypress.trac.wordpress.org/ticket/7226
 	 */
 	public function test_bp_button_new_element_attrs_should_not_render_for_empty_attrs() {
 		$b = new BP_Button( array(
@@ -275,6 +215,6 @@ class BP_Tests_BP_Button extends BP_UnitTestCase {
 			),
 		) );
 
-		$this->assertFalse( strpos( $b->contents, '<button class=""' ) );
+		$this->assertStringNotContainsString( '<button class=""', $b->contents );
 	}
 }

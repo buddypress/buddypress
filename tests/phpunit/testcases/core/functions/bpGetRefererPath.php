@@ -2,8 +2,6 @@
 
 /**
  * @group core
- * @group functions
- * @group bp_get_referer_path
  */
 class BP_Tests_Core_Functions_BPGetRefererPath extends BP_UnitTestCase {
 	private $_wp_http_referer = '';

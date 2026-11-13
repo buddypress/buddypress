@@ -5,10 +5,7 @@
  * @group activity
  */
 class BP_Tests_Friends_Activity extends BP_UnitTestCase {
-	/**
-	 * @group activity_action
-	 * @group bp_friends_format_activity_action_friendship_accepted
-	 */
+
 	public function test_bp_friends_format_activity_action_friendship_accepted() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -27,10 +24,6 @@ class BP_Tests_Friends_Activity extends BP_UnitTestCase {
 		$this->assertSame( $expected, $a_obj->action );
 	}
 
-	/**
-	 * @group activity_action
-	 * @group bp_friends_format_activity_action_friendship_created
-	 */
 	public function test_bp_friends_format_activity_action_friendship_created() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
@@ -49,9 +42,6 @@ class BP_Tests_Friends_Activity extends BP_UnitTestCase {
 		$this->assertSame( $expected, $a_obj->action );
 	}
 
-	/**
-	 * @group friends_delete_activity
-	 */
 	public function test_friends_delete_activity() {
 		$old_user = get_current_user_id();
 
@@ -96,9 +86,6 @@ class BP_Tests_Friends_Activity extends BP_UnitTestCase {
 		$this->assertCount( 0, $fd_act['activities'], 'friends_delete_activity() should remove "friendship_created" activities about a deleted friendship' );
 	}
 
-	/**
-	 * @group bp_friends_friendship_accepted_activity
-	 */
 	public function test_bp_friends_friendship_accepted_activity() {
 		$old_user = get_current_user_id();
 
@@ -134,9 +121,6 @@ class BP_Tests_Friends_Activity extends BP_UnitTestCase {
 		$this->assertCount( 1, $u2_act['activities'], 'a public activity should be listed in the initiator stream' );
 	}
 
-	/**
-	 * @group bp_cleanup_friendship_activities
-	 */
 	public function test_bp_cleanup_friendship_activities() {
 		$old_user = get_current_user_id();
 
@@ -187,9 +171,6 @@ class BP_Tests_Friends_Activity extends BP_UnitTestCase {
 		$this->assertCount( 1, $check['activities'] );
 	}
 
-	/**
-	 * @group friends_delete_activity
-	 */
 	public function test_delete_friendship_activity_on_user_delete() {
 		$old_user = get_current_user_id();
 

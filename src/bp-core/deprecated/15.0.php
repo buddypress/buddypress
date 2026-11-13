@@ -6,6 +6,28 @@
  * @deprecated 15.0.0
  */
 
+// Exit if accessed directly.
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * The deprecated-loading constants no longer affect which files are loaded.
+ *
+ * @since 15.0.0
+ */
+foreach ( array( 'BP_LOAD_DEPRECATED', 'BP_IGNORE_DEPRECATED' ) as $deprecated_constant ) {
+	if ( defined( $deprecated_constant ) ) {
+		wp_trigger_error(
+			'',
+			sprintf(
+				/* translators: %s: deprecated constant name. */
+				__( 'The %s constant is deprecated and no longer affects deprecated function loading. You can remove it from your configuration.', 'buddypress' ),
+				$deprecated_constant
+			),
+			E_USER_DEPRECATED
+		);
+	}
+}
+
 /**
  * Output whether signup is allowed.
  *

@@ -2,7 +2,6 @@
 
 /**
  * @group blogs
- * @group BP_Blogs_Blog
  */
 class BP_Tests_BP_Blogs_Blog_TestCases extends BP_UnitTestCase {
 	public function test_self_removing_sql_clauses_filter_at_priority_zero() {
@@ -191,7 +190,7 @@ class BP_Tests_BP_Blogs_Blog_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP5858
+	 * @see https://buddypress.trac.wordpress.org/ticket/5858
 	 */
 	public function test_get_with_search_terms_should_match_description() {
 		$this->skipWithoutMultisite();
@@ -240,9 +239,6 @@ class BP_Tests_BP_Blogs_Blog_TestCases extends BP_UnitTestCase {
 		$this->assertSame( array( $b ), $blog_ids );
 	}
 
-	/**
-	 * @group get_by_letter
-	 */
 	public function test_get_by_letter() {
 		$this->skipWithoutMultisite();
 
@@ -264,9 +260,6 @@ class BP_Tests_BP_Blogs_Blog_TestCases extends BP_UnitTestCase {
 		$this->assertSame( array( $b ), $blog_ids );
 	}
 
-	/**
-	 * @group get_order_by
-	 */
 	public function test_get_order_by() {
 		$this->skipWithoutMultisite();
 
@@ -321,9 +314,6 @@ class BP_Tests_BP_Blogs_Blog_TestCases extends BP_UnitTestCase {
 		wp_set_current_user( $old_user );
 	}
 
-	/**
-	 * @group date_query
-	 */
 	public function test_get_with_date_query_before() {
 		$this->skipWithoutMultisite();
 
@@ -359,9 +349,6 @@ class BP_Tests_BP_Blogs_Blog_TestCases extends BP_UnitTestCase {
 		$this->assertSame( [ $b2 ], wp_list_pluck( $sites['blogs'], 'blog_id' ) );
 	}
 
-	/**
-	 * @group date_query
-	 */
 	public function test_get_with_date_query_range() {
 		$this->skipWithoutMultisite();
 
@@ -399,9 +386,6 @@ class BP_Tests_BP_Blogs_Blog_TestCases extends BP_UnitTestCase {
 		$this->assertSame( [ $b2 ], wp_list_pluck( $sites['blogs'], 'blog_id' ) );
 	}
 
-	/**
-	 * @group date_query
-	 */
 	public function test_get_with_date_query_after() {
 		$this->skipWithoutMultisite();
 

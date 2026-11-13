@@ -422,7 +422,7 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 		foreach ( $settings as $key => &$value ) {
 			switch ( $key ) {
 				case 'range_type':
-					if ( $value !== 'absolute' ) {
+					if ( 'absolute' !== $value ) {
 						$value = 'relative';
 					}
 					break;

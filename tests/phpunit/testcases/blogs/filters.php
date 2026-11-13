@@ -1,7 +1,7 @@
 <?php
 /**
  * @group blogs
- * @ticket BP6306
+ * @see https://buddypress.trac.wordpress.org/ticket/6306
  */
 class BP_Tests_Blogs_Filters extends BP_UnitTestCase {
 	protected $activity_actions;
@@ -53,7 +53,6 @@ class BP_Tests_Blogs_Filters extends BP_UnitTestCase {
 
 	/**
 	 * @goup bp_blogs_record_comment
-	 * @group post_type_comment_activities
 	 */
 	public function test_bp_blogs_record_comment() {
 		$u = self::factory()->user->create();
@@ -79,7 +78,6 @@ class BP_Tests_Blogs_Filters extends BP_UnitTestCase {
 
 	/**
 	 * @goup bp_blogs_record_comment_sync_activity_comment
-	 * @group post_type_comment_activities
 	 */
 	public function test_bp_blogs_record_comment_sync_activity_comment() {
 		$u = self::factory()->user->create();

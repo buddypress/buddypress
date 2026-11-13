@@ -2,7 +2,6 @@
 
 /**
  * @group core
- * @group core-template-loader
  */
 class BP_Tests_Template_Loader_Functions extends BP_UnitTestCase {
 
@@ -26,11 +25,8 @@ class BP_Tests_Template_Loader_Functions extends BP_UnitTestCase {
 		);
 	}
 
-	/**
-	 * @group bp_buffer_template_part
-	 */
 	public function test_bp_buffer_template_part() {
 		$buffer = bp_buffer_template_part( 'index', null, false, array( 'test' => 1 ) );
-		$this->assertTrue( 2 === (int) $buffer );
+		$this->assertSame( 2, (int) $buffer );
 	}
 }

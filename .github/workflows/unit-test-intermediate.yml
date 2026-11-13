@@ -1,0 +1,28 @@
+name: Intermediate WordPress
+
+on:
+  pull_request:
+    paths-ignore:
+      - 'docs/**'
+  push:
+    branches: [ master ]
+    paths-ignore:
+      - 'docs/**'
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.run_id }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  versions:
+    uses: ./.github/workflows/reusable-wordpress-versions.yml
+  tests:
+    needs: versions
+    if: needs.versions.outputs.has-intermediate == 'true'
+    uses: ./.github/workflows/reusable-phpunit.yml
+    with:
+      matrix: ${{ needs.versions.outputs.intermediate }}

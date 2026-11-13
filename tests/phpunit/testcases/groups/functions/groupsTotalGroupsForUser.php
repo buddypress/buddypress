@@ -6,14 +6,14 @@
  */
 class BP_Tests_Groups_Functions_GroupsTotalGroupsForUser extends BP_UnitTestCase {
 	/**
-	 * @ticket BP6813
+	 * @see https://buddypress.trac.wordpress.org/ticket/6813
 	 */
 	public function test_should_return_integer() {
 		$this->assertIsInt( groups_total_groups_for_user( 123 ) );
 	}
 
 	/**
-	 * @ticket BP6813
+	 * @see https://buddypress.trac.wordpress.org/ticket/6813
 	 */
 	public function test_should_return_integer_when_fetching_from_cache() {
 		/*

@@ -1249,7 +1249,7 @@ function bp_legacy_theme_delete_activity_comment() {
 	$comment = new BP_Activity_Activity( $_POST['id'] );
 
 	// Check access.
-	if ( ! bp_current_user_can( 'bp_moderate' ) && $comment->user_id !== bp_loggedin_user_id() ) {
+	if ( ! bp_current_user_can( 'bp_moderate' ) && bp_loggedin_user_id() !== $comment->user_id ) {
 		exit( '-1' );
 	}
 

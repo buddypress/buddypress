@@ -2,7 +2,6 @@
 
 /**
  * @group friends
- * @group functions
  */
 class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 	static public $user_ids;
@@ -40,11 +39,6 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 		}
 	}
 
-	/**
-	 * @group friends_get_friendship_request_user_ids
-	 * @group friends_add_friend
-	 * @group friends_accept_friendship
-	 */
 	public function test_requests_on_accept() {
 		$u1 = self::$user_ids[0];
 		$u2 = self::$user_ids[1];
@@ -76,10 +70,6 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 		wp_set_current_user( $old_user );
 	}
 
-	/**
-	 * @group friends_get_friendship_request_user_ids
-	 * @group friends_add_friend
-	 */
 	public function test_requests_on_request() {
 		$u1 = self::$user_ids[0];
 		$u2 = self::$user_ids[1];
@@ -105,11 +95,6 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 		$this->assertSame( array( $u3, $u2 ), $requests );
 	}
 
-	/**
-	 * @group friends_get_friendship_request_user_ids
-	 * @group friends_add_friend
-	 * @group friends_withdraw_friendship
-	 */
 	public function test_requests_on_withdraw() {
 		$u1 = self::$user_ids[0];
 		$u2 = self::$user_ids[1];
@@ -133,11 +118,6 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 		wp_set_current_user( $old_user );
 	}
 
-	/**
-	 * @group friends_get_friendship_request_user_ids
-	 * @group friends_add_friend
-	 * @group friends_reject_friendship
-	 */
 	public function test_requests_on_reject() {
 		$u1 = self::$user_ids[0];
 		$u2 = self::$user_ids[1];
@@ -161,17 +141,11 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 		wp_set_current_user( $old_user );
 	}
 
-	/**
-	 * @group friends_add_friend
-	 */
 	public function test_friends_add_friend_fail_on_self() {
 		$u1 = self::$user_ids[0];
 		$this->assertFalse( friends_add_friend( $u1, $u1 ) );
 	}
 
-	/**
-	 * @group friends_add_friend
-	 */
 	public function test_friends_add_friend_already_friends() {
 		$u1 = self::$user_ids[0];
 		$u2 = self::$user_ids[1];
@@ -181,9 +155,6 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 		$this->assertTrue( friends_add_friend( $u1, $u2 ) );
 	}
 
-	/**
-	 * @group friends_check_friendship_status
-	 */
 	public function test_friends_check_friendship_status_in_members_loop() {
 		$now = time();
 		$u1 = self::$user_ids[0];
@@ -219,9 +190,6 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 		wp_set_current_user( $old_user );
 	}
 
-	/**
-	 * @group friends_check_friendship_status
-	 */
 	public function test_friends_check_friendship_status_not_in_members_loop() {
 		$u1 = self::$user_ids[0];
 		$u2 = self::$user_ids[1];
@@ -252,9 +220,6 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 		$this->assertSame( $expected, $found );
 	}
 
-	/**
-	 * @group friends_add_friend
-	 */
 	public function test_friends_add_friend_friends_friendship_requested() {
 		$u1 = self::$user_ids[0];
 		$u2 = self::$user_ids[1];
@@ -266,9 +231,6 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 		$this->assertSame( 'friends_friendship_requested', $this->filter_fired );
 	}
 
-	/**
-	 * @group friends_add_friend
-	 */
 	public function test_friends_add_friend_friends_friendship_accepted() {
 		$u1 = self::$user_ids[0];
 		$u2 = self::$user_ids[1];
@@ -285,9 +247,6 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 		return $value;
 	}
 
-	/**
-	 * @group friends_remove_friend
-	 */
 	public function test_friends_check_is_friend_after_remove() {
 		$old_user = get_current_user_id();
 		$u1 = self::$user_ids[0];
@@ -327,9 +286,6 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 		wp_set_current_user( $old_user );
 	}
 
-	/**
-	 * @group friendship_caching
-	 */
 	public function test_friends_check_friendship_should_hit_friendship_object_cache() {
 		global $wpdb;
 
@@ -415,8 +371,8 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP7821
-	 * @ticket BP7698
+	 * @see https://buddypress.trac.wordpress.org/ticket/7821
+	 * @see https://buddypress.trac.wordpress.org/ticket/7698
 	 */
 	public function test_bp_friends_personal_data_exporter() {
 		friends_add_friend( self::$user_ids[0], self::$user_ids[1], true );
@@ -439,8 +395,8 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP7821
-	 * @ticket BP7698
+	 * @see https://buddypress.trac.wordpress.org/ticket/7821
+	 * @see https://buddypress.trac.wordpress.org/ticket/7698
 	 */
 	public function test_bp_friends_pending_sent_requests_personal_data_exporter() {
 		friends_add_friend( self::$user_ids[0], self::$user_ids[1], true );
@@ -462,8 +418,8 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP7821
-	 * @ticket BP7698
+	 * @see https://buddypress.trac.wordpress.org/ticket/7821
+	 * @see https://buddypress.trac.wordpress.org/ticket/7698
 	 */
 	public function test_bp_friends_pending_received_requests_personal_data_exporter() {
 		friends_add_friend( self::$user_ids[0], self::$user_ids[1], true );
@@ -485,7 +441,7 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP8175
+	 * @see https://buddypress.trac.wordpress.org/ticket/8175
 	 */
 	public function test_friends_data_should_be_deleted_on_user_delete_non_multisite() {
 		$this->skipWithMultisite();
@@ -503,7 +459,7 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP8175
+	 * @see https://buddypress.trac.wordpress.org/ticket/8175
 	 */
 	public function test_xprofile_data_should_be_deleted_on_user_delete_multisite() {
 		$this->skipWithoutMultisite();
@@ -521,7 +477,7 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP8175
+	 * @see https://buddypress.trac.wordpress.org/ticket/8175
 	 */
 	public function test_xprofile_data_should_not_be_deleted_on_wp_delete_user_multisite() {
 		$this->skipWithoutMultisite();

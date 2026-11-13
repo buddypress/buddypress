@@ -23,9 +23,6 @@ class BP_Tests_Messages_Notifications extends BP_UnitTestCase {
 		parent::tear_down();
 	}
 
-	/**
-	 * @group messages_format_notifications
-	 */
 	public function test_friends_format_notifications_bp_messages_multiple_new_message_notification_nonstring_filter() {
 		// Dummy thread ID
 		$t = 12;
@@ -47,9 +44,6 @@ class BP_Tests_Messages_Notifications extends BP_UnitTestCase {
 		$this->assertSame( 'bp_messages_multiple_new_message_array_notification', $this->filter_fired );
 	}
 
-	/**
-	 * @group messages_format_notifications
-	 */
 	public function test_friends_format_notifications_bp_messages_single_new_message_notification_nonstring_filter() {
 		// Dummy thread ID
 		$t = 12;
@@ -71,9 +65,6 @@ class BP_Tests_Messages_Notifications extends BP_UnitTestCase {
 		$this->assertSame( 'bp_messages_single_new_message_array_notification', $this->filter_fired );
 	}
 
-	/**
-	 * @group messages_format_notifications
-	 */
 	public function test_friends_format_notifications_bp_messages_multiple_new_message_notification_string_filter() {
 		// Dummy thread ID
 		$t = 12;
@@ -95,9 +86,6 @@ class BP_Tests_Messages_Notifications extends BP_UnitTestCase {
 		$this->assertSame( 'bp_messages_multiple_new_message_string_notification', $this->filter_fired );
 	}
 
-	/**
-	 * @group messages_format_notifications
-	 */
 	public function test_friends_format_notifications_bp_messages_single_new_message_notification_string_filter() {
 		// Dummy thread ID
 		$t = 12;
@@ -120,7 +108,7 @@ class BP_Tests_Messages_Notifications extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP6329
+	 * @see https://buddypress.trac.wordpress.org/ticket/6329
 	 */
 	public function test_messages_notifications_should_be_deleted_when_corresponding_message_is_deleted() {
 		if ( ! bp_is_active( 'messages' ) ) {
@@ -154,7 +142,7 @@ class BP_Tests_Messages_Notifications extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP8426
+	 * @see https://buddypress.trac.wordpress.org/ticket/8426
 	 */
 	public function test_bp_messages_mark_notification_on_mark_thread() {
 		$u1 = self::factory()->user->create();
@@ -210,8 +198,7 @@ class BP_Tests_Messages_Notifications extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP8426
-	 * @group message_delete_notifications
+	 * @see https://buddypress.trac.wordpress.org/ticket/8426
 	 */
 	public function test_bp_messages_message_delete_notifications() {
 		$u1 = self::factory()->user->create();

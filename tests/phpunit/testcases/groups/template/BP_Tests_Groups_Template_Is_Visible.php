@@ -2,7 +2,6 @@
 
 /**
  * @group groups
- * @group template
  */
 #[AllowDynamicProperties]
 class BP_Tests_Groups_Template_Is_Visible extends BP_UnitTestCase {
@@ -16,7 +15,7 @@ class BP_Tests_Groups_Template_Is_Visible extends BP_UnitTestCase {
 		if ( $this->groups_template_was_set ) {
 			$this->groups_template = $GLOBALS['groups_template'];
 		}
-		unset( $GLOBALS['groups_template'] );
+		$GLOBALS['groups_template'] = null;
 	}
 
 	public function tear_down() {

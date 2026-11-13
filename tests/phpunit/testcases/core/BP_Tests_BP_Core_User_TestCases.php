@@ -2,7 +2,6 @@
 
 /**
  * @group core
- * @group BP_Core_User
  */
 class BP_Tests_BP_Core_User_TestCases extends BP_UnitTestCase {
 
@@ -63,51 +62,6 @@ class BP_Tests_BP_Core_User_TestCases extends BP_UnitTestCase {
 		$this->assertSame( 'F', $contexts['paged'][0]['letter'] );
 	}
 
-	/**
-	 * @expectedDeprecated bp_core_users_by_letter_sql
-	 * @expectedDeprecated bp_core_users_by_letter_count_sql
-	 */
-	public function test_get_users_by_letter_legacy_sql_arguments_and_canonical_precedence() {
-		$first  = self::factory()->user->create( array( 'display_name' => 'Formula Ada' ) );
-		$second = self::factory()->user->create( array( 'display_name' => 'Formula Bea' ) );
-		$legacy_args = array();
-
-		$legacy      = static function( $sql, ...$args ) use ( &$legacy_args ) {
-			$legacy_args[] = $args;
-
-			return str_replace( 'WHERE', 'WHERE 1 = 0 AND', $sql ) . ' /* legacy */';
-		};
-
-		$canonical = function( $sql, $type ) {
-			$this->assertStringContainsString( '/* legacy */', $sql );
-
-			return 'count' === $type ? 'SELECT 42' : $sql;
-		};
-
-		add_filter( 'bp_core_users_by_letter_sql', $legacy, 10, 1 );
-		add_filter( 'bp_core_users_by_letter_count_sql', $legacy, 10, 1 );
-
-		try {
-			$found = BP_Core_User::get_users_by_letter( 'F', 2, 1, false );
-
-			$this->assertSame( array(), $found['users'] );
-			$this->assertSame( 0, $found['total'] );
-
-			add_filter( 'bp_core_users_by_letter_get_sql', $canonical, 10, 2 );
-			$found = BP_Core_User::get_users_by_letter( 'F', 2, 1, false );
-
-			$this->assertSame( array(), $found['users'] );
-			$this->assertSame( 42, $found['total'] );
-			$this->assertCount( 4, $legacy_args );
-			$this->assertSame( array(), $legacy_args[0] );
-			$this->assertSame( array(), $legacy_args[1] );
-		} finally {
-			remove_filter( 'bp_core_users_by_letter_get_sql', $canonical );
-			remove_filter( 'bp_core_users_by_letter_sql', $legacy );
-			remove_filter( 'bp_core_users_by_letter_count_sql', $legacy );
-		}
-	}
-
 	public function test_search_users_sql_clauses_restrict_duplicate_join_and_total() {
 		$first  = self::factory()->user->create( array( 'display_name' => 'Formula Ada' ) );
 		$second = self::factory()->user->create( array( 'display_name' => 'Formula Bea' ) );
@@ -165,175 +119,6 @@ class BP_Tests_BP_Core_User_TestCases extends BP_UnitTestCase {
 		$this->assertSame( 'Formula', $contexts['paged'][0]['search_terms'] );
 	}
 
-	/**
-	 * @expectedDeprecated bp_core_search_users_sql
-	 * @expectedDeprecated bp_core_search_users_count_sql
-	 */
-	public function test_search_users_legacy_sql_arguments_and_canonical_precedence() {
-		$first  = self::factory()->user->create( array( 'display_name' => 'Formula Ada' ) );
-		$second = self::factory()->user->create( array( 'display_name' => 'Formula Bea' ) );
-		$legacy_args = array();
-
-		$legacy      = static function( $sql, ...$args ) use ( &$legacy_args ) {
-			$legacy_args[] = $args;
-
-			return str_replace( 'WHERE', 'WHERE 1 = 0 AND', $sql ) . ' /* legacy */';
-		};
-
-		$canonical = function( $sql, $type ) {
-			$this->assertStringContainsString( '/* legacy */', $sql );
-
-			return 'count' === $type ? 'SELECT 42' : $sql;
-		};
-
-		add_filter( 'bp_core_search_users_sql', $legacy, 10, 3 );
-		add_filter( 'bp_core_search_users_count_sql', $legacy, 10, 3 );
-
-		try {
-			$found = BP_Core_User::search_users( 'Formula', 2, 1, false );
-
-			$this->assertSame( array(), $found['users'] );
-			$this->assertSame( 0, $found['total'] );
-
-			add_filter( 'bp_core_users_search_get_sql', $canonical, 10, 2 );
-			$found = BP_Core_User::search_users( 'Formula', 2, 1, false );
-
-			$this->assertSame( array(), $found['users'] );
-			$this->assertSame( 42, $found['total'] );
-			$this->assertCount( 4, $legacy_args );
-			$this->assertSame( array( 'Formula' ), $legacy_args[0] );
-			$this->assertSame( array( 'Formula', ' LIMIT 0, 2' ), $legacy_args[1] );
-		} finally {
-			remove_filter( 'bp_core_users_search_get_sql', $canonical );
-			remove_filter( 'bp_core_search_users_sql', $legacy );
-			remove_filter( 'bp_core_search_users_count_sql', $legacy );
-		}
-	}
-	/**
-	 * @expectedDeprecated BP_Core_User::get_users
-	 */
-	public function test_get_users_with_exclude_querystring() {
-		add_filter( 'bp_use_legacy_user_query', '__return_true' );
-
-		$u1 = self::factory()->user->create();
-		$u2 = self::factory()->user->create();
-		$u3 = self::factory()->user->create();
-
-		$exclude_qs = $u1 . ',junkstring,' . $u3;
-
-		$users = BP_Core_User::get_users( 'active', 0, 1, 0, false, false, true, $exclude_qs );
-		$user_ids = wp_list_pluck( $users['users'], 'id' );
-
-		remove_filter( 'bp_use_legacy_user_query', '__return_true' );
-
-		$this->assertSame( array( $u2 ), $user_ids );
-	}
-
-	/**
-	 * @expectedDeprecated BP_Core_User::get_users
-	 */
-	public function test_get_users_with_exclude_array() {
-		add_filter( 'bp_use_legacy_user_query', '__return_true' );
-
-		$u1 = self::factory()->user->create();
-		$u2 = self::factory()->user->create();
-		$u3 = self::factory()->user->create();
-
-		$exclude_array = array(
-			$u1,
-			'junkstring',
-			$u3,
-		);
-
-		$users = BP_Core_User::get_users( 'active', 0, 1, 0, false, false, true, $exclude_array );
-		$user_ids = wp_list_pluck( $users['users'], 'id' );
-
-		remove_filter( 'bp_use_legacy_user_query', '__return_true' );
-
-		$this->assertSame( array( $u2 ), $user_ids );
-	}
-
-	/**
-	 * @expectedDeprecated BP_Core_User::get_users
-	 */
-	public function test_get_users_with_include_querystring() {
-		add_filter( 'bp_use_legacy_user_query', '__return_true' );
-
-		$u1 = self::factory()->user->create( array(
-			'last_activity' => gmdate( 'Y-m-d H:i:s' ),
-		) );
-		self::factory()->user->create( array(
-			'last_activity' => gmdate( 'Y-m-d H:i:s', time() - 1000 ),
-		) );
-		$u3 = self::factory()->user->create( array(
-			'last_activity' => gmdate( 'Y-m-d H:i:s', time() - 50 ),
-		) );
-
-		$include_qs = $u1 . ',junkstring,' . $u3;
-
-		$users = BP_Core_User::get_users( 'active', 0, 1, 0, $include_qs );
-		$user_ids = wp_list_pluck( $users['users'], 'id' );
-
-		remove_filter( 'bp_use_legacy_user_query', '__return_true' );
-
-		$this->assertSame( array( $u1, $u3 ), $user_ids );
-	}
-
-	/**
-	 * @expectedDeprecated BP_Core_User::get_users
-	 */
-	public function test_get_users_with_include_array() {
-		add_filter( 'bp_use_legacy_user_query', '__return_true' );
-
-		$u1 = self::factory()->user->create( array(
-			'last_activity' => gmdate( 'Y-m-d H:i:s' ),
-		) );
-		self::factory()->user->create( array(
-			'last_activity' => gmdate( 'Y-m-d H:i:s', time() - 1000 ),
-		) );
-		$u3 = self::factory()->user->create( array(
-			'last_activity' => gmdate( 'Y-m-d H:i:s', time() - 50 ),
-		) );
-
-
-		$include_array = array(
-			$u1,
-			'junkstring',
-			$u3,
-		);
-
-		$users = BP_Core_User::get_users( 'active', 0, 1, 0, $include_array );
-		$user_ids = wp_list_pluck( $users['users'], 'id' );
-
-		remove_filter( 'bp_use_legacy_user_query', '__return_true' );
-
-		$this->assertSame( array( $u1, $u3 ), $user_ids );
-	}
-
-	/**
-	 * @expectedDeprecated BP_Core_User::get_users
-	 * @group get_users
-	 * @group type
-	 */
-	public function test_type_alphabetical() {
-		$u1 = self::factory()->user->create( array(
-			'display_name' => 'foo',
-		) );
-		$u2 = self::factory()->user->create( array(
-			'display_name' => 'bar',
-		) );
-
-		global $wpdb;
-
-		$q = BP_Core_User::get_users( 'alphabetical' );
-		$found = wp_list_pluck( $q['users'], 'id' );
-
-		$this->assertSame( array( $u2, $u1 ), $found );
-	}
-
-	/**
-	 * @group get_users_by_letter
-	 */
 	public function test_get_users_by_letter() {
 		self::factory()->user->create( array(
 			'display_name' => 'foo',
@@ -349,9 +134,6 @@ class BP_Tests_BP_Core_User_TestCases extends BP_UnitTestCase {
 		$this->assertSame( 1, $q['total'] );
 	}
 
-	/**
-	 * @group search_users
-	 */
 	public function test_search_users() {
 		$u1 = self::factory()->user->create( array(
 			'display_name' => 'foo',
@@ -366,7 +148,6 @@ class BP_Tests_BP_Core_User_TestCases extends BP_UnitTestCase {
 		$this->assertSame( array( $u2 ), $found );
 		$this->assertSame( 1, $q['total'] );
 	}
-
 
 	public function test_get_users_by_letter_default_sql_text_is_unchanged() {
 		global $wpdb;
@@ -450,9 +231,6 @@ class BP_Tests_BP_Core_User_TestCases extends BP_UnitTestCase {
 		$this->assertSame( 2, $users['total'] );
 	}
 
-	/**
-	 * @group last_activity
-	 */
 	public function test_get_last_activity() {
 		$u = self::factory()->user->create();
 		$time = bp_core_current_time();
@@ -468,7 +246,6 @@ class BP_Tests_BP_Core_User_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group last_activity
 	 * @group cache
 	 */
 	public function test_get_last_activity_store_in_cache() {
@@ -486,7 +263,6 @@ class BP_Tests_BP_Core_User_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group last_activity
 	 * @group cache
 	 */
 	public function test_get_last_activity_store_in_cache_multiple_users() {
@@ -507,7 +283,6 @@ class BP_Tests_BP_Core_User_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group last_activity
 	 * @group cache
 	 */
 	public function test_get_last_activity_from_cache_single_user() {
@@ -530,7 +305,6 @@ class BP_Tests_BP_Core_User_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group last_activity
 	 * @group cache
 	 */
 	public function test_get_last_activity_in_cache_multiple_users() {
@@ -555,9 +329,6 @@ class BP_Tests_BP_Core_User_TestCases extends BP_UnitTestCase {
 		$this->assertSame( $cached, $uncached );
 	}
 
-	/**
-	 * @group last_activity
-	 */
 	public function test_update_last_activity() {
 		$u = self::factory()->user->create();
 		$time = bp_core_current_time();
@@ -574,9 +345,6 @@ class BP_Tests_BP_Core_User_TestCases extends BP_UnitTestCase {
 		$this->assertSame( $time2, $found );
 	}
 
-	/**
-	 * @group last_activity
-	 */
 	public function test_delete_last_activity() {
 		$u = self::factory()->user->create();
 		$time = bp_core_current_time();

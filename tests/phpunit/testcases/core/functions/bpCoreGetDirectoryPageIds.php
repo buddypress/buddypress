@@ -81,7 +81,7 @@ class BP_Tests_Core_Functions_BpCoreGetDirectoryPageIds extends BP_UnitTestCase 
 	}
 
 	/**
-	 * @ticket BP6280
+	 * @see https://buddypress.trac.wordpress.org/ticket/6280
 	 */
 	public function test_inactive_components_should_not_be_removed_if_status_is_all() {
 		$old_page_ids = bp_core_get_directory_page_ids( 'all' );
@@ -96,7 +96,7 @@ class BP_Tests_Core_Functions_BpCoreGetDirectoryPageIds extends BP_UnitTestCase 
 	}
 
 	/**
-	 * @ticket BP6280
+	 * @see https://buddypress.trac.wordpress.org/ticket/6280
 	 */
 	public function test_inactive_components_should_be_removed_if_status_is_active() {
 		$old_page_ids = bp_core_get_directory_page_ids( 'all' );
@@ -111,7 +111,7 @@ class BP_Tests_Core_Functions_BpCoreGetDirectoryPageIds extends BP_UnitTestCase 
 	}
 
 	/**
-	 * @ticket BP6280
+	 * @see https://buddypress.trac.wordpress.org/ticket/6280
 	 */
 	public function test_inactive_components_should_be_removed_if_status_is_unspecified() {
 		$old_page_ids = bp_core_get_directory_page_ids( 'all' );
@@ -186,6 +186,10 @@ class BP_Tests_Core_Functions_BpCoreGetDirectoryPageIds extends BP_UnitTestCase 
 	}
 
 	public function test_bp_core_get_directory_pages_register_activate_page_notcreated_signups_allowed() {
+		$page_ids = bp_core_get_directory_page_ids( 'all' );
+		unset( $page_ids['register'], $page_ids['activate'] );
+		bp_core_update_directory_page_ids( $page_ids );
+
 		add_filter( 'bp_get_signup_allowed', '__return_false', 999 );
 
 		$ac = buddypress()->active_components;
@@ -228,6 +232,9 @@ class BP_Tests_Core_Functions_BpCoreGetDirectoryPageIds extends BP_UnitTestCase 
 	}
 
 	public function test_bp_core_get_directory_pages_register_activate_page_notcreated_signups_notallowed() {
+		$page_ids = bp_core_get_directory_page_ids( 'all' );
+		unset( $page_ids['register'], $page_ids['activate'] );
+		bp_core_update_directory_page_ids( $page_ids );
 
 		add_filter( 'bp_get_signup_allowed', '__return_false', 999 );
 
@@ -283,7 +290,7 @@ class BP_Tests_Core_Functions_BpCoreGetDirectoryPageIds extends BP_UnitTestCase 
 	}
 
 	/**
-	 * @ticket BP8592
+	 * @see https://buddypress.trac.wordpress.org/ticket/8592
 	 */
 	public function test_bp_core_get_directory_pages_ids_ms_non_root_blog_trashed_same_page_id() {
 		$this->skipWithoutMultisite();
@@ -317,11 +324,11 @@ class BP_Tests_Core_Functions_BpCoreGetDirectoryPageIds extends BP_UnitTestCase 
 		restore_current_blog();
 
 		// Now verify that our BP Members page was not wiped out
-		$this->assertTrue( $dir_page_ids['members'] === $page_ids['members'] );
+		$this->assertSame( $page_ids['members'], $dir_page_ids['members'] );
 	}
 
 	/**
-	 * @ticket BP7193
+	 * @see https://buddypress.trac.wordpress.org/ticket/7193
 	 */
 	public function test_bp_core_get_directory_pages_autocreate_register_pages_single_site() {
 		$this->skipWithMultisite();
@@ -348,7 +355,7 @@ class BP_Tests_Core_Functions_BpCoreGetDirectoryPageIds extends BP_UnitTestCase 
 	}
 
 	/**
-	 * @ticket BP7193
+	 * @see https://buddypress.trac.wordpress.org/ticket/7193
 	 */
 	public function test_bp_core_get_directory_pages_autocreate_register_pages_multisite() {
 		$this->skipWithoutMultisite();
@@ -362,15 +369,18 @@ class BP_Tests_Core_Functions_BpCoreGetDirectoryPageIds extends BP_UnitTestCase 
 		$admin = new BP_Members_Admin;
 		add_action( 'update_site_option_registration', array( $admin, 'multisite_registration_on' ), 10, 2 );
 
-		// Emulate turning registration on.
-		update_site_option( 'registration', 'user' );
+		$registration = get_site_option( 'registration' );
+		try {
+			// Ensure the update fires even when registration was already enabled.
+			update_site_option( 'registration', 'none' );
+			update_site_option( 'registration', 'user' );
 
-		// Now check directory pages.
-		$pages = bp_core_get_directory_pages();
-
-		$this->assertNotEmpty( $pages->register );
-		$this->assertNotEmpty( $pages->activate );
-
-		remove_action( 'update_site_option_registration', array( $admin, 'multisite_registration_on' ) );
+			$pages = bp_core_get_directory_pages();
+			$this->assertNotEmpty( $pages->register );
+			$this->assertNotEmpty( $pages->activate );
+		} finally {
+			remove_action( 'update_site_option_registration', array( $admin, 'multisite_registration_on' ) );
+			update_site_option( 'registration', $registration );
+		}
 	}
 }

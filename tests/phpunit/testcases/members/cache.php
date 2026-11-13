@@ -5,9 +5,7 @@
  * @group members
  */
 class BP_Tests_Members_Cache extends BP_UnitTestCase {
-	/**
-	 * @group bp_core_get_total_member_count
-	 */
+
 	public function test_bp_core_get_total_member_count_should_respect_cached_value_of_0() {
 		global $wpdb;
 
@@ -23,9 +21,9 @@ class BP_Tests_Members_Cache extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP7237
-	 * @ticket BP6643
-	 * @ticket BP7245
+	 * @see https://buddypress.trac.wordpress.org/ticket/7237
+	 * @see https://buddypress.trac.wordpress.org/ticket/6643
+	 * @see https://buddypress.trac.wordpress.org/ticket/7245
 	 */
 	public function test_last_activity_should_bust_activity_with_last_activity_cache() {
 		global $wpdb;

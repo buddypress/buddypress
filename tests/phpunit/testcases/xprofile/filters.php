@@ -2,8 +2,6 @@
 
 /**
  * @group xprofile
- * @group xprofilemeta
- * @group bp_xprofile_filter_meta_query
  */
 class BP_Tests_XProfile_Filters extends BP_UnitTestCase {
 	public function test_bp_xprofile_filter_meta_query_select() {

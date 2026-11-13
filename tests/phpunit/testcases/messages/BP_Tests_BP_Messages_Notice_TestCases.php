@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @group notices
+ * @group messages
  */
 class BP_Tests_BP_Messages_Notice_TestCases extends BP_UnitTestCase {
 

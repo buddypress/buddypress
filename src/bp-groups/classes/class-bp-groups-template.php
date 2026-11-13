@@ -208,19 +208,33 @@ class BP_Groups_Template {
 			'update_admin_cache' => false,
 		);
 
-		$r = bp_parse_args(
-			$args,
-			$defaults,
-			'groups_template'
-		);
+		$r = bp_parse_args( $args, $defaults, 'groups_template' );
 
-		extract( $r );
+		$user_id            = $r['user_id'];
+		$type               = $r['type'];
+		$show_hidden        = $r['show_hidden'];
+		$exclude            = $r['exclude'];
+		$max                = $r['max'];
+		$order              = $r['order'];
+		$orderby            = $r['orderby'];
+		$search_terms       = $r['search_terms'];
+		$search_columns     = $r['search_columns'];
+		$meta_query         = $r['meta_query'];
+		$date_query         = $r['date_query'];
+		$group_type         = $r['group_type'];
+		$group_type__in     = $r['group_type__in'];
+		$group_type__not_in = $r['group_type__not_in'];
+		$status             = $r['status'];
+		$include            = $r['include'];
+		$parent_id          = $r['parent_id'];
+		$update_meta_cache  = $r['update_meta_cache'];
+		$update_admin_cache = $r['update_admin_cache'];
 
 		$this->pag_arg  = sanitize_key( $r['page_arg'] );
 		$this->pag_page = bp_sanitize_pagination_arg( $this->pag_arg, $r['page'] );
 		$this->pag_num  = bp_sanitize_pagination_arg( 'num', $r['per_page'] );
 
-		if ( bp_current_user_can( 'bp_moderate' ) || ( is_user_logged_in() && $user_id === bp_loggedin_user_id() ) ) {
+		if ( bp_current_user_can( 'bp_moderate' ) || ( is_user_logged_in() && bp_loggedin_user_id() === $user_id ) ) {
 			$show_hidden = true;
 		}
 

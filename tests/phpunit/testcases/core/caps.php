@@ -2,7 +2,6 @@
 
 /**
  * @group core
- * @group caps
  */
 class BP_Tests_Core_Caps extends BP_UnitTestCase {
 	protected $reset_user_id;
@@ -41,7 +40,7 @@ class BP_Tests_Core_Caps extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket BP6501
+	 * @see https://buddypress.trac.wordpress.org/ticket/6501
 	 */
 	public function test_bp_current_user_can_should_respect_blog_id_passed_in_args_array() {
 		$this->skipWithoutMultisite();
@@ -73,9 +72,6 @@ class BP_Tests_Core_Caps extends BP_UnitTestCase {
 		return $caps;
 	}
 
-	/**
-	 * @group bp_moderate
-	 */
 	public function test_administrator_can_bp_moderate() {
 		$u = self::factory()->user->create(
 			array(
@@ -88,9 +84,6 @@ class BP_Tests_Core_Caps extends BP_UnitTestCase {
 		$this->assertTrue( bp_current_user_can( 'bp_moderate' ), 'Administrator can `bp_moderate` on default WordPress config' );
 	}
 
-	/**
-	 * @group bp_moderate
-	 */
 	public function test_role_with_manage_options_cap_can_bp_moderate() {
 		add_role( 'random_role', 'Random Role', array( 'manage_options' => true ) );
 
@@ -110,9 +103,6 @@ class BP_Tests_Core_Caps extends BP_UnitTestCase {
 		remove_role( 'random_role' );
 	}
 
-	/**
-	 * @group bp_moderate
-	 */
 	public function test_administrator_can_bp_moderate_emails() {
 		$u1 = self::factory()->user->create(
 			array(
@@ -140,9 +130,6 @@ class BP_Tests_Core_Caps extends BP_UnitTestCase {
 		$this->assertTrue( current_user_can( 'edit_post', $email ), 'Administrator should be able to edit emails others created when BuddyPress is not network activated' );
 	}
 
-	/**
-	 * @group bp_moderate
-	 */
 	public function test_administrator_can_bp_moderate_network_activated() {
 		$this->skipWithoutMultisite();
 
@@ -179,9 +166,6 @@ class BP_Tests_Core_Caps extends BP_UnitTestCase {
 		remove_filter( 'bp_is_network_activated', '__return_true' );
 	}
 
-	/**
-	 * @group bp_moderate
-	 */
 	public function test_administrator_can_bp_moderate_emails_network_activated() {
 		$this->skipWithoutMultisite();
 

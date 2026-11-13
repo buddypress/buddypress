@@ -107,7 +107,7 @@ class BP_Akismet {
 			$b = array();
 			foreach ( $actions as $k => $item ) {
 				$b[ $k ] = $item;
-				if ( $k === 'edit' ) {
+				if ( 'edit' === $k ) {
 					$b['history'] = '<a href="' . esc_url( bp_get_admin_url( 'admin.php?page=bp-activity&amp;action=edit&aid=' . $activity['id'] ) ) . '#bp_activity_history"> ' . esc_html__( 'History', 'buddypress' ) . '</a>';
 				}
 			}
@@ -452,7 +452,7 @@ class BP_Akismet {
 				'discard' === $activity_data['akismet_pro_tip']
 			) {
 				// If this is so spammy it's not worth your time, let's just delete it.
-				if ( $activity->type === 'activity_comment' ) {
+				if ( 'activity_comment' === $activity->type ) {
 					bp_activity_delete_comment( $activity->item_id, $activity->id );
 				} else {
 					bp_activity_delete( array( 'id' => $activity->id ) );

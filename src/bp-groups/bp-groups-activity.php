@@ -334,7 +334,7 @@ function bp_groups_filter_activity_scope( $retval = array(), $filter = array() )
 
 	// Should we show all items regardless of sitewide visibility?
 	$show_hidden = array();
-	if ( ! empty( $user_id ) && ( $user_id !== bp_loggedin_user_id() ) ) {
+	if ( ! empty( $user_id ) && ( bp_loggedin_user_id() !== $user_id ) ) {
 		$show_hidden = array(
 			'column' => 'hide_sitewide',
 			'value'  => 0,
@@ -383,7 +383,7 @@ function bp_groups_filter_activity_favorites_scope( $retval, $filter ) {
 		$user_id = bp_displayed_user_id() ? bp_displayed_user_id() : bp_loggedin_user_id();
 	}
 
-	if ( ! $user_id || ! is_user_logged_in() || $user_id !== bp_loggedin_user_id() ) {
+	if ( ! $user_id || ! is_user_logged_in() || bp_loggedin_user_id() !== $user_id ) {
 		return $retval;
 	}
 

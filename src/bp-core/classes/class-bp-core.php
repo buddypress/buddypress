@@ -369,32 +369,41 @@ class BP_Core extends BP_Component {
 
 		// Emails.
 		if ( bp_is_root_blog() && ! is_network_admin() ) {
-			register_post_type(
-				bp_get_email_post_type(),
-				apply_filters(
-					'bp_register_email_post_type',
-					array(
-						'description'        => _x( 'BuddyPress emails', 'email post type description', 'buddypress' ),
-						'capabilities'       => array(
-							'edit_posts'          => 'bp_moderate',
-							'edit_others_posts'   => 'bp_moderate',
-							'publish_posts'       => 'bp_moderate',
-							'read_private_posts'  => 'bp_moderate',
-							'delete_posts'        => 'bp_moderate',
-							'delete_others_posts' => 'bp_moderate',
-						),
-						'map_meta_cap'       => true,
-						'labels'             => bp_get_email_post_type_labels(),
-						'menu_icon'          => 'dashicons-email',
-						'public'             => false,
-						'publicly_queryable' => bp_current_user_can( 'bp_moderate' ),
-						'query_var'          => false,
-						'rewrite'            => false,
-						'show_in_admin_bar'  => false,
-						'show_ui'            => bp_current_user_can( 'bp_moderate' ),
-						'supports'           => bp_get_email_post_type_supports(),
-					)
+			/**
+			 * Filters the arguments used to register the BuddyPress email post type.
+			 *
+			 * @since 2.5.0
+			 *
+			 * @param array $email_post_type_args The arguments used to register the BuddyPress email post type.
+			 */
+			$email_post_type_args = apply_filters(
+				'bp_register_email_post_type',
+				array(
+					'description'        => _x( 'BuddyPress emails', 'email post type description', 'buddypress' ),
+					'capabilities'       => array(
+						'edit_posts'          => 'bp_moderate',
+						'edit_others_posts'   => 'bp_moderate',
+						'publish_posts'       => 'bp_moderate',
+						'read_private_posts'  => 'bp_moderate',
+						'delete_posts'        => 'bp_moderate',
+						'delete_others_posts' => 'bp_moderate',
+					),
+					'map_meta_cap'       => true,
+					'labels'             => bp_get_email_post_type_labels(),
+					'menu_icon'          => 'dashicons-email',
+					'public'             => false,
+					'publicly_queryable' => bp_current_user_can( 'bp_moderate' ),
+					'query_var'          => false,
+					'rewrite'            => false,
+					'show_in_admin_bar'  => false,
+					'show_ui'            => bp_current_user_can( 'bp_moderate' ),
+					'supports'           => bp_get_email_post_type_supports(),
 				)
+			);
+
+			register_post_type( // phpcs:ignore WordPress.NamingConventions.ValidPostTypeSlug.NotStringLiteral -- The email post type is intentionally filterable.
+				bp_get_email_post_type(),
+				$email_post_type_args
 			);
 		}
 

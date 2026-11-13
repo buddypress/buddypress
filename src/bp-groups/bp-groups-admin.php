@@ -417,7 +417,7 @@ function bp_groups_admin_load() {
 
 			if ( in_array( $sent_invite_status, (array) $allowed_invite_status, true ) ) {
 				$invite_status             = $sent_invite_status;
-				$is_updating_invite_status = $invite_status !== groups_get_groupmeta( $group->id, 'invite_status' );
+				$is_updating_invite_status = groups_get_groupmeta( $group->id, 'invite_status' ) !== $invite_status;
 			}
 		}
 

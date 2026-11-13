@@ -879,7 +879,7 @@ function bp_nouveau_has_nav( $args = array() ) {
 	}
 
 	// The navigation can be empty.
-	if ( $nav === false ) {
+	if ( false === $nav ) {
 		$nav = array();
 	}
 
@@ -1547,7 +1547,7 @@ function bp_nouveau_container_classes() {
 		if ( $customizer_option ) {
 			$layout_prefs = bp_nouveau_get_temporary_setting( $customizer_option, bp_nouveau_get_appearance_settings( $customizer_option ) );
 
-			if ( $layout_prefs && (int) $layout_prefs === 1 && ( bp_is_user() || bp_is_group() ) ) {
+			if ( $layout_prefs && 1 === (int) $layout_prefs && ( bp_is_user() || bp_is_group() ) ) {
 				$classes[] = 'bp-single-vert-nav';
 				$classes[] = 'bp-vertical-navs';
 			}
@@ -2554,7 +2554,7 @@ function bp_nouveau_signup_form( $section = 'account_details' ) {
 					 * The blog section is hidden, so let's avoid a browser warning
 					 * and deal with the Blog section in Javascript.
 					 */
-					if ( $section !== 'blog_details' ) {
+					if ( 'blog_details' !== $section ) {
 						$existing_attributes['required'] = 'required';
 					}
 				}
