@@ -140,6 +140,9 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 		$bp = buddypress();
 
 		$GLOBALS['bp_unfiltered_uri'] = array();
+		// Invitation loops otherwise reuse a previous group's ID and cursor.
+		$GLOBALS['group_id']          = null;
+		$GLOBALS['invites_template']  = null;
 
 		$bp->bp_nav                = array();
 		$bp->bp_options_nav        = array();
@@ -157,6 +160,11 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 		$bp->loggedin_user         = new BP_LoggedIn_User();
 		$bp->pages                 = array();
 		$bp->groups->types         = array();
+
+		// Directory and single-group requests must not constrain later tests.
+		$bp->groups->current_group           = null;
+		$bp->groups->current_directory_type  = '';
+		$bp->members->current_directory_type = '';
 
 		parent::clean_up_global_scope();
 	}
