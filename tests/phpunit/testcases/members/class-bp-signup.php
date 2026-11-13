@@ -691,7 +691,7 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 	/**
 	 * @group cache
 	 */
-	public function signup_objects_should_be_cached() {
+	public function test_signup_objects_should_be_cached() {
 		global $wpdb;
 
 		$s1 = self::factory()->signup->create( array(
@@ -701,15 +701,24 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 		) );
 
 		$found1 = new BP_Signup( $s1 );
+		$this->assertNotFalse( wp_cache_get( $s1, 'bp_signups' ) );
 
-		$num_queries = $wpdb->num_queries;
+		$queries = array();
+		$track_query = function ( $query ) use ( &$queries ) {
+			$queries[] = $query;
+			return $query;
+		};
+		add_filter( 'query', $track_query );
+		try {
+			$found2 = new BP_Signup( $s1 );
+		} finally {
+			remove_filter( 'query', $track_query );
+		}
 
-		// Object should be rebuilt from cache.
-		$found2 = new BP_Signup( $s1 );
-
-		// @TODO: This fails because "get_avatar()" in populate() results in db queries.
+		$table_name = buddypress()->members->table_name_signups;
+		$signup_query = $wpdb->prepare( "SELECT * FROM {$table_name} WHERE signup_id = %d", $s1 );
 		$this->assertSame( get_object_vars( $found1 ), get_object_vars( $found2 ) );
-		$this->assertSame( $num_queries, $wpdb->num_queries );
+		$this->assertNotContains( $signup_query, $queries );
 	}
 
 	/**

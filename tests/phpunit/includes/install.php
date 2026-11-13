@@ -7,7 +7,7 @@
  */
 
 // E_STRICT is deprecated as of PHP 8.4.
-if (PHP_VERSION_ID >= 70400) {
+if ( version_compare( PHP_VERSION, '7.4', '>=' ) ) {
 	error_reporting(E_ALL & ~E_DEPRECATED);
 } else {
 	error_reporting(E_ALL & ~E_DEPRECATED & ~E_STRICT);

@@ -8,54 +8,20 @@ on:
     branches: [ master ]
     paths-ignore:
       - 'docs/**'
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.run_id }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
 
 jobs:
+  versions:
+    uses: ./.github/workflows/reusable-wordpress-versions.yml
   tests:
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - php: '8.6'
-            wp_version: 'trunk'
-            object: 'redis'
-            multisite: false
-          - php: '8.5'
-            wp_version: '6.9'
-            object: 'memcached'
-            multisite: true
-          - php: '8.4'
-            wp_version: 'trunk'
-            object: 'redis'
-            multisite: true
-          - php: '8.3'
-            wp_version: 'trunk'
-            object: 'redis'
-            multisite: true
-          - php: '8.3'
-            wp_version: 'trunk'
-            object: 'memcached'
-            multisite: false
-          - php: '8.2'
-            wp_version: '6.4'
-            object: ''
-            multisite: false
-          - php: '8.1'
-            wp_version: 'latest'
-            object: ''
-            multisite: false
-          - php: '7.4'
-            wp_version: '6.4'
-            object: ''
-            multisite: false
-          - php: '7.4'
-            wp_version: '6.4'
-            object: ''
-            multisite: true
-    uses: alleyinteractive/.github/.github/workflows/php-tests.yml@main
+    needs: versions
+    uses: ./.github/workflows/reusable-phpunit.yml
     with:
-      multisite: ${{ matrix.multisite }}
-      php: ${{ matrix.php }}
-      wordpress: ${{ matrix.wp_version }}
-      object-cache: ${{ matrix.object }}
-      install-core-tests: true
-      working-directory: 'plugins/buddypress'
+      matrix: ${{ needs.versions.outputs.main }}
