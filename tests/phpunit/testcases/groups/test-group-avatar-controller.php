@@ -232,7 +232,12 @@ class BP_Tests_Group_Avatar_REST_Controller extends BP_Test_REST_Controller_Test
 	 * @group update_item
 	 */
 	public function test_update_item() {
-		$this->markTestSkipped( 'This endpoint does not support updating group avatars.' );
+		// This endpoint does not support updating group avatars.
+		foreach ( array( 'PUT', 'PATCH' ) as $method ) {
+			$request  = new WP_REST_Request( $method, sprintf( $this->endpoint_url . '/%d/avatar', $this->group_id ) );
+			$response = $this->server->dispatch( $request );
+			$this->assertErrorResponse( 'rest_no_route', $response, 404 );
+		}
 	}
 
 	/**
