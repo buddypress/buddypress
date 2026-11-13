@@ -1215,6 +1215,10 @@ class BP_Tests_Group_REST_Controller extends BP_Test_REST_Controller_Testcase {
 			bp_groups_register_group_type( $type );
 		}
 
+		// Build the schema after registering the types, not from an earlier request.
+		$controller = new BP_Groups_REST_Controller();
+		$controller->register_routes();
+
 		$request    = new WP_REST_Request( 'OPTIONS', $this->endpoint_url );
 		$response   = $this->server->dispatch( $request );
 		$data       = $response->get_data();
