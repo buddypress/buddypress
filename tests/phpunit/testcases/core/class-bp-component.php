@@ -8,6 +8,55 @@ include_once BP_TESTS_DIR . '/assets/class-bptest-component.php';
  */
 class BP_Tests_BP_Component_TestCases extends BP_UnitTestCase {
 
+	public function test_register_global_tables_uses_filtered_table_names() {
+		$component     = new BP_Component();
+		$component->id = 'test_component';
+		$filter        = function ( $tables ) {
+			$tables['table_name'] = 'filtered_table';
+			return $tables;
+		};
+
+		add_filter( 'bp_test_component_global_tables', $filter );
+		try {
+			$component->register_global_tables( array( 'table_name' => 'original_table' ) );
+		} finally {
+			remove_filter( 'bp_test_component_global_tables', $filter );
+		}
+
+		$this->assertSame( 'filtered_table', $component->table_name );
+		$this->assertSame( array( 'table_name' => 'filtered_table' ), $component->global_tables );
+	}
+
+	public function test_register_meta_tables_uses_filtered_table_names() {
+		global $wpdb;
+
+		$component     = new BP_Component();
+		$component->id = 'test_component';
+		$tables        = array( 'bp_test_component' => $wpdb->prefix . 'filtered_meta' );
+		$filter        = function () use ( $tables ) {
+			return $tables;
+		};
+
+		$property = 'bp_test_componentmeta';
+		$existed  = isset( $wpdb->$property );
+		$previous = $existed ? $wpdb->$property : null;
+
+		add_filter( 'bp_test_component_meta_tables', $filter );
+		try {
+			$component->register_meta_tables( array( 'bp_test_component' => 'original_meta' ) );
+
+			$this->assertSame( $tables, $component->meta_tables );
+			$this->assertSame( $tables['bp_test_component'], $wpdb->$property );
+		} finally {
+			remove_filter( 'bp_test_component_meta_tables', $filter );
+			if ( $existed ) {
+				$wpdb->$property = $previous;
+			} else {
+				unset( $wpdb->$property );
+			}
+		}
+	}
+
 	/**
 	 * @group bp_blocks
 	 */
