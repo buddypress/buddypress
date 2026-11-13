@@ -8,13 +8,16 @@
  */
 class BP_Tests_BP_Signup extends BP_UnitTestCase {
 	protected $signup_allowed;
+	protected $users_can_register;
 
 	public function set_up() {
+		// Setup changes registration before the parent starts its transaction.
+		$this->users_can_register = bp_get_option( 'users_can_register' );
 		if ( is_multisite() ) {
 			$this->signup_allowed = get_site_option( 'registration' );
 			update_site_option( 'registration', 'all' );
 		} else {
-			bp_get_option( 'users_can_register' );
+			$this->signup_allowed = $this->users_can_register;
 			bp_update_option( 'users_can_register', 1 );
 		}
 
@@ -24,9 +27,8 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 	public function tear_down() {
 		if ( is_multisite() ) {
 			update_site_option( 'registration', $this->signup_allowed );
-		} else {
-			bp_update_option( 'users_can_register', $this->signup_allowed );
 		}
+		bp_update_option( 'users_can_register', $this->users_can_register );
 
 		parent::tear_down();
 	}

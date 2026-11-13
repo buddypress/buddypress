@@ -9,10 +9,13 @@
 class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 	protected $signup_id;
 	protected $signup_allowed;
+	protected $users_can_register;
 	protected $handle     = 'signup';
 	protected $controller = 'BP_Members_Signup_REST_Controller';
 
 	public function set_up() {
+		// Setup changes registration before the parent starts its transaction.
+		$this->users_can_register = bp_get_option( 'users_can_register' );
 		// This currently NEEDs to run before the parent::set_up().
 		if ( is_multisite() ) {
 			$this->signup_allowed = get_site_option( 'registration' );
@@ -30,9 +33,8 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 	public function tear_down() {
 		if ( is_multisite() ) {
 			update_site_option( 'registration', $this->signup_allowed );
-		} else {
-			bp_update_option( 'users_can_register', $this->signup_allowed );
 		}
+		bp_update_option( 'users_can_register', $this->users_can_register );
 
 		parent::tear_down();
 	}
