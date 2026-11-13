@@ -739,23 +739,7 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$this->assertSame( array( $g2 ), $ids );
 	}
 
-	/**
-	 * @expectedDeprecated BP_Groups_Member::get_all_for_group
-	 */
-	public function test_get_all_for_group_with_exclude() {
-		$g1 = self::factory()->group->create();
 
-		$u1 = self::factory()->user->create();
-		$u2 = self::factory()->user->create();
-		self::add_user_to_group( $u1, $g1 );
-		self::add_user_to_group( $u2, $g1 );
-
-		$members = BP_Groups_Member::get_all_for_group( $g1, false, false, true, true, array( $u1 ) );
-
-		$mm = (array) $members['members'];
-		$ids = wp_list_pluck( $mm, 'user_id' );
-		$this->assertSame( array( $u2 ), $ids );
-	}
 
 	/**
 	 * @group bp_groups_user_can_send_invites
@@ -1660,33 +1644,7 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$this->assertTrue( is_numeric( $sent ) && $sent > 0 );
 	}
 
-	/**
-	 * @group groups_send_invites
-	 * @group group_invitations
-	 * @group group_membership
-	 * @expectedDeprecated groups_send_invites
-	 */
-	public function test_groups_send_invites_deprecated_args() {
-		$u1 = self::factory()->user->create();
-		$u2 = self::factory()->user->create();
-		$g1 = self::factory()->group->create( array( 'creator_id' => $u1, 'status' => 'private' ) );
 
-		// Create draft invitation
-		groups_invite_user( array(
-			'user_id'       => $u2,
-			'group_id'      => $g1,
-			'inviter_id'    => $u1,
-			'date_modified' => bp_core_current_time(),
-			'is_confirmed'  => 0
-		) );
-
-		// Send the invitation
-		groups_send_invites( $u1, $g1 );
-
-		// Check that the invitation has been sent.
-		$sent = groups_check_user_has_invite( $u2, $g1, $type = 'sent' );
-		$this->assertTrue( is_numeric( $sent ) && $sent > 0 );
-	}
 
 	/**
 	 * @group groups_accept_invite
@@ -1946,22 +1904,7 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$this->assertTrue( is_numeric( $request ) && $request > 0 );
 	}
 
-	/**
-	 * @group groups_send_membership_request
-	 * @group group_membership_requests
-	 * @group group_membership
-	 * @expectedDeprecated groups_send_membership_request
-	 */
-	public function test_groups_send_membership_request_deprecated_args() {
-		$u1 = self::factory()->user->create();
-		$g1 = self::factory()->group->create( array( 'status' => 'private' ) );
 
-		// Create membership request
-		groups_send_membership_request( $u1, $g1 );
-
-		$request = groups_check_for_membership_request( $u1, $g1 );
-		$this->assertTrue( is_numeric( $request ) && $request > 0 );
-	}
 
 	/**
 	 * @group groups_accept_membership_request

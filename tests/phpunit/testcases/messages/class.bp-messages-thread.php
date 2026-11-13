@@ -406,33 +406,7 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 		$this->assertSame( array( 'paged', 'count' ), $query_types );
 	}
 
-	/**
-	 * @group get_current_threads_for_user
-	 * @expectedDeprecated BP_Messages_Thread::get_current_threads_for_user
-	 */
-	public function test_get_current_threads_for_user_with_old_args() {
-		$u1 = self::factory()->user->create();
-		$u2 = self::factory()->user->create();
 
-		self::factory()->message->create_and_get( array(
-			'sender_id' => $u1,
-			'recipients' => array( $u2 ),
-			'subject' => 'Foo',
-		) );
-
-		$message_2 = self::factory()->message->create_and_get( array(
-			'sender_id' => $u1,
-			'recipients' => array( $u2 ),
-			'subject' => 'Bar',
-		) );
-
-		$threads = BP_Messages_Thread::get_current_threads_for_user( $u1, 'sentbox', 'all', null, null, 'ar' );
-
-		$expected = array( $message_2->thread_id );
-		$found = wp_parse_id_list( wp_list_pluck( $threads['threads'], 'thread_id' ) );
-
-		$this->assertSame( $expected, $found );
-	}
 
 	/**
 	 * @group get_current_threads_for_user

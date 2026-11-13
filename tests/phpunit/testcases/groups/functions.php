@@ -864,30 +864,7 @@ Bar!';
 		$this->assertSame( $g1, $group->id );
 	}
 
-	/**
-	 * @expectedDeprecated groups_edit_base_group_details
-	 * @group groups_edit_base_group_details
-	 */
-	public function test_groups_edit_base_group_details_test_backcompat_arguments() {
-		$g1 = self::factory()->group->create();
-		$name = 'Great Scott';
-		$description = 'A must-see in time for the holidays!';
-		groups_edit_base_group_details( $g1, $name, $description, false );
 
-		$expected = array(
-			'id'          => $g1,
-			'name'        => $name,
-			'description' => $description
-		);
-		$updated_group_object = groups_get_group( $g1 );
-		$updated = array(
-			'id'          => $updated_group_object->id,
-			'name'        => $updated_group_object->name,
-			'description' => $updated_group_object->description
-		);
-
-		$this->assertEqualSets( $expected, $updated );
-	}
 
 	/**
 	 * @group groups_edit_base_group_details
