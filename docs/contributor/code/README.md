@@ -449,6 +449,10 @@ git checkout .
 git checkout master
 ```
 
+## Deprecated functions
+
+See [Deprecated function loading](deprecation-policy.md) for compatibility and testing guidance.
+
 ## Follow WordPress Coding & Documentation standards
 
 When editing the BuddyPress code source, it’s important your code follows the WordPress Coding Standards. I advise you to check them often as they can be updated. Here are the coding standard links:

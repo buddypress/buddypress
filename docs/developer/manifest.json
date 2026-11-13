@@ -204,6 +204,12 @@
 		"parent": null
 	},
 	{
+		"title": "Deprecated BuddyPress functions",
+		"slug": "deprecated-functions",
+		"markdown_source": "../developer/functions/deprecated.md",
+		"parent": null
+	},
+	{
 		"title": "BuddyPress Rewrites Functions",
 		"slug": "rewrites",
 		"markdown_source": "../developer/functions/rewrites.md",
