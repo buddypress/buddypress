@@ -162,6 +162,12 @@
 		"parent": null
 	},
 	{
+		"title": "Deprecated functions and plugin compatibility",
+		"slug": "advanced-deprecated-functions",
+		"markdown_source": "../user/advanced/deprecated-functions.md",
+		"parent": null
+	},
+	{
 		"title": "Customizing BuddyPress texts to match your community purpose",
 		"slug": "advanced-texts",
 		"markdown_source": "../user/advanced/texts.md",
