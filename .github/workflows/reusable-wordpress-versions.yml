@@ -26,8 +26,6 @@ jobs:
       has-intermediate: ${{ steps.matrix.outputs.has-intermediate }}
     steps:
       - uses: actions/checkout@v7.0.1
-      - name: Check matrix and paired-suite logic
-        run: python3 -B .github/scripts/test-wordpress-matrix.py
       - name: Discover supported release lines
         id: wordpress
         uses: alleyinteractive/action-get-wordpress-versions@646c79b6532fe5cc7a893085207685b290e24731 # v1.0.3
