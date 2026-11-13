@@ -374,7 +374,12 @@ class BP_Tests_Group_REST_Controller extends BP_Test_REST_Controller_Testcase {
 
 		$all_data = $response->get_data();
 
-		$this->assertSame( $expected_types, wp_list_pluck( $all_data, 'types', 'id' ) );
+		$actual_types = wp_list_pluck( $all_data, 'types', 'id' );
+
+		ksort( $expected_types );
+		ksort( $actual_types );
+
+		$this->assertSame( $expected_types, $actual_types );
 	}
 
 	/**
