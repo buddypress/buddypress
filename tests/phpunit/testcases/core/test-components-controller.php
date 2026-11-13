@@ -222,7 +222,11 @@ class BP_Tests_Components_REST_Controller extends BP_Test_REST_Controller_Testca
 	 * @group get_item
 	 */
 	public function test_get_item() {
-		$this->markTestSkipped( 'This endpoint has no single-item get_item() route.' );
+		// This endpoint has no single-item get_item() route.
+		$request = new WP_REST_Request( 'GET', $this->endpoint_url . '/members' );
+		$response = $this->server->dispatch( $request );
+
+		$this->assertErrorResponse( 'rest_no_route', $response, 404 );
 	}
 
 	/**
@@ -383,7 +387,11 @@ class BP_Tests_Components_REST_Controller extends BP_Test_REST_Controller_Testca
 	 * @group delete_item
 	 */
 	public function test_delete_item() {
-		$this->markTestSkipped( 'This endpoint does not support deleting components.' );
+		// This endpoint does not support deleting components.
+		$request = new WP_REST_Request( 'DELETE', $this->endpoint_url );
+		$response = $this->server->dispatch( $request );
+
+		$this->assertErrorResponse( 'rest_no_route', $response, 404 );
 	}
 
 	public function test_prepare_item() {
