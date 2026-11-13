@@ -141,6 +141,43 @@ class BP_Tests_BP_Component_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @dataProvider rest_controller_filters
+	 */
+	public function test_rest_api_init_respects_controller_filter( $filtered, $expected ) {
+		global $wp_rest_server;
+
+		$previous       = $wp_rest_server;
+		$wp_rest_server = new WP_REST_Server();
+		$component      = new BP_Component();
+		$component->id  = 'test_component';
+		$filter         = function () use ( $filtered ) {
+			return $filtered;
+		};
+
+		add_filter( 'bp_test_component_rest_api_controllers', $filter );
+		try {
+			// Initialize REST before testing registration on an empty server.
+			do_action( 'rest_api_init' );
+			$wp_rest_server = new WP_REST_Server();
+			$component->rest_api_init( array( 'BP_Core_Components_REST_Controller' ) );
+			$routes = $wp_rest_server->get_routes();
+
+			$this->assertSame( $expected, isset( $routes['/buddypress/v2/components'] ) );
+		} finally {
+			remove_filter( 'bp_test_component_rest_api_controllers', $filter );
+			$wp_rest_server = $previous;
+		}
+	}
+
+	public function rest_controller_filters() {
+		return array(
+			'allowed controller' => array( array( 'BP_Core_Components_REST_Controller' ), true ),
+			'disabled controller' => array( array(), false ),
+			'unlisted controller' => array( array( 'BP_Unlisted_Test_REST_Controller' ), false ),
+		);
+	}
+
+	/**
 	 * @group bp_rewrites
 	 */
 	public function test_component_add_rewrite_rules() {
