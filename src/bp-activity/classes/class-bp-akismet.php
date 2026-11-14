@@ -635,9 +635,19 @@ class BP_Akismet {
 			$activity_data['akismet_pro_tip'] = $response[0]['x-akismet-pro-tip'];
 		}
 
-		// Perform a daily tidy up.
+		// Perform a daily tidy up, from the root blog: the activity tables are global.
+		$switched = false;
+		if ( ! bp_is_root_blog() ) {
+			switch_to_blog( bp_get_root_blog_id() );
+			$switched = true;
+		}
+
 		if ( ! wp_next_scheduled( 'bp_activity_akismet_delete_old_metadata' ) ) {
 			wp_schedule_event( time(), 'daily', 'bp_activity_akismet_delete_old_metadata' );
+		}
+
+		if ( $switched ) {
+			restore_current_blog();
 		}
 
 		return $activity_data;
