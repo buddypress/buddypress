@@ -3306,9 +3306,9 @@ function bp_activity_user_can_read( $activity, $user_id = 0 ) {
 		// Check to see if the user has access to the activity's parent group.
 		$group = groups_get_group( $activity->item_id );
 		if ( $group ) {
-			// For logged-in user, we can check against the 'user_has_access' prop.
+			// For the current user, check the group's 'user_has_access' prop.
 			if ( bp_loggedin_user_id() === $user_id ) {
-				$retval = $group->user_has_access;
+				$retval = $retval && $group->user_has_access;
 
 			// Manually check status.
 			} elseif ( 'private' === $group->status || 'hidden' === $group->status ) {
