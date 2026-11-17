@@ -827,7 +827,7 @@ function bp_create_excerpt( $text, $length = 225, $options = array() ) {
 
 		foreach ( $tags as $tag ) {
 			// Process tags that need to be closed.
-			if ( ! preg_match( '/img|br|input|hr|area|base|basefont|col|frame|isindex|link|meta|param/s', $tag[2] ) ) {
+			if ( ! preg_match( '/img|br|input|hr|area|base|basefont|col|frame|isindex|link|meta|param/is', $tag[2] ) ) {
 				if ( preg_match( '/<[\w]+[^>]*>/s', $tag[0] ) ) {
 					array_unshift( $open_tags, $tag[2] );
 				} elseif ( preg_match( '/<\/([\w]+)[^>]*>/s', $tag[0], $close_tag ) ) {
@@ -846,7 +846,9 @@ function bp_create_excerpt( $text, $length = 225, $options = array() ) {
 				$entities_length = 0;
 				if ( preg_match_all( '/&[0-9a-z]{2,8};|&#[0-9]{1,7};|&#x[0-9a-f]{1,6};/i', $tag[3], $entities, PREG_OFFSET_CAPTURE ) ) {
 					foreach ( $entities[0] as $entity ) {
-						if ( $entity[1] + 1 - $entities_length <= $left ) {
+						// PCRE offsets are bytes; $left counts characters.
+						$entity_char_offset = mb_strlen( substr( $tag[3], 0, $entity[1] ) );
+						if ( $entity_char_offset + 1 - $entities_length <= $left ) {
 							--$left;
 							$entities_length += mb_strlen( $entity[0] );
 						} else {
@@ -897,7 +899,7 @@ function bp_create_excerpt( $text, $length = 225, $options = array() ) {
 	// If $exact is false, we can't break on words.
 	if ( empty( $r['exact'] ) ) {
 		// Find the position of the last space character not part of a tag.
-		preg_match_all( '/<[a-z\!\/][^>]*>/', $truncate, $_truncate_tags, PREG_OFFSET_CAPTURE );
+		preg_match_all( '/<[a-z\!\/][^>]*>/i', $truncate, $_truncate_tags, PREG_OFFSET_CAPTURE );
 
 		// Rekey tags by the string index of their last character.
 		$truncate_tags = array();
