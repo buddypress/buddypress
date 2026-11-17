@@ -79,16 +79,16 @@ function bp_nouveau_ajax_querystring( $query_string, $object ) {
 	// Activity stream filtering on action.
 	if ( ! empty( $post_query['filter'] ) && '-1' !== $post_query['filter'] ) {
 		if ( 'notifications' === $object ) {
-			$qs[] = 'component_action=' . $post_query['filter'];
+			$qs[] = 'component_action=' . urlencode( $post_query['filter'] );
 		} else {
-			$qs[] = 'type=' . $post_query['filter'];
-			$qs[] = 'action=' . $post_query['filter'];
+			$qs[] = 'type=' . urlencode( $post_query['filter'] );
+			$qs[] = 'action=' . urlencode( $post_query['filter'] );
 		}
 	}
 
 	// Sort the notifications if needed
 	if ( ! empty( $post_query['extras'] ) && 'notifications' === $object ) {
-		$qs[] = 'sort_order=' . $post_query['extras'];
+		$qs[] = 'sort_order=' . urlencode( $post_query['extras'] );
 	}
 
 	if ( 'personal' === $post_query['scope'] ) {
@@ -98,7 +98,7 @@ function bp_nouveau_ajax_querystring( $query_string, $object ) {
 
 	// Activity stream scope only on activity directory.
 	if ( 'all' !== $post_query['scope'] && ! bp_displayed_user_id() && ! bp_is_single_item() ) {
-		$qs[] = 'scope=' . $post_query['scope'];
+		$qs[] = 'scope=' . urlencode( $post_query['scope'] );
 	}
 
 	// If page have been passed via the AJAX post request, use those.
@@ -129,7 +129,7 @@ function bp_nouveau_ajax_querystring( $query_string, $object ) {
 	// Specific to messages
 	if ( 'messages' === $object ) {
 		if ( ! empty( $post_query['box'] ) ) {
-			$qs[] = 'box=' . $post_query['box'];
+			$qs[] = 'box=' . urlencode( $post_query['box'] );
 		}
 	}
 
