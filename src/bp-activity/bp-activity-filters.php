@@ -554,6 +554,11 @@ function bp_activity_heartbeat_last_recorded( $response = array(), $data = array
 		return $response;
 	}
 
+	// Respect activity component visibility.
+	if ( ! bp_current_user_can( 'bp_view', array( 'bp_component' => 'activity' ) ) ) {
+		return $response;
+	}
+
 	// Use the querystring argument stored in the cookie (to preserve
 	// filters), but force the offset to get only new items.
 	$activity_latest_args = bp_parse_args(
