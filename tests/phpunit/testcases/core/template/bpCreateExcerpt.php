@@ -101,4 +101,41 @@ Il avait appris toutes les connaissances du monde entier, visiter tout les pays.
 			$this->assertSame( $prefix, bp_create_excerpt( $text, 225, array( 'ending' => '' ) ) );
 		}
 	}
+
+	public function test_multibyte_prefix_should_not_split_html_entity() {
+		$options = array(
+			'ending' => '',
+			'exact'  => true,
+		);
+
+		$this->assertSame( 'a&amp;', bp_create_excerpt( 'a&amp;BBBBBBBB', 2, $options ) );
+		foreach ( array( 'é', '€', '😀' ) as $character ) {
+			$this->assertSame( $character . '&amp;', bp_create_excerpt( $character . '&amp;BBBBBBBB', 2, $options ) );
+		}
+		$this->assertSame( 'é&amp;é&lt;', bp_create_excerpt( 'é&amp;é&lt;BBBBBBBB', 4, $options ) );
+		$this->assertSame( 'é', bp_create_excerpt( 'é&amp;BBBBBBBB', 1, $options ) );
+	}
+
+	public function test_default_excerpt_should_not_split_html_entity_after_multibyte_prefix() {
+		$prefix = str_repeat( 'A', 212 );
+		$text   = $prefix . 'é&amp;' . str_repeat( 'B', 100 );
+
+		$this->assertSame( $prefix . 'é&amp; [&hellip;]', bp_create_excerpt( $text ) );
+	}
+
+	public function test_uppercase_tag_should_not_be_cut_at_attribute_space() {
+		$options = array(
+			'ending' => '',
+			'exact'  => false,
+		);
+
+		$this->assertSame(
+			'<img alt="first second third fourth" src="x"/>onewo',
+			bp_create_excerpt( '<IMG alt="first second third fourth" src="x">onewordlong', 5, $options )
+		);
+		$this->assertSame(
+			'<a title="first second third fourth" href="#">onewo</a>',
+			bp_create_excerpt( '<A title="first second third fourth" href="#">onewordlong</A>', 5, $options )
+		);
+	}
 }
