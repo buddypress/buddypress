@@ -39,6 +39,21 @@ function bp_members_invitations_action_bulk_manage() {
 
 	$invitations = wp_parse_id_list( $invitations );
 
+	// Only act on invitations the current user sent.
+	if ( ! bp_current_user_can( 'bp_moderate' ) ) {
+		$invite_args  = array(
+			'inviter_id' => bp_loggedin_user_id(),
+			'fields'     => 'ids',
+		);
+		$user_invites = bp_members_invitations_get_invites( $invite_args );
+		$invitations  = array_intersect( $invitations, $user_invites );
+	}
+
+	if ( empty( $invitations ) ) {
+		bp_core_add_message( __( 'There was a problem managing your invitations.', 'buddypress' ), 'error' );
+		return false;
+	}
+
 	// Cancel or resend depending on the user 'action'.
 	switch ( $action ) {
 		case 'cancel' :
