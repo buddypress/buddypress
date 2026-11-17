@@ -86,4 +86,18 @@ Il avait appris toutes les connaissances du monde entier, visiter tout les pays.
 		) );
 		$this->assertSame( '<p><span>Foo</span> <a href="http://example.com">Bar</a></p>', $actual );
 	}
+
+	/**
+	 * Multibyte text must not move a word boundary into an HTML attribute.
+	 */
+	public function test_multibyte_prefix_should_not_cut_mid_tag_when_exact_is_false() {
+		$tag = ' x<img src="/missing.png" alt="a http://example.com/path ' . str_repeat( 'b', 60 ) . '">';
+
+		foreach ( array( 'z', 'é', '€', '😀' ) as $character ) {
+			$prefix = str_repeat( $character, 40 );
+			$text   = $prefix . $tag . str_repeat( 'c', 420 );
+
+			$this->assertSame( $prefix, bp_create_excerpt( $text, 225, array( 'ending' => '' ) ) );
+		}
+	}
 }

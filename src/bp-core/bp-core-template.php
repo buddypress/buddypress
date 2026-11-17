@@ -909,7 +909,8 @@ function bp_create_excerpt( $text, $length = 225, $options = array() ) {
 			}
 		}
 
-		$truncate_length = mb_strlen( $truncate );
+		// Tag offsets and string indexes are bytes, so scan and slice by bytes.
+		$truncate_length = strlen( $truncate );
 		$spacepos        = $truncate_length + 1;
 		for ( $pos = $truncate_length - 1; $pos >= 0; $pos-- ) {
 			// Word boundaries are spaces and the close of HTML tags, when the tag is preceded by a space.
@@ -948,7 +949,7 @@ function bp_create_excerpt( $text, $length = 225, $options = array() ) {
 		}
 
 		if ( $r['html'] ) {
-			$bits = mb_substr( $truncate, $spacepos );
+			$bits = substr( $truncate, $spacepos );
 			preg_match_all( '/<\/([a-z]+)>/', $bits, $dropped_tags, PREG_SET_ORDER );
 			if ( ! empty( $dropped_tags ) ) {
 				foreach ( $dropped_tags as $closing_tag ) {
@@ -959,7 +960,7 @@ function bp_create_excerpt( $text, $length = 225, $options = array() ) {
 			}
 		}
 
-		$truncate = rtrim( mb_substr( $truncate, 0, $spacepos ) );
+		$truncate = rtrim( substr( $truncate, 0, $spacepos ) );
 	}
 	$truncate .= $ending;
 
