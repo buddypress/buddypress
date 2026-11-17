@@ -1583,6 +1583,7 @@ function bp_legacy_theme_ajax_joinleave_group() {
 		case 'join_group' :
 			if ( ! bp_current_user_can( 'groups_join_group', array( 'group_id' => $group->id ) ) ) {
 				esc_html_e( 'Error joining group', 'buddypress' );
+				break;
 			}
 
 			check_ajax_referer( 'groups_join_group' );
