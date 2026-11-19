@@ -30,7 +30,7 @@ class BP_Core_User {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @var integer
+	 * @var int
 	 */
 	public $id;
 
@@ -115,7 +115,7 @@ class BP_Core_User {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @var integer
+	 * @var int
 	 */
 	public $total_friends;
 
@@ -124,7 +124,7 @@ class BP_Core_User {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @var integer
+	 * @var int
 	 * @deprecated No longer used
 	 */
 	public $total_blogs;

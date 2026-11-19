@@ -87,7 +87,7 @@ class BP_Core_Notification {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @var boolean
+	 * @var bool
 	 */
 	public $is_new = false;
 

@@ -219,7 +219,7 @@ function bp_nouveau_activity_timestamp() {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @return integer The Activity timestamp.
+	 * @return int The Activity timestamp.
 	 */
 	function bp_nouveau_get_activity_timestamp() {
 		/**

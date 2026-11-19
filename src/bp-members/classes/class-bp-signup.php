@@ -20,7 +20,7 @@ class BP_Signup {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @var integer
+	 * @var int
 	 */
 	public $id;
 
@@ -29,7 +29,7 @@ class BP_Signup {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @var integer
+	 * @var int
 	 */
 	public $signup_id;
 

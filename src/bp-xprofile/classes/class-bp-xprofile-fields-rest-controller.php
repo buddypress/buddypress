@@ -872,8 +872,8 @@ class BP_XProfile_Fields_REST_Controller extends WP_REST_Controller {
 	 *
 	 * @since 15.0.0
 	 *
-	 * @param  string                    $value         The raw value of the field.
-	 * @param  integer|BP_XProfile_Field $profile_field The ID or the full object for the field.
+	 * @param  string                $value         The raw value of the field.
+	 * @param  int|BP_XProfile_Field $profile_field The ID or the full object for the field.
 	 *
 	 * @return array The maybe unserialized field value.
 	 */
