@@ -158,7 +158,7 @@ class BP_Activity_Template {
 	 * Constructor method.
 	 *
 	 * The arguments passed to this class constructor are of the same
-	 * format as {@link BP_Activity_Activity::get()}.
+	 * format as `BP_Activity_Activity::get`.
 	 *
 	 * @since 1.5.0
 	 *
@@ -424,7 +424,7 @@ class BP_Activity_Template {
 	/**
 	 * Whether there are activity items left in the loop to iterate over.
 	 *
-	 * This method is used by {@link bp_activities()} as part of the while loop
+	 * This method is used by `bp_activities` as part of the while loop
 	 * that controls iteration inside the activities loop, eg:
 	 *     while ( bp_activities() ) { ...
 	 *
@@ -459,7 +459,7 @@ class BP_Activity_Template {
 	/**
 	 * Set up the current activity item inside the loop.
 	 *
-	 * Used by {@link bp_the_activity()} to set up the current activity item
+	 * Used by `bp_the_activity` to set up the current activity item
 	 * data while looping, so that template tags used during that iteration
 	 * make reference to the current activity item.
 	 *

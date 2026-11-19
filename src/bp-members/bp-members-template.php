@@ -400,7 +400,7 @@ function bp_members_invitations_slug() {
  *     @type array                 $xprofile_query      Filter results by xprofile data. Requires the xprofile
  *                                                      component. See {@see BP_XProfile_Query} for details.
  *     @type array                 $date_query          Filter results by member last activity date. See first parameter of
- *                                                      {@link WP_Date_Query::__construct()} for syntax. Only applicable if
+ *                                                      `WP_Date_Query::__construct` for syntax. Only applicable if
  *                                                      $type is either 'active', 'random', 'newest', or 'online'.
  *     @type bool                  $populate_extras     Whether to fetch optional data, such as friend counts.
  *                                                      Default: true.
@@ -849,7 +849,7 @@ function bp_member_is_loggedin_user() {
  *
  * @see bp_get_member_avatar() for description of arguments.
  *
- * @param array|string $args Optional. See {@link bp_get_member_avatar()}.
+ * @param array|string $args Optional. See `bp_get_member_avatar`.
  */
 function bp_member_avatar( $args = '' ) {
 	// phpcs:disable WordPress.Security.EscapeOutput
@@ -861,7 +861,7 @@ function bp_member_avatar( $args = '' ) {
 	 * @since 2.6.0 Added the `$args` parameter.
 	 *
 	 * @param string       $value Formatted HTML <img> element, or raw avatar URL based on $html arg.
-	 * @param array|string $args  See {@link bp_get_member_avatar()}.
+	 * @param array|string $args  See `bp_get_member_avatar`.
 	 */
 	echo apply_filters( 'bp_member_avatar', bp_get_member_avatar( $args ), $args );
 	// phpcs:enable
@@ -879,7 +879,7 @@ function bp_member_avatar( $args = '' ) {
 	 * @param array|string $args  {
 	 *     Optional. Arguments are listed here with an explanation of their defaults.
 	 *     For more information about the arguments, see
-	 *     {@link bp_core_fetch_avatar()}.
+	 *     `bp_core_fetch_avatar`.
 	 *     @type string   $alt     Default: 'Profile picture of [user name]'.
 	 *     @type string   $class   Default: 'avatar'.
 	 *     @type string   $type    Default: 'thumb'.
@@ -932,7 +932,7 @@ function bp_member_avatar( $args = '' ) {
 		 * @since 2.6.0 Added the `$r` parameter.
 		 *
 		 * @param string $value Formatted HTML <img> element, or raw avatar URL based on $html arg.
-		 * @param array  $r     Array of parsed arguments. See {@link bp_get_member_avatar()}.
+		 * @param array  $r     Array of parsed arguments. See `bp_get_member_avatar`.
 		 */
 		return apply_filters( 'bp_get_member_avatar', $avatar, $r );
 	}
@@ -970,7 +970,7 @@ function bp_member_permalink() {
 	}
 
 	/**
-	 * Alias of {@link bp_member_permalink()}.
+	 * Alias of `bp_member_permalink`.
 	 *
 	 * @since 1.2.0
 	 */
@@ -979,7 +979,7 @@ function bp_member_permalink() {
 	}
 
 	/**
-	 * Alias of {@link bp_get_member_permalink()}.
+	 * Alias of `bp_get_member_permalink`.
 	 *
 	 * @since 1.2.0
 	 */
@@ -1252,7 +1252,7 @@ function bp_member_latest_update( $args = '' ) {
  *
  * @see bp_get_member_profile_data() for a description of params.
  *
- * @param array|string $args Optional. See {@link bp_get_member_profile_data()}.
+ * @param array|string $args Optional. See `bp_get_member_profile_data`.
  */
 function bp_member_profile_data( $args = '' ) {
 	// phpcs:ignore WordPress.Security.EscapeOutput
@@ -1756,7 +1756,7 @@ function bp_loggedin_user_avatar( $args = '' ) {
 	 * @param array|string $args  {
 	 *     Optional. Arguments are listed here with an explanation of their defaults.
 	 *     For more information about the arguments, see
-	 *     {@link bp_core_fetch_avatar()}.
+	 *     `bp_core_fetch_avatar`.
 	 *     @type string   $alt    Default: 'Profile picture of [user name]'.
 	 *     @type bool     $html   Default: true.
 	 *     @type string   $type   Default: 'thumb'.
@@ -1817,7 +1817,7 @@ function bp_displayed_user_avatar( $args = '' ) {
 	 * @param array|string $args  {
 	 *     Optional. Arguments are listed here with an explanation of their defaults.
 	 *     For more information about the arguments, see
-	 *     {@link bp_core_fetch_avatar()}.
+	 *     `bp_core_fetch_avatar`.
 	 *     @type string   $alt    Default: 'Profile picture of [user name]'.
 	 *     @type bool     $html   Default: true.
 	 *     @type string   $type   Default: 'thumb'.
@@ -1895,7 +1895,7 @@ function bp_displayed_user_email() {
  *
  * @see bp_get_last_activity() for a description of parameters.
  *
- * @param int $user_id Optional. See {@link bp_get_last_activity()}.
+ * @param int $user_id Optional. See `bp_get_last_activity`.
  */
 function bp_last_activity( $user_id = 0 ) {
 	echo esc_html( bp_get_last_activity( $user_id ) );
@@ -1975,7 +1975,7 @@ function bp_user_firstname() {
 	}
 
 /**
- * Alias of {@link bp_displayed_user_id()}.
+ * Alias of `bp_displayed_user_id`.
  *
  * @since 1.0.0
  */
@@ -2186,7 +2186,7 @@ function bp_displayed_user_fullname() {
 	}
 
 	/**
-	 * Alias of {@link bp_get_displayed_user_fullname()}.
+	 * Alias of `bp_get_displayed_user_fullname`.
 	 *
 	 * @since 1.0.0
 	 */
@@ -3182,10 +3182,10 @@ add_action( 'bp_head', 'bp_members_activity_feed' );
  *
  * @see bp_get_members_component_link() for description of parameters.
  *
- * @param string      $component See {@link bp_get_members_component_link()}.
- * @param string      $action Optional. See {@link bp_get_members_component_link()}.
- * @param string      $query_args Optional. See {@link bp_get_members_component_link()}.
- * @param string|bool $nonce Optional. See {@link bp_get_members_component_link()}.
+ * @param string      $component See `bp_get_members_component_link`.
+ * @param string      $action Optional. See `bp_get_members_component_link`.
+ * @param string      $query_args Optional. See `bp_get_members_component_link`.
+ * @param string|bool $nonce Optional. See `bp_get_members_component_link`.
  */
 function bp_members_component_link( $component, $action = '', $query_args = '', $nonce = false ) {
 	echo esc_url( bp_get_members_component_link( $component, $action, $query_args, $nonce ) );
@@ -3198,7 +3198,7 @@ function bp_members_component_link( $component, $action = '', $query_args = '', 
 	 * @param string       $component  ID of the component (eg 'friends').
 	 * @param string       $action     Optional. 'action' slug (eg 'invites').
 	 * @param array|string $query_args Optional. Array of URL params to add to the
-	 *                                 URL. See {@link add_query_arg()} for format.
+	 *                                 URL. See `add_query_arg` for format.
 	 * @param array|bool   $nonce      Optional. If provided, the URL will be passed
 	 *                                 through wp_nonce_url() with $nonce as the
 	 *                                 action string.
@@ -3300,7 +3300,7 @@ function bp_avatar_delete_link() {
  *     Optional. Arguments for limiting the contents of the invitations loop. Can be
  *     passed as an associative array, or as a URL query string.
  *
- *     See {@link BP_Invitations_Invitation::get()} for detailed
+ *     See `BP_Invitations_Invitation::get` for detailed
  *     information on the arguments. It also supports the following arguments.
  *
  *     @type int    $max      Optional. Max items to display. Default: false.

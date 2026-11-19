@@ -564,7 +564,7 @@ function bp_get_search_placeholder( $component = '' ) {
  *
  * @see bp_get_search_default_text()
  *
- * @param string $component Optional. See {@link bp_get_search_default_text()}.
+ * @param string $component Optional. See `bp_get_search_default_text`.
  */
 function bp_search_default_text( $component = '' ) {
 	echo esc_attr( bp_get_search_default_text( $component ) );

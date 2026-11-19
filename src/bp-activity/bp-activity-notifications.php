@@ -296,7 +296,7 @@ add_action( 'bp_activity_screen_single_activity_permalink', 'bp_activity_remove_
  * Mark non-mention notifications as read when user visits our read permalink.
  *
  * In particular, 'update_reply' and 'comment_reply' notifications are handled
- * here. See {@link bp_activity_format_notifications()} for more info.
+ * here. See `bp_activity_format_notifications` for more info.
  *
  * @since 2.6.0
  */

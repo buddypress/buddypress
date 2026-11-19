@@ -292,7 +292,7 @@ function bp_alpha_sort_by_key( $items, $key ) {
  * @since 1.2.0
  *
  * @param int  $number   Optional. The number to be formatted.
- * @param bool $decimals Optional. Whether to use decimals. See {@link number_format_i18n()}.
+ * @param bool $decimals Optional. Whether to use decimals. See `number_format_i18n`.
  * @return string The formatted number.
  */
 function bp_core_number_format( $number = 0, $decimals = false ) {
@@ -1270,7 +1270,7 @@ function bp_core_get_site_path() {
  * @since 1.2.6
  *
  * @param bool   $gmt  Optional. True to use GMT (rather than local) time. Default: true.
- * @param string $type Optional. See the 'type' parameter in {@link current_time()}.
+ * @param string $type Optional. See the 'type' parameter in `current_time`.
  *                     Default: 'mysql'.
  * @return string Current time in 'Y-m-d h:i:s' format.
  */
@@ -2065,8 +2065,8 @@ function bp_core_extract_media_from_content( $content = '', $type = 'all' ) {
  *
  * @see bp_get_admin_url() For description of parameters.
  *
- * @param string $path   Optional. See {@link bp_get_admin_url()}.
- * @param string $scheme Optional. See {@link bp_get_admin_url()}.
+ * @param string $path   Optional. See `bp_get_admin_url`.
+ * @param string $scheme Optional. See `bp_get_admin_url`.
  */
 function bp_admin_url( $path = '', $scheme = 'admin' ) {
 	echo esc_url( bp_get_admin_url( $path, $scheme ) );
@@ -2079,7 +2079,7 @@ function bp_admin_url( $path = '', $scheme = 'admin' ) {
 	 * @param string $path   Optional. The sub-path under /wp-admin to be
 	 *                       appended to the admin URL.
 	 * @param string $scheme Optional. The scheme to use. Default is 'admin', which
-	 *                       obeys {@link force_ssl_admin()} and {@link is_ssl()}. 'http'
+	 *                       obeys `force_ssl_admin` and `is_ssl`. 'http'
 	 *                       or 'https' can be passed to force those schemes.
 	 * @return string Admin url link with optional path appended.
 	 */
@@ -3257,7 +3257,7 @@ add_action( 'wp_ajax_bp_get_suggestions', 'bp_ajax_get_suggestions' );
  * Handy for multisite instances because all uploads are made on the BP root
  * blog and we need to query the BP root blog for the upload directory data.
  *
- * This function ensures that we only need to use {@link switch_to_blog()}
+ * This function ensures that we only need to use `switch_to_blog`
  * once to get what we need.
  *
  * @since 2.3.0
@@ -4951,7 +4951,7 @@ function bp_add_optout( $args = array() ) {
  *
  * @see BP_Optout::get() for a description of parameters and return values.
  *
- * @param array $args Optional. See {@link BP_Optout::get()}.
+ * @param array $args Optional. See `BP_Optout::get`.
  * @return array See {@link BP_Optout::get()}.
  */
 function bp_get_optouts( $args = array() ) {

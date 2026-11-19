@@ -61,13 +61,13 @@ class BP_Embed extends WP_Embed {
 	}
 
 	/**
-	 * The {@link do_shortcode()} callback function.
+	 * The `do_shortcode` callback function.
 	 *
 	 * Attempts to convert a URL into embed HTML. Starts by checking the
 	 * URL against the regex of the registered embed handlers. Next, checks
 	 * the URL against the regex of registered {@link WP_oEmbed} providers
 	 * if oEmbed discovery is false. If none of the regex matches and it's
-	 * enabled, then the URL will be passed to {@link BP_Embed::parse_oembed()}
+	 * enabled, then the URL will be passed to `BP_Embed::parse_oembed`
 	 * for oEmbed parsing.
 	 *
 	 * @param array  $attr Shortcode attributes.
@@ -169,16 +169,16 @@ class BP_Embed extends WP_Embed {
 	/**
 	 * Base function so BP components/plugins can parse links to be embedded.
 	 *
-	 * View an example to add support in {@link bp_activity_embed()}.
+	 * View an example to add support in `bp_activity_embed`.
 	 *
 	 *       on success.
 	 *       oEmbed failure.
 	 *
 	 * @param int    $id      ID to do the caching for.
 	 * @param string $url     The URL attempting to be embedded.
-	 * @param array  $attr    Shortcode attributes from {@link WP_Embed::shortcode()}.
+	 * @param array  $attr    Shortcode attributes from `WP_Embed::shortcode`.
 	 * @param array  $rawattr Untouched shortcode attributes from
-	 *                        {@link WP_Embed::shortcode()}.
+	 *                        `WP_Embed::shortcode`.
 	 * @return string The embed HTML on success, otherwise the original URL.
 	 */
 	public function parse_oembed( $id, $url, $attr, $rawattr ) {

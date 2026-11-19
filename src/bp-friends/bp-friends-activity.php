@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Record an activity item related to the Friends component.
  *
- * A wrapper for {@link bp_activity_add()} that provides some Friends-specific
+ * A wrapper for `bp_activity_add` that provides some Friends-specific
  * defaults.
  *
  * @since 1.0.0
@@ -26,7 +26,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @param array|string $args {
  *     Optional. An array of arguments for the new activity item. Accepts all parameters
- *     of {@link bp_activity_add()}. The following argument has a different
+ *     of `bp_activity_add`. The following argument has a different
  *     default.
  *     @type string $component Default: the id of your Friends component
  *                             (usually 'friends').

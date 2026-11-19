@@ -940,7 +940,7 @@ function groups_get_total_member_count( $group, $skip_cache = false ) {
  *
  * @param array|string $args {
  *     Optional. Array of arguments. Supports all arguments of
- *     {@link BP_Groups_Group::get()}. Where the default values differ, they
+ *     `BP_Groups_Group::get`. Where the default values differ, they
  *     have been described here.
  *     @type int $per_page Default: 20.
  *     @type int $page Default: 1.

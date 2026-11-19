@@ -552,7 +552,7 @@ class BP_XProfile_Group {
 	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param int[] $group_ids Array of group IDs.
-	 * @param array $args      Optional. See {@link BP_XProfile_Group::get()}.
+	 * @param array $args      Optional. See `BP_XProfile_Group::get`.
 	 * @return int[]
 	 */
 	public static function get_group_field_ids( $group_ids, $args = array() ) {
@@ -644,7 +644,7 @@ class BP_XProfile_Group {
 	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param array $group_ids Array of IDs.
-	 * @param array $r         Optional. See {@link BP_XProfile_Group::get()}.
+	 * @param array $r         Optional. See `BP_XProfile_Group::get`.
 	 * @return array
 	 */
 	protected static function get_group_data( $group_ids, $r = array() ) {

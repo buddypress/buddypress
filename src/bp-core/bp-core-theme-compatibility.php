@@ -500,7 +500,7 @@ function bp_is_theme_compat_original_template( $template = '' ) {
  * Register a new BuddyPress theme package in the active theme packages array.
  *
  * For an example of how this function is used, see:
- * {@link BuddyPress::register_theme_packages()}.
+ * `BuddyPress::register_theme_packages`.
  *
  * @since 1.7.0
  *
@@ -965,10 +965,10 @@ function bp_comments_pre_query( $comment_data, $wp_comment_query ) {
 }
 
 /**
- * Do not allow {@link comments_template()} to render during theme compatibility.
+ * Do not allow `comments_template` to render during theme compatibility.
  *
  * When theme compatibility sets the 'is_page' flag to true via
- * {@link bp_theme_compat_reset_post()}, themes that use comments_template()
+ * `bp_theme_compat_reset_post`, themes that use comments_template()
  * in their page template will run.
  *
  * To prevent comments_template() from rendering, we set the 'is_page' and

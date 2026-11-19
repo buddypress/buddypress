@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Class for generating the WHERE SQL clause for advanced activity fetching.
  *
- * This is notably used in {@link BP_Activity_Activity::get()} with the
+ * This is notably used in `BP_Activity_Activity::get` with the
  * 'filter_query' parameter.
  *
  * @since 2.2.0

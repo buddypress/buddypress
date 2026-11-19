@@ -78,7 +78,7 @@ class BP_Theme_Compat {
 	 * Set up global data for your template package.
 	 *
 	 * Meant to be overridden in your class. See
-	 * {@link BP_Legacy::setup_globals()} for an example.
+	 * `BP_Legacy::setup_globals` for an example.
 	 *
 	 * @since 1.7.0
 	 */
@@ -88,7 +88,7 @@ class BP_Theme_Compat {
 	 * Set up theme hooks for your template package.
 	 *
 	 * Meant to be overridden in your class. See
-	 * {@link BP_Legacy::setup_actions()} for an example.
+	 * `BP_Legacy::setup_actions` for an example.
 	 *
 	 * @since 1.7.0
 	 */

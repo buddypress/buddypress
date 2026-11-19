@@ -8,8 +8,8 @@
  *
  * There are a few common places that additional actions can currently be found.
  *
- *  - BuddyPress: In {@link BuddyPress::setup_actions()} in BuddyPress.php
- *  - Admin: More in {@link bp_Admin::setup_actions()} in admin.php
+ *  - BuddyPress: In `BuddyPress::setup_actions` in BuddyPress.php
+ *  - Admin: More in `bp_Admin::setup_actions` in admin.php
  *
  * @package BuddyPress
  * @subpackage Core

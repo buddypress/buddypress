@@ -99,7 +99,7 @@ class BP_Members_Component extends BP_Component {
 	 *
 	 * @see BP_Component::includes() for description of parameters.
 	 *
-	 * @param array $includes Optional. See {@link BP_Component::includes()}.
+	 * @param array $includes Optional. See `BP_Component::includes`.
 	 */
 	public function includes( $includes = array() ) {
 
@@ -300,7 +300,7 @@ class BP_Members_Component extends BP_Component {
 	 *
 	 * @global wpdb $wpdb The WordPress database object.
 	 *
-	 * @param array $args Optional. See {@link BP_Component::setup_globals()}.
+	 * @param array $args Optional. See `BP_Component::setup_globals`.
 	 */
 	public function setup_globals( $args = array() ) {
 		global $wpdb;

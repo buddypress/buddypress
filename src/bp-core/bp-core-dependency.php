@@ -659,7 +659,7 @@ function bp_after_setup_theme() {
  *
  * @see WP::parse_request() for a description of parameters.
  *
- * @param array $query_vars Optional. See {@link WP::parse_request()}.
+ * @param array $query_vars Optional. See `WP::parse_request`.
  * @return array See {@link WP::parse_request()}.
  */
 function bp_request( $query_vars = array() ) {

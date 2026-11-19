@@ -70,7 +70,7 @@ function bp_get_template_part( $slug, $name = null, $args = array() ) {
 /**
  * Get an asset template part.
  *
- * Basically the same as {@link bp_get_template_part()}, but with 'assets/'
+ * Basically the same as `bp_get_template_part`, but with 'assets/'
  * prepended to the slug.
  *
  * @since 2.6.0
@@ -232,7 +232,7 @@ function bp_locate_template( $template_names, $load = false, $load_once = true, 
 /**
  * Get file data of the highest priority asset that exists.
  *
- * Similar to {@link bp_locate_template()}, but for files like CSS and JS.
+ * Similar to `bp_locate_template`, but for files like CSS and JS.
  *
  * @since 2.6.0
  *
@@ -307,7 +307,7 @@ function bp_register_template_stack( $location_callback = '', $priority = 10 ) {
  *
  * @param string $location_callback Optional. Callback function that returns the stack location.
  * @param int    $priority          Optional. The priority parameter passed to
- *                                  {@link bp_register_template_stack()}. Default: 10.
+ *                                  `bp_register_template_stack`. Default: 10.
  * @return bool See {@link remove_filter()}.
  */
 function bp_deregister_template_stack( $location_callback = '', $priority = 10 ) {
@@ -397,11 +397,11 @@ function bp_get_template_stack() {
  *
  * @see bp_get_template_part() for a description of $slug, $name and $args params.
  *
- * @param string      $slug See {@link bp_get_template_part()}.
- * @param string|null $name Optional. See {@link bp_get_template_part()}.
+ * @param string      $slug See `bp_get_template_part`.
+ * @param string|null $name Optional. See `bp_get_template_part`.
  * @param bool        $ret  Optional. If true, template content will be echoed. If false,
  *                          returned. Default: true.
- * @param array       $args Optional. See {@link bp_get_template_part()}.
+ * @param array       $args Optional. See `bp_get_template_part`.
  * @return string|null If $echo, returns the template content.
  */
 function bp_buffer_template_part( $slug, $name = null, $ret = true, $args = array() ) {
@@ -432,7 +432,7 @@ function bp_buffer_template_part( $slug, $name = null, $ret = true, $args = arra
  *
  * Used to quickly retrieve the path of a template without including the file
  * extension. It will also check the parent theme and theme-compat theme with
- * the use of {@link bp_locate_template()}. Allows for more generic template
+ * the use of `bp_locate_template`. Allows for more generic template
  * locations without the use of the other get_*_template() functions.
  *
  * @since 1.7.0

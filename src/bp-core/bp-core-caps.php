@@ -130,10 +130,10 @@ function bp_remove_caps() {
  *      'map_meta_cap' filter.
  *       args.
  *
- * @param array  $caps    See {@link WP_User::has_cap()}.
- * @param string $cap     See {@link WP_User::has_cap()}.
- * @param int    $user_id See {@link WP_User::has_cap()}.
- * @param mixed  $args    See {@link WP_User::has_cap()}.
+ * @param array  $caps    See `WP_User::has_cap`.
+ * @param string $cap     See `WP_User::has_cap`.
+ * @param int    $user_id See `WP_User::has_cap`.
+ * @param mixed  $args    See `WP_User::has_cap`.
  * @return array Actual capabilities for meta capability. See {@link WP_User::has_cap()}.
  */
 function bp_map_meta_caps( $caps, $cap, $user_id, $args ) {

@@ -153,7 +153,7 @@ function bp_activity_clear_new_mentions( $user_id ) {
  * This function is useful if you only have the activity ID handy and you
  * haven't parsed an activity item for @mentions yet.
  *
- * Currently, only used in {@link bp_activity_delete()}.
+ * Currently, only used in `bp_activity_delete`.
  *
  * @since 1.5.0
  *
@@ -2049,7 +2049,7 @@ function bp_activity_get_specific( $args = '' ) {
  *                                       component is disabled). As long as you have registered a
  *                                       format_callback for your $type, it is unnecessary to include this
  *                                       argument - BP will generate it automatically.
- *                                       See {@link bp_activity_set_action()}.
+ *                                       See `bp_activity_set_action`.
  *     @type string   $content           Optional. The content of the activity item.
  *     @type string   $component         The unique name of the component associated with
  *                                       the activity item - 'groups', 'profile', etc.
@@ -3610,11 +3610,11 @@ function bp_activity_create_summary( $content, $activity ) {
 		 *
 		 * @since 2.3.0
 		 *
-		 * @param array  $extracted_media Extracted media item. See {@link BP_Media_Extractor::extract()} for format.
+		 * @param array  $extracted_media Extracted media item. See `BP_Media_Extractor::extract` for format.
 		 * @param string $content         Content of the activity item.
 		 * @param array  $activity        The data passed to bp_activity_add() or the values from an Activity obj.
 		 * @param array  $media           All results from the media extraction.
-		 *                                See {@link BP_Media_Extractor::extract()} for format.
+		 *                                See `BP_Media_Extractor::extract` for format.
 		 * @param string $use_media_type  The kind of media item that was preferentially extracted.
 		 * @param string $image_source    If $use_media_type was "images", the preferential source of the image.
 		 *                                Otherwise empty.
@@ -3668,7 +3668,7 @@ function bp_activity_create_summary( $content, $activity ) {
 	 * @param string $summary         Activity summary HTML.
 	 * @param string $content         Content of the activity item.
 	 * @param array  $activity        The data passed to bp_activity_add() or the values from an Activity obj.
-	 * @param array  $extracted_media Media item extracted. See {@link BP_Media_Extractor::extract()} for format.
+	 * @param array  $extracted_media Media item extracted. See `BP_Media_Extractor::extract` for format.
 	 */
 	return apply_filters( 'bp_activity_create_summary', $summary, $content, $activity, $extracted_media );
 }
@@ -3887,7 +3887,7 @@ function bp_activity_at_message_notification( $activity_id, $receiver_user_id ) 
  *
  * @param int   $comment_id   Optional. The comment id.
  * @param int   $commenter_id Optional. The ID of the user who posted the comment.
- * @param array $params       {@link bp_activity_new_comment()}.
+ * @param array $params       `bp_activity_new_comment`.
  *    Optional.
  */
 function bp_activity_new_comment_notification( $comment_id = 0, $commenter_id = 0, $params = array() ) {
@@ -4016,7 +4016,7 @@ add_action( 'bp_activity_comment_posted', 'bp_activity_new_comment_notification_
  * not there yet.
  *
  * This does not cover recursive activity comments, as they do not use a real loop.
- * For that, see {@link bp_activity_comment_embed()}.
+ * For that, see `bp_activity_comment_embed`.
  *
  * @since 1.5.0
  *
@@ -4110,7 +4110,7 @@ add_action( 'bp_after_activity_comment', 'bp_activity_comment_embed_after_recurs
 /**
  * Fetch an activity item's cached embeds.
  *
- * Used during {@link BP_Embed::parse_oembed()} via {@link bp_activity_embed()}.
+ * Used during `BP_Embed::parse_oembed` via `bp_activity_embed`.
  *
  * @since 1.5.0
  *
@@ -4129,7 +4129,7 @@ function bp_embed_activity_cache( $cache, $id, $cachekey ) {
 /**
  * Set an activity item's embed cache.
  *
- * Used during {@link BP_Embed::parse_oembed()} via {@link bp_activity_embed()}.
+ * Used during `BP_Embed::parse_oembed` via `bp_activity_embed`.
  *
  * @since 1.5.0
  *

@@ -51,7 +51,7 @@ defined( 'ABSPATH' ) || exit;
  *     @type array             $xprofile_query      Filter results by xprofile data. Requires the xprofile component.
  *                                                  See {@see BP_XProfile_Query} for details.
  *     @type array             $date_query          Filter results by member last activity date. See first parameter of
- *                                                  {@link WP_Date_Query::__construct()} for syntax. Only applicable if
+ *                                                  `WP_Date_Query::__construct` for syntax. Only applicable if
  *                                                  $type is either 'active', 'random', 'newest', or 'online'.
  *     @type bool              $populate_extras     True if you want to fetch extra metadata
  *                                                  about returned users, such as total group and friend counts.
@@ -234,7 +234,7 @@ class BP_User_Query {
 	 * you may not want to override in your class. Define this method in
 	 * your own class if you need a place where your extending class can
 	 * add its hooks early in the query-building process. See
-	 * {@link BP_Group_Member_Query::setup_hooks()} for an example.
+	 * `BP_Group_Member_Query::setup_hooks` for an example.
 	 *
 	 * @since 1.8.0
 	 */

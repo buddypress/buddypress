@@ -573,7 +573,7 @@ function bp_core_get_userlink_by_username( $username ) {
  *
  * Note that this is a raw count of non-spam, activated users. It does not
  * account for users who have logged activity (last_active). See
- * {@link bp_core_get_active_member_count()}.
+ * `bp_core_get_active_member_count`.
  *
  * @since 1.2.0
  *

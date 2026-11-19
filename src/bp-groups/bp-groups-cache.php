@@ -199,7 +199,7 @@ add_action( 'groups_delete_group', 'groups_clear_group_administrator_cache' );
  * Clear group administrator and moderator cache when a group member is saved.
  *
  * This accounts for situations where group admins or mods are added manually
- * using {@link BP_Groups_Member::save()}.  Usually via a plugin.
+ * using `BP_Groups_Member::save`.  Usually via a plugin.
  *
  * @since 2.1.0
  *

@@ -8,10 +8,10 @@
  *
  * There are a few common places that additional filters can currently be found.
  *
- *  - BuddyPress: In {@link BuddyPress::setup_actions()} in buddypress.php
- *  - Component: In {@link BP_Component::setup_actions()} in
+ *  - BuddyPress: In `BuddyPress::setup_actions` in buddypress.php
+ *  - Component: In `BP_Component::setup_actions` in
  *                bp-core/bp-core-component.php
- *  - Admin: More in {@link BP_Admin::setup_actions()} in
+ *  - Admin: More in `BP_Admin::setup_actions` in
  *            bp-core/bp-core-admin.php
  *
  * @package BuddyPress
@@ -276,7 +276,7 @@ add_filter( 'page_css_class', 'bp_core_menu_highlight_parent_page', 10, 2 );
 /**
  * Adds current page CSS classes to the parent BP page in a WP Nav Menu.
  *
- * When {@link wp_nav_menu()} is used, this function helps to highlight the
+ * When `wp_nav_menu` is used, this function helps to highlight the
  * current BP parent page during nav menu generation.
  *
  * @since 2.2.0

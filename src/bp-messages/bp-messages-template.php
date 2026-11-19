@@ -782,7 +782,7 @@ function bp_message_thread_last_post_date() {
  *
  * @see bp_get_message_thread_avatar() for a description of arguments.
  *
- * @param array|string $args Optional. See {@link bp_get_message_thread_avatar()}.
+ * @param array|string $args Optional. See `bp_get_message_thread_avatar`.
  */
 function bp_message_thread_avatar( $args = '' ) {
 	// phpcs:ignore WordPress.Security.EscapeOutput
@@ -799,7 +799,7 @@ function bp_message_thread_avatar( $args = '' ) {
 	 * @param array|string $args {
 	 *     Optional. Arguments are listed here with an explanation of their defaults.
 	 *     For more information about the arguments, see
-	 *     {@link bp_core_fetch_avatar()}.
+	 *     `bp_core_fetch_avatar`.
 	 *     @type string      $type   Default: 'thumb'.
 	 *     @type int|bool    $width  Default: false.
 	 *     @type int|bool    $height Default: false.
@@ -1605,7 +1605,7 @@ function bp_send_private_message_button() {
  *
  * @see bp_get_send_message_button_args() for description of parameters.
  *
- * @param array|string $args Optional. See {@link bp_get_send_message_button_args()}.
+ * @param array|string $args Optional. See `bp_get_send_message_button_args`.
  */
 function bp_send_message_button( $args = '' ) {
 	// Escaping is done in `BP_Core_HTML_Element()`.
@@ -1669,7 +1669,7 @@ function bp_send_message_button( $args = '' ) {
 	 *
 	 * @see bp_get_send_message_button_args() for description of parameters.
 	 *
-	 * @param array|string $args Optional. See {@link bp_get_send_message_button_args()}.
+	 * @param array|string $args Optional. See `bp_get_send_message_button_args`.
 	 * @return string
 	 */
 	function bp_get_send_message_button( $args = '' ) {
@@ -2193,7 +2193,7 @@ function bp_the_thread_message_sender_id() {
 /**
  * Output the avatar for the current message sender.
  *
- * @param array|string $args Optional. See {@link bp_get_the_thread_message_sender_avatar_thumb()}
+ * @param array|string $args Optional. See `bp_get_the_thread_message_sender_avatar_thumb`
  *                           for a description.
  */
 function bp_the_thread_message_sender_avatar( $args = '' ) {
@@ -2206,7 +2206,7 @@ function bp_the_thread_message_sender_avatar( $args = '' ) {
 	 * @global BP_Messages_Thread_Template $thread_template Message Thread Template Class.
 	 *
 	 * @param array|string $args {
-	 *     Array of arguments. See {@link bp_core_fetch_avatar()} for more
+	 *     Array of arguments. See `bp_core_fetch_avatar` for more
 	 *     complete details. All arguments are optional.
 	 *     @type string $type   Avatar type. Default: 'thumb'.
 	 *     @type int    $width  Avatar width. Default: default for your $type.
@@ -2502,7 +2502,7 @@ add_action( 'thread_loop_start', 'bp_messages_embed' );
 /**
  * Fetch a private message item's cached embeds.
  *
- * Used during {@link BP_Embed::parse_oembed()} via {@link bp_messages_embed()}.
+ * Used during `BP_Embed::parse_oembed` via `bp_messages_embed`.
  *
  * @since 2.2.0
  *
@@ -2519,7 +2519,7 @@ function bp_embed_message_cache( $cache, $id, $cachekey ) {
 /**
  * Set a private message item's embed cache.
  *
- * Used during {@link BP_Embed::parse_oembed()} via {@link bp_messages_embed()}.
+ * Used during `BP_Embed::parse_oembed` via `bp_messages_embed`.
  *
  * @since 2.2.0
  *

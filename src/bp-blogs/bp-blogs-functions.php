@@ -34,7 +34,7 @@ function bp_blogs_has_directory() {
  *
  * @param array|string $args {
  *     Optional. Arguments are listed here with their default values. For more
- *     information about the arguments, see {@link BP_Blogs_Blog::get()}.
+ *     information about the arguments, see `BP_Blogs_Blog::get`.
  *     @type string      $type              Default: 'active'.
  *     @type int|bool    $user_id           Default: false.
  *     @type array       $include_blog_ids  Default: false.
@@ -1244,8 +1244,8 @@ add_action( 'bp_delete_site', 'bp_blogs_remove_data_for_blog', 1 );
  * @see BP_Blogs_Blog::get_blogs_for_user() for a description of parameters
  *      and return values.
  *
- * @param int  $user_id     See {@link BP_Blogs_Blog::get_blogs_for_user()}.
- * @param bool $show_hidden Optional. See {@link BP_Blogs_Blog::get_blogs_for_user()}.
+ * @param int  $user_id     See `BP_Blogs_Blog::get_blogs_for_user`.
+ * @param bool $show_hidden Optional. See `BP_Blogs_Blog::get_blogs_for_user`.
  * @return array See {@link BP_Blogs_Blog::get_blogs_for_user()}.
  */
 function bp_blogs_get_blogs_for_user( $user_id, $show_hidden = false ) {
@@ -1257,8 +1257,8 @@ function bp_blogs_get_blogs_for_user( $user_id, $show_hidden = false ) {
  *
  * @see BP_Blogs_Blog::get_all() for a description of parameters and return values.
  *
- * @param int|null $limit Optional. See {@link BP_Blogs_Blog::get_all()}.
- * @param int|null $page  Optional. See {@link BP_Blogs_Blog::get_all()}.
+ * @param int|null $limit Optional. See `BP_Blogs_Blog::get_all`.
+ * @param int|null $page  Optional. See `BP_Blogs_Blog::get_all`.
  * @return array See {@link BP_Blogs_Blog::get_all()}.
  */
 function bp_blogs_get_all_blogs( $limit = null, $page = null ) {
@@ -1270,8 +1270,8 @@ function bp_blogs_get_all_blogs( $limit = null, $page = null ) {
  *
  * @see BP_Blogs_Blog::get() for a description of parameters and return values.
  *
- * @param int|null $per_page Optional. See {@link BP_Blogs_Blog::get()}.
- * @param int|null $page  Optional. See {@link BP_Blogs_Blog::get()}.
+ * @param int|null $per_page Optional. See `BP_Blogs_Blog::get`.
+ * @param int|null $page  Optional. See `BP_Blogs_Blog::get`.
  * @return array
  */
 function bp_blogs_get_random_blogs( $per_page = null, $page = null ) {
@@ -1289,7 +1289,7 @@ function bp_blogs_get_random_blogs( $per_page = null, $page = null ) {
  *
  * @see BP_Blogs_Blog::is_hidden() for a description of parameters and return values.
  *
- * @param int $blog_id See {@link BP_Blogs_Blog::is_hidden()}.
+ * @param int $blog_id See `BP_Blogs_Blog::is_hidden`.
  * @return bool
  */
 function bp_blogs_is_blog_hidden( $blog_id ) {
@@ -1564,7 +1564,7 @@ function bp_blogs_get_signup_form_submitted_vars() {
 /**
  * Validate a blog creation submission.
  *
- * Essentially, a wrapper for {@link wpmu_validate_blog_signup()}.
+ * Essentially, a wrapper for `wpmu_validate_blog_signup`.
  *
  * @since 1.0.0
  * @since 7.0.0 Add the blog_name and blog_title parameters.

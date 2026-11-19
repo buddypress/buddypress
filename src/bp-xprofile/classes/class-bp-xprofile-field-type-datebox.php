@@ -45,7 +45,7 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 	/**
 	 * Output the edit field HTML for this field type.
 	 *
-	 * Must be used inside the {@link bp_profile_fields()} template loop.
+	 * Must be used inside the `bp_profile_fields` template loop.
 	 *
 	 * @since 2.0.0
 	 *
@@ -174,14 +174,14 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 	 * BuddyPress considers a field's "options" to be, for example, the items in a selectbox.
 	 * These are stored separately in the database, and their templating is handled separately.
 	 *
-	 * This templating is separate from {@link BP_XProfile_Field_Type::edit_field_html()} because
+	 * This templating is separate from `BP_XProfile_Field_Type::edit_field_html` because
 	 * it's also used in the wp-admin screens when creating new fields, and for backwards compatibility.
 	 *
-	 * Must be used inside the {@link bp_profile_fields()} template loop.
+	 * Must be used inside the `bp_profile_fields` template loop.
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param array $args Optional. The arguments passed to {@link bp_the_profile_field_options()}.
+	 * @param array $args Optional. The arguments passed to `bp_the_profile_field_options`.
 	 */
 	public function edit_field_options_html( array $args = array() ) {
 
@@ -312,7 +312,7 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 	/**
 	 * Output HTML for this field type on the wp-admin Profile Fields screen.
 	 *
-	 * Must be used inside the {@link bp_profile_fields()} template loop.
+	 * Must be used inside the `bp_profile_fields` template loop.
 	 *
 	 * @since 2.0.0
 	 *

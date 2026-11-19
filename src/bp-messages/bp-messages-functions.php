@@ -338,7 +338,7 @@ function messages_check_thread_access( $thread_id, $user_id = 0 ) {
 /**
  * Mark a thread as read.
  *
- * Wrapper for {@link BP_Messages_Thread::mark_as_read()}.
+ * Wrapper for `BP_Messages_Thread::mark_as_read`.
  *
  * @since 9.0.0 Added the `user_id` parameter.
  *
@@ -354,7 +354,7 @@ function messages_mark_thread_read( $thread_id, $user_id = 0 ) {
 /**
  * Mark a thread as unread.
  *
- * Wrapper for {@link BP_Messages_Thread::mark_as_unread()}.
+ * Wrapper for `BP_Messages_Thread::mark_as_unread`.
  *
  * @since 9.0.0 Added the `user_id` parameter.
  *

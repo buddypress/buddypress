@@ -140,7 +140,7 @@ function bp_rewind_blogs() {
  *
  * @param array|string $args {
  *     Optional. Arguments for limiting the contents of the blogs loop. Most arguments
- *     are in the same format as {@link BP_Blogs_Blog::get()}. However, because
+ *     are in the same format as `BP_Blogs_Blog::get`. However, because
  *     the format of the arguments accepted here differs in a number of ways,
  *     and because bp_has_blogs() determines some default arguments in a
  *     dynamic fashion, we list all accepted arguments here as well.
@@ -161,7 +161,7 @@ function bp_rewind_blogs() {
  *                                      When viewing a user profile page, 'user_id' defaults to the
  *                                      ID of the displayed user. Otherwise the default is false.
  *     @type array    $date_query       Filter results by site last activity date. See first parameter of
- *                                      {@link WP_Date_Query::__construct()} for syntax. Only applicable if
+ *                                      `WP_Date_Query::__construct` for syntax. Only applicable if
  *                                      $type is either 'newest' or 'active'.
  * }
  * @return bool Returns true when blogs are found, otherwise false.
@@ -321,7 +321,7 @@ function bp_blogs_pagination_links() {
  *
  * @see bp_get_blog_avatar() for description of arguments.
  *
- * @param array|string $args Optional. See {@link bp_get_blog_avatar()}.
+ * @param array|string $args Optional. See `bp_get_blog_avatar`.
  */
 function bp_blog_avatar( $args = '' ) {
 	// phpcs:ignore WordPress.Security.EscapeOutput
@@ -345,7 +345,7 @@ function bp_blog_avatar( $args = '' ) {
 	 * @param array|string $args  {
 	 *     Optional. Arguments are listed here with an explanation of their defaults.
 	 *     For more information about the arguments, see
-	 *     {@link bp_core_fetch_avatar()}.
+	 *     `bp_core_fetch_avatar`.
 	 *     @type string   $alt           Default: 'Profile picture of site author [user name]'.
 	 *     @type string   $class         Default: 'avatar'.
 	 *     @type string   $type          Default: 'full'.
@@ -678,7 +678,7 @@ function bp_blog_class( $classes = array() ) {
 /**
  * Output the last active date of the current blog in the loop.
  *
- * @param array $args Optional. See {@link bp_get_blog_last_active()}.
+ * @param array $args Optional. See `bp_get_blog_last_active`.
  */
 function bp_blog_last_active( $args = array() ) {
 	echo esc_html( bp_get_blog_last_active( $args ) );
@@ -738,7 +738,7 @@ function bp_blog_last_active( $args = array() ) {
 /**
  * Output the latest post from the current blog in the loop.
  *
- * @param array $args Optional. See {@link bp_get_blog_latest_post()}.
+ * @param array $args Optional. See `bp_get_blog_latest_post`.
  */
 function bp_blog_latest_post( $args = array() ) {
 	echo wp_kses(
@@ -966,7 +966,7 @@ function bp_blog_latest_post_content() {
  *
  * @see bp_get_blog_latest_post_content() For description of parameters.
  *
- * @param string $size Optional. See {@link bp_get_blog_latest_post_featured_image()}.
+ * @param string $size Optional. See `bp_get_blog_latest_post_featured_image`.
  */
 function bp_blog_latest_post_featured_image( $size = 'thumbnail' ) {
 	echo esc_url( bp_get_blog_latest_post_featured_image( $size ) );
@@ -1344,7 +1344,7 @@ function bp_blogs_signup_blog( $blogname = '', $blog_title = '', $errors = '' ) 
 /**
  * Process a blog registration submission.
  *
- * Passes submitted values to {@link wpmu_create_blog()}.
+ * Passes submitted values to `wpmu_create_blog`.
  *
  * @since 1.0.0
  *
@@ -1634,7 +1634,7 @@ add_action( 'bp_blogs_directory_blog_types', 'bp_blog_backcompat_create_nav_item
  *
  * @see bp_get_blogs_visit_blog_button_args() for description of arguments.
  *
- * @param array|string $args Optional. See {@link bp_get_blogs_visit_blog_button_args()}.
+ * @param array|string $args Optional. See `bp_get_blogs_visit_blog_button_args`.
  */
 function bp_blogs_visit_blog_button( $args = '' ) {
 	// Escaping is done in `BP_Core_HTML_Element()`.
@@ -1699,7 +1699,7 @@ function bp_blogs_visit_blog_button( $args = '' ) {
 	 *
 	 * @see bp_get_blogs_visit_blog_button_args() for description of arguments.
 	 *
-	 * @param array|string $args Optional. See {@link bp_get_blogs_visit_blog_button_args()}.
+	 * @param array|string $args Optional. See `bp_get_blogs_visit_blog_button_args`.
 	 * @return string The HTML for the Visit button.
 	 */
 	function bp_get_blogs_visit_blog_button( $args = '' ) {
