@@ -890,7 +890,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 		 *
 		 * @since 2.4.0
 		 *
-		 * @param string $value       Empty string.
+		 * @param string $value       Custom activity column content. Empty by default.
 		 * @param string $column_name Name of the column being rendered.
 		 * @param array  $item        The current activity item in the loop.
 		 */

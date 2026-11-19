@@ -312,7 +312,7 @@ function bp_core_get_incremented_cache( $key, $group ) {
  *
  * @param string $key   Unique key for the query. Usually a SQL string.
  * @param string $group Cache group. Eg 'bp_activity'.
- * @param mixed  $value The value to store.
+ * @param mixed  $value Data to cache for this query.
  * @return bool
  */
 function bp_core_set_incremented_cache( $key, $group, $value ) {

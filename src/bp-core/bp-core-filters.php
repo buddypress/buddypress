@@ -1162,7 +1162,7 @@ add_filter( 'bp_activity_maybe_load_mentions_scripts', 'bp_maybe_load_mentions_s
  *
  * @since 2.5.0
  *
- * @param string $value         Property value.
+ * @param string $value         Current value of the email template property.
  * @param string $property_name Email template property name.
  * @param string $transform     How the return value was transformed.
  * @return string Updated value.

@@ -344,7 +344,7 @@ class BP_XProfile_Field_Type_Checkbox_Acceptance extends BP_XProfile_Field_Type 
 	 *
 	 * @since 8.0.0
 	 *
-	 * @param string|int $value Value to validate.
+	 * @param string|int $value Submitted acceptance checkbox value.
 	 * @return bool
 	 */
 	public function is_valid( $value ) {

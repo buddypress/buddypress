@@ -643,8 +643,8 @@ function bp_core_fetch_avatar( $args = '' ) {
 			 *
 			 * @since 1.2.0
 			 *
-			 * @param string $value Avatar value.
-			 * @param string $value Width to display avatar at.
+			 * @param string $default_avatar Default Gravatar identifier. Defaults to 'mm'.
+			 * @param string $width          Requested avatar width.
 			 */
 			$default_grav = apply_filters( 'bp_core_mysteryman_src', 'mm', $params['width'] );
 		} else {

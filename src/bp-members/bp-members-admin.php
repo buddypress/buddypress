@@ -122,7 +122,7 @@ add_filter( 'term_updated_messages', 'bp_members_type_admin_updated_messages' );
  *
  * @since 10.0.0
  *
- * @param string|array $value Field value.
+ * @param string|array $value Profile field data to format for display.
  */
 function bp_members_admin_format_xprofile_field_for_display( $value ) {
 	if ( is_array( $value ) ) {

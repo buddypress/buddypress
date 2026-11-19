@@ -212,8 +212,8 @@ function bp_group_type_directory_permalink( $group_type = '' ) {
 		 * @since 2.7.0
 		 *
 		 * @param string $url         Group type directory permalink.
-		 * @param object $type        Group type object.
-		 * @param string $member_type Group type name, as passed to the function.
+		 * @param stdClass $type       The registered group type and its directory settings.
+		 * @param string   $group_type Group type name, as passed to the function.
 		 */
 		return apply_filters( 'bp_get_group_type_directory_permalink', $url, $type, $group_type );
 	}
@@ -2225,7 +2225,7 @@ function bp_groups_auto_join() {
 	 *
 	 * @since 1.2.6
 	 *
-	 * @param bool $value Enabled status.
+	 * @param bool $value Whether users automatically join a public group when creating content in it.
 	 */
 	return apply_filters( 'bp_groups_auto_join', (bool) buddypress()->groups->auto_join );
 }

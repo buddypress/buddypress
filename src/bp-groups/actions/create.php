@@ -140,9 +140,7 @@ function groups_action_create_group() {
 			 *
 			 * @since 1.5.0
 			 *
-			 * @param array $value Array of statuses allowed.
-			 *                     Possible values are 'members,
-			 *                     'mods', and 'admins'.
+			 * @param string[] $value Allowed group invitation statuses: 'members', 'mods', and 'admins'.
 			 */
 			$allowed_invite_status = apply_filters( 'groups_allowed_invite_status', array( 'members', 'mods', 'admins' ) );
 			$invite_status         = ! empty( $_POST['group-invite-status'] ) && in_array( $_POST['group-invite-status'], (array) $allowed_invite_status, true ) ? $_POST['group-invite-status'] : 'members';

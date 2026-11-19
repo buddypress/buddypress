@@ -80,7 +80,7 @@ function groups_get_group( $group_id ) {
  *
  * @param string     $field (Required) The field to use to retrieve the group.
  *                          Possible values are `'id'` or `'slug'`.
- * @param string|int $value (Required) A value for the $field. A Group ID or slug.
+ * @param string|int $value (Required) The group ID or slug, according to the requested field.
  * @return BP_Groups_Group|bool The Group object if found, false otherwise.
  */
 function bp_get_group_by( $field, $value ) {
@@ -3162,7 +3162,7 @@ function bp_groups_register_group_type( $group_type, $args = array() ) {
 	 * @since 2.6.0
 	 *
 	 * @param string $group_type Group type identifier.
-	 * @param object $type       Group type object.
+	 * @param stdClass $type     The registered group type settings.
 	 */
 	do_action( 'bp_groups_register_group_type', $group_type, $type );
 

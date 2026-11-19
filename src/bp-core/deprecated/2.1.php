@@ -62,7 +62,7 @@ function bp_admin_setting_callback_force_buddybar() {
  * @deprecated 2.1.0
  * @access private
  *
- * @param bool $value Optional. Setting value.
+ * @param bool $value Optional. Whether the administrator chose to switch to the WordPress Toolbar.
  */
 function bp_admin_sanitize_callback_force_buddybar( $value = false ) {
 	return $value ? 0 : 1;
