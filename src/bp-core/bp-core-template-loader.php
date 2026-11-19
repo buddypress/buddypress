@@ -715,10 +715,17 @@ function bp_reset_query( $bp_request = '', $query = null ) {
 			if ( in_array( $front_page, wp_parse_id_list( wp_list_pluck( $directory_pages, 'id' ) ), true ) ) {
 				wp_parse_str( $referer_query, $referer_args );
 
-				// Comment pagination does not select a different page.
-				$routing_args = array_diff( $wp->public_query_vars, array( 'cpage' ) );
+				// Front-page pagination does not select a different resource.
+				$public_query_vars = $pretty_urls ? $wp_ajax->public_query_vars : apply_filters( 'query_vars', $wp->public_query_vars );
+				$routing_args      = array_diff( $public_query_vars, array( 'page', 'paged', 'cpage' ) );
 				if ( ! array_intersect( array_keys( $referer_args ), $routing_args ) ) {
 					$matched_query = array( 'page_id' => $front_page );
+					if ( isset( $referer_args['page'] ) && is_scalar( $referer_args['page'] ) ) {
+						$matched_query['page'] = absint( $referer_args['page'] );
+					}
+					if ( ! empty( $referer_args['paged'] ) && is_scalar( $referer_args['paged'] ) ) {
+						$matched_query['page'] = absint( $referer_args['paged'] );
+					}
 					if ( isset( $referer_args['cpage'] ) && is_scalar( $referer_args['cpage'] ) ) {
 						$matched_query['cpage'] = absint( $referer_args['cpage'] );
 					}
