@@ -8,6 +8,18 @@
 class BP_Tests_Core_Deprecated extends BP_UnitTestCase {
 	protected $bp_initial_version;
 
+	/**
+	 * @expectedDeprecated _bp_nav_menu_sort
+	 */
+	public function test_deprecated_nav_menu_sort_preserves_position_order() {
+		$first  = array( 'position' => 2 );
+		$second = array( 'position' => 10 );
+
+		$this->assertSame( -1, _bp_nav_menu_sort( $first, $second ) );
+		$this->assertSame( 0, _bp_nav_menu_sort( $first, $first ) );
+		$this->assertSame( 1, _bp_nav_menu_sort( $second, $first ) );
+	}
+
 	public function override_initial_version() {
 		return $this->bp_initial_version;
 	}
