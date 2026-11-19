@@ -162,7 +162,7 @@ class BP_XProfile_Query {
 	 * @since 2.2.0
 	 *
 	 * @param  array $query XProfile query arguments.
-	 * @return bool  Whether the query clause is a first-order clause.
+	 * @return bool Whether the query clause is a first-order clause.
 	 */
 	protected function is_first_order_clause( $query ) {
 		return isset( $query['field'] ) || isset( $query['value'] );

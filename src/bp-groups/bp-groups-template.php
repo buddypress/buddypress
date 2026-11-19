@@ -647,7 +647,7 @@ function bp_the_group() {
  *                                                  Default: false.
  * @param int                              $user_id Optional. ID of the User.
  *                                                  Default: current logged in user ID.
- * @return bool                                     True if the Group is accessible to the user. False otherwise.
+ * @return bool True if the Group is accessible to the user. False otherwise.
  */
 function bp_group_is_visible( $group = false, $user_id = 0 ) {
 	$group = bp_get_group( $group );
@@ -970,7 +970,7 @@ function bp_group_avatar( $args = '', $group = false ) {
 	 * }
 	 * @param false|int|string|BP_Groups_Group $group (Optional) The Group ID, the Group Slug or the Group object.
 	 *                                                Default: false.
-	 * @return string|bool                            HTML output for the Group Avatar. or false if avatar uploads is disabled.
+	 * @return string|bool HTML output for the Group Avatar. or false if avatar uploads is disabled.
 	 */
 	function bp_get_group_avatar( $args = '', $group = false ) {
 		$group = bp_get_group( $group );
@@ -1059,7 +1059,7 @@ function bp_group_avatar_thumb( $group = false ) {
 	 *
 	 * @param false|int|string|BP_Groups_Group $group (Optional) The Group ID, the Group Slug or the Group object.
 	 *                                                Default: false.
-	 * @return string                                 HTML output for the Group Avatar.
+	 * @return string HTML output for the Group Avatar.
 	 */
 	function bp_get_group_avatar_thumb( $group = false ) {
 		return bp_get_group_avatar(
@@ -1090,7 +1090,7 @@ function bp_group_avatar_mini( $group = false ) {
 	 *
 	 * @param false|int|string|BP_Groups_Group $group (Optional) The Group ID, the Group Slug or the Group object.
 	 *                                                Default: false.
-	 * @return string                                 HTML output for the Group Avatar.
+	 * @return string HTML output for the Group Avatar.
 	 */
 	function bp_get_group_avatar_mini( $group = false ) {
 		return bp_get_group_avatar(
@@ -1160,7 +1160,7 @@ function bp_group_use_cover_image_header() {
  *
  * @param false|int|string|BP_Groups_Group $group (Optional) The Group ID, the Group Slug or the Group object.
  *                                                Default: false.
- * @return string                                 The cover image URL or empty string if not found.
+ * @return string The cover image URL or empty string if not found.
  */
 function bp_get_group_cover_url( $group = false ) {
 	$group = bp_get_group( $group );
@@ -4729,7 +4729,7 @@ function bp_groups_front_template_part() {
  * @since 2.6.0 Adds the Group Type to the front template hierarchy.
  *
  * @param  BP_Groups_Group|null $group Optional. Falls back to current group if not passed.
- * @return string|bool                 Path to front template on success; boolean false on failure.
+ * @return string|bool Path to front template on success; boolean false on failure.
  */
 function bp_groups_get_front_template( $group = null ) {
 	if ( ! is_a( $group, 'BP_Groups_Group' ) ) {
@@ -5316,7 +5316,7 @@ function bp_new_group_avatar( $args = '' ) {
 	 *     @type int|bool $height  Default: false.
 	 *     @type string   $id      Passed to $css_id parameter. Default: 'avatar-crop-preview'.
 	 * }
-	 * @return string       The avatar for the group being created
+	 * @return string The avatar for the group being created
 	 */
 	function bp_get_new_group_avatar( $args = '' ) {
 

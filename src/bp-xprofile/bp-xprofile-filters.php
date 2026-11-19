@@ -709,7 +709,7 @@ function bp_xprofile_register_personal_data_exporter( $exporters ) {
  * @since 8.0.0
  *
  * @param string $field_selector Optional. The text to use as the input name/id attribute.
- * @return string                The text to use as the input name/id attribute.
+ * @return string The text to use as the input name/id attribute.
  */
 function bp_get_the_profile_signup_field_input_name( $field_selector = '' ) {
 	global $field;

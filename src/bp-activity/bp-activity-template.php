@@ -1648,7 +1648,7 @@ function bp_activity_has_content() {
  * @since 10.0.0
  *
  * @param string $property Optional. The name of the property to check into the generated content.
- * @return bool            True if the property is not empty. False otherwise.
+ * @return bool True if the property is not empty. False otherwise.
  */
 function bp_activity_has_generated_content_part( $property = '' ) {
 	return bp_activity_get_generated_content_part( $property, 'boolean' );

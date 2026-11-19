@@ -2257,7 +2257,7 @@ function bp_avatar_history_is_disabled() {
  * @param string     $item_type Optional. The object the item ID relates to.
  * @param int|string $timestamp Optional. An integer Unix timestamp or a date string of the format 'Y-m-d h:i:s'.
  * @param string     $type      Optional. The type of avatar we need. Possible values are `thumb` and `full`.
- * @return array                A list of matching results, an empty array if no avatars were found.
+ * @return array A list of matching results, an empty array if no avatars were found.
  */
 function bp_avatar_get_version( $item_id = 0, $item_type = 'user', $timestamp = '', $type = 'full' ) {
 	if ( ! $item_id || ! $timestamp ) {
@@ -2293,7 +2293,7 @@ function bp_avatar_get_version( $item_id = 0, $item_type = 'user', $timestamp = 
  * @param int    $item_id   Optional. The item ID we need the avatar version for.
  * @param string $item_type Optional. The object the item ID relates to.
  * @param string $type      Optional. Get the `full`, `thumb` or `both` versions.
- * @return array          The list of previous uploaded avatars.
+ * @return array The list of previous uploaded avatars.
  */
 function bp_avatar_get_avatars_history( $item_id = 0, $item_type = 'user', $type = 'full' ) {
 	/**

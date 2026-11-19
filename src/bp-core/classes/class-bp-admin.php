@@ -1636,7 +1636,7 @@ class BP_Admin {
 	 * @since 10.0.0
 	 *
 	 * @param array $tabs Optional. The list of "Add Plugins" Tabs (Featured, Recommended, etc..).
-	 * @return array      The same list including the "BuddyPress Add-ons" tab.
+	 * @return array The same list including the "BuddyPress Add-ons" tab.
 	 */
 	public function addons_tab( $tabs = array() ) {
 		$keys  = array_keys( $tabs );

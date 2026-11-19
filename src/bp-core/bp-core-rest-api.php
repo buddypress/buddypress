@@ -320,7 +320,7 @@ function bp_rest_get_user( $user_id ) {
  * @param string $object_type  Optional. The xProfile object type to get. This parameter is only required for
  *                             the Extended Profiles component. Not used for all other components.
  *                             Possible values are `data`, `field` or `group`.
- * @return bool                True if the field has been registered successfully. False otherwise.
+ * @return bool True if the field has been registered successfully. False otherwise.
  */
 function bp_rest_register_field( $component_id, $attribute, $args = array(), $object_type = '' ) {
 	$registered_fields = false;

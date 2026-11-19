@@ -538,7 +538,7 @@ class BP_Members_Component extends BP_Component {
 	 * @since 6.0.0
 	 *
 	 * @param  string $admin_bar_menu_id Optional. The Admin bar menu ID to attach sub items to.
-	 * @return array                     The Avatar and Cover image admin navs.
+	 * @return array The Avatar and Cover image admin navs.
 	 */
 	public function get_avatar_cover_image_admin_navs( $admin_bar_menu_id = '' ) {
 		$wp_admin_nav = array();

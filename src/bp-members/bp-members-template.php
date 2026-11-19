@@ -1606,7 +1606,7 @@ function bp_displayed_user_front_template_part() {
  * @since 2.6.0
  *
  * @param  object|null $displayed_user Optional. Falls back to current user if not passed.
- * @return string|bool                 Path to front template on success; boolean false on failure.
+ * @return string|bool Path to front template on success; boolean false on failure.
  */
 function bp_displayed_user_get_front_template( $displayed_user = null ) {
 	if ( ! is_object( $displayed_user ) || empty( $displayed_user->id ) ) {
@@ -3840,7 +3840,7 @@ function bp_members_invitations_send_invites_permalink( $user_id = 0 ) {
 	 * @since 8.0.0
 	 *
 	 * @param int $user_id Optional. The user ID.
-	 * @return string      The send invitations permalink.
+	 * @return string The send invitations permalink.
 	 */
 	function bp_get_members_invitations_send_invites_permalink( $user_id = 0 ) {
 		if ( 0 === $user_id ) {

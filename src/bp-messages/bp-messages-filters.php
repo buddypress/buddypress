@@ -119,7 +119,7 @@ add_filter( 'bp_after_has_message_threads_parse_args', 'bp_messages_enforce_curr
  * @since 3.0.0
  *
  * @param string $content The message content.
- * @return string         The filtered message content.
+ * @return string The filtered message content.
  */
 function bp_messages_filter_kses( $content ) {
 	$messages_allowedtags      = bp_get_allowedtags();

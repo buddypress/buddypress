@@ -1666,7 +1666,7 @@ add_action( bp_core_admin_hook(), 'bp_groups_admin_groups_type_change_notice' );
  *
  * @param  bool   $exists  Optional. True if the group type already exists. False otherwise.
  * @param  string $type_id Optional. The group type identifier.
- * @return bool          True if the group type already exists. False otherwise.
+ * @return bool True if the group type already exists. False otherwise.
  */
 function bp_groups_type_admin_type_exists( $exists = false, $type_id = '' ) {
 	if ( ! $type_id ) {
@@ -1683,7 +1683,7 @@ add_filter( bp_get_group_type_tax_name() . '_check_existing_type', 'bp_groups_ty
  * @since 7.0.0
  *
  * @param array $messages Optional. The feedback messages.
- * @return array           The feedback messages including the ones for the Group Types Admin actions.
+ * @return array The feedback messages including the ones for the Group Types Admin actions.
  */
 function bp_groups_type_admin_updated_messages( $messages = array() ) {
 	$type_taxonomy = bp_get_group_type_tax_name();

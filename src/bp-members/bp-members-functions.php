@@ -2845,7 +2845,7 @@ function bp_get_member_type_tax_args() {
  *
  * @param array  $schema   Optional. The generic Type metadata schema.
  * @param string $taxonomy Optional. The taxonomy name the schema applies to.
- * @return array           The Member Type metadata schema.
+ * @return array The Member Type metadata schema.
  */
 function bp_get_member_type_metadata_schema( $schema = array(), $taxonomy = '' ) {
 	if ( bp_get_member_type_tax_name() === $taxonomy ) {

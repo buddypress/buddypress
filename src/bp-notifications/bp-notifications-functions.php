@@ -398,7 +398,7 @@ function bp_notifications_delete_notifications_by_item_id( $user_id, $item_id, $
  * @since 10.0.0
  *
  * @param  int[] $ids IDs of the associated notifications.
- * @return int|false      The number of rows updated. False on error.
+ * @return int|false The number of rows updated. False on error.
  */
 function bp_notifications_delete_notifications_by_ids( $ids ) {
 	return BP_Notifications_Notification::delete_by_id_list( 'id', $ids );
@@ -413,7 +413,7 @@ function bp_notifications_delete_notifications_by_ids( $ids ) {
  * @param  int[]  $item_ids         IDs of the associated items.
  * @param  string $component_name   Name of the associated component.
  * @param  string $component_action Name of the associated action.
- * @return int|false                   The number of rows updated. False on error.
+ * @return int|false The number of rows updated. False on error.
  */
 function bp_notifications_delete_notifications_by_item_ids( $user_id, $item_ids, $component_name, $component_action ) {
 	return BP_Notifications_Notification::delete_by_id_list(
@@ -643,7 +643,7 @@ function bp_notifications_mark_notifications_from_user( $user_id, $component_nam
  * @param  string    $component_name   Name of the associated component.
  * @param  string    $component_action Name of the associated action.
  * @param  int|false $is_new           Optional. 0 for read, 1 for unread.
- * @return int|false                   The number of rows updated. False on error.
+ * @return int|false The number of rows updated. False on error.
  */
 function bp_notifications_mark_notifications_by_item_ids( $user_id, $item_ids, $component_name, $component_action, $is_new = false ) {
 	return BP_Notifications_Notification::update_id_list(
@@ -667,7 +667,7 @@ function bp_notifications_mark_notifications_by_item_ids( $user_id, $item_ids, $
  *
  * @param  int[]     $ids     IDs of the associated notification items.
  * @param  int|false $is_new  Optional. 0 for read, 1 for unread.
- * @return int|false          The number of rows updated. False on error.
+ * @return int|false The number of rows updated. False on error.
  */
 function bp_notifications_mark_notifications_by_ids( $ids, $is_new = false ) {
 	return BP_Notifications_Notification::update_id_list(
@@ -853,7 +853,7 @@ function bp_notifications_screen_settings() {}
  *                                for all objects, ignoring the specified object_id. Otherwise,
  *                                only delete matching metadata entries for the specified
  *                                notification item. Default: false.
- * @return bool                   True on success, false on failure.
+ * @return bool True on success, false on failure.
  */
 function bp_notifications_delete_meta( $notification_id, $meta_key = '', $meta_value = '', $delete_all = false ) {
 
@@ -893,7 +893,7 @@ function bp_notifications_delete_meta( $notification_id, $meta_key = '', $meta_v
  * @param bool   $single          Optional. If true, return only the first value of the
  *                                specified meta_key. This parameter has no effect if meta_key is not
  *                                specified. Default: true.
- * @return mixed                  The meta value(s) being requested.
+ * @return mixed The meta value(s) being requested.
  */
 function bp_notifications_get_meta( $notification_id = 0, $meta_key = '', $single = true ) {
 	add_filter( 'query', 'bp_filter_metaid_column_name' );
@@ -925,10 +925,10 @@ function bp_notifications_get_meta( $notification_id = 0, $meta_key = '', $singl
  * @param  mixed  $prev_value      Optional. If specified, only update existing
  *                                 metadata entries with the specified value.
  *                                 Otherwise, update all entries.
- * @return bool|int                Returns false on failure. On successful
- *                                 update of existing metadata, returns true. On
- *                                 successful creation of new metadata,  returns
- *                                 the integer ID of the new metadata row.
+ * @return bool|int Returns false on failure. On successful
+ *                  update of existing metadata, returns true. On
+ *                  successful creation of new metadata,  returns
+ *                  the integer ID of the new metadata row.
  */
 function bp_notifications_update_meta( $notification_id, $meta_key, $meta_value, $prev_value = '' ) {
 	add_filter( 'query', 'bp_filter_metaid_column_name' );
@@ -949,7 +949,7 @@ function bp_notifications_update_meta( $notification_id, $meta_key, $meta_value,
  * @param bool   $unique          Optional. Whether to enforce a single metadata value
  *                                for the given key. If true, and the object already has a value for
  *                                the key, no change will be made. Default: false.
- * @return int|bool               The meta ID on successful update, false on failure.
+ * @return int|bool The meta ID on successful update, false on failure.
  */
 function bp_notifications_add_meta( $notification_id, $meta_key, $meta_value, $unique = false ) {
 	add_filter( 'query', 'bp_filter_metaid_column_name' );

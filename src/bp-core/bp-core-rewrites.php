@@ -122,7 +122,7 @@ function bp_rewrites_get_slug( $component_id = '', $rewrite_id = '', $default_sl
  * @param string $slug         Optional. The customized slug.
  * @param string $context      Optional. The context for the customized slug, useful when the same slug is used
  *                             for more than one rewrite ID of the same component.
- * @return string              The rewrite ID matching the customized slug.
+ * @return string|false|null The matching rewrite ID, false if no match, or null if no slug or custom slugs are available.
  */
 function bp_rewrites_get_custom_slug_rewrite_id( $component_id = '', $slug = '', $context = '' ) {
 	$directory_pages = bp_core_get_directory_pages();

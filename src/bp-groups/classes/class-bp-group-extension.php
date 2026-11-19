@@ -973,7 +973,7 @@ class BP_Group_Extension {
 	 * @since 12.0.0
 	 *
 	 * @param string $context Optional. One of these contexts: 'create', 'manage', 'read'.
-	 * @return string         The found Rewrite ID, an empty string otherwise.
+	 * @return string The found Rewrite ID, an empty string otherwise.
 	 */
 	protected function get_rewrite_id_for( $context = '' ) {
 		$rewrite_id            = '';
