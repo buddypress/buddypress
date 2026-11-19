@@ -107,6 +107,11 @@ function bp_adminbar_login_menu() {
 function bp_adminbar_account_menu() {
 }
 
+/**
+ * Output the current site's BuddyBar menu.
+ *
+ * @deprecated 2.1.0 BuddyBar support was removed.
+ */
 function bp_adminbar_thisblog_menu() {
 }
 
@@ -179,7 +184,7 @@ function bp_notifications_buddybar_menu() {
  *
  * @since 1.6.0
  *
- * @deprecated 2.1.0
+ * @deprecated 2.1.0 Use `bp_signup_subdomain_base()` instead.
  */
 function bp_blogs_subdomain_base() {
 	_deprecated_function( __FUNCTION__, '2.1', 'bp_signup_subdomain_base()' );
@@ -193,7 +198,7 @@ function bp_blogs_subdomain_base() {
  *
  * @return string The base URL - eg, 'example.com' for site_url() example.com or www.example.com.
  *
- * @deprecated 2.1.0
+ * @deprecated 2.1.0 Use `bp_signup_get_subdomain_base()` instead.
  */
 function bp_blogs_get_subdomain_base() {
 	_deprecated_function( __FUNCTION__, '2.1', 'bp_signup_get_subdomain_base()' );

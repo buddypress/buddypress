@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
  * Print moment.js config in page footer.
  *
  * @since 2.7.0
- * @since 4.0.0 Deprecated as BP requires WP >= 4.6.
+ * @deprecated 4.0.0 BuddyPress requires WordPress 4.6 or later.
  *
  * @access private
  */

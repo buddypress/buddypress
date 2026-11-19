@@ -58,7 +58,7 @@ if ( ! bp_is_classic() ) {
 	 * Eg: http://example.com OR https://example.com
 	 *
 	 * @since 1.0.0
-	 * @deprecated 12.0.0
+	 * @deprecated 12.0.0 Use `bp_rewrites_get_root_url()` instead.
 	 *
 	 * @return string The domain URL for the blog.
 	 */
@@ -81,7 +81,7 @@ if ( ! bp_is_classic() ) {
 	 * Return the "root domain", the URL of the BP root blog.
 	 *
 	 * @since 1.1.0
-	 * @deprecated 12.0.0
+	 * @deprecated 12.0.0 Use `bp_get_root_url()` instead.
 	 *
 	 * @return string URL of the BP root blog.
 	 */
@@ -104,7 +104,7 @@ if ( ! bp_is_classic() ) {
 	 * Output the "root domain", the URL of the BP root blog.
 	 *
 	 * @since 1.1.0
-	 * @deprecated 12.0.0
+	 * @deprecated 12.0.0 Use `bp_root_url()` instead.
 	 */
 	function bp_root_domain() {
 		_deprecated_function( __FUNCTION__, '12.0.0', 'bp_root_url()' );
@@ -135,6 +135,13 @@ if ( ! bp_is_classic() ) {
 		$directory_pages = (array) bp_core_get_directory_pages();
 		$return          =  wp_list_pluck( $directory_pages, 'name', 'id' );
 
+		/**
+		 * Filters the directory pages shown in legacy component settings.
+		 *
+		 * @deprecated 12.0.0
+		 *
+		 * @param array $directory_pages Directory page names keyed by page ID.
+		 */
 		return apply_filters_deprecated( 'bp_directory_pages', array( $return ), '12.0.0' );
 	}
 
@@ -156,6 +163,13 @@ if ( ! bp_is_classic() ) {
 			'activate' => __( 'Activate', 'buddypress' ),
 		);
 
+		/**
+		 * Filters the static pages shown in legacy component settings.
+		 *
+		 * @deprecated 12.0.0
+		 *
+		 * @param array $static_pages Page labels keyed by slug, typically `register` and `activate`.
+		 */
 		return apply_filters_deprecated( 'bp_directory_pages', array( $static_pages ), '12.0.0' );
 	}
 
@@ -169,7 +183,17 @@ if ( ! bp_is_classic() ) {
 	function bp_core_admin_slugs_options() {
 		_deprecated_function( __FUNCTION__, '12.0.0' );
 
+		/**
+		 * Fires while rendering directory options in the legacy page settings.
+		 *
+		 * @deprecated 12.0.0
+		 */
 		do_action_deprecated( 'bp_active_external_directories', array(), '12.0.0' );
+		/**
+		 * Fires while rendering static page options in the legacy page settings.
+		 *
+		 * @deprecated 12.0.0
+		 */
 		do_action_deprecated( 'bp_active_external_pages', array(), '12.0.0' );
 	}
 
@@ -190,7 +214,7 @@ if ( ! bp_is_classic() ) {
 	 * so it will return the user_login or user_nicename as appropriate.
 	 *
 	 * @since 1.0.0
-	 * @deprecated 12.0.0
+	 * @deprecated 12.0.0 Use `bp_members_get_user_slug()` instead.
 	 *
 	 * @param int         $user_id       Optional. User ID to check.
 	 * @param string|bool $user_nicename Optional. User nicename of user being checked.
@@ -233,7 +257,7 @@ if ( ! bp_is_classic() ) {
 	 * Return the domain for the passed user: e.g. http://example.com/members/andy/.
 	 *
 	 * @since 1.0.0
-	 * @deprecated 12.0.0
+	 * @deprecated 12.0.0 Use `bp_members_get_user_url()` instead.
 	 *
 	 * @param int         $user_id       Optional. The ID of the user.
 	 * @param string|bool $user_nicename Optional. User nicename of the user.
@@ -249,8 +273,16 @@ if ( ! bp_is_classic() ) {
 
 		$domain = bp_members_get_user_url( $user_id );
 
-		// Don't use this filter.  Subject to removal in a future release.
-		// Use the 'bp_core_get_user_domain' filter instead.
+		/**
+		 * Filters the profile URL before the legacy user-domain filter runs.
+		 *
+		 * @deprecated 12.0.0
+		 *
+		 * @param string       $domain        Profile URL.
+		 * @param int          $user_id       User ID.
+		 * @param string|false $user_nicename User nicename, if supplied.
+		 * @param string|false $user_login    User login, if supplied.
+		 */
 		$domain = apply_filters_deprecated( 'bp_core_get_user_domain_pre_cache', array( $domain, $user_id, $user_nicename, $user_login ), '12.0.0' );
 
 		/**
@@ -271,7 +303,7 @@ if ( ! bp_is_classic() ) {
 	 * Get the link for the logged-in user's profile.
 	 *
 	 * @since 1.0.0
-	 * @deprecated 12.0.0
+	 * @deprecated 12.0.0 Use `bp_loggedin_user_url()` instead.
 	 *
 	 * @return string
 	 */
@@ -294,7 +326,7 @@ if ( ! bp_is_classic() ) {
 	 * Get the link for the displayed user's profile.
 	 *
 	 * @since 1.0.0
-	 * @deprecated 12.0.0
+	 * @deprecated 12.0.0 Use `bp_displayed_user_url()` instead.
 	 *
 	 * @return string
 	 */
@@ -316,7 +348,7 @@ if ( ! bp_is_classic() ) {
 	/**
 	 * Alias of {@link bp_displayed_user_domain()}.
 	 *
-	 * @deprecated 12.0.0
+	 * @deprecated 12.0.0 Use `bp_displayed_user_url()` instead.
 	 */
 	function bp_user_link() {
 		_deprecated_function( __FUNCTION__, '12.0.0', 'bp_displayed_user_url()' );
@@ -327,7 +359,7 @@ if ( ! bp_is_classic() ) {
 	 * Output group directory permalink.
 	 *
 	 * @since 1.5.0
-	 * @deprecated 12.0.0
+	 * @deprecated 12.0.0 Use `bp_groups_directory_url()` instead.
 	 */
 	function bp_groups_directory_permalink() {
 		_deprecated_function( __FUNCTION__, '12.0.0', 'bp_groups_directory_url()' );
@@ -338,7 +370,7 @@ if ( ! bp_is_classic() ) {
 	 * Return group directory permalink.
 	 *
 	 * @since 1.5.0
-	 * @deprecated 12.0.0
+	 * @deprecated 12.0.0 Use `bp_get_groups_directory_url()` instead.
 	 *
 	 * @return string
 	 */
@@ -362,7 +394,7 @@ if ( ! bp_is_classic() ) {
 	 * Output the permalink for the group.
 	 *
 	 * @since 1.0.0
-	 * @deprecated 12.0.0
+	 * @deprecated 12.0.0 Use `bp_group_url()` instead.
 	 *
 	 * @param false|int|string|BP_Groups_Group $group (Optional) The Group ID, the Group Slug or the Group object.
 	 *                                                Default: false.
@@ -377,7 +409,7 @@ if ( ! bp_is_classic() ) {
 	 *
 	 * @since 1.0.0
 	 * @since 10.0.0 Updated to use `bp_get_group`.
-	 * @deprecated 12.0.0
+	 * @deprecated 12.0.0 Use `bp_get_group_url()` instead.
 	 *
 	 * @param false|int|string|BP_Groups_Group $group (Optional) The Group ID, the Group Slug or the Group object.
 	 *                                                Default: false.
@@ -404,7 +436,7 @@ if ( ! bp_is_classic() ) {
 	 * Output the permalink for the admin section of the group.
 	 *
 	 * @since 1.0.0
-	 * @deprecated 12.0.0
+	 * @deprecated 12.0.0 Use `bp_group_manage_url()` instead.
 	 *
 	 * @param false|int|string|BP_Groups_Group $group (Optional) The Group ID, the Group Slug or the Group object.
 	 *                                                Default: false.
@@ -419,7 +451,7 @@ if ( ! bp_is_classic() ) {
 	 *
 	 * @since 1.0.0
 	 * @since 10.0.0 Updated to use `bp_get_group`.
-	 * @deprecated 12.0.0
+	 * @deprecated 12.0.0 Use `bp_get_group_manage_url()` instead.
 	 *
 	 * @param false|int|string|BP_Groups_Group $group (Optional) The Group ID, the Group Slug or the Group object.
 	 *                                                Default: false.
@@ -446,7 +478,7 @@ if ( ! bp_is_classic() ) {
 	 * Output blog directory permalink.
 	 *
 	 * @since 1.5.0
-	 * @deprecated 12.0.0
+	 * @deprecated 12.0.0 Use `bp_blogs_directory_url()` instead.
 	 */
 	function bp_blogs_directory_permalink() {
 		_deprecated_function( __FUNCTION__, '12.0.0', 'bp_blogs_directory_url()' );
@@ -457,7 +489,7 @@ if ( ! bp_is_classic() ) {
 	 * Return blog directory permalink.
 	 *
 	 * @since 1.5.0
-	 * @deprecated 12.0.0
+	 * @deprecated 12.0.0 Use `bp_get_blogs_directory_url()` instead.
 	 *
 	 * @return string The URL of the Blogs directory.
 	 */
@@ -581,6 +613,14 @@ function bp_core_create_root_component_page() {
 function bp_core_component_slug_from_root_slug( $root_slug ) {
 	_deprecated_function( __FUNCTION__, '12.0.0' );
 
+	/**
+	 * Filters the legacy component slug.
+	 *
+	 * @deprecated 12.0.0
+	 *
+	 * @param string $component_slug Component slug, initially the root slug.
+	 * @param string $root_slug      Original root slug.
+	 */
 	return apply_filters_deprecated( 'bp_core_component_slug_from_root_slug', array( $root_slug, $root_slug ), '12.0.0' );
 }
 
@@ -606,7 +646,7 @@ function bp_core_define_slugs() {
  * Outputs the group creation numbered steps navbar
  *
  * @since 3.0.0
- * @deprecated 12.0.0
+ * @deprecated 12.0.0 Use `bp_group_creation_tabs()` instead.
  */
 function bp_nouveau_group_creation_tabs() {
 	_deprecated_function( __FUNCTION__, '12.0.0', 'bp_group_creation_tabs()' );
@@ -1162,6 +1202,13 @@ function bp_get_options_title() {
 		$bp->bp_options_title = __( 'Options', 'buddypress' );
 	}
 
+	/**
+	 * Filters the title shown above the legacy options navigation.
+	 *
+	 * @deprecated 12.0.0
+	 *
+	 * @param string $options_title Escaped options title.
+	 */
 	echo esc_html( apply_filters_deprecated( 'bp_get_options_title', array( esc_attr( $bp->bp_options_title ) ), '12.0.0' ) );
 }
 
@@ -1187,6 +1234,13 @@ function bp_has_options_avatar() {
  */
 function bp_get_options_avatar() {
 	_deprecated_function( __FUNCTION__, '12.0.0' );
+	/**
+	 * Filters the avatar shown above the legacy options navigation.
+	 *
+	 * @deprecated 12.0.0
+	 *
+	 * @param string $options_avatar Avatar markup.
+	 */
 	// phpcs:ignore WordPress.Security.EscapeOutput
 	echo apply_filters_deprecated( 'bp_get_options_avatar', array( buddypress()->bp_options_avatar ), '12.0.0' );
 }
@@ -1200,6 +1254,13 @@ function bp_comment_author_avatar() {
 	_deprecated_function( __FUNCTION__, '12.0.0' );
 	global $comment;
 
+	/**
+	 * Filters the legacy comment author avatar.
+	 *
+	 * @deprecated 12.0.0
+	 *
+	 * @param string|false $comment_author_avatar Avatar markup, or false on failure.
+	 */
 	// phpcs:ignore WordPress.Security.EscapeOutput
 	echo apply_filters_deprecated(
 		'bp_comment_author_avatar',
@@ -1229,6 +1290,13 @@ function bp_post_author_avatar() {
 	_deprecated_function( __FUNCTION__, '12.0.0' );
 	global $post;
 
+	/**
+	 * Filters the legacy post author avatar.
+	 *
+	 * @deprecated 12.0.0
+	 *
+	 * @param string|false $post_author_avatar Avatar markup, or false on failure.
+	 */
 	// phpcs:ignore WordPress.Security.EscapeOutput
 	echo apply_filters_deprecated(
 		'bp_post_author_avatar',
@@ -1269,6 +1337,11 @@ function bp_avatar_cropper() {
 function bp_styles() {
 	_deprecated_function( __FUNCTION__, '12.0.0' );
 
+	/**
+	 * Fires before styles are printed by the legacy `bp_styles()` function.
+	 *
+	 * @deprecated 12.0.0
+	 */
 	do_action_deprecated( 'bp_styles', array(), '12.0.0' );
 	wp_print_styles();
 }
@@ -1294,6 +1367,11 @@ function bp_custom_profile_boxes() {
  */
 function bp_custom_profile_sidebar_boxes() {
 	_deprecated_function( __FUNCTION__, '12.0.0' );
+	/**
+	 * Fires when the legacy profile sidebar renders custom boxes.
+	 *
+	 * @deprecated 12.0.0
+	 */
 	do_action_deprecated( 'bp_custom_profile_sidebar_boxes', arrray(), '12.0.0' );
 }
 
@@ -1625,6 +1703,11 @@ function bp_groups_filter_title() {
 			esc_html_e( 'Recently Active', 'buddypress' );
 	}
 
+	/**
+	 * Fires after the legacy group directory filter title is printed.
+	 *
+	 * @deprecated 12.0.0
+	 */
 	do_action_deprecated( 'bp_groups_filter_title', array(), '12.0.0' );
 }
 
@@ -1643,6 +1726,13 @@ function bp_core_get_displayed_userid( $user_login ) {
 	_deprecated_function( __FUNCTION__, '12.0.0' );
 	$id = bp_core_get_userid( $user_login );
 
+	/**
+	 * Filters the user ID resolved by the legacy displayed-user lookup.
+	 *
+	 * @deprecated 12.0.0
+	 *
+	 * @param int|false|null $user_id User ID, false for an empty login, or null if no user was found.
+	 */
 	return apply_filters_deprecated( 'bp_core_get_displayed_userid', array( $id ), '12.0.0' );
 }
 

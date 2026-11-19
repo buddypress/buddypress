@@ -1679,7 +1679,14 @@ function bp_send_message_button( $args = '' ) {
 			return '';
 		}
 
-		/** This filter is documented in wp-includes/deprecated.php */
+		/**
+		 * Filters the rendered Private Message button for member profile headers.
+		 *
+		 * @deprecated 1.8.0 Use the `bp_get_send_message_button_args` filter instead.
+		 *                    The replacement receives button arguments rather than HTML.
+		 *
+		 * @param string $button Rendered button HTML.
+		 */
 		$button = apply_filters_deprecated(
 			'bp_get_send_message_button',
 			array( bp_get_button( $button_args ) ),

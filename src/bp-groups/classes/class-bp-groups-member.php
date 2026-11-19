@@ -1708,7 +1708,7 @@ class BP_Groups_Member {
 	 *
 	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
-	 * @deprecated 1.6.0
+	 * @deprecated 1.6.0 Use `BP_Group_Member_Query` instead.
 	 *
 	 * @param int        $group_id            ID of the group being queried for.
 	 * @param bool|int   $limit               Optional. Max amount to return.

@@ -2096,7 +2096,15 @@ function groups_promote_member( $user_id, $group_id, $status, $group_admin_id = 
 
 	$member = new BP_Groups_Member( $user_id, $group_id );
 
-	// Don't use this action. It's deprecated as of BuddyPress 1.6.
+	/**
+	 * Fires before the promotion of a user to a new status.
+	 *
+	 * @deprecated 1.6.0 Use the `groups_promote_member` action instead.
+	 *
+	 * @param int    $group_id ID of the group.
+	 * @param int    $user_id  ID of the user being promoted.
+	 * @param string $status   New membership status.
+	 */
 	do_action_deprecated( 'groups_premote_member', array( $group_id, $user_id, $status ), '1.6' );
 
 	/**
@@ -2436,11 +2444,9 @@ function groups_send_membership_request( ...$args ) {
  * @since 1.0.0
  * @since 5.0.0 Deprecated $membership_id argument.
  *
- * @param int $membership_id Deprecated 5.0.0.
- * @param int $user_id       Optional. ID of the user who requested membership. Required with
- *                           $group_id to override $membership_id.
- * @param int $group_id      Optional. ID of the group to which membership is being requested.
- *                           Required with $user_id to override $membership_id.
+ * @param int|false $membership_id Deprecated since 5.0.0. Pass false and provide the user and group IDs instead.
+ * @param int       $user_id       ID of the user who requested membership.
+ * @param int       $group_id      ID of the group to which membership was requested.
  * @return bool
  */
 function groups_accept_membership_request( $membership_id, $user_id = 0, $group_id = 0 ) {
@@ -2468,13 +2474,9 @@ function groups_accept_membership_request( $membership_id, $user_id = 0, $group_
  *
  * @since 1.0.0
  *
- * @param int $membership_id Deprecated 5.0.0.
- * @param int $user_id       Optional. ID of the user who requested membership.
- *                           Provide this value along with $group_id to override
- *                           $membership_id.
- * @param int $group_id      Optional. ID of the group to which membership is being
- *                           requested. Provide this value along with $user_id to
- *                           override $membership_id.
+ * @param int|false $membership_id Deprecated since 5.0.0. Pass false and provide the user and group IDs instead.
+ * @param int       $user_id       ID of the user who requested membership.
+ * @param int       $group_id      ID of the group to which membership was requested.
  * @return bool
  */
 function groups_reject_membership_request( $membership_id, $user_id = 0, $group_id = 0 ) {
@@ -2507,13 +2509,9 @@ function groups_reject_membership_request( $membership_id, $user_id = 0, $group_
  *
  * @since 1.2.0
  *
- * @param int $membership_id Deprecated 5.0.0.
- * @param int $user_id       Optional. ID of the user who requested membership.
- *                           Provide this value along with $group_id to override
- *                           $membership_id.
- * @param int $group_id      Optional. ID of the group to which membership is being
- *                           requested. Provide this value along with $user_id to
- *                           override $membership_id.
+ * @param int|false $membership_id Deprecated since 5.0.0. Pass false and provide the user and group IDs instead.
+ * @param int       $user_id       ID of the user who requested membership.
+ * @param int       $group_id      ID of the group to which membership was requested.
  * @return int|false Number of records deleted. False if the user is not a member of the group.
  */
 function groups_delete_membership_request( $membership_id, $user_id = 0, $group_id = 0 ) {

@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Return the referrer URL without the http(s)://
  *
- * @deprecated 2.3.0
+ * @deprecated 2.3.0 Use `bp_get_referer_path()` instead.
  *
  * @return string The referrer URL.
  */

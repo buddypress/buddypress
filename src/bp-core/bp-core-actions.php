@@ -123,7 +123,24 @@ function bp_core_setup_query_parser() {
 
 	// Fire a deprecation notice for following deprecated hooks, if needed.
 	if ( ! bp_is_classic() ) {
+		/**
+		 * Filters the parsed BuddyPress request URI.
+		 *
+		 * Without BP Classic, only the compatibility dispatch runs. Its return value is ignored.
+		 *
+		 * @deprecated 12.0.0
+		 *
+		 * @param string $uri BuddyPress request URI. An empty string is passed here.
+		 */
 		apply_filters_deprecated( 'bp_uri', array( '' ), '12.0.0' );
+
+		/**
+		 * Fires for callbacks registered on the legacy non-BuddyPress request action.
+		 *
+		 * Without BP Classic, this compatibility dispatch does not indicate the request type.
+		 *
+		 * @deprecated 12.0.0
+		 */
 		do_action_deprecated( 'is_not_buddypress', array(), '12.0.0' );
 	}
 }

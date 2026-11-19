@@ -894,7 +894,7 @@ add_action( 'bp_send_email_success', 'bp_core_deprecated_email_actions', 20, 2 )
  * When a blog comment status transition occurs, update the relevant activity's status.
  *
  * @since 1.6.0
- * @deprecated 2.5.0
+ * @deprecated 2.5.0 Use `bp_activity_transition_post_type_comment_status()` instead.
  *
  * @param string $new_status New comment status.
  * @param string $old_status Previous comment status.
@@ -910,7 +910,7 @@ function bp_blogs_transition_activity_status( $new_status, $old_status, $comment
  *
  * Only posts the item if blog is public and post is not password-protected.
  *
- * @deprecated 2.5.0
+ * @deprecated 2.5.0 Use `bp_activity_post_type_comment()` instead.
  *
  * @param int $comment_id ID of the comment being recorded.
  * @param bool|string $is_approved Optional. The $is_approved value passed to
@@ -925,7 +925,7 @@ function bp_blogs_record_comment( $comment_id, $is_approved = true ) {
 /**
  * Remove a blog comment activity item from the activity stream.
  *
- * @deprecated 2.5.0
+ * @deprecated 2.5.0 Use `bp_activity_post_type_remove_comment()` instead.
  *
  * @param int $comment_id ID of the comment to be removed.
  */

@@ -2042,8 +2042,19 @@ function bp_is_active( $component = '', $feature = '' ) {
 						$retval = false;
 					}
 
-					/** This filter is documented in wp-includes/deprecated.php */
-					return apply_filters_deprecated( 'bp_is_profile_cover_image_active', array( $retval ), '6.0.0', 'bp_is_members_cover_image_active' );
+					/**
+					 * Filters whether member cover images are active.
+					 *
+					 * @deprecated 6.0.0 Use the `bp_is_members_cover_image_active` filter instead.
+					 *
+					 * @param bool $is_cover_image_active Whether member cover images are active.
+					 */
+					return apply_filters_deprecated(
+						'bp_is_profile_cover_image_active',
+						array( $retval ),
+						'6.0.0',
+						'bp_is_members_cover_image_active'
+					);
 				}
 			}
 

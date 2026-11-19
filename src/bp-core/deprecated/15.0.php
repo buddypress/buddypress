@@ -32,7 +32,7 @@ foreach ( array( 'BP_LOAD_DEPRECATED', 'BP_IGNORE_DEPRECATED' ) as $deprecated_c
  * Output whether signup is allowed.
  *
  * @since 1.1.0
- * @deprecated 15.0.0
+ * @deprecated 15.0.0 Use `bp_get_signup_allowed()` instead.
  */
 function bp_signup_allowed() {
 	_deprecated_function( __FUNCTION__, '15.0.0', 'bp_get_signup_allowed()' );
@@ -45,7 +45,7 @@ function bp_signup_allowed() {
  * Delete an activity item by activity id.
  *
  * @since 1.1.0
- * @deprecated 15.0.0
+ * @deprecated 15.0.0 Use `bp_activity_delete()` instead.
  *
  * @param array|string $args Optional. See BP_Activity_Activity::get for a
  *                           description of accepted arguments.
@@ -72,7 +72,7 @@ function bp_activity_delete_by_item_id( $args = '' ) {
  * Delete an activity item by its content.
  *
  * @since 1.1.0
- * @deprecated 15.0.0
+ * @deprecated 15.0.0 Use `bp_activity_delete()` instead.
  *
  * @param int    $user_id   The user id.
  * @param string $content   The activity id.
@@ -97,7 +97,7 @@ function bp_activity_delete_by_content( $user_id, $content, $component, $type ) 
  * Delete a user's activity for a component.
  *
  * @since 1.1.0
- * @deprecated 15.0.0
+ * @deprecated 15.0.0 Use `bp_activity_delete()` instead.
  *
  * @param int    $user_id   The user id.
  * @param string $component The activity component.
@@ -118,7 +118,7 @@ function bp_activity_delete_for_user_by_component( $user_id, $component ) {
  * Delete an activity item by activity id.
  *
  * @since 1.1.0
- * @deprecated 15.0.0
+ * @deprecated 15.0.0 Use `bp_activity_delete()` instead.
  *
  * @param int $activity_id ID of the activity item to be deleted.
  * @return bool

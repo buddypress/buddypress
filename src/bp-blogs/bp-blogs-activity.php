@@ -187,7 +187,18 @@ function bp_blogs_format_activity_action_new_blog( $action, $activity ) {
 
 		if ( isset( $recorded_blog ) ) {
 			$blog_description = bp_blogs_get_blogmeta( $activity->item_id, 'description' );
-			$action           = apply_filters_deprecated( 'bp_blogs_activity_created_blog_action', array( $action, $recorded_blog, $blog_name, $blog_description ), '2.0.0', 'bp_blogs_format_activity_action_new_blog' );
+
+			/**
+			 * Filters the activity action for a newly created site.
+			 *
+			 * @deprecated 2.0.0 Use the `bp_blogs_format_activity_action_new_blog` filter instead.
+			 *
+			 * @param string        $action           Formatted activity action.
+			 * @param BP_Blogs_Blog $recorded_blog    Recorded site.
+			 * @param string        $blog_name        Site name.
+			 * @param string        $blog_description Site description.
+			 */
+			$action = apply_filters_deprecated( 'bp_blogs_activity_created_blog_action', array( $action, $recorded_blog, $blog_name, $blog_description ), '2.0.0', 'bp_blogs_format_activity_action_new_blog' );
 		}
 	}
 
@@ -240,7 +251,17 @@ function bp_blogs_format_activity_action_new_blog_post( $action, $activity ) {
 
 		if ( ! empty( $post ) && $post instanceof WP_Post ) {
 			$post_url = add_query_arg( 'p', $post->ID, trailingslashit( get_home_url( $activity->item_id ) ) );
-			$action   = apply_filters_deprecated( 'bp_blogs_activity_new_post_action', array( $action, $post, $post_url ), '2.0.0', 'bp_blogs_format_activity_action_new_blog_post' );
+
+			/**
+			 * Filters the activity action for a newly published blog post.
+			 *
+			 * @deprecated 2.0.0 Use the `bp_blogs_format_activity_action_new_blog_post` filter instead.
+			 *
+			 * @param string  $action   Formatted activity action.
+			 * @param WP_Post $post     Published post.
+			 * @param string  $post_url URL of the post.
+			 */
+			$action = apply_filters_deprecated( 'bp_blogs_activity_new_post_action', array( $action, $post, $post_url ), '2.0.0', 'bp_blogs_format_activity_action_new_blog_post' );
 		}
 	}
 
@@ -351,6 +372,15 @@ function bp_blogs_format_activity_action_new_blog_comment( $action, $activity ) 
 		restore_current_blog();
 
 		if ( ! empty( $comment ) && $comment instanceof WP_Comment ) {
+			/**
+			 * Filters the activity action for a new blog comment.
+			 *
+			 * @deprecated 2.0.0 Use the `bp_blogs_format_activity_action_new_blog_comment` filter instead.
+			 *
+			 * @param string     $action      Formatted activity action.
+			 * @param WP_Comment $comment     Blog comment.
+			 * @param string     $comment_url Post URL with the comment ID as its fragment.
+			 */
 			$action = apply_filters_deprecated( 'bp_blogs_activity_new_comment_action', array( $action, $comment, $post_url . '#' . $activity->secondary_item_id ), '2.0.0', 'bp_blogs_format_activity_action_new_blog_comment' );
 		}
 	}

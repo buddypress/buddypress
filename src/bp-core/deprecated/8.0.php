@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * Format 'new_avatar' activity actions.
  *
  * @since 2.0.0
- * @deprecated 8.0.0
+ * @deprecated 8.0.0 Use `bp_members_format_activity_action_new_avatar()` instead.
  *
  * @param string $action   Static activity action.
  * @param object $activity Activity object.
@@ -30,7 +30,7 @@ function bp_xprofile_format_activity_action_new_avatar( $action, $activity ) {
  *
  * @since 1.0.0
  * @since 2.3.4 Add new parameter to get the user id the avatar was set for.
- * @deprecated 8.0.0
+ * @deprecated 8.0.0 Use `bp_members_new_avatar_activity()` instead.
  *
  * @param int $user_id Optional. The user id the avatar was set for.
  * @return bool

@@ -56,7 +56,7 @@ function bp_activity_get_sitewide( $args = '' ) {
  * Output the member activity feed link.
  *
  * @since 1.0.0
- * @deprecated 1.2.0
+ * @deprecated 1.2.0 Use `bp_member_activity_feed_link()` instead.
  */
 function bp_activities_member_rss_link() {
 	_deprecated_function( __FUNCTION__, '1.2', 'bp_member_activity_feed_link()' );

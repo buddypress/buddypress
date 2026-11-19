@@ -104,7 +104,7 @@ function bp_group_new_topic_button( $group = false ) {
  *
  * @since 1.1.0
  * @since 1.6.0 No longer used, unhooked.
- * @since 3.0.0 Formally marked as deprecated.
+ * @deprecated 3.0.0
  *
  * @param int $user_id Optional. User ID to mark as spam. Defaults to displayed user.
  */
@@ -155,7 +155,7 @@ function bp_core_action_set_spammer_status( $user_id = 0 ) {
  *
  * @since 1.1.0
  * @since 1.6.0 No longer used, unhooked.
- * @since 3.0.0 Formally marked as deprecated.
+ * @deprecated 3.0.0
  */
 function bp_core_action_delete_user() {
 	_deprecated_function( __FUNCTION__, '3.0' );

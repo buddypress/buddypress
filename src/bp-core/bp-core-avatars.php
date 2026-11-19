@@ -697,7 +697,14 @@ function bp_core_fetch_avatar( $args = '' ) {
 			$url_args['r'] = strtolower( $params['rating'] );
 		}
 
-		/** This filter is documented in wp-includes/deprecated.php */
+		/**
+		 * Filters the fallback value sent to Gravatar.
+		 *
+		 * @deprecated 8.0.0 Use `bp_core_avatar_gravatar_default` for Gravatar or `bp_core_default_avatar` for other defaults.
+		 *
+		 * @param string $default_grav Default Gravatar value.
+		 * @param array  $params       Avatar request parameters.
+		 */
 		$d = apply_filters_deprecated(
 			'bp_core_avatar_default',
 			array( $default_grav, $params ),
@@ -1459,7 +1466,15 @@ function bp_avatar_ajax_set() {
 				'item_id'       => $item_id,
 			);
 
-			/** This action is documented in wp-includes/deprecated.php */
+			/**
+			 * Fires after a member sets an avatar with the webcam.
+			 *
+			 * @deprecated 6.0.0 Use the `bp_members_avatar_uploaded` action instead.
+			 *
+			 * @param int    $item_id     Member ID.
+			 * @param string $type        Avatar source. Here, 'camera'.
+			 * @param array  $avatar_data Avatar request data.
+			 */
 			do_action_deprecated( 'xprofile_avatar_uploaded', array( $item_id, $avatar_data['type'], $avatar_data ), '6.0.0', 'bp_members_avatar_uploaded' );
 
 			/**
@@ -1524,7 +1539,15 @@ function bp_avatar_ajax_set() {
 		);
 
 		if ( 'user' === $avatar_data['object'] ) {
-			/** This action is documented in wp-includes/deprecated.php */
+			/**
+			 * Fires after a member avatar is cropped via Ajax.
+			 *
+			 * @deprecated 6.0.0 Use the `bp_members_avatar_uploaded` action instead.
+			 *
+			 * @param int    $item_id   Member ID.
+			 * @param string $type      Avatar source.
+			 * @param array  $crop_args Arguments passed to the crop handler.
+			 */
 			do_action_deprecated( 'xprofile_avatar_uploaded', array( $item_id, $avatar_data['type'], $r ), '6.0.0', 'bp_members_avatar_uploaded' );
 
 			/** This action is documented in bp-core/bp-core-avatars.php */
@@ -2015,7 +2038,14 @@ function bp_core_avatar_default( $type = 'gravatar', $params = array() ) {
 		$avatar = '//www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&amp;s=' . $size;
 	}
 
-	/** This filter is documented in wp-includes/deprecated.php */
+	/**
+	 * Filters the default avatar URL.
+	 *
+	 * @deprecated 8.0.0 Use `bp_core_default_avatar` for other defaults or `bp_core_avatar_gravatar_default` for Gravatar.
+	 *
+	 * @param string $avatar Default avatar URL.
+	 * @param array  $params Avatar request parameters.
+	 */
 	$a = apply_filters_deprecated(
 		'bp_core_avatar_default',
 		array( $avatar, $params ),
