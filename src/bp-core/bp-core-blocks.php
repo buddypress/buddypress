@@ -11,6 +11,43 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
+ * Adds the BuddyPress block category for third-party blocks.
+ *
+ * @since 15.0.0
+ *
+ * @param array[]             $categories          Optional. Block categories.
+ * @param string|WP_Post|null $editor_name_or_post Optional. Editor name or post being loaded.
+ * @return array[] Block categories, including the BuddyPress category.
+ */
+function bp_add_block_category( $categories = array(), $editor_name_or_post = null ) {
+	if ( $editor_name_or_post instanceof WP_Post ) {
+		$post_types = array( 'post', 'page' );
+
+		/**
+		 * Filters the post types that formerly exposed the BuddyPress block category.
+		 *
+		 * The return value is ignored. Blocks load regardless of category availability.
+		 *
+		 * @deprecated 8.0.0
+		 *
+		 * @param string[] $post_types Post type names.
+		 */
+		apply_filters_deprecated( 'bp_block_category_post_types', array( $post_types ), '8.0.0' );
+	}
+
+	return array_merge(
+		$categories,
+		array(
+			array(
+				'slug'  => 'buddypress',
+				'title' => __( 'Community blocks', 'buddypress' ),
+				'icon'  => 'buddicons-community',
+			),
+		)
+	);
+}
+
+/**
  * BuddyPress blocks require the BP REST API.
  *
  * @since 6.0.0

@@ -1079,56 +1079,6 @@ function bp_registration_needs_activation() {
 }
 
 /**
- * Retrieve a client friendly version of the root blog name.
- *
- * The blogname option is escaped with esc_html on the way into the database in
- * sanitize_option, we want to reverse this for the plain text arena of emails.
- *
- * @since 1.7.0
- * @since 2.5.0 No longer used by BuddyPress, but not deprecated in case any existing plugins use it.
- *
- * @see https://buddypress.trac.wordpress.org/ticket/4401
- *
- * @param array $args {
- *     Array of optional parameters.
- *     @type string $before  String to appear before the site name in the
- *                           email subject. Default: '['.
- *     @type string $after   String to appear after the site name in the
- *                           email subject. Default: ']'.
- *     @type string $default The default site name, to be used when none is
- *                           found in the database. Default: 'Community'.
- *     @type string $text    Text to append to the site name (ie, the main text of
- *                           the email subject).
- * }
- * @return string Sanitized email subject.
- */
-function bp_get_email_subject( $args = array() ) {
-
-	$r = bp_parse_args(
-		$args,
-		array(
-			'before'  => '[',
-			'after'   => ']',
-			'default' => __( 'Community', 'buddypress' ),
-			'text'    => '',
-		),
-		'get_email_subject'
-	);
-
-	$subject = $r['before'] . wp_specialchars_decode( bp_get_option( 'blogname', $r['default'] ), ENT_QUOTES ) . $r['after'] . ' ' . $r['text'];
-
-	/**
-	 * Filters a client friendly version of the root blog name.
-	 *
-	 * @since 1.7.0
-	 *
-	 * @param string $subject Client friendly version of the root blog name.
-	 * @param array  $r       Array of arguments for the email subject.
-	 */
-	return apply_filters( 'bp_get_email_subject', $subject, $r );
-}
-
-/**
  * Allow templates to pass parameters directly into the template loops via AJAX.
  *
  * For the most part this will be filtered in a theme's functions.php for

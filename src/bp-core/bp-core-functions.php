@@ -5020,6 +5020,7 @@ function bp_get_deprecated_functions_versions() {
 		3.0,
 		4.0,
 		6.0,
+		6.3,
 		7.0,
 		8.0,
 		9.0,

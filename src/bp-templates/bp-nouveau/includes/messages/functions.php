@@ -307,27 +307,6 @@ function bp_nouveau_add_notice_notification_for_user( $notifications, $user_id )
 }
 
 /**
- * Format the notice notifications.
- *
- * @since 3.0.0
- * @since 15.0.0 The `$array` parameter was removed since it was unused.
- * @deprecated 10.0.0
- */
-function bp_nouveau_format_notice_notification_for_user() {
-	_deprecated_function( __FUNCTION__, '10.0.0' );
-}
-
-/**
- * Unregisters the notices widget.
- *
- * @since 3.0.0
- * @deprecated 12.0.0
- */
-function bp_nouveau_unregister_notices_widget() {
-	_deprecated_function( __FUNCTION__, '12.0.0' );
-}
-
-/**
  * Add active sitewide notices to the BP template_message global.
  *
  * @since 3.0.0

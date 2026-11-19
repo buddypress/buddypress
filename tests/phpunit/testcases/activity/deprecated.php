@@ -6,6 +6,77 @@
  * @group deprecated
  */
 class BP_Tests_Activity_Deprecated extends BP_UnitTestCase {
+
+	/**
+	 * @expectedDeprecated bp_activity_action_name
+	 * @expectedDeprecated bp_get_activity_action_name
+	 * @expectedDeprecated bp_get_activities_member_rss_link
+	 */
+	public function test_legacy_activity_aliases_match_their_replacements() {
+		global $activities_template;
+
+		$previous_template   = $activities_template;
+		$activities_template = (object) array(
+			'activity' => (object) array( 'type' => 'activity_update' ),
+		);
+
+		try {
+			$this->assertSame( bp_get_activity_type(), bp_get_activity_action_name() );
+			$this->expectOutputString( esc_html( bp_get_activity_type() ) );
+			bp_activity_action_name();
+			$this->assertSame( bp_get_member_activity_feed_link(), bp_get_activities_member_rss_link() );
+		} finally {
+			$activities_template = $previous_template;
+		}
+	}
+
+	/**
+	 * @expectedDeprecated bp_activity_content
+	 * @expectedDeprecated bp_get_activity_content
+	 */
+	public function test_legacy_activity_content_still_filters_the_combined_action_and_body() {
+		global $activities_template;
+
+		$activity_id = self::factory()->activity->create(
+			array(
+				'action'    => 'Activity action',
+				'content'   => 'Activity body',
+				'component' => 'activity',
+				'type'      => 'activity_update',
+			)
+		);
+
+		$previous_template   = $activities_template;
+		$activities_template = (object) array( 'activity' => new BP_Activity_Activity( $activity_id ) );
+
+		try {
+			$expected = apply_filters( 'bp_get_activity_content', bp_get_activity_action() . ' ' . bp_get_activity_content_body() );
+			$this->assertSame( $expected, bp_get_activity_content() );
+			$this->expectOutputString( $expected );
+			bp_activity_content();
+		} finally {
+			$activities_template = $previous_template;
+		}
+	}
+
+	/**
+	 * @expectedDeprecated BP_Activity_Activity::delete_activity_item_comments
+	 */
+	public function test_delete_activity_item_comments() {
+		$parent_activity = self::factory()->activity->create( array(
+			'type' => 'activity_update',
+		) );
+
+		$comments = self::factory()->activity->create_many( 3, array(
+			'item_id' => $parent_activity,
+			'type'    => 'activity_comment',
+		) );
+
+		BP_Activity_Activity::delete_activity_item_comments( $parent_activity );
+
+		$result = BP_Activity_Activity::get( array( 'in' => $comments ) );
+		$this->assertEmpty( $result['activities'] );
+	}
 	/**
 	 * @expectedDeprecated bp_activity_get_join_sql
 	 */

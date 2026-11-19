@@ -56,3 +56,17 @@ function bp_force_buddybar() {
 
 	return false;
 }
+
+/**
+ * Checks whether Nouveau has signup profile fields to display.
+ *
+ * @since 3.0.0
+ * @deprecated 8.0.0 Use `bp_nouveau_has_signup_xprofile_fields()` instead.
+ *
+ * @return bool Whether there are signup profile fields to display. False if the Nouveau xProfile template tags are not loaded.
+ */
+function bp_nouveau_base_account_has_xprofile() {
+	_deprecated_function( __FUNCTION__, '8.0.0', 'bp_nouveau_has_signup_xprofile_fields()' );
+
+	return function_exists( 'bp_nouveau_has_signup_xprofile_fields' ) && bp_nouveau_has_signup_xprofile_fields();
+}

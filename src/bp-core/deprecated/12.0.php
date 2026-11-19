@@ -9,6 +9,56 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
+/**
+ * Unregisters the notices widget.
+ *
+ * @since 3.0.0
+ * @deprecated 12.0.0
+ */
+function bp_nouveau_unregister_notices_widget() {
+	_deprecated_function( __FUNCTION__, '12.0.0' );
+}
+
+/**
+ * Add the Create a Group button to the Groups directory title.
+ *
+ * The bp-legacy puts the Create a Group button into the page title, to mimic
+ * the behavior of bp-default.
+ *
+ * @since 2.0.0
+ * @deprecated 12.0.0
+ *
+ * @param string $title Groups directory title.
+ * @return string
+ */
+function bp_legacy_theme_group_create_button( $title ) {
+	_deprecated_function( __FUNCTION__, '12.0.0' );
+
+	$button = function_exists( 'bp_get_group_create_button' ) ? bp_get_group_create_button() : '';
+
+	return $title . ' ' . $button;
+}
+
+/**
+ * Add the Create a Site button to the Sites directory title.
+ *
+ * The bp-legacy puts the Create a Site button into the page title, to mimic
+ * the behavior of bp-default.
+ *
+ * @since 2.0.0
+ * @deprecated 12.0.0
+ *
+ * @param string $title Sites directory title.
+ * @return string
+ */
+function bp_legacy_theme_blog_create_button( $title ) {
+	_deprecated_function( __FUNCTION__, '12.0.0' );
+
+	$button = function_exists( 'bp_get_blog_create_button' ) ? bp_get_blog_create_button() : '';
+
+	return $title . ' ' . $button;
+}
+
 // These functions has been moved to the BP Classic plugin.
 if ( ! bp_is_classic() ) {
 	/**

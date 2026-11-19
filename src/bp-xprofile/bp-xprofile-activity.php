@@ -263,17 +263,3 @@ function bp_xprofile_updated_profile_activity( $user_id, $field_ids = array(), $
 	);
 }
 add_action( 'xprofile_updated_profile', 'bp_xprofile_updated_profile_activity', 10, 5 );
-
-/**
- * Add filters for xprofile activity types to Show dropdowns.
- *
- * @since 2.0.0
- * @todo Mark as deprecated
- */
-function xprofile_activity_filter_options() {
-	?>
-
-	<option value="updated_profile"><?php esc_html_e( 'Profile Updates', 'buddypress' ); ?></option>
-
-	<?php
-}

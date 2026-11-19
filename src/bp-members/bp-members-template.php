@@ -1515,66 +1515,6 @@ function bp_total_site_member_count() {
 /** Navigation and other misc template tags ***********************************/
 
 /**
- * Render the navigation markup for the logged-in user.
- *
- * Each component adds to this navigation array within its own
- * [component_name]setup_nav() function.
- *
- * This navigation array is the top level navigation, so it contains items such as:
- *      [Blog, Profile, Messages, Groups, Friends] ...
- *
- * The function will also analyze the current component the user is in, to
- * determine whether or not to highlight a particular nav item.
- *
- * The dynamic portion of the hook name, `$nav_item->css_id`, refers to the registered navigation
- * item's CSS ID.
- *
- * @since 1.1.0
- *
- * @todo Move to a back-compat file?
- * @deprecated Does not seem to be called anywhere in BP core.
- */
-function bp_get_loggedin_user_nav() {
-	$bp = buddypress();
-
-	// Loop through each navigation item.
-	foreach ( (array) $bp->members->nav->get_primary() as $nav_item ) {
-
-		$selected = '';
-
-		// If the current component matches the nav item id, then add a highlight CSS class.
-		if ( ! bp_is_directory() && ! empty( $bp->active_components[ bp_current_component() ] ) && $bp->active_components[ bp_current_component() ] === $nav_item->css_id ) {
-			$selected = ' class="current selected"';
-		}
-
-		// If we are viewing another person (current_userid does not equal
-		// loggedin_user->id then check to see if the two users are friends.
-		// if they are, add a highlight CSS class to the friends nav item
-		// if it exists.
-		if ( ! bp_is_my_profile() && bp_displayed_user_id() ) {
-			$selected = '';
-
-			if ( bp_is_active( 'friends' ) ) {
-				if ( $nav_item->css_id === $bp->friends->id ) {
-					if ( friends_check_friendship( bp_loggedin_user_id(), bp_displayed_user_id() ) ) {
-						$selected = ' class="current selected"';
-					}
-				}
-			}
-		}
-
-		// phpcs:ignore WordPress.Security.EscapeOutput
-		echo apply_filters_ref_array( 'bp_get_loggedin_user_nav_' . $nav_item->css_id, array( '<li id="li-nav-' . esc_attr( $nav_item->css_id ) . '" ' . $selected . '><a id="my-' . esc_attr( $nav_item->css_id ) . '" href="' . esc_url( $nav_item->link ) . '">' . esc_html( $nav_item->name ) . '</a></li>', &$nav_item ) );
-	}
-
-	// Always add a log out list item to the end of the navigation.
-	$logout_link = '<li><a id="wp-logout" href="' . esc_url( wp_logout_url( bp_get_root_url() ) ) . '">' . esc_html__( 'Log Out', 'buddypress' ) . '</a></li>';
-
-	// phpcs:ignore WordPress.Security.EscapeOutput
-	echo apply_filters( 'bp_logout_nav_link', $logout_link );
-}
-
-/**
  * Output the contents of the current user's home page.
  *
  * @since 2.6.0

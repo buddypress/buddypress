@@ -1094,27 +1094,6 @@ function bp_nouveau_group_has_meta_extra() {
 }
 
 /**
- * Display the group meta.
- *
- * @since 3.0.0
- * @deprecated 7.0.0 Use bp_nouveau_the_group_meta()
- * @see bp_nouveau_the_group_meta()
- *
- * @return string HTML Output.
- */
-function bp_nouveau_group_meta() {
-	_deprecated_function( __FUNCTION__, '7.0.0', 'bp_nouveau_the_group_meta()' );
-	$group_meta = new BP_Nouveau_Group_Meta();
-
-	if ( ! bp_is_group() ) {
-		// phpcs:ignore WordPress.Security.EscapeOutput
-		echo $group_meta->meta;
-	} else {
-		return $group_meta;
-	}
-}
-
-/**
  * Outputs or returns the group meta(s).
  *
  * @since 7.0.0
