@@ -1,9 +1,10 @@
 <?php
 /**
  * @group blogs
- * @see https://buddypress.trac.wordpress.org/ticket/6306
+ * @group deprecated
+ * @link https://buddypress.trac.wordpress.org/ticket/6306
  */
-class BP_Tests_Blogs_Filters extends BP_UnitTestCase {
+class BP_Tests_Blogs_Deprecated extends BP_UnitTestCase {
 	protected $activity_actions;
 	protected $custom_post_types;
 
@@ -18,20 +19,21 @@ class BP_Tests_Blogs_Filters extends BP_UnitTestCase {
 			'supports' => array( 'comments' ),
 		) );
 
-		add_filter( 'bp_blogs_record_post_post_types',    array( $this, 'filter_post_types'), 10, 1 );
-		add_filter( 'bp_blogs_record_comment_post_types', array( $this, 'filter_post_types'), 10, 1 );
+		add_filter( 'bp_blogs_record_post_post_types', array( $this, 'filter_post_types' ) );
+		add_filter( 'bp_blogs_record_comment_post_types', array( $this, 'filter_post_types' ) );
 	}
 
 	function tear_down() {
-		_unregister_post_type( 'using_old_filter' );
-		remove_filter( 'bp_blogs_record_post_post_types',    array( $this, 'filter_post_types' ) );
+		remove_filter( 'bp_blogs_record_post_post_types', array( $this, 'filter_post_types' ) );
 		remove_filter( 'bp_blogs_record_comment_post_types', array( $this, 'filter_post_types' ) );
+		_unregister_post_type( 'using_old_filter' );
 
 		parent::tear_down();
 	}
 
 	/**
-	 * @goup bp_activity_get_actions
+	 * @expectedDeprecated bp_blogs_record_post_post_types
+	 * @expectedDeprecated bp_blogs_record_comment_post_types
 	 */
 	public function test_bp_activity_get_actions() {
 		$activity_actions = bp_activity_get_actions();
@@ -40,7 +42,8 @@ class BP_Tests_Blogs_Filters extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @goup bp_activity_catch_transition_post_type_status
+	 * @expectedDeprecated bp_blogs_record_post_post_types
+	 * @expectedDeprecated bp_blogs_record_comment_post_types
 	 */
 	public function test_bp_activity_catch_transition_post_type_status() {
 		$post_id = self::factory()->post->create( array(
@@ -52,7 +55,8 @@ class BP_Tests_Blogs_Filters extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @goup bp_blogs_record_comment
+	 * @expectedDeprecated bp_blogs_record_post_post_types
+	 * @expectedDeprecated bp_blogs_record_comment_post_types
 	 */
 	public function test_bp_blogs_record_comment() {
 		$u = self::factory()->user->create();
@@ -77,7 +81,8 @@ class BP_Tests_Blogs_Filters extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @goup bp_blogs_record_comment_sync_activity_comment
+	 * @expectedDeprecated bp_blogs_record_post_post_types
+	 * @expectedDeprecated bp_blogs_record_comment_post_types
 	 */
 	public function test_bp_blogs_record_comment_sync_activity_comment() {
 		$u = self::factory()->user->create();
@@ -127,5 +132,32 @@ class BP_Tests_Blogs_Filters extends BP_UnitTestCase {
 		) ) );
 
 		return ! empty( $a['activities'] );
+	}
+}
+
+/**
+ * @group blogs
+ * @group deprecated
+ */
+class BP_Tests_Blogs_Deprecated_Defaults extends BP_UnitTestCase {
+
+	public function test_legacy_post_type_filter_defaults_without_named_callbacks() {
+		$seen   = array();
+		$record = static function ( $hook ) use ( &$seen ) {
+			if ( in_array( $hook, array( 'bp_blogs_record_post_post_types', 'bp_blogs_record_comment_post_types' ), true ) ) {
+				$seen[] = $hook;
+			}
+		};
+
+		add_action( 'all', $record );
+		try {
+			$params = bp_blogs_register_post_tracking_args( new stdClass(), 'post' );
+		} finally {
+			remove_action( 'all', $record );
+		}
+
+		$this->assertSame( array(), $seen );
+		$this->assertSame( 'new_blog_post', $params->action_id );
+		$this->assertSame( 'new_blog_comment', $params->comments_tracking->action_id );
 	}
 }

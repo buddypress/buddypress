@@ -116,12 +116,14 @@ class BP_Blogs_Component extends BP_Component {
 			/**
 			 * Filters the post types to track for the Blogs component.
 			 *
-			 * @since 1.5.0
-			 * @deprecated 2.3.0
+			 * Previously marked deprecated in 2.3.0 without a runtime notice.
 			 *
-			 * @param array $value Array of post types to track.
+			 * @since 1.5.0
+			 * @deprecated 15.0.0
+			 *
+			 * @param string[] $post_types Post types whose posts are tracked.
 			 */
-			$post_types = apply_filters( 'bp_blogs_record_post_post_types', array( 'post' ) );
+			$post_types = apply_filters_deprecated( 'bp_blogs_record_post_post_types', array( array( 'post' ) ), '15.0.0' );
 
 			foreach ( $post_types as $post_type ) {
 				add_post_type_support( $post_type, 'buddypress-activity' );

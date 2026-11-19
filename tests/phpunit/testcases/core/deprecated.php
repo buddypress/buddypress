@@ -398,4 +398,26 @@ class BP_Tests_Core_Deprecated extends BP_UnitTestCase {
 
 		$this->assertStringContainsString( '<button class="new-class"', $b->contents );
 	}
+	/**
+	 * @expectedDeprecated bp_loader_activate
+	 */
+	public function test_bp_activation_fires_the_legacy_action_before_its_replacement() {
+		$actions = array();
+		$record  = static function ( $action_argument ) use ( &$actions ) {
+			$actions[] = array( current_action(), $action_argument );
+		};
+
+		add_action( 'bp_activation', $record );
+		add_action( 'bp_loader_activate', $record );
+
+		try {
+			bp_activation();
+		} finally {
+			remove_action( 'bp_activation', $record );
+			remove_action( 'bp_loader_activate', $record );
+		}
+
+		$this->assertSame( array( array( 'bp_loader_activate', '' ), array( 'bp_activation', '' ) ), $actions );
+	}
+
 }

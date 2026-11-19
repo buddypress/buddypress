@@ -1432,8 +1432,16 @@ function bp_activity_remove_all_user_data( $user_id = 0 ) {
 	bp_delete_user_meta( $user_id, 'bp_latest_update' );
 	bp_delete_user_meta( $user_id, 'bp_favorite_activities' );
 
-	// Execute additional code.
-	do_action( 'bp_activity_remove_data', $user_id ); // Deprecated! Do not use!
+	/**
+	 * Fires after the removal of all of a user's activity data.
+	 *
+	 * Previously marked deprecated without a runtime notice.
+	 *
+	 * @deprecated 15.0.0 Use the `bp_activity_remove_all_user_data` action instead.
+	 *
+	 * @param int $user_id ID of the user whose activity data was removed.
+	 */
+	do_action_deprecated( 'bp_activity_remove_data', array( $user_id ), '15.0.0', 'bp_activity_remove_all_user_data' );
 
 	/**
 	 * Fires after the removal of all of a user's activity data.
