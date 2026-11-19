@@ -41,6 +41,10 @@ function bp_core_set_ajax_uri_globals() {
 	if ( ! $referer && isset( $_REQUEST['canonicalUrl'] ) ) {
 		$canonical_url = esc_url_raw( wp_unslash( $_REQUEST['canonicalUrl'] ) );
 		$referer       = wp_validate_redirect( wp_parse_url( $canonical_url, PHP_URL_PATH ) );
+		$query_string  = wp_parse_url( $canonical_url, PHP_URL_QUERY );
+		if ( $referer && $query_string ) {
+			$referer .= '?' . $query_string;
+		}
 	}
 
 	bp_reset_query( $referer, $GLOBALS['wp_query'] );

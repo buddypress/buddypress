@@ -105,6 +105,67 @@ class BP_Tests_Routing_Directory_Homepage extends BP_UnitTestCase {
 		}
 	}
 
+	/**
+	 * @dataProvider ajax_homepage_referrers
+	 */
+	public function test_ajax_directory_homepage( $component, $query_string, $permalinks, $expected, $ordinary_homepage = false ) {
+		$bp         = buddypress();
+		$old_stack  = $bp->canonical_stack;
+		$old_front  = get_option( 'show_on_front' );
+		$old_page   = get_option( 'page_on_front' );
+		$old_links  = get_option( 'permalink_structure' );
+		$old_screen = isset( $GLOBALS['current_screen'] ) ? $GLOBALS['current_screen'] : null;
+		$front_page = $ordinary_homepage ? self::factory()->post->create( array( 'post_type' => 'page' ) ) : bp_core_get_directory_pages()->{$component}->id;
+
+		$this->set_permalink_structure( $permalinks );
+		update_option( 'show_on_front', 'page' );
+		update_option( 'page_on_front', $front_page );
+		set_current_screen( 'dashboard' );
+		add_filter( 'wp_doing_ajax', '__return_true' );
+		unset( $bp->canonical_stack['requested_url'] );
+
+		try {
+			$query   = new WP_Query();
+			$referer = wp_parse_url( home_url( '/' ), PHP_URL_PATH ) . $query_string;
+			bp_reset_query( $referer, $query );
+
+			$this->assertSame( $expected, $query->is_page( $front_page ) );
+			$this->assertSame( (int) $expected, (int) $query->get( $bp->{$component}->rewrite_ids['directory'] ) );
+			if ( $ordinary_homepage ) {
+				$this->assertSame( 0, (int) $query->get( 'page_id' ) );
+			}
+			if ( $expected && '?cpage=2' === $query_string ) {
+				$this->assertSame( 2, (int) $query->get( 'cpage' ) );
+			}
+		} finally {
+			remove_filter( 'wp_doing_ajax', '__return_true' );
+			$GLOBALS['current_screen'] = $old_screen;
+			$bp->canonical_stack = $old_stack;
+			update_option( 'show_on_front', $old_front );
+			update_option( 'page_on_front', $old_page );
+			$this->set_permalink_structure( $old_links );
+		}
+	}
+
+	public static function ajax_homepage_referrers() {
+		$cases = array();
+		foreach ( array( 'groups', 'members' ) as $component ) {
+			foreach ( array( 'plain' => '', 'pretty' => '/%postname%/' ) as $name => $permalinks ) {
+				$cases[ "$component $name bare home" ] = array( $component, '', $permalinks, true );
+				$cases[ "$component $name tracking" ]  = array( $component, '?utm_source=newsletter', $permalinks, true );
+				$cases[ "$component $name comment page" ] = array( $component, '?cpage=2', $permalinks, true );
+				$cases[ "$component $name comment page with search" ] = array( $component, '?cpage=2&s=example', $permalinks, false );
+				$cases[ "$component $name post" ]      = array( $component, '?p=123', $permalinks, false );
+				$cases[ "$component $name page" ]      = array( $component, '?page_id=123', $permalinks, false );
+				$cases[ "$component $name search" ]    = array( $component, '?s=example', $permalinks, false );
+				$cases[ "$component $name preview" ]   = array( $component, '?preview=true', $permalinks, false );
+			}
+		}
+		$cases['ordinary plain homepage']  = array( 'members', '', '', false, true );
+		$cases['ordinary pretty homepage'] = array( 'members', '', '/%postname%/', false, true );
+		return $cases;
+	}
+
 	public static function directory_homepage_urls() {
 		$cases      = array();
 		$components = array( 'activity', 'groups', 'members', 'blogs' );
