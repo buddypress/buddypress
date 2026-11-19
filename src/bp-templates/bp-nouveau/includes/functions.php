@@ -79,16 +79,16 @@ function bp_nouveau_ajax_querystring( $query_string, $object ) {
 	// Activity stream filtering on action.
 	if ( ! empty( $post_query['filter'] ) && '-1' !== $post_query['filter'] ) {
 		if ( 'notifications' === $object ) {
-			$qs[] = 'component_action=' . urlencode( $post_query['filter'] );
+			$qs[] = 'component_action=' . rawurlencode( $post_query['filter'] );
 		} else {
-			$qs[] = 'type=' . urlencode( $post_query['filter'] );
-			$qs[] = 'action=' . urlencode( $post_query['filter'] );
+			$qs[] = 'type=' . rawurlencode( $post_query['filter'] );
+			$qs[] = 'action=' . rawurlencode( $post_query['filter'] );
 		}
 	}
 
 	// Sort the notifications if needed
 	if ( ! empty( $post_query['extras'] ) && 'notifications' === $object ) {
-		$qs[] = 'sort_order=' . urlencode( $post_query['extras'] );
+		$qs[] = 'sort_order=' . rawurlencode( $post_query['extras'] );
 	}
 
 	if ( 'personal' === $post_query['scope'] ) {
@@ -98,7 +98,7 @@ function bp_nouveau_ajax_querystring( $query_string, $object ) {
 
 	// Activity stream scope only on activity directory.
 	if ( 'all' !== $post_query['scope'] && ! bp_displayed_user_id() && ! bp_is_single_item() ) {
-		$qs[] = 'scope=' . urlencode( $post_query['scope'] );
+		$qs[] = 'scope=' . rawurlencode( $post_query['scope'] );
 	}
 
 	// If page have been passed via the AJAX post request, use those.
@@ -123,13 +123,13 @@ function bp_nouveau_ajax_querystring( $query_string, $object ) {
 
 	$object_search_text = bp_get_search_default_text( $object );
 	if ( ! empty( $post_query['search_terms'] ) && $object_search_text != $post_query['search_terms'] && 'false' != $post_query['search_terms'] && 'undefined' != $post_query['search_terms'] ) {
-		$qs[] = 'search_terms=' . urlencode( $_POST['search_terms'] );
+		$qs[] = 'search_terms=' . rawurlencode( $_POST['search_terms'] );
 	}
 
 	// Specific to messages
 	if ( 'messages' === $object ) {
 		if ( ! empty( $post_query['box'] ) ) {
-			$qs[] = 'box=' . urlencode( $post_query['box'] );
+			$qs[] = 'box=' . rawurlencode( $post_query['box'] );
 		}
 	}
 
