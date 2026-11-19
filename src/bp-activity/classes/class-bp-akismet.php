@@ -274,8 +274,6 @@ class BP_Akismet {
 	 *
 	 * @since 1.6.0
 	 *
-	 * @static
-	 *
 	 * @return array List of activity types.
 	 */
 	public static function get_activity_types() {
@@ -354,7 +352,6 @@ class BP_Akismet {
 	 * @since 1.6.0
 	 *
 	 * @see http://akismet.com/development/api/#comment-check
-	 * @static
 	 *
 	 * @param BP_Activity_Activity $activity Activity item data.
 	 * @return array
