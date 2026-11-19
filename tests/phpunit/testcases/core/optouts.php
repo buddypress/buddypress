@@ -5,7 +5,7 @@
  class BP_Tests_Optouts extends BP_UnitTestCase {
 
 	 /**
-	  * @see https://buddypress.trac.wordpress.org/ticket/8552
+	  * @link https://buddypress.trac.wordpress.org/ticket/8552
 	  */
 	 public function test_bp_optouts_query_cache_results() {
 		 global $wpdb;

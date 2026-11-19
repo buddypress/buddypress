@@ -350,8 +350,8 @@ class BP_Tests_BP_Groups_Group_Query_Group_Types extends BP_UnitTestCase {
 
 	/**
 	 * @group cache
-	 * @see https://buddypress.trac.wordpress.org/ticket/5451
-	 * @see https://buddypress.trac.wordpress.org/ticket/6643
+	 * @link https://buddypress.trac.wordpress.org/ticket/5451
+	 * @link https://buddypress.trac.wordpress.org/ticket/6643
 	 */
 	public function test_get_query_caches_should_be_busted_by_group_term_change() {
 		bp_groups_register_group_type( 'foo' );
@@ -380,8 +380,8 @@ class BP_Tests_BP_Groups_Group_Query_Group_Types extends BP_UnitTestCase {
 
 	/**
 	 * @group cache
-	 * @see https://buddypress.trac.wordpress.org/ticket/5451
-	 * @see https://buddypress.trac.wordpress.org/ticket/6643
+	 * @link https://buddypress.trac.wordpress.org/ticket/5451
+	 * @link https://buddypress.trac.wordpress.org/ticket/6643
 	 */
 	public function test_get_query_caches_should_be_busted_by_group_term_removal() {
 		bp_groups_register_group_type( 'foo' );

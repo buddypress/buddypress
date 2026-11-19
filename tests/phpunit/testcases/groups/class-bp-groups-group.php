@@ -257,7 +257,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/5874
+	 * @link https://buddypress.trac.wordpress.org/ticket/5874
 	 */
 	public function test_get_with_meta_query_multiple_clauses_relation_or_shared_meta_key() {
 		$now = time();
@@ -293,7 +293,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/5824
+	 * @link https://buddypress.trac.wordpress.org/ticket/5824
 	 */
 	public function test_get_with_meta_query_multiple_keys_with_same_value() {
 		$now = time();
@@ -760,7 +760,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/5099
+	 * @link https://buddypress.trac.wordpress.org/ticket/5099
 	 */
 	public function test_meta_query_and_total_groups() {
 		$time = time();
@@ -800,7 +800,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/5477
+	 * @link https://buddypress.trac.wordpress.org/ticket/5477
 	 */
 	public function test_get_groups_page_perpage_params() {
 		// Create more than 20 groups (20 is the default per_page number)
@@ -855,8 +855,8 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 
 	/**
 	 * @group cache
-	 * @see https://buddypress.trac.wordpress.org/ticket/5451
-	 * @see https://buddypress.trac.wordpress.org/ticket/6643
+	 * @link https://buddypress.trac.wordpress.org/ticket/5451
+	 * @link https://buddypress.trac.wordpress.org/ticket/6643
 	 */
 	public function test_get_queries_should_be_cached() {
 		global $wpdb;
@@ -875,8 +875,8 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 
 	/**
 	 * @group cache
-	 * @see https://buddypress.trac.wordpress.org/ticket/5451
-	 * @see https://buddypress.trac.wordpress.org/ticket/6643
+	 * @link https://buddypress.trac.wordpress.org/ticket/5451
+	 * @link https://buddypress.trac.wordpress.org/ticket/6643
 	 */
 	public function test_get_query_caches_should_be_busted_by_groupmeta_update() {
 		global $wpdb;
@@ -912,8 +912,8 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 
 	/**
 	 * @group cache
-	 * @see https://buddypress.trac.wordpress.org/ticket/5451
-	 * @see https://buddypress.trac.wordpress.org/ticket/6643
+	 * @link https://buddypress.trac.wordpress.org/ticket/5451
+	 * @link https://buddypress.trac.wordpress.org/ticket/6643
 	 */
 	public function test_get_query_caches_should_be_busted_by_group_save() {
 		$groups = self::factory()->group->create_many( 2 );
@@ -939,8 +939,8 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 
 	/**
 	 * @group cache
-	 * @see https://buddypress.trac.wordpress.org/ticket/5451
-	 * @see https://buddypress.trac.wordpress.org/ticket/6643
+	 * @link https://buddypress.trac.wordpress.org/ticket/5451
+	 * @link https://buddypress.trac.wordpress.org/ticket/6643
 	 */
 	public function test_get_query_caches_should_be_busted_by_group_delete() {
 		$groups = self::factory()->group->create_many( 2 );
@@ -958,7 +958,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/5451
+	 * @link https://buddypress.trac.wordpress.org/ticket/5451
 	 */
 	public function test_bp_groups_group_magic_isset_with_empty_check() {
 		$u = self::factory()->user->create();
@@ -1603,7 +1603,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/5451
+	 * @link https://buddypress.trac.wordpress.org/ticket/5451
 	 */
 	public function test_admins_property() {
 		$user_1 = self::factory()->user->create_and_get();
@@ -1629,7 +1629,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/7497
+	 * @link https://buddypress.trac.wordpress.org/ticket/7497
 	 */
 	public function test_admins_property_should_match_users_without_wp_role() {
 		$user_1 = self::factory()->user->create_and_get();
@@ -1645,7 +1645,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/7677
+	 * @link https://buddypress.trac.wordpress.org/ticket/7677
 	 */
 	public function test_demoting_sole_admin() {
 		$user = self::factory()->user->create_and_get();
@@ -1660,7 +1660,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/5451
+	 * @link https://buddypress.trac.wordpress.org/ticket/5451
 	 */
 	public function test_mods_property() {
 		$users = self::factory()->user->create_many( 2 );
@@ -1691,8 +1691,8 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/5451
-	 * @see https://buddypress.trac.wordpress.org/ticket/7658
+	 * @link https://buddypress.trac.wordpress.org/ticket/5451
+	 * @link https://buddypress.trac.wordpress.org/ticket/7658
 	 */
 	public function test_is_member_property() {
 		$u1 = self::factory()->user->create();
@@ -1716,8 +1716,8 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/5451
-	 * @see https://buddypress.trac.wordpress.org/ticket/7658
+	 * @link https://buddypress.trac.wordpress.org/ticket/5451
+	 * @link https://buddypress.trac.wordpress.org/ticket/7658
 	 */
 	public function test_is_invited_property() {
 		$u1 = self::factory()->user->create();
@@ -1743,7 +1743,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/5451
+	 * @link https://buddypress.trac.wordpress.org/ticket/5451
 	 */
 	public function test_is_pending_property() {
 		$u1 = self::factory()->user->create();

@@ -746,7 +746,7 @@ function bp_group_class( $classes = array() ) {
 		 *
 		 * @deprecated Use the `bp-group-status-{status}` class instead.
 		 *
-		 * @see https://buddypress.trac.wordpress.org/ticket/9316
+		 * @link https://buddypress.trac.wordpress.org/ticket/9316
 		 */
 		$classes[] = $group_status;
 

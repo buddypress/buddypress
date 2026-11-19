@@ -2,7 +2,7 @@
 
 /**
  * @group groups
- * @see https://buddypress.trac.wordpress.org/ticket/6319
+ * @link https://buddypress.trac.wordpress.org/ticket/6319
  */
 class BP_Tests_Groups_Template_Status_Message extends BP_UnitTestCase {
 	private $current_user;

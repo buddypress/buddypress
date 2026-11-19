@@ -32,7 +32,7 @@ class BP_Tests_Admin_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/9065
+	 * @link https://buddypress.trac.wordpress.org/ticket/9065
 	 */
 	public function test_bp_core_admin_get_active_components_from_submitted_settings() {
 		$get_action = $_GET['action'] ?? null;
@@ -132,7 +132,7 @@ class BP_Tests_Admin_Functions extends BP_UnitTestCase {
 	/**
 	 * Ensure admin list tables reject array-shaped searches.
 	 *
-	 * @see https://buddypress.trac.wordpress.org/ticket/9065
+	 * @link https://buddypress.trac.wordpress.org/ticket/9065
 	 */
 	public function test_admin_list_tables_should_reject_array_search_values() {
 		if ( ! class_exists( 'WP_List_Table' ) ) {
@@ -203,7 +203,7 @@ class BP_Tests_Admin_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/6244
+	 * @link https://buddypress.trac.wordpress.org/ticket/6244
 	 */
 	public function test_bp_core_admin_get_active_components_from_submitted_settings_should_keep_custom_component_directory_page() {
 		$bp = buddypress();
@@ -296,7 +296,7 @@ class BP_Tests_Admin_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/6936
+	 * @link https://buddypress.trac.wordpress.org/ticket/6936
 	 */
 	public function test_email_type_descriptions_should_match_when_split_terms_exist() {
 		global $wpdb;
@@ -336,7 +336,7 @@ class BP_Tests_Admin_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/9329
+	 * @link https://buddypress.trac.wordpress.org/ticket/9329
 	 */
 	public function test_bp_email_get_type_schema_should_allow_custom_types() {
 		add_filter( 'bp_email_get_schema', array( $this, 'filter_bp_email_get_schema' ) );
@@ -391,7 +391,7 @@ class BP_Tests_Admin_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/9086
+	 * @link https://buddypress.trac.wordpress.org/ticket/9086
 	 */
 	public function test_bp_core_set_unique_directory_page_slug_for_newpage() {
 		$members_directory_id  = bp_core_get_directory_page_id( 'members' );
@@ -409,7 +409,7 @@ class BP_Tests_Admin_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/9086
+	 * @link https://buddypress.trac.wordpress.org/ticket/9086
 	 */
 	public function test_bp_core_set_unique_directory_page_slug_for_newpage_having_parent() {
 		$members_directory_id = bp_core_get_directory_page_id( 'members' );
@@ -434,7 +434,7 @@ class BP_Tests_Admin_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/9086
+	 * @link https://buddypress.trac.wordpress.org/ticket/9086
 	 */
 	public function test_bp_core_set_unique_directory_page_slug_for_newcomponent() {
 		self::factory()->post->create_many( 5, array( 'post_type' => 'page' ) );
@@ -490,7 +490,7 @@ class BP_Tests_Admin_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/9086
+	 * @link https://buddypress.trac.wordpress.org/ticket/9086
 	 */
 	public function test_bp_core_set_unique_directory_page_slug_having_parent_for_newcomponent() {
 		$parent  = self::factory()->post->create(

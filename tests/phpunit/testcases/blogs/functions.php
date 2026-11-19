@@ -11,7 +11,7 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/5399
+	 * @link https://buddypress.trac.wordpress.org/ticket/5399
 	 */
 	public function test_bp_blogs_delete_blogmeta_illegal_characters() {
 		$this->assertNotEmpty( bp_blogs_update_blogmeta( 1, 'foo', 'bar' ) );
@@ -22,7 +22,7 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/5399
+	 * @link https://buddypress.trac.wordpress.org/ticket/5399
 	 */
 	public function test_bp_blogs_delete_blogmeta_trim_meta_value() {
 		$this->assertNotEmpty( bp_blogs_update_blogmeta( 1, 'foo', 'bar' ) );
@@ -83,7 +83,7 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/5399
+	 * @link https://buddypress.trac.wordpress.org/ticket/5399
 	 */
 	public function test_bp_blogs_get_blogmeta_illegal_characters() {
 		bp_blogs_update_blogmeta( 1, 'foo', 'bar' );
@@ -129,7 +129,7 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/5399
+	 * @link https://buddypress.trac.wordpress.org/ticket/5399
 	 */
 	public function test_bp_blogs_update_blogmeta_illegal_characters() {
 		$krazy_key = ' f!@#$%^o *(){}o?+';
@@ -953,7 +953,7 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/8175
+	 * @link https://buddypress.trac.wordpress.org/ticket/8175
 	 */
 	public function test_blogs_data_should_be_deleted_on_user_delete_multisite() {
 		$this->skipWithoutMultisite();
@@ -977,7 +977,7 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/8175
+	 * @link https://buddypress.trac.wordpress.org/ticket/8175
 	 */
 	public function test_blogs_data_should_not_be_deleted_on_wp_delete_user_multisite() {
 		$this->skipWithoutMultisite();

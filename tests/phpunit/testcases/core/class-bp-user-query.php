@@ -23,7 +23,7 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/4938
+	 * @link https://buddypress.trac.wordpress.org/ticket/4938
 	 */
 	public function test_bp_user_query_friends_with_include() {
 		$u1 = self::factory()->user->create();
@@ -66,7 +66,7 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/7248
+	 * @link https://buddypress.trac.wordpress.org/ticket/7248
 	 */
 	public function test_include_array_contaning_only_0_should_result_in_no_results_query() {
 		$q = new BP_User_Query( array(
@@ -77,7 +77,7 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/7248
+	 * @link https://buddypress.trac.wordpress.org/ticket/7248
 	 */
 	public function test_include_array_contaning_0_but_also_real_IDs_should_not_result_in_no_results_query() {
 		$q = new BP_User_Query( array(
@@ -310,7 +310,7 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/8040
+	 * @link https://buddypress.trac.wordpress.org/ticket/8040
 	 */
 	public function test_bp_user_query_should_ignore_empty_exclude() {
 		$u1 = self::factory()->user->create();
@@ -393,7 +393,7 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/5904
+	 * @link https://buddypress.trac.wordpress.org/ticket/5904
 	 */
 	public function test_bp_user_query_with_user_meta_argument() {
 		$u1 = self::factory()->user->create();
@@ -414,7 +414,7 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/5904
+	 * @link https://buddypress.trac.wordpress.org/ticket/5904
 	 */
 	public function test_bp_user_query_with_user_meta_argument_no_user() {
 		$u1 = self::factory()->user->create();
@@ -506,7 +506,7 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/6334
+	 * @link https://buddypress.trac.wordpress.org/ticket/6334
 	 */
 	public function test_should_return_no_results_when_no_users_match_the_specified_member_type() {
 		bp_register_member_type( 'foo' );

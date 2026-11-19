@@ -46,7 +46,7 @@ class BP_Tests_BP_Notifications_Notification_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/5300
+	 * @link https://buddypress.trac.wordpress.org/ticket/5300
 	 */
 	public function test_get_total_count_null_component_name() {
 		$u = self::factory()->user->create();
@@ -87,7 +87,7 @@ class BP_Tests_BP_Notifications_Notification_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/5300
+	 * @link https://buddypress.trac.wordpress.org/ticket/5300
 	 */
 	public function test_get_total_count_with_component_name() {
 		$u = self::factory()->user->create();
@@ -271,7 +271,7 @@ class BP_Tests_BP_Notifications_Notification_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/6229
+	 * @link https://buddypress.trac.wordpress.org/ticket/6229
 	 */
 	public function test_get_paged_sql() {
 		$u = self::factory()->user->create();

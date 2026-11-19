@@ -5,7 +5,7 @@
  */
 class BP_Tests_Activity_Functions_BpActivityGetCommentDepth extends BP_UnitTestCase {
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/7329
+	 * @link https://buddypress.trac.wordpress.org/ticket/7329
 	 */
 	public function test_depth_inside_activity_comment_loop() {
 		$u = self::factory()->user->create();
@@ -73,7 +73,7 @@ class BP_Tests_Activity_Functions_BpActivityGetCommentDepth extends BP_UnitTestC
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/7329
+	 * @link https://buddypress.trac.wordpress.org/ticket/7329
 	 */
 	public function test_depth_outside_of_activity_comment_loop() {
 		$u = self::factory()->user->create();

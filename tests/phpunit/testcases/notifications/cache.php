@@ -181,7 +181,7 @@ class BP_Tests_Notifications_Cache extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/8637
+	 * @link https://buddypress.trac.wordpress.org/ticket/8637
 	 */
 	public function test_bp_notifications_clear_all_for_user_cache_before_update() {
 		$u = self::factory()->user->create();
@@ -227,7 +227,7 @@ class BP_Tests_Notifications_Cache extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/8642
+	 * @link https://buddypress.trac.wordpress.org/ticket/8642
 	 */
 	public function test_bp_notifications_clear_all_for_user_cache_before_update_when_marked_unread() {
 		$u = self::factory()->user->create();
@@ -260,7 +260,7 @@ class BP_Tests_Notifications_Cache extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/8637
+	 * @link https://buddypress.trac.wordpress.org/ticket/8637
 	 */
 	public function test_bp_notifications_clear_all_for_user_cache_before_delete() {
 		$u = self::factory()->user->create();
@@ -311,7 +311,7 @@ class BP_Tests_Notifications_Cache extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/8637
+	 * @link https://buddypress.trac.wordpress.org/ticket/8637
 	 */
 	public function test_bp_notifications_clear_all_for_user_cache_before_update_when_item_ids() {
 		$s = self::factory()->user->create();
@@ -352,7 +352,7 @@ class BP_Tests_Notifications_Cache extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/8642
+	 * @link https://buddypress.trac.wordpress.org/ticket/8642
 	 */
 	public function test_bp_notifications_clear_all_for_user_cache_before_update_when_item_ids_and_marked_unread() {
 		$s                = self::factory()->user->create();
@@ -399,7 +399,7 @@ class BP_Tests_Notifications_Cache extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/8637
+	 * @link https://buddypress.trac.wordpress.org/ticket/8637
 	 */
 	public function test_bp_notifications_clear_all_for_user_cache_before_delete_when_item_ids() {
 		$s = self::factory()->user->create();

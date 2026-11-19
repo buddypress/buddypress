@@ -138,7 +138,7 @@ class BP_Akismet {
 	 *
 	 * @since 1.6.0
 	 *
-	 * @see https://plugins.trac.wordpress.org/ticket/1232
+	 * @link https://plugins.trac.wordpress.org/ticket/1232
 	 */
 	public function add_activity_stream_nonce() {
 		$form_id = '_bp_as_nonce';
@@ -353,7 +353,7 @@ class BP_Akismet {
 	 *
 	 * @since 1.6.0
 	 *
-	 * @see http://akismet.com/development/api/#comment-check
+	 * @link http://akismet.com/development/api/#comment-check
 	 * @static
 	 *
 	 * @param BP_Activity_Activity $activity Activity item data.
@@ -403,7 +403,7 @@ class BP_Akismet {
 	 *
 	 * @since 1.6.0
 	 *
-	 * @see http://akismet.com/development/api/
+	 * @link http://akismet.com/development/api/
 	 * @todo Spam counter?
 	 * @todo Auto-delete old spam?
 	 *
@@ -678,7 +678,7 @@ class BP_Akismet {
 	 *
 	 * @since 1.6.0
 	 *
-	 * @see https://buddypress.trac.wordpress.org/ticket/3907
+	 * @link https://buddypress.trac.wordpress.org/ticket/3907
 	 * @todo Update activity meta to allow >1 record with the same key (iterate through $history).
 	 *
 	 * @param object $item Activity item.

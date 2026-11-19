@@ -371,8 +371,8 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/7821
-	 * @see https://buddypress.trac.wordpress.org/ticket/7698
+	 * @link https://buddypress.trac.wordpress.org/ticket/7821
+	 * @link https://buddypress.trac.wordpress.org/ticket/7698
 	 */
 	public function test_bp_friends_personal_data_exporter() {
 		friends_add_friend( self::$user_ids[0], self::$user_ids[1], true );
@@ -395,8 +395,8 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/7821
-	 * @see https://buddypress.trac.wordpress.org/ticket/7698
+	 * @link https://buddypress.trac.wordpress.org/ticket/7821
+	 * @link https://buddypress.trac.wordpress.org/ticket/7698
 	 */
 	public function test_bp_friends_pending_sent_requests_personal_data_exporter() {
 		friends_add_friend( self::$user_ids[0], self::$user_ids[1], true );
@@ -418,8 +418,8 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/7821
-	 * @see https://buddypress.trac.wordpress.org/ticket/7698
+	 * @link https://buddypress.trac.wordpress.org/ticket/7821
+	 * @link https://buddypress.trac.wordpress.org/ticket/7698
 	 */
 	public function test_bp_friends_pending_received_requests_personal_data_exporter() {
 		friends_add_friend( self::$user_ids[0], self::$user_ids[1], true );
@@ -441,7 +441,7 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/8175
+	 * @link https://buddypress.trac.wordpress.org/ticket/8175
 	 */
 	public function test_friends_data_should_be_deleted_on_user_delete_non_multisite() {
 		$this->skipWithMultisite();
@@ -459,7 +459,7 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/8175
+	 * @link https://buddypress.trac.wordpress.org/ticket/8175
 	 */
 	public function test_xprofile_data_should_be_deleted_on_user_delete_multisite() {
 		$this->skipWithoutMultisite();
@@ -477,7 +477,7 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/8175
+	 * @link https://buddypress.trac.wordpress.org/ticket/8175
 	 */
 	public function test_xprofile_data_should_not_be_deleted_on_wp_delete_user_multisite() {
 		$this->skipWithoutMultisite();

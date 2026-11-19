@@ -524,7 +524,7 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 	/**
 	 * Default sort order should be the joined date
 	 *
-	 * @see https://buddypress.trac.wordpress.org/ticket/5106
+	 * @link https://buddypress.trac.wordpress.org/ticket/5106
 	 */
 	public function test_bp_group_has_members_default_order() {
 		$now = time();

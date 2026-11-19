@@ -423,7 +423,7 @@ class BP_Tests_BP_XProfile_ProfileData_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/8388
+	 * @link https://buddypress.trac.wordpress.org/ticket/8388
 	 */
 	public function test_cache_invalidated_when_xprofile_remove_data_called() {
 		$u = self::factory()->user->create();
