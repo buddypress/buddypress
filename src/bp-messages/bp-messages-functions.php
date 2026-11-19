@@ -448,7 +448,7 @@ function messages_is_valid_thread( $thread_id ) {
  *
  * @global wpdb $wpdb WordPress database object.
  *
- * @param  int $message_id Optional. ID of the message.
+ * @param int $message_id Optional. ID of the message.
  * @return int The ID of the thread if found, otherwise 0.
  */
 function messages_get_message_thread_id( $message_id = 0 ) {

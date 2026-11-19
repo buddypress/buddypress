@@ -893,8 +893,8 @@ class BP_Groups_List_Table extends WP_List_Table {
 	 *
 	 * @since 2.7.0
 	 *
-	 * @param  string $retval Current group type permalink.
-	 * @param  object $type   Group type object.
+	 * @param string $retval Current group type permalink.
+	 * @param object $type   Group type object.
 	 * @return string
 	 */
 	public function group_type_permalink_use_admin_filter( $retval, $type ) {

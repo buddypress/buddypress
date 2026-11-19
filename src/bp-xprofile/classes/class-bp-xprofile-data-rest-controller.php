@@ -401,8 +401,8 @@ class BP_XProfile_Data_REST_Controller extends WP_REST_Controller {
 	 *
 	 * @since 15.0.0
 	 *
-	 * @param  BP_XProfile_ProfileData $field_data XProfile field data object.
-	 * @param  WP_REST_Request         $request    Full data about the request.
+	 * @param BP_XProfile_ProfileData $field_data XProfile field data object.
+	 * @param WP_REST_Request         $request    Full data about the request.
 	 * @return WP_REST_Response
 	 */
 	public function prepare_item_for_response( $field_data, $request ) {

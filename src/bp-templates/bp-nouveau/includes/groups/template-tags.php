@@ -241,7 +241,7 @@ function bp_nouveau_group_invites_interface() {
  * @since 3.0.0
  * @since 4.4.0
  *
- * @param  int $user_id Optional. The user ID to check group invites preference for.
+ * @param int $user_id Optional. The user ID to check group invites preference for.
  * @return int          Returns 1 if user chose to restrict to friends, 0 otherwise.
  */
 function bp_nouveau_groups_get_group_invites_setting( $user_id = 0 ) {
@@ -1066,7 +1066,7 @@ function bp_nouveau_groups_manage_members_buttons( $args = array() ) {
  * @since 3.0.0
  * @since 3.2.0 Adds the $meta_key argument.
  *
- * @param  string $meta_key Optional. The key of the meta to check the value for.
+ * @param string $meta_key Optional. The key of the meta to check the value for.
  * @return bool             True if the group has meta. False otherwise.
  */
 function bp_nouveau_group_has_meta( $meta_key = '' ) {

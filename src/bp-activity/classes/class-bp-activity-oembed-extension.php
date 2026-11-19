@@ -80,7 +80,7 @@ class BP_Activity_oEmbed_Extension extends BP_Core_oEmbed_Extension {
 	 *
 	 * @since 2.6.0
 	 *
-	 * @param  string $url The URL to check.
+	 * @param string $url The URL to check.
 	 * @return int|bool Activity ID on success; boolean false on failure.
 	 */
 	protected function validate_url_to_item_id( $url ) {
@@ -134,7 +134,7 @@ class BP_Activity_oEmbed_Extension extends BP_Core_oEmbed_Extension {
 	 *
 	 * @since 2.6.0
 	 *
-	 * @param  int $item_id The activity ID.
+	 * @param int $item_id The activity ID.
 	 * @return array
 	 */
 	protected function set_oembed_response_data( $item_id ) {
@@ -158,7 +158,7 @@ class BP_Activity_oEmbed_Extension extends BP_Core_oEmbed_Extension {
 	 *
 	 * @global BP_Activity_Template $activities_template The Activity template loop.
 	 *
-	 * @param  int $item_id The activity ID.
+	 * @param int $item_id The activity ID.
 	 * @return string
 	 */
 	protected function set_fallback_html( $item_id ) {
@@ -197,7 +197,7 @@ class BP_Activity_oEmbed_Extension extends BP_Core_oEmbed_Extension {
 	 *
 	 * @since 2.6.0
 	 *
-	 * @param  int $item_id The activity ID.
+	 * @param int $item_id The activity ID.
 	 * @return string
 	 */
 	protected function set_iframe_title( $item_id ) {
@@ -254,7 +254,7 @@ class BP_Activity_oEmbed_Extension extends BP_Core_oEmbed_Extension {
 	 *
 	 * @since 2.6.0
 	 *
-	 * @param  string $retval Current embed HTML.
+	 * @param string $retval Current embed HTML.
 	 * @return string
 	 */
 	public function modify_iframe( $retval ) {

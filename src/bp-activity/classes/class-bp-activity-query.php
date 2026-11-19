@@ -122,8 +122,8 @@ class BP_Activity_Query extends BP_Recursive_Query {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @param  array $clause       Array of arguments belonging to the clause.
-	 * @param  array $parent_query Parent query to which the clause belongs.
+	 * @param array $clause       Array of arguments belonging to the clause.
+	 * @param array $parent_query Parent query to which the clause belongs.
 	 * @return array {
 	 *     @type array $where Array of subclauses for the WHERE statement.
 	 *     @type array $join  Empty array. Not used.

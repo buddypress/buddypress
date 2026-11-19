@@ -29,7 +29,7 @@ add_action( 'bp_loaded', 'bp_activity_setup_oembed' );
  *
  * @since 2.6.0
  *
- * @param  string $text Embed excerpt.
+ * @param string $text Embed excerpt.
  * @return string
  */
 function bp_activity_embed_excerpt_onclick_location_filter( $text ) {
@@ -40,7 +40,7 @@ function bp_activity_embed_excerpt_onclick_location_filter( $text ) {
 	 *
 	 * @since 2.6.0
 	 *
-	 * @param  array $matches Items matched by bp_activity_embed_excerpt_onclick_location_filter().
+	 * @param array $matches Items matched by bp_activity_embed_excerpt_onclick_location_filter().
 	 * @return string
 	 */
 	function bp_activity_embed_excerpt_onclick_location_filter_callback( $matches ) {
@@ -88,7 +88,7 @@ add_action( 'embed_head', 'bp_activity_embed_add_inline_styles', 20 );
  *
  * @global BP_Activity_Template $activities_template The Activity template loop.
  *
- * @param  int $activity_id Optional. The activity ID.
+ * @param int $activity_id Optional. The activity ID.
  * @return bool
  */
 function bp_activity_embed_has_activity( $activity_id = 0 ) {
@@ -136,7 +136,7 @@ function bp_activity_embed_excerpt( $content = '' ) {
 	 *
 	 * @global BP_Activity_Template $activities_template The Activity template loop.
 	 *
-	 * @param  string $content Optional. The content to generate an excerpt for.
+	 * @param string $content Optional. The content to generate an excerpt for.
 	 * @return string
 	 */
 	function bp_activity_get_embed_excerpt( $content = '' ) {

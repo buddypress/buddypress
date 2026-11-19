@@ -360,7 +360,7 @@ class BP_Activity_REST_Controller extends WP_REST_Controller {
 	 *
 	 * @since 15.0.0
 	 *
-	 * @param  WP_REST_Request $request Full data about the request.
+	 * @param WP_REST_Request $request Full data about the request.
 	 * @return WP_REST_Response|WP_Error
 	 */
 	public function create_item( $request ) {
@@ -580,7 +580,7 @@ class BP_Activity_REST_Controller extends WP_REST_Controller {
 	 *
 	 * @since 15.0.0
 	 *
-	 * @param  WP_REST_Request $request Full details about the request.
+	 * @param WP_REST_Request $request Full details about the request.
 	 * @return true|WP_Error
 	 */
 	public function update_item_permissions_check( $request ) {
@@ -680,7 +680,7 @@ class BP_Activity_REST_Controller extends WP_REST_Controller {
 	 *
 	 * @since 15.0.0
 	 *
-	 * @param  WP_REST_Request $request Full details about the request.
+	 * @param WP_REST_Request $request Full details about the request.
 	 * @return true|WP_Error
 	 */
 	public function delete_item_permissions_check( $request ) {
@@ -810,7 +810,7 @@ class BP_Activity_REST_Controller extends WP_REST_Controller {
 	 *
 	 * @since 15.0.0
 	 *
-	 * @param  WP_REST_Request $request Full details about the request.
+	 * @param WP_REST_Request $request Full details about the request.
 	 * @return true|WP_Error
 	 */
 	public function update_favorite_permissions_check( $request ) {
@@ -969,8 +969,8 @@ class BP_Activity_REST_Controller extends WP_REST_Controller {
 	 *
 	 * @since 15.0.0
 	 *
-	 * @param  array           $comments Array of comments.
-	 * @param  WP_REST_Request $request  Full details about the request.
+	 * @param array           $comments Array of comments.
+	 * @param WP_REST_Request $request  Full details about the request.
 	 * @return array           An array of activity comments.
 	 */
 	protected function prepare_activity_comments( $comments, $request ) {
@@ -1191,7 +1191,7 @@ class BP_Activity_REST_Controller extends WP_REST_Controller {
 	 *
 	 * @since 15.0.0
 	 *
-	 * @param  WP_REST_Request $request Full details about the request.
+	 * @param WP_REST_Request $request Full details about the request.
 	 * @return bool
 	 */
 	protected function can_see( $request ) {
@@ -1206,8 +1206,8 @@ class BP_Activity_REST_Controller extends WP_REST_Controller {
 	 *
 	 * @since 15.0.0
 	 *
-	 * @param  string $component The component the activity is from.
-	 * @param  int    $item_id   The activity item ID.
+	 * @param string $component The component the activity is from.
+	 * @param int    $item_id   The activity item ID.
 	 * @return bool
 	 */
 	protected function show_hidden( $component, $item_id ) {
@@ -1245,7 +1245,7 @@ class BP_Activity_REST_Controller extends WP_REST_Controller {
 	 *
 	 * @since 15.0.0
 	 *
-	 * @param  WP_REST_Request|int $request Request object or ID.
+	 * @param WP_REST_Request|int $request Request object or ID.
 	 * @return BP_Activity_Activity|string An activity object.
 	 */
 	public function get_activity_object( $request ) {

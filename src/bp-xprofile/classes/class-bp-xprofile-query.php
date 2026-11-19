@@ -161,7 +161,7 @@ class BP_XProfile_Query {
 	 *
 	 * @since 2.2.0
 	 *
-	 * @param  array $query XProfile query arguments.
+	 * @param array $query XProfile query arguments.
 	 * @return bool  Whether the query clause is a first-order clause.
 	 */
 	protected function is_first_order_clause( $query ) {
@@ -231,8 +231,8 @@ class BP_XProfile_Query {
 	 *
 	 * @since 2.2.0
 	 *
-	 * @param  array $query Query to parse. Passed by reference.
-	 * @param  int   $depth Optional. Number of tree levels deep we currently are. Used to calculate indentation.
+	 * @param array $query Query to parse. Passed by reference.
+	 * @param int   $depth Optional. Number of tree levels deep we currently are. Used to calculate indentation.
 	 * @return array {
 	 *     Array containing JOIN and WHERE SQL clauses to append to a single query array.
 	 *

@@ -750,8 +750,8 @@ class BP_XProfile_Group {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @param  int $field_group_id ID of the group the field belongs to.
-	 * @param  int $position       Field group position.
+	 * @param int $field_group_id ID of the group the field belongs to.
+	 * @param int $position       Field group position.
 	 * @return bool
 	 */
 	public static function update_position( $field_group_id, $position ) {

@@ -1605,7 +1605,7 @@ function bp_displayed_user_front_template_part() {
  *
  * @since 2.6.0
  *
- * @param  object|null $displayed_user Optional. Falls back to current user if not passed.
+ * @param object|null $displayed_user Optional. Falls back to current user if not passed.
  * @return string|bool                 Path to front template on success; boolean false on failure.
  */
 function bp_displayed_user_get_front_template( $displayed_user = null ) {

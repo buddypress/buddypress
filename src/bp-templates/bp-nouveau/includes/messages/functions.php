@@ -90,7 +90,7 @@ function bp_nouveau_messages_enqueue_scripts() {
  *
  * @since 3.0.0
  *
- * @param  array $params Optional. Associative array containing the JS Strings needed by scripts.
+ * @param array $params Optional. Associative array containing the JS Strings needed by scripts.
  * @return array         The same array with specific strings for the messages UI if needed.
  */
 function bp_nouveau_messages_localize_scripts( $params = array() ) {

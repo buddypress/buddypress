@@ -715,7 +715,7 @@ class BP_Nouveau extends BP_Theme_Compat {
 	 * @since 3.0.0
 	 * @since 12.0.0 Only fired for regular themes when BP Classic is activated.
 	 *
-	 * @param  string $path The BP Uri.
+	 * @param string $path The BP Uri.
 	 * @return string
 	 */
 	public function customizer_set_uri( $path ) {

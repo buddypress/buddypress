@@ -789,8 +789,8 @@ class BP_Activity_List_Table extends WP_List_Table {
 			 *
 			 * @since  2.4.0
 			 *
-			 * @param  string $content The activity content.
-			 * @param  array  $item    The activity object converted into an array.
+			 * @param string $content The activity content.
+			 * @param array  $item    The activity object converted into an array.
 			 */
 			'bp_activity_admin_comment_content',
 			$content,

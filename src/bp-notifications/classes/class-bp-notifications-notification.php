@@ -929,8 +929,8 @@ class BP_Notifications_Notification {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @param  array $meta_query Optional. An array of meta_query filters. See the
-	 *                           documentation for WP_Meta_Query for details.
+	 * @param array $meta_query Optional. An array of meta_query filters. See the
+	 *                          documentation for WP_Meta_Query for details.
 	 * @return array 'join' and 'where' clauses.
 	 */
 	public static function get_meta_query_sql( $meta_query = array() ) {

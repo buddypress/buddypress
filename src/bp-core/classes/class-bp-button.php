@@ -392,7 +392,7 @@ class BP_Button {
 	 *
 	 * @since 2.7.0.
 	 *
-	 * @param  array $r Optional. See {@see BP_Button} class for full documentation.
+	 * @param array $r Optional. See {@see BP_Button} class for full documentation.
 	 * @return array
 	 */
 	protected function backward_compatibility_args( $r = array() ) {

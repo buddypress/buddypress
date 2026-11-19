@@ -782,7 +782,7 @@ class BP_Groups_Group {
 	 *
 	 * @since 2.9.0
 	 *
-	 * @param  string $slug Slug to check.
+	 * @param string $slug Slug to check.
 	 * @return int|null|false       Group ID if found; null if not; false if missing parameters.
 	 */
 	public static function get_id_by_previous_slug( $slug ) {
@@ -821,12 +821,12 @@ class BP_Groups_Group {
 	 * @since 1.6.0
 	 * @since 2.9.0 Added $sent as a parameter.
 	 *
-	 * @param  int      $user_id  ID of the inviting user.
-	 * @param  int      $group_id ID of the group.
-	 * @param  int|null $sent     Optional. Query for a specific invite sent status. If 0, this will query for users
-	 *                            that haven't had an invite sent to them yet. If 1, this will query for
-	 *                            users that have had an invite sent to them. If null, no invite status will
-	 *                            queried. Default: null.
+	 * @param int      $user_id  ID of the inviting user.
+	 * @param int      $group_id ID of the group.
+	 * @param int|null $sent     Optional. Query for a specific invite sent status. If 0, this will query for users
+	 *                           that haven't had an invite sent to them yet. If 1, this will query for
+	 *                           users that have had an invite sent to them. If null, no invite status will
+	 *                           queried. Default: null.
 	 * @return array    IDs of users who have been invited to the group by the user but have not
 	 *                  yet accepted.
 	 */
@@ -1681,8 +1681,8 @@ class BP_Groups_Group {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @param  string|array $group_types Group type(s).
-	 * @param  string       $operator    'IN' or 'NOT IN'.
+	 * @param string|array $group_types Group type(s).
+	 * @param string       $operator    'IN' or 'NOT IN'.
 	 *
 	 * @return string SQL clause.
 	 */

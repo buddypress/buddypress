@@ -773,7 +773,7 @@ add_action( 'network_admin_notices', 'bp_core_admin_notice_repopulate_blogs_resu
  *
  * @since 5.0.0
  *
- * @param  array $debug_info Optional. The Site's debug info.
+ * @param array $debug_info Optional. The Site's debug info.
  * @return array             The Site's debug info, including the BuddyPress specific ones.
  */
 function bp_core_admin_debug_information( $debug_info = array() ) {

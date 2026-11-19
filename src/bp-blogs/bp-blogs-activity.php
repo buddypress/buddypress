@@ -1283,7 +1283,7 @@ add_filter( 'bp_activity_can_comment', 'bp_blogs_disable_activity_commenting' );
  * be displayed twice, and avoids a Javascript error as the form to add replies
  * is not available.
  *
- * @param  int $retval  The comment count for the activity.
+ * @param int $retval  The comment count for the activity.
  * @return int          The comment count, or 0 to hide activity comment replies.
  */
 function bp_blogs_post_type_comments_avoid_duplicates( $retval ) {

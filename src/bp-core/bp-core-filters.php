@@ -946,7 +946,7 @@ add_filter( 'customize_nav_menu_available_items', 'bp_customizer_nav_menus_get_i
  *
  * @since 2.3.3
  *
- * @param  array $item_types Optional. An associative array structured for the customizer.
+ * @param array $item_types Optional. An associative array structured for the customizer.
  * @return array An associative array structured for the customizer.
  */
 function bp_customizer_nav_menus_set_item_types( $item_types = array() ) {
