@@ -411,7 +411,7 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/8552
+	 * @link https://buddypress.trac.wordpress.org/ticket/8552
 	 * @group cache
 	 */
 	public function test_signup_query_with_ids_cache_results() {
@@ -447,7 +447,7 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/8552
+	 * @link https://buddypress.trac.wordpress.org/ticket/8552
 	 * @group cache
 	 */
 	public function test_signup_query_with_all_cache_results() {
@@ -715,7 +715,7 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/9137
+	 * @link https://buddypress.trac.wordpress.org/ticket/9137
 	 */
 	public function test_bp_core_signup_resend_email_activation() {
 		$s1 = self::factory()->signup->create_and_get(

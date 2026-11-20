@@ -6,7 +6,7 @@
 class BP_Tests_Activity_Functions extends BP_UnitTestCase {
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/4488
+	 * @link https://buddypress.trac.wordpress.org/ticket/4488
 	 */
 	public function test_thumbnail_content_images() {
 		// No images
@@ -245,7 +245,7 @@ class BP_Tests_Activity_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/5180
+	 * @link https://buddypress.trac.wordpress.org/ticket/5180
 	 */
 	public function test_bp_activity_update_meta_with_line_breaks() {
 		$a = self::factory()->activity->create();
@@ -258,7 +258,7 @@ Bar!';
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/5083
+	 * @link https://buddypress.trac.wordpress.org/ticket/5083
 	 */
 	public function test_bp_activity_update_meta_with_0() {
 		$a = self::factory()->activity->create();
@@ -274,7 +274,7 @@ Bar!';
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/5399
+	 * @link https://buddypress.trac.wordpress.org/ticket/5399
 	 */
 	public function test_bp_activity_update_meta_with_illegal_key_characters() {
 		$a = self::factory()->activity->create();
@@ -339,7 +339,7 @@ Bar!';
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/5399
+	 * @link https://buddypress.trac.wordpress.org/ticket/5399
 	 */
 	public function test_bp_activity_get_meta_with_illegal_characters() {
 		$a = self::factory()->activity->create();
@@ -367,7 +367,7 @@ Bar!';
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/5399
+	 * @link https://buddypress.trac.wordpress.org/ticket/5399
 	 */
 	public function test_bp_activity_get_meta_no_results_returns_false() {
 		$a = self::factory()->activity->create();
@@ -411,7 +411,7 @@ Bar!';
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/5399
+	 * @link https://buddypress.trac.wordpress.org/ticket/5399
 	 */
 	public function test_bp_activity_delete_meta_trim_meta_value() {
 		$a = self::factory()->activity->create();
@@ -606,7 +606,7 @@ Bar!';
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/8120
+	 * @link https://buddypress.trac.wordpress.org/ticket/8120
 	 */
 	public function test_bp_activity_format_activity_action_children_activity_comment() {
 		$u = self::factory()->user->create();
@@ -1144,7 +1144,7 @@ Bar!';
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/7450
+	 * @link https://buddypress.trac.wordpress.org/ticket/7450
 	 */
 	public function test_bp_activity_delete_comment_shouldnt_delete_all_comments_when_parameters_are_empty() {
 		$u = self::factory()->user->create();
@@ -1190,7 +1190,7 @@ Bar!';
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/5907
+	 * @link https://buddypress.trac.wordpress.org/ticket/5907
 	 */
 	public function test_bp_activity_comment_on_deleted_activity() {
 		$u = self::factory()->user->create();
@@ -1659,8 +1659,8 @@ Bar!';
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/7818
-	 * @see https://buddypress.trac.wordpress.org/ticket/7698
+	 * @link https://buddypress.trac.wordpress.org/ticket/7818
+	 * @link https://buddypress.trac.wordpress.org/ticket/7698
 	 */
 	public function test_bp_activity_personal_data_exporter() {
 		$u = self::factory()->user->create();
@@ -1709,7 +1709,7 @@ Bar!';
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/8175
+	 * @link https://buddypress.trac.wordpress.org/ticket/8175
 	 */
 	public function test_activity_data_should_be_deleted_on_user_delete_non_multisite() {
 		$this->skipWithMultisite();
@@ -1759,7 +1759,7 @@ Bar!';
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/8175
+	 * @link https://buddypress.trac.wordpress.org/ticket/8175
 	 */
 	public function test_activity_data_should_be_deleted_on_user_delete_multisite() {
 		$this->skipWithoutMultisite();
@@ -1809,7 +1809,7 @@ Bar!';
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/8175
+	 * @link https://buddypress.trac.wordpress.org/ticket/8175
 	 */
 	public function test_activity_data_should_not_be_deleted_on_wp_delete_user_multisite() {
 		$this->skipWithoutMultisite();
@@ -1859,7 +1859,7 @@ Bar!';
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/8591
+	 * @link https://buddypress.trac.wordpress.org/ticket/8591
 	 */
 	public function test_activity_admin_screen_count_activities() {
 		$u1 = self::factory()->user->create();

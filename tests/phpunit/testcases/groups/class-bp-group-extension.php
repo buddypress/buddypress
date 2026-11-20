@@ -700,7 +700,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/7131
+	 * @link https://buddypress.trac.wordpress.org/ticket/7131
 	 */
 	public function test_widget_on_group_home_page() {
 		$this->set_permalink_structure( '/%postname%/' );
@@ -722,7 +722,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/7131
+	 * @link https://buddypress.trac.wordpress.org/ticket/7131
 	 */
 	public function test_widget_on_group_members_page() {
 		$this->set_permalink_structure( '/%postname%/' );
@@ -751,7 +751,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/8558
+	 * @link https://buddypress.trac.wordpress.org/ticket/8558
 	 */
 	public function test_adding_multiple_extension_classes() {
 		$this->set_permalink_structure( '/%postname%/' );

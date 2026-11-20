@@ -624,7 +624,7 @@ add_action( 'after_setup_theme', 'bp_dtheme_deprecated', 15 );
 /**
  * In BP 1.5, the Settings functions were moved out of the Core and Members
  * components, and moved into a new Settings component. This function is no
- * longer needed as the nav structure is set up by the {@link BP_Component} class.
+ * longer needed as the nav structure is set up by the {@see BP_Component} class.
  *
  * @deprecated 1.5.0
  * @since 1.6.0

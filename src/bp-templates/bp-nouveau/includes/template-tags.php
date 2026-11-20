@@ -1862,7 +1862,7 @@ function bp_nouveau_search_container_class() {
  *
  * @since 3.0.0
  *
- * @param  string $attr Optional. The data-bp attribute.
+ * @param string $attr Optional. The data-bp attribute.
  * @return string The data-bp attribute.
  */
 function bp_nouveau_search_object_data_attr( $attr = '' ) {
@@ -1899,8 +1899,8 @@ function bp_nouveau_search_selector_id( $suffix = '', $sep = '-' ) {
  *
  * @since 3.0.0
  *
- * @param  string $suffix Optional. A string to append at the end of the name.
- * @param  string $sep    Optional. The separator to use between each token.
+ * @param string $suffix Optional. A string to append at the end of the name.
+ * @param string $sep    Optional. The separator to use between each token.
  */
 function bp_nouveau_search_selector_name( $suffix = '', $sep = '_' ) {
 	$objects = bp_nouveau_get_search_objects();
@@ -1922,8 +1922,8 @@ function bp_nouveau_search_selector_name( $suffix = '', $sep = '_' ) {
  *
  * @since 3.0.0
  *
- * @param  string $text    Optional. The default search text for the search object.
- * @param  string $is_attr Optional. True if it's to be output inside an attribute. False otherwise.
+ * @param string $text    Optional. The default search text for the search object.
+ * @param string $is_attr Optional. True if it's to be output inside an attribute. False otherwise.
  */
 function bp_nouveau_search_default_text( $text = '', $is_attr = true ) {
 	$objects = bp_nouveau_get_search_objects();

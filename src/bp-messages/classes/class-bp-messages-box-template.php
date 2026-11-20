@@ -337,7 +337,7 @@ class BP_Messages_Box_Template {
 	/**
 	 * Whether there are threads left in the loop to iterate over.
 	 *
-	 * This method is used by {@link bp_message_threads()} as part of the
+	 * This method is used by {@see bp_message_threads()} as part of the
 	 * while loop that controls iteration inside the threads loop, eg:
 	 *     while ( bp_message_threads() ) { ...
 	 *
@@ -367,7 +367,7 @@ class BP_Messages_Box_Template {
 	/**
 	 * Set up the current thread inside the loop.
 	 *
-	 * Used by {@link bp_message_thread()} to set up the current thread data
+	 * Used by {@see bp_message_thread()} to set up the current thread data
 	 * while looping, so that template tags used during that iteration make
 	 * reference to the current thread.
 	 *

@@ -19,7 +19,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @return string
  *
- * @since 3.0
+ * @since 3.0.0
  */
 function bp_nouveau_message_markup_wrapper( $message, $type ) {
 	if ( ! $message ) {
@@ -363,7 +363,7 @@ function bp_nouveau_get_group_potential_invites( $args = array() ) {
  * @since 10.0.0 The function is no more creating a Group invite step.
  *
  * @param array $steps Optional. The Group create steps.
- * @return array       The Group create steps.
+ * @return array The Group create steps.
  */
 function bp_nouveau_group_invites_create_steps( $steps = array() ) {
 	if ( isset( $steps['group-invites'] ) ) {
@@ -637,7 +637,7 @@ function bp_nouveau_get_groups_directory_nav_items() {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param  array $nav_items The list of the groups directory nav items.
+	 * @param array $nav_items The list of the groups directory nav items.
 	 */
 	return apply_filters( 'bp_nouveau_get_groups_directory_nav_items', $nav_items );
 }

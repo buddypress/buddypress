@@ -575,7 +575,7 @@ class BP_Nouveau extends BP_Theme_Compat {
 	 * Filter the default theme compatibility root template hierarchy, and prepend
 	 * a page template to the front if it's set.
 	 *
-	 * @see https://buddypress.trac.wordpress.org/ticket/6065
+	 * @link https://buddypress.trac.wordpress.org/ticket/6065
 	 *
 	 * @since 3.0.0
 	 *
@@ -633,7 +633,7 @@ class BP_Nouveau extends BP_Theme_Compat {
 			 * Check for existence of template before adding it to template
 			 * stack to avoid accidentally including an unintended file.
 			 *
-			 * @see https://buddypress.trac.wordpress.org/ticket/6190
+			 * @link https://buddypress.trac.wordpress.org/ticket/6190
 			 */
 			if ( '' !== locate_template( $page_template ) ) {
 				array_unshift( $templates, $page_template );
@@ -715,7 +715,7 @@ class BP_Nouveau extends BP_Theme_Compat {
 	 * @since 3.0.0
 	 * @since 12.0.0 Only fired for regular themes when BP Classic is activated.
 	 *
-	 * @param  string $path The BP Uri.
+	 * @param string $path The BP Uri.
 	 * @return string
 	 */
 	public function customizer_set_uri( $path ) {

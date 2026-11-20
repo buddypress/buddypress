@@ -277,8 +277,6 @@ class BP_XProfile_Field {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @static
-	 *
 	 * @param int      $field_id ID of the field.
 	 * @param int|null $user_id  Optional. ID of the user associated with the field.
 	 *                           Ignored if `$get_data` is false. If `$get_data` is

@@ -6,7 +6,7 @@
 class BP_Tests_BP_XProfile_Group extends BP_UnitTestCase {
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/6552
+	 * @link https://buddypress.trac.wordpress.org/ticket/6552
 	 */
 	public function test_save_should_not_return_false_when_no_fields_have_been_altered() {
 		$g     = self::factory()->xprofile_group->create();
@@ -18,7 +18,7 @@ class BP_Tests_BP_XProfile_Group extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/7916
+	 * @link https://buddypress.trac.wordpress.org/ticket/7916
 	 */
 	public function test_delete_xprofile_group() {
 		$g = self::factory()->xprofile_group->create();
@@ -130,7 +130,7 @@ class BP_Tests_BP_XProfile_Group extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/4075
+	 * @link https://buddypress.trac.wordpress.org/ticket/4075
 	 */
 	public function test_get_specific_xprofile_groups() {
 		$g1 = self::factory()->xprofile_group->create();
@@ -150,7 +150,7 @@ class BP_Tests_BP_XProfile_Group extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/5192
+	 * @link https://buddypress.trac.wordpress.org/ticket/5192
 	 */
 	public function test_member_type_restrictions_should_be_ignored_when_user_id_is_null_and_member_type_is_not_explicitly_provided() {
 		$g = self::factory()->xprofile_group->create();
@@ -178,7 +178,7 @@ class BP_Tests_BP_XProfile_Group extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/5192
+	 * @link https://buddypress.trac.wordpress.org/ticket/5192
 	 */
 	public function test_member_type_restrictions_should_be_ignored_when_user_id_is_0_and_member_type_is_false() {
 		$g = self::factory()->xprofile_group->create();
@@ -207,7 +207,7 @@ class BP_Tests_BP_XProfile_Group extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/5192
+	 * @link https://buddypress.trac.wordpress.org/ticket/5192
 	 */
 	public function test_member_type_restrictions_should_be_obeyed_for_nonzero_user_id() {
 		$g  = self::factory()->xprofile_group->create();
@@ -257,7 +257,7 @@ class BP_Tests_BP_XProfile_Group extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/5192
+	 * @link https://buddypress.trac.wordpress.org/ticket/5192
 	 */
 	public function test_member_type_restrictions_should_be_obeyed_for_nonzero_user_id_with_no_member_types() {
 		$g  = self::factory()->xprofile_group->create();
@@ -300,7 +300,7 @@ class BP_Tests_BP_XProfile_Group extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/5192
+	 * @link https://buddypress.trac.wordpress.org/ticket/5192
 	 */
 	public function test_member_types_of_provided_user_id_should_take_precedence_over_provided_member_type() {
 		$g  = self::factory()->xprofile_group->create();
@@ -336,7 +336,7 @@ class BP_Tests_BP_XProfile_Group extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/5192
+	 * @link https://buddypress.trac.wordpress.org/ticket/5192
 	 */
 	public function test_member_type_single_value_should_be_respected() {
 		$g  = self::factory()->xprofile_group->create();
@@ -369,7 +369,7 @@ class BP_Tests_BP_XProfile_Group extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/5192
+	 * @link https://buddypress.trac.wordpress.org/ticket/5192
 	 */
 	public function test_member_type_array_value_should_be_respected() {
 		$g  = self::factory()->xprofile_group->create();
@@ -402,7 +402,7 @@ class BP_Tests_BP_XProfile_Group extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/5192
+	 * @link https://buddypress.trac.wordpress.org/ticket/5192
 	 */
 	public function test_member_type_null_should_be_respected() {
 		$g  = self::factory()->xprofile_group->create();
@@ -468,7 +468,7 @@ class BP_Tests_BP_XProfile_Group extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/4075
+	 * @link https://buddypress.trac.wordpress.org/ticket/4075
 	 */
 	public function test_group_ids_query() {
 		$g1 = self::factory()->xprofile_group->create();
@@ -509,7 +509,7 @@ class BP_Tests_BP_XProfile_Group extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/7435
+	 * @link https://buddypress.trac.wordpress.org/ticket/7435
 	 * @group cache
 	 */
 	public function test_group_ids_query_should_be_cached() {
@@ -548,7 +548,7 @@ class BP_Tests_BP_XProfile_Group extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/7435
+	 * @link https://buddypress.trac.wordpress.org/ticket/7435
 	 * @group cache
 	 */
 	public function test_group_ids_query_cache_should_be_busted_on_group_delete() {
@@ -570,7 +570,7 @@ class BP_Tests_BP_XProfile_Group extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/7435
+	 * @link https://buddypress.trac.wordpress.org/ticket/7435
 	 * @group cache
 	 */
 	public function test_group_ids_query_cache_should_be_busted_on_group_save() {
@@ -597,7 +597,7 @@ class BP_Tests_BP_XProfile_Group extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/7435
+	 * @link https://buddypress.trac.wordpress.org/ticket/7435
 	 * @group cache
 	 */
 	public function test_group_ids_query_cache_should_be_busted_on_field_save() {
@@ -630,7 +630,7 @@ class BP_Tests_BP_XProfile_Group extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/7435
+	 * @link https://buddypress.trac.wordpress.org/ticket/7435
 	 * @group cache
 	 */
 	public function test_group_ids_query_cache_should_be_busted_on_field_delete() {
@@ -662,7 +662,7 @@ class BP_Tests_BP_XProfile_Group extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/7435
+	 * @link https://buddypress.trac.wordpress.org/ticket/7435
 	 * @group cache
 	 */
 	public function test_group_field_ids_query_cache() {
@@ -690,7 +690,7 @@ class BP_Tests_BP_XProfile_Group extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/7435
+	 * @link https://buddypress.trac.wordpress.org/ticket/7435
 	 * @group cache
 	 */
 	public function test_group_field_ids_query_cache_should_be_busted_on_field_save() {
@@ -718,7 +718,7 @@ class BP_Tests_BP_XProfile_Group extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/7435
+	 * @link https://buddypress.trac.wordpress.org/ticket/7435
 	 * @group cache
 	 */
 	public function test_group_field_ids_query_cache_should_be_busted_on_field_delete() {
@@ -742,7 +742,7 @@ class BP_Tests_BP_XProfile_Group extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/8552
+	 * @link https://buddypress.trac.wordpress.org/ticket/8552
 	 * @group cache
 	 */
 	public function test_group_query_getter_with_cache_results() {

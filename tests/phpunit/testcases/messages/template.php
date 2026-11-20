@@ -356,7 +356,7 @@ class BP_Tests_Messages_Template extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/8750
+	 * @link https://buddypress.trac.wordpress.org/ticket/8750
 	 */
 	public function test_thread_unread_count_setting_per_page_recipients() {
 		$u1 = self::factory()->user->create();
@@ -403,7 +403,7 @@ class BP_Tests_Messages_Template extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/8750
+	 * @link https://buddypress.trac.wordpress.org/ticket/8750
 	 */
 	public function test_thread_unread_count_setting_per_page_recipients_with_specific_user_id() {
 		$u1 = self::factory()->user->create();

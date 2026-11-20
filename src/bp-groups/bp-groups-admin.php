@@ -402,13 +402,7 @@ function bp_groups_admin_load() {
 			}
 		}
 
-		/**
-		 * Filters the allowed invite status values for the group.
-		 *
-		 * @since 1.5.0
-		 *
-		 * @param array $value Array of allowed invite statuses.
-		 */
+		/** This filter is documented in bp-groups/actions/create.php */
 		$allowed_invite_status     = apply_filters( 'groups_allowed_invite_status', array( 'members', 'mods', 'admins' ) );
 		$invite_status             = 'members';
 		$is_updating_invite_status = false;
@@ -1664,9 +1658,9 @@ add_action( bp_core_admin_hook(), 'bp_groups_admin_groups_type_change_notice' );
  *
  * @since 7.0.0
  *
- * @param  bool   $exists  Optional. True if the group type already exists. False otherwise.
- * @param  string $type_id Optional. The group type identifier.
- * @return bool          True if the group type already exists. False otherwise.
+ * @param bool   $exists  Optional. True if the group type already exists. False otherwise.
+ * @param string $type_id Optional. The group type identifier.
+ * @return bool True if the group type already exists. False otherwise.
  */
 function bp_groups_type_admin_type_exists( $exists = false, $type_id = '' ) {
 	if ( ! $type_id ) {
@@ -1683,7 +1677,7 @@ add_filter( bp_get_group_type_tax_name() . '_check_existing_type', 'bp_groups_ty
  * @since 7.0.0
  *
  * @param array $messages Optional. The feedback messages.
- * @return array           The feedback messages including the ones for the Group Types Admin actions.
+ * @return array The feedback messages including the ones for the Group Types Admin actions.
  */
 function bp_groups_type_admin_updated_messages( $messages = array() ) {
 	$type_taxonomy = bp_get_group_type_tax_name();

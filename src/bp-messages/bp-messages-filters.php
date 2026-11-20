@@ -95,7 +95,7 @@ add_filter( 'wp_privacy_personal_data_exporters', 'bp_messages_register_personal
  *
  * @see bp_has_message_threads() for description of parameters
  *
- * @param array|string $args Optional. See {@link bp_has_message_threads()}.
+ * @param array|string $args Optional. See {@see bp_has_message_threads()}.
  * @return array|string
  */
 function bp_messages_enforce_current_user( $args = array() ) {
@@ -119,7 +119,7 @@ add_filter( 'bp_after_has_message_threads_parse_args', 'bp_messages_enforce_curr
  * @since 3.0.0
  *
  * @param string $content The message content.
- * @return string         The filtered message content.
+ * @return string The filtered message content.
  */
 function bp_messages_filter_kses( $content ) {
 	$messages_allowedtags      = bp_get_allowedtags();

@@ -194,7 +194,7 @@ class BP_Tests_XProfile_Field_Type extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/7162
+	 * @link https://buddypress.trac.wordpress.org/ticket/7162
 	 */
 	public function test_xprofile_field_type_test_supports() {
 		$group_id = self::factory()->xprofile_group->create();

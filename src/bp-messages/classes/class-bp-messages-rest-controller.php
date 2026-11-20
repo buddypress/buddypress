@@ -573,7 +573,7 @@ class BP_Messages_REST_Controller extends WP_REST_Controller {
 	 *
 	 * @since 15.0.0
 	 *
-	 * @param  WP_REST_Request $request Full details about the request.
+	 * @param WP_REST_Request $request Full details about the request.
 	 * @return true|WP_Error
 	 */
 	public function update_item_permissions_check( $request ) {
@@ -916,7 +916,7 @@ class BP_Messages_REST_Controller extends WP_REST_Controller {
 	 *
 	 * @param object          $recipient The recipient object.
 	 * @param WP_REST_Request $request   Full details about the request.
-	 * @return array                     The recipient data for the REST response.
+	 * @return array The recipient data for the REST response.
 	 */
 	public function prepare_recipient_for_response( $recipient, $request ) {
 		$display_name = '';

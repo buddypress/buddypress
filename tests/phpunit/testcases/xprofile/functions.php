@@ -47,7 +47,7 @@ class BP_Tests_XProfile_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/5180
+	 * @link https://buddypress.trac.wordpress.org/ticket/5180
 	 */
 	public function test_bp_xprofile_update_meta_with_line_breaks() {
 		$g = self::factory()->xprofile_group->create();
@@ -136,7 +136,7 @@ Bar!';
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/5399
+	 * @link https://buddypress.trac.wordpress.org/ticket/5399
 	 */
 	public function test_bp_xprofile_delete_meta_illegal_characters() {
 		$g = self::factory()->xprofile_group->create();
@@ -149,7 +149,7 @@ Bar!';
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/5399
+	 * @link https://buddypress.trac.wordpress.org/ticket/5399
 	 */
 	public function test_bp_xprofile_delete_meta_trim_meta_value() {
 		$g = self::factory()->xprofile_group->create();
@@ -277,7 +277,7 @@ Bar!';
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/5399
+	 * @link https://buddypress.trac.wordpress.org/ticket/5399
 	 */
 	public function test_bp_xprofile_update_meta_illegal_characters() {
 		$g = self::factory()->xprofile_group->create();
@@ -331,7 +331,7 @@ Bar!';
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/5919
+	 * @link https://buddypress.trac.wordpress.org/ticket/5919
 	 */
 	public function test_bp_xprofile_update_meta_where_sql_filter_keywords_are_in_quoted_value() {
 		$g = self::factory()->xprofile_group->create();
@@ -342,7 +342,7 @@ Bar!';
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/5919
+	 * @link https://buddypress.trac.wordpress.org/ticket/5919
 	 */
 	public function test_bp_xprofile_update_meta_where_meta_id_is_in_quoted_value() {
 		$g = self::factory()->xprofile_group->create();
@@ -425,7 +425,7 @@ Bar!';
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/5836
+	 * @link https://buddypress.trac.wordpress.org/ticket/5836
 	 */
 	public function test_xprofile_sync_bp_profile_new_user() {
 		$post_vars = $_POST;
@@ -478,7 +478,7 @@ Bar!';
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/6354
+	 * @link https://buddypress.trac.wordpress.org/ticket/6354
 	 */
 	public function test_xprofile_insert_field_should_process_falsey_values_for_boolean_params_on_existing_fields() {
 		$g = self::factory()->xprofile_group->create();
@@ -536,7 +536,7 @@ Bar!';
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/9130
+	 * @link https://buddypress.trac.wordpress.org/ticket/9130
 	 */
 	public function test_xprofile_update_keep_parent_id() {
 		$g      = self::factory()->xprofile_group->create();
@@ -593,7 +593,7 @@ Bar!';
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/6137
+	 * @link https://buddypress.trac.wordpress.org/ticket/6137
 	 */
 	public function test_xprofile_insert_field_should_set_is_default_option_to_false_for_new_option() {
 		$g = self::factory()->xprofile_group->create();
@@ -618,7 +618,7 @@ Bar!';
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/6137
+	 * @link https://buddypress.trac.wordpress.org/ticket/6137
 	 */
 	public function test_xprofile_insert_field_should_set_is_default_option_to_true_for_new_option() {
 		$g = self::factory()->xprofile_group->create();
@@ -643,7 +643,7 @@ Bar!';
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/6137
+	 * @link https://buddypress.trac.wordpress.org/ticket/6137
 	 */
 	public function test_xprofile_insert_field_should_set_is_default_option_to_false_for_existing_option() {
 		$g = self::factory()->xprofile_group->create();
@@ -678,7 +678,7 @@ Bar!';
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/6137
+	 * @link https://buddypress.trac.wordpress.org/ticket/6137
 	 */
 	public function test_xprofile_insert_field_should_set_is_default_option_to_true_for_existing_option() {
 		$g = self::factory()->xprofile_group->create();
@@ -733,7 +733,7 @@ Bar!';
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/6638
+	 * @link https://buddypress.trac.wordpress.org/ticket/6638
 	 */
 	public function test_xprofile_get_field_should_return_bp_xprofile_field_object() {
 		global $wpdb;
@@ -751,7 +751,7 @@ Bar!';
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/6638
+	 * @link https://buddypress.trac.wordpress.org/ticket/6638
 	 * @group cache
 	 */
 	public function test_xprofile_get_field_should_prime_field_cache() {
@@ -794,7 +794,7 @@ Bar!';
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/5625
+	 * @link https://buddypress.trac.wordpress.org/ticket/5625
 	 */
 	public function test_bp_xprofie_is_richtext_enabled_for_field_should_default_to_true_for_textareas() {
 		$g = self::factory()->xprofile_group->create();
@@ -807,7 +807,7 @@ Bar!';
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/5625
+	 * @link https://buddypress.trac.wordpress.org/ticket/5625
 	 */
 	public function test_bp_xprofie_is_richtext_enabled_for_field_should_default_to_false_for_non_textareas() {
 		$g = self::factory()->xprofile_group->create();
@@ -940,8 +940,8 @@ Bar!';
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/7817
-	 * @see https://buddypress.trac.wordpress.org/ticket/7698
+	 * @link https://buddypress.trac.wordpress.org/ticket/7817
+	 * @link https://buddypress.trac.wordpress.org/ticket/7698
 	 */
 	public function test_bp_xprofile_personal_data_exporter() {
 		$u = self::factory()->user->create();
@@ -997,7 +997,7 @@ Bar!';
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/8175
+	 * @link https://buddypress.trac.wordpress.org/ticket/8175
 	 */
 	public function test_xprofile_data_should_be_deleted_on_user_delete_non_multisite() {
 		$this->skipWithMultisite();
@@ -1020,7 +1020,7 @@ Bar!';
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/8175
+	 * @link https://buddypress.trac.wordpress.org/ticket/8175
 	 */
 	public function test_xprofile_data_should_be_deleted_on_user_delete_multisite() {
 		$this->skipWithoutMultisite();
@@ -1043,7 +1043,7 @@ Bar!';
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/8175
+	 * @link https://buddypress.trac.wordpress.org/ticket/8175
 	 */
 	public function test_xprofile_data_should_not_be_deleted_on_wp_delete_user_multisite() {
 		$this->skipWithoutMultisite();
@@ -1066,7 +1066,7 @@ Bar!';
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/8568
+	 * @link https://buddypress.trac.wordpress.org/ticket/8568
 	 */
 	public function test_xprofile_sync_wp_profile_signup_with_wp_first_and_last_name_fields() {
 		add_filter( 'bp_disable_profile_sync', '__return_true' );
@@ -1120,7 +1120,7 @@ Bar!';
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/8568
+	 * @link https://buddypress.trac.wordpress.org/ticket/8568
 	 */
 	public function test_xprofile_sync_wp_profile_signup_without_wp_first_and_last_name_fields() {
 		add_filter( 'bp_disable_profile_sync', '__return_true' );
@@ -1150,7 +1150,7 @@ Bar!';
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/8568
+	 * @link https://buddypress.trac.wordpress.org/ticket/8568
 	 */
 	public function test_xprofile_sync_wp_profile_activate_signup_with_wp_first_and_last_name_fields() {
 		add_filter( 'bp_disable_profile_sync', '__return_true' );
@@ -1209,7 +1209,7 @@ Bar!';
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/8568
+	 * @link https://buddypress.trac.wordpress.org/ticket/8568
 	 */
 	public function test_xprofile_sync_wp_profile_activate_signup_without_wp_first_and_last_name_fields() {
 		add_filter( 'bp_disable_profile_sync', '__return_true' );
@@ -1244,7 +1244,7 @@ Bar!';
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/9207
+	 * @link https://buddypress.trac.wordpress.org/ticket/9207
 	 */
 	public function test_bp_xprofile_get_signup_field_ids() {
 		add_filter( 'bp_get_signup_allowed', '__return_true' );

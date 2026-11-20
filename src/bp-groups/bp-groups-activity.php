@@ -77,7 +77,7 @@ add_action( 'bp_register_activity_actions', 'groups_register_activity_actions' )
  * @since 5.0.0
  *
  * @param int $group_id Optional. The group ID the activity is linked to.
- * @return BP_Groups_Group  The group object the activity belongs to.
+ * @return BP_Groups_Group The group object the activity belongs to.
  */
 function bp_groups_get_activity_group( $group_id = 0 ) {
 	// If displaying a specific group, check the activity belongs to it.
@@ -164,8 +164,8 @@ function bp_groups_format_activity_action_joined_group( $action, $activity ) {
  *
  * @since 2.2.0
  *
- * @param  string $action   Static activity action.
- * @param  object $activity Activity data object.
+ * @param string $action   Static activity action.
+ * @param object $activity Activity data object.
  * @return string
  */
 function bp_groups_format_activity_action_group_details_updated( $action, $activity ) {
@@ -222,7 +222,7 @@ function bp_groups_format_activity_action_group_details_updated( $action, $activ
  *
  * @param string $action   Static activity action.
  * @param object $activity Activity data object.
- * @return string          The formatted action for activity updates posted in a Group.
+ * @return string The formatted action for activity updates posted in a Group.
  */
 function bp_groups_format_activity_action_group_activity_update( $action, $activity ) {
 	$user_link = bp_core_get_userlink( $activity->user_id );
@@ -480,7 +480,7 @@ add_filter( 'bp_activity_set_favorites_scope_args', 'bp_groups_filter_activity_f
 /**
  * Record an activity item related to the Groups component.
  *
- * A wrapper for {@link bp_activity_add()} that provides some Groups-specific
+ * A wrapper for {@see bp_activity_add()} that provides some Groups-specific
  * defaults.
  *
  * @since 1.0.0
@@ -490,14 +490,14 @@ add_filter( 'bp_activity_set_favorites_scope_args', 'bp_groups_filter_activity_f
  *
  * @param array|string $args {
  *     Optional. An array of arguments for the new activity item. Accepts all parameters
- *     of {@link bp_activity_add()}. This wrapper provides the following
+ *     of {@see bp_activity_add()}. This wrapper provides the following
  *     additional defaults.
  *     @type string $component     Default: the id of your Groups component
  *                                 (usually 'groups').
  *     @type bool   $hide_sitewide Default: True if the current group is not
  *                                 public, otherwise false.
  * }
- * @return WP_Error|bool|int See {@link bp_activity_add()}.
+ * @return WP_Error|bool|int See {@see bp_activity_add()}.
  */
 function groups_record_activity( $args = '' ) {
 

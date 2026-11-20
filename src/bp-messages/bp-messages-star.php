@@ -36,8 +36,8 @@ function bp_get_messages_starred_slug() {
  *
  * @since 2.3.0
  *
- * @param  int $mid     Optional. The message ID. Please note that this isn't the message thread ID.
- * @param  int $user_id Optional. The user ID.
+ * @param int $mid     Optional. The message ID. Please note that this isn't the message thread ID.
+ * @param int $user_id Optional. The user ID.
  * @return bool
  */
 function bp_messages_is_message_starred( $mid = 0, $user_id = 0 ) {
@@ -340,7 +340,7 @@ add_action( 'bp_messages_bulk_management_dropdown', 'bp_messages_star_bulk_manag
  *
  * @since 2.3.0
  *
- * @param  array $retval Optional. Current CSS classes.
+ * @param array $retval Optional. Current CSS classes.
  * @return array
  */
 function bp_messages_star_message_css_class( $retval = array() ) {
@@ -362,7 +362,7 @@ add_filter( 'bp_get_the_thread_message_css_class', 'bp_messages_star_message_css
  *
  * @since 2.3.0
  *
- * @param  array $r Optional. Current message thread arguments.
+ * @param array $r Optional. Current message thread arguments.
  * @return array Array of starred message threads.
  */
 function bp_messages_filter_starred_message_threads( $r = array() ) {

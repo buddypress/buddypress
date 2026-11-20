@@ -39,7 +39,7 @@ class BP_Tests_Members_Template extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/5898
+	 * @link https://buddypress.trac.wordpress.org/ticket/5898
 	 */
 	public function test_bp_has_members_search_pagination_with_spaces() {
 		self::factory()->user->create( array( 'display_name' => '~ tilde u1' ) );
@@ -98,7 +98,7 @@ class BP_Tests_Members_Template extends BP_UnitTestCase {
 
 	/**
 	 * @group friends
-	 * @see https://buddypress.trac.wordpress.org/ticket/5071
+	 * @link https://buddypress.trac.wordpress.org/ticket/5071
 	 */
 	public function test_bp_has_members_friendship_requests_with_no_requests() {
 		self::factory()->user->create();
@@ -159,7 +159,7 @@ class BP_Tests_Members_Template extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/6286
+	 * @link https://buddypress.trac.wordpress.org/ticket/6286
 	 */
 	public function test_bp_has_members_should_infer_member_type_from_get_param() {
 		bp_register_member_type( 'foo' );
@@ -184,7 +184,7 @@ class BP_Tests_Members_Template extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/6286
+	 * @link https://buddypress.trac.wordpress.org/ticket/6286
 	 */
 	public function test_bp_has_members_should_infer_member_type_from_get_param_comma_sep() {
 		bp_register_member_type( 'foo' );
@@ -211,7 +211,7 @@ class BP_Tests_Members_Template extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/8309
+	 * @link https://buddypress.trac.wordpress.org/ticket/8309
 	 */
 	public function test_bp_has_members_xprofile_query() {
 		$group_id = self::factory()->xprofile_group->create();

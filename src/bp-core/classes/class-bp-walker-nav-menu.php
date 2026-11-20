@@ -40,7 +40,7 @@ class BP_Walker_Nav_Menu extends Walker_Nav_Menu {
 	/**
 	 * Display array of elements hierarchically.
 	 *
-	 * This method is almost identical to the version in {@link Walker::walk()}.
+	 * This method is almost identical to the version in {@see Walker::walk()}.
 	 * The only change is on one line which has been commented. An IF was
 	 * comparing 0 to a non-empty string which was preventing child elements
 	 * being grouped under their parent menu element.
@@ -55,10 +55,10 @@ class BP_Walker_Nav_Menu extends Walker_Nav_Menu {
 	 *
 	 * @see Walker::walk()
 	 *
-	 * @param array $elements  See {@link Walker::walk()}.
-	 * @param int   $max_depth See {@link Walker::walk()}.
+	 * @param array $elements  See {@see Walker::walk()}.
+	 * @param int   $max_depth See {@see Walker::walk()}.
 	 * @param array $args      Optional additional arguments.
-	 * @return string See {@link Walker::walk()}.
+	 * @return string See {@see Walker::walk()}.
 	 */
 	public function do_walk( $elements, $max_depth, $args = array() ) {
 		$output = '';
@@ -149,9 +149,9 @@ class BP_Walker_Nav_Menu extends Walker_Nav_Menu {
 	 * @since 6.0.0 Formalized the existing `...$args` parameter by adding it
 	 *              to the function signature to match WordPress 5.3.
 	 *
-	 * @param array $elements  See {@link Walker::walk()}.
-	 * @param int   $max_depth See {@link Walker::walk()}.
-	 * @param mixed ...$args   See {@link Walker::walk()}.
+	 * @param array $elements  See {@see Walker::walk()}.
+	 * @param int   $max_depth See {@see Walker::walk()}.
+	 * @param mixed ...$args   See {@see Walker::walk()}.
 	 */
 	public function walk( $elements, $max_depth, ...$args ) {
 		return $this->do_walk( $elements, $max_depth, $args );
@@ -169,7 +169,7 @@ class BP_Walker_Nav_Menu extends Walker_Nav_Menu {
 	 * @param object   $item   Menu item data object.
 	 * @param int      $depth  Optional. Depth of menu item. Used for padding.
 	 *                         Defaults to 0.
-	 * @param stdClass $args   Optional. See {@link Walker::start_el()}.
+	 * @param stdClass $args   Optional. See {@see Walker::start_el()}.
 	 * @param int      $id     Menu item ID. Optional.
 	 */
 	public function start_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {

@@ -52,7 +52,7 @@ class BP_Tests_Routing_Members_Root_Profiles extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/6475
+	 * @link https://buddypress.trac.wordpress.org/ticket/6475
 	 */
 	public function test_member_permalink_when_members_page_is_nested_under_wp_page() {
 		$p = self::factory()->post->create( array(

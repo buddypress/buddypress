@@ -142,8 +142,8 @@ function xprofile_delete_activity( $args = '' ) {
  *
  * @since 1.0.0
  *
- * @param string $key Key.
- * @param string $value Value.
+ * @param string $key   Activity action identifier.
+ * @param string $value Activity action description.
  * @return bool
  */
 function xprofile_register_activity_action( $key, $value ) {
@@ -160,7 +160,7 @@ function xprofile_register_activity_action( $key, $value ) {
 	 *
 	 * @param bool   $value Whether or not an action was successfully registered.
 	 * @param string $key   Key used for the registered action.
-	 * @param string $value Value used for the registered action.
+	 * @param string $value Description used for the registered action.
 	 */
 	return apply_filters( 'xprofile_register_activity_action', bp_activity_set_action( buddypress()->profile->id, $key, $value ), $key, $value );
 }

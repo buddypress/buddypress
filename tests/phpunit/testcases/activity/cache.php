@@ -7,7 +7,7 @@
 class BP_Tests_Activity_Cache extends BP_UnitTestCase {
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/8552
+	 * @link https://buddypress.trac.wordpress.org/ticket/8552
 	 */
 	public function test_activity_query_with_ids_cache_results() {
 		global $wpdb;
@@ -41,7 +41,7 @@ class BP_Tests_Activity_Cache extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/8552
+	 * @link https://buddypress.trac.wordpress.org/ticket/8552
 	 */
 	public function test_activity_query_with_count_total_cache_results() {
 		global $wpdb;
@@ -75,7 +75,7 @@ class BP_Tests_Activity_Cache extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/8552
+	 * @link https://buddypress.trac.wordpress.org/ticket/8552
 	 */
 	public function test_activity_query_with_all_cache_results() {
 		global $wpdb;
@@ -190,8 +190,8 @@ class BP_Tests_Activity_Cache extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/7237
-	 * @see https://buddypress.trac.wordpress.org/ticket/6643
+	 * @link https://buddypress.trac.wordpress.org/ticket/7237
+	 * @link https://buddypress.trac.wordpress.org/ticket/6643
 	 */
 	public function test_query_should_be_cached() {
 		global $wpdb;
@@ -221,8 +221,8 @@ class BP_Tests_Activity_Cache extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/7237
-	 * @see https://buddypress.trac.wordpress.org/ticket/6643
+	 * @link https://buddypress.trac.wordpress.org/ticket/7237
+	 * @link https://buddypress.trac.wordpress.org/ticket/6643
 	 */
 	public function test_query_cache_should_be_skipped_for_different_query_params() {
 		global $wpdb;
@@ -260,8 +260,8 @@ class BP_Tests_Activity_Cache extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/7237
-	 * @see https://buddypress.trac.wordpress.org/ticket/6643
+	 * @link https://buddypress.trac.wordpress.org/ticket/7237
+	 * @link https://buddypress.trac.wordpress.org/ticket/6643
 	 */
 	public function test_query_cache_should_be_invalidated_by_activity_add() {
 		global $wpdb;
@@ -302,8 +302,8 @@ class BP_Tests_Activity_Cache extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/7237
-	 * @see https://buddypress.trac.wordpress.org/ticket/6643
+	 * @link https://buddypress.trac.wordpress.org/ticket/7237
+	 * @link https://buddypress.trac.wordpress.org/ticket/6643
 	 */
 	public function test_query_cache_should_be_invalidated_by_activity_edit() {
 		global $wpdb;
@@ -342,8 +342,8 @@ class BP_Tests_Activity_Cache extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/7237
-	 * @see https://buddypress.trac.wordpress.org/ticket/6643
+	 * @link https://buddypress.trac.wordpress.org/ticket/7237
+	 * @link https://buddypress.trac.wordpress.org/ticket/6643
 	 */
 	public function test_query_cache_should_be_invalidated_by_activity_delete() {
 		global $wpdb;
@@ -379,8 +379,8 @@ class BP_Tests_Activity_Cache extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/7237
-	 * @see https://buddypress.trac.wordpress.org/ticket/6643
+	 * @link https://buddypress.trac.wordpress.org/ticket/7237
+	 * @link https://buddypress.trac.wordpress.org/ticket/6643
 	 */
 	public function test_query_cache_should_be_invalidated_by_activitymeta_add() {
 		global $wpdb;
@@ -407,8 +407,8 @@ class BP_Tests_Activity_Cache extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/7237
-	 * @see https://buddypress.trac.wordpress.org/ticket/6643
+	 * @link https://buddypress.trac.wordpress.org/ticket/7237
+	 * @link https://buddypress.trac.wordpress.org/ticket/6643
 	 */
 	public function test_query_cache_should_be_invalidated_by_activitymeta_update() {
 		global $wpdb;
@@ -436,8 +436,8 @@ class BP_Tests_Activity_Cache extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/7237
-	 * @see https://buddypress.trac.wordpress.org/ticket/6643
+	 * @link https://buddypress.trac.wordpress.org/ticket/7237
+	 * @link https://buddypress.trac.wordpress.org/ticket/6643
 	 */
 	public function test_query_cache_should_be_invalidated_by_activitymeta_delete() {
 		global $wpdb;
@@ -465,7 +465,7 @@ class BP_Tests_Activity_Cache extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/8296
+	 * @link https://buddypress.trac.wordpress.org/ticket/8296
 	 */
 	public function test_activity_comments_cache_should_be_cleared_when_parent_activity_marked_as_spam() {
 		$u1 = self::factory()->user->create();
@@ -508,7 +508,7 @@ class BP_Tests_Activity_Cache extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/8296
+	 * @link https://buddypress.trac.wordpress.org/ticket/8296
 	 */
 	public function test_activity_comments_cache_should_be_cleared_when_activity_comment_marked_as_spam() {
 		$u1 = self::factory()->user->create();
@@ -551,7 +551,7 @@ class BP_Tests_Activity_Cache extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/8296
+	 * @link https://buddypress.trac.wordpress.org/ticket/8296
 	 */
 	public function test_activity_comments_cache_should_be_cleared_when_parent_activity_marked_as_ham() {
 		$u1 = self::factory()->user->create();
@@ -593,7 +593,7 @@ class BP_Tests_Activity_Cache extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/8296
+	 * @link https://buddypress.trac.wordpress.org/ticket/8296
 	 */
 	public function test_activity_comments_cache_should_be_cleared_when_activity_comment_marked_as_ham() {
 		$u1 = self::factory()->user->create();
@@ -635,7 +635,7 @@ class BP_Tests_Activity_Cache extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/8296
+	 * @link https://buddypress.trac.wordpress.org/ticket/8296
 	 */
 	public function test_activity_comments_cache_should_be_cleared_when_activity_comment_has_been_updated() {
 		$u1 = self::factory()->user->create();
@@ -673,7 +673,7 @@ class BP_Tests_Activity_Cache extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/8296
+	 * @link https://buddypress.trac.wordpress.org/ticket/8296
 	 */
 	public function test_activity_comments_cache_should_be_cleared_when_activity_comment_has_been_deleted() {
 		$u1 = self::factory()->user->create();
@@ -709,7 +709,7 @@ class BP_Tests_Activity_Cache extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/8296
+	 * @link https://buddypress.trac.wordpress.org/ticket/8296
 	 */
 	public function test_activity_comments_cache_should_be_cleared_when_activity_comment_has_been_added() {
 		$u1 = self::factory()->user->create();

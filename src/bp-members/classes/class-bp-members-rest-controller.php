@@ -229,7 +229,7 @@ class BP_Members_REST_Controller extends WP_REST_Users_Controller {
 	 *
 	 * @since 15.0.0
 	 *
-	 * @param  WP_REST_Request $request Full details about the request.
+	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
 	 */
 	public function get_item( $request ) {
@@ -330,7 +330,7 @@ class BP_Members_REST_Controller extends WP_REST_Users_Controller {
 	 *
 	 * @since 15.0.0
 	 *
-	 * @param  WP_REST_Request $request Full details about the request.
+	 * @param WP_REST_Request $request Full details about the request.
 	 * @return true|WP_Error
 	 */
 	public function update_item_permissions_check( $request ) {
@@ -398,7 +398,7 @@ class BP_Members_REST_Controller extends WP_REST_Users_Controller {
 	 *
 	 * @since 15.0.0
 	 *
-	 * @param  WP_REST_Request $request Full details about the request.
+	 * @param WP_REST_Request $request Full details about the request.
 	 * @return true|WP_Error
 	 */
 	public function delete_item_permissions_check( $request ) {

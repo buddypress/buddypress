@@ -146,7 +146,7 @@ function bp_core_is_default_gravatar( $d = '' ) {
  *
  * @since 1.1.0
  * @since 2.4.0 Added 'extra_attr', 'scheme', 'rating' and 'force_default' for $args.
- *              These are inherited from WordPress 4.2.0. See {@link get_avatar()}.
+ *              These are inherited from WordPress 4.2.0. See {@see get_avatar()}.
  *
  * @param array|string $args {
  *     An array of arguments. All arguments are technically optional; some
@@ -173,7 +173,7 @@ function bp_core_is_default_gravatar( $d = '' ) {
  *                                   'avatar_dir' is inferred from 'object': 'user' becomes 'avatars',
  *                                   'group' becomes 'group-avatars', 'blog' becomes 'blog-avatars'.
  *                                   Remember that this string denotes a subdirectory of BP's main
- *                                   avatar directory (usually based on {@link wp_upload_dir()}); it's a
+ *                                   avatar directory (usually based on {@see wp_upload_dir()}); it's a
  *                                   string like 'group-avatars' rather than the full directory path.
  *                                   Generally, it'll only be necessary to override the default value if
  *                                   storing avatars in a non-default location. Defaults to false
@@ -198,7 +198,7 @@ function bp_core_is_default_gravatar( $d = '' ) {
  *     @type string      $alt        The alt attribute for the <img> element. In BP, this
  *                                   value is generally passed by the wrapper functions, where the data
  *                                   necessary for concatenating the string is at hand; see
- *                                   {@link bp_get_activity_avatar()} for an example. Default: ''.
+ *                                   {@see bp_get_activity_avatar()} for an example. Default: ''.
  *     @type string|bool $email      An email to use in Gravatar queries. Unless
  *                                   otherwise configured, BP uses Gravatar as a fallback for avatars
  *                                   that are not provided locally. Gravatar's API requires using a hash
@@ -643,8 +643,8 @@ function bp_core_fetch_avatar( $args = '' ) {
 			 *
 			 * @since 1.2.0
 			 *
-			 * @param string $value Avatar value.
-			 * @param string $value Width to display avatar at.
+			 * @param string $default_avatar Default Gravatar identifier. Defaults to 'mm'.
+			 * @param string $width          Requested avatar width.
 			 */
 			$default_grav = apply_filters( 'bp_core_mysteryman_src', 'mm', $params['width'] );
 		} else {
@@ -1546,14 +1546,14 @@ function bp_avatar_ajax_set() {
 add_action( 'wp_ajax_bp_avatar_set', 'bp_avatar_ajax_set' );
 
 /**
- * Filter {@link get_avatar_url()} to use the BuddyPress user avatar URL.
+ * Filter {@see get_avatar_url()} to use the BuddyPress user avatar URL.
  *
  * @since 2.9.0
  *
- * @param  string $retval      The URL of the avatar.
- * @param  mixed  $id_or_email The Gravatar to retrieve. Accepts a user_id, gravatar md5 hash,
- *                             user email, WP_User object, WP_Post object, or WP_Comment object.
- * @param  array  $args        Arguments passed to get_avatar_data(), after processing.
+ * @param string $retval      The URL of the avatar.
+ * @param mixed  $id_or_email The Gravatar to retrieve. Accepts a user_id, gravatar md5 hash,
+ *                            user email, WP_User object, WP_Post object, or WP_Comment object.
+ * @param array  $args        Arguments passed to get_avatar_data(), after processing.
  * @return string
  */
 function bp_core_get_avatar_data_url_filter( $retval, $id_or_email, $args ) {
@@ -2179,7 +2179,7 @@ function bp_avatar_use_webcam() {
 	/**
 	 * Bail when the browser does not support getUserMedia.
 	 *
-	 * @see http://caniuse.com/#feat=stream
+	 * @link http://caniuse.com/#feat=stream
 	 */
 	if ( $is_safari || $is_IE || ( $is_chrome && ! is_ssl() ) ) {
 		return false;
@@ -2257,7 +2257,7 @@ function bp_avatar_history_is_disabled() {
  * @param string     $item_type Optional. The object the item ID relates to.
  * @param int|string $timestamp Optional. An integer Unix timestamp or a date string of the format 'Y-m-d h:i:s'.
  * @param string     $type      Optional. The type of avatar we need. Possible values are `thumb` and `full`.
- * @return array                A list of matching results, an empty array if no avatars were found.
+ * @return array A list of matching results, an empty array if no avatars were found.
  */
 function bp_avatar_get_version( $item_id = 0, $item_type = 'user', $timestamp = '', $type = 'full' ) {
 	if ( ! $item_id || ! $timestamp ) {
@@ -2293,7 +2293,7 @@ function bp_avatar_get_version( $item_id = 0, $item_type = 'user', $timestamp = 
  * @param int    $item_id   Optional. The item ID we need the avatar version for.
  * @param string $item_type Optional. The object the item ID relates to.
  * @param string $type      Optional. Get the `full`, `thumb` or `both` versions.
- * @return array          The list of previous uploaded avatars.
+ * @return array The list of previous uploaded avatars.
  */
 function bp_avatar_get_avatars_history( $item_id = 0, $item_type = 'user', $type = 'full' ) {
 	/**
