@@ -122,7 +122,7 @@ class BP_XProfile_Field_Type_WordPress_Textbox extends BP_XProfile_Field_Type_Wo
 	/**
 	 * Output the edit field HTML for this field type.
 	 *
-	 * Must be used inside the {@link bp_profile_fields()} template loop.
+	 * Must be used inside the {@see bp_profile_fields()} template loop.
 	 *
 	 * @since 8.0.0
 	 *
@@ -193,7 +193,7 @@ class BP_XProfile_Field_Type_WordPress_Textbox extends BP_XProfile_Field_Type_Wo
 	/**
 	 * Output HTML for this field type on the wp-admin Profile Fields screen.
 	 *
-	 * Must be used inside the {@link bp_profile_fields()} template loop.
+	 * Must be used inside the {@see bp_profile_fields()} template loop.
 	 *
 	 * @since 8.0.0
 	 *

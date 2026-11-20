@@ -458,9 +458,9 @@ function bp_group_type_list( $group_id = 0, $r = array() ) {
  *                                            excluded from results.
  *     @type array|string $status             Array or comma-separated list of group statuses to limit results to.
  *     @type array        $meta_query         An array of meta_query conditions.
- *                                            See {@link WP_Meta_Query::queries} for description.
+ *                                            See {@see WP_Meta_Query::queries} for description.
  *     @type array        $date_query         Filter results by group last activity date. See first parameter of
- *                                            {@link WP_Date_Query::__construct()} for syntax. Only applicable if
+ *                                            {@see WP_Date_Query::__construct()} for syntax. Only applicable if
  *                                            $type is either 'newest' or 'active'.
  *     @type array|string $include            Array or comma-separated list of group IDs. Results will be limited
  *                                            to groups within the list. Default: false.
@@ -938,7 +938,7 @@ function bp_group_status( $group = false ) {
  * @since 10.0.0 Added the `$group` parameter.
  *
  * @param array|string                     $args {
- *                          Optional. See {@link bp_get_group_avatar()} for description of arguments.
+ *                          Optional. See {@see bp_get_group_avatar()} for description of arguments.
  *                     }.
  * @param false|int|string|BP_Groups_Group $group (Optional) The Group ID, the Group Slug or the Group object.
  *                                                Default: false.
@@ -957,7 +957,7 @@ function bp_group_avatar( $args = '', $group = false ) {
 	 *
 	 * @param array|string                     $args {
 	 *     Optional. Arguments are listed here with an explanation of their defaults.
-	 *     For more information about the arguments, see {@link bp_core_fetch_avatar()}.
+	 *     For more information about the arguments, see {@see bp_core_fetch_avatar()}.
 	 *
 	 *     @type string       $type    Default: 'full'.
 	 *     @type int|bool     $width   Default: false.
@@ -1836,7 +1836,7 @@ function bp_is_group_creator( $group = false, $user_id = 0 ) {
  * @param false|int|string|BP_Groups_Group $group (Optional) The Group ID, the Group Slug or the Group object.
  *                                                Default: false.
  * @param array                            $args  {
- *     Array of optional arguments. See {@link bp_get_group_creator_avatar()}
+ *     Array of optional arguments. See {@see bp_get_group_creator_avatar()}
  *     for description.
  * }.
  */
@@ -1853,7 +1853,7 @@ function bp_group_creator_avatar( $group = false, $args = array() ) {
 	 * @param false|int|string|BP_Groups_Group $group (Optional) The Group ID, the Group Slug or the Group object.
 	 *                                                Default: false.
 	 * @param array                            $args  {
-	 *     Array of optional arguments. See {@link bp_core_fetch_avatar()}
+	 *     Array of optional arguments. See {@see bp_core_fetch_avatar()}
 	 *     for detailed description of arguments.
 	 *     @type string $type   Default: 'full'.
 	 *     @type int    $width  Default: false.
@@ -1918,7 +1918,7 @@ function bp_group_creator_avatar( $group = false, $args = array() ) {
 /**
  * Determine whether the current user is the admin of the current group.
  *
- * Alias of {@link bp_is_item_admin()}.
+ * Alias of {@see bp_is_item_admin()}.
  *
  * @since 1.1.0
  *
@@ -1931,7 +1931,7 @@ function bp_group_is_admin() {
 /**
  * Determine whether the current user is a mod of the current group.
  *
- * Alias of {@link bp_is_item_mod()}.
+ * Alias of {@see bp_is_item_mod()}.
  *
  * @since 1.1.0
  *
@@ -2554,7 +2554,7 @@ function bp_group_has_moderators( $group = false ) {
  *
  * @since 1.1.0
  *
- * @param array|string $args Optional. See {@link bp_get_group_member_promote_mod_link()}.
+ * @param array|string $args Optional. See {@see bp_get_group_member_promote_mod_link()}.
  */
 function bp_group_member_promote_mod_link( $args = '' ) {
 	echo esc_url( bp_get_group_member_promote_mod_link( $args ) );
@@ -2610,7 +2610,7 @@ function bp_group_member_promote_mod_link( $args = '' ) {
  *
  * @since 1.1.0
  *
- * @param array|string $args Optional. See {@link bp_get_group_member_promote_admin_link()}.
+ * @param array|string $args Optional. See {@see bp_get_group_member_promote_admin_link()}.
  */
 function bp_group_member_promote_admin_link( $args = '' ) {
 	echo esc_url( bp_get_group_member_promote_admin_link( $args ) );
@@ -3169,7 +3169,7 @@ function bp_group_is_invited( $group = false ) {
  * Check if a user is banned from a group.
  *
  * If this function is invoked inside the groups template loop, then we check
- * $groups_template->group->is_banned instead of using {@link groups_is_user_banned()}
+ * $groups_template->group->is_banned instead of using {@see groups_is_user_banned()}
  * and making another SQL query.
  *
  * In BuddyPress 2.1, to standardize this function, we are defaulting the
@@ -3989,7 +3989,7 @@ function bp_total_group_count_for_user( $user_id = 0 ) {
  *     @type array    $group_role         Optional. Array of group roles to include.
  *     @type string   $type               Optional. Sort order of results. 'last_joined',
  *                                        'first_joined', or any of the $type params available in
- *                                        {@link BP_User_Query}. Default: 'last_joined'.
+ *                                        {@see BP_User_Query}. Default: 'last_joined'.
  *     @type string   $search_terms       Optional. Search terms to match. Pass an
  *                                        empty string to force-disable search, even in
  *                                        the presence of $_REQUEST['s']. Default: false.
@@ -5307,7 +5307,7 @@ function bp_new_group_avatar( $args = '' ) {
 	 *
 	 * @param array|string $args {
 	 *     Optional. Arguments are listed here with an explanation of their defaults.
-	 *     For more information about the arguments, see {@link bp_core_fetch_avatar()}.
+	 *     For more information about the arguments, see {@see bp_core_fetch_avatar()}.
 	 *
 	 *     @type string   $alt     Default: 'Group photo'.
 	 *     @type string   $class   Default: 'avatar'.

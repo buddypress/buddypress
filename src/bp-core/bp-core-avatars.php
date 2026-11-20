@@ -146,7 +146,7 @@ function bp_core_is_default_gravatar( $d = '' ) {
  *
  * @since 1.1.0
  * @since 2.4.0 Added 'extra_attr', 'scheme', 'rating' and 'force_default' for $args.
- *              These are inherited from WordPress 4.2.0. See {@link get_avatar()}.
+ *              These are inherited from WordPress 4.2.0. See {@see get_avatar()}.
  *
  * @param array|string $args {
  *     An array of arguments. All arguments are technically optional; some
@@ -173,7 +173,7 @@ function bp_core_is_default_gravatar( $d = '' ) {
  *                                   'avatar_dir' is inferred from 'object': 'user' becomes 'avatars',
  *                                   'group' becomes 'group-avatars', 'blog' becomes 'blog-avatars'.
  *                                   Remember that this string denotes a subdirectory of BP's main
- *                                   avatar directory (usually based on {@link wp_upload_dir()}); it's a
+ *                                   avatar directory (usually based on {@see wp_upload_dir()}); it's a
  *                                   string like 'group-avatars' rather than the full directory path.
  *                                   Generally, it'll only be necessary to override the default value if
  *                                   storing avatars in a non-default location. Defaults to false
@@ -198,7 +198,7 @@ function bp_core_is_default_gravatar( $d = '' ) {
  *     @type string      $alt        The alt attribute for the <img> element. In BP, this
  *                                   value is generally passed by the wrapper functions, where the data
  *                                   necessary for concatenating the string is at hand; see
- *                                   {@link bp_get_activity_avatar()} for an example. Default: ''.
+ *                                   {@see bp_get_activity_avatar()} for an example. Default: ''.
  *     @type string|bool $email      An email to use in Gravatar queries. Unless
  *                                   otherwise configured, BP uses Gravatar as a fallback for avatars
  *                                   that are not provided locally. Gravatar's API requires using a hash
@@ -1546,7 +1546,7 @@ function bp_avatar_ajax_set() {
 add_action( 'wp_ajax_bp_avatar_set', 'bp_avatar_ajax_set' );
 
 /**
- * Filter {@link get_avatar_url()} to use the BuddyPress user avatar URL.
+ * Filter {@see get_avatar_url()} to use the BuddyPress user avatar URL.
  *
  * @since 2.9.0
  *

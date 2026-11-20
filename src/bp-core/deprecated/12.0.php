@@ -314,7 +314,7 @@ if ( ! bp_is_classic() ) {
 	}
 
 	/**
-	 * Alias of {@link bp_displayed_user_domain()}.
+	 * Alias of {@see bp_displayed_user_domain()}.
 	 *
 	 * @deprecated 12.0.0
 	 */

@@ -821,7 +821,7 @@ function groups_get_group_mods( $group_id ) {
  *     @type array            $group_role          Optional. Array of group roles to include.
  *     @type string           $search_terms        Optional. Filter results by a search string.
  *     @type string           $type                Optional. Sort the order of results. 'last_joined', 'first_joined', or
- *                                                 any of the $type params available in {@link BP_User_Query}. Default:
+ *                                                 any of the $type params available in {@see BP_User_Query}. Default:
  *                                                 'last_joined'.
  * }
  * @return false|array Multi-d array of 'members' list and 'count'.
@@ -940,12 +940,12 @@ function groups_get_total_member_count( $group, $skip_cache = false ) {
  *
  * @param array|string $args {
  *     Optional. Array of arguments. Supports all arguments of
- *     {@link BP_Groups_Group::get()}. Where the default values differ, they
+ *     {@see BP_Groups_Group::get()}. Where the default values differ, they
  *     have been described here.
  *     @type int $per_page Default: 20.
  *     @type int $page Default: 1.
  * }
- * @return array See {@link BP_Groups_Group::get()}.
+ * @return array See {@see BP_Groups_Group::get()}.
  */
 function groups_get_groups( $args = '' ) {
 

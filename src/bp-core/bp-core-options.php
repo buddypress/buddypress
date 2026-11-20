@@ -221,7 +221,7 @@ function bp_pre_get_option( $value = false ) {
 /**
  * Retrieve an option.
  *
- * This is a wrapper for {@link get_blog_option()}, which in turn stores settings data
+ * This is a wrapper for {@see get_blog_option()}, which in turn stores settings data
  * (such as bp-pages) on the appropriate blog, given your current setup.
  *
  * The 'bp_get_option' filter is primarily for backward-compatibility.
@@ -230,7 +230,7 @@ function bp_pre_get_option( $value = false ) {
  *
  * @param string $option_name   The option to be retrieved.
  * @param string $default_value Optional. Default value to be returned if the option
- *                              isn't set. See {@link get_blog_option()}.
+ *                              isn't set. See {@see get_blog_option()}.
  * @return mixed The value for the option.
  */
 function bp_get_option( $option_name, $default_value = '' ) {
@@ -249,7 +249,7 @@ function bp_get_option( $option_name, $default_value = '' ) {
 /**
  * Add an option.
  *
- * This is a wrapper for {@link add_blog_option()}, which in turn stores
+ * This is a wrapper for {@see add_blog_option()}, which in turn stores
  * settings data on the appropriate blog, given your current setup.
  *
  * @since 2.0.0
@@ -265,7 +265,7 @@ function bp_add_option( $option_name, $value ) {
 /**
  * Save an option.
  *
- * This is a wrapper for {@link update_blog_option()}, which in turn stores
+ * This is a wrapper for {@see update_blog_option()}, which in turn stores
  * settings data (such as bp-pages) on the appropriate blog, given your current
  * setup.
  *
@@ -282,7 +282,7 @@ function bp_update_option( $option_name, $value ) {
 /**
  * Delete an option.
  *
- * This is a wrapper for {@link delete_blog_option()}, which in turn deletes
+ * This is a wrapper for {@see delete_blog_option()}, which in turn deletes
  * settings data (such as bp-pages) on the appropriate blog, given your current
  * setup.
  *

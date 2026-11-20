@@ -199,14 +199,14 @@ class BP_Optout {
 	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param array $data {
-	 *     Optional. Array of optout data, passed to {@link wpdb::insert()}.
+	 *     Optional. Array of optout data, passed to {@see wpdb::insert()}.
 	 *     @type string $email_address     The hashed email address of the user that wishes to opt out of
 	 *                                     communications from this site.
 	 *     @type int    $user_id           The ID of the user that generated the contact that resulted in the opt-out.
 	 *     @type string $email_type        The type of email contact that resulted in the opt-out.
 	 *     @type string $date_modified     Date the opt-out was last modified.
 	 * }
-	 * @param array $data_format Optional. See {@link wpdb::insert()}.
+	 * @param array $data_format Optional. See {@see wpdb::insert()}.
 	 * @return int|false The number of rows inserted, or false on error.
 	 */
 	protected static function _insert( $data = array(), $data_format = array() ) { // phpcs:ignore PSR2.Methods.MethodDeclaration.Underscore -- Retains the established method name for backward compatibility.
@@ -228,13 +228,13 @@ class BP_Optout {
 	 * @see wpdb::update() for further description of paramater formats.
 	 *
 	 * @param array $data         Optional. Array of opt-out data to update, passed to
-	 *                            {@link wpdb::update()}. Accepts any property of a
+	 *                            {@see wpdb::update()}. Accepts any property of a
 	 *                            BP_Optout object.
 	 * @param array $where        Optional. The WHERE params as passed to wpdb::update().
 	 *                            Typically consists of array( 'ID' => $id ) to specify the ID
-	 *                            of the item being updated. See {@link wpdb::update()}.
-	 * @param array $data_format  Optional. See {@link wpdb::insert()}.
-	 * @param array $where_format Optional. See {@link wpdb::insert()}.
+	 *                            of the item being updated. See {@see wpdb::update()}.
+	 * @param array $data_format  Optional. See {@see wpdb::insert()}.
+	 * @param array $where_format Optional. See {@see wpdb::insert()}.
 	 * @return int|false The number of rows updated, or false on error.
 	 */
 	protected static function _update( $data = array(), $where = array(), $data_format = array(), $where_format = array() ) { // phpcs:ignore PSR2.Methods.MethodDeclaration.Underscore -- Retains the established method name for backward compatibility.
@@ -259,9 +259,9 @@ class BP_Optout {
 	 * @see wpdb::update() for further description of paramater formats.
 	 *
 	 * @param array $where        Optional. Array of WHERE clauses to filter by, passed to
-	 *                            {@link wpdb::delete()}. Accepts any property of a
+	 *                            {@see wpdb::delete()}. Accepts any property of a
 	 *                            BP_Optout object.
-	 * @param array $where_format Optional. See {@link wpdb::insert()}.
+	 * @param array $where_format Optional. See {@see wpdb::insert()}.
 	 * @return int|false The number of rows updated, or false on error.
 	 */
 	protected static function _delete( $where = array(), $where_format = array() ) { // phpcs:ignore PSR2.Methods.MethodDeclaration.Underscore -- Retains the established method name for backward compatibility.
@@ -279,7 +279,7 @@ class BP_Optout {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @param array $args Optional. See {@link BP_Optout::get()} for more details.
+	 * @param array $args Optional. See {@see BP_Optout::get()} for more details.
 	 * @return string WHERE clause.
 	 */
 	protected static function get_where_sql( $args = array() ) {
@@ -360,7 +360,7 @@ class BP_Optout {
 	 *
 	 * @since 8.0.0
 	 *
-	 * @param array $args Optional. See {@link BP_Optout::get()} for more details.
+	 * @param array $args Optional. See {@see BP_Optout::get()} for more details.
 	 * @return string ORDER BY clause.
 	 */
 	protected static function get_order_by_sql( $args = array() ) {
@@ -405,7 +405,7 @@ class BP_Optout {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @param array $args Optional. See {@link BP_Optout::get()} for more details.
+	 * @param array $args Optional. See {@see BP_Optout::get()} for more details.
 	 * @return string LIMIT clause.
 	 */
 	protected static function get_paged_sql( $args = array() ) {
@@ -428,7 +428,7 @@ class BP_Optout {
 	/**
 	 * Assemble query clauses, based on arguments, to pass to $wpdb methods.
 	 *
-	 * The insert(), update(), and delete() methods of {@link wpdb} expect
+	 * The insert(), update(), and delete() methods of {@see wpdb} expect
 	 * arguments of the following forms:
 	 *
 	 * - associative arrays whose key/value pairs are column => value, to
@@ -462,7 +462,7 @@ class BP_Optout {
 	 * @since 8.0.0
 	 *
 	 * @param array $args Optional. Associative array of filter arguments.
-	 *                    See {@link BP_Optout::get()} for a breakdown.
+	 *                    See {@see BP_Optout::get()} for a breakdown.
 	 * @return array Associative array of 'data' and 'format' args.
 	 */
 	protected static function get_query_clauses( $args = array() ) {
@@ -720,7 +720,7 @@ class BP_Optout {
 	 * @see BP_Optout::get() for a description of
 	 *      arguments.
 	 *
-	 * @param array $args See {@link BP_Optout::get()}.
+	 * @param array $args See {@see BP_Optout::get()}.
 	 * @return int Count of located items.
 	 */
 	public static function get_total_count( $args ) {

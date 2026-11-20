@@ -36,7 +36,7 @@ function bp_members_has_directory() {
  * @since 7.0.0 Added `xprofile_query` parameter. Added `user_ids` parameter.
  *
  * @param array|string $args {
- *     Array of arguments. All are optional. See {@link BP_User_Query} for
+ *     Array of arguments. All are optional. See {@see BP_User_Query} for
  *     a more complete description of arguments.
  *     @type string       $type                Sort order. Default: 'active'.
  *     @type int          $user_id             Limit results to friends of a user. Default: false.
@@ -573,7 +573,7 @@ function bp_core_get_userlink_by_username( $username ) {
  *
  * Note that this is a raw count of non-spam, activated users. It does not
  * account for users who have logged activity (last_active). See
- * {@link bp_core_get_active_member_count()}.
+ * {@see bp_core_get_active_member_count()}.
  *
  * @since 1.2.0
  *

@@ -208,7 +208,7 @@ class BP_Activity_oEmbed_Extension extends BP_Core_oEmbed_Extension {
 	 * Use our custom <iframe> sandbox attribute in our oEmbed response.
 	 *
 	 * WordPress sets the <iframe> sandbox attribute to 'allow-scripts' regardless
-	 * of whatever the oEmbed response is in {@link wp_filter_oembed_result()}. We
+	 * of whatever the oEmbed response is in {@see wp_filter_oembed_result()}. We
 	 * need to add back our custom sandbox value so links will work.
 	 *
 	 * @since 2.6.0
@@ -295,7 +295,7 @@ class BP_Activity_oEmbed_Extension extends BP_Core_oEmbed_Extension {
 	/**
 	 * Prints the markup for the activity embed comments button.
 	 *
-	 * Basically a copy of {@link print_embed_comments_button()}, but modified for
+	 * Basically a copy of {@see print_embed_comments_button()}, but modified for
 	 * the BP activity component.
 	 *
 	 * @since 2.6.0

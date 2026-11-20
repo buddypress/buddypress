@@ -176,7 +176,7 @@ function bp_notifications_read_permalink( $user_id = 0 ) {
  *     Optional. Arguments for limiting the contents of the notifications loop. Can be
  *     passed as an associative array, or as a URL query string.
  *
- *     See {@link BP_Notifications_Notification::get()} for detailed
+ *     See {@see BP_Notifications_Notification::get()} for detailed
  *     information on the arguments. It also supports the following arguments.
  *
  *     @type int    $max      Optional. Max items to display. Default: false.

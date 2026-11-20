@@ -480,7 +480,7 @@ add_filter( 'bp_activity_set_favorites_scope_args', 'bp_groups_filter_activity_f
 /**
  * Record an activity item related to the Groups component.
  *
- * A wrapper for {@link bp_activity_add()} that provides some Groups-specific
+ * A wrapper for {@see bp_activity_add()} that provides some Groups-specific
  * defaults.
  *
  * @since 1.0.0
@@ -490,14 +490,14 @@ add_filter( 'bp_activity_set_favorites_scope_args', 'bp_groups_filter_activity_f
  *
  * @param array|string $args {
  *     Optional. An array of arguments for the new activity item. Accepts all parameters
- *     of {@link bp_activity_add()}. This wrapper provides the following
+ *     of {@see bp_activity_add()}. This wrapper provides the following
  *     additional defaults.
  *     @type string $component     Default: the id of your Groups component
  *                                 (usually 'groups').
  *     @type bool   $hide_sitewide Default: True if the current group is not
  *                                 public, otherwise false.
  * }
- * @return WP_Error|bool|int See {@link bp_activity_add()}.
+ * @return WP_Error|bool|int See {@see bp_activity_add()}.
  */
 function groups_record_activity( $args = '' ) {
 

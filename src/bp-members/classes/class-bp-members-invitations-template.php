@@ -171,7 +171,7 @@ class BP_Members_Invitations_Template {
 	 * @since 8.0.0
 	 *
 	 * @param array $args {
-	 *     Optional. An array of arguments. See {@link bp_has_members_invitations()}
+	 *     Optional. An array of arguments. See {@see bp_has_members_invitations()}
 	 *     for more details.
 	 * }.
 	 */
@@ -301,7 +301,7 @@ class BP_Members_Invitations_Template {
 	/**
 	 * Whether there are invitations left in the loop to iterate over.
 	 *
-	 * This method is used by {@link bp_members_invitations()} as part of the
+	 * This method is used by {@see bp_members_invitations()} as part of the
 	 * while loop that controls iteration inside the invitations loop, eg:
 	 *     while ( bp_members_invitations() ) { ...
 	 *
@@ -336,7 +336,7 @@ class BP_Members_Invitations_Template {
 	/**
 	 * Set up the current invitation inside the loop.
 	 *
-	 * Used by {@link bp_the_invitation()} to set up the current
+	 * Used by {@see bp_the_invitation()} to set up the current
 	 * invitation data while looping, so that template tags used during
 	 * that iteration make reference to the current invitation.
 	 *

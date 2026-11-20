@@ -116,7 +116,7 @@ class BP_Blogs_Template {
 	 * @see BP_Blogs_Blog::get() for a description of parameters.
 	 *
 	 * @param array ...$args {
-	 *     Array of arguments. See {@link BP_Blogs_Blog::get()}.
+	 *     Array of arguments. See {@see BP_Blogs_Blog::get()}.
 	 * }.
 	 */
 	public function __construct( ...$args ) {
@@ -266,7 +266,7 @@ class BP_Blogs_Template {
 	/**
 	 * Whether there are blogs left in the loop to iterate over.
 	 *
-	 * This method is used by {@link bp_blogs()} as part of the while loop
+	 * This method is used by {@see bp_blogs()} as part of the while loop
 	 * that controls iteration inside the blogs loop, eg:
 	 *     while ( bp_blogs() ) { ...
 	 *
@@ -296,7 +296,7 @@ class BP_Blogs_Template {
 	/**
 	 * Set up the current blog inside the loop.
 	 *
-	 * Used by {@link bp_the_blog()} to set up the current blog data while
+	 * Used by {@see bp_the_blog()} to set up the current blog data while
 	 * looping, so that template tags used during that iteration make
 	 * reference to the current blog.
 	 *

@@ -28,14 +28,14 @@ defined( 'ABSPATH' ) || exit;
  *
  * @param array $args  {
  *     Array of arguments. Accepts all arguments from
- *     {@link BP_User_Query}, with the following additions:
+ *     {@see BP_User_Query}, with the following additions:
  *
  *     @type int|array|string $group_id     ID of the group to limit results to. Also accepts multiple values
  *                                          either as an array or as a comma-delimited string.
  *     @type array            $group_role   Array of group roles to match ('member', 'mod', 'admin', 'banned').
  *                                          Default: array( 'member' ).
  *     @type bool             $is_confirmed Whether to limit to confirmed members. Default: true.
- *     @type string           $type         Sort order. Accepts any value supported by {@link BP_User_Query}, in
+ *     @type string           $type         Sort order. Accepts any value supported by {@see BP_User_Query}, in
  *                                          addition to 'last_joined' and 'first_joined'. Default: 'last_joined'.
  * }
  */
@@ -55,7 +55,7 @@ class BP_Group_Member_Query extends BP_User_Query {
 	 *
 	 * @since 10.3.0
 	 *
-	 * @param string|array|null $query Optional. See {@link BP_User_Query}.
+	 * @param string|array|null $query Optional. See {@see BP_User_Query}.
 	 */
 	public function __construct( $query = null ) {
 		$qv = bp_parse_args(

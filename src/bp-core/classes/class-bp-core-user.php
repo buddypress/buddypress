@@ -259,7 +259,7 @@ class BP_Core_User {
 	 * @see BP_XProfile_ProfileData::get_all_for_user() for description of
 	 *      return value.
 	 *
-	 * @return array See {@link BP_XProfile_Profile_Data::get_all_for_user()}.
+	 * @return array See {@see BP_XProfile_Profile_Data::get_all_for_user()}.
 	 */
 	public function get_profile_data() {
 		return BP_XProfile_ProfileData::get_all_for_user( $this->id );
@@ -270,30 +270,30 @@ class BP_Core_User {
 	/**
 	 * Get a list of users that match the query parameters.
 	 *
-	 * Since BuddyPress 1.7, use {@link BP_User_Query} instead.
+	 * Since BuddyPress 1.7, use {@see BP_User_Query} instead.
 	 *
 	 * @since 15.0.0 The `$include` parameter was renamed to `$include_ids`.
 	 *
-	 * @deprecated 1.7.0 Use {@link BP_User_Query}.
+	 * @deprecated 1.7.0 Use {@see BP_User_Query}.
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @see BP_User_Query for a description of parameters, most of which
 	 *      are used there in the same way.
 	 *
-	 * @param string      $type            See {@link BP_User_Query}.
-	 * @param int         $limit           Optional. See {@link BP_User_Query}. Default: 0.
-	 * @param int         $page            Optional. See {@link BP_User_Query}. Default: 1.
-	 * @param int         $user_id         Optional. See {@link BP_User_Query}. Default: 0.
-	 * @param mixed       $include_ids     Optional. See {@link BP_User_Query}. Default: false.
-	 * @param string|bool $search_terms    Optional. See {@link BP_User_Query}.
+	 * @param string      $type            See {@see BP_User_Query}.
+	 * @param int         $limit           Optional. See {@see BP_User_Query}. Default: 0.
+	 * @param int         $page            Optional. See {@see BP_User_Query}. Default: 1.
+	 * @param int         $user_id         Optional. See {@see BP_User_Query}. Default: 0.
+	 * @param mixed       $include_ids     Optional. See {@see BP_User_Query}. Default: false.
+	 * @param string|bool $search_terms    Optional. See {@see BP_User_Query}.
 	 *                                     Default: false.
-	 * @param bool        $populate_extras Optional. See {@link BP_User_Query}.
+	 * @param bool        $populate_extras Optional. See {@see BP_User_Query}.
 	 *                                     Default: true.
-	 * @param mixed       $exclude         Optional. See {@link BP_User_Query}. Default: false.
-	 * @param string|bool $meta_key        Optional. See {@link BP_User_Query}.
+	 * @param mixed       $exclude         Optional. See {@see BP_User_Query}. Default: false.
+	 * @param string|bool $meta_key        Optional. See {@see BP_User_Query}.
 	 *                                     Default: false.
-	 * @param string|bool $meta_value      Optional. See {@link BP_User_Query}.
+	 * @param string|bool $meta_value      Optional. See {@see BP_User_Query}.
 	 *                                     Default: false.
 	 * @return false|array {
 	 *     @type int   $total_users Total number of users matched by query
@@ -671,7 +671,7 @@ class BP_Core_User {
 	/**
 	 * Get details of specific users from the database.
 	 *
-	 * Use {@link BP_User_Query} with the 'user_ids' param instead.
+	 * Use {@see BP_User_Query} with the 'user_ids' param instead.
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *

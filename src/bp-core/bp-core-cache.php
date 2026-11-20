@@ -176,7 +176,7 @@ function bp_get_non_cached_ids( $item_ids, $cache_group ) {
 /**
  * Update the metadata cache for the specified objects.
  *
- * Based on WordPress's {@link update_meta_cache()}, this function primes the
+ * Based on WordPress's {@see update_meta_cache()}, this function primes the
  * cache with metadata related to a set of objects. This is typically done when
  * querying for a loop of objects; pre-fetching metadata for each queried
  * object can lead to dramatic performance improvements when using metadata

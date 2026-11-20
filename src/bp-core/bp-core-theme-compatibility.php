@@ -500,13 +500,13 @@ function bp_is_theme_compat_original_template( $template = '' ) {
  * Register a new BuddyPress theme package in the active theme packages array.
  *
  * For an example of how this function is used, see:
- * {@link BuddyPress::register_theme_packages()}.
+ * {@see BuddyPress::register_theme_packages()}.
  *
  * @since 1.7.0
  *
  * @see BP_Theme_Compat for a description of the $theme parameter arguments.
  *
- * @param array $theme    Optional. See {@link BP_Theme_Compat}.
+ * @param array $theme    Optional. See {@see BP_Theme_Compat}.
  * @param bool  $override Optional. If true, overrides whatever package is currently set.
  *                        Default: true.
  */
@@ -546,7 +546,7 @@ function bp_register_theme_package( $theme = array(), $override = true ) {
  * @global WP_Post $post Current post object.
  *
  * @param array $args Array of optional arguments. Arguments parallel the properties
- *                    of {@link WP_Post}; see that class for more details.
+ *                    of {@see WP_Post}; see that class for more details.
  */
 function bp_theme_compat_reset_post( $args = array() ) {
 	global $wp_query, $post;
@@ -965,10 +965,10 @@ function bp_comments_pre_query( $comment_data, $wp_comment_query ) {
 }
 
 /**
- * Do not allow {@link comments_template()} to render during theme compatibility.
+ * Do not allow {@see comments_template()} to render during theme compatibility.
  *
  * When theme compatibility sets the 'is_page' flag to true via
- * {@link bp_theme_compat_reset_post()}, themes that use comments_template()
+ * {@see bp_theme_compat_reset_post()}, themes that use comments_template()
  * in their page template will run.
  *
  * To prevent comments_template() from rendering, we set the 'is_page' and

@@ -318,7 +318,7 @@ abstract class BP_Core_oEmbed_Extension {
 		 * Inject BuddyPress embed content on this hook.
 		 *
 		 * You shouldn't really need to use this if you extend the
-		 * {@link BP_oEmbed_Component} class.
+		 * {@see BP_oEmbed_Component} class.
 		 *
 		 * @since 2.6.0
 		 */
@@ -474,7 +474,7 @@ abstract class BP_Core_oEmbed_Extension {
 	/**
 	 * If oEmbed request wants XML, return XML instead of JSON.
 	 *
-	 * Basically a copy of {@link _oembed_rest_pre_serve_request()}. Unfortunate
+	 * Basically a copy of {@see _oembed_rest_pre_serve_request()}. Unfortunate
 	 * that we have to duplicate this just for a URL check.
 	 *
 	 * @since 2.6.0
@@ -614,7 +614,7 @@ abstract class BP_Core_oEmbed_Extension {
 	 * Append our custom slug endpoint to oEmbed endpoint URL.
 	 *
 	 * Meant to be used as a filter on 'rest_url' before any call to
-	 * {@link get_oembed_endpoint_url()} is used.
+	 * {@see get_oembed_endpoint_url()} is used.
 	 *
 	 * @since 2.6.0
 	 *

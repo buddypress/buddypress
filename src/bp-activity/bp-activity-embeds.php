@@ -81,7 +81,7 @@ add_action( 'embed_head', 'bp_activity_embed_add_inline_styles', 20 );
 /**
  * Query for the activity item on the activity embed template.
  *
- * Basically a wrapper for {@link bp_has_activities()}, but allows us to
+ * Basically a wrapper for {@see bp_has_activities()}, but allows us to
  * use the activity loop without requerying for it again.
  *
  * @since 2.6.0

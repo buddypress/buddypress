@@ -233,7 +233,7 @@ class BP_Notifications_Notification {
 	 * @see wpdb::insert() for further description of parameter formats.
 	 *
 	 * @param array $data {
-	 *     Optional. Array of notification data, passed to {@link wpdb::insert()}.
+	 *     Optional. Array of notification data, passed to {@see wpdb::insert()}.
 	 *     @type int    $user_id           ID of the associated user.
 	 *     @type int    $item_id           ID of the associated item.
 	 *     @type int    $secondary_item_id ID of the secondary associated item.
@@ -243,7 +243,7 @@ class BP_Notifications_Notification {
 	 *     @type string $date_notified     Timestamp of the notification.
 	 *     @type bool   $is_new            True if the notification is unread, otherwise false.
 	 * }
-	 * @param array $data_format Optional. See {@link wpdb::insert()}.
+	 * @param array $data_format Optional. See {@see wpdb::insert()}.
 	 * @return int|false The number of rows inserted, or false on error.
 	 */
 	protected static function _insert( $data = array(), $data_format = array() ) { // phpcs:ignore PSR2.Methods.MethodDeclaration.Underscore -- Retains the established method name for backward compatibility.
@@ -261,13 +261,13 @@ class BP_Notifications_Notification {
 	 * @see wpdb::update() for further description of parameter formats.
 	 *
 	 * @param array $data         Optional. Array of notification data to update, passed to
-	 *                            {@link wpdb::update()}. Accepts any property of a
+	 *                            {@see wpdb::update()}. Accepts any property of a
 	 *                            BP_Notification_Notification object.
 	 * @param array $where        Optional. The WHERE params as passed to wpdb::update().
 	 *                            Typically consists of array( 'ID' => $id ) to specify the ID
-	 *                            of the item being updated. See {@link wpdb::update()}.
-	 * @param array $data_format  Optional. See {@link wpdb::insert()}.
-	 * @param array $where_format Optional. See {@link wpdb::insert()}.
+	 *                            of the item being updated. See {@see wpdb::update()}.
+	 * @param array $data_format  Optional. See {@see wpdb::insert()}.
+	 * @param array $where_format Optional. See {@see wpdb::insert()}.
 	 * @return int|false The number of rows updated, or false on error.
 	 */
 	protected static function _update( $data = array(), $where = array(), $data_format = array(), $where_format = array() ) { // phpcs:ignore PSR2.Methods.MethodDeclaration.Underscore -- Retains the established method name for backward compatibility.
@@ -285,9 +285,9 @@ class BP_Notifications_Notification {
 	 * @see wpdb::delete() for further description of parameter formats.
 	 *
 	 * @param array $where        Optional. Array of WHERE clauses to filter by, passed to
-	 *                            {@link wpdb::delete()}. Accepts any property of a
+	 *                            {@see wpdb::delete()}. Accepts any property of a
 	 *                            BP_Notification_Notification object.
-	 * @param array $where_format Optional. See {@link wpdb::insert()}.
+	 * @param array $where_format Optional. See {@see wpdb::insert()}.
 	 * @return int|false The number of rows updated, or false on error.
 	 */
 	protected static function _delete( $where = array(), $where_format = array() ) { // phpcs:ignore PSR2.Methods.MethodDeclaration.Underscore -- Retains the established method name for backward compatibility.
@@ -305,7 +305,7 @@ class BP_Notifications_Notification {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @param array  $args           Optional. See {@link BP_Notifications_Notification::get()}
+	 * @param array  $args           Optional. See {@see BP_Notifications_Notification::get()}
 	 *                               for more details.
 	 * @param string $select_sql     Optional. SQL SELECT fragment.
 	 * @param string $from_sql       Optional. SQL FROM fragment.
@@ -431,7 +431,7 @@ class BP_Notifications_Notification {
 	 *
 	 * @since 1.9.0
 	 *
-	 * @param array $args Optional. See {@link BP_Notifications_Notification::get()}
+	 * @param array $args Optional. See {@see BP_Notifications_Notification::get()}
 	 *                    for more details.
 	 * @return string ORDER BY clause.
 	 */
@@ -478,7 +478,7 @@ class BP_Notifications_Notification {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @param array $args Optional. See {@link BP_Notifications_Notification::get()}
+	 * @param array $args Optional. See {@see BP_Notifications_Notification::get()}
 	 *                    for more details.
 	 * @return string LIMIT clause.
 	 */
@@ -502,7 +502,7 @@ class BP_Notifications_Notification {
 	/**
 	 * Assemble query clauses, based on arguments, to pass to $wpdb methods.
 	 *
-	 * The insert(), update(), and delete() methods of {@link wpdb} expect
+	 * The insert(), update(), and delete() methods of {@see wpdb} expect
 	 * arguments of the following forms:
 	 *
 	 * - associative arrays whose key/value pairs are column => value, to
@@ -536,7 +536,7 @@ class BP_Notifications_Notification {
 	 * @since 1.9.0
 	 *
 	 * @param array $args Optional. Associative array of filter arguments.
-	 *                    See {@link BP_Notifications_Notification::get()}
+	 *                    See {@see BP_Notifications_Notification::get()}
 	 *                    for a breakdown.
 	 * @return array Associative array of 'data' and 'format' args.
 	 */
@@ -834,7 +834,7 @@ class BP_Notifications_Notification {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @param array|string $args See {@link BP_Notifications_Notification::get()}.
+	 * @param array|string $args See {@see BP_Notifications_Notification::get()}.
 	 * @return int Count of located items.
 	 */
 	public static function get_total_count( $args ) {
