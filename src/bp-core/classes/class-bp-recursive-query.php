@@ -60,9 +60,9 @@ abstract class BP_Recursive_Query {
 	 *
 	 * @since 2.2.0
 	 *
-	 * @param  array $query Query to parse.
-	 * @param  int   $depth Optional. Number of tree levels deep we
-	 *                      currently are. Used to calculate indentation.
+	 * @param array $query Query to parse.
+	 * @param int   $depth Optional. Number of tree levels deep we
+	 *                     currently are. Used to calculate indentation.
 	 * @return array
 	 */
 	protected function get_sql_for_query( $query, $depth = 0 ) {

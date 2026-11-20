@@ -164,8 +164,8 @@ function bp_groups_format_activity_action_joined_group( $action, $activity ) {
  *
  * @since 2.2.0
  *
- * @param  string $action   Static activity action.
- * @param  object $activity Activity data object.
+ * @param string $action   Static activity action.
+ * @param object $activity Activity data object.
  * @return string
  */
 function bp_groups_format_activity_action_group_details_updated( $action, $activity ) {

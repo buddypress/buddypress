@@ -982,7 +982,7 @@ function bp_comments_pre_query( $comment_data, $wp_comment_query ) {
  *
  * @global WP_Query $wp_query WordPress database query object.
  *
- * @param  string $retval Optional. The current post content.
+ * @param string $retval Optional. The current post content.
  * @return string
  */
 function bp_theme_compat_toggle_is_page( $retval = '' ) {

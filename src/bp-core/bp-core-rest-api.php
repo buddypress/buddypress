@@ -121,9 +121,9 @@ function bp_rest_get_object_url( $object_id, $object_path ) {
  *
  * @since 5.0.0
  *
- * @param  WP_REST_Response $response The response data.
- * @param  int              $total    Optional. The total number of found items.
- * @param  int              $per_page Optional. The number of items per page of results.
+ * @param WP_REST_Response $response The response data.
+ * @param int              $total    Optional. The total number of found items.
+ * @param int              $per_page Optional. The number of items per page of results.
  * @return WP_REST_Response
  */
 function bp_rest_response_add_total_headers( WP_REST_Response $response, $total = 0, $per_page = 0 ) {
@@ -187,7 +187,7 @@ function bp_rest_sanitize_member_types( $value ) {
  *
  * @since 5.0.0
  *
- * @param  mixed $value Mixed value.
+ * @param mixed $value Mixed value.
  * @return WP_Error|true
  */
 function bp_rest_validate_member_types( $value ) {
@@ -241,7 +241,7 @@ function bp_rest_sanitize_group_types( $group_types ) {
  *
  * @since 5.0.0
  *
- * @param  mixed $group_types Mixed value.
+ * @param mixed $group_types Mixed value.
  * @return WP_Error|bool
  */
 function bp_rest_validate_group_types( $group_types ) {

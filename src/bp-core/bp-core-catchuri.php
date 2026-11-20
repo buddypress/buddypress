@@ -464,7 +464,7 @@ add_action( 'login_init', 'bp_login_redirector', 1 );
  * @since 1.5.0
  * @since 2.7.0 Hook moved to 'wp_login_errors' made available since WP 3.6.0.
  *
- * @param  WP_Error $errors Current error container.
+ * @param WP_Error $errors Current error container.
  * @return WP_Error
  */
 function bp_core_no_access_wp_login_error( $errors ) {
@@ -493,7 +493,7 @@ add_filter( 'wp_login_errors', 'bp_core_no_access_wp_login_error' );
  *
  * @since 2.7.0
  *
- * @param  array $codes Array of WP error codes.
+ * @param array $codes Array of WP error codes.
  * @return array
  */
 function bp_core_login_filter_shake_codes( $codes ) {
@@ -857,8 +857,8 @@ add_action( 'wp_head', '_bp_maybe_remove_rel_canonical', 8 );
  *
  * @since 2.7.0
  *
- * @param  null     $retval Current return value for filter.
- * @param  WP_Query $query  Current WordPress query object.
+ * @param null     $retval Current return value for filter.
+ * @param WP_Query $query  Current WordPress query object.
  * @return null|array
  */
 function bp_core_filter_wp_query( $retval, $query ) {

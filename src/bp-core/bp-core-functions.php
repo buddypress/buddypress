@@ -2575,9 +2575,9 @@ function bp_get_custom_translation_file( $file_name = '' ) {
  *
  * @since 14.0.0
  *
- * @param  string $file   Absolut path to the translation file to use.
- * @param  string $domain The text domain to check against `buddypress`.
- * @param  string $locale Optional. The current locale for the WordPress site.
+ * @param string $file   Absolut path to the translation file to use.
+ * @param string $domain The text domain to check against `buddypress`.
+ * @param string $locale Optional. The current locale for the WordPress site.
  * @return string Absolut path to the translation file to use.
  */
 function bp_load_custom_translation_file( $file, $domain, $locale = '' ) {
@@ -3528,8 +3528,8 @@ function bp_get_email_tax_type_args() {
  *
  * @since 7.0.0
  *
- * @param  bool   $suppress_filters Optional. Whether to suppress filters. Default `false`.
- * @param  string $type_taxonomy    Optional. The type's taxonomy name.
+ * @param bool   $suppress_filters Optional. Whether to suppress filters. Default `false`.
+ * @param string $type_taxonomy    Optional. The type's taxonomy name.
  * @return array                     The default BuddyPress type metadata schema.
  */
 function bp_get_type_metadata_schema( $suppress_filters = false, $type_taxonomy = '' ) {
@@ -3602,9 +3602,9 @@ function bp_register_type_meta( $type_tax, $meta_key, array $args ) {
  *
  * @since 7.0.0
  *
- * @param  int    $type_id    Optional. The database ID of the BP Type.
- * @param  string $taxonomy   Optional. The BP Type taxonomy.
- * @param  array  $type_metas Optional. An associative array (meta_key=>meta_value).
+ * @param int    $type_id    Optional. The database ID of the BP Type.
+ * @param string $taxonomy   Optional. The BP Type taxonomy.
+ * @param array  $type_metas Optional. An associative array (meta_key=>meta_value).
  * @return bool
  */
 function bp_update_type_metadata( $type_id = 0, $taxonomy = '', $type_metas = array() ) {

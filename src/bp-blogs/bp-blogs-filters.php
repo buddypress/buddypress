@@ -130,7 +130,7 @@ add_filter( 'bp_activity_post_pre_comment', 'bp_blogs_post_pre_publish', 10, 4 )
  *
  * @since 2.7.0
  *
- * @param  array $sizes Current array of custom site icon sizes.
+ * @param array $sizes Current array of custom site icon sizes.
  * @return array
  */
 function bp_blogs_register_custom_site_icon_size( $sizes ) {

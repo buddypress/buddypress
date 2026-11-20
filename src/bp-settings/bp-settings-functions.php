@@ -306,7 +306,7 @@ function bp_settings_get_personal_data_export_url( WP_User_Request $request ) {
  *
  * @since 4.0.0
  *
- * @param  WP_User_Request $request User request object.
+ * @param WP_User_Request $request User request object.
  * @return bool
  */
 function bp_settings_personal_data_export_exists( WP_User_Request $request ) {

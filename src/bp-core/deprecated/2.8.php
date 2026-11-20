@@ -68,7 +68,7 @@ function bp_core_admin_maybe_remove_from_update_core() {
  * @since 2.7.0
  * @deprecated 2.8.0
  *
- * @param  object $retval Object of plugin update data.
+ * @param object $retval Object of plugin update data.
  * @return object
  */
 function bp_core_admin_remove_buddypress_from_update_transient( $retval ) {

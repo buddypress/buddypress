@@ -314,7 +314,7 @@ class BP_Groups_REST_Controller extends WP_REST_Controller {
 	 *
 	 * @since 15.0.0
 	 *
-	 * @param  WP_REST_Request $request Full data about the request.
+	 * @param WP_REST_Request $request Full data about the request.
 	 * @return WP_REST_Response|WP_Error
 	 */
 	public function create_item( $request ) {
@@ -456,7 +456,7 @@ class BP_Groups_REST_Controller extends WP_REST_Controller {
 	 *
 	 * @since 15.0.0
 	 *
-	 * @param  WP_REST_Request $request Full details about the request.
+	 * @param WP_REST_Request $request Full details about the request.
 	 * @return true|WP_Error
 	 */
 	public function update_item_permissions_check( $request ) {
@@ -551,7 +551,7 @@ class BP_Groups_REST_Controller extends WP_REST_Controller {
 	 *
 	 * @since 15.0.0
 	 *
-	 * @param  WP_REST_Request $request Full details about the request.
+	 * @param WP_REST_Request $request Full details about the request.
 	 * @return true|WP_Error
 	 */
 	public function delete_item_permissions_check( $request ) {
@@ -674,7 +674,7 @@ class BP_Groups_REST_Controller extends WP_REST_Controller {
 	 *
 	 * @since 15.0.0
 	 *
-	 * @param  WP_REST_Request $request Full details about the request.
+	 * @param WP_REST_Request $request Full details about the request.
 	 * @return true|WP_Error
 	 */
 	public function get_current_user_groups_permissions_check( $request ) {
@@ -1047,7 +1047,7 @@ class BP_Groups_REST_Controller extends WP_REST_Controller {
 	 *
 	 * @since 15.0.0
 	 *
-	 * @param  BP_Groups_Group $group Group item.
+	 * @param BP_Groups_Group $group Group item.
 	 * @return bool
 	 */
 	protected function can_user_delete_or_update( $group ) {
@@ -1059,7 +1059,7 @@ class BP_Groups_REST_Controller extends WP_REST_Controller {
 	 *
 	 * @since 15.0.0
 	 *
-	 * @param  BP_Groups_Group $group Group object.
+	 * @param BP_Groups_Group $group Group object.
 	 * @return bool
 	 */
 	public function can_see( $group ) {
@@ -1097,7 +1097,7 @@ class BP_Groups_REST_Controller extends WP_REST_Controller {
 	 *
 	 * @since 15.0.0
 	 *
-	 * @param  int|WP_REST_Request $request Full details about the request or an group integer.
+	 * @param int|WP_REST_Request $request Full details about the request or an group integer.
 	 * @return false|BP_Groups_Group
 	 */
 	public function get_group_object( $request ) {

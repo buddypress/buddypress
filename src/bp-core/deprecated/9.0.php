@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 5.0.0
  * @deprecated 9.0.0
  *
- * @param  int $user_id User ID.
+ * @param int $user_id User ID.
  * @return string
  */
 function bp_rest_get_user_url( $user_id ) {

@@ -1550,10 +1550,10 @@ add_action( 'wp_ajax_bp_avatar_set', 'bp_avatar_ajax_set' );
  *
  * @since 2.9.0
  *
- * @param  string $retval      The URL of the avatar.
- * @param  mixed  $id_or_email The Gravatar to retrieve. Accepts a user_id, gravatar md5 hash,
- *                             user email, WP_User object, WP_Post object, or WP_Comment object.
- * @param  array  $args        Arguments passed to get_avatar_data(), after processing.
+ * @param string $retval      The URL of the avatar.
+ * @param mixed  $id_or_email The Gravatar to retrieve. Accepts a user_id, gravatar md5 hash,
+ *                            user email, WP_User object, WP_Post object, or WP_Comment object.
+ * @param array  $args        Arguments passed to get_avatar_data(), after processing.
  * @return string
  */
 function bp_core_get_avatar_data_url_filter( $retval, $id_or_email, $args ) {

@@ -1333,11 +1333,11 @@ class BP_Groups_Member {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @param  int $user_id    ID of the user.
-	 * @param  int $group_id   ID of the group.
-	 * @param  int $inviter_id Optional. ID of the inviter. Specify if you want to delete
-	 *                         a specific invite. Leave false if you want to
-	 *                         delete all invites to this group.
+	 * @param int $user_id    ID of the user.
+	 * @param int $group_id   ID of the group.
+	 * @param int $inviter_id Optional. ID of the inviter. Specify if you want to delete
+	 *                        a specific invite. Leave false if you want to
+	 *                        delete all invites to this group.
 	 * @return int Number of records deleted.
 	 */
 	public static function delete_invite( $user_id, $group_id, $inviter_id = false ) {
@@ -1349,7 +1349,7 @@ class BP_Groups_Member {
 		 *
 		 * @param int $user_id  ID of the user.
 		 * @param int $group_id ID of the group.
-		 * @param  int $inviter_id ID of the inviter.
+		 * @param int $inviter_id ID of the inviter.
 		 */
 		do_action( 'bp_groups_member_before_delete_invite', $user_id, $group_id, $inviter_id );
 
@@ -1549,7 +1549,7 @@ class BP_Groups_Member {
 	 *
 	 * @since 1.6.0
 	 *
-	 * @param  int $group_id ID of the group.
+	 * @param int $group_id ID of the group.
 	 * @return array           Info about group admins (user_id + date_modified).
 	 */
 	public static function get_group_administrator_ids( $group_id ) {

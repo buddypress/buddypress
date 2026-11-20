@@ -786,7 +786,7 @@ function bp_nouveau_customizer_grid_choices( $type = 'option' ) {
  *
  * @since 3.0.0
  *
- * @param  string $option Optional. A comma separated list of nav items slugs.
+ * @param string $option Optional. A comma separated list of nav items slugs.
  *
  * @return array An array of nav items slugs.
  */

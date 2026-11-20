@@ -2915,9 +2915,9 @@ function bp_group_admin_tabs( $group = false ) {
  *
  * @since 2.2.0
  *
- * @param  string $subnav_output Optional. Subnav item output.
- * @param  string $subnav_item   Optional. Subnav item parameters.
- * @param  string $selected_item Optional. Surrent selected tab.
+ * @param string $subnav_output Optional. Subnav item output.
+ * @param string $subnav_item   Optional. Subnav item parameters.
+ * @param string $selected_item Optional. Surrent selected tab.
  * @return string HTML output
  */
 function bp_group_admin_tabs_backcompat( $subnav_output = '', $subnav_item = '', $selected_item = '' ) {
@@ -4728,7 +4728,7 @@ function bp_groups_front_template_part() {
  * @since 2.4.0
  * @since 2.6.0 Adds the Group Type to the front template hierarchy.
  *
- * @param  BP_Groups_Group|null $group Optional. Falls back to current group if not passed.
+ * @param BP_Groups_Group|null $group Optional. Falls back to current group if not passed.
  * @return string|bool                 Path to front template on success; boolean false on failure.
  */
 function bp_groups_get_front_template( $group = null ) {

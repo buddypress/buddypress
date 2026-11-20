@@ -1443,8 +1443,8 @@ class BP_Component {
 	 *
 	 * @since 12.0.0
 	 *
-	 * @param  null     $posts Optional. A null value to use the regular WP Query.
-	 * @param  WP_Query $query Optional. The WP Query object.
+	 * @param null     $posts Optional. A null value to use the regular WP Query.
+	 * @param WP_Query $query Optional. The WP Query object.
 	 * @return null|array Null if not displaying a BuddyPress page.
 	 *                    An array containing the BuddyPress directory page otherwise.
 	 */

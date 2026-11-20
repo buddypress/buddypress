@@ -397,7 +397,7 @@ function bp_notifications_delete_notifications_by_item_id( $user_id, $item_id, $
  *
  * @since 10.0.0
  *
- * @param  int[] $ids IDs of the associated notifications.
+ * @param int[] $ids IDs of the associated notifications.
  * @return int|false      The number of rows updated. False on error.
  */
 function bp_notifications_delete_notifications_by_ids( $ids ) {
@@ -409,10 +409,10 @@ function bp_notifications_delete_notifications_by_ids( $ids ) {
  *
  * @since 10.0.0
  *
- * @param  int    $user_id          ID of the user whose notifications are being deleted.
- * @param  int[]  $item_ids         IDs of the associated items.
- * @param  string $component_name   Name of the associated component.
- * @param  string $component_action Name of the associated action.
+ * @param int    $user_id          ID of the user whose notifications are being deleted.
+ * @param int[]  $item_ids         IDs of the associated items.
+ * @param string $component_name   Name of the associated component.
+ * @param string $component_action Name of the associated action.
  * @return int|false                   The number of rows updated. False on error.
  */
 function bp_notifications_delete_notifications_by_item_ids( $user_id, $item_ids, $component_name, $component_action ) {
@@ -638,11 +638,11 @@ function bp_notifications_mark_notifications_from_user( $user_id, $component_nam
  *
  * @since 10.0.0
  *
- * @param  int       $user_id          ID of the user whose notifications are being deleted.
- * @param  int[]     $item_ids         IDs of the associated items.
- * @param  string    $component_name   Name of the associated component.
- * @param  string    $component_action Name of the associated action.
- * @param  int|false $is_new           Optional. 0 for read, 1 for unread.
+ * @param int       $user_id          ID of the user whose notifications are being deleted.
+ * @param int[]     $item_ids         IDs of the associated items.
+ * @param string    $component_name   Name of the associated component.
+ * @param string    $component_action Name of the associated action.
+ * @param int|false $is_new           Optional. 0 for read, 1 for unread.
  * @return int|false                   The number of rows updated. False on error.
  */
 function bp_notifications_mark_notifications_by_item_ids( $user_id, $item_ids, $component_name, $component_action, $is_new = false ) {
@@ -665,8 +665,8 @@ function bp_notifications_mark_notifications_by_item_ids( $user_id, $item_ids, $
  *
  * @since 10.0.0
  *
- * @param  int[]     $ids     IDs of the associated notification items.
- * @param  int|false $is_new  Optional. 0 for read, 1 for unread.
+ * @param int[]     $ids     IDs of the associated notification items.
+ * @param int|false $is_new  Optional. 0 for read, 1 for unread.
  * @return int|false          The number of rows updated. False on error.
  */
 function bp_notifications_mark_notifications_by_ids( $ids, $is_new = false ) {
@@ -918,13 +918,13 @@ function bp_notifications_get_meta( $notification_id = 0, $meta_key = '', $singl
  *
  * @since 1.2.0
  *
- * @param  int    $notification_id ID of the notification item whose metadata is being
- *                                 updated.
- * @param  string $meta_key        Key of the metadata being updated.
- * @param  mixed  $meta_value      Value to be set.
- * @param  mixed  $prev_value      Optional. If specified, only update existing
- *                                 metadata entries with the specified value.
- *                                 Otherwise, update all entries.
+ * @param int    $notification_id ID of the notification item whose metadata is being
+ *                                updated.
+ * @param string $meta_key        Key of the metadata being updated.
+ * @param mixed  $meta_value      Value to be set.
+ * @param mixed  $prev_value      Optional. If specified, only update existing
+ *                                metadata entries with the specified value.
+ *                                Otherwise, update all entries.
  * @return bool|int                Returns false on failure. On successful
  *                                 update of existing metadata, returns true. On
  *                                 successful creation of new metadata,  returns
