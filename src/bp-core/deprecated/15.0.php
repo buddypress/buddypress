@@ -294,6 +294,8 @@ function bp_get_activity_content() {
 /**
  * Build the combined content for the deprecated activity template tags.
  *
+ * For internal use only.
+ *
  * @since 15.0.0
  *
  * @return string The filtered activity action and body.
