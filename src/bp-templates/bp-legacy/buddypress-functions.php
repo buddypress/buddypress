@@ -1830,42 +1830,6 @@ function bp_legacy_theme_ajax_messages_send_reply() {
 }
 
 /**
- * Mark a private message as unread in your inbox via a POST request.
- *
- * No longer used.
- *
- * @since 1.2.0
- * @deprecated 2.2.0
- */
-function bp_legacy_theme_ajax_message_markunread() {
-	die( '-1' );
-}
-
-/**
- * Mark a private message as read in your inbox via a POST request.
- *
- * No longer used.
- *
- * @since 1.2.0
- * @deprecated 2.2.0
- */
-function bp_legacy_theme_ajax_message_markread() {
-	die( '-1' );
-}
-
-/**
- * Delete a private message(s) in your inbox via a POST request.
- *
- * No longer used.
- *
- * @since 1.2.0
- * @deprecated 2.2.0
- */
-function bp_legacy_theme_ajax_messages_delete() {
-	die( '-1' );
-}
-
-/**
  * AJAX handler for autocomplete.
  *
  * Displays friends only, unless BP_MESSAGES_AUTOCOMPLETE_ALL is defined.
