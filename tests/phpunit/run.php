@@ -25,8 +25,9 @@ try {
 	exit( 1 );
 }
 
-$_SERVER['argv'] = array_merge( array( $entry ), $args );
-$_SERVER['argc'] = count( $_SERVER['argv'] );
+// Execute the CLI entry point directly: including its shebang breaks strict_types on PHP 7.4.
+$command = array_merge( array( PHP_BINARY, $entry ), $args );
+$command = implode( ' ', array_map( 'escapeshellarg', $command ) );
 
-// Keep PHPUnit's own CLI/bootstrap and exit-code handling.
-require $entry;
+passthru( $command, $exit_code );
+exit( $exit_code );
