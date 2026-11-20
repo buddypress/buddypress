@@ -147,7 +147,7 @@ class BP_Messages_Thread_Template {
 	/**
 	 * Whether there are messages left in the loop to iterate over.
 	 *
-	 * This method is used by `bp_thread_messages` as part of the
+	 * This method is used by {@see bp_thread_messages()} as part of the
 	 * while loop that controls iteration inside the messages loop, eg:
 	 *     while ( bp_thread_messages() ) { ...
 	 *
@@ -177,7 +177,7 @@ class BP_Messages_Thread_Template {
 	/**
 	 * Set up the current message inside the loop.
 	 *
-	 * Used by `bp_thread_the_message` to set up the current
+	 * Used by {@see bp_thread_the_message()} to set up the current
 	 * message data while looping, so that template tags used during
 	 * that iteration make reference to the current message.
 	 *

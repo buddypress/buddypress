@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Class for generating the WHERE SQL clause for advanced activity fetching.
  *
- * This is notably used in `BP_Activity_Activity::get` with the
+ * This is notably used in {@see BP_Activity_Activity::get()} with the
  * 'filter_query' parameter.
  *
  * @since 2.2.0
@@ -264,7 +264,7 @@ class BP_Activity_Query extends BP_Recursive_Query {
 	 * Validates a column name parameter.
 	 *
 	 * Column names are checked against a list of known tables.
-	 * See {@link BP_Activity_Query::db_tables}.
+	 * See {@see BP_Activity_Query::db_tables}.
 	 *
 	 * @since 2.2.0
 	 *

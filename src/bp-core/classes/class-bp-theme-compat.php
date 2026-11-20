@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * Theme Compatibility base class.
  *
  * This is only intended to be extended, and is included here as a basic guide
- * for future Theme Packs to use. {@link BP_Legacy} is a good example of
+ * for future Theme Packs to use. {@see BP_Legacy} is a good example of
  * extending this class.
  *
  * @since 1.7.0
@@ -78,7 +78,7 @@ class BP_Theme_Compat {
 	 * Set up global data for your template package.
 	 *
 	 * Meant to be overridden in your class. See
-	 * `BP_Legacy::setup_globals` for an example.
+	 * {@see BP_Legacy::setup_globals()} for an example.
 	 *
 	 * @since 1.7.0
 	 */
@@ -88,7 +88,7 @@ class BP_Theme_Compat {
 	 * Set up theme hooks for your template package.
 	 *
 	 * Meant to be overridden in your class. See
-	 * `BP_Legacy::setup_actions` for an example.
+	 * {@see BP_Legacy::setup_actions()} for an example.
 	 *
 	 * @since 1.7.0
 	 */

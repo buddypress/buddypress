@@ -120,7 +120,7 @@ function bp_member_total_friend_count() {
  *
  * @see bp_get_potential_friend_id() for a description of arguments.
  *
- * @param int $user_id Optional. See `bp_get_potential_friend_id`.
+ * @param int $user_id Optional. See {@see bp_get_potential_friend_id()}.
  */
 function bp_potential_friend_id( $user_id = 0 ) {
 	echo intval( bp_get_potential_friend_id( $user_id ) );
@@ -163,7 +163,7 @@ function bp_potential_friend_id( $user_id = 0 ) {
  * @since 1.2.6
  *
  * @param int $user_id Optional. ID of the potential friend. Default: the value of
- *                     `bp_get_potential_friend_id`.
+ *                     {@see bp_get_potential_friend_id()}.
  * @return bool|string 'is_friend', 'not_friends', or 'pending'.
  */
 function bp_is_friend( $user_id = 0 ) {
@@ -199,7 +199,7 @@ function bp_is_friend( $user_id = 0 ) {
  *
  * @see bp_get_add_friend_button() for information on arguments.
  *
- * @param int $potential_friend_id Optional. See `bp_get_add_friend_button`.
+ * @param int $potential_friend_id Optional. See {@see bp_get_add_friend_button()}.
  */
 function bp_add_friend_button( $potential_friend_id = 0 ) {
 	// Escaping is done in `BP_Core_HTML_Element()`.
@@ -326,7 +326,7 @@ function bp_add_friend_button( $potential_friend_id = 0 ) {
 	 * @since 15.0.0 The `$friend_status` parameter was removed since it was unused.
 	 *
 	 * @param int $potential_friend_id Optional. ID of the user to whom the button
-	 *                                 applies. Default: value of `bp_get_potential_friend_id`.
+	 *                                 applies. Default: value of {@see bp_get_potential_friend_id()}.
 	 * @return bool|string HTML for the Add Friend button. False if already friends.
 	 */
 	function bp_get_add_friend_button( $potential_friend_id = 0 ) {
@@ -532,7 +532,7 @@ function bp_friend_reject_request_link() {
  *
  * @since 1.2.0
  *
- * @param int $user_id Optional. See `friends_get_total_friend_count`.
+ * @param int $user_id Optional. See {@see friends_get_total_friend_count()}.
  */
 function bp_total_friend_count( $user_id = 0 ) {
 	echo intval( bp_get_total_friend_count( $user_id ) );
@@ -542,7 +542,7 @@ function bp_total_friend_count( $user_id = 0 ) {
 	 *
 	 * @since 1.2.0
 	 *
-	 * @param int $user_id Optional. See `friends_get_total_friend_count`.
+	 * @param int $user_id Optional. See {@see friends_get_total_friend_count()}.
 	 * @return int Total friend count.
 	 */
 	function bp_get_total_friend_count( $user_id = 0 ) {

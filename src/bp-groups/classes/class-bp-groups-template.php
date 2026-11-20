@@ -142,7 +142,7 @@ class BP_Groups_Template {
 	 *
 	 * @param array ...$args {
 	 *     Array of arguments. Accepts all arguments accepted by
-	 *     `BP_Groups_Group::get`. In cases where the default
+	 *     {@see BP_Groups_Group::get()}. In cases where the default
 	 *     values of the params differ, they have been discussed below.
 	 *     @type int $per_page Default: 20.
 	 *     @type int $page Default: 1.
@@ -404,7 +404,7 @@ class BP_Groups_Template {
 	/**
 	 * Whether there are groups left in the loop to iterate over.
 	 *
-	 * This method is used by `bp_groups` as part of the while loop
+	 * This method is used by {@see bp_groups()} as part of the while loop
 	 * that controls iteration inside the groups loop, eg:
 	 *     while ( bp_groups() ) { ...
 	 *
@@ -436,7 +436,7 @@ class BP_Groups_Template {
 	/**
 	 * Set up the current group inside the loop.
 	 *
-	 * Used by `bp_the_group` to set up the current group data
+	 * Used by {@see bp_the_group()} to set up the current group data
 	 * while looping, so that template tags used during that iteration make
 	 * reference to the current member.
 	 *

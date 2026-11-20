@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Record an activity item related to the Friends component.
  *
- * A wrapper for `bp_activity_add` that provides some Friends-specific
+ * A wrapper for {@see bp_activity_add()} that provides some Friends-specific
  * defaults.
  *
  * @since 1.0.0
@@ -26,12 +26,12 @@ defined( 'ABSPATH' ) || exit;
  *
  * @param array|string $args {
  *     Optional. An array of arguments for the new activity item. Accepts all parameters
- *     of `bp_activity_add`. The following argument has a different
+ *     of {@see bp_activity_add()}. The following argument has a different
  *     default.
  *     @type string $component Default: the id of your Friends component
  *                             (usually 'friends').
  * }
- * @return WP_Error|bool|int See {@link bp_activity_add()}.
+ * @return WP_Error|bool|int See {@see bp_activity_add()}.
  */
 function friends_record_activity( $args = '' ) {
 
@@ -277,7 +277,7 @@ add_filter( 'bp_activity_prefetch_object_data', 'bp_friends_prefetch_activity_ob
 /**
  * Set up activity arguments for use with the 'friends' scope.
  *
- * For details on the syntax, see {@link BP_Activity_Query}.
+ * For details on the syntax, see {@see BP_Activity_Query}.
  *
  * @since 2.2.0
  *
@@ -330,7 +330,7 @@ add_filter( 'bp_activity_set_friends_scope_args', 'bp_friends_filter_activity_sc
 /**
  * Set up activity arguments for use with the 'just-me' scope.
  *
- * For details on the syntax, see {@link BP_Activity_Query}.
+ * For details on the syntax, see {@see BP_Activity_Query}.
  *
  * @since 2.2.0
  *

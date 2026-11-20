@@ -520,7 +520,7 @@ abstract class BP_Invitation_Manager {
 	 *
 	 * @since 5.0.0
 	 *
-	 * @param array $args Optional. See `BP_Invitation::get`.
+	 * @param array $args Optional. See {@see BP_Invitation::get()}.
 	 * @return bool Whether the request was accepted.
 	 */
 	public function accept_request( $args = array() ) {

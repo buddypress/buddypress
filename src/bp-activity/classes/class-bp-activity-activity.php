@@ -1281,7 +1281,7 @@ class BP_Activity_Activity {
 			 *     Activity query clauses.
 			 *     @type array {
 			 *         Activity arguments for your custom scope.
-			 *         See `BP_Activity_Query::_construct` for more details.
+			 *         See {@see BP_Activity_Query::_construct()} for more details.
 			 *     }
 			 *     @type array  $override Optional. Override existing activity arguments passed by $r.
 			 *     }

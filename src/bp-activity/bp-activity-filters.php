@@ -408,7 +408,7 @@ function bp_activity_make_nofollow_filter( $text ) {
  *
  * @param string $text The original activity entry text.
  * @param array  $args {
- *     Optional parameters. See $options argument of `bp_create_excerpt`
+ *     Optional parameters. See $options argument of {@see bp_create_excerpt()}
  *     for all available parameters.
  * }.
  * @return string The truncated text.

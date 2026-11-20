@@ -327,7 +327,7 @@ add_action( 'bp_template_redirect', 'bp_core_catch_no_access', 1 );
  *     @type string $redirect The URL the user will be redirected to after successfully
  *                            logging in. Default: the URL originally requested.
  *     @type string $root     The root URL of the site, used in case of error or mode 1 redirects.
- *                            Default: the value of `bp_get_root_url`.
+ *                            Default: the value of {@see bp_get_root_url()}.
  *     @type string $message  An error message to display to the user on the log-in page.
  *                            Default: "You must log in to access the page you requested."
  * }

@@ -288,7 +288,7 @@ class BP_Invitation {
 	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param array $data {
-	 *     Optional. Array of invitation data, passed to `wpdb::insert`.
+	 *     Optional. Array of invitation data, passed to {@see wpdb::insert()}.
 	 *     @type int    $user_id           ID of the invited user.
 	 *     @type int    $inviter_id        ID of the user who created the invitation.
 	 *     @type string $invitee_email     Email address of the invited user.
@@ -302,7 +302,7 @@ class BP_Invitation {
 	 *     @type int    $invite_sent       Has the invitation been sent, or is it a draft
 	 *                                     invite?
 	 * }
-	 * @param array $data_format Optional. See `wpdb::insert`.
+	 * @param array $data_format Optional. See {@see wpdb::insert()}.
 	 * @return int|false The number of rows inserted, or false on error.
 	 */
 	protected static function _insert( $data = array(), $data_format = array() ) { // phpcs:ignore PSR2.Methods.MethodDeclaration.Underscore -- Retains the established method name for backward compatibility.
@@ -320,13 +320,13 @@ class BP_Invitation {
 	 * @see wpdb::update() for further description of paramater formats.
 	 *
 	 * @param array $data         Optional. Array of invitation data to update, passed to
-	 *                            `wpdb::update`. Accepts any property of a
+	 *                            {@see wpdb::update()}. Accepts any property of a
 	 *                            BP_Invitation object.
 	 * @param array $where        Optional. The WHERE params as passed to wpdb::update().
 	 *                            Typically consists of array( 'ID' => $id ) to specify the ID
-	 *                            of the item being updated. See `wpdb::update`.
-	 * @param array $data_format  Optional. See `wpdb::insert`.
-	 * @param array $where_format Optional. See `wpdb::insert`.
+	 *                            of the item being updated. See {@see wpdb::update()}.
+	 * @param array $data_format  Optional. See {@see wpdb::insert()}.
+	 * @param array $where_format Optional. See {@see wpdb::insert()}.
 	 * @return int|false The number of rows updated, or false on error.
 	 */
 	protected static function _update( $data = array(), $where = array(), $data_format = array(), $where_format = array() ) { // phpcs:ignore PSR2.Methods.MethodDeclaration.Underscore -- Retains the established method name for backward compatibility.
@@ -344,9 +344,9 @@ class BP_Invitation {
 	 * @see wpdb::update() for further description of paramater formats.
 	 *
 	 * @param array $where        Optional. Array of WHERE clauses to filter by, passed to
-	 *                            `wpdb::delete`. Accepts any property of a
+	 *                            {@see wpdb::delete()}. Accepts any property of a
 	 *                            BP_Invitation object.
-	 * @param array $where_format Optional. See `wpdb::insert`.
+	 * @param array $where_format Optional. See {@see wpdb::insert()}.
 	 * @return int|false The number of rows updated, or false on error.
 	 */
 	protected static function _delete( $where = array(), $where_format = array() ) { // phpcs:ignore PSR2.Methods.MethodDeclaration.Underscore -- Retains the established method name for backward compatibility.
@@ -361,7 +361,7 @@ class BP_Invitation {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @param array $args Optional. See `BP_Invitation::get` for more details.
+	 * @param array $args Optional. See {@see BP_Invitation::get()} for more details.
 	 * @return string WHERE clause.
 	 */
 	protected static function get_where_sql( $args = array() ) {
@@ -483,7 +483,7 @@ class BP_Invitation {
 	 *
 	 * @since 5.0.0
 	 *
-	 * @param array $args Optional. See `BP_Invitation::get` for more details.
+	 * @param array $args Optional. See {@see BP_Invitation::get()} for more details.
 	 * @return string ORDER BY clause.
 	 */
 	protected static function get_order_by_sql( $args = array() ) {
@@ -527,7 +527,7 @@ class BP_Invitation {
 	 *
 	 * @since 5.0.0
 	 *
-	 * @param array $args Optional. See `BP_Invitation::get` for more details.
+	 * @param array $args Optional. See {@see BP_Invitation::get()} for more details.
 	 * @return string LIMIT clause.
 	 */
 	protected static function get_paged_sql( $args = array() ) {
@@ -550,7 +550,7 @@ class BP_Invitation {
 	/**
 	 * Assemble query clauses, based on arguments, to pass to $wpdb methods.
 	 *
-	 * The insert(), update(), and delete() methods of {@link wpdb} expect
+	 * The insert(), update(), and delete() methods of {@see wpdb} expect
 	 * arguments of the following forms:
 	 *
 	 * - associative arrays whose key/value pairs are column => value, to
@@ -584,7 +584,7 @@ class BP_Invitation {
 	 * @since 5.0.0
 	 *
 	 * @param array $args Optional. Associative array of filter arguments.
-	 *                    See `BP_Invitation::get` for a breakdown.
+	 *                    See {@see BP_Invitation::get()} for a breakdown.
 	 * @return array Associative array of 'data' and 'format' args.
 	 */
 	protected static function get_query_clauses( $args = array() ) {
@@ -930,7 +930,7 @@ class BP_Invitation {
 	 * @see BP_Invitation::get() for a description of
 	 *      arguments.
 	 *
-	 * @param array $args See `BP_Invitation::get`.
+	 * @param array $args See {@see BP_Invitation::get()}.
 	 * @return int Count of located items.
 	 */
 	public static function get_total_count( $args ) {

@@ -766,12 +766,12 @@ class BP_Groups_Group {
 	/**
 	 * Get the ID of a group by the group's slug.
 	 *
-	 * Alias of `BP_Groups_Group::group_exists`.
+	 * Alias of {@see BP_Groups_Group::group_exists()}.
 	 *
 	 * @since 1.6.0
 	 *
-	 * @param string $slug See `BP_Groups_Group::group_exists`.
-	 * @return int|null|bool See {@link BP_Groups_Group::group_exists()}.
+	 * @param string $slug See {@see BP_Groups_Group::group_exists()}.
+	 * @return int|null|bool See {@see BP_Groups_Group::group_exists()}.
 	 */
 	public static function get_id_from_slug( $slug ) {
 		return self::group_exists( $slug );
@@ -1096,11 +1096,11 @@ class BP_Groups_Group {
 	 *     @type array|string $group_type__not_in Array or comma-separated list of group types that will be
 	 *                                            excluded from results.
 	 *     @type array        $tax_query          Optional. An array of tax_query conditions. See
-	 *                                            `WP_Tax_Query::__construct` for syntax.
+	 *                                            {@see WP_Tax_Query::__construct()} for syntax.
 	 *     @type array        $meta_query         Optional. An array of meta_query conditions.
-	 *                                            See {@link WP_Meta_Query::queries} for description.
+	 *                                            See {@see WP_Meta_Query::queries} for description.
 	 *     @type array        $date_query         Optional. Filter results by group last activity date. See first
-	 *                                            parameter of `WP_Date_Query::__construct` for syntax. Only
+	 *                                            parameter of {@see WP_Date_Query::__construct()} for syntax. Only
 	 *                                            applicable if $type is either 'newest' or 'active'.
 	 *     @type array|string $value              Optional. Array or comma-separated list of group IDs. Results
 	 *                                            will be limited to groups within the list. Default: false.
@@ -1622,7 +1622,7 @@ class BP_Groups_Group {
 	 * @since 1.8.0
 	 *
 	 * @param array $meta_query Optional. An array of meta_query filters. See the
-	 *                          documentation for {@link WP_Meta_Query} for more details.
+	 *                          documentation for {@see WP_Meta_Query} for more details.
 	 * @return array
 	 */
 	protected static function get_meta_query_sql( $meta_query = array() ) {
@@ -1653,7 +1653,7 @@ class BP_Groups_Group {
 	 * Get the SQL for the 'tax_query' param in BP_Groups_Group::get().
 	 *
 	 * @param array $tax_query Optional. An array of tax query arguments. See the
-	 *                         documentation for {@link WP_Tax_Query} for more details.
+	 *                         documentation for {@see WP_Tax_Query} for more details.
 	 * @return array
 	 */
 	protected static function get_tax_query_sql( $tax_query = array() ) {

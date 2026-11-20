@@ -13,7 +13,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Extracts media from text. Use `extract`.
+ * Extracts media from text. Use {@see extract()}.
  *
  * @since 2.3.0
  *
@@ -174,7 +174,7 @@ class BP_Media_Extractor {
 		 *
 		 * @since 2.3.0
 		 *
-		 * @param array  $media           Extracted media. See `BP_Media_Extractor::extract` for format.
+		 * @param array  $media           Extracted media. See {@see BP_Media_Extractor::extract()} for format.
 		 * @param string $richtext        Content to parse.
 		 * @param int    $what_to_extract Media type to extract.
 		 * @param array  $extra_args      Bespoke data for a particular extractor.
@@ -186,7 +186,7 @@ class BP_Media_Extractor {
 	/**
 	 * Content type specific extraction methods.
 	 *
-	 * You shouldn't need to use these directly; just use `BP_Media_Extractor::extract`.
+	 * You shouldn't need to use these directly; just use {@see BP_Media_Extractor::extract()}.
 	 */
 
 	/**
@@ -238,7 +238,7 @@ class BP_Media_Extractor {
 		 *
 		 * @since 2.3.0
 		 *
-		 * @param array  $data       Extracted links. See `BP_Media_Extractor::extract_links` for format.
+		 * @param array  $data       Extracted links. See {@see BP_Media_Extractor::extract_links()} for format.
 		 * @param string $richtext   Content to parse.
 		 * @param string $plaintext  Copy of $richtext without any markup.
 		 * @param array  $extra_args Bespoke data for a particular extractor.
@@ -313,7 +313,7 @@ class BP_Media_Extractor {
 		 *
 		 * @since 2.3.0
 		 *
-		 * @param array  $data       Extracted @mentions. See `BP_Media_Extractor::extract_mentions` for format.
+		 * @param array  $data       Extracted @mentions. See {@see BP_Media_Extractor::extract_mentions()} for format.
 		 * @param string $richtext   Content to parse.
 		 * @param string $plaintext  Copy of $richtext without any markup.
 		 * @param array  $extra_args Bespoke data for a particular extractor (optional).
@@ -432,7 +432,7 @@ class BP_Media_Extractor {
 		 *
 		 * @since 2.3.0
 		 *
-		 * @param array  $media      Extracted images. See `BP_Media_Extractor::extract_images` for format.
+		 * @param array  $media      Extracted images. See {@see BP_Media_Extractor::extract_images()} for format.
 		 * @param string $richtext   Content to parse.
 		 * @param string $plaintext  Copy of $richtext without any markup.
 		 * @param array  $extra_args Bespoke data for a particular extractor.
@@ -499,7 +499,7 @@ class BP_Media_Extractor {
 		 * @since 2.3.0
 		 *
 		 * @param array  $data       Extracted shortcodes.
-		 *                           See `BP_Media_Extractor::extract_shortcodes` for format.
+		 *                           See {@see BP_Media_Extractor::extract_shortcodes()} for format.
 		 * @param string $richtext   Content to parse.
 		 * @param string $plaintext  Copy of $richtext without any markup.
 		 * @param array  $extra_args Bespoke data for a particular extractor.
@@ -577,7 +577,7 @@ class BP_Media_Extractor {
 		 *
 		 * @since 2.3.0
 		 *
-		 * @param array  $data       Extracted embeds. See `BP_Media_Extractor::extract_embeds` for format.
+		 * @param array  $data       Extracted embeds. See {@see BP_Media_Extractor::extract_embeds()} for format.
 		 * @param string $richtext   Content to parse.
 		 * @param string $plaintext  Copy of $richtext without any markup.
 		 * @param array  $extra_args Bespoke data for a particular extractor.
@@ -676,7 +676,7 @@ class BP_Media_Extractor {
 		 *
 		 * @since 2.3.0
 		 *
-		 * @param array  $data       Extracted audio. See `BP_Media_Extractor::extract_audio` for format.
+		 * @param array  $data       Extracted audio. See {@see BP_Media_Extractor::extract_audio()} for format.
 		 * @param string $richtext   Content to parse.
 		 * @param string $plaintext  Copy of $richtext without any markup.
 		 * @param array  $extra_args Bespoke data for a particular extractor.
@@ -753,7 +753,7 @@ class BP_Media_Extractor {
 		 *
 		 * @since 2.3.0
 		 *
-		 * @param array  $data       Extracted videos. See `BP_Media_Extractor::extract_videos` for format.
+		 * @param array  $data       Extracted videos. See {@see BP_Media_Extractor::extract_videos()} for format.
 		 * @param string $richtext   Content to parse.
 		 * @param string $plaintext  Copy of $richtext without any markup.
 		 * @param array  $extra_args Bespoke data for a particular extractor.
@@ -863,7 +863,7 @@ class BP_Media_Extractor {
 		 *
 		 * @since 2.3.0
 		 *
-		 * @param array  $galleries_data Galleries. See `BP_Media_Extractor::extract_images_from_galleries`.
+		 * @param array  $galleries_data Galleries. See {@see BP_Media_Extractor::extract_images_from_galleries()}.
 		 * @param string $richtext       Content to parse.
 		 * @param string $plaintext      Copy of $richtext without any markup.
 		 * @param array  $extra_args     Bespoke data for a particular extractor.
@@ -914,7 +914,7 @@ class BP_Media_Extractor {
 		 *
 		 * @since 2.3.0
 		 *
-		 * @param array  $image      Extracted images. See `BP_Media_Extractor_Post::extract_images` for format.
+		 * @param array  $image      Extracted images. See {@see BP_Media_Extractor_Post::extract_images()} for format.
 		 * @param string $richtext   Content to parse.
 		 * @param string $plaintext  Copy of $richtext without any markup.
 		 * @param array  $extra_args Bespoke data for a particular extractor.

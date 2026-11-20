@@ -103,7 +103,7 @@ abstract class BP_XProfile_Field_Type {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @var BP_XProfile_Field If this object is created by instantiating a {@link BP_XProfile_Field},
+	 * @var BP_XProfile_Field If this object is created by instantiating a {@see BP_XProfile_Field},
 	 *                        this is a reference back to that object.
 	 */
 	public $field_obj = null;
@@ -299,7 +299,7 @@ abstract class BP_XProfile_Field_Type {
 	/**
 	 * Output the edit field HTML for this field type.
 	 *
-	 * Must be used inside the `bp_profile_fields` template loop.
+	 * Must be used inside the {@see bp_profile_fields()} template loop.
 	 *
 	 * @since 2.0.0
 	 *
@@ -310,7 +310,7 @@ abstract class BP_XProfile_Field_Type {
 	/**
 	 * Output HTML for this field type on the wp-admin Profile Fields screen.
 	 *
-	 * Must be used inside the `bp_profile_fields` template loop.
+	 * Must be used inside the {@see bp_profile_fields()} template loop.
 	 *
 	 * @since 2.0.0
 	 *
@@ -325,14 +325,14 @@ abstract class BP_XProfile_Field_Type {
 	 * These are stored separately in the database, and their templating is handled separately.
 	 * Populate this method in a child class if it's required. Otherwise, you can leave it out.
 	 *
-	 * This templating is separate from `BP_XProfile_Field_Type::edit_field_html` because
+	 * This templating is separate from {@see BP_XProfile_Field_Type::edit_field_html()} because
 	 * it's also used in the wp-admin screens when creating new fields, and for backwards compatibility.
 	 *
-	 * Must be used inside the `bp_profile_fields` template loop.
+	 * Must be used inside the {@see bp_profile_fields()} template loop.
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param array $args Optional. The arguments passed to `bp_the_profile_field_options`.
+	 * @param array $args Optional. The arguments passed to {@see bp_the_profile_field_options()}.
 	 */
 	public function edit_field_options_html( array $args = array() ) {}
 
@@ -343,7 +343,7 @@ abstract class BP_XProfile_Field_Type {
 	 * selectbox, multi selectbox, checkbox, and radio button fields, to allow the admin to
 	 * enter the child option values (e.g. the choices in a select box).
 	 *
-	 * Must be used inside the `bp_profile_fields` template loop.
+	 * Must be used inside the {@see bp_profile_fields()} template loop.
 	 *
 	 * @since 2.0.0
 	 *
@@ -546,7 +546,7 @@ abstract class BP_XProfile_Field_Type {
 	/**
 	 * Get a sanitized and escaped string of the edit field's HTML elements and attributes.
 	 *
-	 * Must be used inside the `bp_profile_fields` template loop.
+	 * Must be used inside the {@see bp_profile_fields()} template loop.
 	 * This method was intended to be static but couldn't be because php.net/lsb/ requires PHP >= 5.3.
 	 *
 	 * @since 2.0.0

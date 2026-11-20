@@ -422,7 +422,7 @@ function friends_get_friendship_request_user_ids( $user_id ) {
  *                         Default: 0 (no pagination; show all results).
  * @param string $filter   Optional. Limit results to those matching a search
  *                         string.
- * @return array See {@link BP_Core_User::get_users()}.
+ * @return array See {@see BP_Core_User::get_users()}.
  */
 function friends_get_recently_active( $user_id, $per_page = 0, $page = 0, $filter = '' ) {
 	$friends = bp_core_get_users(
@@ -462,7 +462,7 @@ function friends_get_recently_active( $user_id, $per_page = 0, $page = 0, $filte
  *                         Default: 0 (no pagination; show all results).
  * @param string $filter   Optional. Limit results to those matching a search
  *                         string.
- * @return array See {@link BP_Core_User::get_users()}.
+ * @return array See {@see BP_Core_User::get_users()}.
  */
 function friends_get_alphabetically( $user_id, $per_page = 0, $page = 0, $filter = '' ) {
 	$friends = bp_core_get_users(
@@ -502,7 +502,7 @@ function friends_get_alphabetically( $user_id, $per_page = 0, $page = 0, $filter
  *                         Default: 0 (no pagination; show all results).
  * @param string $filter   Optional. Limit results to those matching a search
  *                         string.
- * @return array See {@link BP_Core_User::get_users()}.
+ * @return array See {@see BP_Core_User::get_users()}.
  */
 function friends_get_newest( $user_id, $per_page = 0, $page = 0, $filter = '' ) {
 	$friends = bp_core_get_users(

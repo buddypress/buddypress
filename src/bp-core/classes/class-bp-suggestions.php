@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
  * for similar kinds of future core requirements, or those desired by third-party developers.
  *
  * To implement a new suggestions service, create a new class that extends this one, and update
- * the list of default services in `bp_core_get_suggestions`. If you're building a plugin,
+ * the list of default services in {@see bp_core_get_suggestions()}. If you're building a plugin,
  * it's recommend that you use the `bp_suggestions_services` filter to do this. :)
  *
  * While the implementation of the query logic is left to you, it should be as quick and efficient

@@ -63,7 +63,7 @@ abstract class BP_Attachment {
 	 *                                          Defaults to WordPress allowed mime types.
 	 *     @type string $base_dir               Component's upload base directory. Defaults to WordPress 'uploads'.
 	 *     @type string $action                 The upload action used when uploading a file, $_POST['action'] must be set
-	 *                                          and its value must equal $action `wp_handle_upload` (required).
+	 *                                          and its value must equal $action {@see wp_handle_upload()} (required).
 	 *     @type string $file_input             The name attribute used in the file input. (required).
 	 *     @type array  $upload_error_strings   A list of specific error messages (optional).
 	 *     @type array  $required_wp_files      The list of required WordPress core files. Default: array( 'file' ).

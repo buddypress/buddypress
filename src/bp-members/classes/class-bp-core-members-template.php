@@ -329,7 +329,7 @@ class BP_Core_Members_Template {
 	/**
 	 * Whether there are members left in the loop to iterate over.
 	 *
-	 * This method is used by `bp_members` as part of the while loop
+	 * This method is used by {@see bp_members()} as part of the while loop
 	 * that controls iteration inside the members loop, eg:
 	 *     while ( bp_members() ) { ...
 	 *
@@ -361,7 +361,7 @@ class BP_Core_Members_Template {
 	/**
 	 * Set up the current member inside the loop.
 	 *
-	 * Used by `bp_the_member` to set up the current member data
+	 * Used by {@see bp_the_member()} to set up the current member data
 	 * while looping, so that template tags used during that iteration make
 	 * reference to the current member.
 	 *

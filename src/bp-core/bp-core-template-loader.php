@@ -25,7 +25,7 @@ defined( 'ABSPATH' ) || exit;
  * @param string|null $name Optional. Template part name. Used to generate
  *                          secondary filenames, eg 'personal' for 'activity-personal.php'.
  * @param array       $args Optional. Extra args to pass to locate_template().
- * @return false|string Path to located template. See {@link bp_locate_template()}.
+ * @return false|string Path to located template. See {@see bp_locate_template()}.
  */
 function bp_get_template_part( $slug, $name = null, $args = array() ) {
 
@@ -70,7 +70,7 @@ function bp_get_template_part( $slug, $name = null, $args = array() ) {
 /**
  * Get an asset template part.
  *
- * Basically the same as `bp_get_template_part`, but with 'assets/'
+ * Basically the same as {@see bp_get_template_part()}, but with 'assets/'
  * prepended to the slug.
  *
  * @since 2.6.0
@@ -232,7 +232,7 @@ function bp_locate_template( $template_names, $load = false, $load_once = true, 
 /**
  * Get file data of the highest priority asset that exists.
  *
- * Similar to `bp_locate_template`, but for files like CSS and JS.
+ * Similar to {@see bp_locate_template()}, but for files like CSS and JS.
  *
  * @since 2.6.0
  *
@@ -285,7 +285,7 @@ function bp_locate_template_asset( $filename ) {
  * @param string $location_callback Optional. Callback function that returns the stack location.
  * @param int    $priority          Optional. The priority parameter as passed to
  *                                  add_filter(). Default: 10.
- * @return bool See {@link add_filter()}.
+ * @return bool See {@see add_filter()}.
  */
 function bp_register_template_stack( $location_callback = '', $priority = 10 ) {
 
@@ -307,8 +307,8 @@ function bp_register_template_stack( $location_callback = '', $priority = 10 ) {
  *
  * @param string $location_callback Optional. Callback function that returns the stack location.
  * @param int    $priority          Optional. The priority parameter passed to
- *                                  `bp_register_template_stack`. Default: 10.
- * @return bool See {@link remove_filter()}.
+ *                                  {@see bp_register_template_stack()}. Default: 10.
+ * @return bool See {@see remove_filter()}.
  */
 function bp_deregister_template_stack( $location_callback = '', $priority = 10 ) {
 
@@ -397,11 +397,11 @@ function bp_get_template_stack() {
  *
  * @see bp_get_template_part() for a description of $slug, $name and $args params.
  *
- * @param string      $slug See `bp_get_template_part`.
- * @param string|null $name Optional. See `bp_get_template_part`.
+ * @param string      $slug See {@see bp_get_template_part()}.
+ * @param string|null $name Optional. See {@see bp_get_template_part()}.
  * @param bool        $ret  Optional. If true, template content will be echoed. If false,
  *                          returned. Default: true.
- * @param array       $args Optional. See `bp_get_template_part`.
+ * @param array       $args Optional. See {@see bp_get_template_part()}.
  * @return string|null If $echo, returns the template content.
  */
 function bp_buffer_template_part( $slug, $name = null, $ret = true, $args = array() ) {
@@ -432,7 +432,7 @@ function bp_buffer_template_part( $slug, $name = null, $ret = true, $args = arra
  *
  * Used to quickly retrieve the path of a template without including the file
  * extension. It will also check the parent theme and theme-compat theme with
- * the use of `bp_locate_template`. Allows for more generic template
+ * the use of {@see bp_locate_template()}. Allows for more generic template
  * locations without the use of the other get_*_template() functions.
  *
  * @since 1.7.0

@@ -407,7 +407,7 @@ add_filter( 'bp_activity_prefetch_object_data', 'bp_blogs_prefetch_activity_obje
  * @see bp_activity_add() for description of parameters.
  *
  * @param array|string $args {
- *     Optional. See `bp_activity_add` for complete description of arguments.
+ *     Optional. See {@see bp_activity_add()} for complete description of arguments.
  *     The arguments listed here have different default values from
  *     bp_activity_add().
  *     @type string $component Default: 'blogs'.
@@ -494,7 +494,7 @@ function bp_blogs_record_activity( $args = '' ) {
  * @see bp_activity_delete() for description of parameters.
  *
  * @param array|string $args {
- *     Optional. See `bp_activity_delete` for complete description of arguments.
+ *     Optional. See {@see bp_activity_delete()} for complete description of arguments.
  *     The arguments listed here have different default values from
  *     bp_activity_add().
  *     @type string $component Default: 'blogs'.
@@ -519,13 +519,13 @@ function bp_blogs_delete_activity( $args = '' ) {
 /**
  * Check if a blog post's activity item should be closed from commenting.
  *
- * This mirrors the `comments_open` and `_close_comments_for_old_post`
+ * This mirrors the {@see comments_open()} and {@see _close_comments_for_old_post()}
  * functions, but for use with the BuddyPress activity stream to be as
  * lightweight as possible.
  *
  * By lightweight, we actually mirror a few of the blog's commenting settings
  * to blogmeta and checks the values in blogmeta instead.  This is to prevent
- * multiple `switch_to_blog` calls in the activity stream.
+ * multiple {@see switch_to_blog()} calls in the activity stream.
  *
  * @since 2.0.0
  *
@@ -757,7 +757,7 @@ add_action( 'delete_post', 'bp_blogs_remove_post' );
  *
  * Note: This is only a one-way sync - activity comments -> blog comment.
  *
- * For blog post -> activity comment, see `bp_activity_post_type_comment`.
+ * For blog post -> activity comment, see {@see bp_activity_post_type_comment()}.
  *
  * @since 2.0.0
  * @since 2.5.0 Allow custom post types to sync their comments with activity ones
@@ -1316,8 +1316,8 @@ add_filter( 'bp_activity_get_comment_count', 'bp_blogs_post_type_comments_avoid_
  * By default, disables replying to activity comments if the corresponding WP
  * blog post no longer accepts comments.
  *
- * This check uses a locally-cached value set in `bp_blogs_disable_activity_commenting`
- * via `bp_blogs_setup_activity_loop_globals`.
+ * This check uses a locally-cached value set in {@see bp_blogs_disable_activity_commenting()}
+ * via {@see bp_blogs_setup_activity_loop_globals()}.
  *
  * @since 2.0.0
  *

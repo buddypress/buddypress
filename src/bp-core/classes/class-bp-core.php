@@ -181,7 +181,7 @@ class BP_Core extends BP_Component {
 	 *
 	 * @see BP_Component::includes() for description of parameters.
 	 *
-	 * @param array $includes Optional. See `BP_Component::includes`.
+	 * @param array $includes Optional. See {@see BP_Component::includes()}.
 	 */
 	public function includes( $includes = array() ) {
 
@@ -206,7 +206,7 @@ class BP_Core extends BP_Component {
 	 *
 	 * @see BP_Component::setup_globals() for description of parameters.
 	 *
-	 * @param array $args Optional. See `BP_Component::setup_globals`.
+	 * @param array $args Optional. See {@see BP_Component::setup_globals()}.
 	 */
 	public function setup_globals( $args = array() ) {
 		$bp = buddypress();

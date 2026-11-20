@@ -24,7 +24,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 2.1.0
  *
- * @param array $args Optional. See `BP_XProfile_Group::get` for description of arguments.
+ * @param array $args Optional. See {@see BP_XProfile_Group::get()} for description of arguments.
  * @return array
  */
 function bp_xprofile_get_groups( $args = array() ) {
@@ -185,7 +185,7 @@ function bp_xprofile_get_field_types() {
  *
  * @since 2.0.0
  *
- * @param string $type Type of profile field to create. See `bp_xprofile_get_field_types` for default core values.
+ * @param string $type Type of profile field to create. See {@see bp_xprofile_get_field_types()} for default core values.
  * @return object If field type unknown, returns BP_XProfile_Field_Type_Textarea.
  *                Otherwise returns an instance of the relevant child class of BP_XProfile_Field_Type.
  */

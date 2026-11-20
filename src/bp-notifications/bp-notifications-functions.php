@@ -276,9 +276,9 @@ function bp_notifications_get_notifications_for_user( $user_id, $format = 'strin
 
 				/**
 				 * Filters the notification content for notifications created by plugins.
-				 * If your plugin extends the {@link BP_Component} class, you should use the
+				 * If your plugin extends the {@see BP_Component} class, you should use the
 				 * 'notification_callback' parameter in your extended
-				 * `BP_Component::setup_globals` method instead.
+				 * {@see BP_Component::setup_globals()} method instead.
 				 *
 				 * @since 1.9.0
 				 * @since 2.6.0 Added $component_action_name, $component_name, $id as parameters.

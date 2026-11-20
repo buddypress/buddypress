@@ -77,7 +77,7 @@ class BP_XProfile_Field_Type_Checkbox_Acceptance extends BP_XProfile_Field_Type 
 	/**
 	 * Output the edit field HTML for this field type.
 	 *
-	 * Must be used inside the `bp_profile_fields` template loop.
+	 * Must be used inside the {@see bp_profile_fields()} template loop.
 	 *
 	 * @since 8.0.0
 	 *

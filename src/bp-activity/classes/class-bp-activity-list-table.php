@@ -945,8 +945,8 @@ class BP_Activity_List_Table extends WP_List_Table {
 	/**
 	 * Checks if an activity item can be replied to.
 	 *
-	 * This method merges functionality from `bp_activity_can_comment` and
-	 * `bp_blogs_disable_activity_commenting`. This is done because the activity
+	 * This method merges functionality from {@see bp_activity_can_comment()} and
+	 * {@see bp_blogs_disable_activity_commenting()}. This is done because the activity
 	 * list table doesn't use a BuddyPress activity loop, which prevents those
 	 * functions from working as intended.
 	 *

@@ -14,7 +14,7 @@
  * this function is run.
  *
  * Note: When leaving a group from the group directory, AJAX is used and
- * another function handles this. See `bp_legacy_theme_ajax_joinleave_group`.
+ * another function handles this. See {@see bp_legacy_theme_ajax_joinleave_group()}.
  *
  * @since 1.2.4
  */

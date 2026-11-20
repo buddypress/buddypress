@@ -199,7 +199,7 @@ class BP_Blogs_Blog {
 	 *                                          blogs. Default: true.
 	 *     @type array|bool  $include_blog_ids  Optional. Array of blog IDs to include.
 	 *     @type array       $date_query        Optional. Filter results by site last activity date. See first
-	 *                                          parameter of `WP_Date_Query::__construct` for syntax. Only
+	 *                                          parameter of {@see WP_Date_Query::__construct()} for syntax. Only
 	 *                                          applicable if `$type` is either 'newest' or 'active'.
 	 * }
 	 * @return array Multidimensional results array, structured as follows:
@@ -501,7 +501,7 @@ class BP_Blogs_Blog {
 	 * Get all of a user's blogs, as tracked by BuddyPress.
 	 *
 	 * Note that this is different from the WordPress function
-	 * `get_blogs_of_user`; the current method returns only those
+	 * {@see get_blogs_of_user()}; the current method returns only those
 	 * blogs that have been recorded by BuddyPress, while the WP function
 	 * does a true query of a user's blog capabilities.
 	 *

@@ -191,7 +191,7 @@ class BP_Groups_Group_Members_Template {
 
 		/**
 		 * Check the current group is the same as the supplied group ID.
-		 * It can differ when using `bp_group_has_members` outside the Groups screens.
+		 * It can differ when using {@see bp_group_has_members()} outside the Groups screens.
 		 */
 		$current_group = groups_get_current_group();
 		if ( empty( $current_group ) || ( $current_group && bp_get_current_group_id() !== $current_group->id ) ) {
