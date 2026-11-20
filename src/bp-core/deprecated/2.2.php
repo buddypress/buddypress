@@ -19,7 +19,7 @@ defined( 'ABSPATH' ) || exit;
  * See #4090, #3746, #2546 for background.
  *
  * @since 2.0.0
- * @deprecated 2.2.0
+ * @deprecated 2.2.0 Use `bp_activity_catch_transition_post_type_status()` instead.
  *
  * @todo Support untrashing better.
  *
@@ -35,7 +35,7 @@ function bp_blogs_catch_transition_post_status( $new_status, $old_status, $post 
 /**
  * Record a new blog post in the BuddyPress activity stream.
  *
- * @deprecated 2.2.0
+ * @deprecated 2.2.0 Use `bp_activity_post_type_publish()` instead.
  *
  * @param int $post_id ID of the post being recorded.
  * @param object $post The WP post object passed to the 'save_post' action.
@@ -52,7 +52,7 @@ function bp_blogs_record_post( $post_id, $post, $user_id = 0 ) {
  * Updates a blog post's corresponding activity entry during a post edit.
  *
  * @since 2.0.0
- * @deprecated 2.2.0
+ * @deprecated 2.2.0 Use `bp_activity_post_type_update()` instead.
  *
  * @see bp_blogs_catch_transition_post_status()
  *
@@ -67,7 +67,7 @@ function bp_blogs_update_post( $post ) {
  * Clear cache when a new blog is created.
  *
  * @since 1.0.0
- * @deprecated 2.2.0
+ * @deprecated 2.2.0 Use `bp_blogs_clear_blog_object_cache()` instead.
  *
  * @param BP_Blogs_Blog $recorded_blog_obj The recorded blog, passed by
  *        'bp_blogs_new_blog'.
@@ -81,7 +81,7 @@ function bp_blogs_format_clear_blog_cache( $recorded_blog_obj ) {
  * Format 'new_member' activity actions.
  *
  * @since 2.0.0
- * @deprecated 2.2.0
+ * @deprecated 2.2.0 Use `bp_members_format_activity_action_new_member()` instead.
  *
  * @param string $action Static activity action.
  * @param object $activity Activity object.
@@ -107,7 +107,7 @@ function bp_core_add_global_group() {
 /**
  * Add a piece of message metadata.
  *
- * @deprecated 2.2.2
+ * @deprecated 2.2.2 Use `bp_messages_add_meta()` instead.
  *
  * @param int    $message_id ID of the message.
  * @param string $meta_key   Metadata key.

@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
  * Get the DB schema to use for BuddyPress components.
  *
  * @since 1.1.0
- * @deprecated 2.7.0
+ * @deprecated 2.7.0 Use `wpdb::get_charset_collate()` instead.
  *
  * @return string The default database character-set, if set.
  */

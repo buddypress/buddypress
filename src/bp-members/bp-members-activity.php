@@ -117,8 +117,20 @@ function bp_members_format_activity_action_new_avatar( $action, $activity ) {
 		$action = apply_filters( 'bp_xprofile_new_avatar_action', $action, $activity->user_id );
 	}
 
-	/** This filter is documented in wp-includes/deprecated.php */
-	$action = apply_filters_deprecated( 'bp_xprofile_format_activity_action_new_avatar', array( $action, $activity ), '8.0.0', 'bp_members_format_activity_action_new_avatar' );
+	/**
+	 * Filters the formatted new-avatar activity action.
+	 *
+	 * @deprecated 8.0.0 Use the `bp_members_format_activity_action_new_avatar` filter instead.
+	 *
+	 * @param string               $action   Formatted activity action.
+	 * @param BP_Activity_Activity $activity Activity item.
+	 */
+	$action = apply_filters_deprecated(
+		'bp_xprofile_format_activity_action_new_avatar',
+		array( $action, $activity ),
+		'8.0.0',
+		'bp_members_format_activity_action_new_avatar'
+	);
 
 	/**
 	 * Filters the formatted 'new_avatar' activity stream action.
@@ -185,8 +197,19 @@ function bp_members_new_avatar_activity( $user_id = 0, $type = '', $crop_data = 
 		$user_id = bp_displayed_user_id();
 	}
 
-	/** This filter is documented in wp-includes/deprecated.php */
-	$user_id = apply_filters_deprecated( 'bp_xprofile_new_avatar_user_id', array( $user_id ), '8.0.0', 'bp_members_new_avatar_user_id' );
+	/**
+	 * Filters the ID of the user whose avatar was set.
+	 *
+	 * @deprecated 8.0.0 Use the `bp_members_new_avatar_user_id` filter instead.
+	 *
+	 * @param int $user_id User ID.
+	 */
+	$user_id = apply_filters_deprecated(
+		'bp_xprofile_new_avatar_user_id',
+		array( $user_id ),
+		'8.0.0',
+		'bp_members_new_avatar_user_id'
+	);
 
 	/**
 	 * Filters the user ID when a user has uploaded a new avatar.

@@ -238,8 +238,19 @@ function bp_groups_format_activity_action_group_activity_update( $action, $activ
 		$group_link
 	);
 
-	/** This filter is documented in wp-includes/deprecated.php */
-	$action = apply_filters_deprecated( 'groups_activity_new_update_action', array( $action ), '5.0.0', 'bp_groups_format_activity_action_group_activity_update' );
+	/**
+	 * Filters the formatted group activity update action.
+	 *
+	 * @deprecated 5.0.0 Use the `bp_groups_format_activity_action_group_activity_update` filter instead.
+	 *
+	 * @param string $action Formatted activity action.
+	 */
+	$action = apply_filters_deprecated(
+		'groups_activity_new_update_action',
+		array( $action ),
+		'5.0.0',
+		'bp_groups_format_activity_action_group_activity_update'
+	);
 
 	/**
 	 * Filters the Group's activity update action.

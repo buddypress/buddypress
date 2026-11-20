@@ -1218,7 +1218,11 @@ function bp_deactivation() {
 	 */
 	do_action( 'bp_deactivation' );
 
-	// @deprecated as of 1.6.0
+	/**
+	 * Fires during BuddyPress deactivation for legacy callbacks.
+	 *
+	 * @deprecated 1.6.0 Use the `bp_deactivation` action instead.
+	 */
 	do_action_deprecated( 'bp_loader_deactivate', array(), '1.6.0' );
 }
 

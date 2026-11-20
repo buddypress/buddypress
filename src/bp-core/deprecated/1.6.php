@@ -88,8 +88,7 @@ function bp_core_is_user_spammer( $user_id = 0 ) {
  */
 
 /**
- * @deprecated 1.6.0
- * @deprecated No longer used; see bp_activity_transition_post_type_comment_status()
+ * @deprecated 1.6.0 Use `bp_activity_transition_post_type_comment_status()` instead.
  *
  * @param int    $comment_id     ID of the comment.
  * @param string $comment_status New comment status.
@@ -103,16 +102,14 @@ function bp_blogs_manage_comment( $comment_id, $comment_status ) {
  */
 
 /**
- * @deprecated 1.6.0
- * @deprecated No longer used; see BP_Admin::admin_menus()
+ * @deprecated 1.6.0 No longer used. See `BP_Admin::admin_menus()`.
  */
 function bp_core_add_admin_menu() {
 	_deprecated_function( __FUNCTION__, '1.6', 'No longer used' );
 }
 
 /**
- * @deprecated 1.6.0
- * @deprecated No longer used. We do ajax properly now.
+ * @deprecated 1.6.0 No longer used.
  */
 function bp_core_add_ajax_hook() {
 	_deprecated_function( __FUNCTION__, '1.6', 'No longer used' );
@@ -125,8 +122,7 @@ function bp_core_add_ajax_hook() {
 /**
  * Displays Friends header tabs
  *
- * @deprecated 1.6.0
- * @deprecated No longer used
+ * @deprecated 1.6.0 No longer used.
  */
 function bp_friends_header_tabs() {
 	_deprecated_function( __FUNCTION__, '1.6', 'Since BuddyPress 1.2, BP has not supported ordering of friend lists by URL parameters.' );
@@ -147,8 +143,7 @@ function bp_friends_header_tabs() {
 /**
  * Filters the title for the Friends component
  *
- * @deprecated 1.6.0
- * @deprecated No longer used
+ * @deprecated 1.6.0 No longer used.
  */
 function bp_friends_filter_title() {
 	_deprecated_function( __FUNCTION__, '1.6', 'Since BuddyPress 1.2, BP has not supported ordering of friend lists by URL parameters.' );
@@ -172,8 +167,7 @@ function bp_friends_filter_title() {
 /** Groups functions **********************************************************/
 
 /**
- * @deprecated 1.6.0
- * @deprecated Renamed to groups_get_id() for greater consistency
+ * @deprecated 1.6.0 Use `groups_get_id()` instead.
  *
  * @param string $group_slug Slug of the group.
  */

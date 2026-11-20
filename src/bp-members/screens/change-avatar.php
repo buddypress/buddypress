@@ -68,7 +68,14 @@ function bp_members_screen_change_avatar() {
 			bp_core_add_message( __( 'There was a problem cropping your profile photo.', 'buddypress' ), 'error' );
 		} else {
 
-			/** This action is documented in wp-includes/deprecated.php */
+			/**
+			 * Fires after a member avatar is cropped on the Change Avatar screen.
+			 *
+			 * @deprecated 6.0.0 Use the `bp_members_avatar_uploaded` action instead.
+			 *
+			 * @param int    $item_id Member ID.
+			 * @param string $type    Avatar source. Here, 'crop'.
+			 */
 			do_action_deprecated( 'xprofile_avatar_uploaded', array( (int) $args['item_id'], 'crop' ), '6.0.0', 'bp_members_avatar_uploaded' );
 
 			/**
@@ -89,8 +96,17 @@ function bp_members_screen_change_avatar() {
 		}
 	}
 
-	/** This action is documented in wp-includes/deprecated.php */
-	do_action_deprecated( 'xprofile_screen_change_avatar', array(), '6.0.0', 'bp_members_screen_change_avatar' );
+	/**
+	 * Fires before loading the member Change Avatar screen template.
+	 *
+	 * @deprecated 6.0.0 Use the `bp_members_screen_change_avatar` action instead.
+	 */
+	do_action_deprecated(
+		'xprofile_screen_change_avatar',
+		array(),
+		'6.0.0',
+		'bp_members_screen_change_avatar'
+	);
 
 	/**
 	 * Fires right before the loading of the Member Change Avatar screen template file.
@@ -100,7 +116,14 @@ function bp_members_screen_change_avatar() {
 	do_action( 'bp_members_screen_change_avatar' );
 
 	$templates = array(
-		/** This filter is documented in wp-includes/deprecated.php */
+		/**
+		 * Filters the first template candidate for the Change Avatar screen.
+		 *
+		 * @deprecated 6.0.0 Use the `bp_members_template_change_avatar` filter instead.
+		 *                    The replacement receives the full list of template candidates.
+		 *
+		 * @param string $template Template path.
+		 */
 		apply_filters_deprecated( 'xprofile_template_change_avatar', array( 'members/single/home' ), '6.0.0', 'bp_members_template_change_avatar' ),
 		'members/single/index',
 	);
