@@ -53,16 +53,19 @@ function bp_blogs_register_post_tracking_args( $params = null, $post_type = 0 ) 
 	/**
 	 * Filters the post types to track for the Blogs component.
 	 *
-	 * @since 1.5.0
-	 * @deprecated 2.3.0
-	 *
 	 * Make sure plugins still using 'bp_blogs_record_post_post_types'
-	 * to track their post types will generate new_blog_post activities
-	 * See https://buddypress.trac.wordpress.org/ticket/6306
+	 * to track their post types will generate new_blog_post activities.
 	 *
-	 * @param array $value Array of post types to track.
+	 * Previously marked deprecated in 2.3.0 without a runtime notice.
+	 *
+	 * @since 1.5.0
+	 * @deprecated 15.0.0
+	 *
+	 * @link https://buddypress.trac.wordpress.org/ticket/6306
+	 *
+	 * @param string[] $post_types Post types whose posts are tracked.
 	 */
-	$post_types       = apply_filters( 'bp_blogs_record_post_post_types', array( 'post' ) );
+	$post_types       = apply_filters_deprecated( 'bp_blogs_record_post_post_types', array( array( 'post' ) ), '15.0.0' );
 	$post_types_array = array_flip( $post_types );
 
 	if ( ! isset( $post_types_array[ $post_type ] ) ) {
@@ -84,16 +87,19 @@ function bp_blogs_register_post_tracking_args( $params = null, $post_type = 0 ) 
 		/**
 		 * Filters the post types to track for the Blogs component.
 		 *
-		 * @since 1.5.0
-		 * @deprecated 2.5.0
-		 *
 		 * Make sure plugins still using 'bp_blogs_record_comment_post_types'
-		 * to track comment about their post types will generate new_blog_comment activities
-		 * See https://buddypress.trac.wordpress.org/ticket/6306
+		 * to track comments on their post types will generate new_blog_comment activities.
 		 *
-		 * @param array $value Array of post types to track.
+		 * Previously marked deprecated in 2.5.0 without a runtime notice.
+		 *
+		 * @since 1.5.0
+		 * @deprecated 15.0.0
+		 *
+		 * @link https://buddypress.trac.wordpress.org/ticket/6306
+		 *
+		 * @param string[] $comment_post_types Post types whose comments are tracked.
 		 */
-		$comment_post_types       = apply_filters( 'bp_blogs_record_comment_post_types', array( 'post' ) );
+		$comment_post_types       = apply_filters_deprecated( 'bp_blogs_record_comment_post_types', array( array( 'post' ) ), '15.0.0' );
 		$comment_post_types_array = array_flip( $comment_post_types );
 
 		if ( isset( $comment_post_types_array[ $post_type ] ) ) {

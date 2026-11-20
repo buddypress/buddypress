@@ -1626,7 +1626,16 @@ function bp_attachments_cover_image_ajax_upload() {
 
 	// Handle deprecated xProfile action.
 	if ( 'members' === $component ) {
-		/** This filter is documented in wp-includes/deprecated.php */
+		/**
+		 * Fires after a member uploads a cover image.
+		 *
+		 * @deprecated 6.0.0 Use the `members_cover_image_uploaded` action instead.
+		 *
+		 * @param int    $item_id       User ID.
+		 * @param string $name          Filename.
+		 * @param string $cover_url     Cover image URL.
+		 * @param int    $feedback_code Upload feedback code.
+		 */
 		do_action_deprecated(
 			'xprofile_cover_image_uploaded',
 			array(
@@ -1636,7 +1645,7 @@ function bp_attachments_cover_image_ajax_upload() {
 				$feedback_code,
 			),
 			'6.0.0',
-			'members_cover_image_deleted'
+			'members_cover_image_uploaded'
 		);
 	}
 

@@ -217,4 +217,33 @@ class BP_Tests_Activity_Deprecated extends BP_UnitTestCase {
 		$activity = BP_Activity_Activity::get_id( false, false, false, 1098, false, false, false, false );
 		$this->assertSame( $a2, $activity );
 	}
+	/**
+	 * @expectedDeprecated bp_activity_remove_data
+	 */
+	public function test_bp_activity_remove_data_fires_before_its_replacement() {
+		$user_id = self::factory()->user->create();
+		$actions = array();
+		$record  = static function ( $removed_user_id ) use ( &$actions ) {
+			$actions[] = array( current_action(), $removed_user_id );
+		};
+
+		add_action( 'bp_activity_remove_data', $record );
+		add_action( 'bp_activity_remove_all_user_data', $record );
+
+		try {
+			bp_activity_remove_all_user_data( $user_id );
+		} finally {
+			remove_action( 'bp_activity_remove_data', $record );
+			remove_action( 'bp_activity_remove_all_user_data', $record );
+		}
+
+		$this->assertSame(
+			array(
+				array( 'bp_activity_remove_data', $user_id ),
+				array( 'bp_activity_remove_all_user_data', $user_id ),
+			),
+			$actions
+		);
+	}
+
 }
