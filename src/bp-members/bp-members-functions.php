@@ -3761,7 +3761,7 @@ function bp_get_members_invitation_from_request() {
  *
  * @param string $field Optional. Which fields to search by. Possible values are
  *                      activation_key, user_email, id.
- * @param string $value Optional. Value to search by.
+ * @param string $value Optional. Activation key, email address, or signup ID to match.
  * @return bool|BP_Signup Found signup, returns first found if more than one is found.
  */
 function bp_members_get_signup_by( $field = 'activation_key', $value = '' ) {

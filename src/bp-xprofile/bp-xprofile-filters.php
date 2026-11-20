@@ -179,7 +179,7 @@ function xprofile_filter_kses( $content, $data_obj = null, $field_id = null ) {
  *
  * @since 5.0.0
  *
- * @param string $value    Field value.
+ * @param string $value    Profile field data to sanitize before display.
  * @param string $type     Field type.
  * @param int    $field_id Field ID.
  */
@@ -192,7 +192,7 @@ function xprofile_sanitize_data_value_before_display( $value, $type, $field_id )
  *
  * @since 5.0.0
  *
- * @param string $value    Field value.
+ * @param string $value    Retrieved profile field data to sanitize before display.
  * @param int    $field_id Field ID.
  */
 function xprofile_sanitize_data_value_before_display_from_get_field_data( $value, $field_id ) {
@@ -352,7 +352,7 @@ function xprofile_filter_pre_validate_value_by_field_type( $value, $field, $fiel
  *
  * @since 2.4.0
  *
- * @param string $value      Field value.
+ * @param string $value      Profile field data to escape before output.
  * @param string $field_type Field type.
  * @param int    $field_id   Field ID.
  * @return string

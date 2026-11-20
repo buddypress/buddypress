@@ -601,7 +601,7 @@ class BP_Members_Signup_REST_Controller extends WP_REST_Controller {
 		 *
 		 * @since 15.0.0
 		 *
-		 * @param true   $value Returned value.
+		 * @param true   $value Whether the request may create a signup. Defaults to true.
 		 * @param WP_REST_Request $request The request sent to the API.
 		 */
 		return apply_filters( 'bp_rest_signup_create_item_permissions_check', true, $request );

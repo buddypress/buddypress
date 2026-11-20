@@ -187,7 +187,7 @@ function bp_rest_sanitize_member_types( $value ) {
  *
  * @since 5.0.0
  *
- * @param mixed $value Mixed value.
+ * @param mixed $value Member type input to validate.
  * @return WP_Error|true
  */
 function bp_rest_validate_member_types( $value ) {
