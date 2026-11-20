@@ -19,7 +19,7 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/4915
+	 * @link https://buddypress.trac.wordpress.org/ticket/4915
 	 */
 	public function test_bp_core_delete_account() {
 		// Stash
@@ -62,7 +62,7 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/8175
+	 * @link https://buddypress.trac.wordpress.org/ticket/8175
 	 */
 	public function test_last_activity_data_should_be_deleted_on_user_delete_non_multisite() {
 		$this->skipWithMultisite();
@@ -80,7 +80,7 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/8175
+	 * @link https://buddypress.trac.wordpress.org/ticket/8175
 	 */
 	public function test_last_activity_data_should_be_deleted_on_user_delete_multisite() {
 		$this->skipWithoutMultisite();
@@ -98,7 +98,7 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/8175
+	 * @link https://buddypress.trac.wordpress.org/ticket/8175
 	 */
 	public function test_last_activity_data_should_not_be_deleted_on_wp_delete_user_multisite() {
 		$this->skipWithoutMultisite();
@@ -518,7 +518,7 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/8316
+	 * @link https://buddypress.trac.wordpress.org/ticket/8316
 	 */
 	public function test_bp_core_process_spammer_status_ms_should_only_spam_sites_with_one_admin() {
 		$this->skipWithoutMultisite();
@@ -540,7 +540,7 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/6208
+	 * @link https://buddypress.trac.wordpress.org/ticket/6208
 	 *
 	 * Note - it's not possible to test this when registration is not configured properly,
 	 * because `bp_has_custom_signup_page()` stores its value in a static variable that cannot
@@ -648,7 +648,7 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/7461
+	 * @link https://buddypress.trac.wordpress.org/ticket/7461
 	 *
 	 * Test function before and after adding custom illegal names from WordPress.
 	 */
@@ -705,7 +705,7 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/6155
+	 * @link https://buddypress.trac.wordpress.org/ticket/6155
 	 */
 	public function test_bp_core_get_active_member_count_excludes_spammed_users() {
 		$this->assertSame( 0, bp_core_get_active_member_count() );

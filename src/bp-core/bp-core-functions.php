@@ -4768,7 +4768,7 @@ function bp_email_get_salt() {
  *
  * @since 2.8.0
  *
- * @see https://buddypress.trac.wordpress.org/ticket/7431
+ * @link https://buddypress.trac.wordpress.org/ticket/7431
  *
  * @return array The array of email types and their schema.
  */

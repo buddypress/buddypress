@@ -557,8 +557,8 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/6746
-	 * @see https://buddypress.trac.wordpress.org/ticket/9335
+	 * @link https://buddypress.trac.wordpress.org/ticket/6746
+	 * @link https://buddypress.trac.wordpress.org/ticket/9335
 	 */
 	public function test_bp_attachment_avatar_validate_upload_removes_avatar_suffixes() {
 		$avatar_attachment = new BP_Attachment_Avatar();
@@ -586,8 +586,8 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/6746
-	 * @see https://buddypress.trac.wordpress.org/ticket/9335
+	 * @link https://buddypress.trac.wordpress.org/ticket/6746
+	 * @link https://buddypress.trac.wordpress.org/ticket/9335
 	 * @dataProvider data_avatar_history
 	 *
 	 * @param bool $history_disabled Whether avatar history is disabled.
@@ -660,7 +660,7 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/9338
+	 * @link https://buddypress.trac.wordpress.org/ticket/9338
 	 */
 	public function test_bp_attachment_sanitize_utf8_filename() {
 		$avatar_attachment = new BP_Attachment_Avatar();

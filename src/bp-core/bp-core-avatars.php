@@ -2179,7 +2179,7 @@ function bp_avatar_use_webcam() {
 	/**
 	 * Bail when the browser does not support getUserMedia.
 	 *
-	 * @see http://caniuse.com/#feat=stream
+	 * @link http://caniuse.com/#feat=stream
 	 */
 	if ( $is_safari || $is_IE || ( $is_chrome && ! is_ssl() ) ) {
 		return false;

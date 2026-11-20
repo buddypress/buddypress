@@ -1087,7 +1087,7 @@ function bp_registration_needs_activation() {
  * @since 1.7.0
  * @since 2.5.0 No longer used by BuddyPress, but not deprecated in case any existing plugins use it.
  *
- * @see https://buddypress.trac.wordpress.org/ticket/4401
+ * @link https://buddypress.trac.wordpress.org/ticket/4401
  *
  * @param array $args {
  *     Array of optional parameters.

@@ -278,7 +278,7 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/8688
+	 * @link https://buddypress.trac.wordpress.org/ticket/8688
 	 */
 	public function test_total_member_count_groups_inactive_user() {
 		$u1 = self::factory()->user->create();
@@ -296,7 +296,7 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/7614
+	 * @link https://buddypress.trac.wordpress.org/ticket/7614
 	 */
 	public function test_total_member_count_groups_inactive_user_from_admin() {
 		$u1           = self::factory()->user->create(
@@ -320,7 +320,7 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/8688
+	 * @link https://buddypress.trac.wordpress.org/ticket/8688
 	 */
 	public function test_total_member_count_groups_spammed_user() {
 		$u1 = self::factory()->user->create();
@@ -335,7 +335,7 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/8688
+	 * @link https://buddypress.trac.wordpress.org/ticket/8688
 	 */
 	public function test_total_member_count_groups_deferred() {
 		$u1 = self::factory()->user->create();
@@ -392,7 +392,7 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/5180
+	 * @link https://buddypress.trac.wordpress.org/ticket/5180
 	 */
 	public function test_groups_update_groupmeta_with_line_breaks() {
 		$g = self::factory()->group->create();
@@ -449,7 +449,7 @@ Bar!';
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/5399
+	 * @link https://buddypress.trac.wordpress.org/ticket/5399
 	 */
 	public function test_groups_get_groupmeta_with_illegal_key_characters() {
 		$g = self::factory()->group->create();
@@ -537,7 +537,7 @@ Bar!';
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/5399
+	 * @link https://buddypress.trac.wordpress.org/ticket/5399
 	 */
 	public function test_groups_delete_groupmeta_with_illegal_key_characters() {
 		$g = self::factory()->group->create();
@@ -548,7 +548,7 @@ Bar!';
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/6326
+	 * @link https://buddypress.trac.wordpress.org/ticket/6326
 	 */
 	public function test_groups_delete_groupmeta_with_no_meta_key_when_group_has_metadata() {
 		global $wpdb;
@@ -665,7 +665,7 @@ Bar!';
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/7302
+	 * @link https://buddypress.trac.wordpress.org/ticket/7302
 	 */
 	public function test_groups_get_group_accept_integer() {
 		$g1 = self::factory()->group->create();
@@ -675,7 +675,7 @@ Bar!';
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/7302
+	 * @link https://buddypress.trac.wordpress.org/ticket/7302
 	 */
 	public function test_groups_get_group_accept_numeric() {
 		$g1 = self::factory()->group->create();
@@ -685,7 +685,7 @@ Bar!';
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/7302
+	 * @link https://buddypress.trac.wordpress.org/ticket/7302
 	 */
 	public function test_groups_get_group_accept_array() {
 		$g1 = self::factory()->group->create();
@@ -695,7 +695,7 @@ Bar!';
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/7302
+	 * @link https://buddypress.trac.wordpress.org/ticket/7302
 	 */
 	public function test_groups_get_group_accept_query_string() {
 		$g1 = self::factory()->group->create();
@@ -799,8 +799,8 @@ Bar!';
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/7820
-	 * @see https://buddypress.trac.wordpress.org/ticket/7698
+	 * @link https://buddypress.trac.wordpress.org/ticket/7820
+	 * @link https://buddypress.trac.wordpress.org/ticket/7698
 	 */
 	public function test_bp_groups_memberships_personal_data_exporter() {
 		groups_join_group( self::$group_ids[0], self::$user_ids[0] );
@@ -815,8 +815,8 @@ Bar!';
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/7820
-	 * @see https://buddypress.trac.wordpress.org/ticket/7698
+	 * @link https://buddypress.trac.wordpress.org/ticket/7820
+	 * @link https://buddypress.trac.wordpress.org/ticket/7698
 	 */
 	public function test_bp_groups_pending_requests_personal_data_exporter() {
 		groups_send_membership_request( array(
@@ -834,8 +834,8 @@ Bar!';
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/7820
-	 * @see https://buddypress.trac.wordpress.org/ticket/7698
+	 * @link https://buddypress.trac.wordpress.org/ticket/7820
+	 * @link https://buddypress.trac.wordpress.org/ticket/7698
 	 */
 	public function test_bp_groups_pending_sent_invitations_personal_data_exporter() {
 		groups_invite_user( array(
@@ -855,8 +855,8 @@ Bar!';
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/7820
-	 * @see https://buddypress.trac.wordpress.org/ticket/7698
+	 * @link https://buddypress.trac.wordpress.org/ticket/7820
+	 * @link https://buddypress.trac.wordpress.org/ticket/7698
 	 */
 	public function test_bp_groups_pending_received_invitations_personal_data_exporter() {
 		groups_invite_user( array(
@@ -875,7 +875,7 @@ Bar!';
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/8175
+	 * @link https://buddypress.trac.wordpress.org/ticket/8175
 	 */
 	public function test_groups_data_should_be_deleted_on_user_delete_non_multisite() {
 		$this->skipWithMultisite();
@@ -892,7 +892,7 @@ Bar!';
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/8175
+	 * @link https://buddypress.trac.wordpress.org/ticket/8175
 	 */
 	public function test_groups_data_should_be_deleted_on_user_delete_multisite() {
 		$this->skipWithoutMultisite();
@@ -909,7 +909,7 @@ Bar!';
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/8175
+	 * @link https://buddypress.trac.wordpress.org/ticket/8175
 	 */
 	public function test_groups_data_should_not_be_deleted_on_wp_delete_user_multisite() {
 		$this->skipWithoutMultisite();

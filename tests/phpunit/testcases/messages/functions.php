@@ -40,7 +40,7 @@ class BP_Tests_Messages_Functions extends BP_UnitTestCase {
 	/**
 	 * @dataProvider provider_new_message_empty_content_options
 	 *
-	 * @see https://buddypress.trac.wordpress.org/ticket/9175
+	 * @link https://buddypress.trac.wordpress.org/ticket/9175
 	 *
 	 * @param mixed $content Empty message content to test.
 	 */
@@ -64,7 +64,7 @@ class BP_Tests_Messages_Functions extends BP_UnitTestCase {
 	/**
 	 * @dataProvider provider_new_message_irregular_content_options
 	 *
-	 * @see https://buddypress.trac.wordpress.org/ticket/9175
+	 * @link https://buddypress.trac.wordpress.org/ticket/9175
 	 *
 	 * @param string $content Irregular message content to test.
 	 */
@@ -170,8 +170,8 @@ class BP_Tests_Messages_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/7819
-	 * @see https://buddypress.trac.wordpress.org/ticket/7698
+	 * @link https://buddypress.trac.wordpress.org/ticket/7819
+	 * @link https://buddypress.trac.wordpress.org/ticket/7698
 	 */
 	public function test_bp_messages_personal_data_exporter() {
 		$u1 = self::factory()->user->create();
@@ -233,7 +233,7 @@ class BP_Tests_Messages_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/8080
+	 * @link https://buddypress.trac.wordpress.org/ticket/8080
 	 */
 	public function test_bp_messages_personal_data_exporter_check_sender() {
 		$u1       = self::factory()->user->create();

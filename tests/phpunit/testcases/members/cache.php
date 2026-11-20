@@ -21,9 +21,9 @@ class BP_Tests_Members_Cache extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/7237
-	 * @see https://buddypress.trac.wordpress.org/ticket/6643
-	 * @see https://buddypress.trac.wordpress.org/ticket/7245
+	 * @link https://buddypress.trac.wordpress.org/ticket/7237
+	 * @link https://buddypress.trac.wordpress.org/ticket/6643
+	 * @link https://buddypress.trac.wordpress.org/ticket/7245
 	 */
 	public function test_last_activity_should_bust_activity_with_last_activity_cache() {
 		global $wpdb;

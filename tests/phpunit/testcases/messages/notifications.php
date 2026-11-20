@@ -108,7 +108,7 @@ class BP_Tests_Messages_Notifications extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/6329
+	 * @link https://buddypress.trac.wordpress.org/ticket/6329
 	 */
 	public function test_messages_notifications_should_be_deleted_when_corresponding_message_is_deleted() {
 		if ( ! bp_is_active( 'messages' ) ) {
@@ -142,7 +142,7 @@ class BP_Tests_Messages_Notifications extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/8426
+	 * @link https://buddypress.trac.wordpress.org/ticket/8426
 	 */
 	public function test_bp_messages_mark_notification_on_mark_thread() {
 		$u1 = self::factory()->user->create();
@@ -198,7 +198,7 @@ class BP_Tests_Messages_Notifications extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/8426
+	 * @link https://buddypress.trac.wordpress.org/ticket/8426
 	 */
 	public function test_bp_messages_message_delete_notifications() {
 		$u1 = self::factory()->user->create();

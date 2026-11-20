@@ -1,7 +1,7 @@
 <?php
 /**
  * @group core
- * @see https://buddypress.trac.wordpress.org/ticket/9330
+ * @link https://buddypress.trac.wordpress.org/ticket/9330
  */
 class BP_Tests_Core_Template_BpIsSiteHome extends BP_UnitTestCase {
 	/**

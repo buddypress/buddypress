@@ -31,7 +31,7 @@ class BP_Tests_Routing_Members extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/9330
+	 * @link https://buddypress.trac.wordpress.org/ticket/9330
 	 * @dataProvider members_homepage_urls
 	 */
 	public function test_members_directory_as_homepage( $query_string ) {
@@ -72,7 +72,7 @@ class BP_Tests_Routing_Members extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/6286
+	 * @link https://buddypress.trac.wordpress.org/ticket/6286
 	 */
 	public function test_member_directory_with_member_type() {
 		bp_register_member_type( 'foo' );
@@ -82,7 +82,7 @@ class BP_Tests_Routing_Members extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/6286
+	 * @link https://buddypress.trac.wordpress.org/ticket/6286
 	 */
 	public function test_member_directory_with_member_type_should_obey_filtered_type_slug() {
 		bp_register_member_type( 'foo' );
@@ -101,7 +101,7 @@ class BP_Tests_Routing_Members extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/6286
+	 * @link https://buddypress.trac.wordpress.org/ticket/6286
 	 */
 	public function test_member_directory_with_member_type_that_has_custom_directory_slug() {
 		bp_register_member_type( 'foo', array( 'has_directory' => 'foos' ) );
@@ -110,7 +110,7 @@ class BP_Tests_Routing_Members extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/6286
+	 * @link https://buddypress.trac.wordpress.org/ticket/6286
 	 */
 	public function test_member_directory_should_404_for_member_types_that_have_no_directory() {
 		bp_register_member_type( 'foo', array( 'has_directory' => false ) );
@@ -119,7 +119,7 @@ class BP_Tests_Routing_Members extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/6325
+	 * @link https://buddypress.trac.wordpress.org/ticket/6325
 	 */
 	public function test_members_shortlink_redirector() {
 		$shortlink_member_slug = 'me';
@@ -134,7 +134,7 @@ class BP_Tests_Routing_Members extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/9063
+	 * @link https://buddypress.trac.wordpress.org/ticket/9063
 	 */
 	public function test_members_registration_page_filtered() {
 
@@ -154,7 +154,7 @@ class BP_Tests_Routing_Members extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/9063
+	 * @link https://buddypress.trac.wordpress.org/ticket/9063
 	 */
 	public function test_members_registration_page() {
 		$bp_registration_url = bp_get_signup_page();
@@ -166,7 +166,7 @@ class BP_Tests_Routing_Members extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/9063
+	 * @link https://buddypress.trac.wordpress.org/ticket/9063
 	 */
 	public function test_members_activation_page_filtered() {
 
@@ -186,7 +186,7 @@ class BP_Tests_Routing_Members extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/9063
+	 * @link https://buddypress.trac.wordpress.org/ticket/9063
 	 */
 	public function test_members_activation_page() {
 		$bp_activation_url = bp_get_activation_page();

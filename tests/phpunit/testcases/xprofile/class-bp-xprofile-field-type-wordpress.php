@@ -1,7 +1,7 @@
 <?php
 /**
  * @group xprofile
- * @see https://buddypress.trac.wordpress.org/ticket/7162
+ * @link https://buddypress.trac.wordpress.org/ticket/7162
  */
 class BP_Tests_XProfile_Field_Type_WordPress extends BP_UnitTestCase {
 

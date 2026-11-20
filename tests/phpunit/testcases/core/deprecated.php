@@ -13,7 +13,7 @@ class BP_Tests_Core_Deprecated extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/9210
+	 * @link https://buddypress.trac.wordpress.org/ticket/9210
 	 */
 	public function test_bp_get_deprecated_functions_versions_array_is_consistent_with_deprecated_files() {
 		$files = glob( buddypress()->plugin_dir . 'bp-core/deprecated/*.php' );
@@ -31,7 +31,7 @@ class BP_Tests_Core_Deprecated extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/9210
+	 * @link https://buddypress.trac.wordpress.org/ticket/9210
 	 */
 	public function test_deprecated_versions_do_not_depend_on_initial_version() {
 		$expected = bp_get_deprecated_functions_versions();
@@ -44,7 +44,7 @@ class BP_Tests_Core_Deprecated extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/9210
+	 * @link https://buddypress.trac.wordpress.org/ticket/9210
 	 */
 	public function test_all_deprecated_files_are_loaded() {
 		$files    = glob( buddypress()->plugin_dir . 'bp-core/deprecated/*.php' );
@@ -57,7 +57,7 @@ class BP_Tests_Core_Deprecated extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/9210
+	 * @link https://buddypress.trac.wordpress.org/ticket/9210
 	 */
 	public function test_legacy_mention_subject_filter_accepts_missing_poster_name() {
 		$email = new BP_Email( 'activity-at-message' );
@@ -66,7 +66,7 @@ class BP_Tests_Core_Deprecated extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/9210
+	 * @link https://buddypress.trac.wordpress.org/ticket/9210
 	 * @expectedDeprecated bp_signup_allowed
 	 */
 	public function test_bp_signup_allowed_outputs_signup_status() {
@@ -352,7 +352,7 @@ class BP_Tests_Core_Deprecated extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/7226
+	 * @link https://buddypress.trac.wordpress.org/ticket/7226
 	 */
 	public function test_bp_button_deprecated_args_should_still_render() {
 		$b = new BP_Button( array(
@@ -381,7 +381,7 @@ class BP_Tests_Core_Deprecated extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/7226
+	 * @link https://buddypress.trac.wordpress.org/ticket/7226
 	 */
 	public function test_bp_button_new_element_attrs_have_precedence_over_deprecated_element_attrs() {
 		$b = new BP_Button( array(

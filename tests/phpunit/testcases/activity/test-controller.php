@@ -1255,7 +1255,7 @@ class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase
 	}
 
 	/**
-	 * @see https://github.com/buddypress/buddypress/pull/448
+	 * @link https://github.com/buddypress/buddypress/pull/448
 	 */
 	public function test_update_item_posted_in_a_group() {
 		wp_set_current_user( $this->user );

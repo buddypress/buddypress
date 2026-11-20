@@ -1,7 +1,7 @@
 <?php
 /**
  * @group blogs
- * @see https://buddypress.trac.wordpress.org/ticket/6306
+ * @link https://buddypress.trac.wordpress.org/ticket/6306
  */
 class BP_Tests_Blogs_Filters extends BP_UnitTestCase {
 	protected $activity_actions;

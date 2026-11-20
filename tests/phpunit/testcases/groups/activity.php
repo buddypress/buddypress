@@ -350,7 +350,7 @@ class BP_Tests_Groups_Activity extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/8728
+	 * @link https://buddypress.trac.wordpress.org/ticket/8728
 	 */
 	public function test_user_can_delete_group_activity() {
 		$u1            = self::factory()->user->create();
@@ -436,7 +436,7 @@ class BP_Tests_Groups_Activity extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/8728
+	 * @link https://buddypress.trac.wordpress.org/ticket/8728
 	 */
 	public function test_group_admins_cannot_delete_activity() {
 		$u1            = self::factory()->user->create();

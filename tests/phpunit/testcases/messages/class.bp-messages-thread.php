@@ -862,7 +862,7 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/7540
+	 * @link https://buddypress.trac.wordpress.org/ticket/7540
 	 */
 	public function test_bp_messages_thread_exit() {
 		$u1 = self::factory()->user->create();
@@ -883,7 +883,7 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/7540
+	 * @link https://buddypress.trac.wordpress.org/ticket/7540
 	 */
 	public function test_bp_messages_thread_exit_not_enough_recipients() {
 		$u1 = self::factory()->user->create();
@@ -903,7 +903,7 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/7540
+	 * @link https://buddypress.trac.wordpress.org/ticket/7540
 	 */
 	public function test_bp_messages_thread_exit_not_one_of_recipients() {
 		$u1 = self::factory()->user->create();

@@ -29,7 +29,7 @@ class BP_Tests_Email extends BP_UnitTestCase_Emails {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/9169
+	 * @link https://buddypress.trac.wordpress.org/ticket/9169
 	 */
 	public function test_default_content_type() {
 		$email = new BP_Email( 'activity-at-message' );
@@ -38,7 +38,7 @@ class BP_Tests_Email extends BP_UnitTestCase_Emails {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/9169
+	 * @link https://buddypress.trac.wordpress.org/ticket/9169
 	 */
 	public function test_set_content_type_to_plaintext() {
 		$email = new BP_Email( 'activity-at-message' );
@@ -48,7 +48,7 @@ class BP_Tests_Email extends BP_UnitTestCase_Emails {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/9169
+	 * @link https://buddypress.trac.wordpress.org/ticket/9169
 	 */
 	public function test_set_content_type_to_plaintext_via_filter() {
 		add_filter( 'bp_email_set_content_type', array( $this, 'bp_disable_html_emails' ) );
@@ -82,7 +82,7 @@ class BP_Tests_Email extends BP_UnitTestCase_Emails {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/9169
+	 * @link https://buddypress.trac.wordpress.org/ticket/9169
 	 */
 	public function test_plaintext_strip_tags() {
 		$message  = '<b>test</b>';

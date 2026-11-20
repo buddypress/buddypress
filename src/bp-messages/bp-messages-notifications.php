@@ -275,7 +275,7 @@ function bp_messages_mark_notification_on_mark_thread( $thread_id, $user_id = 0,
 		 * marked back as unread from the BP Notifications screen. We then need to check a notification exists
 		 * about `new_message` action before checking found message ids are part of the thread.
 		 *
-		 * @see https://buddypress.trac.wordpress.org/ticket/8778
+		 * @link https://buddypress.trac.wordpress.org/ticket/8778
 		 */
 		$notifications = bp_notifications_get_all_notifications_for_user( $user_id );
 		if ( $notifications ) {

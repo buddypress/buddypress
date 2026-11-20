@@ -28,7 +28,7 @@ class BP_Tests_BP_Friends_Friendship_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/6546
+	 * @link https://buddypress.trac.wordpress.org/ticket/6546
 	 */
 	public function test_search_friends_with_xprofile_inactive() {
 		$this->deactivate_component( 'xprofile' );
@@ -119,7 +119,7 @@ class BP_Tests_BP_Friends_Friendship_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/6247
+	 * @link https://buddypress.trac.wordpress.org/ticket/6247
 	 */
 	public function test_save_method_should_update_existing_row() {
 		$u1 = self::factory()->user->create();
@@ -166,7 +166,7 @@ class BP_Tests_BP_Friends_Friendship_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/8844
+	 * @link https://buddypress.trac.wordpress.org/ticket/8844
 	 */
 	public function test_get_random_friends() {
 		$user_id = self::factory()->user->create();
@@ -182,7 +182,7 @@ class BP_Tests_BP_Friends_Friendship_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/8844
+	 * @link https://buddypress.trac.wordpress.org/ticket/8844
 	 */
 	public function test_get_friend_user_ids() {
 		$user_id = self::factory()->user->create();
@@ -198,7 +198,7 @@ class BP_Tests_BP_Friends_Friendship_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/8844
+	 * @link https://buddypress.trac.wordpress.org/ticket/8844
 	 */
 	public function test_delete_all_for_user() {
 		$user_id = self::factory()->user->create();
@@ -214,7 +214,7 @@ class BP_Tests_BP_Friends_Friendship_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/8844
+	 * @link https://buddypress.trac.wordpress.org/ticket/8844
 	 */
 	public function test_get_friendships() {
 		$u1 = self::factory()->user->create();

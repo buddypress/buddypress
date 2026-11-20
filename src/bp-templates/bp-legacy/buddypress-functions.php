@@ -511,7 +511,7 @@ class BP_Legacy extends BP_Theme_Compat {
 	 *
 	 * @since 1.7.0
 	 *
-	 * @see https://buddypress.trac.wordpress.org/ticket/4802
+	 * @link https://buddypress.trac.wordpress.org/ticket/4802
 	 */
 	public function sitewide_notices() {
 		// Do not show notices if user is not logged in.
@@ -557,7 +557,7 @@ class BP_Legacy extends BP_Theme_Compat {
 	 * Filter the default theme compatibility root template hierarchy, and prepend
 	 * a page template to the front if it's set.
 	 *
-	 * @see https://buddypress.trac.wordpress.org/ticket/6065
+	 * @link https://buddypress.trac.wordpress.org/ticket/6065
 	 *
 	 * @since 2.2.0
 	 *
