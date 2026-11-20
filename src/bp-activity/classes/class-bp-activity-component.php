@@ -469,8 +469,7 @@ class BP_Activity_Component extends BP_Component {
 	 *
 	 * @since 12.0.0
 	 *
-	 * @param WP_Query $query Required. See BP_Component::parse_query() for
-	 *                        description.
+	 * @param WP_Query $query Required. See BP_Component::parse_query() for description.
 	 */
 	public function parse_query( $query ) {
 		/*
@@ -481,7 +480,7 @@ class BP_Activity_Component extends BP_Component {
 			return parent::parse_query( $query );
 		}
 
-		if ( bp_is_site_home() && bp_is_directory_homepage( $this->id ) ) {
+		if ( bp_is_site_home( $query ) && bp_is_directory_homepage( $this->id ) ) {
 			$query->set( $this->rewrite_ids['directory'], 1 );
 		}
 

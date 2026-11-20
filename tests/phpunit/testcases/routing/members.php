@@ -32,6 +32,42 @@ class BP_Tests_Routing_Members extends BP_UnitTestCase {
 		$this->assertEquals( bp_get_members_root_slug(), $pages->{$component_id}->slug );
 	}
 
+	/**
+	 * @ticket BP9330
+	 * @dataProvider members_homepage_urls
+	 */
+	public function test_members_directory_as_homepage( $query_string ) {
+		$this->set_permalink_structure( '/%postname%/' );
+
+		$pages            = bp_core_get_directory_pages();
+		$show_on_front    = get_option( 'show_on_front' );
+		$page_on_front    = get_option( 'page_on_front' );
+		$members_page_id  = (int) $pages->members->id;
+
+		update_option( 'show_on_front', 'page' );
+		update_option( 'page_on_front', $members_page_id );
+
+		try {
+			$this->go_to( home_url( '/' ) . $query_string );
+
+			$this->assertTrue( bp_is_members_directory(), 'The homepage should load the Members directory.' );
+			$this->assertFalse( is_404() );
+			$this->assertSame( $members_page_id, get_queried_object_id() );
+		} finally {
+			update_option( 'show_on_front', $show_on_front );
+			update_option( 'page_on_front', $page_on_front );
+		}
+	}
+
+	public static function members_homepage_urls() {
+		return array(
+			'without query string' => array( '' ),
+			'with query string'    => array( '?anything=value' ),
+			'with tracking parameters' => array( '?utm_source=newsletter&ref=test' ),
+			'with encoded parameter' => array( '?anything=hello%20world' ),
+		);
+	}
+
 	function test_member_permalink() {
 		$this->set_permalink_structure( '/%postname%/' );
 		$this->go_to( bp_members_get_user_url( bp_loggedin_user_id() ) );

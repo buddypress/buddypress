@@ -1009,9 +1009,8 @@ add_filter( 'wp_unique_post_slug', 'bp_core_set_unique_directory_page_slug', 10,
  *
  * @since 12.0.0
  *
- * @param string   $component The component ID.
- * @return bool            True if a component's directory is set as the site's homepage.
- *                            False otherwise.
+ * @param string $component The component ID.
+ * @return bool
  */
 function bp_is_directory_homepage( $component = '' ) {
 	$is_directory_homepage = false;
@@ -1019,7 +1018,11 @@ function bp_is_directory_homepage( $component = '' ) {
 	$page_id_on_front      = get_option( 'page_on_front', 0 );
 	$directory_pages       = bp_core_get_directory_pages();
 
-	if ( $is_page_on_front && isset( $directory_pages->{$component} ) && (int) $page_id_on_front === (int) $directory_pages->{$component}->id ) {
+	if (
+		$is_page_on_front
+		&& isset( $directory_pages->{$component} )
+		&& (int) $page_id_on_front === (int) $directory_pages->{$component}->id
+	) {
 		$is_directory_homepage = true;
 	}
 

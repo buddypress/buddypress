@@ -12,6 +12,7 @@ class BP_Tests_Routing_Activity extends BP_UnitTestCase {
 
 		$this->old_current_user = get_current_user_id();
 		$this->permalink_structure = get_option( 'permalink_structure', '' );
+		$this->set_permalink_structure( '/%postname%/' );
 		$this->set_current_user( self::factory()->user->create( array( 'role' => 'subscriber' ) ) );
 	}
 
@@ -22,7 +23,6 @@ class BP_Tests_Routing_Activity extends BP_UnitTestCase {
 	}
 
 	function test_activity_directory() {
-		$this->set_permalink_structure( '/%postname%/' );
 		$this->go_to( bp_get_activity_directory_permalink() );
 
 		$pages        = bp_core_get_directory_pages();
@@ -32,10 +32,43 @@ class BP_Tests_Routing_Activity extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @ticket BP9330
+	 * @dataProvider activity_homepage_urls
+	 */
+	public function test_activity_directory_as_homepage( $query_string ) {
+		$pages            = bp_core_get_directory_pages();
+		$show_on_front    = get_option( 'show_on_front' );
+		$page_on_front    = get_option( 'page_on_front' );
+		$activity_page_id = (int) $pages->activity->id;
+
+		update_option( 'show_on_front', 'page' );
+		update_option( 'page_on_front', $activity_page_id );
+
+		try {
+			$this->go_to( home_url( '/' ) . $query_string );
+
+			$this->assertTrue( bp_is_activity_directory(), 'The homepage should load the Activity directory.' );
+			$this->assertFalse( is_404() );
+			$this->assertSame( $activity_page_id, get_queried_object_id() );
+		} finally {
+			update_option( 'show_on_front', $show_on_front );
+			update_option( 'page_on_front', $page_on_front );
+		}
+	}
+
+	public static function activity_homepage_urls() {
+		return array(
+			'without query string' => array( '' ),
+			'with query string'    => array( '?anything=value' ),
+			'with tracking parameters' => array( '?utm_source=newsletter&ref=test' ),
+			'with encoded parameter' => array( '?anything=hello%20world' ),
+		);
+	}
+
+	/**
 	 * Can't test using bp_activity_get_permalink(); see bp_activity_action_permalink_router().
 	 */
 	function test_activity_permalink() {
-		$this->set_permalink_structure( '/%postname%/' );
 		$a = self::factory()->activity->create();
 		$activity = self::factory()->activity->get_object_by_id( $a );
 
@@ -51,7 +84,6 @@ class BP_Tests_Routing_Activity extends BP_UnitTestCase {
 	}
 
 	function test_member_activity() {
-		$this->set_permalink_structure( '/%postname%/' );
 		$this->go_to(
 			bp_members_get_user_url(
 				bp_loggedin_user_id(),
@@ -64,7 +96,6 @@ class BP_Tests_Routing_Activity extends BP_UnitTestCase {
 	}
 
 	function test_member_activity_mentions() {
-		$this->set_permalink_structure( '/%postname%/' );
 		$this->go_to(
 			bp_members_get_user_url(
 				bp_loggedin_user_id(),
@@ -78,7 +109,6 @@ class BP_Tests_Routing_Activity extends BP_UnitTestCase {
 	}
 
 	function test_member_activity_favourites() {
-		$this->set_permalink_structure( '/%postname%/' );
 		$this->go_to(
 			bp_members_get_user_url(
 				bp_loggedin_user_id(),
@@ -95,7 +125,6 @@ class BP_Tests_Routing_Activity extends BP_UnitTestCase {
 	 * @group friends
 	 */
 	function test_member_activity_friends() {
-		$this->set_permalink_structure( '/%postname%/' );
 		$this->go_to(
 			bp_members_get_user_url(
 				bp_loggedin_user_id(),
@@ -112,7 +141,6 @@ class BP_Tests_Routing_Activity extends BP_UnitTestCase {
 	 * @group groups
 	 */
 	function test_member_activity_groups() {
-		$this->set_permalink_structure( '/%postname%/' );
 		$this->go_to(
 			bp_members_get_user_url(
 				bp_loggedin_user_id(),
