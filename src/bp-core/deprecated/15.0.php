@@ -10,6 +10,32 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
+ * Sort BuddyPress nav menu items by their position property.
+ *
+ * For internal use only.
+ *
+ * @since 1.7.0
+ * @deprecated 15.0.0
+ *
+ * @param array $a First item.
+ * @param array $b Second item.
+ * @return int Returns an integer less than, equal to, or greater than zero if
+ *             the first argument is considered to be respectively less than,
+ *             equal to, or greater than the second.
+ */
+function _bp_nav_menu_sort( $a, $b ) {
+	_deprecated_function( __FUNCTION__, '15.0.0' );
+
+	if ( (int) $a['position'] === (int) $b['position'] ) {
+		return 0;
+	} elseif ( $a['position'] < $b['position'] ) {
+		return -1;
+	} else {
+		return 1;
+	}
+}
+
+/**
  * The deprecated-loading constants no longer affect which files are loaded.
  *
  * @since 15.0.0

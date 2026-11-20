@@ -3454,31 +3454,6 @@ function bp_get_the_post_class( $wp_classes = array() ) {
 add_filter( 'post_class', 'bp_get_the_post_class' );
 
 /**
- * Sort BuddyPress nav menu items by their position property.
- *
- * This is an internal convenience function and it will probably be removed in
- * a later release. Do not use.
- *
- * @access private
- * @since 1.7.0
- *
- * @param array $a First item.
- * @param array $b Second item.
- * @return int Returns an integer less than, equal to, or greater than zero if
- *             the first argument is considered to be respectively less than,
- *             equal to, or greater than the second.
- */
-function _bp_nav_menu_sort( $a, $b ) {
-	if ( (int) $a['position'] === (int) $b['position'] ) {
-		return 0;
-	} elseif ( $a['position'] < $b['position'] ) {
-		return -1;
-	} else {
-		return 1;
-	}
-}
-
-/**
  * Get the items registered in the primary and secondary BuddyPress navigation menus.
  *
  * @since 1.7.0
