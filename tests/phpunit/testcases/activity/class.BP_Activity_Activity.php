@@ -15,24 +15,8 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 		$this->assertSame( $activity, $result );
 	}
 
-	public function test_delete_activity_item_comments() {
-		$parent_activity = self::factory()->activity->create( array(
-			'type' => 'activity_update',
-		) );
-
-		$comments = self::factory()->activity->create_many( 3, array(
-			'item_id' => $parent_activity,
-			'type'    => 'activity_comment',
-		) );
-
-		BP_Activity_Activity::delete_activity_item_comments( $parent_activity );
-
-		$result = BP_Activity_Activity::get( array( 'in' => $comments ) );
-		$this->assertEmpty( $result['activities'] );
-	}
-
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/4804
+	 * @link https://buddypress.trac.wordpress.org/ticket/4804
 	 */
 	public function test_delete_activity_meta_entries() {
 		$activity = self::factory()->activity->create( array(
@@ -47,7 +31,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/6426
+	 * @link https://buddypress.trac.wordpress.org/ticket/6426
 	 */
 	public function test_get_with_fields_parameter_by_id() {
 		$a = self::factory()->activity->create_many( 3, array(
@@ -366,7 +350,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/9094
+	 * @link https://buddypress.trac.wordpress.org/ticket/9094
 	 */
 	public function test_get_with_offset_lower() {
 		$now = time();
@@ -402,7 +386,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/9094
+	 * @link https://buddypress.trac.wordpress.org/ticket/9094
 	 */
 	public function test_get_with_offset_lower_with_pagination() {
 		$a = self::factory()->activity->create_many(
@@ -961,7 +945,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/7394
+	 * @link https://buddypress.trac.wordpress.org/ticket/7394
 	 */
 	public function test_nonexistent_activity_should_have_id_0_after_population() {
 		$a = self::factory()->activity->create();
@@ -977,7 +961,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/8236
+	 * @link https://buddypress.trac.wordpress.org/ticket/8236
 	 */
 	public function test_save_activity_requires_component() {
 		$a = bp_activity_add(
@@ -994,7 +978,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/8236
+	 * @link https://buddypress.trac.wordpress.org/ticket/8236
 	 */
 	public function test_save_activity_requires_type() {
 		$a = bp_activity_add(
@@ -1011,7 +995,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/8236
+	 * @link https://buddypress.trac.wordpress.org/ticket/8236
 	 */
 	public function test_save_activity_requires_content() {
 		$a = bp_activity_add(
@@ -1028,7 +1012,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/8236
+	 * @link https://buddypress.trac.wordpress.org/ticket/8236
 	 */
 	public function test_save_activity_does_not_require_content() {
 		$a = bp_activity_add(
@@ -1044,7 +1028,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/8236
+	 * @link https://buddypress.trac.wordpress.org/ticket/8236
 	 */
 	public function test_save_activity_custom_type_requires_content() {
 		add_filter( 'bp_activity_type_requires_content', '__return_true' );

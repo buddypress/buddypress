@@ -532,7 +532,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 		 *
 		 * @since 5.0.0
 		 *
-		 * @param array $value Array of keys and their values.
+		 * @param array $value Sortable column definitions keyed by column ID.
 		 */
 		return apply_filters(
 			'bp_groups_list_table_get_sortable_columns',
@@ -820,7 +820,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 		 *
 		 * @since 2.0.0
 		 *
-		 * @param string $value       Empty string.
+		 * @param string $value       Custom group column content. Empty by default.
 		 * @param string $column_name Name of the column being rendered.
 		 * @param array  $item        The current group item in the loop.
 		 */
@@ -893,8 +893,8 @@ class BP_Groups_List_Table extends WP_List_Table {
 	 *
 	 * @since 2.7.0
 	 *
-	 * @param  string $retval Current group type permalink.
-	 * @param  object $type   Group type object.
+	 * @param string $retval Current group type permalink.
+	 * @param object $type   Group type object.
 	 * @return string
 	 */
 	public function group_type_permalink_use_admin_filter( $retval, $type ) {

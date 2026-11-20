@@ -237,8 +237,18 @@ function friends_withdraw_friendship( $initiator_userid, $friend_userid ) {
 
 	if ( empty( $friendship->is_confirmed ) && BP_Friends_Friendship::withdraw( $friendship_id ) ) {
 
-		// @deprecated Since 1.9
-		do_action_ref_array( 'friends_friendship_whithdrawn', array( $friendship_id, &$friendship ) );
+		/**
+		 * Fires after a friendship request has been withdrawn.
+		 *
+		 * Previously marked deprecated in 1.9.0 without a runtime notice.
+		 *
+		 * @since 1.9.0
+		 * @deprecated 15.0.0 Use the `friends_friendship_withdrawn` action instead.
+		 *
+		 * @param int                   $friendship_id ID of the friendship.
+		 * @param BP_Friends_Friendship $friendship    The friendship object. Passed by reference.
+		 */
+		do_action_deprecated( 'friends_friendship_whithdrawn', array( $friendship_id, &$friendship ), '15.0.0', 'friends_friendship_withdrawn' );
 
 		/**
 		 * Fires after a friendship request has been withdrawn.
@@ -422,7 +432,7 @@ function friends_get_friendship_request_user_ids( $user_id ) {
  *                         Default: 0 (no pagination; show all results).
  * @param string $filter   Optional. Limit results to those matching a search
  *                         string.
- * @return array See {@link BP_Core_User::get_users()}.
+ * @return array See {@see BP_Core_User::get_users()}.
  */
 function friends_get_recently_active( $user_id, $per_page = 0, $page = 0, $filter = '' ) {
 	$friends = bp_core_get_users(
@@ -462,7 +472,7 @@ function friends_get_recently_active( $user_id, $per_page = 0, $page = 0, $filte
  *                         Default: 0 (no pagination; show all results).
  * @param string $filter   Optional. Limit results to those matching a search
  *                         string.
- * @return array See {@link BP_Core_User::get_users()}.
+ * @return array See {@see BP_Core_User::get_users()}.
  */
 function friends_get_alphabetically( $user_id, $per_page = 0, $page = 0, $filter = '' ) {
 	$friends = bp_core_get_users(
@@ -502,7 +512,7 @@ function friends_get_alphabetically( $user_id, $per_page = 0, $page = 0, $filter
  *                         Default: 0 (no pagination; show all results).
  * @param string $filter   Optional. Limit results to those matching a search
  *                         string.
- * @return array See {@link BP_Core_User::get_users()}.
+ * @return array See {@see BP_Core_User::get_users()}.
  */
 function friends_get_newest( $user_id, $per_page = 0, $page = 0, $filter = '' ) {
 	$friends = bp_core_get_users(

@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.8.0
  *
- * See {@link bp_activity_action_sitewide_feed()} as an example.
+ * See {@see bp_activity_action_sitewide_feed()} as an example.
  *
  * @param array $args {
  *   @type string $id               Required. Internal id for the feed; should be alphanumeric only.
@@ -31,7 +31,7 @@ defined( 'ABSPATH' ) || exit;
  *   @type string $update_frequency Optional. Part of the syndication module.
  *                                            (see inline doc in constructor for more info)
  *   @type string $max              Optional. Number of feed items to display.
- *   @type array  $activity_args    Optional. Arguments passed to {@link bp_has_activities()}
+ *   @type array  $activity_args    Optional. Arguments passed to {@see bp_has_activities()}
  * }
  */
 class BP_Activity_Feed {
@@ -315,7 +315,7 @@ class BP_Activity_Feed {
 			case 'friends':
 			case 'mentions':
 			case 'personal':
-				if ( 'activity_comment' === bp_get_activity_action_name() ) :
+				if ( 'activity_comment' === bp_get_activity_type() ) :
 			?>
 				<strong><?php esc_html_e( 'In reply to', 'buddypress' ); ?></strong> -
 				<?php bp_activity_parent_content(); ?>
@@ -329,7 +329,7 @@ class BP_Activity_Feed {
 	/**
 	 * Sets various HTTP headers related to Content-Type and browser caching.
 	 *
-	 * Most of this class method is derived from {@link WP::send_headers()}.
+	 * Most of this class method is derived from {@see WP::send_headers()}.
 	 *
 	 * @since 1.9.0
 	 *

@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * Format 'new_avatar' activity actions.
  *
  * @since 2.0.0
- * @deprecated 8.0.0
+ * @deprecated 8.0.0 Use `bp_members_format_activity_action_new_avatar()` instead.
  *
  * @param string $action   Static activity action.
  * @param object $activity Activity object.
@@ -30,7 +30,7 @@ function bp_xprofile_format_activity_action_new_avatar( $action, $activity ) {
  *
  * @since 1.0.0
  * @since 2.3.4 Add new parameter to get the user id the avatar was set for.
- * @deprecated 8.0.0
+ * @deprecated 8.0.0 Use `bp_members_new_avatar_activity()` instead.
  *
  * @param int $user_id Optional. The user id the avatar was set for.
  * @return bool
@@ -55,4 +55,18 @@ function bp_force_buddybar() {
 	_deprecated_function( __FUNCTION__, '8.0' );
 
 	return false;
+}
+
+/**
+ * Checks whether Nouveau has signup profile fields to display.
+ *
+ * @since 3.0.0
+ * @deprecated 8.0.0 Use `bp_nouveau_has_signup_xprofile_fields()` instead.
+ *
+ * @return bool Whether there are signup profile fields to display. False if the Nouveau xProfile template tags are not loaded.
+ */
+function bp_nouveau_base_account_has_xprofile() {
+	_deprecated_function( __FUNCTION__, '8.0.0', 'bp_nouveau_has_signup_xprofile_fields()' );
+
+	return function_exists( 'bp_nouveau_has_signup_xprofile_fields' ) && bp_nouveau_has_signup_xprofile_fields();
 }

@@ -2,7 +2,7 @@
 
 /**
  * @group xprofile
- * @see https://buddypress.trac.wordpress.org/ticket/5192
+ * @link https://buddypress.trac.wordpress.org/ticket/5192
  */
 class BP_Tests_XProfile_BpXprofileField_MemberTypes extends BP_UnitTestCase {
 	protected $field_group_id;

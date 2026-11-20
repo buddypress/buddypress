@@ -19,7 +19,7 @@ class BP_Tests_Avatars extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/4948
+	 * @link https://buddypress.trac.wordpress.org/ticket/4948
 	 */
 	public function test_avatars_on_non_root_blog() {
 		// Do not pass 'Go', do not collect $200
@@ -297,7 +297,7 @@ class BP_Tests_Avatars extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/7056
+	 * @link https://buddypress.trac.wordpress.org/ticket/7056
 	 */
 	public function test_no_grav_default_should_respect_thumb_type() {
 		$found = bp_core_fetch_avatar( array(
@@ -312,7 +312,7 @@ class BP_Tests_Avatars extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/7056
+	 * @link https://buddypress.trac.wordpress.org/ticket/7056
 	 */
 	public function test_no_grav_default_should_return_thumb_avatar_for_small_enough_width() {
 		$found = bp_core_fetch_avatar( array(
@@ -328,7 +328,7 @@ class BP_Tests_Avatars extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/7056
+	 * @link https://buddypress.trac.wordpress.org/ticket/7056
 	 */
 	public function test_no_grav_default_should_return_full_avatar_for_thumb_when_thumb_width_is_too_wide() {
 		add_filter( 'bp_core_avatar_thumb_width', array( $this, 'filter_thumb_width' ) );

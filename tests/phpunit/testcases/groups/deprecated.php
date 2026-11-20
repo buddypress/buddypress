@@ -6,6 +6,37 @@
  * @group deprecated
  */
 class BP_Tests_Groups_Deprecated extends BP_UnitTestCase {
+
+	/**
+	 * @expectedDeprecated bp_nouveau_groups_invites_custom_message
+	 */
+	public function test_legacy_invite_message_preserves_text_without_a_custom_message() {
+		$this->assertSame( 'Invitation', bp_nouveau_groups_invites_custom_message( 'Invitation' ) );
+	}
+
+	/**
+	 * @expectedDeprecated bp_nouveau_group_meta
+	 */
+	public function test_legacy_group_meta_renders_nouveau_meta_when_available() {
+		$meta = class_exists( 'BP_Nouveau_Group_Meta' ) ? bp_nouveau_the_group_meta( array( 'echo' => false ) ) : '';
+		$this->expectOutputString( (string) $meta );
+		$this->assertNull( bp_nouveau_group_meta() );
+	}
+
+	/**
+	 * @expectedDeprecated bp_legacy_theme_group_create_button
+	 */
+	public function test_legacy_group_create_button_keeps_the_title_for_guests() {
+		$old_user = get_current_user_id();
+		self::set_current_user( 0 );
+
+		try {
+			$this->assertSame( 'Groups ', bp_legacy_theme_group_create_button( 'Groups' ) );
+		} finally {
+			self::set_current_user( $old_user );
+		}
+	}
+
 	/**
 	 * @expectedDeprecated BP_Groups_Group::__construct
 	 */

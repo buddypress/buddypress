@@ -136,7 +136,7 @@ class BP_Tests_XProfile_Cache extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/6638
+	 * @link https://buddypress.trac.wordpress.org/ticket/6638
 	 */
 	public function test_field_cache_should_be_invalidated_on_save() {
 		$g = self::factory()->xprofile_group->create();
@@ -156,7 +156,7 @@ class BP_Tests_XProfile_Cache extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/7407
+	 * @link https://buddypress.trac.wordpress.org/ticket/7407
 	 */
 	public function test_get_field_id_from_name_should_be_cached() {
 		global $wpdb;
@@ -177,7 +177,7 @@ class BP_Tests_XProfile_Cache extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/7407
+	 * @link https://buddypress.trac.wordpress.org/ticket/7407
 	 */
 	public function test_get_field_id_from_name_cache_should_be_invalidated_on_field_update() {
 		$g = self::factory()->xprofile_group->create();
@@ -208,7 +208,7 @@ class BP_Tests_XProfile_Cache extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/7407
+	 * @link https://buddypress.trac.wordpress.org/ticket/7407
 	 */
 	public function test_get_field_id_from_name_cache_should_be_invalidated_on_field_deletion() {
 		$g = self::factory()->xprofile_group->create();

@@ -53,16 +53,19 @@ function bp_blogs_register_post_tracking_args( $params = null, $post_type = 0 ) 
 	/**
 	 * Filters the post types to track for the Blogs component.
 	 *
-	 * @since 1.5.0
-	 * @deprecated 2.3.0
-	 *
 	 * Make sure plugins still using 'bp_blogs_record_post_post_types'
-	 * to track their post types will generate new_blog_post activities
-	 * See https://buddypress.trac.wordpress.org/ticket/6306
+	 * to track their post types will generate new_blog_post activities.
 	 *
-	 * @param array $value Array of post types to track.
+	 * Previously marked deprecated in 2.3.0 without a runtime notice.
+	 *
+	 * @since 1.5.0
+	 * @deprecated 15.0.0
+	 *
+	 * @link https://buddypress.trac.wordpress.org/ticket/6306
+	 *
+	 * @param string[] $post_types Post types whose posts are tracked.
 	 */
-	$post_types       = apply_filters( 'bp_blogs_record_post_post_types', array( 'post' ) );
+	$post_types       = apply_filters_deprecated( 'bp_blogs_record_post_post_types', array( array( 'post' ) ), '15.0.0' );
 	$post_types_array = array_flip( $post_types );
 
 	if ( ! isset( $post_types_array[ $post_type ] ) ) {
@@ -84,16 +87,19 @@ function bp_blogs_register_post_tracking_args( $params = null, $post_type = 0 ) 
 		/**
 		 * Filters the post types to track for the Blogs component.
 		 *
-		 * @since 1.5.0
-		 * @deprecated 2.5.0
-		 *
 		 * Make sure plugins still using 'bp_blogs_record_comment_post_types'
-		 * to track comment about their post types will generate new_blog_comment activities
-		 * See https://buddypress.trac.wordpress.org/ticket/6306
+		 * to track comments on their post types will generate new_blog_comment activities.
 		 *
-		 * @param array $value Array of post types to track.
+		 * Previously marked deprecated in 2.5.0 without a runtime notice.
+		 *
+		 * @since 1.5.0
+		 * @deprecated 15.0.0
+		 *
+		 * @link https://buddypress.trac.wordpress.org/ticket/6306
+		 *
+		 * @param string[] $comment_post_types Post types whose comments are tracked.
 		 */
-		$comment_post_types       = apply_filters( 'bp_blogs_record_comment_post_types', array( 'post' ) );
+		$comment_post_types       = apply_filters_deprecated( 'bp_blogs_record_comment_post_types', array( array( 'post' ) ), '15.0.0' );
 		$comment_post_types_array = array_flip( $comment_post_types );
 
 		if ( isset( $comment_post_types_array[ $post_type ] ) ) {
@@ -187,7 +193,18 @@ function bp_blogs_format_activity_action_new_blog( $action, $activity ) {
 
 		if ( isset( $recorded_blog ) ) {
 			$blog_description = bp_blogs_get_blogmeta( $activity->item_id, 'description' );
-			$action           = apply_filters_deprecated( 'bp_blogs_activity_created_blog_action', array( $action, $recorded_blog, $blog_name, $blog_description ), '2.0.0', 'bp_blogs_format_activity_action_new_blog' );
+
+			/**
+			 * Filters the activity action for a newly created site.
+			 *
+			 * @deprecated 2.0.0 Use the `bp_blogs_format_activity_action_new_blog` filter instead.
+			 *
+			 * @param string        $action           Formatted activity action.
+			 * @param BP_Blogs_Blog $recorded_blog    Recorded site.
+			 * @param string        $blog_name        Site name.
+			 * @param string        $blog_description Site description.
+			 */
+			$action = apply_filters_deprecated( 'bp_blogs_activity_created_blog_action', array( $action, $recorded_blog, $blog_name, $blog_description ), '2.0.0', 'bp_blogs_format_activity_action_new_blog' );
 		}
 	}
 
@@ -240,7 +257,17 @@ function bp_blogs_format_activity_action_new_blog_post( $action, $activity ) {
 
 		if ( ! empty( $post ) && $post instanceof WP_Post ) {
 			$post_url = add_query_arg( 'p', $post->ID, trailingslashit( get_home_url( $activity->item_id ) ) );
-			$action   = apply_filters_deprecated( 'bp_blogs_activity_new_post_action', array( $action, $post, $post_url ), '2.0.0', 'bp_blogs_format_activity_action_new_blog_post' );
+
+			/**
+			 * Filters the activity action for a newly published blog post.
+			 *
+			 * @deprecated 2.0.0 Use the `bp_blogs_format_activity_action_new_blog_post` filter instead.
+			 *
+			 * @param string  $action   Formatted activity action.
+			 * @param WP_Post $post     Published post.
+			 * @param string  $post_url URL of the post.
+			 */
+			$action = apply_filters_deprecated( 'bp_blogs_activity_new_post_action', array( $action, $post, $post_url ), '2.0.0', 'bp_blogs_format_activity_action_new_blog_post' );
 		}
 	}
 
@@ -351,6 +378,15 @@ function bp_blogs_format_activity_action_new_blog_comment( $action, $activity ) 
 		restore_current_blog();
 
 		if ( ! empty( $comment ) && $comment instanceof WP_Comment ) {
+			/**
+			 * Filters the activity action for a new blog comment.
+			 *
+			 * @deprecated 2.0.0 Use the `bp_blogs_format_activity_action_new_blog_comment` filter instead.
+			 *
+			 * @param string     $action      Formatted activity action.
+			 * @param WP_Comment $comment     Blog comment.
+			 * @param string     $comment_url Post URL with the comment ID as its fragment.
+			 */
 			$action = apply_filters_deprecated( 'bp_blogs_activity_new_comment_action', array( $action, $comment, $post_url . '#' . $activity->secondary_item_id ), '2.0.0', 'bp_blogs_format_activity_action_new_blog_comment' );
 		}
 	}
@@ -407,7 +443,7 @@ add_filter( 'bp_activity_prefetch_object_data', 'bp_blogs_prefetch_activity_obje
  * @see bp_activity_add() for description of parameters.
  *
  * @param array|string $args {
- *     Optional. See {@link bp_activity_add()} for complete description of arguments.
+ *     Optional. See {@see bp_activity_add()} for complete description of arguments.
  *     The arguments listed here have different default values from
  *     bp_activity_add().
  *     @type string $component Default: 'blogs'.
@@ -494,7 +530,7 @@ function bp_blogs_record_activity( $args = '' ) {
  * @see bp_activity_delete() for description of parameters.
  *
  * @param array|string $args {
- *     Optional. See {@link bp_activity_delete()} for complete description of arguments.
+ *     Optional. See {@see bp_activity_delete()} for complete description of arguments.
  *     The arguments listed here have different default values from
  *     bp_activity_add().
  *     @type string $component Default: 'blogs'.
@@ -519,13 +555,13 @@ function bp_blogs_delete_activity( $args = '' ) {
 /**
  * Check if a blog post's activity item should be closed from commenting.
  *
- * This mirrors the {@link comments_open()} and {@link _close_comments_for_old_post()}
+ * This mirrors the {@see comments_open()} and {@see _close_comments_for_old_post()}
  * functions, but for use with the BuddyPress activity stream to be as
  * lightweight as possible.
  *
  * By lightweight, we actually mirror a few of the blog's commenting settings
  * to blogmeta and checks the values in blogmeta instead.  This is to prevent
- * multiple {@link switch_to_blog()} calls in the activity stream.
+ * multiple {@see switch_to_blog()} calls in the activity stream.
  *
  * @since 2.0.0
  *
@@ -757,7 +793,7 @@ add_action( 'delete_post', 'bp_blogs_remove_post' );
  *
  * Note: This is only a one-way sync - activity comments -> blog comment.
  *
- * For blog post -> activity comment, see {@link bp_activity_post_type_comment()}.
+ * For blog post -> activity comment, see {@see bp_activity_post_type_comment()}.
  *
  * @since 2.0.0
  * @since 2.5.0 Allow custom post types to sync their comments with activity ones
@@ -1283,8 +1319,8 @@ add_filter( 'bp_activity_can_comment', 'bp_blogs_disable_activity_commenting' );
  * be displayed twice, and avoids a Javascript error as the form to add replies
  * is not available.
  *
- * @param  int $retval  The comment count for the activity.
- * @return int          The comment count, or 0 to hide activity comment replies.
+ * @param int $retval  The comment count for the activity.
+ * @return int The comment count, or 0 to hide activity comment replies.
  */
 function bp_blogs_post_type_comments_avoid_duplicates( $retval ) {
 	/**
@@ -1316,8 +1352,8 @@ add_filter( 'bp_activity_get_comment_count', 'bp_blogs_post_type_comments_avoid_
  * By default, disables replying to activity comments if the corresponding WP
  * blog post no longer accepts comments.
  *
- * This check uses a locally-cached value set in {@link bp_blogs_disable_activity_commenting()}
- * via {@link bp_blogs_setup_activity_loop_globals()}.
+ * This check uses a locally-cached value set in {@see bp_blogs_disable_activity_commenting()}
+ * via {@see bp_blogs_setup_activity_loop_globals()}.
  *
  * @since 2.0.0
  *

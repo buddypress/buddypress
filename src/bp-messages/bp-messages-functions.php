@@ -338,7 +338,7 @@ function messages_check_thread_access( $thread_id, $user_id = 0 ) {
 /**
  * Mark a thread as read.
  *
- * Wrapper for {@link BP_Messages_Thread::mark_as_read()}.
+ * Wrapper for {@see BP_Messages_Thread::mark_as_read()}.
  *
  * @since 9.0.0 Added the `user_id` parameter.
  *
@@ -354,7 +354,7 @@ function messages_mark_thread_read( $thread_id, $user_id = 0 ) {
 /**
  * Mark a thread as unread.
  *
- * Wrapper for {@link BP_Messages_Thread::mark_as_unread()}.
+ * Wrapper for {@see BP_Messages_Thread::mark_as_unread()}.
  *
  * @since 9.0.0 Added the `user_id` parameter.
  *
@@ -448,7 +448,7 @@ function messages_is_valid_thread( $thread_id ) {
  *
  * @global wpdb $wpdb WordPress database object.
  *
- * @param  int $message_id Optional. ID of the message.
+ * @param int $message_id Optional. ID of the message.
  * @return int The ID of the thread if found, otherwise 0.
  */
 function messages_get_message_thread_id( $message_id = 0 ) {

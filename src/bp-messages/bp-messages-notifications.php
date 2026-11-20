@@ -62,7 +62,20 @@ function messages_format_notifications( $action, $item_id, $secondary_item_id, $
 				$retval = esc_html( $text );
 			}
 
-			/** This filter is documented in wp-includes/deprecated.php */
+			/**
+			 * Filters a new-message notification in string format.
+			 *
+			 * The dynamic portion, `$amount`, is either 'single' or 'multiple'.
+			 *
+			 * @deprecated 10.0.0 Use the `bp_messages_{$amount}_new_message_string_notification` filter instead.
+			 *
+			 * @param string $notification      Formatted notification text, which may include a link.
+			 * @param int    $total_items       Number of messages in the notification.
+			 * @param string $text              Notification text without a link.
+			 * @param string $link              Notification URL.
+			 * @param int    $item_id           Primary item ID.
+			 * @param int    $secondary_item_id Secondary item ID.
+			 */
 			$retval = apply_filters_deprecated(
 				'bp_messages_' . $amount . '_new_message_notification',
 				array( $retval, $total_items, $text, $link, $item_id, $secondary_item_id ),
@@ -75,7 +88,21 @@ function messages_format_notifications( $action, $item_id, $secondary_item_id, $
 				'link' => $link,
 			);
 
-			/** This filter is documented in wp-includes/deprecated.php */
+			/**
+			 * Filters a new-message notification in array format.
+			 *
+			 * The dynamic portion, `$amount`, is either 'single' or 'multiple'.
+			 *
+			 * @deprecated 10.0.0 Use the `bp_messages_{$amount}_new_message_array_notification` filter instead.
+			 *
+			 * @param array  $notification      Notification text and URL.
+			 * @param string $legacy_link       Notification URL, also passed as `$link`.
+			 * @param int    $total_items       Number of messages in the notification.
+			 * @param string $text              Notification text without a link.
+			 * @param string $link              Notification URL.
+			 * @param int    $item_id           Primary item ID.
+			 * @param int    $secondary_item_id Secondary item ID.
+			 */
 			$retval = apply_filters_deprecated(
 				'bp_messages_' . $amount . '_new_message_notification',
 				array(
@@ -135,7 +162,20 @@ function messages_format_notifications( $action, $item_id, $secondary_item_id, $
 		 */
 		if ( has_filter( 'bp_messages_single_new_message_notification' ) ) {
 			if ( 'string' === $format ) {
-				/** This filter is documented in wp-includes/deprecated.php */
+				/**
+				 * Filters the string notification for a custom Messages action.
+				 *
+				 * This dispatch keeps the `bp_messages_single_new_message_notification` filter working for custom actions.
+				 *
+				 * @deprecated 10.0.0 Use the `bp_messages_{$action}_notification` filter instead.
+				 *
+				 * @param string $notification      Formatted notification text, which may include a link.
+				 * @param int    $total_items       Number of messages in the notification.
+				 * @param string $text              Notification text without a link.
+				 * @param string $link              Notification URL.
+				 * @param int    $item_id           Primary item ID.
+				 * @param int    $secondary_item_id Secondary item ID.
+				 */
 				$retval = apply_filters_deprecated(
 					'bp_messages_' . $amount . '_new_message_notification',
 					array( $retval, $total_items, $text, $link, $item_id, $secondary_item_id ),
@@ -144,7 +184,21 @@ function messages_format_notifications( $action, $item_id, $secondary_item_id, $
 				);
 
 			} else {
-				/** This filter is documented in wp-includes/deprecated.php */
+				/**
+				 * Filters the array notification for a custom Messages action.
+				 *
+				 * This dispatch keeps the `bp_messages_single_new_message_notification` filter working for custom actions.
+				 *
+				 * @deprecated 10.0.0 Use the `bp_messages_{$action}_notification` filter instead.
+				 *
+				 * @param array  $notification      Notification text and URL.
+				 * @param string $legacy_link       Notification URL, also passed as `$link`.
+				 * @param int    $total_items       Number of messages in the notification.
+				 * @param string $text              Notification text without a link.
+				 * @param string $link              Notification URL.
+				 * @param int    $item_id           Primary item ID.
+				 * @param int    $secondary_item_id Secondary item ID.
+				 */
 				$retval = apply_filters_deprecated(
 					'bp_messages_' . $amount . '_new_message_notification',
 					array( $retval, $link, $total_items, $text, $link, $item_id, $secondary_item_id ),
@@ -275,7 +329,7 @@ function bp_messages_mark_notification_on_mark_thread( $thread_id, $user_id = 0,
 		 * marked back as unread from the BP Notifications screen. We then need to check a notification exists
 		 * about `new_message` action before checking found message ids are part of the thread.
 		 *
-		 * @see https://buddypress.trac.wordpress.org/ticket/8778
+		 * @link https://buddypress.trac.wordpress.org/ticket/8778
 		 */
 		$notifications = bp_notifications_get_all_notifications_for_user( $user_id );
 		if ( $notifications ) {

@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * Use BP_Notifications_Notification instead.
  *
- * @deprecated since 1.9.0
+ * @deprecated 1.9.0
  */
 class BP_Core_Notification {
 
@@ -87,7 +87,7 @@ class BP_Core_Notification {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @var boolean
+	 * @var bool
 	 */
 	public $is_new = false;
 

@@ -1183,16 +1183,22 @@ function bp_activation() {
 	bp_add_options();
 
 	/**
-	 * Fires during the activation of BuddyPress.
+	 * Fires during BuddyPress activation, before {@see 'bp_activation'}.
 	 *
-	 * Use as of 1.6.0.
+	 * Previously marked deprecated in 1.6.0 without a runtime notice.
+	 *
+	 * @deprecated 15.0.0 Use the `bp_activation` action instead.
+	 *
+	 * @param string $unused Empty string passed to legacy callbacks.
+	 */
+	do_action_deprecated( 'bp_loader_activate', array( '' ), '15.0.0', 'bp_activation' );
+
+	/**
+	 * Fires during the activation of BuddyPress.
 	 *
 	 * @since 1.6.0
 	 */
 	do_action( 'bp_activation' );
-
-	// @deprecated as of 1.6.0
-	do_action( 'bp_loader_activate' );
 }
 
 /**
@@ -1212,7 +1218,11 @@ function bp_deactivation() {
 	 */
 	do_action( 'bp_deactivation' );
 
-	// @deprecated as of 1.6.0
+	/**
+	 * Fires during BuddyPress deactivation for legacy callbacks.
+	 *
+	 * @deprecated 1.6.0 Use the `bp_deactivation` action instead.
+	 */
 	do_action_deprecated( 'bp_loader_deactivate', array(), '1.6.0' );
 }
 

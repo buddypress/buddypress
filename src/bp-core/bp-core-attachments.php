@@ -1138,8 +1138,19 @@ function bp_attachments_get_cover_image_settings( $component = 'members' ) {
 
 	// Handle deprecated xProfile fitler.
 	if ( 'members' === $component ) {
-		/** This filter is documented in wp-includes/deprecated.php */
-		$args = apply_filters_deprecated( 'bp_before_xprofile_cover_image_settings_parse_args', array( $default_args ), '6.0.0', 'bp_before_members_cover_image_settings_parse_args' );
+		/**
+		 * Filters the default member cover image settings before parsing.
+		 *
+		 * @deprecated 6.0.0 Use the `bp_before_members_cover_image_settings_parse_args` filter instead.
+		 *
+		 * @param array $default_args Default cover image settings.
+		 */
+		$args = apply_filters_deprecated(
+			'bp_before_xprofile_cover_image_settings_parse_args',
+			array( $default_args ),
+			'6.0.0',
+			'bp_before_members_cover_image_settings_parse_args'
+		);
 	}
 
 	/**
@@ -1160,8 +1171,19 @@ function bp_attachments_get_cover_image_settings( $component = 'members' ) {
 
 	// Handle deprecated xProfile fitler.
 	if ( 'members' === $component ) {
-		/** This filter is documented in wp-includes/deprecated.php */
-		$settings = apply_filters_deprecated( 'bp_after_xprofile_cover_image_settings_parse_args', array( $settings ), '6.0.0', 'bp_after_members_cover_image_settings_parse_args' );
+		/**
+		 * Filters the parsed member cover image settings.
+		 *
+		 * @deprecated 6.0.0 Use the `bp_after_members_cover_image_settings_parse_args` filter instead.
+		 *
+		 * @param array $settings Parsed cover image settings.
+		 */
+		$settings = apply_filters_deprecated(
+			'bp_after_xprofile_cover_image_settings_parse_args',
+			array( $settings ),
+			'6.0.0',
+			'bp_after_members_cover_image_settings_parse_args'
+		);
 	}
 
 	if ( empty( $settings['components'] ) || empty( $settings['callback'] ) || empty( $settings['theme_handle'] ) ) {
@@ -1626,7 +1648,16 @@ function bp_attachments_cover_image_ajax_upload() {
 
 	// Handle deprecated xProfile action.
 	if ( 'members' === $component ) {
-		/** This filter is documented in wp-includes/deprecated.php */
+		/**
+		 * Fires after a member uploads a cover image.
+		 *
+		 * @deprecated 6.0.0 Use the `members_cover_image_uploaded` action instead.
+		 *
+		 * @param int    $item_id       User ID.
+		 * @param string $name          Filename.
+		 * @param string $cover_url     Cover image URL.
+		 * @param int    $feedback_code Upload feedback code.
+		 */
 		do_action_deprecated(
 			'xprofile_cover_image_uploaded',
 			array(
@@ -1636,7 +1667,7 @@ function bp_attachments_cover_image_ajax_upload() {
 				$feedback_code,
 			),
 			'6.0.0',
-			'members_cover_image_deleted'
+			'members_cover_image_uploaded'
 		);
 	}
 
@@ -1719,8 +1750,19 @@ function bp_attachments_cover_image_ajax_delete() {
 
 		// Handle deprecated xProfile action.
 		if ( 'members' === $component ) {
-			/** This filter is documented in wp-includes/deprecated.php */
-			do_action_deprecated( 'xprofile_cover_image_deleted', array( $item_id ), '6.0.0', 'members_cover_image_deleted' );
+			/**
+			 * Fires after a member cover image is deleted.
+			 *
+			 * @deprecated 6.0.0 Use the `members_cover_image_deleted` action instead.
+			 *
+			 * @param int $item_id User ID.
+			 */
+			do_action_deprecated(
+				'xprofile_cover_image_deleted',
+				array( $item_id ),
+				'6.0.0',
+				'members_cover_image_deleted'
+			);
 		}
 
 		$response = array(
@@ -1785,8 +1827,8 @@ function bp_attachments_get_mime_type( $file = '' ) {
  * @since 10.2.0
  *
  * @param SplFileInfo $file The SplFileInfo file object.
- * @return null|object      Null if the file is not supported by WordPress.
- *                          A BP Attachments file object otherwise.
+ * @return null|object Null if the file is not supported by WordPress.
+ *                     A BP Attachments file object otherwise.
  */
 function bp_attachments_get_file_object( SplFileInfo $file ) {
 	$path      = $file->getPathname();
@@ -1817,7 +1859,7 @@ function bp_attachments_get_file_object( SplFileInfo $file ) {
  * @since 10.0.0
  *
  * @param string $directory_path Optional. Absolute path of a directory.
- * @return array                 The file objects list of the directory.
+ * @return array The file objects list of the directory.
  */
 function bp_attachments_list_directory_files( $directory_path = '' ) {
 	if ( ! is_dir( $directory_path ) ) {
@@ -1847,7 +1889,7 @@ function bp_attachments_list_directory_files( $directory_path = '' ) {
  *
  * @param string $directory_path Optional. Absolute path of a directory.
  * @param string $find           Optional. The file ID to find into the directory or its children.
- * @return array                 The file objects list of the directory and subdirectories.
+ * @return array The file objects list of the directory and subdirectories.
  */
 function bp_attachments_list_directory_files_recursively( $directory_path = '', $find = '' ) {
 	if ( ! is_dir( $directory_path ) ) {

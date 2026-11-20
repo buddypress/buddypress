@@ -684,7 +684,12 @@ class BP_Activity_Activity {
 		 * @param string $from_sql         Current FROM MySQL statement at point of execution.
 		 * @param string $join_sql         Current INNER JOIN MySQL statement at point of execution.
 		 */
-		$where_conditions = apply_filters_deprecated( 'bp_activity_get_where_conditions', array( $where_conditions, $r, $select_sql, $from_sql, $join_sql ), '15.0.0', 'bp_activity_get_sql_clauses' );
+		$where_conditions = apply_filters_deprecated(
+			'bp_activity_get_where_conditions',
+			array( $where_conditions, $r, $select_sql, $from_sql, $join_sql ),
+			'15.0.0',
+			'bp_activity_get_sql_clauses'
+		);
 
 		// Join the where conditions together.
 		$where_sql = 'WHERE ' . join( ' AND ', $where_conditions );
@@ -701,7 +706,12 @@ class BP_Activity_Activity {
 		 * @param string $from_sql   Current FROM MySQL statement.
 		 * @param string $where_sql  Current WHERE MySQL statement.
 		 */
-		$join_sql = apply_filters_deprecated( 'bp_activity_get_join_sql', array( $join_sql, $r, $select_sql, $from_sql, $where_sql ), '15.0.0', 'bp_activity_get_sql_clauses' );
+		$join_sql = apply_filters_deprecated(
+			'bp_activity_get_join_sql',
+			array( $join_sql, $r, $select_sql, $from_sql, $where_sql ),
+			'15.0.0',
+			'bp_activity_get_sql_clauses'
+		);
 
 		$sql_clauses = array(
 			'select'           => $select_sql,
@@ -783,7 +793,12 @@ class BP_Activity_Activity {
 				$pag_sql = $wpdb->prepare( 'LIMIT %d, %d', absint( ( $page - 1 ) * $per_page ), $per_page );
 
 				/** This filter is documented in bp-activity/classes/class-bp-activity-activity.php */
-				$activity_sql = apply_filters_deprecated( 'bp_activity_get_user_join_filter', array( "{$select_sql} {$from_sql} {$join_sql} {$where_sql} ORDER BY a.date_recorded {$sort}, a.id {$sort} {$pag_sql}", $select_sql, $from_sql, $where_sql, $sort, $pag_sql ), '15.0.0', 'bp_activity_get_sql' );
+				$activity_sql = apply_filters_deprecated(
+					'bp_activity_get_user_join_filter',
+					array( "{$select_sql} {$from_sql} {$join_sql} {$where_sql} ORDER BY a.date_recorded {$sort}, a.id {$sort} {$pag_sql}", $select_sql, $from_sql, $where_sql, $sort, $pag_sql ),
+					'15.0.0',
+					'bp_activity_get_sql'
+				);
 			} else {
 				$pag_sql = '';
 
@@ -793,14 +808,19 @@ class BP_Activity_Activity {
 				 * @since 1.5.0
 				 * @deprecated 15.0.0 Use the `bp_activity_get_sql` filter instead.
 				 *
-				 * @param string $value      Concatenated MySQL statement pieces to be query results with for legacy query.
-				 * @param string $select_sql Final SELECT MySQL statement portion for legacy query.
-				 * @param string $from_sql   Final FROM MySQL statement portion for legacy query.
-				 * @param string $where_sql  Final WHERE MySQL statement portion for legacy query.
-				 * @param string $sort       Final sort direction for legacy query.
-				 * @param string $pag_sql    LIMIT clause for paged queries; empty for unpaged queries.
+				 * @param string $activity_sql SQL statement for the legacy activity query.
+				 * @param string $select_sql   Final SELECT MySQL statement portion for legacy query.
+				 * @param string $from_sql     Final FROM MySQL statement portion for legacy query.
+				 * @param string $where_sql    Final WHERE MySQL statement portion for legacy query.
+				 * @param string $sort         Final sort direction for legacy query.
+				 * @param string $pag_sql      LIMIT clause for paged queries; empty for unpaged queries.
 				 */
-				$activity_sql = apply_filters_deprecated( 'bp_activity_get_user_join_filter', array( "{$select_sql} {$from_sql} {$join_sql} {$where_sql} ORDER BY a.date_recorded {$sort}, a.id {$sort}", $select_sql, $from_sql, $where_sql, $sort, $pag_sql ), '15.0.0', 'bp_activity_get_sql' );
+				$activity_sql = apply_filters_deprecated(
+					'bp_activity_get_user_join_filter',
+					array( "{$select_sql} {$from_sql} {$join_sql} {$where_sql} ORDER BY a.date_recorded {$sort}, a.id {$sort}", $select_sql, $from_sql, $where_sql, $sort, $pag_sql ),
+					'15.0.0',
+					'bp_activity_get_sql'
+				);
 			}
 
 			/**
@@ -847,7 +867,12 @@ class BP_Activity_Activity {
 			 * @param string $activity_ids_sql MySQL statement used to query for Activity IDs.
 			 * @param array  $r                Array of arguments passed into method.
 			 */
-			$activity_ids_sql = apply_filters_deprecated( 'bp_activity_paged_activities_sql', array( $activity_ids_sql, $r ), '15.0.0', 'bp_activity_get_sql' );
+			$activity_ids_sql = apply_filters_deprecated(
+				'bp_activity_paged_activities_sql',
+				array( $activity_ids_sql, $r ),
+				'15.0.0',
+				'bp_activity_get_sql'
+			);
 
 			/** This filter is documented in bp-activity/classes/class-bp-activity-activity.php */
 			$activity_ids_sql = apply_filters( 'bp_activity_get_sql', $activity_ids_sql, 'paged', $r, $sql_clauses );
@@ -931,7 +956,12 @@ class BP_Activity_Activity {
 			 * @param string $where_sql            MySQL WHERE statement portion.
 			 * @param string $sort                 Sort direction for query.
 			 */
-			$total_activities_sql = apply_filters_deprecated( 'bp_activity_total_activities_sql', array( $total_activities_sql, $where_sql, $sort ), '15.0.0', 'bp_activity_get_sql' );
+			$total_activities_sql = apply_filters_deprecated(
+				'bp_activity_total_activities_sql',
+				array( $total_activities_sql, $where_sql, $sort ),
+				'15.0.0',
+				'bp_activity_get_sql'
+			);
 
 			/** This filter is documented in bp-activity/classes/class-bp-activity-activity.php */
 			$total_activities_sql = apply_filters( 'bp_activity_get_sql', $total_activities_sql, 'count', $r, $sql_clauses );
@@ -1230,9 +1260,9 @@ class BP_Activity_Activity {
 	 *
 	 * @since 2.2.0
 	 *
-	 * @param  mixed $scope  Optional. The activity scope. Accepts string or array of scopes.
-	 * @param  array $r      Optional. Current activity arguments. Same as those of BP_Activity_Activity::get(),
-	 *                       but merged with defaults.
+	 * @param mixed $scope  Optional. The activity scope. Accepts string or array of scopes.
+	 * @param array $r      Optional. Current activity arguments. Same as those of BP_Activity_Activity::get(),
+	 *                      but merged with defaults.
 	 * @return false|array 'sql' WHERE SQL string and 'override' activity args.
 	 */
 	public static function get_scope_query_sql( $scope = false, $r = array() ) {
@@ -1281,7 +1311,7 @@ class BP_Activity_Activity {
 			 *     Activity query clauses.
 			 *     @type array {
 			 *         Activity arguments for your custom scope.
-			 *         See {@link BP_Activity_Query::_construct()} for more details.
+			 *         See {@see BP_Activity_Query::_construct()} for more details.
 			 *     }
 			 *     @type array  $override Optional. Override existing activity arguments passed by $r.
 			 *     }
@@ -1330,8 +1360,7 @@ class BP_Activity_Activity {
 	 *
 	 * @since 1.2.0
 	 *
-	 * @deprecated 1.5
-	 * @deprecated Use BP_Activity_Activity::get() with an 'in' parameter instead.
+	 * @deprecated 1.5 Use `BP_Activity_Activity::get()` with the `in` parameter instead.
 	 *
 	 * @param mixed    $activity_ids     Array or comma-separated string of activity IDs to retrieve.
 	 * @param int|bool $max              Maximum number of results to return. (Optional; default is no maximum).
@@ -1648,14 +1677,12 @@ class BP_Activity_Activity {
 	/**
 	 * Delete the comments associated with a set of activity items.
 	 *
-	 * This method is no longer used by BuddyPress, and it is recommended not to
-	 * use it going forward, and use BP_Activity_Activity::delete() instead.
+	 * Previously marked deprecated in 2.3.0 without a runtime notice.
 	 *
 	 * @since 1.2.0
+	 * @deprecated 15.0.0
 	 *
 	 * @global wpdb $wpdb WordPress database object.
-	 *
-	 * @deprecated 2.3.0
 	 *
 	 * @param array $activity_ids Optional. Activity IDs whose comments should be deleted.
 	 * @param bool  $delete_meta  Optional. Should we delete the activity meta items for these comments.
@@ -1663,6 +1690,8 @@ class BP_Activity_Activity {
 	 */
 	public static function delete_activity_item_comments( $activity_ids = array(), $delete_meta = true ) {
 		global $wpdb;
+
+		_deprecated_function( __METHOD__, '15.0.0' );
 
 		$bp = buddypress();
 

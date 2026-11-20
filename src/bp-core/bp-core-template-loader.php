@@ -25,7 +25,7 @@ defined( 'ABSPATH' ) || exit;
  * @param string|null $name Optional. Template part name. Used to generate
  *                          secondary filenames, eg 'personal' for 'activity-personal.php'.
  * @param array       $args Optional. Extra args to pass to locate_template().
- * @return false|string Path to located template. See {@link bp_locate_template()}.
+ * @return false|string Path to located template. See {@see bp_locate_template()}.
  */
 function bp_get_template_part( $slug, $name = null, $args = array() ) {
 
@@ -70,7 +70,7 @@ function bp_get_template_part( $slug, $name = null, $args = array() ) {
 /**
  * Get an asset template part.
  *
- * Basically the same as {@link bp_get_template_part()}, but with 'assets/'
+ * Basically the same as {@see bp_get_template_part()}, but with 'assets/'
  * prepended to the slug.
  *
  * @since 2.6.0
@@ -232,7 +232,7 @@ function bp_locate_template( $template_names, $load = false, $load_once = true, 
 /**
  * Get file data of the highest priority asset that exists.
  *
- * Similar to {@link bp_locate_template()}, but for files like CSS and JS.
+ * Similar to {@see bp_locate_template()}, but for files like CSS and JS.
  *
  * @since 2.6.0
  *
@@ -285,7 +285,7 @@ function bp_locate_template_asset( $filename ) {
  * @param string $location_callback Optional. Callback function that returns the stack location.
  * @param int    $priority          Optional. The priority parameter as passed to
  *                                  add_filter(). Default: 10.
- * @return bool See {@link add_filter()}.
+ * @return bool See {@see add_filter()}.
  */
 function bp_register_template_stack( $location_callback = '', $priority = 10 ) {
 
@@ -307,8 +307,8 @@ function bp_register_template_stack( $location_callback = '', $priority = 10 ) {
  *
  * @param string $location_callback Optional. Callback function that returns the stack location.
  * @param int    $priority          Optional. The priority parameter passed to
- *                                  {@link bp_register_template_stack()}. Default: 10.
- * @return bool See {@link remove_filter()}.
+ *                                  {@see bp_register_template_stack()}. Default: 10.
+ * @return bool See {@see remove_filter()}.
  */
 function bp_deregister_template_stack( $location_callback = '', $priority = 10 ) {
 
@@ -397,11 +397,11 @@ function bp_get_template_stack() {
  *
  * @see bp_get_template_part() for a description of $slug, $name and $args params.
  *
- * @param string      $slug See {@link bp_get_template_part()}.
- * @param string|null $name Optional. See {@link bp_get_template_part()}.
+ * @param string      $slug See {@see bp_get_template_part()}.
+ * @param string|null $name Optional. See {@see bp_get_template_part()}.
  * @param bool        $ret  Optional. If true, template content will be echoed. If false,
  *                          returned. Default: true.
- * @param array       $args Optional. See {@link bp_get_template_part()}.
+ * @param array       $args Optional. See {@see bp_get_template_part()}.
  * @return string|null If $echo, returns the template content.
  */
 function bp_buffer_template_part( $slug, $name = null, $ret = true, $args = array() ) {
@@ -432,7 +432,7 @@ function bp_buffer_template_part( $slug, $name = null, $ret = true, $args = arra
  *
  * Used to quickly retrieve the path of a template without including the file
  * extension. It will also check the parent theme and theme-compat theme with
- * the use of {@link bp_locate_template()}. Allows for more generic template
+ * the use of {@see bp_locate_template()}. Allows for more generic template
  * locations without the use of the other get_*_template() functions.
  *
  * @since 1.7.0
@@ -676,12 +676,13 @@ function bp_reset_query( $bp_request = '', $query = null ) {
 
 	// Use the BP Rewrites API to parse the ajax referer request.
 	if ( wp_doing_ajax() ) {
-		if ( ! bp_has_pretty_urls() ) {
-			$matched_query = wp_parse_url( $bp_request, PHP_URL_QUERY );
-		} else {
-			// Temporarily override the request uri.
-			$_SERVER['REQUEST_URI'] = $bp_request;
+		$_SERVER['REQUEST_URI'] = $bp_request;
+		$referer_query          = (string) wp_parse_url( $bp_request, PHP_URL_QUERY );
+		$pretty_urls            = bp_has_pretty_urls();
 
+		if ( ! $pretty_urls ) {
+			$matched_query = $referer_query;
+		} else {
 			$wp_ajax = new WP();
 			$wp_ajax->parse_request();
 
@@ -695,6 +696,41 @@ function bp_reset_query( $bp_request = '', $query = null ) {
 			}
 
 			$matched_query = $wp_ajax->matched_query;
+		}
+
+		// WordPress does not infer the static front page inside admin-ajax.php.
+		// Restore it only for BuddyPress directory homepages.
+		$front_page   = (int) get_option( 'page_on_front' );
+		$home_path    = wp_parse_url( home_url( '/' ), PHP_URL_PATH );
+		$referer_path = wp_parse_url( $bp_request, PHP_URL_PATH );
+
+		if (
+			$front_page && 'page' === get_option( 'show_on_front' ) &&
+			$referer_path && untrailingslashit( $referer_path ) === untrailingslashit( $home_path ) &&
+			( ! $pretty_urls || ! $matched_query )
+		) {
+			$directory_pages = (array) bp_core_get_directory_pages();
+			unset( $directory_pages['register'], $directory_pages['activate'] );
+
+			if ( in_array( $front_page, wp_parse_id_list( wp_list_pluck( $directory_pages, 'id' ) ), true ) ) {
+				wp_parse_str( $referer_query, $referer_args );
+
+				// Front-page pagination does not select a different resource.
+				$public_query_vars = $pretty_urls ? $wp_ajax->public_query_vars : apply_filters( 'query_vars', $wp->public_query_vars );
+				$routing_args      = array_diff( $public_query_vars, array( 'page', 'paged', 'cpage' ) );
+				if ( ! array_intersect( array_keys( $referer_args ), $routing_args ) ) {
+					$matched_query = array( 'page_id' => $front_page );
+					if ( isset( $referer_args['page'] ) && is_scalar( $referer_args['page'] ) ) {
+						$matched_query['page'] = absint( $referer_args['page'] );
+					}
+					if ( ! empty( $referer_args['paged'] ) && is_scalar( $referer_args['paged'] ) ) {
+						$matched_query['page'] = absint( $referer_args['paged'] );
+					}
+					if ( isset( $referer_args['cpage'] ) && is_scalar( $referer_args['cpage'] ) ) {
+						$matched_query['cpage'] = absint( $referer_args['cpage'] );
+					}
+				}
+			}
 		}
 
 		// Use a specific function to fire the `bp_parse_query` hook.

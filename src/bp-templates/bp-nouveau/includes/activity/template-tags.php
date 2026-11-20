@@ -219,7 +219,7 @@ function bp_nouveau_activity_timestamp() {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @return integer The Activity timestamp.
+	 * @return int The Activity timestamp.
 	 */
 	function bp_nouveau_get_activity_timestamp() {
 		/**
@@ -274,7 +274,7 @@ function bp_nouveau_activity_entry_buttons( $args = array() ) {
 	 * @global BP_Activity_Template $activities_template The Activity template loop.
 	 *
 	 * @param array $args See bp_nouveau_wrapper() for the description of parameters.
-	 * @return array      Activity action buttons used into an Activity Loop.
+	 * @return array Activity action buttons used into an Activity Loop.
 	 */
 	function bp_nouveau_get_activity_entry_buttons( $args ) {
 		$buttons = array();

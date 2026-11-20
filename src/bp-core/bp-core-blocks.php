@@ -11,6 +11,43 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
+ * Adds the BuddyPress block category for third-party blocks.
+ *
+ * @since 15.0.0
+ *
+ * @param array[]             $categories          Optional. Block categories.
+ * @param string|WP_Post|null $editor_name_or_post Optional. Editor name or post being loaded.
+ * @return array[] Block categories, including the BuddyPress category.
+ */
+function bp_add_block_category( $categories = array(), $editor_name_or_post = null ) {
+	if ( $editor_name_or_post instanceof WP_Post ) {
+		$post_types = array( 'post', 'page' );
+
+		/**
+		 * Filters the post types that formerly exposed the BuddyPress block category.
+		 *
+		 * The return value is ignored. Blocks load regardless of category availability.
+		 *
+		 * @deprecated 8.0.0
+		 *
+		 * @param string[] $post_types Post type names.
+		 */
+		apply_filters_deprecated( 'bp_block_category_post_types', array( $post_types ), '8.0.0' );
+	}
+
+	return array_merge(
+		$categories,
+		array(
+			array(
+				'slug'  => 'buddypress',
+				'title' => __( 'Community blocks', 'buddypress' ),
+				'icon'  => 'buddicons-community',
+			),
+		)
+	);
+}
+
+/**
  * BuddyPress blocks require the BP REST API.
  *
  * @since 6.0.0
@@ -181,7 +218,7 @@ add_filter( 'block_editor_rest_api_preload_paths', 'bp_blocks_preload_paths' );
  * @since 6.0.0
  *
  * @param array $args Optional. The registration arguments for the block type.
- * @return BP_Block   The BuddyPress block type object.
+ * @return BP_Block The BuddyPress block type object.
  */
 function bp_register_block( $args = array() ) {
 	if ( isset( $args['metadata'] ) && is_string( $args['metadata'] ) && file_exists( $args['metadata'] ) ) {
@@ -252,7 +289,7 @@ add_filter( 'widget_block_dynamic_classname', 'bp_widget_block_dynamic_classname
  *
  * @param string $content Optional. Content to display. Default empty.
  * @param array  $args    Optional. Array of login form arguments.
- * @return string         HTML output.
+ * @return string HTML output.
  */
 function bp_blocks_get_login_widget_registration_link( $content = '', $args = array() ) {
 	if ( isset( $args['form_id'] ) && 'bp-login-widget-form' === $args['form_id'] ) {
@@ -298,7 +335,7 @@ function bp_blocks_get_login_widget_registration_link( $content = '', $args = ar
  * @since 9.0.0
  *
  * @param array $attributes Optional. The block attributes.
- * @return string           HTML output.
+ * @return string HTML output.
  */
 function bp_block_render_login_form_block( $attributes = array() ) {
 	$block_args = bp_parse_args(

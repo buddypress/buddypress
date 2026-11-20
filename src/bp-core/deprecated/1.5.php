@@ -27,8 +27,7 @@ add_action( 'bp_init', 'bp_setup_root_components', 6 );
  * This function originally served as a wrapper when WordPress and WordPress MU were separate entities.
  * Use is_multisite() instead.
  *
- * @deprecated 1.5.0
- * @deprecated Use is_multisite()
+ * @deprecated 1.5.0 Use `is_multisite()` instead.
  *
  * @return bool
  */
@@ -42,8 +41,7 @@ function bp_core_is_multisite() {
  *
  * Checks if current blog is root blog of site. Deprecated in 1.5.
  *
- * @deprecated 1.5.0
- * @deprecated Use is_main_site()
+ * @deprecated 1.5.0 Use `is_main_site()` instead.
  * @package BuddyPress
  * @param int|string $blog_id optional blog id to test (default current blog)
  * @return bool True if not multisite or $blog_id is main site
@@ -58,8 +56,7 @@ if ( !function_exists( 'is_site_admin' ) ) {
 	/**
 	 * WPMU version of is_super_admin()
 	 *
-	 * @deprecated 1.5.0
-	 * @deprecated Use is_super_admin()
+	 * @deprecated 1.5.0 Use `is_super_admin()` instead.
 	 * @param int|bool $user_id Optional. Defaults to logged-in user
 	 * @return bool True if is super admin
 	 */
@@ -75,8 +72,7 @@ if ( !function_exists( 'is_site_admin' ) ) {
  * In BuddyPress 1.1 - 1.2.x, this function provided a better version of add_menu_page()
  * that allowed positioning of menus. Deprecated in 1.5 in favor of a WP core function.
  *
- * @deprecated 1.5.0
- * @deprecated Use add_menu_page().
+ * @deprecated 1.5.0 Use `add_menu_page()` instead.
  * @since 1.1.0
  *
  * @param array|string $args Optional. Menu page arguments.
@@ -219,8 +215,7 @@ function bp_core_get_wp_profile() {
 }
 
 /**
- * @deprecated 1.5.0
- * @deprecated Use bp_is_my_profile()
+ * @deprecated 1.5.0 Use `bp_is_my_profile()` instead.
  */
 function bp_is_home() {
 	_deprecated_function( __FUNCTION__, '1.5', 'bp_is_my_profile' );
@@ -230,8 +225,7 @@ function bp_is_home() {
 /**
  * Is the user on the front page of the site?
  *
- * @deprecated 1.5.0
- * @deprecated Use is_front_page()
+ * @deprecated 1.5.0 Use `is_front_page()` instead.
  * @return bool
  */
 function bp_is_front_page() {
@@ -242,8 +236,7 @@ function bp_is_front_page() {
 /**
  * Is the front page of the site set to the Activity component?
  *
- * @deprecated 1.5.0
- * @deprecated Use bp_is_component_front_page( 'activity' )
+ * @deprecated 1.5.0 Use `bp_is_component_front_page( 'activity' )` instead.
  * @return bool
  */
 function bp_is_activity_front_page() {
@@ -252,8 +245,7 @@ function bp_is_activity_front_page() {
 }
 
 /**
- * @deprecated 1.5.0
- * @deprecated use bp_is_user()
+ * @deprecated 1.5.0 Use `bp_is_user()` instead.
  */
 function bp_is_member() {
 	_deprecated_function( __FUNCTION__, '1.5', 'bp_is_user' );
@@ -261,8 +253,7 @@ function bp_is_member() {
 }
 
 /**
- * @deprecated 1.5.0
- * @deprecated use bp_loggedin_user_link()
+ * @deprecated 1.5.0 Use `bp_loggedin_user_link()` instead.
  */
 function bp_loggedinuser_link() {
 	_deprecated_function( __FUNCTION__, '1.5', 'bp_loggedin_user_link' );
@@ -284,8 +275,7 @@ function bp_search_form_enabled() {
 /**
  * Template tag version of bp_get_page_title()
  *
- * @deprecated 1.5.0
- * @deprecated Use wp_title()
+ * @deprecated 1.5.0 Use `wp_title()` instead.
  * @since 1.0.0
  */
 function bp_page_title() {
@@ -296,8 +286,7 @@ function bp_page_title() {
 	 * Prior to BuddyPress 1.5, this was used to generate the page's <title> text.
 	 * Now, just simply use wp_title().
 	 *
-	 * @deprecated 1.5.0
-	 * @deprecated Use wp_title()
+	 * @deprecated 1.5.0 Use `wp_title()` instead.
 	 * @since 1.0.0
 	 *
 	 * @return string
@@ -315,8 +304,7 @@ function bp_page_title() {
 /**
  * Generate a link to log out. Last used in BP 1.2-beta. You should be using wp_logout_url().
  *
- * @deprecated 1.5.0
- * @deprecated Use wp_logout_url()
+ * @deprecated 1.5.0 Use `wp_logout_url()` instead.
  * @since 1.0.0
  */
 function bp_log_out_link() {
@@ -331,8 +319,7 @@ function bp_log_out_link() {
 /**
  * Send an email and a BP notification on receipt of an @-mention in a group
  *
- * @deprecated 1.5.0
- * @deprecated Deprecated in favor of the more general bp_activity_at_message_notification()
+ * @deprecated 1.5.0 Use `bp_activity_at_message_notification()` instead.
  *
  * @param string $content        Activity content containing the mention.
  * @param int    $poster_user_id ID of the user who posted the activity.
@@ -429,6 +416,10 @@ function bp_core_delete_notifications_for_user_by_type( $user_id, $component_nam
 }
 
 /**
+ * Delete a user's notifications for an item.
+ *
+ * @deprecated 1.5.0 Use `bp_notifications_delete_notifications_by_item_id()` instead.
+ *
  * @param int       $user_id           ID of the user receiving the notifications.
  * @param int       $item_id           ID of the associated item.
  * @param string    $component_name    Name of the component that created the notifications.
@@ -443,7 +434,8 @@ function bp_core_delete_notifications_for_user_by_item_id( $user_id, $item_id, $
 
 /**
  * Last used by core in BP 1.1. The markup was merged into DTheme's header.php template.
- * @deprecated 1.5.0
+ *
+ * @deprecated 1.5.0 No longer required.
  */
 function bp_search_form() {
 	_deprecated_function( __FUNCTION__, '1.1', 'No longer required.' );
@@ -464,7 +456,7 @@ function bp_search_form() {
 
 /**
  * Some _is_ function had their names normalized
- * @deprecated 1.5.0
+ * @deprecated 1.5.0 Use `bp_is_user_profile_edit()` instead.
  */
 function bp_is_profile_edit() {
 	_deprecated_function( __FUNCTION__, '1.5', 'bp_is_user_profile_edit()' );
@@ -472,7 +464,7 @@ function bp_is_profile_edit() {
 }
 
 /**
- * @deprecated 1.5.0
+ * @deprecated 1.5.0 Use `bp_is_user_change_avatar()` instead.
  */
 function bp_is_change_avatar() {
 	_deprecated_function( __FUNCTION__, '1.5', 'bp_is_user_change_avatar()' );
@@ -480,7 +472,7 @@ function bp_is_change_avatar() {
 }
 
 /**
- * @deprecated 1.5.0
+ * @deprecated 1.5.0 Use `bp_is_user_friend_requests()` instead.
  */
 function bp_is_friend_requests() {
 	_deprecated_function( __FUNCTION__, '1.5', 'bp_is_user_friend_requests()' );
@@ -492,8 +484,7 @@ function bp_is_friend_requests() {
  * eg: http://example.com/groups/the-group NOT http://example.com/members/andy/groups/the-group
  * You should be using bp_is_root_component().
  *
- * @deprecated 1.5.0
- * @deprecated bp_is_root_component()
+ * @deprecated 1.5.0 Use `bp_is_root_component()` instead.
  *
  * @param string $component_name Name of the component.
  * @return bool True if root component, else false.
@@ -519,8 +510,7 @@ function bp_dtheme_deprecated() {
 	 * Settings > Reading screen for selecting the page to show on front to
 	 * include "Activity Stream." As of 1.5.x, it is no longer required.
 	 *
-	 * @deprecated 1.5.0
-	 * @deprecated No longer required.
+	 * @deprecated 1.5.0 No longer required.
 	 * @param string $page_html A list of pages as a dropdown (select list)
 	 * @return string
 	 * @see wp_dropdown_pages()
@@ -537,8 +527,7 @@ function bp_dtheme_deprecated() {
 	 * In BuddyPress 1.2.x, this function hijacked the saving of page on front setting to save the activity stream setting.
 	 * As of 1.5.x, it is no longer required.
 	 *
-	 * @deprecated 1.5.0
-	 * @deprecated No longer required.
+	 * @deprecated 1.5.0 No longer required.
 	 * @param string $oldvalue Previous value of get_option( 'page_on_front' )
 	 * @param string $newvalue New value of get_option( 'page_on_front' )
 	 * @return false|string
@@ -559,8 +548,7 @@ function bp_dtheme_deprecated() {
 	 * In BuddyPress 1.2.x, this function loaded the activity stream template if the front page display settings allow.
 	 * As of 1.5.x, it is no longer required.
 	 *
-	 * @deprecated 1.5.0
-	 * @deprecated No longer required.
+	 * @deprecated 1.5.0 No longer required.
 	 * @param string $template Absolute path to the page template
 	 * @return string
 	 * @since 1.2.0
@@ -576,8 +564,7 @@ function bp_dtheme_deprecated() {
 	 * In BuddyPress 1.2.x, this forced the page ID as a string to stop the get_posts query from kicking up a fuss.
 	 * As of 1.5.x, it is no longer required.
 	 *
-	 * @deprecated 1.5.0
-	 * @deprecated No longer required.
+	 * @deprecated 1.5.0 No longer required.
 	 * @since 1.2.0
 	 */
 	function bp_dtheme_fix_get_posts_on_activity_front() {
@@ -590,8 +577,7 @@ function bp_dtheme_deprecated() {
 	 * In BuddyPress 1.2.x, this was used as part of the code that set the activity stream to be on the front page.
 	 * As of 1.5.x, it is no longer required.
 	 *
-	 * @deprecated 1.5.0
-	 * @deprecated No longer required.
+	 * @deprecated 1.5.0 No longer required.
 	 * @param array $posts Posts as retrieved by WP_Query
 	 * @return array
 	 * @since 1.2.5
@@ -607,8 +593,7 @@ function bp_dtheme_deprecated() {
 	 * In BuddyPress 1.2.x, this added the JavaScript needed for blog comment replies.
 	 * As of 1.5.x, we recommend that you enqueue the comment-reply JavaScript in your theme's header.php.
 	 *
-	 * @deprecated 1.5.0
-	 * @deprecated Enqueue the comment-reply script in your theme's header.php.
+	 * @deprecated 1.5.0 Enqueue the `comment-reply` script instead.
 	 * @since 1.2.0
 	 */
 	function bp_dtheme_add_blog_comments_js() {
@@ -624,7 +609,7 @@ add_action( 'after_setup_theme', 'bp_dtheme_deprecated', 15 );
 /**
  * In BP 1.5, the Settings functions were moved out of the Core and Members
  * components, and moved into a new Settings component. This function is no
- * longer needed as the nav structure is set up by the {@link BP_Component} class.
+ * longer needed as the nav structure is set up by the {@see BP_Component} class.
  *
  * @deprecated 1.5.0
  * @since 1.6.0
@@ -754,8 +739,7 @@ function bp_core_screen_delete_account_content() {
  * Since BuddyPress 1.0, this generated the group settings admin/member screen.
  * As of BuddyPress 1.5 (r4489), and because this function outputs HTML, it was moved into /bp-default/groups/single/admin.php.
  *
- * @deprecated 1.5
- * @deprecated No longer used.
+ * @deprecated 1.5 No longer used.
  * @since 1.0.0
  * @todo Remove in 1.4
  *

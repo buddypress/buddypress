@@ -142,7 +142,7 @@ function bp_activity_clear_new_mentions( $user_id ) {
 	 *
 	 * @since  2.5.0
 	 *
-	 * @param  int $user_id The id of the user whose unread mentions are being reset.
+	 * @param int $user_id The id of the user whose unread mentions are being reset.
 	 */
 	do_action( 'bp_activity_clear_new_mentions', $user_id );
 }
@@ -153,7 +153,7 @@ function bp_activity_clear_new_mentions( $user_id ) {
  * This function is useful if you only have the activity ID handy and you
  * haven't parsed an activity item for @mentions yet.
  *
- * Currently, only used in {@link bp_activity_delete()}.
+ * Currently, only used in {@see bp_activity_delete()}.
  *
  * @since 1.5.0
  *
@@ -335,14 +335,14 @@ function bp_activity_get_userid_from_mentionname( $mentionname ) {
  *
  * @since 1.1.0
  *
- * @param  string        $component_id    The unique string ID of the component.
- * @param  string        $type            The action type.
- * @param  string        $description     The action description.
- * @param  callable|bool $format_callback Optional. Callback for formatting the action string.
- * @param  string|bool   $label           Optional. String to describe this action in the activity stream filter dropdown.
- * @param  array         $context         Optional. Activity stream contexts where the filter should appear.
- *                                        Values: 'activity', 'member', 'member_groups', 'group'.
- * @param  int           $position        Optional. The position of the action when listed in dropdowns.
+ * @param string        $component_id    The unique string ID of the component.
+ * @param string        $type            The action type.
+ * @param string        $description     The action description.
+ * @param callable|bool $format_callback Optional. Callback for formatting the action string.
+ * @param string|bool   $label           Optional. String to describe this action in the activity stream filter dropdown.
+ * @param array         $context         Optional. Activity stream contexts where the filter should appear.
+ *                                       Values: 'activity', 'member', 'member_groups', 'group'.
+ * @param int           $position        Optional. The position of the action when listed in dropdowns.
  * @return bool False if any param is empty, otherwise true.
  */
 function bp_activity_set_action( $component_id, $type, $description, $format_callback = false, $label = false, $context = array(), $position = 0 ) {
@@ -485,7 +485,7 @@ function bp_activity_set_post_type_tracking_args( $post_type = '', $args = array
  * @since 2.2.0
  * @since 2.5.0 Add post type comments tracking args
  *
- * @param  string $post_type Name of the post type.
+ * @param string $post_type Name of the post type.
  * @return object The tracking arguments of the post type.
  */
 function bp_activity_get_post_type_tracking_args( $post_type ) {
@@ -661,7 +661,7 @@ function bp_activity_get_post_types_tracking_args() {
  * extendable workaround.
  *
  * @param string $feature Optional. The feature activity types should support.
- * @return array          The list of activity types name supporting the requested feature.
+ * @return array The list of activity types name supporting the requested feature.
  */
 function _bp_activity_get_types_by_support( $feature = 'generated-content' ) {
 	$activity_types = array();
@@ -702,10 +702,10 @@ function _bp_activity_get_types_by_support( $feature = 'generated-content' ) {
  *
  * @since 2.5.0
  *
- * @param  string $activity_type Optional. The activity type to check.
- * @param  string $feature       Optional. The feature to check. Currently supports:
- *                               'post-type-comment-tracking', 'post-type-comment-reply' & 'comment-reply'.
- *                               See inline doc for more info.
+ * @param string $activity_type Optional. The activity type to check.
+ * @param string $feature       Optional. The feature to check. Currently supports:
+ *                              'post-type-comment-tracking', 'post-type-comment-reply' & 'comment-reply'.
+ *                              See inline doc for more info.
  * @return bool
  */
 function bp_activity_type_supports( $activity_type = '', $feature = '' ) {
@@ -794,9 +794,9 @@ function bp_activity_type_supports( $activity_type = '', $feature = '' ) {
  *
  * @since 2.5.0
  *
- * @param  string $activity_type the activity type.
- * @param  string $arg           Optional. The key of the tracking argument.
- * @return mixed        the value of the tracking arg, false if not found.
+ * @param string $activity_type the activity type.
+ * @param string $arg           Optional. The key of the tracking argument.
+ * @return mixed the value of the tracking arg, false if not found.
  */
 function bp_activity_post_type_get_tracking_arg( $activity_type, $arg = '' ) {
 	if ( empty( $activity_type ) || empty( $arg ) ) {
@@ -1432,8 +1432,16 @@ function bp_activity_remove_all_user_data( $user_id = 0 ) {
 	bp_delete_user_meta( $user_id, 'bp_latest_update' );
 	bp_delete_user_meta( $user_id, 'bp_favorite_activities' );
 
-	// Execute additional code.
-	do_action( 'bp_activity_remove_data', $user_id ); // Deprecated! Do not use!
+	/**
+	 * Fires after the removal of all of a user's activity data.
+	 *
+	 * Previously marked deprecated without a runtime notice.
+	 *
+	 * @deprecated 15.0.0 Use the `bp_activity_remove_all_user_data` action instead.
+	 *
+	 * @param int $user_id ID of the user whose activity data was removed.
+	 */
+	do_action_deprecated( 'bp_activity_remove_data', array( $user_id ), '15.0.0', 'bp_activity_remove_all_user_data' );
 
 	/**
 	 * Fires after the removal of all of a user's activity data.
@@ -2049,7 +2057,7 @@ function bp_activity_get_specific( $args = '' ) {
  *                                       component is disabled). As long as you have registered a
  *                                       format_callback for your $type, it is unnecessary to include this
  *                                       argument - BP will generate it automatically.
- *                                       See {@link bp_activity_set_action()}.
+ *                                       See {@see bp_activity_set_action()}.
  *     @type string   $content           Optional. The content of the activity item.
  *     @type string   $component         The unique name of the component associated with
  *                                       the activity item - 'groups', 'profile', etc.
@@ -2537,9 +2545,9 @@ function bp_activity_post_type_unpublish( $post_id = 0, $post = null ) {
  *
  * @since 2.5.0
  *
- * @param  int         $comment_id           Optional. ID of the comment.
- * @param  bool        $is_approved          Optional. Whether the comment is approved or not.
- * @param  object|null $activity_post_object Optional. The post type tracking args object.
+ * @param int         $comment_id           Optional. ID of the comment.
+ * @param bool        $is_approved          Optional. Whether the comment is approved or not.
+ * @param object|null $activity_post_object Optional. The post type tracking args object.
  * @return null|WP_Error|bool|int The ID of the activity on success. False on error.
  */
 function bp_activity_post_type_comment( $comment_id = 0, $is_approved = true, $activity_post_object = null ) {
@@ -2733,8 +2741,8 @@ add_action( 'edit_comment', 'bp_activity_post_type_comment' );
  *
  * @since 2.5.0
  *
- * @param  int         $comment_id           Optional. ID of the comment.
- * @param  object|null $activity_post_object Optional. The post type tracking args object.
+ * @param int         $comment_id           Optional. ID of the comment.
+ * @param object|null $activity_post_object Optional. The post type tracking args object.
  * @return bool
  */
 function bp_activity_post_type_remove_comment( $comment_id = 0, $activity_post_object = null ) {
@@ -3289,8 +3297,8 @@ function bp_activity_get_permalink( $activity_id, $activity_obj = false ) {
  *
  * @since 3.0.0
  *
- * @param  BP_Activity_Activity $activity Activity object.
- * @param  int                  $user_id  Optional. User ID.
+ * @param BP_Activity_Activity $activity Activity object.
+ * @param int                  $user_id  Optional. User ID.
  * @return bool
  */
 function bp_activity_user_can_read( $activity, $user_id = 0 ) {
@@ -3610,11 +3618,11 @@ function bp_activity_create_summary( $content, $activity ) {
 		 *
 		 * @since 2.3.0
 		 *
-		 * @param array  $extracted_media Extracted media item. See {@link BP_Media_Extractor::extract()} for format.
+		 * @param array  $extracted_media Extracted media item. See {@see BP_Media_Extractor::extract()} for format.
 		 * @param string $content         Content of the activity item.
 		 * @param array  $activity        The data passed to bp_activity_add() or the values from an Activity obj.
 		 * @param array  $media           All results from the media extraction.
-		 *                                See {@link BP_Media_Extractor::extract()} for format.
+		 *                                See {@see BP_Media_Extractor::extract()} for format.
 		 * @param string $use_media_type  The kind of media item that was preferentially extracted.
 		 * @param string $image_source    If $use_media_type was "images", the preferential source of the image.
 		 *                                Otherwise empty.
@@ -3668,7 +3676,7 @@ function bp_activity_create_summary( $content, $activity ) {
 	 * @param string $summary         Activity summary HTML.
 	 * @param string $content         Content of the activity item.
 	 * @param array  $activity        The data passed to bp_activity_add() or the values from an Activity obj.
-	 * @param array  $extracted_media Media item extracted. See {@link BP_Media_Extractor::extract()} for format.
+	 * @param array  $extracted_media Media item extracted. See {@see BP_Media_Extractor::extract()} for format.
 	 */
 	return apply_filters( 'bp_activity_create_summary', $summary, $content, $activity, $extracted_media );
 }
@@ -3887,7 +3895,7 @@ function bp_activity_at_message_notification( $activity_id, $receiver_user_id ) 
  *
  * @param int   $comment_id   Optional. The comment id.
  * @param int   $commenter_id Optional. The ID of the user who posted the comment.
- * @param array $params       {@link bp_activity_new_comment()}.
+ * @param array $params       {@see bp_activity_new_comment()}.
  *    Optional.
  */
 function bp_activity_new_comment_notification( $comment_id = 0, $commenter_id = 0, $params = array() ) {
@@ -4016,7 +4024,7 @@ add_action( 'bp_activity_comment_posted', 'bp_activity_new_comment_notification_
  * not there yet.
  *
  * This does not cover recursive activity comments, as they do not use a real loop.
- * For that, see {@link bp_activity_comment_embed()}.
+ * For that, see {@see bp_activity_comment_embed()}.
  *
  * @since 1.5.0
  *
@@ -4051,7 +4059,7 @@ function bp_activity_oembed_dataparse( $retval, $data ) {
  * Set up activity oEmbed cache while recursing through activity comments.
  *
  * While crawling through an activity comment tree
- * ({@link bp_activity_recurse_comments}), this function sets up the hooks
+ * ({@see bp_activity_recurse_comments}), this function sets up the hooks
  * necessary to grab each comment's embeds from the cache, or put them in
  * the cache if they are not there yet.
  *
@@ -4110,7 +4118,7 @@ add_action( 'bp_after_activity_comment', 'bp_activity_comment_embed_after_recurs
 /**
  * Fetch an activity item's cached embeds.
  *
- * Used during {@link BP_Embed::parse_oembed()} via {@link bp_activity_embed()}.
+ * Used during {@see BP_Embed::parse_oembed()} via {@see bp_activity_embed()}.
  *
  * @since 1.5.0
  *
@@ -4129,7 +4137,7 @@ function bp_embed_activity_cache( $cache, $id, $cachekey ) {
 /**
  * Set an activity item's embed cache.
  *
- * Used during {@link BP_Embed::parse_oembed()} via {@link bp_activity_embed()}.
+ * Used during {@see BP_Embed::parse_oembed()} via {@see bp_activity_embed()}.
  *
  * @since 1.5.0
  *

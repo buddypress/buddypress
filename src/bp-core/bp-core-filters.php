@@ -8,10 +8,10 @@
  *
  * There are a few common places that additional filters can currently be found.
  *
- *  - BuddyPress: In {@link BuddyPress::setup_actions()} in buddypress.php
- *  - Component: In {@link BP_Component::setup_actions()} in
+ *  - BuddyPress: In {@see BuddyPress::setup_actions()} in buddypress.php
+ *  - Component: In {@see BP_Component::setup_actions()} in
  *                bp-core/bp-core-component.php
- *  - Admin: More in {@link BP_Admin::setup_actions()} in
+ *  - Admin: More in {@see BP_Admin::setup_actions()} in
  *            bp-core/bp-core-admin.php
  *
  * @package BuddyPress
@@ -276,7 +276,7 @@ add_filter( 'page_css_class', 'bp_core_menu_highlight_parent_page', 10, 2 );
 /**
  * Adds current page CSS classes to the parent BP page in a WP Nav Menu.
  *
- * When {@link wp_nav_menu()} is used, this function helps to highlight the
+ * When {@see wp_nav_menu()} is used, this function helps to highlight the
  * current BP parent page during nav menu generation.
  *
  * @since 2.2.0
@@ -522,7 +522,7 @@ add_filter( 'update_welcome_email', 'bp_core_filter_blog_welcome_email', 10, 4 )
  * @param string $user       The user's login name.
  * @param string $user_email The user's email address.
  * @param string $key        The activation key created in wpmu_signup_blog().
- * @return bool              Returns false to stop original WPMU function from continuing.
+ * @return bool Returns false to stop original WPMU function from continuing.
  */
 function bp_core_activation_signup_blog_notification( $domain, $path, $title, $user, $user_email, $key ) {
 	$is_signup_resend = false;
@@ -695,7 +695,7 @@ add_filter( 'signup_site_meta', 'bp_core_add_meta_to_multisite_signups' );
  * @param string $title       Optional. Original page title.
  * @param string $sep         Optional. How to separate the various items within the page title.
  * @param string $seplocation Optional. Direction to display title.
- * @return string              New page title.
+ * @return string New page title.
  */
 function bp_modify_page_title( $title = '', $sep = '&raquo;', $seplocation = 'right' ) {
 	global $paged, $page, $_wp_theme_features;
@@ -946,7 +946,7 @@ add_filter( 'customize_nav_menu_available_items', 'bp_customizer_nav_menus_get_i
  *
  * @since 2.3.3
  *
- * @param  array $item_types Optional. An associative array structured for the customizer.
+ * @param array $item_types Optional. An associative array structured for the customizer.
  * @return array An associative array structured for the customizer.
  */
 function bp_customizer_nav_menus_set_item_types( $item_types = array() ) {
@@ -977,7 +977,7 @@ add_filter( 'customize_nav_menu_available_item_types', 'bp_customizer_nav_menus_
  *
  * @param WP_Post[] $pages Optional. Array of page objects.
  * @param array     $args  Optional. Array of get_pages() arguments.
- * @return WP_Post[]       Array of page objects, potentially including BP directories.
+ * @return WP_Post[] Array of page objects, potentially including BP directories.
  */
 function bp_core_include_directory_on_front( $pages = array(), $args = array() ) {
 	// Prevent duplicate "page on front" option values when the 'legacy' BuddyPress URL Parser is in use.
@@ -1162,7 +1162,7 @@ add_filter( 'bp_activity_maybe_load_mentions_scripts', 'bp_maybe_load_mentions_s
  *
  * @since 2.5.0
  *
- * @param string $value         Property value.
+ * @param string $value         Current value of the email template property.
  * @param string $property_name Email template property name.
  * @param string $transform     How the return value was transformed.
  * @return string Updated value.
@@ -1376,7 +1376,7 @@ add_filter( 'bp_template_include', 'bp_core_render_email_template', 12 );
  * @since 6.0.0
  *
  * @param array $names Optional. The WordPress Multisite subdirectory reserved names.
- * @return array       The WordPress & BuddyPress Multisite subdirectory reserved names.
+ * @return array The WordPress & BuddyPress Multisite subdirectory reserved names.
  */
 function bp_core_components_subdirectory_reserved_names( $names = array() ) {
 	$bp_pages = (array) buddypress()->pages;
@@ -1392,7 +1392,7 @@ add_filter( 'subdirectory_reserved_names', 'bp_core_components_subdirectory_rese
  *
  * @param string       $link Optional. The post type link.
  * @param WP_Post|null $post Optional. The post type object.
- * @return string            The post type link.
+ * @return string The post type link.
  */
 function bp_get_post_type_link( $link = '', $post = null ) {
 	if ( 'rewrites' === bp_core_get_query_parser() && 'buddypress' === get_post_type( $post ) ) {

@@ -4,7 +4,7 @@
  *
  * @package BuddyPress
  * @since 5.0.0
- * @deprecated 15.0.0
+ * @deprecated 15.0.0 Use BuddyPress REST API v2 instead.
  */
 
 defined( 'ABSPATH' ) || exit;

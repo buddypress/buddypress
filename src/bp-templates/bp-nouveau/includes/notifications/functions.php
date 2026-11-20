@@ -16,8 +16,8 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.0.0
  *
- * @param  array $scripts  Optional. The array of scripts to register.
- * @return array  The same array with the specific notifications scripts.
+ * @param array $scripts  Optional. The array of scripts to register.
+ * @return array The same array with the specific notifications scripts.
  */
 function bp_nouveau_notifications_register_scripts( $scripts = array() ) {
 
@@ -77,7 +77,7 @@ function bp_nouveau_notifications_init_filters() {
  *
  * @since 3.0.0
  *
- * @param  array $args {
+ * @param array $args {
  *    Optional. Array of arguments.
  *
  *     @type string      $id         The unique string to identify your "component action". Required.
@@ -116,8 +116,8 @@ function bp_nouveau_notifications_register_filter( $args = array() ) {
  *
  * @since 3.0.0
  *
- * @param  string $id  Optional. The notificication component action to get the filter of.
- *                     Leave empty to get all notifications filters.
+ * @param string $id  Optional. The notificication component action to get the filter of.
+ *                    Leave empty to get all notifications filters.
  * @return array|false All or a specific notifications parameters. False if no match are found.
  */
 function bp_nouveau_notifications_get_filters( $id = '' ) {
@@ -141,8 +141,8 @@ function bp_nouveau_notifications_get_filters( $id = '' ) {
  *
  * @since 3.0.0
  *
- * @param  array $filters Optional. The notifications filters to order.
- * @return array  The sorted filters.
+ * @param array $filters Optional. The notifications filters to order.
+ * @return array The sorted filters.
  */
 function bp_nouveau_notifications_sort( $filters = array() ) {
 	$sorted = array();
@@ -179,10 +179,10 @@ function bp_nouveau_notifications_sort( $filters = array() ) {
  *
  * @since 3.0.0
  *
- * @param  string $link        Optional. The action link.
- * @param  string $bp_tooltip Optional. The data-bp-attribute of the link.
- * @param  string $dashicon   Optional. The dashicon class.
- * @return string             Link Output.
+ * @param string $link        Optional. The action link.
+ * @param string $bp_tooltip Optional. The data-bp-attribute of the link.
+ * @param string $dashicon   Optional. The dashicon class.
+ * @return string Link Output.
  */
 function bp_nouveau_notifications_dashiconified_link( $link = '', $bp_tooltip = '', $dashicon = '' ) {
 	preg_match( '/<a\s[^>]*>(.*)<\/a>/siU', $link, $match );

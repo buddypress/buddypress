@@ -70,8 +70,8 @@ add_action( 'bp_admin_menu', 'bp_members_type_admin_menu' );
  *
  * @since 7.0.0
  *
- * @param  bool   $exists  Optional. True if the member type already exists. False otherwise.
- * @param  string $type_id Optional. The member type identifier.
+ * @param bool   $exists  Optional. True if the member type already exists. False otherwise.
+ * @param string $type_id Optional. The member type identifier.
  * @return bool True if the member type already exists. False otherwise.
  */
 function bp_members_type_admin_type_exists( $exists = false, $type_id = '' ) {
@@ -122,7 +122,7 @@ add_filter( 'term_updated_messages', 'bp_members_type_admin_updated_messages' );
  *
  * @since 10.0.0
  *
- * @param string|array $value Field value.
+ * @param string|array $value Profile field data to format for display.
  */
 function bp_members_admin_format_xprofile_field_for_display( $value ) {
 	if ( is_array( $value ) ) {

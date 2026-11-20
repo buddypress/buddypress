@@ -40,7 +40,7 @@ class BP_Tests_Core_Caps extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/6501
+	 * @link https://buddypress.trac.wordpress.org/ticket/6501
 	 */
 	public function test_bp_current_user_can_should_respect_blog_id_passed_in_args_array() {
 		$this->skipWithoutMultisite();

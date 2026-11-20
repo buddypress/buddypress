@@ -31,8 +31,8 @@ abstract class BP_Recursive_Query {
 	 *
 	 * Extending classes should call this method from within a publicly
 	 * accessible get_sql() method, and manipulate the SQL as necessary.
-	 * For example, {@link BP_XProfile_Query::get_sql()} is merely a wrapper for
-	 * get_sql_clauses(), while {@link BP_Activity_Query::get_sql()} discards
+	 * For example, {@see BP_XProfile_Query::get_sql()} is merely a wrapper for
+	 * get_sql_clauses(), while {@see BP_Activity_Query::get_sql()} discards
 	 * the empty 'join' clause, and only passes the 'where' clause.
 	 *
 	 * @since 2.2.0
@@ -60,9 +60,9 @@ abstract class BP_Recursive_Query {
 	 *
 	 * @since 2.2.0
 	 *
-	 * @param  array $query Query to parse.
-	 * @param  int   $depth Optional. Number of tree levels deep we
-	 *                      currently are. Used to calculate indentation.
+	 * @param array $query Query to parse.
+	 * @param int   $depth Optional. Number of tree levels deep we
+	 *                     currently are. Used to calculate indentation.
 	 * @return array
 	 */
 	protected function get_sql_for_query( $query, $depth = 0 ) {

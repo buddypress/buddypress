@@ -221,7 +221,7 @@ function bp_pre_get_option( $value = false ) {
 /**
  * Retrieve an option.
  *
- * This is a wrapper for {@link get_blog_option()}, which in turn stores settings data
+ * This is a wrapper for {@see get_blog_option()}, which in turn stores settings data
  * (such as bp-pages) on the appropriate blog, given your current setup.
  *
  * The 'bp_get_option' filter is primarily for backward-compatibility.
@@ -230,7 +230,7 @@ function bp_pre_get_option( $value = false ) {
  *
  * @param string $option_name   The option to be retrieved.
  * @param string $default_value Optional. Default value to be returned if the option
- *                              isn't set. See {@link get_blog_option()}.
+ *                              isn't set. See {@see get_blog_option()}.
  * @return mixed The value for the option.
  */
 function bp_get_option( $option_name, $default_value = '' ) {
@@ -249,7 +249,7 @@ function bp_get_option( $option_name, $default_value = '' ) {
 /**
  * Add an option.
  *
- * This is a wrapper for {@link add_blog_option()}, which in turn stores
+ * This is a wrapper for {@see add_blog_option()}, which in turn stores
  * settings data on the appropriate blog, given your current setup.
  *
  * @since 2.0.0
@@ -265,7 +265,7 @@ function bp_add_option( $option_name, $value ) {
 /**
  * Save an option.
  *
- * This is a wrapper for {@link update_blog_option()}, which in turn stores
+ * This is a wrapper for {@see update_blog_option()}, which in turn stores
  * settings data (such as bp-pages) on the appropriate blog, given your current
  * setup.
  *
@@ -282,7 +282,7 @@ function bp_update_option( $option_name, $value ) {
 /**
  * Delete an option.
  *
- * This is a wrapper for {@link delete_blog_option()}, which in turn deletes
+ * This is a wrapper for {@see delete_blog_option()}, which in turn deletes
  * settings data (such as bp-pages) on the appropriate blog, given your current
  * setup.
  *
@@ -293,45 +293,6 @@ function bp_update_option( $option_name, $value ) {
  */
 function bp_delete_option( $option_name ) {
 	return delete_blog_option( bp_get_root_blog_id(), $option_name );
-}
-
-/**
- * Copy BP options from a single site to multisite config.
- *
- * Run when switching from single to multisite and we need to copy blog options
- * to site options.
- *
- * This function is no longer used.
- *
- * @since 1.2.4
- * @deprecated 1.6.0
- *
- * @param array $keys Optional. Array of site options.
- * @return bool
- */
-function bp_core_activate_site_options( $keys = array() ) {
-
-	if ( ! empty( $keys ) && is_array( $keys ) ) {
-		$bp = buddypress();
-
-		$errors = false;
-
-		foreach ( $keys as $key => $default ) {
-			if ( empty( $bp->site_options[ $key ] ) ) {
-				$bp->site_options[ $key ] = bp_get_option( $key, $default );
-
-				if ( ! bp_update_option( $key, $bp->site_options[ $key ] ) ) {
-					$errors = true;
-				}
-			}
-		}
-
-		if ( empty( $errors ) ) {
-			return true;
-		}
-	}
-
-	return false;
 }
 
 /**

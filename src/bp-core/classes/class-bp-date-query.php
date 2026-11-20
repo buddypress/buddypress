@@ -118,13 +118,13 @@ class BP_Date_Query extends WP_Date_Query {
 	/**
 	 * Helper method to generate and fetch the WHERE SQL clause for a date query.
 	 *
-	 * See {@link BP_Date_Query::__construct()} for all argument documentation.
+	 * See {@see BP_Date_Query::__construct()} for all argument documentation.
 	 *
 	 * @since 10.0.0
 	 *
-	 * @param  array  $date_query  Optional. Date query arguments.
-	 * @param  string $column      Optional. DB column to query against date.
-	 * @param  bool   $prepend_and Optional. Whether to prepend the 'AND' operator to the WHERE clause.
+	 * @param array  $date_query  Optional. Date query arguments.
+	 * @param string $column      Optional. DB column to query against date.
+	 * @param bool   $prepend_and Optional. Whether to prepend the 'AND' operator to the WHERE clause.
 	 * @return string
 	 */
 	public static function get_where_sql( $date_query = array(), $column = '', $prepend_and = false ) {

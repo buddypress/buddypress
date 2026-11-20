@@ -128,7 +128,7 @@ class BP_Nouveau_Members {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param  string $sidebar_index Optional. The Sidebar identifier.
+	 * @param string $sidebar_index Optional. The Sidebar identifier.
 	 */
 	public function user_home_sidebar_unset( $sidebar_index = '' ) {
 		if ( 'sidebar-buddypress-members' !== $sidebar_index ) {

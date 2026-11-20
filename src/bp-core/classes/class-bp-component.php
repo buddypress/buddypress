@@ -253,7 +253,7 @@ class BP_Component {
 	 *
 	 * @param string $id   Optional. Unique ID. Letters, numbers, and underscores only.
 	 * @param string $name Optional. Unique raw name for the component (do not use translatable strings).
-	 * @param string $path Optional. The file path for the component's files. Used by {@link BP_Component::includes()}.
+	 * @param string $path Optional. The file path for the component's files. Used by {@see BP_Component::includes()}.
 	 * @param array  $params {
 	 *     Optional. Additional parameters used by the component.
 	 *     @type int    $adminbar_myaccount_order Set the position for our menu under the WP Toolbar's "My Account menu".
@@ -624,7 +624,7 @@ class BP_Component {
 	 * Late includes method.
 	 *
 	 * Components should include files here only on specific pages using
-	 * conditionals such as {@link bp_is_current_component()}. Intentionally left
+	 * conditionals such as {@see bp_is_current_component()}. Intentionally left
 	 * empty.
 	 *
 	 * @since 3.0.0
@@ -904,7 +904,7 @@ class BP_Component {
 	 * @global WP_Admin_Bar $wp_admin_bar WordPress object implementing a Toolbar API.
 	 *
 	 * @param array $wp_admin_nav Optional. An array of nav item arguments. Each item in this parameter
-	 *                            array is passed to {@link WP_Admin_Bar::add_menu()}.
+	 *                            array is passed to {@see WP_Admin_Bar::add_menu()}.
 	 *                            See that method for a description of the required syntax for
 	 *                            each item.
 	 */
@@ -1443,8 +1443,8 @@ class BP_Component {
 	 *
 	 * @since 12.0.0
 	 *
-	 * @param  null     $posts Optional. A null value to use the regular WP Query.
-	 * @param  WP_Query $query Optional. The WP Query object.
+	 * @param null     $posts Optional. A null value to use the regular WP Query.
+	 * @param WP_Query $query Optional. The WP Query object.
 	 * @return null|array Null if not displaying a BuddyPress page.
 	 *                    An array containing the BuddyPress directory page otherwise.
 	 */

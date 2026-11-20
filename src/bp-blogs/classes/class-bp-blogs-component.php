@@ -49,7 +49,7 @@ class BP_Blogs_Component extends BP_Component {
 	 *
 	 * @see BP_Component::setup_globals() for description of parameters.
 	 *
-	 * @param array $args Optional. See {@link BP_Component::setup_globals()}.
+	 * @param array $args Optional. See {@see BP_Component::setup_globals()}.
 	 */
 	public function setup_globals( $args = array() ) {
 		$bp           = buddypress();
@@ -116,12 +116,14 @@ class BP_Blogs_Component extends BP_Component {
 			/**
 			 * Filters the post types to track for the Blogs component.
 			 *
-			 * @since 1.5.0
-			 * @deprecated 2.3.0
+			 * Previously marked deprecated in 2.3.0 without a runtime notice.
 			 *
-			 * @param array $value Array of post types to track.
+			 * @since 1.5.0
+			 * @deprecated 15.0.0
+			 *
+			 * @param string[] $post_types Post types whose posts are tracked.
 			 */
-			$post_types = apply_filters( 'bp_blogs_record_post_post_types', array( 'post' ) );
+			$post_types = apply_filters_deprecated( 'bp_blogs_record_post_post_types', array( array( 'post' ) ), '15.0.0' );
 
 			foreach ( $post_types as $post_type ) {
 				add_post_type_support( $post_type, 'buddypress-activity' );
@@ -134,7 +136,7 @@ class BP_Blogs_Component extends BP_Component {
 	 *
 	 * @see BP_Component::includes() for description of parameters.
 	 *
-	 * @param array $includes Optional. See {@link BP_Component::includes()}.
+	 * @param array $includes Optional. See {@see BP_Component::includes()}.
 	 */
 	public function includes( $includes = array() ) {
 

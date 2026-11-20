@@ -264,7 +264,7 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/6687
+	 * @link https://buddypress.trac.wordpress.org/ticket/6687
 	 */
 	public function test_bp_activity_remove_screen_notifications_on_new_mentions_cleared() {
 		$this->create_notifications();
@@ -436,7 +436,7 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/7135
+	 * @link https://buddypress.trac.wordpress.org/ticket/7135
 	 */
 	public function test_activity_reply_notifications_for_blog_comment_to_activity_comment_sync() {
 		$old_user = get_current_user_id();

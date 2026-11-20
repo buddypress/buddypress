@@ -564,7 +564,7 @@ function bp_get_search_placeholder( $component = '' ) {
  *
  * @see bp_get_search_default_text()
  *
- * @param string $component Optional. See {@link bp_get_search_default_text()}.
+ * @param string $component Optional. See {@see bp_get_search_default_text()}.
  */
 function bp_search_default_text( $component = '' ) {
 	echo esc_attr( bp_get_search_default_text( $component ) );
@@ -701,7 +701,7 @@ function bp_form_field_attributes( $name = '', $attributes = array() ) {
  *
  * @see bp_get_button()
  *
- * @param array|string $args Optional. See {@link BP_Button}.
+ * @param array|string $args Optional. See {@see BP_Button}.
  */
 function bp_button( $args = '' ) {
 	// Escaping is done in `BP_Core_HTML_Element()`.
@@ -715,7 +715,7 @@ function bp_button( $args = '' ) {
 	 *
 	 * @see BP_Button for a description of arguments and return value.
 	 *
-	 * @param array|string $args Optional. See {@link BP_Button}.
+	 * @param array|string $args Optional. See {@see BP_Button}.
 	 * @return string HTML markup for the button.
 	 */
 	function bp_get_button( $args = '' ) {
@@ -827,7 +827,7 @@ function bp_create_excerpt( $text, $length = 225, $options = array() ) {
 
 		foreach ( $tags as $tag ) {
 			// Process tags that need to be closed.
-			if ( ! preg_match( '/img|br|input|hr|area|base|basefont|col|frame|isindex|link|meta|param/s', $tag[2] ) ) {
+			if ( ! preg_match( '/img|br|input|hr|area|base|basefont|col|frame|isindex|link|meta|param/is', $tag[2] ) ) {
 				if ( preg_match( '/<[\w]+[^>]*>/s', $tag[0] ) ) {
 					array_unshift( $open_tags, $tag[2] );
 				} elseif ( preg_match( '/<\/([\w]+)[^>]*>/s', $tag[0], $close_tag ) ) {
@@ -846,7 +846,9 @@ function bp_create_excerpt( $text, $length = 225, $options = array() ) {
 				$entities_length = 0;
 				if ( preg_match_all( '/&[0-9a-z]{2,8};|&#[0-9]{1,7};|&#x[0-9a-f]{1,6};/i', $tag[3], $entities, PREG_OFFSET_CAPTURE ) ) {
 					foreach ( $entities[0] as $entity ) {
-						if ( $entity[1] + 1 - $entities_length <= $left ) {
+						// PCRE offsets are bytes; $left counts characters.
+						$entity_char_offset = mb_strlen( substr( $tag[3], 0, $entity[1] ) );
+						if ( $entity_char_offset + 1 - $entities_length <= $left ) {
 							--$left;
 							$entities_length += mb_strlen( $entity[0] );
 						} else {
@@ -897,7 +899,7 @@ function bp_create_excerpt( $text, $length = 225, $options = array() ) {
 	// If $exact is false, we can't break on words.
 	if ( empty( $r['exact'] ) ) {
 		// Find the position of the last space character not part of a tag.
-		preg_match_all( '/<[a-z\!\/][^>]*>/', $truncate, $_truncate_tags, PREG_OFFSET_CAPTURE );
+		preg_match_all( '/<[a-z\!\/][^>]*>/i', $truncate, $_truncate_tags, PREG_OFFSET_CAPTURE );
 
 		// Rekey tags by the string index of their last character.
 		$truncate_tags = array();
@@ -909,7 +911,8 @@ function bp_create_excerpt( $text, $length = 225, $options = array() ) {
 			}
 		}
 
-		$truncate_length = mb_strlen( $truncate );
+		// Tag offsets and string indexes are bytes, so scan and slice by bytes.
+		$truncate_length = strlen( $truncate );
 		$spacepos        = $truncate_length + 1;
 		for ( $pos = $truncate_length - 1; $pos >= 0; $pos-- ) {
 			// Word boundaries are spaces and the close of HTML tags, when the tag is preceded by a space.
@@ -948,7 +951,7 @@ function bp_create_excerpt( $text, $length = 225, $options = array() ) {
 		}
 
 		if ( $r['html'] ) {
-			$bits = mb_substr( $truncate, $spacepos );
+			$bits = substr( $truncate, $spacepos );
 			preg_match_all( '/<\/([a-z]+)>/', $bits, $dropped_tags, PREG_SET_ORDER );
 			if ( ! empty( $dropped_tags ) ) {
 				foreach ( $dropped_tags as $closing_tag ) {
@@ -959,7 +962,7 @@ function bp_create_excerpt( $text, $length = 225, $options = array() ) {
 			}
 		}
 
-		$truncate = rtrim( mb_substr( $truncate, 0, $spacepos ) );
+		$truncate = rtrim( substr( $truncate, 0, $spacepos ) );
 	}
 	$truncate .= $ending;
 
@@ -1073,56 +1076,6 @@ function bp_registration_needs_activation() {
 	 * @param bool $value Whether registrations require activation. Default true.
 	 */
 	return apply_filters( 'bp_registration_needs_activation', true );
-}
-
-/**
- * Retrieve a client friendly version of the root blog name.
- *
- * The blogname option is escaped with esc_html on the way into the database in
- * sanitize_option, we want to reverse this for the plain text arena of emails.
- *
- * @since 1.7.0
- * @since 2.5.0 No longer used by BuddyPress, but not deprecated in case any existing plugins use it.
- *
- * @see https://buddypress.trac.wordpress.org/ticket/4401
- *
- * @param array $args {
- *     Array of optional parameters.
- *     @type string $before  String to appear before the site name in the
- *                           email subject. Default: '['.
- *     @type string $after   String to appear after the site name in the
- *                           email subject. Default: ']'.
- *     @type string $default The default site name, to be used when none is
- *                           found in the database. Default: 'Community'.
- *     @type string $text    Text to append to the site name (ie, the main text of
- *                           the email subject).
- * }
- * @return string Sanitized email subject.
- */
-function bp_get_email_subject( $args = array() ) {
-
-	$r = bp_parse_args(
-		$args,
-		array(
-			'before'  => '[',
-			'after'   => ']',
-			'default' => __( 'Community', 'buddypress' ),
-			'text'    => '',
-		),
-		'get_email_subject'
-	);
-
-	$subject = $r['before'] . wp_specialchars_decode( bp_get_option( 'blogname', $r['default'] ), ENT_QUOTES ) . $r['after'] . ' ' . $r['text'];
-
-	/**
-	 * Filters a client friendly version of the root blog name.
-	 *
-	 * @since 1.7.0
-	 *
-	 * @param string $subject Client friendly version of the root blog name.
-	 * @param array  $r       Array of arguments for the email subject.
-	 */
-	return apply_filters( 'bp_get_email_subject', $subject, $r );
 }
 
 /**
@@ -2039,8 +1992,19 @@ function bp_is_active( $component = '', $feature = '' ) {
 						$retval = false;
 					}
 
-					/** This filter is documented in wp-includes/deprecated.php */
-					return apply_filters_deprecated( 'bp_is_profile_cover_image_active', array( $retval ), '6.0.0', 'bp_is_members_cover_image_active' );
+					/**
+					 * Filters whether member cover images are active.
+					 *
+					 * @deprecated 6.0.0 Use the `bp_is_members_cover_image_active` filter instead.
+					 *
+					 * @param bool $is_cover_image_active Whether member cover images are active.
+					 */
+					return apply_filters_deprecated(
+						'bp_is_profile_cover_image_active',
+						array( $retval ),
+						'6.0.0',
+						'bp_is_members_cover_image_active'
+					);
 				}
 			}
 
@@ -3488,31 +3452,6 @@ function bp_get_the_post_class( $wp_classes = array() ) {
 	return array_unique( array_merge( $bp_classes, $wp_classes ) );
 }
 add_filter( 'post_class', 'bp_get_the_post_class' );
-
-/**
- * Sort BuddyPress nav menu items by their position property.
- *
- * This is an internal convenience function and it will probably be removed in
- * a later release. Do not use.
- *
- * @access private
- * @since 1.7.0
- *
- * @param array $a First item.
- * @param array $b Second item.
- * @return int Returns an integer less than, equal to, or greater than zero if
- *             the first argument is considered to be respectively less than,
- *             equal to, or greater than the second.
- */
-function _bp_nav_menu_sort( $a, $b ) {
-	if ( (int) $a['position'] === (int) $b['position'] ) {
-		return 0;
-	} elseif ( $a['position'] < $b['position'] ) {
-		return -1;
-	} else {
-		return 1;
-	}
-}
 
 /**
  * Get the items registered in the primary and secondary BuddyPress navigation menus.

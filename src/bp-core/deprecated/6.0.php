@@ -31,7 +31,7 @@ function bp_attachments_is_wp_version_supported() {
  * Setup the avatar upload directory for a user.
  *
  * @since 1.0.0
- * @deprecated 6.0.0
+ * @deprecated 6.0.0 Use `bp_members_avatar_upload_dir()` instead.
  *
  * @package BuddyPress Core
  *
@@ -44,8 +44,19 @@ function xprofile_avatar_upload_dir( $directory = 'avatars', $user_id = 0 ) {
 
 	$avatar_dir = bp_members_avatar_upload_dir( $directory, $user_id );
 
-	/** This filter is documented in wp-includes/deprecated.php */
-	return apply_filters_deprecated( 'xprofile_avatar_upload_dir', array( $avatar_dir ), '6.0.0', 'bp_members_avatar_upload_dir' );
+	/**
+	 * Filters the avatar upload directory data.
+	 *
+	 * @deprecated 6.0.0 Use the `bp_members_avatar_upload_dir` filter instead.
+	 *
+	 * @param array $avatar_dir Upload path, URL, and related directory data.
+	 */
+	return apply_filters_deprecated(
+		'xprofile_avatar_upload_dir',
+		array( $avatar_dir ),
+		'6.0.0',
+		'bp_members_avatar_upload_dir'
+	);
 }
 
 /**
@@ -55,7 +66,7 @@ function xprofile_avatar_upload_dir( $directory = 'avatars', $user_id = 0 ) {
  * The function will delete the active avatar for a user.
  *
  * @since 1.0.0
- * @deprecated 6.0.0
+ * @deprecated 6.0.0 Use `bp_members_action_delete_avatar()` instead.
  */
 function xprofile_action_delete_avatar() {
 	_deprecated_function( __FUNCTION__, '6.0.0', 'bp_members_action_delete_avatar()' );
@@ -67,7 +78,7 @@ function xprofile_action_delete_avatar() {
  * Displays the change cover image page.
  *
  * @since 2.4.0
- * @deprecated 6.0.0
+ * @deprecated 6.0.0 Use `bp_members_screen_change_cover_image()` instead.
  */
 function xprofile_screen_change_cover_image() {
 	_deprecated_function( __FUNCTION__, '6.0.0', 'bp_members_screen_change_cover_image()' );
@@ -79,7 +90,7 @@ function xprofile_screen_change_cover_image() {
  * Handles the uploading and cropping of a user avatar. Displays the change avatar page.
  *
  * @since 1.0.0
- * @deprecated 6.0.0
+ * @deprecated 6.0.0 Use `bp_members_screen_change_avatar()` instead.
  */
 function xprofile_screen_change_avatar() {
 	_deprecated_function( __FUNCTION__, '6.0.0', 'bp_members_screen_change_avatar()' );

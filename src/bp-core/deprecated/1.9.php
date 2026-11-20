@@ -15,8 +15,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Add a notification for a specific user, from a specific component.
  *
- * @deprecated Deprecated since BuddyPress 1.9.0. Use
- *             bp_notifications_add_notification() instead.
+ * @deprecated 1.9.0 Use `bp_notifications_add_notification()` instead.
  *
  * @since 1.0.0
  *
@@ -59,8 +58,7 @@ function bp_core_add_notification( $item_id, $user_id, $component_name, $compone
 /**
  * Delete a specific notification by its ID.
  *
- * @deprecated Deprecated since BuddyPress 1.9.0. Use
- *             bp_notifications_delete_notification() instead.
+ * @deprecated 1.9.0 Use `bp_notifications_delete_notification()` instead.
  *
  * @since 1.0.0
  *
@@ -83,8 +81,7 @@ function bp_core_delete_notification( $id ) {
 /**
  * Get a specific notification by its ID.
  *
- * @deprecated Deprecated since BuddyPress 1.9.0. Use
- *             bp_notifications_get_notification() instead.
+ * @deprecated 1.9.0 Use `bp_notifications_get_notification()` instead.
  *
  * @since 1.0.0
  * @param int $id ID of notification.
@@ -106,8 +103,7 @@ function bp_core_get_notification( $id ) {
 /**
  * Get notifications for a specific user.
  *
- * @deprecated Deprecated since BuddyPress 1.9.0. Use
- *             bp_notifications_get_notifications_for_user() instead.
+ * @deprecated 1.9.0 Use `bp_notifications_get_notifications_for_user()` instead.
  *
  * @since 1.0.0
  * @param int    $user_id ID of user.
@@ -135,8 +131,7 @@ function bp_core_get_notifications_for_user( $user_id, $format = 'string' ) {
  * Used when clearing out notifications for a specific component when the user
  * has visited that component.
  *
- * @deprecated Deprecated since BuddyPress 1.9.0. Use
- *             bp_notifications_delete_notifications_by_type() instead.
+ * @deprecated 1.9.0 Use `bp_notifications_delete_notifications_by_type()` instead.
  *
  * @since 1.0.0
  * @param int    $user_id          ID of the user receiving the notifications.
@@ -163,8 +158,7 @@ function bp_core_delete_notifications_by_type( $user_id, $component_name, $compo
  * Used when clearing out notifications for a specific component when the user
  * has visited that component.
  *
- * @deprecated Deprecated since BuddyPress 1.9.0. Use
- *             bp_notifications_delete_notifications_by_item_id() instead.
+ * @deprecated 1.9.0 Use `bp_notifications_delete_notifications_by_item_id()` instead.
  *
  * @since 1.0.0
  *
@@ -191,8 +185,7 @@ function bp_core_delete_notifications_by_item_id( $user_id, $item_id, $component
 /**
  * Delete all notifications for by type.
  *
- * @deprecated Deprecated since BuddyPress 1.9.0. Use
- *             bp_notifications_delete_all_notifications_by_type() instead.
+ * @deprecated 1.9.0 Use `bp_notifications_delete_all_notifications_by_type()` instead.
  *
  * @since 1.0.0
  *
@@ -220,8 +213,7 @@ function bp_core_delete_all_notifications_by_type( $item_id, $component_name, $c
  *
  * Used when clearing out all notifications for a user, when deleted or spammed.
  *
- * @deprecated Deprecated since BuddyPress 1.9.0. Use
- *             bp_notifications_delete_notifications_from_user() instead.
+ * @deprecated 1.9.0 Use `bp_notifications_delete_notifications_from_user()` instead.
  *
  * @since 1.0.0
  * @param int    $user_id          ID of the user whose associated items are being deleted.
@@ -249,8 +241,7 @@ function bp_core_delete_notifications_from_user( $user_id, $component_name, $com
  *
  * Used before deleting a notification for a user.
  *
- * @deprecated Deprecated since BuddyPress 1.9.0. Use
- *             bp_notifications_check_notification_access() instead.
+ * @deprecated 1.9.0 Use `bp_notifications_check_notification_access()` instead.
  *
  * @since 1.0.0
  * @param int $user_id         ID of the user.

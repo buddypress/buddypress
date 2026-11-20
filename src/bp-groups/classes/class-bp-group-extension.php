@@ -501,7 +501,7 @@ class BP_Group_Extension {
 	 *                                           to load the content of your main extension tab.
 	 *                                           Default: 'groups/single/plugins.php'.
 	 *     @type array        $screens           A multi-dimensional array of configuration information for the
-	 *                                           extension screens. See docblock of {@link BP_Group_Extension}
+	 *                                           extension screens. See docblock of {@see BP_Group_Extension}
 	 *                                           for more details.
 	 *     @type string|array $access            Which users can visit the plugin's tab. Possible values: 'anyone',
 	 *                                           'loggedin', 'member', 'mod', 'admin' or 'noone'. ('member', 'mod',
@@ -973,7 +973,7 @@ class BP_Group_Extension {
 	 * @since 12.0.0
 	 *
 	 * @param string $context Optional. One of these contexts: 'create', 'manage', 'read'.
-	 * @return string         The found Rewrite ID, an empty string otherwise.
+	 * @return string The found Rewrite ID, an empty string otherwise.
 	 */
 	protected function get_rewrite_id_for( $context = '' ) {
 		$rewrite_id            = '';

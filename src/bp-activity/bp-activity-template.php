@@ -110,7 +110,7 @@ function bp_activity_directory_permalink() {
  *
  * @param array|string $args {
  *     Optional. Arguments for limiting the contents of the activity loop. Most arguments
- *     are in the same format as {@link BP_Activity_Activity::get()}. However,
+ *     are in the same format as {@see BP_Activity_Activity::get()}. However,
  *     because the format of the arguments accepted here differs in a number of
  *     ways, and because bp_has_activities() determines some default arguments in
  *     a dynamic fashion, we list all accepted arguments here as well.
@@ -136,10 +136,10 @@ function bp_activity_directory_permalink() {
  *                                               permalink page for a single activity item, this value defaults to the ID of
  *                                               that item. Otherwise the default is false.
  *     @type array             $meta_query       Limit by activitymeta by passing an array of meta_query conditions. See
- *                                               {@link WP_Meta_Query::queries} for a description of the syntax.
+ *                                               {@see WP_Meta_Query::queries} for a description of the syntax.
  *     @type array             $date_query       Limit by date by passing an array of date_query conditions. See first
- *                                               parameter of {@link WP_Date_Query::__construct()} for syntax.
- *     @type array             $filter_query     Advanced activity filtering.  See {@link BP_Activity_Query::__construct()}.
+ *                                               parameter of {@see WP_Date_Query::__construct()} for syntax.
+ *     @type array             $filter_query     Advanced activity filtering.  See {@see BP_Activity_Query::__construct()}.
  *     @type string            $search_terms     Limit results by a search term. Default: false.
  *     @type string            $scope            Use a BuddyPress pre-built filter.
  *                                                 - 'just-me' retrieves items belonging only to a user; this is equivalent
@@ -851,37 +851,6 @@ function bp_activity_type_part() {
 	return $name;
 }
 
-	/**
-	 * Output the activity action name.
-	 *
-	 * Just a wrapper for bp_activity_type().
-	 *
-	 * @since 1.2.0
-	 * @deprecated 1.5.0
-	 *
-	 * @todo Properly deprecate in favor of bp_activity_type() and
-	 *       remove redundant echo
-	 */
-	function bp_activity_action_name() {
-		bp_activity_type();
-	}
-
-	/**
-	 * Return the activity type.
-	 *
-	 * Just a wrapper for bp_get_activity_type().
-	 *
-	 * @since 1.2.0
-	 * @deprecated 1.5.0
-	 *
-	 * @todo Properly deprecate in favor of bp_get_activity_type().
-	 *
-	 * @return string The activity type.
-	 */
-	function bp_get_activity_action_name() {
-		return bp_get_activity_type();
-	}
-
 /**
  * Output the activity user ID.
  *
@@ -957,7 +926,7 @@ function bp_activity_user_link() {
  *
  * @see bp_get_activity_avatar() for description of arguments.
  *
- * @param array|string $args Optional. See {@link bp_get_activity_avatar()} for description.
+ * @param array|string $args Optional. See {@see bp_get_activity_avatar()} for description.
  */
 function bp_activity_avatar( $args = '' ) {
 	// phpcs:ignore WordPress.Security.EscapeOutput
@@ -974,7 +943,7 @@ function bp_activity_avatar( $args = '' ) {
 	 * @param array|string $args  {
 	 *     Optional. Arguments are listed here with an explanation of their defaults.
 	 *     For more information about the arguments, see
-	 *     {@link bp_core_fetch_avatar()}.
+	 *     {@see bp_core_fetch_avatar()}.
 	 *     @type string      $alt     Default: 'Profile picture of [user name]' if
 	 *                                activity user name is available, otherwise 'Profile picture'.
 	 *     @type string      $class   Default: 'avatar'.
@@ -1106,7 +1075,7 @@ function bp_activity_avatar( $args = '' ) {
  *
  * @see bp_get_activity_secondary_avatar() for description of arguments.
  *
- * @param array|string $args Optional. See {@link bp_get_activity_secondary_avatar} for description.
+ * @param array|string $args Optional. See {@see bp_get_activity_secondary_avatar} for description.
  */
 function bp_activity_secondary_avatar( $args = '' ) {
 	// phpcs:ignore WordPress.Security.EscapeOutput
@@ -1122,7 +1091,7 @@ function bp_activity_secondary_avatar( $args = '' ) {
 	 * @global BP_Activity_Template $activities_template The main activity template loop class.
 	 *
 	 * @param array|string $args  {
-	 *     Optional. For a complete description of arguments, see {@link bp_core_fetch_avatar()}.
+	 *     Optional. For a complete description of arguments, see {@see bp_core_fetch_avatar()}.
 	 *     @type string      $alt     Default value varies based on current activity
 	 *                                item component.
 	 *     @type string      $type    Default: 'full' when viewing a single activity
@@ -1648,7 +1617,7 @@ function bp_activity_has_content() {
  * @since 10.0.0
  *
  * @param string $property Optional. The name of the property to check into the generated content.
- * @return bool            True if the property is not empty. False otherwise.
+ * @return bool True if the property is not empty. False otherwise.
  */
 function bp_activity_has_generated_content_part( $property = '' ) {
 	return bp_activity_get_generated_content_part( $property, 'boolean' );
@@ -1707,50 +1676,6 @@ function bp_activity_generated_content_part( $property = '' ) {
 		}
 
 		return $value;
-	}
-
-/**
- * Output the activity content.
- *
- * @since 1.0.0
- * @deprecated 1.5.0
- *
- * @todo properly deprecate this function.
- */
-function bp_activity_content() {
-	// Escaping is made in `bp-activity/bp-activity-filters.php`.
-	// phpcs:ignore WordPress.Security.EscapeOutput
-	echo bp_get_activity_content();
-}
-
-	/**
-	 * Return the activity content.
-	 *
-	 * @since 1.0.0
-	 * @deprecated 1.5.0
-	 *
-	 * @todo properly deprecate this function.
-	 *
-	 * @return string The activity content.
-	 */
-	function bp_get_activity_content() {
-
-		/**
-		 * If you want to filter activity update content, please use
-		 * the filter 'bp_get_activity_content_body'.
-		 *
-		 * This function is mainly for backwards compatibility.
-		 */
-		$content = bp_get_activity_action() . ' ' . bp_get_activity_content_body();
-
-		/**
-		 * Filters activity or activity comment content before display.
-		 *
-		 * @since 1.0.0
-		 *
-		 * @param string $content The activity content including its action, or comment content.
-		 */
-		return apply_filters( 'bp_get_activity_content', $content );
 	}
 
 /**
@@ -2060,7 +1985,7 @@ function bp_activity_is_favorite() {
  *
  * @since 1.2.0
  *
- * @param array|string $deprecated Optional. See {@link bp_activity_get_comments} for description.
+ * @param array|string $deprecated Optional. See {@see bp_activity_get_comments} for description.
  */
 function bp_activity_comments( $deprecated = '' ) {
 	// Deprecated notice about $args.
@@ -3149,7 +3074,7 @@ function bp_activity_delete_url() {
  *
  * @see bp_get_activity_latest_update() for description of parameters.
  *
- * @param int $user_id Optional. See {@link bp_get_activity_latest_update()} for description.
+ * @param int $user_id Optional. See {@see bp_get_activity_latest_update()} for description.
  */
 function bp_activity_latest_update( $user_id = 0 ) {
 	// Escaping is made in `bp-activity/bp-activity-filters.php`.
@@ -3218,7 +3143,7 @@ function bp_activity_latest_update( $user_id = 0 ) {
  *
  * @see bp_get_activity_filter_links() for description of parameters.
  *
- * @param array|bool $args Optional. See {@link bp_get_activity_filter_links()} for description.
+ * @param array|bool $args Optional. See {@see bp_get_activity_filter_links()} for description.
  */
 function bp_activity_filter_links( $args = false ) {
 	// phpcs:ignore WordPress.Security.EscapeOutput
@@ -3433,7 +3358,7 @@ function bp_activity_can_favorite() {
  *
  * @see bp_get_total_favorite_count_for_user() for description of parameters.
  *
- * @param int $user_id Optional. See {@link bp_get_total_favorite_count_for_user()}.
+ * @param int $user_id Optional. See {@see bp_get_total_favorite_count_for_user()}.
  */
 function bp_total_favorite_count_for_user( $user_id = 0 ) {
 	echo intval( bp_get_total_favorite_count_for_user( $user_id ) );
@@ -3482,7 +3407,7 @@ function bp_total_favorite_count_for_user( $user_id = 0 ) {
  *
  * @see bp_get_total_mention_count_for_user() for description of parameters.
  *
- * @param int $user_id Optional. See {@link bp_get_total_mention_count_for_user()}.
+ * @param int $user_id Optional. See {@see bp_get_total_mention_count_for_user()}.
  */
 function bp_total_mention_count_for_user( $user_id = 0 ) {
 	echo intval( bp_get_total_mention_count_for_user( $user_id ) );
@@ -3562,7 +3487,7 @@ function bp_send_public_message_link() {
  *
  * @since 2.0.0
  *
- * @param array $activity Optional. Array of activities generated from {@link bp_activity_get()}.
+ * @param array $activity Optional. Array of activities generated from {@see bp_activity_get()}.
  * @param array $activity_ids Optional. Used for recursion purposes in this function.
  * @return array
  */
@@ -3591,7 +3516,7 @@ function bp_activity_recurse_comments_activity_ids( $activity = array(), $activi
  *
  * @see bp_get_mentioned_user_display_name() for description of parameters.
  *
- * @param int|string|bool $user_id_or_username Optional. See {@link bp_get_mentioned_user_display_name()}.
+ * @param int|string|bool $user_id_or_username Optional. See {@see bp_get_mentioned_user_display_name()}.
  */
 function bp_mentioned_user_display_name( $user_id_or_username = false ) {
 	// phpcs:ignore WordPress.Security.EscapeOutput
@@ -3634,7 +3559,7 @@ function bp_mentioned_user_display_name( $user_id_or_username = false ) {
  *
  * @see bp_activity_get_public_message_button_args() for description of parameters.
  *
- * @param array|string $args Optional. See {@link bp_activity_get_public_message_button_args()}.
+ * @param array|string $args Optional. See {@see bp_activity_get_public_message_button_args()}.
  */
 function bp_send_public_message_button( $args = '' ) {
 	// Escaping is done in `BP_Core_HTML_Element()`.
@@ -3648,7 +3573,7 @@ function bp_send_public_message_button( $args = '' ) {
 	 * @since 11.0.0
 	 *
 	 * @param array|string $args {
-	 *    All arguments are optional. See {@link BP_Button} for complete
+	 *    All arguments are optional. See {@see BP_Button} for complete
 	 *    descriptions.
 	 *    @type string $id                Default: 'public_message'.
 	 *    @type string $component         Default: 'activity'.
@@ -3698,7 +3623,7 @@ function bp_send_public_message_button( $args = '' ) {
 	 *
 	 * @see bp_activity_get_public_message_button_args() for description of parameters.
 	 *
-	 * @param array|string $args Optional. See {@link bp_activity_get_public_message_button_args()}.
+	 * @param array|string $args Optional. See {@see bp_activity_get_public_message_button_args()}.
 	 * @return string The button for sending a public message.
 	 */
 	function bp_get_send_public_message_button( $args = '' ) {
@@ -3757,7 +3682,7 @@ function bp_activity_post_form_action() {
  *
  * @see bp_core_fetch_avatar() for a description of arguments.
  *
- * @param array $args Optional. See {@link bp_core_fetch_avatar()}.
+ * @param array $args Optional. See {@see bp_core_fetch_avatar()}.
  */
 function bp_activity_comments_user_avatars( $args = array() ) {
 
@@ -3859,7 +3784,7 @@ function bp_activity_get_comments_user_ids() {
 	 *
 	 * @since 1.7.0
 	 *
-	 * @param array $comments Optional. Array of {@link BP_Activity_Activity} items.
+	 * @param array $comments Optional. Array of {@see BP_Activity_Activity} items.
 	 * @return array Array of user IDs.
 	 */
 	function bp_activity_recurse_comments_user_ids( array $comments = array() ) {
@@ -4093,21 +4018,6 @@ function bp_member_activity_feed_link() {
 		 */
 		return apply_filters( 'bp_get_activities_member_rss_link', $link );
 	}
-
-	/**
-	 * Return the member activity feed link.
-	 *
-	 * @since 1.0.0
-	 * @deprecated 1.2.0
-	 *
-	 * @todo properly deprecate in favor of bp_get_member_activity_feed_link().
-	 *
-	 * @return string The member activity feed link.
-	 */
-	function bp_get_activities_member_rss_link() {
-		return bp_get_member_activity_feed_link();
-	}
-
 
 /** Template tags for RSS feed output ****************************************/
 

@@ -1172,7 +1172,7 @@ function bp_admin_wp_nav_menu_meta_box() {
  *
  * @param null     $nil      A null value.
  * @param WP_Query $wp_query The WP_Query instance (passed by reference).
- * @return array   The BP Member nav items to short-circuit WP's query,
+ * @return array The BP Member nav items to short-circuit WP's query,
  */
 function bp_admin_get_wp_nav_menu_items( $nil, $wp_query ) {
 	if ( isset( $wp_query->query['orderby'], $wp_query->query['order'] ) && 'post_date' === $wp_query->query['orderby'] && 'DESC' === $wp_query->query['order'] ) {
@@ -1668,41 +1668,7 @@ function bp_core_admin_body_classes( $classes ) {
 }
 add_filter( 'admin_body_class', 'bp_core_admin_body_classes' );
 
-/**
- * Adds a BuddyPress category to house BuddyPress blocks.
- *
- * @since 5.0.0
- * @since 8.0.0  The `bp_block_category_post_types` filter has been deprecated.
- * @since 12.0.0 This category is left for third party plugin but not used anymore.
- *
- * @todo deprecate.
- *
- * @param array               $categories Optional. Array of block categories.
- * @param string|WP_Post|null $editor_name_or_post Optional. Post being loaded.
- */
-function bp_block_category( $categories = array(), $editor_name_or_post = null ) {
-	if ( $editor_name_or_post instanceof WP_Post ) {
-		$post_types = array( 'post', 'page' );
-
-		/*
-		 * As blocks are always loaded even if the category is not available, there's no more interest
-		 * in disabling the BuddyPress category.
-		 */
-		apply_filters_deprecated( 'bp_block_category_post_types', array( $post_types ), '8.0.0' );
-	}
-
-	return array_merge(
-		$categories,
-		array(
-			array(
-				'slug'  => 'buddypress',
-				'title' => __( 'Community blocks', 'buddypress' ),
-				'icon'  => 'buddicons-community',
-			),
-		)
-	);
-}
-add_filter( 'block_categories_all', 'bp_block_category', 1, 2 );
+add_filter( 'block_categories_all', 'bp_add_block_category', 1, 2 );
 
 /**
  * Outputs an Admin Notification.

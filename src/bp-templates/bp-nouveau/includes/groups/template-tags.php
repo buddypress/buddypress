@@ -241,8 +241,8 @@ function bp_nouveau_group_invites_interface() {
  * @since 3.0.0
  * @since 4.4.0
  *
- * @param  int $user_id Optional. The user ID to check group invites preference for.
- * @return int          Returns 1 if user chose to restrict to friends, 0 otherwise.
+ * @param int $user_id Optional. The user ID to check group invites preference for.
+ * @return int Returns 1 if user chose to restrict to friends, 0 otherwise.
  */
 function bp_nouveau_groups_get_group_invites_setting( $user_id = 0 ) {
 	if ( ! $user_id ) {
@@ -1066,8 +1066,8 @@ function bp_nouveau_groups_manage_members_buttons( $args = array() ) {
  * @since 3.0.0
  * @since 3.2.0 Adds the $meta_key argument.
  *
- * @param  string $meta_key Optional. The key of the meta to check the value for.
- * @return bool             True if the group has meta. False otherwise.
+ * @param string $meta_key Optional. The key of the meta to check the value for.
+ * @return bool True if the group has meta. False otherwise.
  */
 function bp_nouveau_group_has_meta( $meta_key = '' ) {
 	if ( ! $meta_key ) {
@@ -1091,27 +1091,6 @@ function bp_nouveau_group_has_meta( $meta_key = '' ) {
  */
 function bp_nouveau_group_has_meta_extra() {
 	return false !== bp_nouveau_get_hooked_group_meta();
-}
-
-/**
- * Display the group meta.
- *
- * @since 3.0.0
- * @deprecated 7.0.0 Use bp_nouveau_the_group_meta()
- * @see bp_nouveau_the_group_meta()
- *
- * @return string HTML Output.
- */
-function bp_nouveau_group_meta() {
-	_deprecated_function( __FUNCTION__, '7.0.0', 'bp_nouveau_the_group_meta()' );
-	$group_meta = new BP_Nouveau_Group_Meta();
-
-	if ( ! bp_is_group() ) {
-		// phpcs:ignore WordPress.Security.EscapeOutput
-		echo $group_meta->meta;
-	} else {
-		return $group_meta;
-	}
 }
 
 /**
@@ -1170,7 +1149,7 @@ function bp_nouveau_the_group_meta( $args = array() ) {
 	 *
 	 * @param array $keys Optional. One or more template meta keys to populate with their values.
 	 *                    Possible keys are `status`, `count`, `group_type_list`, `description`, `extra`.
-	 * @return array      The corresponding group template meta values.
+	 * @return array The corresponding group template meta values.
 	 */
 	function bp_nouveau_get_group_meta( $keys = array() ) {
 		$keys       = (array) $keys;

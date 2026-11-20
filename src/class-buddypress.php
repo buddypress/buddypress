@@ -344,7 +344,7 @@ class BuddyPress {
 	 *
 	 * @since 1.7.0
 	 *
-	 * @param string $key Key to return the value for.
+	 * @param string $key Key to return the value for. The `root_domain` key is deprecated since 12.0.0; use `root_url` instead.
 	 *
 	 * @return mixed
 	 */
@@ -363,7 +363,7 @@ class BuddyPress {
 	 *
 	 * @since 1.7.0
 	 *
-	 * @param string $key   Key to set a value for.
+	 * @param string $key   Key to set a value for. The `root_domain` key is deprecated since 12.0.0; use `root_url` instead.
 	 * @param mixed  $value Value to set.
 	 */
 	public function __set( $key, $value ) {

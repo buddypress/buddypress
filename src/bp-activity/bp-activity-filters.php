@@ -408,7 +408,7 @@ function bp_activity_make_nofollow_filter( $text ) {
  *
  * @param string $text The original activity entry text.
  * @param array  $args {
- *     Optional parameters. See $options argument of {@link bp_create_excerpt()}
+ *     Optional parameters. See $options argument of {@see bp_create_excerpt()}
  *     for all available parameters.
  * }.
  * @return string The truncated text.
@@ -553,6 +553,11 @@ add_filter( 'bp_get_activity_css_class', 'bp_activity_timestamp_class', 9, 1 );
  */
 function bp_activity_heartbeat_last_recorded( $response = array(), $data = array() ) {
 	if ( empty( $data['bp_activity_last_recorded'] ) ) {
+		return $response;
+	}
+
+	// Respect activity component visibility.
+	if ( ! bp_current_user_can( 'bp_view', array( 'bp_component' => 'activity' ) ) ) {
 		return $response;
 	}
 

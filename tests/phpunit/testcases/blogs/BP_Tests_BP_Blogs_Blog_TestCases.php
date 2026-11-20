@@ -190,7 +190,7 @@ class BP_Tests_BP_Blogs_Blog_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/5858
+	 * @link https://buddypress.trac.wordpress.org/ticket/5858
 	 */
 	public function test_get_with_search_terms_should_match_description() {
 		$this->skipWithoutMultisite();

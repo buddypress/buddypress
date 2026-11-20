@@ -36,7 +36,7 @@ function bp_members_has_directory() {
  * @since 7.0.0 Added `xprofile_query` parameter. Added `user_ids` parameter.
  *
  * @param array|string $args {
- *     Array of arguments. All are optional. See {@link BP_User_Query} for
+ *     Array of arguments. All are optional. See {@see BP_User_Query} for
  *     a more complete description of arguments.
  *     @type string       $type                Sort order. Default: 'active'.
  *     @type int          $user_id             Limit results to friends of a user. Default: false.
@@ -573,7 +573,7 @@ function bp_core_get_userlink_by_username( $username ) {
  *
  * Note that this is a raw count of non-spam, activated users. It does not
  * account for users who have logged activity (last_active). See
- * {@link bp_core_get_active_member_count()}.
+ * {@see bp_core_get_active_member_count()}.
  *
  * @since 1.2.0
  *
@@ -1541,7 +1541,7 @@ function bp_core_get_illegal_names( $value = '' ) {
 	/**
 	 * Filters the list of illegal usernames from WordPress.
 	 *
-	 * @since 3.0
+	 * @since 3.0.0
 	 *
 	 * @param array $usernames Array of illegal usernames.
 	 */
@@ -2845,7 +2845,7 @@ function bp_get_member_type_tax_args() {
  *
  * @param array  $schema   Optional. The generic Type metadata schema.
  * @param string $taxonomy Optional. The taxonomy name the schema applies to.
- * @return array           The Member Type metadata schema.
+ * @return array The Member Type metadata schema.
  */
 function bp_get_member_type_metadata_schema( $schema = array(), $taxonomy = '' ) {
 	if ( bp_get_member_type_tax_name() === $taxonomy ) {
@@ -3761,7 +3761,7 @@ function bp_get_members_invitation_from_request() {
  *
  * @param string $field Optional. Which fields to search by. Possible values are
  *                      activation_key, user_email, id.
- * @param string $value Optional. Value to search by.
+ * @param string $value Optional. Activation key, email address, or signup ID to match.
  * @return bool|BP_Signup Found signup, returns first found if more than one is found.
  */
 function bp_members_get_signup_by( $field = 'activation_key', $value = '' ) {

@@ -277,8 +277,6 @@ class BP_XProfile_Field {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @static
-	 *
 	 * @param int      $field_id ID of the field.
 	 * @param int|null $user_id  Optional. ID of the user associated with the field.
 	 *                           Ignored if `$get_data` is false. If `$get_data` is
@@ -1811,8 +1809,16 @@ class BP_XProfile_Field {
 
 				<?php
 
-				// Deprecated filter, don't use. Go look at {@link BP_XProfile_Field_Type::admin_new_field_html()}.
-				do_action( 'xprofile_field_additional_options', $this );
+				/**
+				 * Fires when rendering additional options in the profile field editor.
+				 *
+				 * Previously marked deprecated in 2.0.0 without a runtime notice.
+				 *
+				 * @deprecated 15.0.0 Override `BP_XProfile_Field_Type::admin_new_field_html()` in your custom field type instead.
+				 *
+				 * @param BP_XProfile_Field $field The field being edited.
+				 */
+				do_action_deprecated( 'xprofile_field_additional_options', array( $this ), '15.0.0' );
 
 				$this->render_admin_form_children();
 				?>

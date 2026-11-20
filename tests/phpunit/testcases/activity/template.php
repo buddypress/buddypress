@@ -5,7 +5,7 @@
 class BP_Tests_Activity_Template extends BP_UnitTestCase {
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/4735
+	 * @link https://buddypress.trac.wordpress.org/ticket/4735
 	 */
 	public function test_user_can_delete() {
 		$bp            = buddypress();
@@ -81,7 +81,7 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 	 * Make sure that action filters ('activity_update', etc) work when
 	 * limiting query to user favorites
 	 *
-	 * @see https://buddypress.trac.wordpress.org/ticket/4872
+	 * @link https://buddypress.trac.wordpress.org/ticket/4872
 	 */
 	public function test_bp_has_activities_favorites_action_filter() {
 		$user_id = self::factory()->user->create();
@@ -555,7 +555,7 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/6720
+	 * @link https://buddypress.trac.wordpress.org/ticket/6720
 	 */
 	public function test_bp_has_activities_scope_friends_should_respect_id_order_when_record_dates_are_same() {
 		$u1 = self::factory()->user->create();
@@ -599,7 +599,7 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/6720
+	 * @link https://buddypress.trac.wordpress.org/ticket/6720
 	 */
 	public function test_bp_has_activities_scope_groups_should_respect_id_order_when_record_dates_are_same() {
 		$u1 = self::factory()->user->create();
@@ -1074,7 +1074,7 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/6169
+	 * @link https://buddypress.trac.wordpress.org/ticket/6169
 	 */
 	public function test_bp_has_activities_private_group_home_scope() {
 		global $activities_template;
@@ -1133,7 +1133,7 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/6169
+	 * @link https://buddypress.trac.wordpress.org/ticket/6169
 	 */
 	public function test_bp_has_activities_hidden_group_home_scope() {
 		global $activities_template;
@@ -1216,7 +1216,7 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/5029
+	 * @link https://buddypress.trac.wordpress.org/ticket/5029
 	 */
 	public function test_bp_has_activities_with_display_comments_false() {
 		$now = time();
@@ -1252,7 +1252,7 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/5029
+	 * @link https://buddypress.trac.wordpress.org/ticket/5029
 	 */
 	public function test_bp_has_activities_with_display_comments_0() {
 		$now = time();
@@ -1288,7 +1288,7 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/5029
+	 * @link https://buddypress.trac.wordpress.org/ticket/5029
 	 */
 	public function test_bp_has_activities_with_display_comments_0_querystring() {
 		$now = time();
@@ -1320,7 +1320,7 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/5029
+	 * @link https://buddypress.trac.wordpress.org/ticket/5029
 	 */
 	public function test_bp_has_activities_with_display_comments_none_querystring() {
 		$now = time();

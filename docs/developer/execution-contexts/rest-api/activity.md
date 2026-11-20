@@ -242,6 +242,8 @@ fetch( '/wp-json/buddypress/v2/activity/18', {
 
 **NB**: the same endpoint is used to favorite and unfavorite an activity item. In case the activity is already favorited, it will remove this activity item from favorite activities.
 
+Use the `bp-action-favorite` link relation in activity responses. The `favorite` link relation is deprecated as of 15.0.0 but is still returned for compatibility.
+
 ### Arguments
 
 | Name | Description |

@@ -8,7 +8,7 @@ require_once BP_TESTS_DIR . 'assets/invitations-extensions.php';
 class BP_Tests_Invitations extends BP_UnitTestCase {
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/8552
+	 * @link https://buddypress.trac.wordpress.org/ticket/8552
 	 * @group cache
 	 */
 	public function test_invitation_query_with_ids_cache_results() {
@@ -171,7 +171,7 @@ class BP_Tests_Invitations extends BP_UnitTestCase {
 
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/8552
+	 * @link https://buddypress.trac.wordpress.org/ticket/8552
 	 * @group cache
 	 */
 	public function test_invitation_query_with_all_cache_results() {

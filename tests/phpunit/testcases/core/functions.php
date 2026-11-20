@@ -86,7 +86,7 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/5017
+	 * @link https://buddypress.trac.wordpress.org/ticket/5017
 	 */
 	public function test_bp_core_time_since_minutes_seconds() {
 		$now = time();
@@ -570,7 +570,7 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/9284
+	 * @link https://buddypress.trac.wordpress.org/ticket/9284
 	 * @dataProvider user_registration_site_offsets_provider
 	 */
 	public function test_user_registered_should_be_utc_with_site_offset( $gmt_offset ) {
@@ -598,7 +598,7 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/9284
+	 * @link https://buddypress.trac.wordpress.org/ticket/9284
 	 * @dataProvider user_registration_site_offsets_provider
 	 */
 	public function test_bp_core_time_since_user_registered_with_site_offset( $gmt_offset ) {
@@ -794,7 +794,7 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/8187
+	 * @link https://buddypress.trac.wordpress.org/ticket/8187
 	 */
 	public function test_bp_core_add_page_mappings_in_multisite_subdirectory() {
 		$this->skipWithoutMultisite();
@@ -852,7 +852,7 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/8765
+	 * @link https://buddypress.trac.wordpress.org/ticket/8765
 	 */
 	public function test_bp_core_check_for_moderation() {
 		$u = self::factory()->user->create();

@@ -511,7 +511,7 @@ class BP_Legacy extends BP_Theme_Compat {
 	 *
 	 * @since 1.7.0
 	 *
-	 * @see https://buddypress.trac.wordpress.org/ticket/4802
+	 * @link https://buddypress.trac.wordpress.org/ticket/4802
 	 */
 	public function sitewide_notices() {
 		// Do not show notices if user is not logged in.
@@ -557,11 +557,11 @@ class BP_Legacy extends BP_Theme_Compat {
 	 * Filter the default theme compatibility root template hierarchy, and prepend
 	 * a page template to the front if it's set.
 	 *
-	 * @see https://buddypress.trac.wordpress.org/ticket/6065
+	 * @link https://buddypress.trac.wordpress.org/ticket/6065
 	 *
 	 * @since 2.2.0
 	 *
-	 * @param  array $templates Optional. Array of templates.
+	 * @param array $templates Optional. Array of templates.
 	 *                         to use the defined page template for component's directory and its single items.
 	 * @return array
 	 */
@@ -631,23 +631,6 @@ new BP_Legacy();
 endif;
 
 /**
- * Add the Create a Group button to the Groups directory title.
- *
- * The bp-legacy puts the Create a Group button into the page title, to mimic
- * the behavior of bp-default.
- *
- * @since 2.0.0
- * @deprecated 12.0.0
- *
- * @param string $title Groups directory title.
- * @return string
- */
-function bp_legacy_theme_group_create_button( $title ) {
-	_deprecated_function( __FUNCTION__, '12.0.0' );
-	return $title . ' ' . bp_get_group_create_button();
-}
-
-/**
  * Add the Create a Group nav to the Groups directory navigation.
  *
  * The bp-legacy puts the Create a Group nav at the last position of
@@ -668,23 +651,6 @@ function bp_legacy_groups_admin_screen_hidden_input() {
 	?>
 	<input type="hidden" name="group-id" id="group-id" value="<?php bp_group_id(); ?>" />
 	<?php
-}
-
-/**
- * Add the Create a Site button to the Sites directory title.
- *
- * The bp-legacy puts the Create a Site button into the page title, to mimic
- * the behavior of bp-default.
- *
- * @since 2.0.0
- * @deprecated 12.0.0
- *
- * @param string $title Sites directory title.
- * @return string
- */
-function bp_legacy_theme_blog_create_button( $title ) {
-	_deprecated_function( __FUNCTION__, '12.0.0' );
-	return $title . ' ' . bp_get_blog_create_button();
 }
 
 /**
@@ -1679,6 +1645,7 @@ function bp_legacy_theme_ajax_joinleave_group() {
 		case 'join_group':
 			if ( ! bp_current_user_can( 'groups_join_group', array( 'group_id' => $group->id ) ) ) {
 				esc_html_e( 'Error joining group', 'buddypress' );
+				break;
 			}
 
 			/*
@@ -1989,7 +1956,7 @@ function bp_legacy_theme_ajax_messages_star_handler() {
  *
  * @since  2.4.0
  *
- * @param  array $params Optional. The current component's feature parameters.
+ * @param array $params Optional. The current component's feature parameters.
  * @return null|string An array to inform about the css handle to attach the css rules to
  */
 function bp_legacy_theme_cover_image( $params = array() ) {

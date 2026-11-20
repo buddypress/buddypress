@@ -292,7 +292,7 @@ function bp_alpha_sort_by_key( $items, $key ) {
  * @since 1.2.0
  *
  * @param int  $number   Optional. The number to be formatted.
- * @param bool $decimals Optional. Whether to use decimals. See {@link number_format_i18n()}.
+ * @param bool $decimals Optional. Whether to use decimals. See {@see number_format_i18n()}.
  * @return string The formatted number.
  */
 function bp_core_number_format( $number = 0, $decimals = false ) {
@@ -1039,8 +1039,8 @@ add_filter( 'wp_unique_post_slug', 'bp_core_set_unique_directory_page_slug', 10,
  * @since 12.0.0
  *
  * @param string $component Optional. The component ID.
- * @return bool            True if a component's directory is set as the site's homepage.
- *                            False otherwise.
+ * @return bool True if a component's directory is set as the site's homepage.
+ *                 False otherwise.
  */
 function bp_is_directory_homepage( $component = '' ) {
 	$is_directory_homepage = false;
@@ -1270,7 +1270,7 @@ function bp_core_get_site_path() {
  * @since 1.2.6
  *
  * @param bool   $gmt  Optional. True to use GMT (rather than local) time. Default: true.
- * @param string $type Optional. See the 'type' parameter in {@link current_time()}.
+ * @param string $type Optional. See the 'type' parameter in {@see current_time()}.
  *                     Default: 'mysql'.
  * @return string Current time in 'Y-m-d h:i:s' format.
  */
@@ -1949,7 +1949,7 @@ function bp_delete_user_meta( $user_id, $key, $value = '' ) {
 /** Embeds ********************************************************************/
 
 /**
- * Initializes {@link BP_Embed} after everything is loaded.
+ * Initializes {@see BP_Embed} after everything is loaded.
  *
  * @since 1.5.0
  */
@@ -2065,8 +2065,8 @@ function bp_core_extract_media_from_content( $content = '', $type = 'all' ) {
  *
  * @see bp_get_admin_url() For description of parameters.
  *
- * @param string $path   Optional. See {@link bp_get_admin_url()}.
- * @param string $scheme Optional. See {@link bp_get_admin_url()}.
+ * @param string $path   Optional. See {@see bp_get_admin_url()}.
+ * @param string $scheme Optional. See {@see bp_get_admin_url()}.
  */
 function bp_admin_url( $path = '', $scheme = 'admin' ) {
 	echo esc_url( bp_get_admin_url( $path, $scheme ) );
@@ -2079,7 +2079,7 @@ function bp_admin_url( $path = '', $scheme = 'admin' ) {
 	 * @param string $path   Optional. The sub-path under /wp-admin to be
 	 *                       appended to the admin URL.
 	 * @param string $scheme Optional. The scheme to use. Default is 'admin', which
-	 *                       obeys {@link force_ssl_admin()} and {@link is_ssl()}. 'http'
+	 *                       obeys {@see force_ssl_admin()} and {@see is_ssl()}. 'http'
 	 *                       or 'https' can be passed to force those schemes.
 	 * @return string Admin url link with optional path appended.
 	 */
@@ -2575,10 +2575,10 @@ function bp_get_custom_translation_file( $file_name = '' ) {
  *
  * @since 14.0.0
  *
- * @param  string $file   Absolut path to the translation file to use.
- * @param  string $domain The text domain to check against `buddypress`.
- * @param  string $locale Optional. The current locale for the WordPress site.
- * @return string Absolut path to the translation file to use.
+ * @param string $file   Absolute path to the translation file to use.
+ * @param string $domain The text domain to check against `buddypress`.
+ * @param string $locale Optional. The current locale for the WordPress site.
+ * @return string Absolute path to the translation file to use.
  */
 function bp_load_custom_translation_file( $file, $domain, $locale = '' ) {
 	$bp_domain = 'buddypress';
@@ -2644,8 +2644,6 @@ add_filter( 'load_script_translation_file', 'bp_load_custom_script_translation_f
  * Load the buddypress translation file for current language.
  *
  * @since 1.0.2
- *
- * @return void
  */
 function bp_core_load_buddypress_textdomain() {
 	$domain = 'buddypress';
@@ -3191,7 +3189,7 @@ function bp_core_get_suggestions( $args ) {
  * @since 12.0.0
  *
  * @param string $ajax_action Optional. The ajax action needing the BP URI globals to be set.
- * @return bool            True if the ajax action was registered. False otherwise.
+ * @return bool True if the ajax action was registered. False otherwise.
  */
 function bp_ajax_register_action( $ajax_action = '' ) {
 	// Checks the ajax action is registered.
@@ -3209,7 +3207,7 @@ function bp_ajax_register_action( $ajax_action = '' ) {
  * @since 12.0.0
  *
  * @param string $ajax_action Optional. The ajax action to check.
- * @return bool            True if the ajax action is registered. False otherwise
+ * @return bool True if the ajax action is registered. False otherwise
  */
 function bp_ajax_action_is_registered( $ajax_action = '' ) {
 	$registered_ajax_actions = buddypress()->ajax_actions;
@@ -3257,7 +3255,7 @@ add_action( 'wp_ajax_bp_get_suggestions', 'bp_ajax_get_suggestions' );
  * Handy for multisite instances because all uploads are made on the BP root
  * blog and we need to query the BP root blog for the upload directory data.
  *
- * This function ensures that we only need to use {@link switch_to_blog()}
+ * This function ensures that we only need to use {@see switch_to_blog()}
  * once to get what we need.
  *
  * @since 2.3.0
@@ -3528,9 +3526,9 @@ function bp_get_email_tax_type_args() {
  *
  * @since 7.0.0
  *
- * @param  bool   $suppress_filters Optional. Whether to suppress filters. Default `false`.
- * @param  string $type_taxonomy    Optional. The type's taxonomy name.
- * @return array                     The default BuddyPress type metadata schema.
+ * @param bool   $suppress_filters Optional. Whether to suppress filters. Default `false`.
+ * @param string $type_taxonomy    Optional. The type's taxonomy name.
+ * @return array The default BuddyPress type metadata schema.
  */
 function bp_get_type_metadata_schema( $suppress_filters = false, $type_taxonomy = '' ) {
 	$schema = array(
@@ -3602,9 +3600,9 @@ function bp_register_type_meta( $type_tax, $meta_key, array $args ) {
  *
  * @since 7.0.0
  *
- * @param  int    $type_id    Optional. The database ID of the BP Type.
- * @param  string $taxonomy   Optional. The BP Type taxonomy.
- * @param  array  $type_metas Optional. An associative array (meta_key=>meta_value).
+ * @param int    $type_id    Optional. The database ID of the BP Type.
+ * @param string $taxonomy   Optional. The BP Type taxonomy.
+ * @param array  $type_metas Optional. An associative array (meta_key=>meta_value).
  * @return bool
  */
 function bp_update_type_metadata( $type_id = 0, $taxonomy = '', $type_metas = array() ) {
@@ -3635,7 +3633,7 @@ function bp_update_type_metadata( $type_id = 0, $taxonomy = '', $type_metas = ar
  *                         from the Group/Member types Administration screen. If not provided, only
  *                         Types created by the administrator will be returned.
  *                         Optional.
- * @return array           The types of the given taxonomy.
+ * @return array The types of the given taxonomy.
  */
 function bp_get_taxonomy_types( $taxonomy = '', $types = array() ) {
 	if ( ! $taxonomy ) {
@@ -4768,7 +4766,7 @@ function bp_email_get_salt() {
  *
  * @since 2.8.0
  *
- * @see https://buddypress.trac.wordpress.org/ticket/7431
+ * @link https://buddypress.trac.wordpress.org/ticket/7431
  *
  * @return array The array of email types and their schema.
  */
@@ -4813,7 +4811,7 @@ function bp_email_get_type( $email = null ) {
  * @since  3.0.0
  *
  * @global array $allowedtags KSES allowed HTML elements.
- * @return array              BuddyPress content allowed tags.
+ * @return array BuddyPress content allowed tags.
  */
 function bp_get_allowedtags() {
 	global $allowedtags;
@@ -4951,8 +4949,8 @@ function bp_add_optout( $args = array() ) {
  *
  * @see BP_Optout::get() for a description of parameters and return values.
  *
- * @param array $args Optional. See {@link BP_Optout::get()}.
- * @return array See {@link BP_Optout::get()}.
+ * @param array $args Optional. See {@see BP_Optout::get()}.
+ * @return array See {@see BP_Optout::get()}.
  */
 function bp_get_optouts( $args = array() ) {
 	return BP_Optout::get( $args );
@@ -5020,6 +5018,7 @@ function bp_get_deprecated_functions_versions() {
 		3.0,
 		4.0,
 		6.0,
+		6.3,
 		7.0,
 		8.0,
 		9.0,
@@ -5059,7 +5058,7 @@ function bp_get_post_type_site_id() {
  * @since 12.0.0
  *
  * @param string $component Optional. The component ID.
- * @return array            The list of registered navigation items.
+ * @return array The list of registered navigation items.
  */
 function bp_get_component_navigations( $component = '' ) {
 	$args = array();
