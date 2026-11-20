@@ -60,18 +60,6 @@ function bp_nouveau_xprofile_edit_visibilty() {
 }
 
 /**
- * Return a bool check to see whether the base re group has had extended
- * profile fields added to it for the registration screen.
- *
- * @since 3.0.0
- * @deprecated 8.0.0
- */
-function bp_nouveau_base_account_has_xprofile() {
-	_deprecated_function( __FUNCTION__, '8.0.0', 'bp_nouveau_has_signup_xprofile_fields()' );
-	return bp_nouveau_has_signup_xprofile_fields();
-}
-
-/**
  * Checks whether there are signup profile fields to display.
  *
  * @since 8.0.0

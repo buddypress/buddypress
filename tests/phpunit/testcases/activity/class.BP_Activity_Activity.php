@@ -15,22 +15,6 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 		$this->assertSame( $activity, $result );
 	}
 
-	public function test_delete_activity_item_comments() {
-		$parent_activity = self::factory()->activity->create( array(
-			'type' => 'activity_update',
-		) );
-
-		$comments = self::factory()->activity->create_many( 3, array(
-			'item_id' => $parent_activity,
-			'type'    => 'activity_comment',
-		) );
-
-		BP_Activity_Activity::delete_activity_item_comments( $parent_activity );
-
-		$result = BP_Activity_Activity::get( array( 'in' => $comments ) );
-		$this->assertEmpty( $result['activities'] );
-	}
-
 	/**
 	 * @link https://buddypress.trac.wordpress.org/ticket/4804
 	 */

@@ -11,6 +11,32 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
+ * Display the group meta.
+ *
+ * @since 3.0.0
+ * @deprecated 7.0.0 Use `bp_nouveau_the_group_meta()` instead.
+ * @see bp_nouveau_the_group_meta()
+ *
+ * @return BP_Nouveau_Group_Meta|void The group meta object on single group screens.
+ */
+function bp_nouveau_group_meta() {
+	_deprecated_function( __FUNCTION__, '7.0.0', 'bp_nouveau_the_group_meta()' );
+
+	if ( ! class_exists( 'BP_Nouveau_Group_Meta' ) ) {
+		return;
+	}
+
+	$group_meta = new BP_Nouveau_Group_Meta();
+
+	if ( ! bp_is_group() ) {
+		// phpcs:ignore WordPress.Security.EscapeOutput
+		echo $group_meta->meta;
+	} else {
+		return $group_meta;
+	}
+}
+
+/**
  * Mark the posted activity as spam, if it contains disallowed keywords.
  *
  * Use bp_activity_check_disallowed_keys() instead.

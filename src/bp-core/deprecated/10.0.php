@@ -10,6 +10,17 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
+ * Format the notice notifications.
+ *
+ * @since 3.0.0
+ * @since 15.0.0 The `$array` parameter was removed since it was unused.
+ * @deprecated 10.0.0
+ */
+function bp_nouveau_format_notice_notification_for_user() {
+	_deprecated_function( __FUNCTION__, '10.0.0' );
+}
+
+/**
  * Returns the name of the hook to use once a WordPress Site is inserted into the Database.
  *
  * WordPress 5.1.0 deprecated the `wpmu_new_blog` action. As BuddyPress is supporting WordPress back

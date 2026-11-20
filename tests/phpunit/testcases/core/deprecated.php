@@ -6,6 +6,59 @@
  * @group deprecated
  */
 class BP_Tests_Core_Deprecated extends BP_UnitTestCase {
+
+	public function test_replacement_block_category_callback_adds_the_category_without_a_notice() {
+		$categories = array( array( 'slug' => 'existing' ) );
+		$result     = bp_add_block_category( $categories );
+
+		$this->assertSame( $categories[0], $result[0] );
+		$this->assertSame( 'buddypress', $result[1]['slug'] );
+	}
+
+	/**
+	 * @expectedDeprecated bp_block_category
+	 * @expectedDeprecated bp_block_category_post_types
+	 */
+	public function test_legacy_block_category_callback_still_runs_the_legacy_post_types_filter() {
+		$categories = array( array( 'slug' => 'existing' ) );
+		$post       = self::factory()->post->create_and_get();
+		$received   = array();
+		$filter     = static function ( $post_types ) use ( &$received ) {
+			$received = $post_types;
+
+			return array();
+		};
+		add_filter( 'bp_block_category_post_types', $filter );
+
+		try {
+			$result = bp_block_category( $categories, $post );
+		} finally {
+			remove_filter( 'bp_block_category_post_types', $filter );
+		}
+
+		$this->assertSame( array( 'post', 'page' ), $received );
+		$this->assertSame( bp_add_block_category( $categories, $post ), $result );
+	}
+
+	/**
+	 * @expectedDeprecated bp_get_email_subject
+	 */
+	public function test_legacy_email_subject_still_passes_the_subject_and_args_to_its_filter() {
+		$received = array();
+		$filter   = static function ( $subject, $args ) use ( &$received ) {
+			$received = array( $subject, $args['text'] );
+
+			return 'Filtered subject';
+		};
+		add_filter( 'bp_get_email_subject', $filter, 10, 2 );
+
+		try {
+			$this->assertSame( 'Filtered subject', bp_get_email_subject( array( 'text' => 'Example' ) ) );
+			$this->assertSame( array( '[' . wp_specialchars_decode( bp_get_option( 'blogname' ), ENT_QUOTES ) . '] Example', 'Example' ), $received );
+		} finally {
+			remove_filter( 'bp_get_email_subject', $filter, 10 );
+		}
+	}
 	protected $bp_initial_version;
 
 	public function override_initial_version() {
@@ -73,6 +126,13 @@ class BP_Tests_Core_Deprecated extends BP_UnitTestCase {
 		$this->expectOutputString( (string) bp_get_signup_allowed() );
 
 		bp_signup_allowed();
+	}
+
+	/**
+	 * @expectedDeprecated bp_core_activate_site_options
+	 */
+	public function test_bp_core_activate_site_options_returns_false_without_keys() {
+		$this->assertFalse( bp_core_activate_site_options() );
 	}
 
 	/**

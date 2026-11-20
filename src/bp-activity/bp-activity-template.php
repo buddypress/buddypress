@@ -851,37 +851,6 @@ function bp_activity_type_part() {
 	return $name;
 }
 
-	/**
-	 * Output the activity action name.
-	 *
-	 * Just a wrapper for bp_activity_type().
-	 *
-	 * @since 1.2.0
-	 * @deprecated 1.5.0
-	 *
-	 * @todo Properly deprecate in favor of bp_activity_type() and
-	 *       remove redundant echo
-	 */
-	function bp_activity_action_name() {
-		bp_activity_type();
-	}
-
-	/**
-	 * Return the activity type.
-	 *
-	 * Just a wrapper for bp_get_activity_type().
-	 *
-	 * @since 1.2.0
-	 * @deprecated 1.5.0
-	 *
-	 * @todo Properly deprecate in favor of bp_get_activity_type().
-	 *
-	 * @return string The activity type.
-	 */
-	function bp_get_activity_action_name() {
-		return bp_get_activity_type();
-	}
-
 /**
  * Output the activity user ID.
  *
@@ -1707,50 +1676,6 @@ function bp_activity_generated_content_part( $property = '' ) {
 		}
 
 		return $value;
-	}
-
-/**
- * Output the activity content.
- *
- * @since 1.0.0
- * @deprecated 1.5.0
- *
- * @todo properly deprecate this function.
- */
-function bp_activity_content() {
-	// Escaping is made in `bp-activity/bp-activity-filters.php`.
-	// phpcs:ignore WordPress.Security.EscapeOutput
-	echo bp_get_activity_content();
-}
-
-	/**
-	 * Return the activity content.
-	 *
-	 * @since 1.0.0
-	 * @deprecated 1.5.0
-	 *
-	 * @todo properly deprecate this function.
-	 *
-	 * @return string The activity content.
-	 */
-	function bp_get_activity_content() {
-
-		/**
-		 * If you want to filter activity update content, please use
-		 * the filter 'bp_get_activity_content_body'.
-		 *
-		 * This function is mainly for backwards compatibility.
-		 */
-		$content = bp_get_activity_action() . ' ' . bp_get_activity_content_body();
-
-		/**
-		 * Filters activity or activity comment content before display.
-		 *
-		 * @since 1.0.0
-		 *
-		 * @param string $content The activity content including its action, or comment content.
-		 */
-		return apply_filters( 'bp_get_activity_content', $content );
 	}
 
 /**
@@ -4093,21 +4018,6 @@ function bp_member_activity_feed_link() {
 		 */
 		return apply_filters( 'bp_get_activities_member_rss_link', $link );
 	}
-
-	/**
-	 * Return the member activity feed link.
-	 *
-	 * @since 1.0.0
-	 * @deprecated 1.2.0
-	 *
-	 * @todo properly deprecate in favor of bp_get_member_activity_feed_link().
-	 *
-	 * @return string The member activity feed link.
-	 */
-	function bp_get_activities_member_rss_link() {
-		return bp_get_member_activity_feed_link();
-	}
-
 
 /** Template tags for RSS feed output ****************************************/
 

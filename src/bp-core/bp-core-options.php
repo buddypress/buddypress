@@ -296,45 +296,6 @@ function bp_delete_option( $option_name ) {
 }
 
 /**
- * Copy BP options from a single site to multisite config.
- *
- * Run when switching from single to multisite and we need to copy blog options
- * to site options.
- *
- * This function is no longer used.
- *
- * @since 1.2.4
- * @deprecated 1.6.0
- *
- * @param array $keys Optional. Array of site options.
- * @return bool
- */
-function bp_core_activate_site_options( $keys = array() ) {
-
-	if ( ! empty( $keys ) && is_array( $keys ) ) {
-		$bp = buddypress();
-
-		$errors = false;
-
-		foreach ( $keys as $key => $default ) {
-			if ( empty( $bp->site_options[ $key ] ) ) {
-				$bp->site_options[ $key ] = bp_get_option( $key, $default );
-
-				if ( ! bp_update_option( $key, $bp->site_options[ $key ] ) ) {
-					$errors = true;
-				}
-			}
-		}
-
-		if ( empty( $errors ) ) {
-			return true;
-		}
-	}
-
-	return false;
-}
-
-/**
  * Fetch global BP options.
  *
  * BuddyPress uses common options to store configuration settings. Many of these

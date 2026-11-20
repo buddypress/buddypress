@@ -6,6 +6,16 @@
  * @group deprecated
  */
 class BP_Tests_Messages_Deprecated extends BP_UnitTestCase {
+
+	/**
+	 * @expectedDeprecated bp_nouveau_format_notice_notification_for_user
+	 * @expectedDeprecated bp_nouveau_unregister_notices_widget
+	 */
+	public function test_legacy_nouveau_notice_helpers_remain_callable() {
+		$this->assertNull( bp_nouveau_format_notice_notification_for_user() );
+		$this->assertNull( bp_nouveau_unregister_notices_widget() );
+	}
+
 	/**
 	 * @expectedDeprecated BP_Messages_Thread::get_current_threads_for_user
 	 */

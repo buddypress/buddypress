@@ -1170,7 +1170,7 @@ class BP_Activity_REST_Controller extends WP_REST_Controller {
 				'activity_id' => $activity->id,
 			);
 
-			// Will be deprecated.
+			// Deprecated in 15.0.0. Use the `bp-action-favorite` link relation instead.
 			$links['favorite']           = $favorite_action;
 			$links['bp-action-favorite'] = $favorite_action;
 		}

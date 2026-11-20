@@ -315,7 +315,7 @@ class BP_Activity_Feed {
 			case 'friends':
 			case 'mentions':
 			case 'personal':
-				if ( 'activity_comment' === bp_get_activity_action_name() ) :
+				if ( 'activity_comment' === bp_get_activity_type() ) :
 			?>
 				<strong><?php esc_html_e( 'In reply to', 'buddypress' ); ?></strong> -
 				<?php bp_activity_parent_content(); ?>

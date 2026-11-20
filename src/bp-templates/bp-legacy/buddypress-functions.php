@@ -631,23 +631,6 @@ new BP_Legacy();
 endif;
 
 /**
- * Add the Create a Group button to the Groups directory title.
- *
- * The bp-legacy puts the Create a Group button into the page title, to mimic
- * the behavior of bp-default.
- *
- * @since 2.0.0
- * @deprecated 12.0.0
- *
- * @param string $title Groups directory title.
- * @return string
- */
-function bp_legacy_theme_group_create_button( $title ) {
-	_deprecated_function( __FUNCTION__, '12.0.0' );
-	return $title . ' ' . bp_get_group_create_button();
-}
-
-/**
  * Add the Create a Group nav to the Groups directory navigation.
  *
  * The bp-legacy puts the Create a Group nav at the last position of
@@ -668,23 +651,6 @@ function bp_legacy_groups_admin_screen_hidden_input() {
 	?>
 	<input type="hidden" name="group-id" id="group-id" value="<?php bp_group_id(); ?>" />
 	<?php
-}
-
-/**
- * Add the Create a Site button to the Sites directory title.
- *
- * The bp-legacy puts the Create a Site button into the page title, to mimic
- * the behavior of bp-default.
- *
- * @since 2.0.0
- * @deprecated 12.0.0
- *
- * @param string $title Sites directory title.
- * @return string
- */
-function bp_legacy_theme_blog_create_button( $title ) {
-	_deprecated_function( __FUNCTION__, '12.0.0' );
-	return $title . ' ' . bp_get_blog_create_button();
 }
 
 /**

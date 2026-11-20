@@ -1648,14 +1648,12 @@ class BP_Activity_Activity {
 	/**
 	 * Delete the comments associated with a set of activity items.
 	 *
-	 * This method is no longer used by BuddyPress, and it is recommended not to
-	 * use it going forward, and use BP_Activity_Activity::delete() instead.
+	 * Previously marked deprecated in 2.3.0 without a runtime notice.
 	 *
 	 * @since 1.2.0
+	 * @deprecated 15.0.0
 	 *
 	 * @global wpdb $wpdb WordPress database object.
-	 *
-	 * @deprecated 2.3.0
 	 *
 	 * @param array $activity_ids Optional. Activity IDs whose comments should be deleted.
 	 * @param bool  $delete_meta  Optional. Should we delete the activity meta items for these comments.
@@ -1663,6 +1661,8 @@ class BP_Activity_Activity {
 	 */
 	public static function delete_activity_item_comments( $activity_ids = array(), $delete_meta = true ) {
 		global $wpdb;
+
+		_deprecated_function( __METHOD__, '15.0.0' );
 
 		$bp = buddypress();
 
