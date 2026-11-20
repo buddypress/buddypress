@@ -2575,10 +2575,10 @@ function bp_get_custom_translation_file( $file_name = '' ) {
  *
  * @since 14.0.0
  *
- * @param string $file   Absolut path to the translation file to use.
+ * @param string $file   Absolute path to the translation file to use.
  * @param string $domain The text domain to check against `buddypress`.
  * @param string $locale Optional. The current locale for the WordPress site.
- * @return string Absolut path to the translation file to use.
+ * @return string Absolute path to the translation file to use.
  */
 function bp_load_custom_translation_file( $file, $domain, $locale = '' ) {
 	$bp_domain = 'buddypress';
@@ -2644,8 +2644,6 @@ add_filter( 'load_script_translation_file', 'bp_load_custom_script_translation_f
  * Load the buddypress translation file for current language.
  *
  * @since 1.0.2
- *
- * @return void
  */
 function bp_core_load_buddypress_textdomain() {
 	$domain = 'buddypress';

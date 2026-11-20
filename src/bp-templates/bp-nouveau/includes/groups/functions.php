@@ -19,7 +19,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @return string
  *
- * @since 3.0
+ * @since 3.0.0
  */
 function bp_nouveau_message_markup_wrapper( $message, $type ) {
 	if ( ! $message ) {

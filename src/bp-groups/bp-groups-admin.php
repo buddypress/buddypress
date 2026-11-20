@@ -402,13 +402,7 @@ function bp_groups_admin_load() {
 			}
 		}
 
-		/**
-		 * Filters the allowed invite status values for the group.
-		 *
-		 * @since 1.5.0
-		 *
-		 * @param array $value Array of allowed invite statuses.
-		 */
+		/** This filter is documented in bp-groups/actions/create.php */
 		$allowed_invite_status     = apply_filters( 'groups_allowed_invite_status', array( 'members', 'mods', 'admins' ) );
 		$invite_status             = 'members';
 		$is_updating_invite_status = false;

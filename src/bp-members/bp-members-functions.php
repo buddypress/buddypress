@@ -1541,7 +1541,7 @@ function bp_core_get_illegal_names( $value = '' ) {
 	/**
 	 * Filters the list of illegal usernames from WordPress.
 	 *
-	 * @since 3.0
+	 * @since 3.0.0
 	 *
 	 * @param array $usernames Array of illegal usernames.
 	 */
