@@ -363,7 +363,7 @@ class BP_XProfile_Field_Type_Checkbox_Acceptance extends BP_XProfile_Field_Type 
 	 * @param string $field_value Original value of field.
 	 * @param int    $field_id Optional. Field ID.
 	 *
-	 * @return string   Value formatted
+	 * @return string Value formatted
 	 */
 	public static function display_filter( $field_value, $field_id = 0 ) {
 		$page_id = bp_xprofile_get_meta( $field_id, 'field', 'bp_xprofile_checkbox_acceptance_page', true );

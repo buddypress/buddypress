@@ -1028,7 +1028,7 @@ class BP_Notifications_Notification {
 	 * @param int[]  $items Optional. The list of items to update.
 	 * @param array  $data  Optional. Array of notification data to update.
 	 * @param array  $where Optional. The WHERE params to use to specify the item IDs to update.
-	 * @return int|false    The number of updated rows. False on error.
+	 * @return int|false The number of updated rows. False on error.
 	 */
 	public static function update_id_list( $field, $items = array(), $data = array(), $where = array() ) {
 		global $wpdb;
@@ -1129,7 +1129,7 @@ class BP_Notifications_Notification {
 	 *                      Possible values are `id` or `item_id`.
 	 * @param int[]  $items Optional. The list of items to delete.
 	 * @param array  $args  Optional. The WHERE arguments to use to specify the item IDs to delete.
-	 * @return int|false    The number of deleted rows. False on error.
+	 * @return int|false The number of deleted rows. False on error.
 	 */
 	public static function delete_by_id_list( $field, $items = array(), $args = array() ) {
 		global $wpdb;

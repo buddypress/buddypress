@@ -363,7 +363,7 @@ function bp_nouveau_get_group_potential_invites( $args = array() ) {
  * @since 10.0.0 The function is no more creating a Group invite step.
  *
  * @param array $steps Optional. The Group create steps.
- * @return array       The Group create steps.
+ * @return array The Group create steps.
  */
 function bp_nouveau_group_invites_create_steps( $steps = array() ) {
 	if ( isset( $steps['group-invites'] ) ) {

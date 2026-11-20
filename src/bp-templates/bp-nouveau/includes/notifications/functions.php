@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.0.0
  *
  * @param array $scripts  Optional. The array of scripts to register.
- * @return array  The same array with the specific notifications scripts.
+ * @return array The same array with the specific notifications scripts.
  */
 function bp_nouveau_notifications_register_scripts( $scripts = array() ) {
 
@@ -142,7 +142,7 @@ function bp_nouveau_notifications_get_filters( $id = '' ) {
  * @since 3.0.0
  *
  * @param array $filters Optional. The notifications filters to order.
- * @return array  The sorted filters.
+ * @return array The sorted filters.
  */
 function bp_nouveau_notifications_sort( $filters = array() ) {
 	$sorted = array();
@@ -182,7 +182,7 @@ function bp_nouveau_notifications_sort( $filters = array() ) {
  * @param string $link        Optional. The action link.
  * @param string $bp_tooltip Optional. The data-bp-attribute of the link.
  * @param string $dashicon   Optional. The dashicon class.
- * @return string             Link Output.
+ * @return string Link Output.
  */
 function bp_nouveau_notifications_dashiconified_link( $link = '', $bp_tooltip = '', $dashicon = '' ) {
 	preg_match( '/<a\s[^>]*>(.*)<\/a>/siU', $link, $match );

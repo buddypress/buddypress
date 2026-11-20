@@ -1534,7 +1534,7 @@ class BP_Groups_Member {
 	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
 	 * @param int $group_id ID of the group.
-	 * @return array IDs of all group members.
+	 * @return int[]
 	 */
 	public static function get_group_member_ids( $group_id ) {
 		global $wpdb;
@@ -1550,7 +1550,7 @@ class BP_Groups_Member {
 	 * @since 1.6.0
 	 *
 	 * @param int $group_id ID of the group.
-	 * @return array           Info about group admins (user_id + date_modified).
+	 * @return array Info about group admins (user_id + date_modified).
 	 */
 	public static function get_group_administrator_ids( $group_id ) {
 		if ( empty( $group_id ) ) {

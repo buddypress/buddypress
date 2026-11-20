@@ -661,7 +661,7 @@ function bp_activity_get_post_types_tracking_args() {
  * extendable workaround.
  *
  * @param string $feature Optional. The feature activity types should support.
- * @return array          The list of activity types name supporting the requested feature.
+ * @return array The list of activity types name supporting the requested feature.
  */
 function _bp_activity_get_types_by_support( $feature = 'generated-content' ) {
 	$activity_types = array();
@@ -796,7 +796,7 @@ function bp_activity_type_supports( $activity_type = '', $feature = '' ) {
  *
  * @param string $activity_type the activity type.
  * @param string $arg           Optional. The key of the tracking argument.
- * @return mixed        the value of the tracking arg, false if not found.
+ * @return mixed the value of the tracking arg, false if not found.
  */
 function bp_activity_post_type_get_tracking_arg( $activity_type, $arg = '' ) {
 	if ( empty( $activity_type ) || empty( $arg ) ) {

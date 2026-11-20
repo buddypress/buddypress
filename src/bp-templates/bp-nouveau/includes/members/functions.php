@@ -548,7 +548,7 @@ function bp_nouveau_member_customizer_nav() {
  *
  * @param array $additional_info Optional. An associative array with additional information to include in the Ajax response.
  * @param array $args            Optional. The Ajax query arguments.
- * @return array                 Additional information about the members loop.
+ * @return array Additional information about the members loop.
  */
 function bp_nouveau_members_loop_additional_info( $additional_info = array(), $args = array() ) {
 	if ( ! isset( $GLOBALS['members_template'] ) || ! $GLOBALS['members_template'] ) {

@@ -1039,8 +1039,8 @@ add_filter( 'wp_unique_post_slug', 'bp_core_set_unique_directory_page_slug', 10,
  * @since 12.0.0
  *
  * @param string $component Optional. The component ID.
- * @return bool            True if a component's directory is set as the site's homepage.
- *                            False otherwise.
+ * @return bool True if a component's directory is set as the site's homepage.
+ *                 False otherwise.
  */
 function bp_is_directory_homepage( $component = '' ) {
 	$is_directory_homepage = false;
@@ -3191,7 +3191,7 @@ function bp_core_get_suggestions( $args ) {
  * @since 12.0.0
  *
  * @param string $ajax_action Optional. The ajax action needing the BP URI globals to be set.
- * @return bool            True if the ajax action was registered. False otherwise.
+ * @return bool True if the ajax action was registered. False otherwise.
  */
 function bp_ajax_register_action( $ajax_action = '' ) {
 	// Checks the ajax action is registered.
@@ -3209,7 +3209,7 @@ function bp_ajax_register_action( $ajax_action = '' ) {
  * @since 12.0.0
  *
  * @param string $ajax_action Optional. The ajax action to check.
- * @return bool            True if the ajax action is registered. False otherwise
+ * @return bool True if the ajax action is registered. False otherwise
  */
 function bp_ajax_action_is_registered( $ajax_action = '' ) {
 	$registered_ajax_actions = buddypress()->ajax_actions;
@@ -3530,7 +3530,7 @@ function bp_get_email_tax_type_args() {
  *
  * @param bool   $suppress_filters Optional. Whether to suppress filters. Default `false`.
  * @param string $type_taxonomy    Optional. The type's taxonomy name.
- * @return array                     The default BuddyPress type metadata schema.
+ * @return array The default BuddyPress type metadata schema.
  */
 function bp_get_type_metadata_schema( $suppress_filters = false, $type_taxonomy = '' ) {
 	$schema = array(
@@ -3635,7 +3635,7 @@ function bp_update_type_metadata( $type_id = 0, $taxonomy = '', $type_metas = ar
  *                         from the Group/Member types Administration screen. If not provided, only
  *                         Types created by the administrator will be returned.
  *                         Optional.
- * @return array           The types of the given taxonomy.
+ * @return array The types of the given taxonomy.
  */
 function bp_get_taxonomy_types( $taxonomy = '', $types = array() ) {
 	if ( ! $taxonomy ) {
@@ -4813,7 +4813,7 @@ function bp_email_get_type( $email = null ) {
  * @since  3.0.0
  *
  * @global array $allowedtags KSES allowed HTML elements.
- * @return array              BuddyPress content allowed tags.
+ * @return array BuddyPress content allowed tags.
  */
 function bp_get_allowedtags() {
 	global $allowedtags;
@@ -5059,7 +5059,7 @@ function bp_get_post_type_site_id() {
  * @since 12.0.0
  *
  * @param string $component Optional. The component ID.
- * @return array            The list of registered navigation items.
+ * @return array The list of registered navigation items.
  */
 function bp_get_component_navigations( $component = '' ) {
 	$args = array();

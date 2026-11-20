@@ -666,8 +666,8 @@ abstract class BP_Attachment {
 	 * @since 2.4.0
 	 *
 	 * @param string $file Absolute path to the uploaded image.
-	 * @return bool|array   An associate array containing the width, height and metadatas.
-	 *                      False in case an important image attribute is missing.
+	 * @return bool|array An associate array containing the width, height and metadatas.
+	 *                    False in case an important image attribute is missing.
 	 */
 	public static function get_image_data( $file ) {
 		// Try to get image basic data.

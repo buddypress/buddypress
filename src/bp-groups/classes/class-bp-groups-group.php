@@ -783,7 +783,7 @@ class BP_Groups_Group {
 	 * @since 2.9.0
 	 *
 	 * @param string $slug Slug to check.
-	 * @return int|null|false       Group ID if found; null if not; false if missing parameters.
+	 * @return int|null|false Group ID if found; null if not; false if missing parameters.
 	 */
 	public static function get_id_by_previous_slug( $slug ) {
 		if ( empty( $slug ) ) {
@@ -827,8 +827,8 @@ class BP_Groups_Group {
 	 *                           that haven't had an invite sent to them yet. If 1, this will query for
 	 *                           users that have had an invite sent to them. If null, no invite status will
 	 *                           queried. Default: null.
-	 * @return array    IDs of users who have been invited to the group by the user but have not
-	 *                  yet accepted.
+	 * @return array IDs of users who have been invited to the group by the user but have not
+	 *               yet accepted.
 	 */
 	public static function get_invites( $user_id, $group_id, $sent = null ) {
 		if ( 0 === $sent ) {

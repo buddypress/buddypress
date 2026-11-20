@@ -448,7 +448,7 @@ function bp_members_invitations_get_modified_registration_disabled_message() {
  * @param int|string $value    Optional. The value for the requested property.
  * @param string     $property Optional. The name of the requested property.
  * @param string     $context  Optional. The context of display.
- * @return int|string          The sanitized value.
+ * @return int|string The sanitized value.
  */
 function bp_members_sanitize_invitation_property( $value = '', $property = '', $context = 'html' ) {
 	if ( ! $property ) {

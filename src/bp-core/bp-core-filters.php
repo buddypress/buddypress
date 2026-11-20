@@ -522,7 +522,7 @@ add_filter( 'update_welcome_email', 'bp_core_filter_blog_welcome_email', 10, 4 )
  * @param string $user       The user's login name.
  * @param string $user_email The user's email address.
  * @param string $key        The activation key created in wpmu_signup_blog().
- * @return bool              Returns false to stop original WPMU function from continuing.
+ * @return bool Returns false to stop original WPMU function from continuing.
  */
 function bp_core_activation_signup_blog_notification( $domain, $path, $title, $user, $user_email, $key ) {
 	$is_signup_resend = false;
@@ -695,7 +695,7 @@ add_filter( 'signup_site_meta', 'bp_core_add_meta_to_multisite_signups' );
  * @param string $title       Optional. Original page title.
  * @param string $sep         Optional. How to separate the various items within the page title.
  * @param string $seplocation Optional. Direction to display title.
- * @return string              New page title.
+ * @return string New page title.
  */
 function bp_modify_page_title( $title = '', $sep = '&raquo;', $seplocation = 'right' ) {
 	global $paged, $page, $_wp_theme_features;
@@ -977,7 +977,7 @@ add_filter( 'customize_nav_menu_available_item_types', 'bp_customizer_nav_menus_
  *
  * @param WP_Post[] $pages Optional. Array of page objects.
  * @param array     $args  Optional. Array of get_pages() arguments.
- * @return WP_Post[]       Array of page objects, potentially including BP directories.
+ * @return WP_Post[] Array of page objects, potentially including BP directories.
  */
 function bp_core_include_directory_on_front( $pages = array(), $args = array() ) {
 	// Prevent duplicate "page on front" option values when the 'legacy' BuddyPress URL Parser is in use.
@@ -1376,7 +1376,7 @@ add_filter( 'bp_template_include', 'bp_core_render_email_template', 12 );
  * @since 6.0.0
  *
  * @param array $names Optional. The WordPress Multisite subdirectory reserved names.
- * @return array       The WordPress & BuddyPress Multisite subdirectory reserved names.
+ * @return array The WordPress & BuddyPress Multisite subdirectory reserved names.
  */
 function bp_core_components_subdirectory_reserved_names( $names = array() ) {
 	$bp_pages = (array) buddypress()->pages;
@@ -1392,7 +1392,7 @@ add_filter( 'subdirectory_reserved_names', 'bp_core_components_subdirectory_rese
  *
  * @param string       $link Optional. The post type link.
  * @param WP_Post|null $post Optional. The post type object.
- * @return string            The post type link.
+ * @return string The post type link.
  */
 function bp_get_post_type_link( $link = '', $post = null ) {
 	if ( 'rewrites' === bp_core_get_query_parser() && 'buddypress' === get_post_type( $post ) ) {

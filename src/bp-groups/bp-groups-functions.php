@@ -1974,8 +1974,8 @@ function groups_send_invites( ...$args ) {
  *                           that haven't had an invite sent to them yet. If 1, this will query for
  *                           users that have had an invite sent to them. If null, no invite status will
  *                           queried. Default: null.
- * @return array    IDs of users who have been invited to the group by the user but have not
- *                  yet accepted.
+ * @return array IDs of users who have been invited to the group by the user but have not
+ *               yet accepted.
  */
 function groups_get_invites_for_group( $user_id, $group_id, $sent = null ) {
 	return BP_Groups_Group::get_invites( $user_id, $group_id, $sent );
@@ -1989,7 +1989,7 @@ function groups_get_invites_for_group( $user_id, $group_id, $sent = null ) {
  * @param array $args     Optional. Invitation arguments.
  *                        See BP_Invitation::get() for list.
  *
- * @return array     Matching BP_Invitation objects.
+ * @return array Matching BP_Invitation objects.
  */
 function groups_get_invites( $args = array() ) {
 	$invites_class = new BP_Groups_Invitation_Manager();
@@ -2952,7 +2952,7 @@ function bp_get_group_type_tax_args() {
  * @since 7.0.0
  *
  * @param array $taxonomies Optional. BuddyPress default taxonomies.
- * @return array            BuddyPress default taxonomies.
+ * @return array BuddyPress default taxonomies.
  */
 function bp_groups_register_group_type_taxonomy( $taxonomies = array() ) {
 	return array_merge(
@@ -2991,7 +2991,7 @@ add_action( 'bp_register_taxonomies', 'bp_groups_register_group_types' );
  *
  * @param array  $schema   Optional. The generic Type metadata schema.
  * @param string $taxonomy Optional. The taxonomy name the schema applies to.
- * @return array           The Group Type metadata schema.
+ * @return array The Group Type metadata schema.
  */
 function bp_get_group_type_metadata_schema( $schema = array(), $taxonomy = '' ) {
 	if ( bp_get_group_type_tax_name() === $taxonomy ) {
@@ -3183,7 +3183,7 @@ function bp_groups_register_group_type( $group_type, $args = array() ) {
  * @param string       $operator Optional. The logical operation to perform. 'or' means only one
  *                               element from the array needs to match; 'and' means all elements
  *                               must match. Accepts 'or' or 'and'. Default 'and'.
- * @return array    A list of groups type names or objects.
+ * @return array A list of groups type names or objects.
  */
 function bp_groups_get_group_types( $args = array(), $output = 'names', $operator = 'and' ) {
 	$types = buddypress()->groups->types;
@@ -3466,7 +3466,7 @@ function bp_groups_remove_group_type( $group_id, $group_type ) {
  *
  * @param int    $group_id   ID of the group.
  * @param string $group_type Group type.
- * @return bool   Whether the group has the give group type.
+ * @return bool Whether the group has the give group type.
  */
 function bp_groups_has_group_type( $group_id, $group_type ) {
 	if ( empty( $group_type ) || ! bp_groups_get_group_type_object( $group_type ) ) {
@@ -3880,7 +3880,7 @@ function bp_groups_migrate_invitations() {
  *               registered.
  *
  * @param string $group_extension_class Optional. Name of the Extension class.
- * @return bool                         Returns true on success, otherwise false.
+ * @return bool Returns true on success, otherwise false.
  */
 function bp_register_group_extension( $group_extension_class = '' ) {
 	if ( ! class_exists( $group_extension_class ) ) {
@@ -3993,7 +3993,7 @@ function bp_get_group_restricted_screens() {
  * @since 12.0.0
  *
  * @param string $context Optional. The display context. Required. Defaults to `read`.
- * @return array          The list of registered Group Extension screens.
+ * @return array The list of registered Group Extension screens.
  */
 function bp_get_group_extension_screens( $context = 'read' ) {
 	$bp = buddypress();
@@ -4039,7 +4039,7 @@ function bp_get_group_extension_screens( $context = 'read' ) {
  * @param string $context  Optional. The display context. Required. Defaults to `read`.
  *                         Possible values are `read`, `manage` or `create`.
  * @param bool   $built_in Optional. True to only get builtin screens. False otherwise.
- * @return array            The list of potential Group screens.
+ * @return array The list of potential Group screens.
  */
 function bp_get_group_screens( $context = 'read', $built_in = false ) {
 	$screens = array(

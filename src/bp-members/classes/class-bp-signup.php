@@ -731,7 +731,7 @@ class BP_Signup {
 	 * @since 2.0.0
 	 *
 	 * @param int $user_id Optional. ID of the user being checked.
-	 * @return int|bool          The status if found, otherwise false.
+	 * @return int|bool The status if found, otherwise false.
 	 */
 	public static function check_user_status( $user_id = 0 ) {
 		if ( empty( $user_id ) ) {

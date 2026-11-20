@@ -91,7 +91,7 @@ function bp_nouveau_messages_enqueue_scripts() {
  * @since 3.0.0
  *
  * @param array $params Optional. Associative array containing the JS Strings needed by scripts.
- * @return array         The same array with specific strings for the messages UI if needed.
+ * @return array The same array with specific strings for the messages UI if needed.
  */
 function bp_nouveau_messages_localize_scripts( $params = array() ) {
 	if ( ! bp_is_user_messages() ) {
@@ -262,7 +262,7 @@ function bp_nouveau_messages_adjust_admin_nav( $admin_nav ) {
  *
  * @param false|array $notifications False if there are no items, an array of notification items otherwise.
  * @param int         $user_id       The user ID.
- * @return false|array               False if there are no items, an array of notification items otherwise.
+ * @return false|array False if there are no items, an array of notification items otherwise.
  */
 function bp_nouveau_add_notice_notification_for_user( $notifications, $user_id ) {
 	if ( ! bp_is_active( 'messages' ) || ! doing_action( 'admin_bar_menu' ) ) {
@@ -515,7 +515,7 @@ function bp_nouveau_messages_notification_filters() {
  * @since 3.0.1
  *
  * @param array $hooks Optional. The list of hooks to fire.
- * @return array       An associative containing the caught content.
+ * @return array An associative containing the caught content.
  */
 function bp_nouveau_messages_catch_hook_content( $hooks = array() ) {
 	$content = array();

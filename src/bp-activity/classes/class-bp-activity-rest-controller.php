@@ -971,7 +971,7 @@ class BP_Activity_REST_Controller extends WP_REST_Controller {
 	 *
 	 * @param array           $comments Array of comments.
 	 * @param WP_REST_Request $request  Full details about the request.
-	 * @return array           An array of activity comments.
+	 * @return array An array of activity comments.
 	 */
 	protected function prepare_activity_comments( $comments, $request ) {
 		$data = array();
