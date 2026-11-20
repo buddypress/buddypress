@@ -1172,7 +1172,7 @@ function bp_admin_wp_nav_menu_meta_box() {
  *
  * @param null     $nil      A null value.
  * @param WP_Query $wp_query The WP_Query instance (passed by reference).
- * @return array   The BP Member nav items to short-circuit WP's query,
+ * @return array The BP Member nav items to short-circuit WP's query,
  */
 function bp_admin_get_wp_nav_menu_items( $nil, $wp_query ) {
 	if ( isset( $wp_query->query['orderby'], $wp_query->query['order'] ) && 'post_date' === $wp_query->query['orderby'] && 'DESC' === $wp_query->query['order'] ) {

@@ -1781,7 +1781,7 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/6813
+	 * @link https://buddypress.trac.wordpress.org/ticket/6813
 	 */
 	public function test_total_group_count_should_return_integer() {
 		$this->assertIsInt( BP_Groups_Member::total_group_count( 123 ) );
@@ -1820,7 +1820,7 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/7382
+	 * @link https://buddypress.trac.wordpress.org/ticket/7382
 	 */
 	public function test_user_property_should_be_accessible() {
 		$user = self::factory()->user->create();
@@ -1851,7 +1851,7 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/7859
+	 * @link https://buddypress.trac.wordpress.org/ticket/7859
 	 */
 	public function test_get_user_memberships_type_membership() {
 		groups_join_group( self::$group_ids[0], self::$user_ids[0] );
@@ -1865,7 +1865,7 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/7476
+	 * @link https://buddypress.trac.wordpress.org/ticket/7476
 	 */
 	public function test_delete_all_for_user() {
 		$new_user = self::factory()->user->create();

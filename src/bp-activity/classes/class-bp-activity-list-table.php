@@ -789,8 +789,8 @@ class BP_Activity_List_Table extends WP_List_Table {
 			 *
 			 * @since  2.4.0
 			 *
-			 * @param  string $content The activity content.
-			 * @param  array  $item    The activity object converted into an array.
+			 * @param string $content The activity content.
+			 * @param array  $item    The activity object converted into an array.
 			 */
 			'bp_activity_admin_comment_content',
 			$content,
@@ -890,7 +890,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 		 *
 		 * @since 2.4.0
 		 *
-		 * @param string $value       Empty string.
+		 * @param string $value       Custom activity column content. Empty by default.
 		 * @param string $column_name Name of the column being rendered.
 		 * @param array  $item        The current activity item in the loop.
 		 */
@@ -945,8 +945,8 @@ class BP_Activity_List_Table extends WP_List_Table {
 	/**
 	 * Checks if an activity item can be replied to.
 	 *
-	 * This method merges functionality from {@link bp_activity_can_comment()} and
-	 * {@link bp_blogs_disable_activity_commenting()}. This is done because the activity
+	 * This method merges functionality from {@see bp_activity_can_comment()} and
+	 * {@see bp_blogs_disable_activity_commenting()}. This is done because the activity
 	 * list table doesn't use a BuddyPress activity loop, which prevents those
 	 * functions from working as intended.
 	 *

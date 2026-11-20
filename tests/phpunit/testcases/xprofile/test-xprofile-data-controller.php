@@ -275,7 +275,7 @@ class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Tes
 
 	/**
 	 *
-	 * @see https://buddypress.trac.wordpress.org/ticket/9127
+	 * @link https://buddypress.trac.wordpress.org/ticket/9127
 	 */
 	public function test_update_multiselectbox_with_apostrophe_value() {
 		$field_id = $this->bp::factory()->xprofile_field->create(
@@ -327,7 +327,7 @@ class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Tes
 
 	/**
 	 *
-	 * @see https://buddypress.trac.wordpress.org/ticket/9127
+	 * @link https://buddypress.trac.wordpress.org/ticket/9127
 	 */
 	public function test_update_checkbox_with_apostrophe_value() {
 		$field_id = $this->bp::factory()->xprofile_field->create(
@@ -406,7 +406,7 @@ class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Tes
 
 	/**
 	 *
-	 * @see https://buddypress.trac.wordpress.org/ticket/9127
+	 * @link https://buddypress.trac.wordpress.org/ticket/9127
 	 */
 	public function test_update_textbox_with_apostrophe_value() {
 		$field_id = $this->bp::factory()->xprofile_field->create(

@@ -7,7 +7,7 @@
 class BP_Tests_Group_Cache extends BP_UnitTestCase {
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/8552
+	 * @link https://buddypress.trac.wordpress.org/ticket/8552
 	 */
 	public function test_query_cache_results() {
 		global $wpdb;
@@ -41,7 +41,7 @@ class BP_Tests_Group_Cache extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/8552
+	 * @link https://buddypress.trac.wordpress.org/ticket/8552
 	 */
 	public function test_random_query_cache_results() {
 		global $wpdb;
@@ -307,7 +307,7 @@ class BP_Tests_Group_Cache extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/9000
+	 * @link https://buddypress.trac.wordpress.org/ticket/9000
 	 */
 	public function test_groups_get_groups_for_user_cache_once_left() {
 		$g = self::factory()->group->create();
@@ -327,7 +327,7 @@ class BP_Tests_Group_Cache extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/9000
+	 * @link https://buddypress.trac.wordpress.org/ticket/9000
 	 */
 	public function test_groups_get_groups_for_user_cache_once_removed() {
 		$g = self::factory()->group->create();

@@ -18,7 +18,7 @@ class BP_Tests_Core_Nav_BpGetNavMenuItems extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/7110
+	 * @link https://buddypress.trac.wordpress.org/ticket/7110
 	 */
 	public function test_top_level_link_should_point_to_displayed_user_for_loggedin_user() {
 		$users = self::factory()->user->create_many( 2 );
@@ -44,7 +44,7 @@ class BP_Tests_Core_Nav_BpGetNavMenuItems extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/7110
+	 * @link https://buddypress.trac.wordpress.org/ticket/7110
 	 */
 	public function test_top_level_link_should_point_to_displayed_user_for_loggedout_user() {
 		$user = self::factory()->user->create();

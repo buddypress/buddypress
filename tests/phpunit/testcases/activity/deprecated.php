@@ -274,7 +274,7 @@ class BP_Tests_Activity_Deprecated extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/8596
+	 * @link https://buddypress.trac.wordpress.org/ticket/8596
 	 * @expectedDeprecated BP_Activity_Activity::get_id
 	 */
 	public function test_get_id_with_deprecated_args() {

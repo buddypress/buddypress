@@ -26,7 +26,7 @@ class BP_Tests_Routing_Groups extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/9330
+	 * @link https://buddypress.trac.wordpress.org/ticket/9330
 	 * @dataProvider groups_homepage_urls
 	 */
 	public function test_groups_directory_as_homepage( $query_string ) {
@@ -229,7 +229,7 @@ class BP_Tests_Routing_Groups extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/9019
+	 * @link https://buddypress.trac.wordpress.org/ticket/9019
 	 * @dataProvider group_creation_steps
 	 */
 	public function test_bp_is_group_during_group_creation( $step, $resumed ) {
@@ -283,7 +283,7 @@ class BP_Tests_Routing_Groups extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/9019
+	 * @link https://buddypress.trac.wordpress.org/ticket/9019
 	 * @dataProvider non_single_group_pages
 	 */
 	public function test_bp_is_group_on_directory_and_non_group_pages( $page ) {
@@ -317,7 +317,7 @@ class BP_Tests_Routing_Groups extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/9019
+	 * @link https://buddypress.trac.wordpress.org/ticket/9019
 	 */
 	public function test_bp_is_group_when_groups_are_inactive() {
 		$active_components = buddypress()->active_components;
@@ -332,7 +332,7 @@ class BP_Tests_Routing_Groups extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/9019
+	 * @link https://buddypress.trac.wordpress.org/ticket/9019
 	 */
 	public function test_bp_is_group_on_single_group_pages() {
 		$g = self::factory()->group->create();

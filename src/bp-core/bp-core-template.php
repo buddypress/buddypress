@@ -564,7 +564,7 @@ function bp_get_search_placeholder( $component = '' ) {
  *
  * @see bp_get_search_default_text()
  *
- * @param string $component Optional. See {@link bp_get_search_default_text()}.
+ * @param string $component Optional. See {@see bp_get_search_default_text()}.
  */
 function bp_search_default_text( $component = '' ) {
 	echo esc_attr( bp_get_search_default_text( $component ) );
@@ -701,7 +701,7 @@ function bp_form_field_attributes( $name = '', $attributes = array() ) {
  *
  * @see bp_get_button()
  *
- * @param array|string $args Optional. See {@link BP_Button}.
+ * @param array|string $args Optional. See {@see BP_Button}.
  */
 function bp_button( $args = '' ) {
 	// Escaping is done in `BP_Core_HTML_Element()`.
@@ -715,7 +715,7 @@ function bp_button( $args = '' ) {
 	 *
 	 * @see BP_Button for a description of arguments and return value.
 	 *
-	 * @param array|string $args Optional. See {@link BP_Button}.
+	 * @param array|string $args Optional. See {@see BP_Button}.
 	 * @return string HTML markup for the button.
 	 */
 	function bp_get_button( $args = '' ) {

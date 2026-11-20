@@ -178,7 +178,7 @@ class BP_Notifications_Template {
 	 * @since 1.9.0
 	 *
 	 * @param array $args {
-	 *     Optional. An array of arguments. See {@link bp_has_notifications()}
+	 *     Optional. An array of arguments. See {@see bp_has_notifications()}
 	 *     for more details.
 	 * }.
 	 */
@@ -322,7 +322,7 @@ class BP_Notifications_Template {
 	/**
 	 * Whether there are notifications left in the loop to iterate over.
 	 *
-	 * This method is used by {@link bp_notifications()} as part of the
+	 * This method is used by {@see bp_notifications()} as part of the
 	 * while loop that controls iteration inside the notifications loop, eg:
 	 *     while ( bp_notifications() ) { ...
 	 *
@@ -357,7 +357,7 @@ class BP_Notifications_Template {
 	/**
 	 * Set up the current notification inside the loop.
 	 *
-	 * Used by {@link bp_the_notification()} to set up the current
+	 * Used by {@see bp_the_notification()} to set up the current
 	 * notification data while looping, so that template tags used during
 	 * that iteration make reference to the current notification.
 	 *

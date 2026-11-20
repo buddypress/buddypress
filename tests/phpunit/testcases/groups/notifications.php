@@ -182,7 +182,7 @@ class BP_Tests_Groups_Notifications extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/7375
+	 * @link https://buddypress.trac.wordpress.org/ticket/7375
 	 */
 	public function test_membership_request_notifications_should_be_cleared_when_request_is_accepted() {
 		$users = self::factory()->user->create_many( 3 );

@@ -339,7 +339,7 @@ add_filter( 'bp_members_ms_signup_row_actions', 'bp_members_membership_requests_
  * @since 10.0.0
  *
  * @param array $actions Array of actions and corresponding links.
- * @return array         List of actions and corresponding links.
+ * @return array List of actions and corresponding links.
  */
 function bp_members_membership_requests_filter_signup_bulk_actions( $actions ) {
 	// Rename the "email" resend option when membership requests are active.
@@ -370,7 +370,7 @@ add_filter( 'bp_members_ms_signup_columns', 'bp_members_membership_requests_filt
  *
  * @param string      $message "Not yet sent" message.
  * @param object|null $signup  Signup object instance.
- * @return string              "Not yet approved" message, if needed. Unchanged message otherwise.
+ * @return string "Not yet approved" message, if needed. Unchanged message otherwise.
  */
 function bp_members_membership_requests_filter_signup_table_unsent_message( $message, $signup ) {
 	if ( 0 === $signup->count_sent ) {
@@ -409,7 +409,7 @@ add_action( 'bp_login_widget_form', 'bp_members_membership_requests_add_link_to_
  * @since 10.0.0
  *
  * @param string $link The HTML code for the link to the Registration or Admin page.
- * @return string      An empty string or the HTML code for the link to the Membership request page.
+ * @return string An empty string or the HTML code for the link to the Membership request page.
  */
 function bp_members_membership_requests_filter_sidebar_register_link( $link ) {
 	// $link should be an empty string when public registration is disabled.

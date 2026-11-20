@@ -3010,7 +3010,7 @@ class BP_Members_Admin {
 	 * @since 2.8.0
 	 * @deprecated 10.0.0
 	 *
-	 * @param string|array $value Field value.
+	 * @param string|array $value Profile field data to format for display.
 	 * @return string
 	 */
 	protected function format_xprofile_field_for_display( $value ) {

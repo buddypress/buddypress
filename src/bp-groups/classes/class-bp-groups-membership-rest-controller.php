@@ -213,7 +213,7 @@ class BP_Groups_Membership_REST_Controller extends WP_REST_Controller {
 	 *
 	 * @since 15.0.0
 	 *
-	 * @param  WP_REST_Request $request Full data about the request.
+	 * @param WP_REST_Request $request Full data about the request.
 	 * @return WP_REST_Response|WP_Error
 	 */
 	public function create_item( $request ) {
@@ -431,7 +431,7 @@ class BP_Groups_Membership_REST_Controller extends WP_REST_Controller {
 	 *
 	 * @since 15.0.0
 	 *
-	 * @param  WP_REST_Request $request Full details about the request.
+	 * @param WP_REST_Request $request Full details about the request.
 	 * @return true|WP_Error
 	 */
 	public function update_item_permissions_check( $request ) {
@@ -571,7 +571,7 @@ class BP_Groups_Membership_REST_Controller extends WP_REST_Controller {
 	 *
 	 * @since 15.0.0
 	 *
-	 * @param  WP_REST_Request $request Full details about the request.
+	 * @param WP_REST_Request $request Full details about the request.
 	 * @return true|WP_Error
 	 */
 	public function delete_item_permissions_check( $request ) {

@@ -77,7 +77,7 @@ function bp_nouveau_get_blogs_directory_nav_items() {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param  array $nav_items The list of the blogs directory nav items.
+	 * @param array $nav_items The list of the blogs directory nav items.
 	 */
 	return apply_filters( 'bp_nouveau_get_blogs_directory_nav_items', $nav_items );
 }

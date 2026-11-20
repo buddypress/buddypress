@@ -1785,8 +1785,8 @@ function bp_attachments_get_mime_type( $file = '' ) {
  * @since 10.2.0
  *
  * @param SplFileInfo $file The SplFileInfo file object.
- * @return null|object      Null if the file is not supported by WordPress.
- *                          A BP Attachments file object otherwise.
+ * @return null|object Null if the file is not supported by WordPress.
+ *                     A BP Attachments file object otherwise.
  */
 function bp_attachments_get_file_object( SplFileInfo $file ) {
 	$path      = $file->getPathname();
@@ -1817,7 +1817,7 @@ function bp_attachments_get_file_object( SplFileInfo $file ) {
  * @since 10.0.0
  *
  * @param string $directory_path Optional. Absolute path of a directory.
- * @return array                 The file objects list of the directory.
+ * @return array The file objects list of the directory.
  */
 function bp_attachments_list_directory_files( $directory_path = '' ) {
 	if ( ! is_dir( $directory_path ) ) {
@@ -1847,7 +1847,7 @@ function bp_attachments_list_directory_files( $directory_path = '' ) {
  *
  * @param string $directory_path Optional. Absolute path of a directory.
  * @param string $find           Optional. The file ID to find into the directory or its children.
- * @return array                 The file objects list of the directory and subdirectories.
+ * @return array The file objects list of the directory and subdirectories.
  */
 function bp_attachments_list_directory_files_recursively( $directory_path = '', $find = '' ) {
 	if ( ! is_dir( $directory_path ) ) {

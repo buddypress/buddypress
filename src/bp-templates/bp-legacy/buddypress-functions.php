@@ -511,7 +511,7 @@ class BP_Legacy extends BP_Theme_Compat {
 	 *
 	 * @since 1.7.0
 	 *
-	 * @see https://buddypress.trac.wordpress.org/ticket/4802
+	 * @link https://buddypress.trac.wordpress.org/ticket/4802
 	 */
 	public function sitewide_notices() {
 		// Do not show notices if user is not logged in.
@@ -557,11 +557,11 @@ class BP_Legacy extends BP_Theme_Compat {
 	 * Filter the default theme compatibility root template hierarchy, and prepend
 	 * a page template to the front if it's set.
 	 *
-	 * @see https://buddypress.trac.wordpress.org/ticket/6065
+	 * @link https://buddypress.trac.wordpress.org/ticket/6065
 	 *
 	 * @since 2.2.0
 	 *
-	 * @param  array $templates Optional. Array of templates.
+	 * @param array $templates Optional. Array of templates.
 	 *                         to use the defined page template for component's directory and its single items.
 	 * @return array
 	 */
@@ -1956,7 +1956,7 @@ function bp_legacy_theme_ajax_messages_star_handler() {
  *
  * @since  2.4.0
  *
- * @param  array $params Optional. The current component's feature parameters.
+ * @param array $params Optional. The current component's feature parameters.
  * @return null|string An array to inform about the css handle to attach the css rules to
  */
 function bp_legacy_theme_cover_image( $params = array() ) {

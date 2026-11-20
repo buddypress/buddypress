@@ -218,7 +218,7 @@ add_filter( 'block_editor_rest_api_preload_paths', 'bp_blocks_preload_paths' );
  * @since 6.0.0
  *
  * @param array $args Optional. The registration arguments for the block type.
- * @return BP_Block   The BuddyPress block type object.
+ * @return BP_Block The BuddyPress block type object.
  */
 function bp_register_block( $args = array() ) {
 	if ( isset( $args['metadata'] ) && is_string( $args['metadata'] ) && file_exists( $args['metadata'] ) ) {
@@ -289,7 +289,7 @@ add_filter( 'widget_block_dynamic_classname', 'bp_widget_block_dynamic_classname
  *
  * @param string $content Optional. Content to display. Default empty.
  * @param array  $args    Optional. Array of login form arguments.
- * @return string         HTML output.
+ * @return string HTML output.
  */
 function bp_blocks_get_login_widget_registration_link( $content = '', $args = array() ) {
 	if ( isset( $args['form_id'] ) && 'bp-login-widget-form' === $args['form_id'] ) {
@@ -335,7 +335,7 @@ function bp_blocks_get_login_widget_registration_link( $content = '', $args = ar
  * @since 9.0.0
  *
  * @param array $attributes Optional. The block attributes.
- * @return string           HTML output.
+ * @return string HTML output.
  */
 function bp_block_render_login_form_block( $attributes = array() ) {
 	$block_args = bp_parse_args(

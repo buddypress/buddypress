@@ -1230,9 +1230,9 @@ class BP_Activity_Activity {
 	 *
 	 * @since 2.2.0
 	 *
-	 * @param  mixed $scope  Optional. The activity scope. Accepts string or array of scopes.
-	 * @param  array $r      Optional. Current activity arguments. Same as those of BP_Activity_Activity::get(),
-	 *                       but merged with defaults.
+	 * @param mixed $scope  Optional. The activity scope. Accepts string or array of scopes.
+	 * @param array $r      Optional. Current activity arguments. Same as those of BP_Activity_Activity::get(),
+	 *                      but merged with defaults.
 	 * @return false|array 'sql' WHERE SQL string and 'override' activity args.
 	 */
 	public static function get_scope_query_sql( $scope = false, $r = array() ) {
@@ -1281,7 +1281,7 @@ class BP_Activity_Activity {
 			 *     Activity query clauses.
 			 *     @type array {
 			 *         Activity arguments for your custom scope.
-			 *         See {@link BP_Activity_Query::_construct()} for more details.
+			 *         See {@see BP_Activity_Query::_construct()} for more details.
 			 *     }
 			 *     @type array  $override Optional. Override existing activity arguments passed by $r.
 			 *     }

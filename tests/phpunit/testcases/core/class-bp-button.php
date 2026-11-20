@@ -164,7 +164,7 @@ class BP_Tests_BP_Button extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/7226
+	 * @link https://buddypress.trac.wordpress.org/ticket/7226
 	 */
 	public function test_bp_button_new_args() {
 		$b = new BP_Button( array(
@@ -201,7 +201,7 @@ class BP_Tests_BP_Button extends BP_UnitTestCase {
 
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/7226
+	 * @link https://buddypress.trac.wordpress.org/ticket/7226
 	 */
 	public function test_bp_button_new_element_attrs_should_not_render_for_empty_attrs() {
 		$b = new BP_Button( array(

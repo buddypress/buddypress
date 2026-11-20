@@ -395,7 +395,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/9160
+	 * @link https://buddypress.trac.wordpress.org/ticket/9160
 	 */
 	public function test_get_thread_deleted_messages() {
 		$u1           = static::factory()->user->create();
@@ -529,7 +529,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 	/**
 	 * @dataProvider provider_create_item_with_empty_content_options
 	 *
-	 * @see https://buddypress.trac.wordpress.org/ticket/9175
+	 * @link https://buddypress.trac.wordpress.org/ticket/9175
 	 *
 	 * @param mixed $content Empty message content to test.
 	 */
@@ -554,7 +554,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 	}
 
 	/**
-	 * @see https://buddypress.trac.wordpress.org/ticket/9175
+	 * @link https://buddypress.trac.wordpress.org/ticket/9175
 	 */
 	public function test_create_item_with_null_content() {
 		wp_set_current_user( $this->user );
@@ -580,7 +580,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 	/**
 	 * @dataProvider provider_create_item_irregular_content_options
 	 *
-	 * @see https://buddypress.trac.wordpress.org/ticket/9175
+	 * @link https://buddypress.trac.wordpress.org/ticket/9175
 	 *
 	 * @param string $content Irregular message content to test.
 	 */
