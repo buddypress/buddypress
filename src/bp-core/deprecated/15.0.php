@@ -485,3 +485,45 @@ function xprofile_activity_filter_options() {
 
 	<?php
 }
+
+/**
+ * Reject a legacy AJAX request to mark a message as unread.
+ *
+ * Previously marked deprecated in 2.2.0 without a runtime notice.
+ *
+ * @since 1.2.0
+ * @deprecated 15.0.0
+ */
+function bp_legacy_theme_ajax_message_markunread() {
+	_deprecated_function( __FUNCTION__, '15.0.0' );
+
+	die( '-1' );
+}
+
+/**
+ * Reject a legacy AJAX request to mark a message as read.
+ *
+ * Previously marked deprecated in 2.2.0 without a runtime notice.
+ *
+ * @since 1.2.0
+ * @deprecated 15.0.0
+ */
+function bp_legacy_theme_ajax_message_markread() {
+	_deprecated_function( __FUNCTION__, '15.0.0' );
+
+	die( '-1' );
+}
+
+/**
+ * Reject a legacy AJAX request to delete messages.
+ *
+ * Previously marked deprecated in 2.2.0 without a runtime notice.
+ *
+ * @since 1.2.0
+ * @deprecated 15.0.0
+ */
+function bp_legacy_theme_ajax_messages_delete() {
+	_deprecated_function( __FUNCTION__, '15.0.0' );
+
+	die( '-1' );
+}
