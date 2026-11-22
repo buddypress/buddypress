@@ -1,8 +1,10 @@
 <?php
 
 require_once __DIR__ . '/factory.php';
+require_once __DIR__ . '/trait-phpunit-annotations.php';
 
 class BP_UnitTestCase extends WP_UnitTestCase {
+	use BP_PHPUnit_Annotations;
 
 	/**
 	 * Temp storage for users who have the bp_moderate capability.

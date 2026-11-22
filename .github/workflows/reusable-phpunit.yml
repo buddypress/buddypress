@@ -48,6 +48,7 @@ jobs:
       WP_INSTALL_CORE_TEST_SUITE: 'true'
       OBJECT_CACHE: ${{ matrix.object }}
       TEST_SCRIPT: both
+      PHPUNIT_MAJOR: ${{ matrix.phpunit_major }}
     steps:
       - name: Explain experimental coverage
         if: matrix.experimental

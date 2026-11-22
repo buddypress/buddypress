@@ -652,7 +652,7 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 		}
 	}
 
-	public function data_avatar_history() {
+	public static function data_avatar_history() {
 		return array(
 			'avatar history enabled'  => array( false ),
 			'avatar history disabled' => array( true ),
