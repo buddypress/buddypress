@@ -159,7 +159,7 @@ class BP_Tests_BP_Component_TestCases extends BP_UnitTestCase {
 		}
 	}
 
-	public function rest_controller_filters() {
+	public static function rest_controller_filters() {
 		return array(
 			'allowed controller' => array( array( 'BP_Core_Components_REST_Controller' ), true ),
 			'disabled controller' => array( array(), false ),
