@@ -460,8 +460,9 @@ class BP_Legacy extends BP_Theme_Compat {
 
 		foreach ( $locations as $location ) {
 			foreach ( $subdirs as $subdir ) {
-				if ( file_exists( trailingslashit( $location['dir'] ) . trailingslashit( $subdir ) . $location['file'] ) ) {
-					$retval['location'] = trailingslashit( $location['uri'] ) . trailingslashit( $subdir ) . $location['file'];
+				$asset_file = trailingslashit( $location['dir'] ) . trailingslashit( $subdir ) . $location['file'];
+				if ( file_exists( $asset_file ) ) {
+					$retval['location'] = bp_get_template_asset_uri( $asset_file, $location['dir'], $location['uri'] );
 					$retval['handle']   = ( $script_handle ) ? $script_handle : "{$location['type']}-{$type}";
 
 					break 2;

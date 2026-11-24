@@ -252,25 +252,181 @@ function bp_locate_template_asset( $filename ) {
 		return false;
 	}
 
-	// Set up data array.
-	$data         = array();
-	$data['uri']  = $located;
-	$data['file'] = $data['uri'];
+	return array(
+		'uri'  => bp_get_template_asset_uri( $located ),
+		'file' => $located,
+	);
+}
 
-	$find = array(
-		get_theme_root(),
-		bp_get_theme_compat_dir(),
+/**
+ * Get the public URL for a located template asset.
+ *
+ * @since 15.0.0
+ *
+ * @param string $file                Absolute path to an asset.
+ * @param string $preferred_directory Optional. Directory that supplied the asset.
+ * @param string $preferred_url       Optional. Public URL paired with that directory.
+ * @return string Asset URL, or the original path if no URL can be determined.
+ */
+function bp_get_template_asset_uri( $file, $preferred_directory = '', $preferred_url = '' ) {
+	global $wp_plugin_paths;
+
+	$normalized_file = wp_normalize_path( $file );
+	$real_file       = realpath( $file );
+	$real_file       = false !== $real_file ? wp_normalize_path( $real_file ) : $normalized_file;
+	$locations       = array();
+
+	/**
+	 * Filters custom directory and URL pairs for template assets.
+	 *
+	 * Keys are template-stack directory paths and values are their public base URLs.
+	 * Place more specific directories before broader directories.
+	 *
+	 * @since 15.0.0
+	 *
+	 * @param array  $directories Directory paths keyed to public base URLs.
+	 * @param string $file        Asset file path.
+	 */
+	$custom_dirs = (array) apply_filters( 'bp_template_asset_directory_urls', array(), $file );
+	foreach ( $custom_dirs as $directory => $url ) {
+		if ( is_string( $directory ) && is_string( $url ) && '' !== $directory && '' !== $url ) {
+			$locations[] = array(
+				'directory' => $directory,
+				'url'       => $url,
+			);
+		}
+	}
+
+	// Preserve a caller's known directory and URL pair before broader locations.
+	if ( is_string( $preferred_directory ) && is_string( $preferred_url ) && '' !== $preferred_directory && '' !== $preferred_url ) {
+		$locations[] = array(
+			'directory' => $preferred_directory,
+			'url'       => $preferred_url,
+		);
+	}
+
+	// Match the active themes before the theme package, which may share a physical target.
+	$locations[] = array(
+		'directory' => get_stylesheet_directory(),
+		'url'       => get_stylesheet_directory_uri(),
+	);
+	$locations[] = array(
+		'directory' => get_template_directory(),
+		'url'       => get_template_directory_uri(),
+	);
+	$locations[] = array(
+		'directory' => bp_get_theme_compat_dir(),
+		'url'       => bp_get_theme_compat_url(),
 	);
 
-	$replace = array(
-		get_theme_root_uri(),
-		bp_get_theme_compat_url(),
+	// Resolve the physical target of a symlinked BuddyPress directory first.
+	$bp = buddypress();
+	if ( ! empty( $bp->plugin_dir ) && ! empty( $bp->plugin_url ) ) {
+		$bp_dir      = trailingslashit( wp_normalize_path( $bp->plugin_dir ) );
+		$bp_real_dir = realpath( $bp_dir );
+		if ( false !== $bp_real_dir ) {
+			$bp_real_dir = trailingslashit( wp_normalize_path( $bp_real_dir ) );
+			if ( $bp_real_dir !== $bp_dir ) {
+				$locations[] = array(
+					'directory' => $bp_real_dir,
+					'url'       => $bp->plugin_url,
+				);
+			}
+		}
+	}
+	$locations[] = array(
+		'directory' => get_theme_root(),
+		'url'       => get_theme_root_uri(),
 	);
 
-	// Make sure URI path is relative to site URL.
-	$data['uri'] = str_replace( $find, $replace, $data['uri'] );
+	// WordPress resolves filtered plugin URLs, including plugin roots outside wp-content.
+	foreach ( (array) $wp_plugin_paths as $logical_directory => $real_directory ) {
+		if ( is_string( $logical_directory ) && is_string( $real_directory ) && '' !== $logical_directory && '' !== $real_directory ) {
+			$locations[] = array(
+				'directory' => $real_directory,
+				'logical'   => $logical_directory,
+				'type'      => 'plugin',
+			);
+		}
+	}
 
-	return $data;
+	$locations[] = array(
+		'directory' => WP_PLUGIN_DIR,
+		'type'      => 'plugin',
+	);
+	$locations[] = array(
+		'directory' => WPMU_PLUGIN_DIR,
+		'type'      => 'plugin',
+	);
+	if ( ! empty( $bp->plugin_dir ) && ! empty( $bp->plugin_url ) ) {
+		$bp_dir = trailingslashit( wp_normalize_path( $bp->plugin_dir ) );
+
+		$locations[] = array(
+			'directory' => $bp_dir,
+			'url'       => $bp->plugin_url,
+		);
+	}
+	$locations[] = array(
+		'directory' => WP_CONTENT_DIR,
+		'type'      => 'content',
+	);
+
+	foreach ( $locations as $location ) {
+		$relative = bp_get_template_asset_relative_path( $normalized_file, $real_file, $location['directory'] );
+		if ( false === $relative ) {
+			continue;
+		}
+
+		if ( array_key_exists( 'url', $location ) ) {
+			if ( ! is_string( $location['url'] ) || '' === $location['url'] ) {
+				continue;
+			}
+
+			return trailingslashit( $location['url'] ) . $relative;
+		}
+
+		if ( 'plugin' === $location['type'] ) {
+			$logical_directory = isset( $location['logical'] ) ? $location['logical'] : $location['directory'];
+			$logical_file      = trailingslashit( $logical_directory ) . $relative;
+			return plugins_url( basename( $logical_file ), $logical_file );
+		}
+
+		return content_url( '/' . $relative );
+	}
+
+	return $file;
+}
+
+/**
+ * Get an asset path relative to a directory or its symlink target.
+ *
+ * @since 15.0.0
+ * @access private
+ *
+ * @param string $file      Normalized asset path.
+ * @param string $real_file Resolved asset path, if available.
+ * @param string $directory Directory to match.
+ * @return string|false Relative path if matched, otherwise false.
+ */
+function bp_get_template_asset_relative_path( $file, $real_file, $directory ) {
+	if ( ! is_string( $directory ) || '' === $directory ) {
+		return false;
+	}
+
+	$directory = trailingslashit( wp_normalize_path( $directory ) );
+	if ( 0 === strpos( $file, $directory ) ) {
+		return substr( $file, strlen( $directory ) );
+	}
+
+	$real_dir = realpath( $directory );
+	if ( false !== $real_dir ) {
+		$real_dir = trailingslashit( wp_normalize_path( $real_dir ) );
+		if ( 0 === strpos( $real_file, $real_dir ) ) {
+			return substr( $real_file, strlen( $real_dir ) );
+		}
+	}
+
+	return false;
 }
 
 /**
