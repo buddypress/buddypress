@@ -114,6 +114,14 @@ class BP_XProfile_Query {
 					unset( $query['value'] );
 				}
 
+				// An empty value can turn this clause into a nested query.
+				if ( ! $this->is_first_order_clause( $query ) ) {
+					$query = $this->sanitize_query( $query );
+				} elseif ( array_key_exists( 'relation', $query ) ) {
+					// A first-order clause has no relation of its own, but never store an unvalidated one.
+					$query['relation'] = $this->sanitize_relation( $query['relation'] );
+				}
+
 				$clean_queries[] = $query;
 
 			// Otherwise, it's a nested query, so we recurse.
@@ -131,7 +139,7 @@ class BP_XProfile_Query {
 		}
 
 		// Sanitize the 'relation' key provided in the query.
-		if ( isset( $relation ) && 'OR' === strtoupper( $relation ) ) {
+		if ( isset( $relation ) && 'OR' === $this->sanitize_relation( $relation ) ) {
 			$clean_queries['relation'] = 'OR';
 
 		/*
@@ -148,6 +156,22 @@ class BP_XProfile_Query {
 		}
 
 		return $clean_queries;
+	}
+
+	/**
+	 * Sanitize a 'relation' operator.
+	 *
+	 * @since 11.6.5
+	 *
+	 * @param mixed $relation Relation to sanitize.
+	 * @return string Either 'AND' or 'OR'.
+	 */
+	private function sanitize_relation( $relation ) {
+		if ( is_string( $relation ) && 'OR' === strtoupper( $relation ) ) {
+			return 'OR';
+		} else {
+			return 'AND';
+		}
 	}
 
 	/**
@@ -254,7 +278,8 @@ class BP_XProfile_Query {
 
 		foreach ( $query as $key => &$clause ) {
 			if ( 'relation' === $key ) {
-				$relation = $query['relation'];
+				// Clauses that bypassed sanitize_query() may carry an unvalidated relation.
+				$relation = $this->sanitize_relation( $query['relation'] );
 			} elseif ( is_array( $clause ) ) {
 
 				// This is a first-order clause.
