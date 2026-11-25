@@ -599,6 +599,47 @@ class BP_Tests_BP_XProfile_Query extends BP_UnitTestCase {
 		$this->assertEqualSets( $expected, array_keys( $q->results ) );
 	}
 
+	public function test_empty_value_clause_sanitizes_relation() {
+		$relations = array(
+			array( 'AND (1=1) AND', 'AND' ),
+			array( array( 'OR' ), 'AND' ),
+			array( 'or', 'OR' ),
+		);
+
+		foreach ( $relations as $relation ) {
+			$q = new BP_XProfile_Query( array(
+				array(
+					'value'    => array(),
+					'relation' => $relation[0],
+					array( 'field' => 1, 'compare' => 'NOT EXISTS' ),
+					array( 'field' => 2, 'compare' => 'NOT EXISTS' ),
+				),
+			) );
+
+			$sql = $q->get_sql( 'u', 'ID' );
+
+			$this->assertSame( $relation[1], $q->queries[0]['relation'] );
+			$this->assertSame( false, strpos( $sql['where'], '1=1' ) );
+			$this->assertSame( 1, preg_match( '/IS NULL\\s+' . $relation[1] . '\\s+xpq1\\.user_id IS NULL/', $sql['where'] ) );
+		}
+	}
+
+	public function test_get_sql_sanitizes_relation_after_query_is_modified() {
+		$q = new BP_XProfile_Query( array(
+			array(
+				'relation' => 'OR',
+				array( 'field' => 1, 'compare' => 'NOT EXISTS' ),
+				array( 'field' => 2, 'compare' => 'NOT EXISTS' ),
+			),
+		) );
+
+		$q->queries[0]['relation'] = 'AND (1=1) AND';
+		$sql = $q->get_sql( 'u', 'ID' );
+
+		$this->assertSame( false, strpos( $sql['where'], '1=1' ) );
+		$this->assertSame( 2, substr_count( $sql['where'], ' IS NULL' ) );
+	}
+
 	/**
 	 * @group BP7202
 	 */
