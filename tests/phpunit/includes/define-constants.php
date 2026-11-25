@@ -21,22 +21,32 @@ if ( ! defined( 'BP_TESTS_DIR' ) ) {
  *   up the directory tree
  */
 if ( false !== getenv( 'WP_TESTS_DIR' ) ) {
-	define( 'WP_TESTS_DIR', getenv( 'WP_TESTS_DIR' ) );
-	define( 'WP_ROOT_DIR', WP_TESTS_DIR );
+	if ( ! defined( 'WP_TESTS_DIR' ) ) {
+		define( 'WP_TESTS_DIR', getenv( 'WP_TESTS_DIR' ) );
+	}
+	if ( ! defined( 'WP_ROOT_DIR' ) ) {
+		define( 'WP_ROOT_DIR', WP_TESTS_DIR );
+	}
 } else {
 	// Support WP_DEVELOP_DIR, as used by some plugins
-	if ( false !== getenv( 'WP_DEVELOP_DIR' ) ) {
+	if ( ! defined( 'WP_ROOT_DIR' ) && false !== getenv( 'WP_DEVELOP_DIR' ) ) {
 		define( 'WP_ROOT_DIR', getenv( 'WP_DEVELOP_DIR' ) );
-	} else {
+	} elseif ( ! defined( 'WP_ROOT_DIR' ) ) {
 		define( 'WP_ROOT_DIR', dirname( dirname( dirname( dirname( dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) ) ) ) ) );
 	}
 
-	define( 'WP_TESTS_DIR', WP_ROOT_DIR . '/tests/phpunit' );
+	if ( ! defined( 'WP_TESTS_DIR' ) ) {
+		define( 'WP_TESTS_DIR', WP_ROOT_DIR . '/tests/phpunit' );
+	}
 }
 
-if ( ! defined( 'WP_TESTS_CONFIG_FILE_PATH' ) ) {
+if ( ! defined( 'WP_TESTS_CONFIG_PATH' ) ) {
 	// Based on the tests directory, look for a config file
-	if ( file_exists( WP_ROOT_DIR . '/wp-tests-config.php' ) ) {
+	if ( defined( 'WP_TESTS_CONFIG_FILE_PATH' ) ) {
+		// Use the same config as the WordPress test bootstrap.
+		define( 'WP_TESTS_CONFIG_PATH', WP_TESTS_CONFIG_FILE_PATH );
+
+	} elseif ( file_exists( WP_ROOT_DIR . '/wp-tests-config.php' ) ) {
 		// Standard develop.svn.wordpress.org setup
 		define( 'WP_TESTS_CONFIG_PATH', WP_ROOT_DIR . '/wp-tests-config.php' );
 
