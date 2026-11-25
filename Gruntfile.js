@@ -201,6 +201,8 @@ module.exports = function( grunt ) {
 			bp_admin_modern_js: [ 'dist/' ],
 			cli: [
 				BUILD_DIR + 'cli/features/',
+				BUILD_DIR + 'cli/.github/',
+				BUILD_DIR + 'cli/.phpcs/',
 				BUILD_DIR + 'cli/*.{yml,json,lock,xml,xml.dist,md}',
 				BUILD_DIR + 'cli/{.gitignore,.distignore,.editorconfig,.travis.yml}'
 			]
