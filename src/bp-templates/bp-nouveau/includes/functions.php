@@ -269,10 +269,10 @@ function bp_nouveau_wrapper( $args = array() ) {
 		$current_component_id = bp_current_component();
 	}
 
-	$current_component_class = $current_component_id . '-meta';
+	$current_component_class = ! empty( $current_component_id ) ? $current_component_id . '-meta' : '';
 
 	if ( bp_is_group_activity() ) {
-		$generic_class = ' activity-meta ';
+		$generic_class = 'activity-meta';
 	} else {
 		$generic_class = '';
 	}
@@ -282,7 +282,7 @@ function bp_nouveau_wrapper( $args = array() ) {
 		array(
 			'container'         => 'div',
 			'container_id'      => '',
-			'container_classes' => array( $generic_class, $current_component_class ),
+			'container_classes' => array_filter( array( $generic_class, $current_component_class ) ),
 			'output'            => '',
 		),
 		'nouveau_wrapper'
@@ -299,7 +299,7 @@ function bp_nouveau_wrapper( $args = array() ) {
 	// Actually merge some classes defaults and $args
 	// @todo This is temp, we need certain classes but maybe improve this approach.
 	$default_classes        = array( 'action' );
-	$r['container_classes'] = array_merge( $r['container_classes'], $default_classes );
+	$r['container_classes'] = array_filter( array_merge( $r['container_classes'], $default_classes ) );
 
 	if ( empty( $r['container'] ) || ! isset( $valid_containers[ $r['container'] ] ) || empty( $r['output'] ) ) {
 		return;
