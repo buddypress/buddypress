@@ -259,7 +259,7 @@ function bp_nouveau_activity_entry_buttons( $args = array() ) {
 	}
 
 	if ( ! $args ) {
-		$args = array( 'classes' => array( 'activity-meta' ) );
+		$args = array( 'container_classes' => array( 'activity-meta' ) );
 	}
 
 	bp_nouveau_wrapper( array_merge( $args, array( 'output' => $output ) ) );
